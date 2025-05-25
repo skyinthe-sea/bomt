@@ -4,13 +4,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../presentation/providers/localization_provider.dart';
 import '../../../auth/data/repositories/kakao_auth_repository.dart';
 import '../../../../services/auth/auth_service.dart';
+import '../../../../presentation/providers/theme_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   final LocalizationProvider localizationProvider;
+  final ThemeProvider? themeProvider;
   
   const SettingsScreen({
     Key? key,
     required this.localizationProvider,
+    this.themeProvider,
   }) : super(key: key);
   
   @override
@@ -23,6 +26,10 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
+          if (themeProvider != null) ...[
+            _buildAppearanceSection(context, l10n),
+            const SizedBox(height: 16),
+          ],
           _buildLanguageSection(context, l10n),
           const SizedBox(height: 16),
           _buildLogoutSection(context, l10n),
@@ -60,6 +67,37 @@ class SettingsScreen extends StatelessWidget {
                 activeColor: Theme.of(context).primaryColor,
               );
             }).toList(),
+          ],
+        ),
+      ),
+    );
+  }
+  
+  Widget _buildAppearanceSection(BuildContext context, AppLocalizations l10n) {
+    return Card(
+      margin: const EdgeInsets.all(16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.appearance,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 16),
+            SwitchListTile(
+              title: Text(l10n.darkMode),
+              subtitle: Text(
+                themeProvider!.isDarkMode ? 'On' : 'Off',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              value: themeProvider!.isDarkMode,
+              onChanged: (value) {
+                themeProvider!.toggleTheme();
+              },
+              activeColor: Theme.of(context).colorScheme.primary,
+            ),
           ],
         ),
       ),

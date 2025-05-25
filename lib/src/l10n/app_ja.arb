@@ -44,5 +44,7 @@
   "logout": "ログアウト",
   "logoutConfirm": "本当にログアウトしますか？",
   "yes": "はい",
-  "no": "いいえ"
+  "no": "いいえ",
+  "darkMode": "ダークモード",
+  "appearance": "外観"
 }

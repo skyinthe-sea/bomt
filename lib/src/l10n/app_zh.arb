@@ -44,5 +44,7 @@
   "logout": "退出登录",
   "logoutConfirm": "您确定要退出登录吗？",
   "yes": "是",
-  "no": "否"
+  "no": "否",
+  "darkMode": "深色模式",
+  "appearance": "外观"
 }

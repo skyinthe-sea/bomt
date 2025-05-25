@@ -5,6 +5,7 @@ import '../../features/baby/presentation/screens/baby_register_screen.dart';
 import '../../features/baby/data/repositories/supabase_baby_repository.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../providers/localization_provider.dart';
+import '../providers/theme_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppRouter {
@@ -18,19 +19,23 @@ class AppRouter {
       case loginRoute:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case homeRoute:
-        final localizationProvider = settings.arguments as LocalizationProvider?;
+        final args = settings.arguments as Map<String, dynamic>?;
         return MaterialPageRoute(
           builder: (_) => MyHomePage(
             title: 'Baby One More Time',
-            localizationProvider: localizationProvider,
+            localizationProvider: args?['localizationProvider'] as LocalizationProvider?,
+            themeProvider: args?['themeProvider'] as ThemeProvider?,
           ),
         );
       case babyRegisterRoute:
         return MaterialPageRoute(builder: (_) => const BabyRegisterScreen());
       case settingsRoute:
-        final localizationProvider = settings.arguments as LocalizationProvider;
+        final args = settings.arguments as Map<String, dynamic>?;
         return MaterialPageRoute(
-          builder: (_) => SettingsScreen(localizationProvider: localizationProvider),
+          builder: (_) => SettingsScreen(
+            localizationProvider: args?['localizationProvider'] as LocalizationProvider,
+            themeProvider: args?['themeProvider'] as ThemeProvider?,
+          ),
         );
       default:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
@@ -44,10 +49,12 @@ class MyHomePage extends StatefulWidget {
     Key? key,
     required this.title,
     this.localizationProvider,
+    this.themeProvider,
   }) : super(key: key);
   
   final String title;
   final LocalizationProvider? localizationProvider;
+  final ThemeProvider? themeProvider;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -130,7 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pushNamed(
                   context,
                   AppRouter.settingsRoute,
-                  arguments: widget.localizationProvider,
+                  arguments: {
+                    'localizationProvider': widget.localizationProvider,
+                    'themeProvider': widget.themeProvider,
+                  },
                 );
               }
             },

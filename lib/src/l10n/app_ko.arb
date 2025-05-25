@@ -44,5 +44,7 @@
   "logout": "로그아웃",
   "logoutConfirm": "정말 로그아웃 하시겠습니까?",
   "yes": "예",
-  "no": "아니오"
+  "no": "아니오",
+  "darkMode": "다크 모드",
+  "appearance": "화면 설정"
 }

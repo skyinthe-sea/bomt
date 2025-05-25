@@ -10,33 +10,45 @@ import 'src/services/localization/localization_service.dart';
 import 'src/data/repositories/localization_repository_impl.dart';
 import 'src/domain/use_cases/localization/change_language_use_case.dart';
 import 'src/presentation/providers/localization_provider.dart';
+import 'src/presentation/providers/theme_provider.dart';
 import 'src/services/auth/auth_service.dart';
+import 'src/services/theme/theme_service.dart';
+import 'src/core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   KakaoSdk.init(nativeAppKey: KakaoConfig.nativeAppKey);
   await SupabaseConfig.initialize();
   
-  // Initialize localization dependencies
+  // Initialize dependencies
   final prefs = await SharedPreferences.getInstance();
+  
+  // Localization
   final localizationService = LocalizationService(prefs);
   final localizationRepository = LocalizationRepositoryImpl(localizationService);
   final changeLanguageUseCase = ChangeLanguageUseCase(localizationRepository);
   final localizationProvider = LocalizationProvider(changeLanguageUseCase);
   
+  // Theme
+  final themeService = ThemeService(prefs);
+  final themeProvider = ThemeProvider(themeService);
+  
   runApp(MyApp(
     localizationProvider: localizationProvider,
+    themeProvider: themeProvider,
     prefs: prefs,
   ));
 }
 
 class MyApp extends StatefulWidget {
   final LocalizationProvider localizationProvider;
+  final ThemeProvider themeProvider;
   final SharedPreferences prefs;
   
   const MyApp({
     super.key,
     required this.localizationProvider,
+    required this.themeProvider,
     required this.prefs,
   });
 
@@ -82,22 +94,24 @@ class _MyAppState extends State<MyApp> {
     }
     
     return ListenableBuilder(
-      listenable: widget.localizationProvider,
+      listenable: Listenable.merge([widget.localizationProvider, widget.themeProvider]),
       builder: (context, child) {
         return MaterialApp(
           title: 'Baby One More Time',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-            useMaterial3: true,
-          ),
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: widget.themeProvider.themeMode,
           initialRoute: _initialRoute,
           onGenerateRoute: (settings) {
-            // Pass localizationProvider to home route
+            // Pass providers to home route
             if (settings.name == AppRouter.homeRoute) {
               return AppRouter.generateRoute(
                 RouteSettings(
                   name: settings.name,
-                  arguments: widget.localizationProvider,
+                  arguments: {
+                    'localizationProvider': widget.localizationProvider,
+                    'themeProvider': widget.themeProvider,
+                  },
                 ),
               );
             }

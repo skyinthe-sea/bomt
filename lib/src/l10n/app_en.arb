@@ -297,5 +297,15 @@
   "no": "No",
   "@no": {
     "description": "No button"
+  },
+  
+  "darkMode": "Dark Mode",
+  "@darkMode": {
+    "description": "Dark mode setting label"
+  },
+  
+  "appearance": "Appearance",
+  "@appearance": {
+    "description": "Appearance settings section"
   }
 }
