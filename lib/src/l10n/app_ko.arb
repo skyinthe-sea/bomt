@@ -39,5 +39,10 @@
   "pleasSelectBirthDate": "생년월일을 선택해주세요",
   "pleaseEnterBabyName": "아기 이름을 입력해주세요",
   "nameMinLength": "이름은 2글자 이상 입력해주세요",
-  "dateFormat": "{year}년 {month}월 {day}일"
+  "dateFormat": "{year}년 {month}월 {day}일",
+  "autoLogin": "자동 로그인",
+  "logout": "로그아웃",
+  "logoutConfirm": "정말 로그아웃 하시겠습니까?",
+  "yes": "예",
+  "no": "아니오"
 }

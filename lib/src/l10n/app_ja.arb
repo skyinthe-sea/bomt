@@ -39,5 +39,10 @@
   "pleasSelectBirthDate": "生年月日を選択してください",
   "pleaseEnterBabyName": "赤ちゃんの名前を入力してください",
   "nameMinLength": "名前は2文字以上入力してください",
-  "dateFormat": "{year}年{month}月{day}日"
+  "dateFormat": "{year}年{month}月{day}日",
+  "autoLogin": "自動ログイン",
+  "logout": "ログアウト",
+  "logoutConfirm": "本当にログアウトしますか？",
+  "yes": "はい",
+  "no": "いいえ"
 }

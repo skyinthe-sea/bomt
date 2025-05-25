@@ -39,5 +39,10 @@
   "pleasSelectBirthDate": "कृपया जन्मतिथि चुनें",
   "pleaseEnterBabyName": "कृपया बच्चे का नाम दर्ज करें",
   "nameMinLength": "नाम कम से कम 2 अक्षर का होना चाहिए",
-  "dateFormat": "{day}/{month}/{year}"
+  "dateFormat": "{day}/{month}/{year}",
+  "autoLogin": "स्वचालित लॉगिन",
+  "logout": "लॉग आउट",
+  "logoutConfirm": "क्या आप वाकई लॉग आउट करना चाहते हैं?",
+  "yes": "हाँ",
+  "no": "नहीं"
 }

@@ -272,5 +272,30 @@
         "type": "String"
       }
     }
+  },
+  
+  "autoLogin": "Stay logged in",
+  "@autoLogin": {
+    "description": "Auto login checkbox label"
+  },
+  
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button text"
+  },
+  
+  "logoutConfirm": "Are you sure you want to logout?",
+  "@logoutConfirm": {
+    "description": "Logout confirmation message"
+  },
+  
+  "yes": "Yes",
+  "@yes": {
+    "description": "Yes button"
+  },
+  
+  "no": "No",
+  "@no": {
+    "description": "No button"
   }
 }

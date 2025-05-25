@@ -39,5 +39,10 @@
   "pleasSelectBirthDate": "请选择出生日期",
   "pleaseEnterBabyName": "请输入宝宝姓名",
   "nameMinLength": "姓名至少需要2个字符",
-  "dateFormat": "{year}年{month}月{day}日"
+  "dateFormat": "{year}年{month}月{day}日",
+  "autoLogin": "自动登录",
+  "logout": "退出登录",
+  "logoutConfirm": "您确定要退出登录吗？",
+  "yes": "是",
+  "no": "否"
 }

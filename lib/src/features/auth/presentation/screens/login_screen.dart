@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../presentation/common_widgets/buttons/kakao_login_button.dart';
 import '../../data/repositories/kakao_auth_repository.dart';
+import '../../../../services/auth/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,7 +15,23 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final KakaoAuthRepository _authRepository = KakaoAuthRepository();
+  late AuthService _authService;
   bool _isLoading = false;
+  bool _autoLoginEnabled = false;
+  
+  @override
+  void initState() {
+    super.initState();
+    _initializeAuthService();
+  }
+  
+  Future<void> _initializeAuthService() async {
+    final prefs = await SharedPreferences.getInstance();
+    _authService = AuthService(prefs);
+    setState(() {
+      _autoLoginEnabled = _authService.getAutoLogin();
+    });
+  }
 
   Future<void> _handleKakaoLogin() async {
     setState(() {
@@ -23,6 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final user = await _authRepository.signInWithKakao();
       if (user != null) {
+        // 자동로그인 설정 저장
+        await _authService.setAutoLogin(_autoLoginEnabled);
+        
         // 로그인 성공 시 메인 화면으로 이동
         if (mounted) {
           Navigator.of(context).pushReplacementNamed('/home');
@@ -91,7 +112,36 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: _handleKakaoLogin,
                 isLoading: _isLoading,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
+              // 자동로그인 체크박스
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Checkbox(
+                    value: _autoLoginEnabled,
+                    onChanged: (value) {
+                      setState(() {
+                        _autoLoginEnabled = value ?? false;
+                      });
+                    },
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _autoLoginEnabled = !_autoLoginEnabled;
+                      });
+                    },
+                    child: Text(
+                      AppLocalizations.of(context)?.autoLogin ?? 'Auto Login',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
               // 추가 정보
               Text(
                 AppLocalizations.of(context)?.termsNotice ?? 'By logging in, you agree to our Terms of Service and Privacy Policy',
