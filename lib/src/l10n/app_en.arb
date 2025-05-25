@@ -307,5 +307,95 @@
   "appearance": "Appearance",
   "@appearance": {
     "description": "Appearance settings section"
+  },
+  
+  "home": "Home",
+  "@home": {
+    "description": "Home navigation tab"
+  },
+  
+  "timeline": "Timeline",
+  "@timeline": {
+    "description": "Timeline navigation tab"
+  },
+  
+  "record": "Record",
+  "@record": {
+    "description": "Record navigation tab"
+  },
+  
+  "statistics": "Statistics",
+  "@statistics": {
+    "description": "Statistics navigation tab"
+  },
+  
+  "community": "Community",
+  "@community": {
+    "description": "Community navigation tab"
+  },
+  
+  "comingSoon": "Coming Soon",
+  "@comingSoon": {
+    "description": "Coming soon message"
+  },
+  
+  "timelineUpdateMessage": "Timeline feature will be updated soon",
+  "@timelineUpdateMessage": {
+    "description": "Timeline update message"
+  },
+  
+  "recordUpdateMessage": "Record feature will be updated soon",
+  "@recordUpdateMessage": {
+    "description": "Record update message"
+  },
+  
+  "statisticsUpdateMessage": "Statistics feature will be updated soon",
+  "@statisticsUpdateMessage": {
+    "description": "Statistics update message"
+  },
+  
+  "communityUpdateMessage": "Community feature will be updated soon",
+  "@communityUpdateMessage": {
+    "description": "Community update message"
+  },
+  
+  "todaySummary": "Today's Summary",
+  "@todaySummary": {
+    "description": "Today's summary section title"
+  },
+  
+  "growthInfo": "Growth Info",
+  "@growthInfo": {
+    "description": "Growth info section title"
+  },
+  
+  "lastFeeding": "Last Feeding",
+  "@lastFeeding": {
+    "description": "Last feeding time label"
+  },
+  
+  "healthy": "Healthy",
+  "@healthy": {
+    "description": "Health status - healthy"
+  },
+  
+  "feeding": "Feeding",
+  "@feeding": {
+    "description": "Feeding label"
+  },
+  
+  "totalFeeding": "Total Feeding",
+  "@totalFeeding": {
+    "description": "Total feeding amount label"
+  },
+  
+  "sleep": "Sleep",
+  "@sleep": {
+    "description": "Sleep label"
+  },
+  
+  "totalSleepTime": "Total Sleep Time",
+  "@totalSleepTime": {
+    "description": "Total sleep time label"
   }
 }

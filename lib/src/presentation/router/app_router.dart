@@ -6,11 +6,13 @@ import '../../features/baby/data/repositories/supabase_baby_repository.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../providers/localization_provider.dart';
 import '../providers/theme_provider.dart';
+import '../screens/main_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppRouter {
   static const String loginRoute = '/login';
   static const String homeRoute = '/home';
+  static const String babyListRoute = '/baby-list';
   static const String babyRegisterRoute = '/baby-register';
   static const String settingsRoute = '/settings';
 
@@ -19,6 +21,14 @@ class AppRouter {
       case loginRoute:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case homeRoute:
+        final args = settings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+          builder: (_) => MainScreen(
+            localizationProvider: args?['localizationProvider'] as LocalizationProvider?,
+            themeProvider: args?['themeProvider'] as ThemeProvider?,
+          ),
+        );
+      case babyListRoute:
         final args = settings.arguments as Map<String, dynamic>?;
         return MaterialPageRoute(
           builder: (_) => MyHomePage(
