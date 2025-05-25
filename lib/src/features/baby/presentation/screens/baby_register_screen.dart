@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../data/repositories/supabase_baby_repository.dart';
 
 class BabyRegisterScreen extends StatefulWidget {
-  const BabyRegisterScreen({Key? key}) : super(key: key);
+  const BabyRegisterScreen({super.key});
 
   @override
   State<BabyRegisterScreen> createState() => _BabyRegisterScreenState();
@@ -19,10 +20,10 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
   bool _isLoading = false;
 
   final List<String> _genderOptions = ['male', 'female', 'other'];
-  final Map<String, String> _genderLabels = {
-    'male': '남아',
-    'female': '여아',
-    'other': '기타',
+  Map<String, String> _genderLabels(BuildContext context) => {
+    'male': AppLocalizations.of(context)!.male,
+    'female': AppLocalizations.of(context)!.female,
+    'other': AppLocalizations.of(context)!.other,
   };
 
   @override
@@ -51,7 +52,7 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedBirthDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('생년월일을 선택해주세요')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.pleasSelectBirthDate)),
       );
       return;
     }
@@ -75,7 +76,7 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${baby.name} 아기가 등록되었습니다!')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.babyRegistered(baby.name))),
         );
 
         // 홈 화면으로 이동
@@ -84,7 +85,7 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('등록 중 오류가 발생했습니다: $e')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.registrationError(e.toString()))),
         );
       }
     } finally {
@@ -100,7 +101,7 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('아기 등록'),
+        title: Text(AppLocalizations.of(context)!.registerBaby),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: SafeArea(
@@ -120,9 +121,9 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
                 const SizedBox(height: 24),
 
                 // 제목
-                const Text(
-                  '아기 정보를 입력해주세요',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.enterBabyInfo,
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -133,18 +134,18 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
                 // 아기 이름 입력
                 TextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: '아기 이름',
-                    hintText: '예: 지민이',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.baby_changing_station),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.babyName,
+                    hintText: AppLocalizations.of(context)!.babyNameHint,
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.baby_changing_station),
                   ),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return '아기 이름을 입력해주세요';
+                      return AppLocalizations.of(context)!.pleaseEnterBabyName;
                     }
                     if (value.trim().length < 2) {
-                      return '이름은 2글자 이상 입력해주세요';
+                      return AppLocalizations.of(context)!.nameMinLength;
                     }
                     return null;
                   },
@@ -166,8 +167,12 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
                         const SizedBox(width: 12),
                         Text(
                           _selectedBirthDate == null
-                              ? '생년월일 선택'
-                              : '${_selectedBirthDate!.year}년 ${_selectedBirthDate!.month}월 ${_selectedBirthDate!.day}일',
+                              ? AppLocalizations.of(context)!.selectBirthDate
+                              : AppLocalizations.of(context)!.dateFormat(
+                                  _selectedBirthDate!.year.toString(),
+                                  _selectedBirthDate!.month.toString(),
+                                  _selectedBirthDate!.day.toString(),
+                                ),
                           style: TextStyle(
                             fontSize: 16,
                             color: _selectedBirthDate == null ? Colors.grey : Colors.black,
@@ -180,9 +185,9 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
                 const SizedBox(height: 16),
 
                 // 성별 선택
-                const Text(
-                  '성별 (선택사항)',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.genderOptional,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
@@ -193,14 +198,14 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
                   children: _genderOptions.map((gender) {
                     final isSelected = _selectedGender == gender;
                     return FilterChip(
-                      label: Text(_genderLabels[gender]!),
+                      label: Text(_genderLabels(context)[gender]!),
                       selected: isSelected,
                       onSelected: (selected) {
                         setState(() {
                           _selectedGender = selected ? gender : null;
                         });
                       },
-                      selectedColor: Colors.blue.withOpacity(0.3),
+                      selectedColor: Colors.blue.withValues(alpha: 0.3),
                       checkmarkColor: Colors.blue,
                     );
                   }).toList(),
@@ -228,9 +233,9 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
                         color: Colors.white,
                       ),
                     )
-                        : const Text(
-                      '아기 등록하기',
-                      style: TextStyle(
+                        : Text(
+                      AppLocalizations.of(context)!.registerBaby,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -244,9 +249,9 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
                   onPressed: _isLoading
                       ? null
                       : () => Navigator.of(context).pop(),
-                  child: const Text(
-                    '취소',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.cancel,
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../../../presentation/common_widgets/buttons/kakao_login_button.dart';
 import '../../data/repositories/kakao_auth_repository.dart';
@@ -30,14 +31,14 @@ class _LoginScreenState extends State<LoginScreen> {
         // 로그인 실패 시 에러 메시지 표시
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('로그인에 실패했습니다')),
+            SnackBar(content: Text(AppLocalizations.of(context)?.loginFailed ?? 'Login failed')),
           );
         }
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('로그인 중 오류가 발생했습니다: $e')),
+          SnackBar(content: Text(AppLocalizations.of(context)?.loginError(e.toString()) ?? 'Login error: $e')),
         );
       }
     } finally {
@@ -76,8 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 12),
               // 앱 소개 문구
-              const Text(
-                '아기 성장 기록을 손쉽게 관리하세요',
+              Text(
+                AppLocalizations.of(context)?.appTagline ?? 'Easily manage your baby\'s growth records',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
@@ -92,8 +93,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 16),
               // 추가 정보
-              const Text(
-                '로그인하면 서비스 이용약관 및 개인정보 처리방침에 동의하게 됩니다',
+              Text(
+                AppLocalizations.of(context)?.termsNotice ?? 'By logging in, you agree to our Terms of Service and Privacy Policy',
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey,

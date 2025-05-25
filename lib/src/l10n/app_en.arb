@@ -1,0 +1,276 @@
+{
+  "@@locale": "en",
+  
+  "user": "User",
+  "@user": {
+    "description": "User label"
+  },
+  
+  "userInfoLoadFailed": "Failed to load user info: {error}",
+  "@userInfoLoadFailed": {
+    "description": "Error message when user info loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "babyListLoadError": "An error occurred while loading the baby list: {error}",
+  "@babyListLoadError": {
+    "description": "Error message when baby list loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "welcomeUser": "Welcome {userName}",
+  "@welcomeUser": {
+    "description": "Welcome message with user name",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "registerBaby": "Register Baby",
+  "@registerBaby": {
+    "description": "Register baby button text"
+  },
+  
+  "noBabiesRegistered": "No babies registered",
+  "@noBabiesRegistered": {
+    "description": "Message when no babies are registered"
+  },
+  
+  "registerFirstBaby": "Register your first baby!",
+  "@registerFirstBaby": {
+    "description": "Prompt to register first baby"
+  },
+  
+  "registerBabyButton": "Register Baby",
+  "@registerBabyButton": {
+    "description": "Register baby button text"
+  },
+  
+  "birthday": "Birthday: {year}/{month}/{day}",
+  "@birthday": {
+    "description": "Birthday display format",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "age": "Age: {days} days",
+  "@age": {
+    "description": "Age in days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "gender": "Gender: {gender}",
+  "@gender": {
+    "description": "Gender display",
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "male": "Boy",
+  "@male": {
+    "description": "Male gender"
+  },
+  
+  "female": "Girl",
+  "@female": {
+    "description": "Female gender"
+  },
+  
+  "other": "Other",
+  "@other": {
+    "description": "Other gender"
+  },
+  
+  "babyDetailScreen": "{name} Detail Screen (Coming Soon)",
+  "@babyDetailScreen": {
+    "description": "Baby detail screen placeholder",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "selectBirthdate": "Please select birthdate",
+  "@selectBirthdate": {
+    "description": "Birthdate selection prompt"
+  },
+  
+  "babyRegistered": "{name} has been registered!",
+  "@babyRegistered": {
+    "description": "Baby registration success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "registrationError": "An error occurred during registration: {error}",
+  "@registrationError": {
+    "description": "Registration error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "enterBabyInfo": "Please enter baby information",
+  "@enterBabyInfo": {
+    "description": "Baby info entry prompt"
+  },
+  
+  "babyName": "Baby Name",
+  "@babyName": {
+    "description": "Baby name field label"
+  },
+  
+  "babyNameHint": "e.g. Jimin",
+  "@babyNameHint": {
+    "description": "Baby name field hint"
+  },
+  
+  "babyNameRequired": "Please enter baby's name",
+  "@babyNameRequired": {
+    "description": "Baby name required validation message"
+  },
+  
+  "babyNameMinLength": "Name must be at least 2 characters",
+  "@babyNameMinLength": {
+    "description": "Baby name minimum length validation"
+  },
+  
+  "selectBirthdateButton": "Select Birthdate",
+  "@selectBirthdateButton": {
+    "description": "Select birthdate button text"
+  },
+  
+  "selectedDate": "{year}/{month}/{day}",
+  "@selectedDate": {
+    "description": "Selected date format",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "genderOptional": "Gender (Optional)",
+  "@genderOptional": {
+    "description": "Gender field label"
+  },
+  
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  
+  "loginFailed": "Login failed",
+  "@loginFailed": {
+    "description": "Login failure message"
+  },
+  
+  "loginError": "An error occurred during login: {error}",
+  "@loginError": {
+    "description": "Login error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "appTagline": "Easily manage your baby's growth records",
+  "@appTagline": {
+    "description": "App tagline"
+  },
+  
+  "termsNotice": "By logging in, you agree to our Terms of Service and Privacy Policy",
+  "@termsNotice": {
+    "description": "Terms and privacy notice"
+  },
+  
+  "loginWithKakao": "Login with Kakao",
+  "@loginWithKakao": {
+    "description": "Kakao login button text"
+  },
+  
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings screen title"
+  },
+  
+  "language": "Language",
+  "@language": {
+    "description": "Language settings section title"
+  },
+  
+  "selectBirthDate": "Select Birthdate",
+  "@selectBirthDate": {
+    "description": "Birthdate selection button"
+  },
+  
+  "pleasSelectBirthDate": "Please select birthdate",
+  "@pleasSelectBirthDate": {
+    "description": "Error message when birthdate not selected"
+  },
+  
+  "pleaseEnterBabyName": "Please enter baby's name",
+  "@pleaseEnterBabyName": {
+    "description": "Error message when baby name is empty"
+  },
+  
+  "nameMinLength": "Name must be at least 2 characters",
+  "@nameMinLength": {
+    "description": "Error message for minimum name length"
+  },
+  
+  "dateFormat": "{year}/{month}/{day}",
+  "@dateFormat": {
+    "description": "Date format for birthdate display",
+    "placeholders": {
+      "year": {
+        "type": "String"
+      },
+      "month": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      }
+    }
+  }
+}

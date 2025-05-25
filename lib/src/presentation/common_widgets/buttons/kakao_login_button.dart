@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class KakaoLoginButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -52,8 +53,8 @@ class KakaoLoginButton extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Text(
-                    '카카오로 로그인',
+                  Text(
+                    AppLocalizations.of(context)?.loginWithKakao ?? 'Login with Kakao',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

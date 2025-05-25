@@ -3,20 +3,35 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/baby/presentation/screens/baby_register_screen.dart';
 import '../../features/baby/data/repositories/supabase_baby_repository.dart';
+import '../../features/settings/presentation/screens/settings_screen.dart';
+import '../providers/localization_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppRouter {
   static const String loginRoute = '/login';
   static const String homeRoute = '/home';
   static const String babyRegisterRoute = '/baby-register';
+  static const String settingsRoute = '/settings';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case loginRoute:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case homeRoute:
-        return MaterialPageRoute(builder: (_) => const MyHomePage(title: 'Baby One More Time'));
+        final localizationProvider = settings.arguments as LocalizationProvider?;
+        return MaterialPageRoute(
+          builder: (_) => MyHomePage(
+            title: 'Baby One More Time',
+            localizationProvider: localizationProvider,
+          ),
+        );
       case babyRegisterRoute:
         return MaterialPageRoute(builder: (_) => const BabyRegisterScreen());
+      case settingsRoute:
+        final localizationProvider = settings.arguments as LocalizationProvider;
+        return MaterialPageRoute(
+          builder: (_) => SettingsScreen(localizationProvider: localizationProvider),
+        );
       default:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
     }
@@ -25,8 +40,14 @@ class AppRouter {
 
 // 수정된 홈 화면 (아기 등록 기능 추가)
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({
+    Key? key,
+    required this.title,
+    this.localizationProvider,
+  }) : super(key: key);
+  
   final String title;
+  final LocalizationProvider? localizationProvider;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -49,10 +70,10 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       final user = await UserApi.instance.me();
       setState(() {
-        _userName = user.kakaoAccount?.profile?.nickname ?? '사용자';
+        _userName = user.kakaoAccount?.profile?.nickname ?? AppLocalizations.of(context)?.user ?? 'User';
       });
     } catch (e) {
-      print('사용자 정보 로드 실패: $e');
+      debugPrint('Failed to load user info: $e');
     }
   }
 
@@ -76,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
       });
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('아기 목록 로드 중 오류가 발생했습니다: $e')),
+          SnackBar(content: Text(AppLocalizations.of(context)?.babyListLoadError(e.toString()) ?? 'Error loading baby list')),
         );
       }
     }
@@ -94,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(8.0),
               child: Center(
                 child: Text(
-                  '$_userName님',
+                  AppLocalizations.of(context)?.welcomeUser(_userName!) ?? '$_userName님',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -102,6 +123,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+          IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              if (widget.localizationProvider != null) {
+                Navigator.pushNamed(
+                  context,
+                  AppRouter.settingsRoute,
+                  arguments: widget.localizationProvider,
+                );
+              }
+            },
+          ),
         ],
       ),
       body: RefreshIndicator(
@@ -119,9 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
             _loadBabies();
           });
         },
-        tooltip: '아기 등록',
+        tooltip: AppLocalizations.of(context)?.registerBaby ?? 'Register Baby',
         icon: const Icon(Icons.add),
-        label: const Text('아기 등록'),
+        label: Text(AppLocalizations.of(context)?.registerBaby ?? 'Register Baby'),
       ),
     );
   }
@@ -138,8 +171,8 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.grey,
             ),
             const SizedBox(height: 24),
-            const Text(
-              '등록된 아기가 없습니다',
+            Text(
+              AppLocalizations.of(context)?.noBabiesRegistered ?? 'No babies registered',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -147,8 +180,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             const SizedBox(height: 12),
-            const Text(
-              '첫 번째 아기를 등록해보세요!',
+            Text(
+              AppLocalizations.of(context)?.registerFirstBaby ?? 'Register your first baby!',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey,
@@ -162,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
               icon: const Icon(Icons.add),
-              label: const Text('아기 등록하기'),
+              label: Text(AppLocalizations.of(context)?.registerBabyButton ?? 'Register Baby'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
@@ -187,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
           margin: const EdgeInsets.only(bottom: 12),
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: Colors.blue.withOpacity(0.2),
+              backgroundColor: Colors.blue.withValues(alpha: 0.2),
               child: Icon(
                 baby.gender == 'male'
                     ? Icons.boy
@@ -207,17 +240,23 @@ class _MyHomePageState extends State<MyHomePage> {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('생일: ${baby.birthDate.year}년 ${baby.birthDate.month}월 ${baby.birthDate.day}일'),
-                Text('나이: ${age}일'),
+                Text(AppLocalizations.of(context)?.birthday(baby.birthDate.year, baby.birthDate.month, baby.birthDate.day) ?? 'Birthday: ${baby.birthDate.year}/${baby.birthDate.month}/${baby.birthDate.day}'),
+                Text(AppLocalizations.of(context)?.age(age) ?? 'Age: $age days'),
                 if (baby.gender != null)
-                  Text('성별: ${baby.gender == 'male' ? '남아' : baby.gender == 'female' ? '여아' : '기타'}'),
+                  Text(AppLocalizations.of(context)?.gender(
+                    baby.gender == 'male' 
+                      ? AppLocalizations.of(context)?.male ?? 'Boy'
+                      : baby.gender == 'female' 
+                        ? AppLocalizations.of(context)?.female ?? 'Girl'
+                        : AppLocalizations.of(context)?.other ?? 'Other'
+                  ) ?? 'Gender: ${baby.gender}'),
               ],
             ),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {
               // 아기 상세 화면으로 이동 (추후 구현)
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('${baby.name} 상세 화면 (추후 구현)')),
+                SnackBar(content: Text(AppLocalizations.of(context)?.babyDetailScreen(baby.name) ?? '${baby.name} Detail Screen (Coming Soon)')),
               );
             },
           ),
