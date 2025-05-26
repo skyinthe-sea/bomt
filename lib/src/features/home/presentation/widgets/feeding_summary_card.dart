@@ -18,7 +18,7 @@ class FeedingSummaryCard extends StatelessWidget {
     final totalAmount = summary['totalAmount'] ?? 0;
     
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
@@ -33,6 +33,7 @@ class FeedingSummaryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // 아이콘과 제목
           Row(
             children: [
               Container(
@@ -42,37 +43,40 @@ class FeedingSummaryCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
-                  Icons.baby_changing_station,
+                  Icons.local_drink,
                   color: Colors.blue,
-                  size: 24,
+                  size: 20,
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 8),
               Text(
-                l10n.feeding,
-                style: theme.textTheme.titleMedium?.copyWith(
+                '수유',
+                style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ],
           ),
           const Spacer(),
+          // 메인 수치
           Text(
             '$count회',
-            style: theme.textTheme.headlineMedium?.copyWith(
+            style: theme.textTheme.headlineLarge?.copyWith(
               fontWeight: FontWeight.bold,
+              color: Colors.blue,
             ),
           ),
           const SizedBox(height: 4),
+          // 부가 정보
           Text(
-            '총 ${totalAmount}ml',
+            '${totalAmount}ml',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.7),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           Text(
-            l10n.totalFeeding,
+            '총 수유량',
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.5),
             ),

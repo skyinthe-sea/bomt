@@ -16,76 +16,71 @@ class DiaperSummaryCard extends StatelessWidget {
     final mixedCount = summary['mixedCount'] ?? 0;
     final totalCount = wetCount + dirtyCount + mixedCount;
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(
-                    Icons.baby_changing_station,
-                    color: Colors.green,
-                    size: 24,
-                  ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: theme.shadowColor.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 아이콘과 제목
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                const SizedBox(width: 12),
-                Text(
-                  '기저귀',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: const Icon(
+                  Icons.baby_changing_station,
+                  color: Colors.green,
+                  size: 20,
                 ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildStatItem(
-                  context,
-                  '총',
-                  '$totalCount회',
-                  Colors.green,
-                ),
-                _buildStatItem(
-                  context,
-                  '소변',
-                  '$wetCount회',
-                  Colors.blue,
-                ),
-                _buildStatItem(
-                  context,
-                  '대변',
-                  '$dirtyCount회',
-                  Colors.orange,
-                ),
-                _buildStatItem(
-                  context,
-                  '혼합',
-                  '$mixedCount회',
-                  Colors.purple,
-                ),
-              ],
-            ),
-            if (summary['lastChange'] != null) ...[
-              const SizedBox(height: 12),
+              ),
+              const SizedBox(width: 8),
               Text(
-                '마지막 교체: ${_formatTime(summary['lastChange'])}',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
+                '기저귀',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
-          ],
-        ),
+          ),
+          const Spacer(),
+          // 메인 수치
+          Text(
+            '${totalCount}회',
+            style: theme.textTheme.headlineLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
+          ),
+          const SizedBox(height: 4),
+          // 부가 정보
+          Text(
+            '소변 ${wetCount}회, 대변 ${dirtyCount}회',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurface.withOpacity(0.7),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '총 교체횟수',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurface.withOpacity(0.5),
+            ),
+          ),
+        ],
       ),
     );
   }

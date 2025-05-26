@@ -19,7 +19,7 @@ class SleepSummaryCard extends StatelessWidget {
     final remainingMinutes = summary['remainingMinutes'] ?? 0;
     
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
@@ -34,6 +34,7 @@ class SleepSummaryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // 아이콘과 제목
           Row(
             children: [
               Container(
@@ -45,35 +46,38 @@ class SleepSummaryCard extends StatelessWidget {
                 child: const Icon(
                   Icons.bedtime,
                   color: Colors.indigo,
-                  size: 24,
+                  size: 20,
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 8),
               Text(
-                l10n.sleep,
-                style: theme.textTheme.titleMedium?.copyWith(
+                '수면',
+                style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ],
           ),
           const Spacer(),
+          // 메인 수치
           Text(
             '$count회',
-            style: theme.textTheme.headlineMedium?.copyWith(
+            style: theme.textTheme.headlineLarge?.copyWith(
               fontWeight: FontWeight.bold,
+              color: Colors.indigo,
             ),
           ),
           const SizedBox(height: 4),
+          // 부가 정보
           Text(
             '${totalHours}시간 ${remainingMinutes}분',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.7),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           Text(
-            l10n.totalSleepTime,
+            '총 수면시간',
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.5),
             ),

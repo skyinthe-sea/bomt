@@ -11,7 +11,7 @@ class TemperatureSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final latestTemp = summary['latestTemperature'] ?? 0.0;
+    final latestTemp = summary['latestTemperature'] ?? 36.5;
     final minTemp = summary['minTemperature'] ?? 0.0;
     final maxTemp = summary['maxTemperature'] ?? 0.0;
     final avgTemp = summary['avgTemperature'] ?? 0.0;
@@ -21,118 +21,80 @@ class TemperatureSummaryCard extends StatelessWidget {
     final tempStatus = _getTemperatureStatus(latestTemp);
     final statusColor = _getStatusColor(tempStatus);
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(
-                    Icons.thermostat,
-                    color: Colors.red,
-                    size: 24,
-                  ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: theme.shadowColor.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 아이콘과 제목
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.orange.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                const SizedBox(width: 12),
-                Text(
-                  '체온',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: const Icon(
+                  Icons.thermostat,
+                  color: Colors.orange,
+                  size: 20,
                 ),
-                const Spacer(),
-                if (count > 0)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: statusColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      tempStatus,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: statusColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-              ],
+              ),
+              const SizedBox(width: 8),
+              Text(
+                '체온',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          // 메인 수치
+          Text(
+            '${latestTemp.toStringAsFixed(1)}°C',
+            style: theme.textTheme.headlineLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: statusColor,
             ),
-            const SizedBox(height: 16),
-            if (count > 0) ...[
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      '${latestTemp.toStringAsFixed(1)}°C',
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        color: statusColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildTempRange(
-                          context,
-                          '최저',
-                          minTemp,
-                          Colors.blue,
-                        ),
-                        const SizedBox(width: 24),
-                        _buildTempRange(
-                          context,
-                          '평균',
-                          avgTemp,
-                          theme.colorScheme.onSurfaceVariant,
-                        ),
-                        const SizedBox(width: 24),
-                        _buildTempRange(
-                          context,
-                          '최고',
-                          maxTemp,
-                          Colors.red,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+          ),
+          const SizedBox(height: 4),
+          // 부가 정보
+          Text(
+            '최근 체온',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurface.withOpacity(0.7),
+            ),
+          ),
+          const SizedBox(height: 4),
+          // 상태 표시
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+              color: statusColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              tempStatus,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: statusColor,
+                fontWeight: FontWeight.w600,
               ),
-              if (summary['lastMeasurement'] != null) ...[
-                const SizedBox(height: 12),
-                Text(
-                  '마지막 측정: ${_formatTime(summary['lastMeasurement'])}',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ] else
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24.0),
-                  child: Text(
-                    '오늘 측정 기록이 없습니다',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -30,6 +30,9 @@ class BabyInfoCard extends StatelessWidget {
     final nextHours = nextFeedingMinutes ~/ 60;
     final nextMinutes = nextFeedingMinutes % 60;
     
+    // 진행률 계산 (0.0 ~ 1.0)
+    final progressValue = (lastFeedingMinutes / 240).clamp(0.0, 1.0);
+    
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -110,68 +113,97 @@ class BabyInfoCard extends StatelessWidget {
             ],
           ),
           
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
           
-          // 마지막 수유 시간
+          // 마지막 수유 시간 섹션
           if (feedingSummary['lastFeedingTime'] != null) ...[
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+            Row(
+              children: [
+                // 원형 진행 인디케이터
+                SizedBox(
+                  width: 80,
+                  height: 80,
+                  child: Stack(
+                    alignment: Alignment.center,
                     children: [
-                      Icon(
-                        Icons.baby_changing_station,
-                        color: theme.colorScheme.primary,
-                        size: 20,
+                      // 배경 원
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: theme.colorScheme.primary.withOpacity(0.1),
+                        ),
                       ),
-                      const SizedBox(width: 8),
+                      // 진행 원
+                      SizedBox(
+                        width: 80,
+                        height: 80,
+                        child: CircularProgressIndicator(
+                          value: progressValue,
+                          strokeWidth: 6,
+                          backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
+                          valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
+                        ),
+                      ),
+                      // 중앙 아이콘
+                      Icon(
+                        Icons.local_drink,
+                        color: theme.colorScheme.primary,
+                        size: 24,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                // 텍스트 정보
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        l10n.lastFeeding,
+                        '마지막 수유 시간',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurface.withOpacity(0.7),
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    lastFeedingText,
-                    style: theme.textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // 진행바
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: LinearProgressIndicator(
-                      value: lastFeedingMinutes / 240, // 4시간 기준
-                      minHeight: 8,
-                      backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
+                      const SizedBox(height: 4),
                       Text(
-                        '약 ${nextHours}시간 ${nextMinutes}분 후 수유 예정',
+                        lastFeedingText,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        width: double.infinity,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        child: FractionallySizedBox(
+                          alignment: Alignment.centerLeft,
+                          widthFactor: progressValue,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary,
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '약 ${nextHours > 0 ? '${nextHours}시간 ' : ''}${nextMinutes}분 후 수유 예정',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.primary,
                         ),
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ],
