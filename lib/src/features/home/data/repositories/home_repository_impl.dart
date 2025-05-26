@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../domain/repositories/home_repository.dart';
 import '../../../../core/config/supabase_config.dart';
@@ -45,7 +46,7 @@ class HomeRepositoryImpl implements HomeRepository {
         'lastFeedingMinutesAgo': lastFeedingMinutesAgo,
       };
     } catch (e) {
-      print('Error getting feeding summary: $e');
+      debugPrint('Error getting feeding summary: $e');
       return {
         'count': 0,
         'totalAmount': 0,
@@ -85,7 +86,7 @@ class HomeRepositoryImpl implements HomeRepository {
         'remainingMinutes': totalMinutes % 60,
       };
     } catch (e) {
-      print('Error getting sleep summary: $e');
+      debugPrint('Error getting sleep summary: $e');
       return {
         'count': 0,
         'totalMinutes': 0,
@@ -135,7 +136,7 @@ class HomeRepositoryImpl implements HomeRepository {
         'bothCount': bothCount,
       };
     } catch (e) {
-      print('Error getting diaper summary: $e');
+      debugPrint('Error getting diaper summary: $e');
       return {
         'totalCount': 0,
         'wetCount': 0,
@@ -223,7 +224,7 @@ class HomeRepositoryImpl implements HomeRepository {
         'status': status,
       };
     } catch (e) {
-      print('Error getting temperature summary: $e');
+      debugPrint('Error getting temperature summary: $e');
       return {
         'latestTemperature': 0.0,
         'minTemperature': 0.0,
@@ -296,7 +297,7 @@ class HomeRepositoryImpl implements HomeRepository {
         'lastRecordDate': lastRecordDate,
       };
     } catch (e) {
-      print('Error getting growth summary: $e');
+      debugPrint('Error getting growth summary: $e');
       return {
         'currentWeight': null,
         'currentHeight': null,
@@ -318,7 +319,7 @@ class HomeRepositoryImpl implements HomeRepository {
       try {
         return double.parse(value);
       } catch (e) {
-        print('Error parsing double from string: $value');
+        debugPrint('Error parsing double from string: $value');
         return null;
       }
     }

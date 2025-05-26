@@ -14,6 +14,9 @@ import '../widgets/growth_info_card.dart';
 import '../../../../domain/models/baby.dart';
 import '../../data/repositories/home_repository_impl.dart';
 import './sample_data_screen.dart';
+import '../../../../services/baby_guide/baby_guide_service.dart';
+import '../../../../domain/models/baby_guide.dart';
+import '../widgets/baby_guide_alert.dart';
 
 class HomeScreen extends StatefulWidget {
   final LocalizationProvider? localizationProvider;
@@ -31,6 +34,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _homeRepository = HomeRepositoryImpl();
+  final _babyGuideService = BabyGuideService.instance;
   
   Baby? _currentBaby;
   bool _isLoading = true;
@@ -111,10 +115,44 @@ class _HomeScreenState extends State<HomeScreen> {
         _growthSummary = growthSummary;
         _isLoading = false;
       });
+      
+      // 아기 정보를 불러온 후 가이드 알럿 확인
+      _checkForGuideAlert(userId);
     } catch (e) {
       debugPrint('Error loading home data: $e');
       setState(() => _isLoading = false);
     }
+  }
+  
+  /// 가이드 알럿 확인 및 표시
+  Future<void> _checkForGuideAlert(String userId) async {
+    if (_currentBaby == null) return;
+    
+    try {
+      final guide = await _babyGuideService.checkForPendingAlert(userId, _currentBaby!);
+      if (guide != null && mounted) {
+        _showGuideAlert(guide, userId);
+      }
+    } catch (e) {
+      debugPrint('Error checking guide alert: $e');
+    }
+  }
+  
+  /// 가이드 알럿 다이얼로그 표시
+  void _showGuideAlert(BabyGuide guide, String userId) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => BabyGuideAlert(
+        guide: guide,
+        baby: _currentBaby!,
+        onDismiss: () {
+          Navigator.of(context).pop();
+          // 알럿을 본 것으로 기록
+          _babyGuideService.handleAlertShown(userId, _currentBaby!, guide);
+        },
+      ),
+    );
   }
   
   Future<String?> _getUserId() async {
