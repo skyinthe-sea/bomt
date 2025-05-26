@@ -17,6 +17,7 @@ import './sample_data_screen.dart';
 import '../../../../services/baby_guide/baby_guide_service.dart';
 import '../../../../domain/models/baby_guide.dart';
 import '../widgets/baby_guide_alert.dart';
+import '../screens/baby_guide_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final LocalizationProvider? localizationProvider;
@@ -250,6 +251,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       backgroundColor: theme.colorScheme.background,
                       elevation: 0,
                       actions: [
+                        // Baby guide list button
+                        if (_currentBaby != null)
+                          IconButton(
+                            icon: Icon(
+                              Icons.menu_book,
+                              color: theme.colorScheme.onBackground,
+                            ),
+                            tooltip: '육아 가이드',
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BabyGuideListScreen(
+                                    baby: _currentBaby!,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         // Baby list button
                         IconButton(
                           icon: Icon(
