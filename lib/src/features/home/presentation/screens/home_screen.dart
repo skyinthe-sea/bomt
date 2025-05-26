@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../../../presentation/providers/localization_provider.dart';
 import '../../../../presentation/providers/theme_provider.dart';
 import '../../../../features/settings/presentation/screens/settings_screen.dart';
@@ -51,15 +52,50 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       setState(() => _isLoading = true);
       
-      // 임시로 하드코딩된 아기 정보 사용 (Supabase 연결 문제 해결 전까지)
-      final baby = Baby(
-        id: 'temp-baby-id',
-        name: '임지서',
-        birthDate: DateTime(2024, 10, 15),
-        gender: 'male',
-      );
+      // 카카오 로그인에서 받은 user_id 가져오기
+      final userId = await _getUserId();
       
-      // 각종 요약 데이터 로드 (이미 샘플 데이터를 반환하도록 수정됨)
+      if (userId == null) {
+        // 로그인이 안되어 있으면 로그인 화면으로 이동
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed('/login');
+        }
+        return;
+      }
+      
+      // 해당 user_id와 연결된 아기 정보 조회
+      final response = await Supabase.instance.client
+          .from('baby_users')
+          .select('''
+            baby_id,
+            role,
+            babies (
+              id,
+              name,
+              birth_date,
+              gender
+            )
+          ''')
+          .eq('user_id', userId);
+      
+      if (response.isEmpty || response.first['babies'] == null) {
+        // 등록된 아기가 없는 경우
+        setState(() {
+          _currentBaby = null;
+          _isLoading = false;
+        });
+        return;
+      }
+      
+      final babyData = response.first['babies'];
+      final baby = Baby.fromJson({
+        'id': babyData['id'],
+        'name': babyData['name'], 
+        'birth_date': babyData['birth_date'],
+        'gender': babyData['gender'],
+      });
+      
+      // 각종 요약 데이터 로드
       final feedingSummary = await _homeRepository.getFeedingSummary(baby.id);
       final sleepSummary = await _homeRepository.getSleepSummary(baby.id);
       final diaperSummary = await _homeRepository.getDiaperSummary(baby.id);
@@ -75,22 +111,83 @@ class _HomeScreenState extends State<HomeScreen> {
         _growthSummary = growthSummary;
         _isLoading = false;
       });
-      
-      // 실제 Supabase 쿼리는 주석 처리 (나중에 활성화)
-      // final response = await Supabase.instance.client
-      //     .from('baby_users')
-      //     .select('babies(*)')
-      //     .eq('user_id', '4271061560');
-      // 
-      // if (response.isNotEmpty && response.first['babies'] != null) {
-      //   final babyData = response.first['babies'];
-      //   final baby = Baby.fromJson(babyData);
-      //   ...
-      // }
     } catch (e) {
       debugPrint('Error loading home data: $e');
       setState(() => _isLoading = false);
     }
+  }
+  
+  Future<String?> _getUserId() async {
+    try {
+      // 카카오 로그인된 사용자 정보 가져오기
+      final user = await UserApi.instance.me();
+      return user.id.toString();
+    } catch (e) {
+      debugPrint('Error getting user ID: $e');
+      return null;
+    }
+  }
+  
+  Widget _buildNoBabyScreen(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.baby_changing_station,
+              size: 120,
+              color: theme.colorScheme.primary.withOpacity(0.5),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              '등록된 아기가 없습니다',
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.onBackground,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '아기를 등록하고 육아 기록을 시작해보세요',
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.onBackground.withOpacity(0.7),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton.icon(
+              onPressed: () {
+                // TODO: 아기 등록 화면으로 이동
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('아기 등록 기능은 곧 추가될 예정입니다'),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.add),
+              label: const Text('아기 등록하기'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: _loadData,
+              child: const Text('새로고침'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -103,9 +200,11 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: _isLoading
             ? const Center(child: CircularProgressIndicator())
-            : RefreshIndicator(
-                onRefresh: _loadData,
-                child: CustomScrollView(
+            : _currentBaby == null
+                ? _buildNoBabyScreen(context)
+                : RefreshIndicator(
+                    onRefresh: _loadData,
+                    child: CustomScrollView(
                   slivers: [
                     // 앱바
                     SliverAppBar(
