@@ -3,7 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/timeline/presentation/screens/timeline_screen.dart';
-import '../../features/record/presentation/screens/record_screen.dart';
 import '../../features/statistics/presentation/screens/statistics_screen.dart';
 import '../../features/community/presentation/screens/community_screen.dart';
 import '../providers/localization_provider.dart';
@@ -62,15 +61,6 @@ class _MainScreenState extends State<MainScreen> {
           icon: const Icon(Icons.timeline),
           title: l10n.timeline ?? "타임라인",
           activeForegroundColor: theme.colorScheme.primary,
-          inactiveForegroundColor: isDark ? Colors.grey[600]! : Colors.grey,
-        ),
-      ),
-      PersistentTabConfig(
-        screen: const RecordScreen(),
-        item: ItemConfig(
-          icon: const Icon(Icons.add_circle, size: 36),
-          title: l10n.record ?? "기록",
-          activeForegroundColor: theme.colorScheme.secondary,
           inactiveForegroundColor: isDark ? Colors.grey[600]! : Colors.grey,
         ),
       ),

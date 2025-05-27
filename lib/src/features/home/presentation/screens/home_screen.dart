@@ -18,6 +18,7 @@ import '../../../../services/baby_guide/baby_guide_service.dart';
 import '../../../../domain/models/baby_guide.dart';
 import '../widgets/baby_guide_alert.dart';
 import '../screens/baby_guide_list_screen.dart';
+import '../../../../presentation/widgets/expandable_floating_action_button.dart';
 
 class HomeScreen extends StatefulWidget {
   final LocalizationProvider? localizationProvider;
@@ -411,6 +412,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
       ),
+      floatingActionButton: _currentBaby != null ? const ExpandableFloatingActionButton() : null,
     );
   }
 }
