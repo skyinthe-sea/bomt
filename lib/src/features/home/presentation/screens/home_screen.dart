@@ -334,35 +334,53 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     
-                    // 오늘의 요약 섹션
+                    // 오늘의 요약 섹션 (흰 배경으로 감싸기)
                     SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
-                        child: Text(
-                          l10n.todaySummary ?? '오늘의 요약',
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.surface,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: theme.brightness == Brightness.dark
+                                  ? Colors.black.withOpacity(0.3)
+                                  : Colors.grey.withOpacity(0.1),
+                              blurRadius: 10,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                    
-                    // 요약 카드 그리드
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      sliver: SliverGrid(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 1.0,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // 오늘의 요약 제목
+                            Text(
+                              l10n.todaySummary ?? '오늘의 요약',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onSurface,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            // 요약 카드 그리드
+                            GridView.count(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              crossAxisCount: 2,
+                              childAspectRatio: 1.4, // 직사각형으로 만들기 위해 비율 변경
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                              children: [
+                                FeedingSummaryCard(summary: _feedingSummary),
+                                SleepSummaryCard(summary: _sleepSummary),
+                                DiaperSummaryCard(summary: _diaperSummary),
+                                TemperatureSummaryCard(summary: _temperatureSummary),
+                              ],
+                            ),
+                          ],
                         ),
-                        delegate: SliverChildListDelegate([
-                          FeedingSummaryCard(summary: _feedingSummary),
-                          SleepSummaryCard(summary: _sleepSummary),
-                          DiaperSummaryCard(summary: _diaperSummary),
-                          TemperatureSummaryCard(summary: _temperatureSummary),
-                        ]),
                       ),
                     ),
                     

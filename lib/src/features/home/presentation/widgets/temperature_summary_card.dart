@@ -11,6 +11,7 @@ class TemperatureSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final latestTemp = summary['latestTemperature'] ?? 36.5;
     final minTemp = summary['minTemperature'] ?? 0.0;
     final maxTemp = summary['maxTemperature'] ?? 0.0;
@@ -22,17 +23,12 @@ class TemperatureSummaryCard extends StatelessWidget {
     final statusColor = _getStatusColor(tempStatus);
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: theme.shadowColor.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        color: isDark 
+            ? Colors.orange.withOpacity(0.1)
+            : const Color(0xFFFFFFF0),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,59 +36,58 @@ class TemperatureSummaryCard extends StatelessWidget {
           // 아이콘과 제목
           Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.orange.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Icon(
-                  Icons.thermostat,
-                  color: Colors.orange,
-                  size: 20,
-                ),
+              Icon(
+                Icons.thermostat,
+                color: Colors.orange[700],
+                size: 20,
               ),
               const SizedBox(width: 8),
               Text(
-                '체온',
+                '건강',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
+                  color: theme.colorScheme.onSurface,
                 ),
               ),
             ],
           ),
-          const Spacer(),
-          // 메인 수치
-          Text(
-            '${latestTemp.toStringAsFixed(1)}°C',
-            style: theme.textTheme.headlineLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: statusColor,
-            ),
-          ),
-          const SizedBox(height: 4),
-          // 부가 정보
-          Text(
-            '최근 체온',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.7),
-            ),
-          ),
-          const SizedBox(height: 4),
-          // 상태 표시
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            decoration: BoxDecoration(
-              color: statusColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              tempStatus,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: statusColor,
-                fontWeight: FontWeight.w600,
+          const SizedBox(height: 16),
+          // 메인 콘텐츠 - 좌우 레이아웃
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              // 왼쪽: 메인 수치
+              Text(
+                '${latestTemp.toStringAsFixed(1)}°C',
+                style: theme.textTheme.headlineLarge?.copyWith(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.onSurface,
+                ),
               ),
-            ),
+              // 오른쪽: 부가 정보
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '최근 체온',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    tempStatus,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: statusColor,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

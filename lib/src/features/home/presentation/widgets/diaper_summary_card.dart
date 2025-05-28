@@ -11,23 +11,19 @@ class DiaperSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final wetCount = summary['wetCount'] ?? 0;
     final dirtyCount = summary['dirtyCount'] ?? 0;
     final mixedCount = summary['mixedCount'] ?? 0;
     final totalCount = wetCount + dirtyCount + mixedCount;
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: theme.shadowColor.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        color: isDark 
+            ? Colors.green.withOpacity(0.1)
+            : const Color(0xFFF5FFF5),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,50 +31,58 @@ class DiaperSummaryCard extends StatelessWidget {
           // 아이콘과 제목
           Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Icon(
-                  Icons.baby_changing_station,
-                  color: Colors.green,
-                  size: 20,
-                ),
+              Icon(
+                Icons.baby_changing_station,
+                color: Colors.green[700],
+                size: 20,
               ),
               const SizedBox(width: 8),
               Text(
                 '기저귀',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
+                  color: theme.colorScheme.onSurface,
                 ),
               ),
             ],
           ),
-          const Spacer(),
-          // 메인 수치
-          Text(
-            '${totalCount}회',
-            style: theme.textTheme.headlineLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-            ),
-          ),
-          const SizedBox(height: 4),
-          // 부가 정보
-          Text(
-            '소변 ${wetCount}회, 대변 ${dirtyCount}회',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.7),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '총 교체횟수',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.5),
-            ),
+          const SizedBox(height: 16),
+          // 메인 콘텐츠 - 좌우 레이아웃
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              // 왼쪽: 메인 수치
+              Text(
+                '${totalCount}회',
+                style: theme.textTheme.headlineLarge?.copyWith(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.onSurface,
+                ),
+              ),
+              // 오른쪽: 부가 정보
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '소변 ${wetCount}회, 대변 ${dirtyCount}회',
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.green[700],
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '총 교체횟수',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
