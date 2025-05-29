@@ -35,8 +35,8 @@ class _SwipeableCardState extends State<SwipeableCard>
   bool _isDeleting = false;
   bool _hasTriggeredHaptic = false;
 
-  static const double _deleteThreshold = 80.0;
-  static const double _maxSlide = 120.0;
+  static const double _deleteThreshold = 50.0;
+  static const double _maxSlide = 70.0;
 
   @override
   void initState() {
@@ -93,6 +93,16 @@ class _SwipeableCardState extends State<SwipeableCard>
       _dragOffset += details.delta.dx;
       _dragOffset = _dragOffset.clamp(-_maxSlide, 0.0);
     });
+    
+    // 이미 열린 상태에서 오른쪽으로 스와이프하면 닫기
+    if (_slideController.value > 0 && details.delta.dx > 0) {
+      final newValue = (_slideController.value - (details.delta.dx / _maxSlide)).clamp(0.0, 1.0);
+      _slideController.value = newValue;
+      if (newValue <= 0.1) {
+        _resetPosition();
+        return;
+      }
+    }
     
     // 임계값 도달 시 햅틱 피드백
     if (_dragOffset.abs() >= _deleteThreshold && !_hasTriggeredHaptic) {
@@ -228,25 +238,11 @@ class _SwipeableCardState extends State<SwipeableCard>
                       alignment: Alignment.centerRight,
                       child: Container(
                         width: _maxSlide,
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              widget.deleteIcon,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              '삭제',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
+                        padding: const EdgeInsets.only(right: 12),
+                        child: Icon(
+                          widget.deleteIcon,
+                          color: Colors.white,
+                          size: 20,
                         ),
                       ),
                     ),

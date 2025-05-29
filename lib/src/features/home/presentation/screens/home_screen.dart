@@ -18,7 +18,6 @@ import '../widgets/temperature_summary_card.dart';
 import '../widgets/growth_info_card.dart';
 import '../../../../domain/models/baby.dart';
 import '../../data/repositories/home_repository_impl.dart';
-import './sample_data_screen.dart';
 import '../../../../services/baby_guide/baby_guide_service.dart';
 import '../../../../domain/models/baby_guide.dart';
 import '../widgets/baby_guide_alert.dart';
@@ -339,38 +338,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                           ),
-                        // Baby list button
-                        IconButton(
-                          icon: Icon(
-                            Icons.child_care,
-                            color: theme.colorScheme.onBackground,
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/baby-list',
-                              arguments: {
-                                'localizationProvider': widget.localizationProvider,
-                                'themeProvider': widget.themeProvider,
-                              },
-                            );
-                          },
-                        ),
-                        // Temporary button for sample data
-                        IconButton(
-                          icon: Icon(
-                            Icons.add_box,
-                            color: theme.colorScheme.onBackground,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SampleDataScreen(),
-                              ),
-                            );
-                          },
-                        ),
                         IconButton(
                           icon: Icon(
                             Icons.settings,
@@ -433,33 +400,39 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            // 요약 카드 그리드
-                            ChangeNotifierProvider.value(
-                              value: _healthProvider,
-                              child: GridView.count(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                crossAxisCount: 2,
-                                childAspectRatio: 1.2, // 힌트 텍스트를 위해 세로 공간 확보
-                                crossAxisSpacing: 12,
-                                mainAxisSpacing: 12,
+                            // 요약 카드 - 3개 가로 배치
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 4),
+                              child: Row(
                                 children: [
-                                  FeedingSummaryCard(
-                                    summary: _feedingSummary,
-                                    feedingProvider: _feedingProvider,
+                                  Expanded(
+                                    child: FeedingSummaryCard(
+                                      summary: _feedingSummary,
+                                      feedingProvider: _feedingProvider,
+                                    ),
                                   ),
-                                  SleepSummaryCard(
-                                    summary: _sleepSummary,
-                                    sleepProvider: _sleepProvider,
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    child: SleepSummaryCard(
+                                      summary: _sleepSummary,
+                                      sleepProvider: _sleepProvider,
+                                    ),
                                   ),
-                                  DiaperSummaryCard(
-                                    summary: _diaperSummary,
-                                    diaperProvider: _diaperProvider,
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    child: DiaperSummaryCard(
+                                      summary: _diaperSummary,
+                                      diaperProvider: _diaperProvider,
+                                    ),
                                   ),
-                                  TemperatureSummaryCard(summary: _temperatureSummary),
                                 ],
                               ),
                             ),
+                            // 건강 카드 - 재사용을 위해 주석 처리
+                            // ChangeNotifierProvider.value(
+                            //   value: _healthProvider,
+                            //   child: TemperatureSummaryCard(summary: _temperatureSummary),
+                            // ),
                           ],
                         ),
                       ),

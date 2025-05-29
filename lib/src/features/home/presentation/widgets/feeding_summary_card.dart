@@ -231,7 +231,7 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
             scale: _scaleAnimation.value,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isPressed
                     ? (isDark 
@@ -298,89 +298,59 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
                         ),
                       ),
                       const Spacer(),
-                      // 힌트 아이콘
-                      if (!isUpdating) ...[
-                        Icon(
-                          Icons.touch_app,
-                          size: 14,
-                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
-                        ),
-                        const SizedBox(width: 2),
-                        Icon(
-                          Icons.settings,
-                          size: 12,
-                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.3),
-                        ),
-                      ],
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   
                   // 메인 콘텐츠 - 좌우 레이아웃
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       // 왼쪽: 메인 수치
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '$count회',
-                            style: theme.textTheme.headlineLarge?.copyWith(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onSurface,
-                            ),
-                          ),
-                          if (lastFeedingMinutesAgo != null && count > 0)
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             Text(
-                              widget.feedingProvider?.getTimeAgoString(lastFeedingMinutesAgo) ?? '',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
-                                fontSize: 11,
+                              '$count회',
+                              style: theme.textTheme.headlineLarge?.copyWith(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onSurface,
                               ),
                             ),
-                        ],
+                          ],
+                        ),
                       ),
                       
                       // 오른쪽: 부가 정보
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            '${totalAmount}ml',
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.blue[700],
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              '${totalAmount}ml',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.blue[700],
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            '총 수유량',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
+                            const SizedBox(height: 2),
+                            Text(
+                              '총 수유량',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
                   
-                  // 하단 힌트 텍스트
-                  if (!isUpdating) ...[
-                    const SizedBox(height: 12),
-                    Text(
-                      count > 0 
-                          ? '터치: 수유 기록 | 꾹 누르기: 설정 | 스와이프: 삭제'
-                          : '터치: 수유 기록 | 꾹 누르기: 설정',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.6),
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
                 ],
               ),
             ),

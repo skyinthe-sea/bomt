@@ -238,7 +238,7 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
             scale: _scaleAnimation.value,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isPressed
                     ? (isDark 
@@ -305,73 +305,55 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                         ),
                       ),
                       const Spacer(),
-                      // 힌트 아이콘
-                      if (!isUpdating) ...[
-                        Icon(
-                          hasActiveSleep ? Icons.stop : Icons.play_arrow,
-                          size: 14,
-                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
-                        ),
-                        const SizedBox(width: 2),
-                        Icon(
-                          Icons.settings,
-                          size: 12,
-                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.3),
-                        ),
-                      ],
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   
                   // 메인 콘텐츠 - 좌우 레이아웃
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       // 왼쪽: 메인 수치
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '$count회',
-                            style: theme.textTheme.headlineLarge?.copyWith(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onSurface,
-                            ),
-                          ),
-                          if (hasActiveSleep)
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             Text(
-                              '진행 중: ${widget.sleepProvider?.getActiveSleepDuration() ?? ''}',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: Colors.green[700],
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
-                          else if (lastSleepMinutesAgo != null && count > 0)
-                            Text(
-                              widget.sleepProvider?.getTimeAgoString(lastSleepMinutesAgo) ?? '',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
-                                fontSize: 11,
+                              '$count회',
+                              style: theme.textTheme.headlineLarge?.copyWith(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onSurface,
                               ),
                             ),
-                        ],
+                            if (hasActiveSleep)
+                              Text(
+                                '진행 중: ${widget.sleepProvider?.getActiveSleepDuration() ?? ''}',
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: Colors.green[700],
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                          ],
+                        ),
                       ),
                       
                       // 오른쪽: 부가 정보
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            '${totalHours}시간 ${remainingMinutes}분',
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.purple[700],
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              '${totalHours}시간 ${remainingMinutes}분',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.purple[700],
+                              ),
                             ),
-                          ),
                           const SizedBox(height: 2),
                           Text(
                             '총 수면시간',
@@ -380,23 +362,11 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                             ),
                           ),
                         ],
+                        ),
                       ),
                     ],
                   ),
                   
-                  // 하단 힌트 텍스트
-                  if (!isUpdating) ...[
-                    const SizedBox(height: 12),
-                    Text(
-                      hasActiveSleep 
-                          ? (count > 0 ? '터치: 수면 종료 | 꾹 누르기: 설정 | 스와이프: 삭제' : '터치: 수면 종료 | 꾹 누르기: 설정')
-                          : (count > 0 ? '터치: 수면 시작 | 꾹 누르기: 설정 | 스와이프: 삭제' : '터치: 수면 시작 | 꾹 누르기: 설정'),
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.6),
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
                 ],
               ),
             ),

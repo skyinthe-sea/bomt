@@ -227,7 +227,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
             scale: _scaleAnimation.value,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isPressed
                     ? (isDark 
@@ -294,61 +294,43 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                         ),
                       ),
                       const Spacer(),
-                      // 힌트 아이콘
-                      if (!isUpdating) ...[
-                        Icon(
-                          Icons.touch_app,
-                          size: 14,
-                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
-                        ),
-                        const SizedBox(width: 2),
-                        Icon(
-                          Icons.settings,
-                          size: 12,
-                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.3),
-                        ),
-                      ],
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   
                   // 메인 콘텐츠 - 좌우 레이아웃
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       // 왼쪽: 메인 수치
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${totalCount}회',
-                            style: theme.textTheme.headlineLarge?.copyWith(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onSurface,
-                            ),
-                          ),
-                          if (lastChangedMinutesAgo != null && totalCount > 0)
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             Text(
-                              widget.diaperProvider?.getTimeAgoString(lastChangedMinutesAgo) ?? '',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
-                                fontSize: 11,
+                              '${totalCount}회',
+                              style: theme.textTheme.headlineLarge?.copyWith(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onSurface,
                               ),
                             ),
-                        ],
+                          ],
+                        ),
                       ),
                       
                       // 오른쪽: 부가 정보
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
                           if (bothCount > 0)
                             Text(
                               '소변+대변 ${bothCount}회',
                               style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 11,
+                                fontSize: 10,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.purple[700],
                               ),
@@ -357,7 +339,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                             Text(
                               '소변 ${wetCount}회, 대변 ${dirtyCount}회',
                               style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 11,
+                                fontSize: 10,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.amber[700],
                               ),
@@ -370,23 +352,11 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                             ),
                           ),
                         ],
+                        ),
                       ),
                     ],
                   ),
                   
-                  // 하단 힌트 텍스트
-                  if (!isUpdating) ...[
-                    const SizedBox(height: 12),
-                    Text(
-                      totalCount > 0 
-                          ? '터치: 기저귀 교체 | 꾹 누르기: 설정 | 스와이프: 삭제'
-                          : '터치: 기저귀 교체 | 꾹 누르기: 설정',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.6),
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
                 ],
               ),
             ),
