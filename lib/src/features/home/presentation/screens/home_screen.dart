@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:provider/provider.dart';
 import '../../../../presentation/providers/localization_provider.dart';
 import '../../../../presentation/providers/theme_provider.dart';
+import '../../../../presentation/providers/feeding_provider.dart';
+import '../../../../presentation/providers/sleep_provider.dart';
+import '../../../../presentation/providers/diaper_provider.dart';
+import '../../../../presentation/providers/health_provider.dart';
 import '../../../../features/settings/presentation/screens/settings_screen.dart';
 import '../widgets/baby_info_card.dart';
 import '../widgets/feeding_summary_card.dart';
@@ -36,8 +41,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _homeRepository = HomeRepositoryImpl();
   final _babyGuideService = BabyGuideService.instance;
+  final _feedingProvider = FeedingProvider();
+  final _sleepProvider = SleepProvider();
+  final _diaperProvider = DiaperProvider();
+  final _healthProvider = HealthProvider();
   
   Baby? _currentBaby;
+  String? _currentUserId;
   bool _isLoading = true;
   
   // 요약 데이터
@@ -50,7 +60,61 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // Provider 변경 리스너 추가
+    _feedingProvider.addListener(_onFeedingDataChanged);
+    _sleepProvider.addListener(_onSleepDataChanged);
+    _diaperProvider.addListener(_onDiaperDataChanged);
+    _healthProvider.addListener(_onHealthDataChanged);
     _loadData();
+  }
+
+  @override
+  void dispose() {
+    _feedingProvider.removeListener(_onFeedingDataChanged);
+    _sleepProvider.removeListener(_onSleepDataChanged);
+    _diaperProvider.removeListener(_onDiaperDataChanged);
+    _healthProvider.removeListener(_onHealthDataChanged);
+    _feedingProvider.dispose();
+    _sleepProvider.dispose();
+    _diaperProvider.dispose();
+    _healthProvider.dispose();
+    super.dispose();
+  }
+
+  /// FeedingProvider 데이터 변경 시 호출되는 콜백
+  void _onFeedingDataChanged() {
+    if (mounted) {
+      setState(() {
+        _feedingSummary = _feedingProvider.todaySummary;
+      });
+    }
+  }
+
+  /// SleepProvider 데이터 변경 시 호출되는 콜백
+  void _onSleepDataChanged() {
+    if (mounted) {
+      setState(() {
+        _sleepSummary = _sleepProvider.todaySummary;
+      });
+    }
+  }
+
+  /// DiaperProvider 데이터 변경 시 호출되는 콜백
+  void _onDiaperDataChanged() {
+    if (mounted) {
+      setState(() {
+        _diaperSummary = _diaperProvider.todaySummary;
+      });
+    }
+  }
+
+  /// HealthProvider 데이터 변경 시 호출되는 콜백
+  void _onHealthDataChanged() {
+    if (mounted) {
+      setState(() {
+        _temperatureSummary = _healthProvider.todaySummary;
+      });
+    }
   }
 
   Future<void> _loadData() async {
@@ -87,6 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
         // 등록된 아기가 없는 경우
         setState(() {
           _currentBaby = null;
+          _currentUserId = null;
           _isLoading = false;
         });
         return;
@@ -100,19 +165,23 @@ class _HomeScreenState extends State<HomeScreen> {
         'gender': babyData['gender'],
       });
       
-      // 각종 요약 데이터 로드
-      final feedingSummary = await _homeRepository.getFeedingSummary(baby.id);
-      final sleepSummary = await _homeRepository.getSleepSummary(baby.id);
-      final diaperSummary = await _homeRepository.getDiaperSummary(baby.id);
-      final temperatureSummary = await _homeRepository.getTemperatureSummary(baby.id);
+      // 모든 Provider 설정
+      _feedingProvider.setCurrentBaby(baby.id, userId);
+      _sleepProvider.setCurrentBaby(baby.id, userId);
+      _diaperProvider.setCurrentBaby(baby.id, userId);
+      _healthProvider.setCurrentBaby(baby.id, userId);
+      
+      // 성장 데이터는 아직 Provider로 이동하지 않음 (추후 개발 예정)
       final growthSummary = await _homeRepository.getGrowthSummary(baby.id);
       
       setState(() {
         _currentBaby = baby;
-        _feedingSummary = feedingSummary;
-        _sleepSummary = sleepSummary;
-        _diaperSummary = diaperSummary;
-        _temperatureSummary = temperatureSummary;
+        _currentUserId = userId;
+        // 모든 데이터는 Provider에서 관리됨
+        _feedingSummary = _feedingProvider.todaySummary;
+        _sleepSummary = _sleepProvider.todaySummary;
+        _diaperSummary = _diaperProvider.todaySummary;
+        _temperatureSummary = _healthProvider.todaySummary;
         _growthSummary = growthSummary;
         _isLoading = false;
       });
@@ -365,19 +434,31 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             const SizedBox(height: 20),
                             // 요약 카드 그리드
-                            GridView.count(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              crossAxisCount: 2,
-                              childAspectRatio: 1.4, // 직사각형으로 만들기 위해 비율 변경
-                              crossAxisSpacing: 12,
-                              mainAxisSpacing: 12,
-                              children: [
-                                FeedingSummaryCard(summary: _feedingSummary),
-                                SleepSummaryCard(summary: _sleepSummary),
-                                DiaperSummaryCard(summary: _diaperSummary),
-                                TemperatureSummaryCard(summary: _temperatureSummary),
-                              ],
+                            ChangeNotifierProvider.value(
+                              value: _healthProvider,
+                              child: GridView.count(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                crossAxisCount: 2,
+                                childAspectRatio: 1.2, // 힌트 텍스트를 위해 세로 공간 확보
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
+                                children: [
+                                  FeedingSummaryCard(
+                                    summary: _feedingSummary,
+                                    feedingProvider: _feedingProvider,
+                                  ),
+                                  SleepSummaryCard(
+                                    summary: _sleepSummary,
+                                    sleepProvider: _sleepProvider,
+                                  ),
+                                  DiaperSummaryCard(
+                                    summary: _diaperSummary,
+                                    diaperProvider: _diaperProvider,
+                                  ),
+                                  TemperatureSummaryCard(summary: _temperatureSummary),
+                                ],
+                              ),
                             ),
                           ],
                         ),

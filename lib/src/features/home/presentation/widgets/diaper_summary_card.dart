@@ -1,91 +1,399 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../../../../presentation/providers/diaper_provider.dart';
+import 'diaper_settings_dialog.dart';
+import 'swipeable_card.dart';
+import 'undo_snackbar.dart';
 
-class DiaperSummaryCard extends StatelessWidget {
+class DiaperSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
+  final DiaperProvider? diaperProvider;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   const DiaperSummaryCard({
     super.key,
     required this.summary,
+    this.diaperProvider,
+    this.onTap,
+    this.onLongPress,
   });
+
+  @override
+  State<DiaperSummaryCard> createState() => _DiaperSummaryCardState();
+}
+
+class _DiaperSummaryCardState extends State<DiaperSummaryCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
+  bool _isPressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 150),
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.95,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void _handleTapDown(TapDownDetails details) {
+    setState(() => _isPressed = true);
+    _animationController.forward();
+    HapticFeedback.lightImpact();
+  }
+
+  void _handleTapUp(TapUpDetails details) {
+    setState(() => _isPressed = false);
+    _animationController.reverse();
+  }
+
+  void _handleTapCancel() {
+    setState(() => _isPressed = false);
+    _animationController.reverse();
+  }
+
+  void _handleTap() {
+    if (widget.onTap != null) {
+      widget.onTap!();
+    } else if (widget.diaperProvider != null) {
+      _handleQuickDiaper();
+    }
+  }
+
+  void _handleLongPress() {
+    HapticFeedback.mediumImpact();
+    if (widget.onLongPress != null) {
+      widget.onLongPress!();
+    } else if (widget.diaperProvider != null) {
+      _showDiaperSettings();
+    }
+  }
+
+  Future<void> _handleQuickDiaper() async {
+    if (widget.diaperProvider == null) return;
+
+    final success = await widget.diaperProvider!.addQuickDiaper();
+    
+    if (mounted) {
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('기저귀 교체 기록이 추가되었습니다'),
+              ],
+            ),
+            backgroundColor: Colors.amber[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.error, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('기저귀 기록 추가에 실패했습니다'),
+              ],
+            ),
+            backgroundColor: Colors.red[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  void _showDiaperSettings() {
+    if (widget.diaperProvider == null) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => DiaperSettingsDialog(
+        currentDefaults: widget.diaperProvider!.diaperDefaults,
+        onSave: (settings) async {
+          await widget.diaperProvider!.saveDiaperDefaults(
+            type: settings['type'],
+            color: settings['color'],
+            consistency: settings['consistency'],
+          );
+
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Row(
+                  children: [
+                    Icon(Icons.settings, color: Colors.white, size: 20),
+                    SizedBox(width: 8),
+                    Text('기저귀 설정이 저장되었습니다'),
+                  ],
+                ),
+                backgroundColor: Colors.amber[600],
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Future<void> _handleDelete() async {
+    final totalCount = widget.summary['totalCount'] ?? 0;
+    if (widget.diaperProvider == null || totalCount <= 0) {
+      return;
+    }
+
+    final success = await widget.diaperProvider!.deleteLatestDiaper();
+    
+    if (success && mounted) {
+      UndoSnackbar.showDiaperDeleted(
+        context: context,
+        onUndo: () async {
+          final undoSuccess = await widget.diaperProvider!.undoDelete();
+          if (undoSuccess && mounted) {
+            UndoSnackbar.showUndoSuccess(
+              context: context,
+              message: '기저귀 기록이 복원되었습니다',
+            );
+          }
+        },
+        onDismissed: () {
+          widget.diaperProvider?.clearUndoData();
+        },
+      );
+    } else if (!success && mounted) {
+      UndoSnackbar.showDeleteError(context: context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final wetCount = summary['wetCount'] ?? 0;
-    final dirtyCount = summary['dirtyCount'] ?? 0;
-    final mixedCount = summary['mixedCount'] ?? 0;
-    final totalCount = wetCount + dirtyCount + mixedCount;
+    final wetCount = widget.summary['wetCount'] ?? 0;
+    final dirtyCount = widget.summary['dirtyCount'] ?? 0;
+    final bothCount = widget.summary['bothCount'] ?? 0;
+    final totalCount = widget.summary['totalCount'] ?? (wetCount + dirtyCount + bothCount);
+    final lastChangedMinutesAgo = widget.summary['lastChangedMinutesAgo'];
+    final isUpdating = widget.diaperProvider?.isUpdating ?? false;
+    final hasRecentRecord = widget.diaperProvider?.hasRecentRecord ?? false;
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isDark 
-            ? Colors.green.withOpacity(0.1)
-            : const Color(0xFFF5FFF5),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // 아이콘과 제목
-          Row(
-            children: [
-              Icon(
-                Icons.baby_changing_station,
-                color: Colors.green[700],
-                size: 20,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                '기저귀',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: theme.colorScheme.onSurface,
+    return SwipeableCard(
+      onDelete: totalCount > 0 ? _handleDelete : null,
+      deleteConfirmMessage: '최근 기저귀 교체 기록을 삭제하시겠습니까?',
+      isDeletable: totalCount > 0 && !isUpdating,
+      deleteButtonColor: Colors.amber[600]!,
+      child: GestureDetector(
+      onTapDown: _handleTapDown,
+      onTapUp: _handleTapUp,
+      onTapCancel: _handleTapCancel,
+      onTap: _handleTap,
+      onLongPress: _handleLongPress,
+      child: AnimatedBuilder(
+        animation: _scaleAnimation,
+        builder: (context, child) {
+          return Transform.scale(
+            scale: _scaleAnimation.value,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: _isPressed
+                    ? (isDark 
+                        ? Colors.amber.withOpacity(0.2)
+                        : const Color(0xFFFFF8E1))
+                    : (isDark 
+                        ? Colors.amber.withOpacity(0.1)
+                        : const Color(0xFFFFFDE7)),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: _isPressed
+                      ? Colors.amber[400]!.withOpacity(0.5)
+                      : Colors.transparent,
+                  width: 2,
                 ),
+                boxShadow: _isPressed
+                    ? [
+                        BoxShadow(
+                          color: Colors.amber.withOpacity(0.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ]
+                    : null,
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          // 메인 콘텐츠 - 좌우 레이아웃
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              // 왼쪽: 메인 수치
-              Text(
-                '${totalCount}회',
-                style: theme.textTheme.headlineLarge?.copyWith(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.onSurface,
-                ),
-              ),
-              // 오른쪽: 부가 정보
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '소변 ${wetCount}회, 대변 ${dirtyCount}회',
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.green[700],
-                    ),
+                  // 헤더 - 아이콘, 제목, 로딩 인디케이터
+                  Row(
+                    children: [
+                      Stack(
+                        children: [
+                          Icon(
+                            Icons.child_care,
+                            color: Colors.amber[700],
+                            size: 20,
+                          ),
+                          if (isUpdating)
+                            Positioned.fill(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.8),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '기저귀',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.onSurface,
+                        ),
+                      ),
+                      const Spacer(),
+                      // 힌트 아이콘
+                      if (!isUpdating) ...[
+                        Icon(
+                          Icons.touch_app,
+                          size: 14,
+                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
+                        ),
+                        const SizedBox(width: 2),
+                        Icon(
+                          Icons.settings,
+                          size: 12,
+                          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.3),
+                        ),
+                      ],
+                    ],
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '총 교체횟수',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
+                  const SizedBox(height: 16),
+                  
+                  // 메인 콘텐츠 - 좌우 레이아웃
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      // 왼쪽: 메인 수치
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${totalCount}회',
+                            style: theme.textTheme.headlineLarge?.copyWith(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          if (lastChangedMinutesAgo != null && totalCount > 0)
+                            Text(
+                              widget.diaperProvider?.getTimeAgoString(lastChangedMinutesAgo) ?? '',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                                fontSize: 11,
+                              ),
+                            ),
+                        ],
+                      ),
+                      
+                      // 오른쪽: 부가 정보
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          if (bothCount > 0)
+                            Text(
+                              '소변+대변 ${bothCount}회',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.purple[700],
+                              ),
+                            ),
+                          if (wetCount > 0 || dirtyCount > 0)
+                            Text(
+                              '소변 ${wetCount}회, 대변 ${dirtyCount}회',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.amber[700],
+                              ),
+                            ),
+                          const SizedBox(height: 2),
+                          Text(
+                            '총 교체횟수',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
+                  
+                  // 하단 힌트 텍스트
+                  if (!isUpdating) ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      totalCount > 0 
+                          ? '터치: 기저귀 교체 | 꾹 누르기: 설정 | 스와이프: 삭제'
+                          : '터치: 기저귀 교체 | 꾹 누르기: 설정',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.6),
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
                 ],
               ),
-            ],
-          ),
-        ],
+            ),
+          );
+        },
       ),
+    ),
     );
   }
 
