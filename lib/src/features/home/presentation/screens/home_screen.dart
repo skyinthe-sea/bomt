@@ -37,7 +37,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final _homeRepository = HomeRepositoryImpl();
   final _babyGuideService = BabyGuideService.instance;
   final _feedingProvider = FeedingProvider();
@@ -59,6 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // App lifecycle observer 등록
+    WidgetsBinding.instance.addObserver(this);
     // Provider 변경 리스너 추가
     _feedingProvider.addListener(_onFeedingDataChanged);
     _sleepProvider.addListener(_onSleepDataChanged);
@@ -69,6 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    // App lifecycle observer 제거
+    WidgetsBinding.instance.removeObserver(this);
     _feedingProvider.removeListener(_onFeedingDataChanged);
     _sleepProvider.removeListener(_onSleepDataChanged);
     _diaperProvider.removeListener(_onDiaperDataChanged);
@@ -113,6 +117,48 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _temperatureSummary = _healthProvider.todaySummary;
       });
+    }
+  }
+
+  /// 앱 생명주기 상태 변경 시 호출되는 콜백
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    
+    debugPrint('App lifecycle state changed to: $state');
+    
+    // 앱이 백그라운드에서 포그라운드로 돌아올 때 데이터 새로고침
+    if (state == AppLifecycleState.resumed && _currentBaby != null) {
+      debugPrint('App resumed - refreshing home screen data');
+      _refreshData();
+    }
+  }
+
+  /// 데이터만 새로고침 (로딩 상태 없이)
+  Future<void> _refreshData() async {
+    if (_currentBaby == null || _currentUserId == null) return;
+    
+    try {
+      // 모든 Provider의 데이터를 새로고침
+      await Future.wait([
+        _feedingProvider.refreshData(),
+        _sleepProvider.refreshData(),
+        _diaperProvider.refreshData(),
+        _healthProvider.refreshData(),
+      ]);
+      
+      // 성장 데이터 새로고침
+      final growthSummary = await _homeRepository.getGrowthSummary(_currentBaby!.id);
+      
+      if (mounted) {
+        setState(() {
+          _growthSummary = growthSummary;
+        });
+      }
+      
+      debugPrint('Home screen data refreshed successfully');
+    } catch (e) {
+      debugPrint('Error refreshing home screen data: $e');
     }
   }
 
