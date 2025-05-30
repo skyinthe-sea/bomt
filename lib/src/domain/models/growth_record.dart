@@ -32,9 +32,9 @@ class GrowthRecord {
       heightCm: json['height_cm'] != null ? double.parse(json['height_cm'].toString()) : null,
       headCircumferenceCm: json['head_circumference_cm'] != null ? double.parse(json['head_circumference_cm'].toString()) : null,
       notes: json['notes'],
-      recordedAt: DateTime.parse(json['recorded_at']),
-      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
-      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
+      recordedAt: DateTime.parse(json['recorded_at']).toLocal(),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']).toLocal() : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']).toLocal() : null,
     );
   }
 

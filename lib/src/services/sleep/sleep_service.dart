@@ -135,7 +135,7 @@ class SleepService {
         // 최근 수면 시간 계산
         final lastSleep = response.first;
         if (lastSleep['ended_at'] != null) {
-          lastSleepTime = DateTime.parse(lastSleep['ended_at']);
+          lastSleepTime = DateTime.parse(lastSleep['ended_at']).toLocal();
           lastSleepMinutesAgo = now.difference(lastSleepTime).inMinutes;
         }
       }

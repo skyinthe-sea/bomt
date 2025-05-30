@@ -136,7 +136,7 @@ class DiaperService {
         
         // 최근 교체 시간 계산
         final lastDiaper = response.first;
-        lastChangedTime = DateTime.parse(lastDiaper['changed_at']);
+        lastChangedTime = DateTime.parse(lastDiaper['changed_at']).toLocal();
         lastChangedMinutesAgo = now.difference(lastChangedTime).inMinutes;
       }
       
@@ -261,7 +261,7 @@ class DiaperService {
       Map<String, int> dailyCount = {}; // 일별 교체 횟수
       
       for (var diaper in response) {
-        final changedAt = DateTime.parse(diaper['changed_at']);
+        final changedAt = DateTime.parse(diaper['changed_at']).toLocal();
         final hour = changedAt.hour;
         final day = '${changedAt.month}-${changedAt.day}';
         

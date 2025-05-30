@@ -182,7 +182,7 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
       children: [
         _buildDateTimeField(
           label: '수유 시작 시간',
-          value: DateTime.parse(_editedRecord['started_at']),
+          value: DateTime.parse(_editedRecord['started_at']).toLocal(),
           onChanged: (dateTime) {
             setState(() {
               _editedRecord['started_at'] = dateTime.toIso8601String();
@@ -194,7 +194,7 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
         if (_editedRecord['ended_at'] != null) ...[
           _buildDateTimeField(
             label: '수유 종료 시간',
-            value: DateTime.parse(_editedRecord['ended_at']),
+            value: DateTime.parse(_editedRecord['ended_at']).toLocal(),
             onChanged: (dateTime) {
               setState(() {
                 _editedRecord['ended_at'] = dateTime.toIso8601String();
@@ -291,7 +291,7 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
       children: [
         _buildDateTimeField(
           label: '수면 시작 시간',
-          value: DateTime.parse(_editedRecord['started_at']),
+          value: DateTime.parse(_editedRecord['started_at']).toLocal(),
           onChanged: (dateTime) {
             setState(() {
               _editedRecord['started_at'] = dateTime.toIso8601String();
@@ -303,7 +303,7 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
         if (_editedRecord['ended_at'] != null) ...[
           _buildDateTimeField(
             label: '수면 종료 시간',
-            value: DateTime.parse(_editedRecord['ended_at']),
+            value: DateTime.parse(_editedRecord['ended_at']).toLocal(),
             onChanged: (dateTime) {
               setState(() {
                 _editedRecord['ended_at'] = dateTime.toIso8601String();
@@ -378,7 +378,7 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
       children: [
         _buildDateTimeField(
           label: '교체 시간',
-          value: DateTime.parse(_editedRecord['changed_at']),
+          value: DateTime.parse(_editedRecord['changed_at']).toLocal(),
           onChanged: (dateTime) {
             setState(() {
               _editedRecord['changed_at'] = dateTime.toIso8601String();

@@ -157,7 +157,7 @@ class HealthService {
         
         // 최근 기록 시간 계산
         final lastRecord = response.first;
-        lastRecordTime = DateTime.parse(lastRecord['recorded_at']);
+        lastRecordTime = DateTime.parse(lastRecord['recorded_at']).toLocal();
         lastRecordMinutesAgo = now.difference(lastRecordTime).inMinutes;
       }
       
@@ -304,7 +304,7 @@ class HealthService {
         final temp = _parseDouble(record['temperature']);
         if (temp != null) {
           temperatureData.add({
-            'time': DateTime.parse(record['recorded_at']),
+            'time': DateTime.parse(record['recorded_at']).toLocal(),
             'temperature': temp,
           });
         }

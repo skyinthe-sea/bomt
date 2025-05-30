@@ -309,8 +309,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
             durationMinutes: updatedRecord['duration_minutes'],
             side: updatedRecord['side'],
             notes: updatedRecord['notes'],
-            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']) : null,
-            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']) : null,
+            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']).toLocal() : null,
+            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']).toLocal() : null,
           );
           break;
         case RecordType.sleep:
@@ -320,8 +320,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
             quality: updatedRecord['quality'],
             location: updatedRecord['location'],
             notes: updatedRecord['notes'],
-            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']) : null,
-            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']) : null,
+            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']).toLocal() : null,
+            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']).toLocal() : null,
           );
           break;
         case RecordType.diaper:
@@ -331,7 +331,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
             color: updatedRecord['color'],
             consistency: updatedRecord['consistency'],
             notes: updatedRecord['notes'],
-            changedAt: updatedRecord['changed_at'] != null ? DateTime.parse(updatedRecord['changed_at']) : null,
+            changedAt: updatedRecord['changed_at'] != null ? DateTime.parse(updatedRecord['changed_at']).toLocal() : null,
           );
           break;
       }
@@ -784,7 +784,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
 
   Widget _buildFeedingRecord(Map<String, dynamic> record) {
     final theme = Theme.of(context);
-    final startedAt = DateTime.parse(record['started_at']);
+    final startedAt = DateTime.parse(record['started_at']).toLocal();
     final amount = record['amount_ml'] ?? 0;
     final type = record['type'] ?? '';
     final duration = record['duration_minutes'] ?? 0;
@@ -864,8 +864,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
 
   Widget _buildSleepRecord(Map<String, dynamic> record) {
     final theme = Theme.of(context);
-    final startedAt = DateTime.parse(record['started_at']);
-    final endedAt = record['ended_at'] != null ? DateTime.parse(record['ended_at']) : null;
+    final startedAt = DateTime.parse(record['started_at']).toLocal();
+    final endedAt = record['ended_at'] != null ? DateTime.parse(record['ended_at']).toLocal() : null;
     final duration = record['duration_minutes'] ?? 0;
     final quality = record['quality'] ?? '';
 
@@ -955,7 +955,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
 
   Widget _buildDiaperRecord(Map<String, dynamic> record) {
     final theme = Theme.of(context);
-    final changedAt = DateTime.parse(record['changed_at']);
+    final changedAt = DateTime.parse(record['changed_at']).toLocal();
     final type = record['type'] ?? '';
     final color = record['color'] ?? '';
 

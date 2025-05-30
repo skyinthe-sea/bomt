@@ -15,10 +15,10 @@ class BabyModel extends Baby {
     return BabyModel(
       id: json['id'] as String,
       name: json['name'] as String,
-      birthDate: DateTime.parse(json['birth_date'] as String),
+      birthDate: DateTime.parse(json['birth_date'] as String).toLocal(),
       gender: json['gender'] as String?,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
+      updatedAt: DateTime.parse(json['updated_at'] as String).toLocal(),
     );
   }
 

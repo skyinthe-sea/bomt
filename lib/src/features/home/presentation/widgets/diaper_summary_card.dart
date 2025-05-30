@@ -424,7 +424,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
     if (timestamp == null) return '';
     
     try {
-      final time = DateTime.parse(timestamp);
+      final time = DateTime.parse(timestamp).toLocal();
       final now = DateTime.now();
       final difference = now.difference(time);
       

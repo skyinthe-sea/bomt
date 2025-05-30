@@ -26,12 +26,15 @@ class BabyInfoCard extends StatelessWidget {
         : '${minutes}분 전';
     
     // 다음 수유 예정 시간 (약 4시간 주기로 가정)
-    final nextFeedingMinutes = (240 - lastFeedingMinutes).clamp(0, 240);
+    final feedingInterval = 240; // 4시간 = 240분
+    final nextFeedingMinutes = lastFeedingMinutes >= feedingInterval 
+        ? 0  // 이미 수유 시간이 지났으면 지금 수유 필요
+        : feedingInterval - lastFeedingMinutes;
     final nextHours = nextFeedingMinutes ~/ 60;
     final nextMinutes = nextFeedingMinutes % 60;
     
     // 진행률 계산 (0.0 ~ 1.0)
-    final progressValue = (lastFeedingMinutes / 240).clamp(0.0, 1.0);
+    final progressValue = (lastFeedingMinutes / feedingInterval).clamp(0.0, 1.0);
     
     return Container(
       padding: const EdgeInsets.all(20),
@@ -143,7 +146,13 @@ class BabyInfoCard extends StatelessWidget {
                           value: progressValue,
                           strokeWidth: 6,
                           backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
-                          valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            progressValue >= 1.0 
+                                ? Colors.orange 
+                                : progressValue >= 0.8 
+                                    ? Colors.orange[700]! 
+                                    : theme.colorScheme.primary
+                          ),
                         ),
                       ),
                       // 중앙 아이콘
@@ -187,7 +196,11 @@ class BabyInfoCard extends StatelessWidget {
                           widthFactor: progressValue,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: theme.colorScheme.primary,
+                              color: progressValue >= 1.0 
+                                  ? Colors.orange 
+                                  : progressValue >= 0.8 
+                                      ? Colors.orange[700]! 
+                                      : theme.colorScheme.primary,
                               borderRadius: BorderRadius.circular(3),
                             ),
                           ),
@@ -195,9 +208,18 @@ class BabyInfoCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '약 ${nextHours > 0 ? '${nextHours}시간 ' : ''}${nextMinutes}분 후 수유 예정',
+                        nextFeedingMinutes == 0 
+                            ? '지금 수유 시간입니다'
+                            : nextFeedingMinutes < 30
+                                ? '곧 수유 시간입니다 (${nextMinutes}분 후)'
+                                : '약 ${nextHours > 0 ? '${nextHours}시간 ' : ''}${nextMinutes}분 후 수유 예정',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.primary,
+                          color: nextFeedingMinutes == 0 
+                              ? Colors.orange
+                              : nextFeedingMinutes < 30 
+                                  ? Colors.orange[700]
+                                  : theme.colorScheme.primary,
+                          fontWeight: nextFeedingMinutes <= 30 ? FontWeight.w600 : FontWeight.normal,
                         ),
                       ),
                     ],

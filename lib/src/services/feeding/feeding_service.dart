@@ -136,7 +136,7 @@ class FeedingService {
         
         // 최근 수유 시간 계산
         final lastFeeding = response.first;
-        lastFeedingTime = DateTime.parse(lastFeeding['started_at']);
+        lastFeedingTime = DateTime.parse(lastFeeding['started_at']).toLocal();
         lastFeedingMinutesAgo = now.difference(lastFeedingTime).inMinutes;
       }
       

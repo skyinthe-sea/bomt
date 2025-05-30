@@ -37,10 +37,10 @@ class Feeding {
       durationMinutes: json['duration_minutes'],
       side: json['side'],
       notes: json['notes'],
-      startedAt: DateTime.parse(json['started_at']),
-      endedAt: json['ended_at'] != null ? DateTime.parse(json['ended_at']) : null,
-      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
-      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
+      startedAt: DateTime.parse(json['started_at']).toLocal(),
+      endedAt: json['ended_at'] != null ? DateTime.parse(json['ended_at']).toLocal() : null,
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']).toLocal() : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']).toLocal() : null,
     );
   }
 

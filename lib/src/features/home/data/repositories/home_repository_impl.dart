@@ -35,7 +35,7 @@ class HomeRepositoryImpl implements HomeRepository {
         
         // 최근 수유 시간 계산
         final lastFeeding = response.first;
-        lastFeedingTime = DateTime.parse(lastFeeding['started_at']);
+        lastFeedingTime = DateTime.parse(lastFeeding['started_at']).toLocal();
         lastFeedingMinutesAgo = now.difference(lastFeedingTime).inMinutes;
       }
       
@@ -201,7 +201,7 @@ class HomeRepositoryImpl implements HomeRepository {
       final minTemperature = temperatures.reduce((a, b) => a < b ? a : b);
       final maxTemperature = temperatures.reduce((a, b) => a > b ? a : b);
       final avgTemperature = temperatures.reduce((a, b) => a + b) / temperatures.length;
-      final latestRecordTime = DateTime.parse(response.first['recorded_at']);
+      final latestRecordTime = DateTime.parse(response.first['recorded_at']).toLocal();
       
       // 체온 상태 판단
       String status;
@@ -264,7 +264,7 @@ class HomeRepositoryImpl implements HomeRepository {
       final current = response.first;
       final currentWeight = _parseDouble(current['weight_kg']);
       final currentHeight = _parseDouble(current['height_cm']);
-      final lastRecordDate = DateTime.parse(current['recorded_at']);
+      final lastRecordDate = DateTime.parse(current['recorded_at']).toLocal();
       
       double? weightChange;
       double? heightChange;

@@ -45,8 +45,8 @@ class BabyGuide {
       singleFeedingMax: json['single_feeding_max'] as int?,
       message: json['message'] as String,
       policyInfo: json['policy_info'] as Map<String, dynamic>?,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
+      updatedAt: DateTime.parse(json['updated_at'] as String).toLocal(),
     );
   }
 
