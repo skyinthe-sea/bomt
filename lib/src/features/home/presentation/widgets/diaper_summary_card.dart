@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../presentation/providers/diaper_provider.dart';
+import '../../../../services/diaper/diaper_service.dart';
 import 'diaper_settings_dialog.dart';
-import 'swipeable_card.dart';
-import 'undo_snackbar.dart';
+import 'record_detail_overlay.dart';
 
 class DiaperSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
@@ -80,7 +80,62 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
     if (widget.onLongPress != null) {
       widget.onLongPress!();
     } else if (widget.diaperProvider != null) {
-      _showDiaperSettings();
+      _showDiaperRecords();
+    }
+  }
+
+  Future<void> _showDiaperRecords() async {
+    if (widget.diaperProvider == null) return;
+
+    // Get baby ID from the provider
+    final babyId = widget.diaperProvider!.currentBabyId;
+    if (babyId == null) return;
+
+    try {
+      // Fetch today's diaper records
+      final diapers = await DiaperService.instance.getTodayDiapers(babyId);
+      final diaperData = diapers.map((diaper) => diaper.toJson()).toList();
+
+      if (mounted) {
+        // Show the overlay
+        showDialog(
+          context: context,
+          barrierColor: Colors.transparent,
+          barrierDismissible: false,
+          builder: (context) => RecordDetailOverlay(
+            recordType: RecordType.diaper,
+            summary: widget.summary,
+            records: diaperData,
+            primaryColor: Colors.amber,
+            onClose: () => Navigator.of(context).pop(),
+            onRecordDeleted: () {
+              // Refresh the parent data
+              widget.diaperProvider?.refreshData();
+            },
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error fetching diaper records: $e');
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.error, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('기저귀 기록을 불러오는데 실패했습니다'),
+              ],
+            ),
+            backgroundColor: Colors.red[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+      }
     }
   }
 
@@ -168,34 +223,6 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
     );
   }
 
-  Future<void> _handleDelete() async {
-    final totalCount = widget.summary['totalCount'] ?? 0;
-    if (widget.diaperProvider == null || totalCount <= 0) {
-      return;
-    }
-
-    final success = await widget.diaperProvider!.deleteLatestDiaper();
-    
-    if (success && mounted) {
-      UndoSnackbar.showDiaperDeleted(
-        context: context,
-        onUndo: () async {
-          final undoSuccess = await widget.diaperProvider!.undoDelete();
-          if (undoSuccess && mounted) {
-            UndoSnackbar.showUndoSuccess(
-              context: context,
-              message: '기저귀 기록이 복원되었습니다',
-            );
-          }
-        },
-        onDismissed: () {
-          widget.diaperProvider?.clearUndoData();
-        },
-      );
-    } else if (!success && mounted) {
-      UndoSnackbar.showDeleteError(context: context);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -209,12 +236,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
     final isUpdating = widget.diaperProvider?.isUpdating ?? false;
     final hasRecentRecord = widget.diaperProvider?.hasRecentRecord ?? false;
 
-    return SwipeableCard(
-      onDelete: totalCount > 0 ? _handleDelete : null,
-      deleteConfirmMessage: '최근 기저귀 교체 기록을 삭제하시겠습니까?',
-      isDeletable: totalCount > 0 && !isUpdating,
-      deleteButtonColor: Colors.amber[600]!,
-      child: GestureDetector(
+    return GestureDetector(
       onTapDown: _handleTapDown,
       onTapUp: _handleTapUp,
       onTapCancel: _handleTapCancel,
@@ -363,7 +385,6 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
           );
         },
       ),
-    ),
     );
   }
 

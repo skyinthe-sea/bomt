@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
-import 'sleep_settings_dialog.dart';
-import 'swipeable_card.dart';
-import 'undo_snackbar.dart';
+import '../../../../services/sleep/sleep_service.dart';
+import 'record_detail_overlay.dart';
 
 class SleepSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
@@ -81,7 +79,62 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
     if (widget.onLongPress != null) {
       widget.onLongPress!();
     } else if (widget.sleepProvider != null) {
-      _showSleepSettings();
+      _showSleepRecords();
+    }
+  }
+
+  Future<void> _showSleepRecords() async {
+    if (widget.sleepProvider == null) return;
+
+    // Get baby ID from the provider
+    final babyId = widget.sleepProvider!.currentBabyId;
+    if (babyId == null) return;
+
+    try {
+      // Fetch today's sleep records
+      final sleeps = await SleepService.instance.getTodaySleeps(babyId);
+      final sleepData = sleeps.map((sleep) => sleep.toJson()).toList();
+
+      if (mounted) {
+        // Show the overlay
+        showDialog(
+          context: context,
+          barrierColor: Colors.transparent,
+          barrierDismissible: false,
+          builder: (context) => RecordDetailOverlay(
+            recordType: RecordType.sleep,
+            summary: widget.summary,
+            records: sleepData,
+            primaryColor: Colors.purple,
+            onClose: () => Navigator.of(context).pop(),
+            onRecordDeleted: () {
+              // Refresh the parent data
+              widget.sleepProvider?.refreshData();
+            },
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error fetching sleep records: $e');
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.error, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('수면 기록을 불러오는데 실패했습니다'),
+              ],
+            ),
+            backgroundColor: Colors.red[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+      }
     }
   }
 
@@ -138,94 +191,20 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
     }
   }
 
-  void _showSleepSettings() {
-    if (widget.sleepProvider == null) return;
 
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) => SleepSettingsDialog(
-        currentDefaults: widget.sleepProvider!.sleepDefaults,
-        onSave: (settings) async {
-          await widget.sleepProvider!.saveSleepDefaults(
-            durationMinutes: settings['durationMinutes'],
-            quality: settings['quality'],
-            location: settings['location'],
-          );
-
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Row(
-                  children: [
-                    Icon(Icons.settings, color: Colors.white, size: 20),
-                    SizedBox(width: 8),
-                    Text('수면 설정이 저장되었습니다'),
-                  ],
-                ),
-                backgroundColor: Colors.purple[600],
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  Future<void> _handleDelete() async {
-    final count = widget.summary['count'] ?? 0;
-    if (widget.sleepProvider == null || count <= 0) {
-      return;
-    }
-
-    final success = await widget.sleepProvider!.deleteLatestSleep();
-    
-    if (success && mounted) {
-      UndoSnackbar.showSleepDeleted(
-        context: context,
-        onUndo: () async {
-          final undoSuccess = await widget.sleepProvider!.undoDelete();
-          if (undoSuccess && mounted) {
-            UndoSnackbar.showUndoSuccess(
-              context: context,
-              message: '수면 기록이 복원되었습니다',
-            );
-          }
-        },
-        onDismissed: () {
-          widget.sleepProvider?.clearUndoData();
-        },
-      );
-    } else if (!success && mounted) {
-      UndoSnackbar.showDeleteError(context: context);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
     final isDark = theme.brightness == Brightness.dark;
     
     final count = widget.summary['count'] ?? 0;
     final totalHours = widget.summary['totalHours'] ?? 0;
     final remainingMinutes = widget.summary['remainingMinutes'] ?? 0;
-    final lastSleepMinutesAgo = widget.summary['lastSleepMinutesAgo'];
     final isUpdating = widget.sleepProvider?.isUpdating ?? false;
     final hasActiveSleep = widget.sleepProvider?.hasActiveSleep ?? false;
-    final hasRecentRecord = widget.sleepProvider?.hasRecentRecord ?? false;
 
-    return SwipeableCard(
-      onDelete: count > 0 ? _handleDelete : null,
-      deleteConfirmMessage: widget.sleepProvider?.getDeleteConfirmMessage() ?? '최근 수면 기록을 삭제하시겠습니까?',
-      isDeletable: count > 0 && !isUpdating,
-      deleteButtonColor: Colors.purple[600]!,
-      child: GestureDetector(
+    return GestureDetector(
       onTapDown: _handleTapDown,
       onTapUp: _handleTapUp,
       onTapCancel: _handleTapCancel,
@@ -373,7 +352,6 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
           );
         },
       ),
-    ),
     );
   }
 }

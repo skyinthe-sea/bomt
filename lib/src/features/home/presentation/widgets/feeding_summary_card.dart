@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../presentation/providers/feeding_provider.dart';
+import '../../../../services/feeding/feeding_service.dart';
 import 'feeding_settings_dialog.dart';
-import 'swipeable_card.dart';
-import 'undo_snackbar.dart';
+import 'record_detail_overlay.dart';
 
 class FeedingSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
@@ -81,7 +81,62 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
     if (widget.onLongPress != null) {
       widget.onLongPress!();
     } else if (widget.feedingProvider != null) {
-      _showFeedingSettings();
+      _showFeedingRecords();
+    }
+  }
+
+  Future<void> _showFeedingRecords() async {
+    if (widget.feedingProvider == null) return;
+
+    // Get baby ID from the provider
+    final babyId = widget.feedingProvider!.currentBabyId;
+    if (babyId == null) return;
+
+    try {
+      // Fetch today's feeding records
+      final feedings = await FeedingService.instance.getTodayFeedings(babyId);
+      final feedingData = feedings.map((feeding) => feeding.toJson()).toList();
+
+      if (mounted) {
+        // Show the overlay
+        showDialog(
+          context: context,
+          barrierColor: Colors.transparent,
+          barrierDismissible: false,
+          builder: (context) => RecordDetailOverlay(
+            recordType: RecordType.feeding,
+            summary: widget.summary,
+            records: feedingData,
+            primaryColor: Colors.blue,
+            onClose: () => Navigator.of(context).pop(),
+            onRecordDeleted: () {
+              // Refresh the parent data
+              widget.feedingProvider?.refreshData();
+            },
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error fetching feeding records: $e');
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.error, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('수유 기록을 불러오는데 실패했습니다'),
+              ],
+            ),
+            backgroundColor: Colors.red[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+      }
     }
   }
 
@@ -170,36 +225,6 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
     );
   }
 
-  Future<void> _handleDelete() async {
-    final count = widget.summary['count'] ?? 0;
-    if (widget.feedingProvider == null || count <= 0) {
-      return;
-    }
-
-    final success = await widget.feedingProvider!.deleteLatestFeeding();
-    
-    if (success && mounted) {
-      // 언두 스낵바 표시
-      UndoSnackbar.showFeedingDeleted(
-        context: context,
-        onUndo: () async {
-          final undoSuccess = await widget.feedingProvider!.undoDelete();
-          if (undoSuccess && mounted) {
-            UndoSnackbar.showUndoSuccess(
-              context: context,
-              message: '수유 기록이 복원되었습니다',
-            );
-          }
-        },
-        onDismissed: () {
-          // 3초 후 언두 데이터 자동 클리어
-          widget.feedingProvider?.clearUndoData();
-        },
-      );
-    } else if (!success && mounted) {
-      UndoSnackbar.showDeleteError(context: context);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,12 +238,7 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
     final isUpdating = widget.feedingProvider?.isUpdating ?? false;
     final hasRecentRecord = widget.feedingProvider?.hasRecentRecord ?? false;
 
-    return SwipeableCard(
-      onDelete: count > 0 ? _handleDelete : null,
-      deleteConfirmMessage: '최근 수유 기록을 삭제하시겠습니까?',
-      isDeletable: count > 0 && !isUpdating,
-      deleteButtonColor: Colors.blue[600]!,
-      child: GestureDetector(
+    return GestureDetector(
       onTapDown: _handleTapDown,
       onTapUp: _handleTapUp,
       onTapCancel: _handleTapCancel,
@@ -357,7 +377,6 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
           );
         },
       ),
-    ),
     );
   }
 }
