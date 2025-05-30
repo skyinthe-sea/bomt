@@ -112,6 +112,10 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
               // Refresh the parent data
               widget.diaperProvider?.refreshData();
             },
+            onRecordUpdated: () {
+              // Refresh the parent data
+              widget.diaperProvider?.refreshData();
+            },
           ),
         );
       }

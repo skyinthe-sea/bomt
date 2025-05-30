@@ -113,6 +113,10 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
               // Refresh the parent data
               widget.feedingProvider?.refreshData();
             },
+            onRecordUpdated: () {
+              // Refresh the parent data
+              widget.feedingProvider?.refreshData();
+            },
           ),
         );
       }

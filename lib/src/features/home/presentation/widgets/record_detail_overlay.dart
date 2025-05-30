@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import '../../../../services/feeding/feeding_service.dart';
 import '../../../../services/sleep/sleep_service.dart';
 import '../../../../services/diaper/diaper_service.dart';
+import 'edit_record_dialog.dart';
 
 enum RecordType { feeding, sleep, diaper }
 
@@ -13,6 +14,7 @@ class RecordDetailOverlay extends StatefulWidget {
   final VoidCallback onClose;
   final Color primaryColor;
   final VoidCallback? onRecordDeleted;
+  final VoidCallback? onRecordUpdated;
 
   const RecordDetailOverlay({
     super.key,
@@ -22,6 +24,7 @@ class RecordDetailOverlay extends StatefulWidget {
     required this.onClose,
     required this.primaryColor,
     this.onRecordDeleted,
+    this.onRecordUpdated,
   });
 
   @override
@@ -52,17 +55,17 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
     _localRecords = List.from(widget.records);
     
     _overlayController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 200),
       vsync: this,
     );
     
     _cardController = AnimationController(
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 250),
       vsync: this,
     );
     
     _listController = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
@@ -113,11 +116,11 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
     HapticFeedback.mediumImpact();
     _overlayController.forward();
     
-    Future.delayed(const Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 80), () {
       _cardController.forward();
     });
     
-    Future.delayed(const Duration(milliseconds: 300), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       _listController.forward();
     });
   }
@@ -276,6 +279,134 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
         return Icons.bedtime;
       case RecordType.diaper:
         return Icons.child_care;
+    }
+  }
+
+  Future<void> _showEditDialog(Map<String, dynamic> record) async {
+    HapticFeedback.lightImpact();
+    
+    await showDialog(
+      context: context,
+      builder: (context) => EditRecordDialog(
+        recordType: widget.recordType,
+        record: record,
+        onSave: (updatedRecord) => _updateRecord(updatedRecord),
+      ),
+    );
+  }
+
+  Future<void> _updateRecord(Map<String, dynamic> updatedRecord) async {
+    try {
+      Object? result;
+      final recordId = updatedRecord['id'] as String;
+
+      switch (widget.recordType) {
+        case RecordType.feeding:
+          result = await FeedingService.instance.updateFeeding(
+            feedingId: recordId,
+            type: updatedRecord['type'],
+            amountMl: updatedRecord['amount_ml'],
+            durationMinutes: updatedRecord['duration_minutes'],
+            side: updatedRecord['side'],
+            notes: updatedRecord['notes'],
+            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']) : null,
+            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']) : null,
+          );
+          break;
+        case RecordType.sleep:
+          result = await SleepService.instance.updateSleep(
+            sleepId: recordId,
+            durationMinutes: updatedRecord['duration_minutes'],
+            quality: updatedRecord['quality'],
+            location: updatedRecord['location'],
+            notes: updatedRecord['notes'],
+            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']) : null,
+            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']) : null,
+          );
+          break;
+        case RecordType.diaper:
+          result = await DiaperService.instance.updateDiaper(
+            diaperId: recordId,
+            type: updatedRecord['type'],
+            color: updatedRecord['color'],
+            consistency: updatedRecord['consistency'],
+            notes: updatedRecord['notes'],
+            changedAt: updatedRecord['changed_at'] != null ? DateTime.parse(updatedRecord['changed_at']) : null,
+          );
+          break;
+      }
+      
+      final success = result != null;
+
+      if (success && mounted) {
+        // Update local record
+        setState(() {
+          final index = _localRecords.indexWhere((r) => r['id'] == recordId);
+          if (index != -1) {
+            _localRecords[index] = updatedRecord;
+          }
+        });
+
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text('${_getRecordTitle()} 기록이 수정되었습니다'),
+              ],
+            ),
+            backgroundColor: Colors.green[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+
+        // Notify parent to refresh data
+        widget.onRecordUpdated?.call();
+      } else if (mounted) {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.error, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('기록 수정에 실패했습니다'),
+              ],
+            ),
+            backgroundColor: Colors.red[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error updating record: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.error, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('기록 수정 중 오류가 발생했습니다'),
+              ],
+            ),
+            backgroundColor: Colors.red[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+      }
     }
   }
 
@@ -605,7 +736,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                     _deleteRecord(record);
                   },
                   child: GestureDetector(
-                    onTap: () {}, // Prevent close when tapping on items
+                    onTap: () => _showEditDialog(record),
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(

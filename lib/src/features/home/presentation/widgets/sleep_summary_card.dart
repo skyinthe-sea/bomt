@@ -111,6 +111,10 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
               // Refresh the parent data
               widget.sleepProvider?.refreshData();
             },
+            onRecordUpdated: () {
+              // Refresh the parent data
+              widget.sleepProvider?.refreshData();
+            },
           ),
         );
       }
