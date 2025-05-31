@@ -120,10 +120,12 @@ class SleepService {
       };
       
       if (response.isNotEmpty) {
-        // 총 수면 시간 및 품질별 계산
+        // 총 수면 시간 및 품질별 계산 (완료된 수면만 포함)
         for (var sleep in response) {
+          // 완료된 수면만 총 시간에 포함 (ended_at이 있는 경우)
+          final endedAt = sleep['ended_at'];
           final duration = sleep['duration_minutes'] as int?;
-          if (duration != null && duration > 0) {
+          if (endedAt != null && duration != null && duration > 0) {
             totalMinutes += duration;
           }
           

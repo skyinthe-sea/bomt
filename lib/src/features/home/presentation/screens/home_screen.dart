@@ -642,6 +642,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                     child: FeedingSummaryCard(
                                       summary: _feedingSummary,
                                       feedingProvider: _feedingProvider,
+                                      sleepProvider: _sleepProvider,
                                     ),
                                   ),
                                   const SizedBox(width: 6),
@@ -656,6 +657,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                     child: DiaperSummaryCard(
                                       summary: _diaperSummary,
                                       diaperProvider: _diaperProvider,
+                                      sleepProvider: _sleepProvider,
                                     ),
                                   ),
                                 ],

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../presentation/providers/diaper_provider.dart';
+import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../services/diaper/diaper_service.dart';
+import '../../../../services/sleep/sleep_interruption_service.dart';
 import 'diaper_settings_dialog.dart';
 import 'record_detail_overlay.dart';
 
 class DiaperSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
   final DiaperProvider? diaperProvider;
+  final SleepProvider? sleepProvider;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
 
@@ -15,6 +18,7 @@ class DiaperSummaryCard extends StatefulWidget {
     super.key,
     required this.summary,
     this.diaperProvider,
+    this.sleepProvider,
     this.onTap,
     this.onLongPress,
   });
@@ -146,6 +150,23 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
   Future<void> _handleQuickDiaper() async {
     if (widget.diaperProvider == null) return;
 
+    // 수면 중단 확인 로직
+    if (widget.sleepProvider?.hasActiveSleep == true) {
+      final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
+        context: context,
+        sleepProvider: widget.sleepProvider!,
+        activityName: '기저귀 교체',
+        onProceed: () => _addQuickDiaper(),
+      );
+      
+      if (!shouldProceed) return;
+    } else {
+      // 진행 중인 수면이 없으면 바로 기저귀 교체 추가
+      await _addQuickDiaper();
+    }
+  }
+
+  Future<void> _addQuickDiaper() async {
     final success = await widget.diaperProvider!.addQuickDiaper();
     
     if (mounted) {

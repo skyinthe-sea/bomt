@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../presentation/providers/feeding_provider.dart';
+import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../services/feeding/feeding_service.dart';
+import '../../../../services/sleep/sleep_interruption_service.dart';
 import 'feeding_settings_dialog.dart';
 import 'record_detail_overlay.dart';
 
 class FeedingSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
   final FeedingProvider? feedingProvider;
+  final SleepProvider? sleepProvider;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   
@@ -16,6 +19,7 @@ class FeedingSummaryCard extends StatefulWidget {
     super.key,
     required this.summary,
     this.feedingProvider,
+    this.sleepProvider,
     this.onTap,
     this.onLongPress,
   });
@@ -147,6 +151,23 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
   Future<void> _handleQuickFeeding() async {
     if (widget.feedingProvider == null) return;
 
+    // 수면 중단 확인 로직
+    if (widget.sleepProvider?.hasActiveSleep == true) {
+      final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
+        context: context,
+        sleepProvider: widget.sleepProvider!,
+        activityName: '수유',
+        onProceed: () => _addQuickFeeding(),
+      );
+      
+      if (!shouldProceed) return;
+    } else {
+      // 진행 중인 수면이 없으면 바로 수유 추가
+      await _addQuickFeeding();
+    }
+  }
+
+  Future<void> _addQuickFeeding() async {
     final success = await widget.feedingProvider!.addQuickFeeding();
     
     if (mounted) {
