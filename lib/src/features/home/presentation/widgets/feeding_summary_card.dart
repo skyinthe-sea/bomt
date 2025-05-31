@@ -326,51 +326,38 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
                   ),
                   const SizedBox(height: 12),
                   
-                  // 메인 콘텐츠 - 좌우 레이아웃
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  // 메인 콘텐츠 - 3줄 세로 레이아웃
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // 왼쪽: 메인 수치
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '$count회',
-                              style: theme.textTheme.headlineLarge?.copyWith(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onSurface,
-                              ),
+                      // 두번째 줄: 횟수 (왼쪽 정렬)
+                      Row(
+                        children: [
+                          Text(
+                            '$count회',
+                            style: theme.textTheme.headlineLarge?.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
+                      const SizedBox(height: 8),
                       
-                      // 오른쪽: 부가 정보
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              '${totalAmount}ml',
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.blue[700],
-                              ),
+                      // 세번째 줄: 총 수유량 (오른쪽 정렬)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            '총 ${totalAmount}ml',
+                            style: theme.textTheme.titleLarge?.copyWith(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.blue[700],
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              '총 수유량',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

@@ -292,60 +292,49 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                   ),
                   const SizedBox(height: 12),
                   
-                  // 메인 콘텐츠 - 좌우 레이아웃
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  // 메인 콘텐츠 - 3줄 세로 레이아웃
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // 왼쪽: 메인 수치
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '$count회',
-                              style: theme.textTheme.headlineLarge?.copyWith(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onSurface,
-                              ),
-                            ),
-                            if (hasActiveSleep)
-                              Text(
-                                '진행 중: ${widget.sleepProvider?.getActiveSleepDuration() ?? ''}',
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: Colors.green[700],
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                          ],
-                        ),
-                      ),
-                      
-                      // 오른쪽: 부가 정보
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              '${totalHours}시간 ${remainingMinutes}분',
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.purple[700],
-                              ),
-                            ),
-                          const SizedBox(height: 2),
+                      // 두번째 줄: 횟수 (왼쪽 정렬)
+                      Row(
+                        children: [
                           Text(
-                            '총 수면시간',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
+                            '$count회',
+                            style: theme.textTheme.headlineLarge?.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          if (hasActiveSleep) ...[
+                            const SizedBox(width: 8),
+                            Text(
+                              '진행 중',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: Colors.green[700],
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ]
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      
+                      // 세번째 줄: 총 수면시간 (오른쪽 정렬)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            '총 ${totalHours}시간 ${remainingMinutes}분',
+                            style: theme.textTheme.titleLarge?.copyWith(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.purple[700],
                             ),
                           ),
                         ],
-                        ),
                       ),
                     ],
                   ),

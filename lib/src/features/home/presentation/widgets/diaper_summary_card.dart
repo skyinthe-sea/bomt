@@ -324,61 +324,53 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                   ),
                   const SizedBox(height: 12),
                   
-                  // 메인 콘텐츠 - 좌우 레이아웃
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  // 메인 콘텐츠 - 3줄 세로 레이아웃
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // 왼쪽: 메인 수치
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${totalCount}회',
-                              style: theme.textTheme.headlineLarge?.copyWith(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onSurface,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      
-                      // 오른쪽: 부가 정보
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                          if (bothCount > 0)
-                            Text(
-                              '소변+대변 ${bothCount}회',
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.purple[700],
-                              ),
-                            ),
-                          if (wetCount > 0 || dirtyCount > 0)
-                            Text(
-                              '소변 ${wetCount}회, 대변 ${dirtyCount}회',
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.amber[700],
-                              ),
-                            ),
-                          const SizedBox(height: 2),
+                      // 두번째 줄: 횟수 (왼쪽 정렬)
+                      Row(
+                        children: [
                           Text(
-                            '총 교체횟수',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
+                            '${totalCount}회',
+                            style: theme.textTheme.headlineLarge?.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
                             ),
                           ),
                         ],
-                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      
+                      // 세번째 줄: 총 교체 세부사항 (오른쪽 정렬)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              if (bothCount > 0)
+                                Text(
+                                  '총 소+대 ${bothCount}회',
+                                  style: theme.textTheme.titleLarge?.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.purple[700],
+                                  ),
+                                ),
+                              if (wetCount > 0 || dirtyCount > 0)
+                                Text(
+                                  '총 소${wetCount}, 대${dirtyCount}',
+                                  style: theme.textTheme.titleLarge?.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.amber[700],
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),
