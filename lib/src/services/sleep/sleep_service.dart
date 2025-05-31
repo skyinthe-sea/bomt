@@ -66,22 +66,47 @@ class SleepService {
       
       final now = DateTime.now();
       final sleepStartTime = startedAt ?? now;
-      final duration = durationMinutes ?? defaults['durationMinutes'];
-      final sleepEndTime = endedAt ?? sleepStartTime.add(Duration(minutes: duration));
       
-      final sleepData = {
-        'id': _uuid.v4(),
-        'baby_id': babyId,
-        'user_id': userId,
-        'duration_minutes': duration,
-        'quality': quality ?? defaults['quality'],
-        'location': location ?? defaults['location'],
-        'notes': notes,
-        'started_at': sleepStartTime.toIso8601String(),
-        'ended_at': sleepEndTime.toIso8601String(),
-        'created_at': now.toIso8601String(),
-        'updated_at': now.toIso8601String(),
-      };
+      // 진행 중인 수면인지 완료된 수면인지 구분
+      final isActiveSleep = endedAt == null;
+      
+      Map<String, dynamic> sleepData;
+      
+      if (isActiveSleep) {
+        // 진행 중인 수면: duration과 ended_at은 null
+        sleepData = {
+          'id': _uuid.v4(),
+          'baby_id': babyId,
+          'user_id': userId,
+          'duration_minutes': null,
+          'quality': quality ?? defaults['quality'],
+          'location': location ?? defaults['location'],
+          'notes': notes,
+          'started_at': sleepStartTime.toIso8601String(),
+          'ended_at': null,
+          'created_at': now.toIso8601String(),
+          'updated_at': now.toIso8601String(),
+        };
+      } else {
+        // 완료된 수면: duration 계산 또는 기본값 사용
+        final duration = durationMinutes ?? defaults['durationMinutes'];
+        final sleepEndTime = endedAt ?? sleepStartTime.add(Duration(minutes: duration));
+        final actualDuration = durationMinutes ?? sleepEndTime.difference(sleepStartTime).inMinutes;
+        
+        sleepData = {
+          'id': _uuid.v4(),
+          'baby_id': babyId,
+          'user_id': userId,
+          'duration_minutes': actualDuration,
+          'quality': quality ?? defaults['quality'],
+          'location': location ?? defaults['location'],
+          'notes': notes,
+          'started_at': sleepStartTime.toIso8601String(),
+          'ended_at': sleepEndTime.toIso8601String(),
+          'created_at': now.toIso8601String(),
+          'updated_at': now.toIso8601String(),
+        };
+      }
       
       final response = await _supabase
           .from('sleeps')
@@ -100,13 +125,15 @@ class SleepService {
   Future<Map<String, dynamic>> getTodaySleepSummary(String babyId) async {
     try {
       final now = DateTime.now();
-      final startOfDay = DateTime(now.year, now.month, now.day);
+      final today = DateTime(now.year, now.month, now.day);
+      final tomorrow = today.add(const Duration(days: 1));
       
       final response = await _supabase
           .from('sleeps')
           .select('started_at, ended_at, duration_minutes, quality')
           .eq('baby_id', babyId)
-          .gte('started_at', startOfDay.toIso8601String())
+          .gte('started_at', today.toUtc().toIso8601String())
+          .lt('started_at', tomorrow.toUtc().toIso8601String())
           .order('started_at', ascending: false);
       
       int count = response.length;
@@ -123,10 +150,25 @@ class SleepService {
         // 총 수면 시간 및 품질별 계산 (완료된 수면만 포함)
         for (var sleep in response) {
           // 완료된 수면만 총 시간에 포함 (ended_at이 있는 경우)
-          final endedAt = sleep['ended_at'];
-          final duration = sleep['duration_minutes'] as int?;
-          if (endedAt != null && duration != null && duration > 0) {
-            totalMinutes += duration;
+          final startedAtStr = sleep['started_at'] as String?;
+          final endedAtStr = sleep['ended_at'] as String?;
+          
+          if (startedAtStr != null && endedAtStr != null) {
+            try {
+              final startedAt = DateTime.parse(startedAtStr);
+              final endedAt = DateTime.parse(endedAtStr);
+              
+              // 초 단위로 계산한 후 분으로 변환 (더 정확한 계산)
+              final durationSeconds = endedAt.difference(startedAt).inSeconds;
+              final actualDurationMinutes = (durationSeconds / 60.0).round();
+              
+              // 실제 수면 시간이 0분 이상인 경우만 포함
+              if (actualDurationMinutes > 0) {
+                totalMinutes += actualDurationMinutes;
+              }
+            } catch (e) {
+              debugPrint('Error parsing sleep times: $e');
+            }
           }
           
           final quality = sleep['quality'] as String?;
@@ -176,13 +218,15 @@ class SleepService {
   Future<List<Sleep>> getTodaySleeps(String babyId) async {
     try {
       final now = DateTime.now();
-      final startOfDay = DateTime(now.year, now.month, now.day);
+      final today = DateTime(now.year, now.month, now.day);
+      final tomorrow = today.add(const Duration(days: 1));
       
       final response = await _supabase
           .from('sleeps')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('started_at', startOfDay.toIso8601String())
+          .gte('started_at', today.toUtc().toIso8601String())
+          .lt('started_at', tomorrow.toUtc().toIso8601String())
           .order('started_at', ascending: false);
       
       return response.map((json) => Sleep.fromJson(json)).toList();

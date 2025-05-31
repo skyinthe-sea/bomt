@@ -20,6 +20,7 @@ import '../widgets/temperature_summary_card.dart';
 import '../widgets/growth_info_card.dart';
 import '../../../../domain/models/baby.dart';
 import '../../data/repositories/home_repository_impl.dart';
+import '../../../../services/growth/growth_service.dart';
 import '../../../../services/baby_guide/baby_guide_service.dart';
 import '../../../../domain/models/baby_guide.dart';
 import '../widgets/baby_guide_alert.dart';
@@ -47,6 +48,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final _homeRepository = HomeRepositoryImpl();
   final _babyGuideService = BabyGuideService.instance;
+  final _growthService = GrowthService.instance;
   final _feedingProvider = FeedingProvider();
   final _sleepProvider = SleepProvider();
   final _diaperProvider = DiaperProvider();
@@ -453,6 +455,77 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
   
+  /// 성장 기록 추가
+  Future<void> _addGrowthRecord(String type, double value, String? notes) async {
+    if (_currentBaby == null || _currentUserId == null) return;
+    
+    try {
+      final result = await _growthService.addSingleMeasurement(
+        babyId: _currentBaby!.id,
+        userId: _currentUserId!,
+        type: type,
+        value: value,
+        notes: notes,
+      );
+      
+      if (result != null) {
+        // 성장 데이터 새로고침
+        final growthSummary = await _homeRepository.getGrowthSummary(_currentBaby!.id);
+        
+        if (mounted) {
+          setState(() {
+            _growthSummary = growthSummary;
+          });
+          
+          // 성공 메시지 표시
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  Icon(
+                    type == 'weight' ? Icons.monitor_weight : Icons.height,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Text('${type == 'weight' ? '체중' : '키'} 정보가 기록되었습니다'),
+                ],
+              ),
+              backgroundColor: type == 'weight' ? Colors.purple : Colors.green,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          );
+        }
+      } else {
+        throw Exception('성장 기록 저장에 실패했습니다');
+      }
+    } catch (e) {
+      debugPrint('Error adding growth record: $e');
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.error, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('성장 기록 저장 중 오류가 발생했습니다'),
+              ],
+            ),
+            backgroundColor: Colors.red[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+      }
+    }
+  }
+  
   Future<String?> _getUserId() async {
     try {
       // 카카오 로그인된 사용자 정보 가져오기
@@ -711,7 +784,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-                        child: GrowthInfoCard(summary: _growthSummary),
+                        child: GrowthInfoCard(
+                          summary: _growthSummary,
+                          onAddRecord: _addGrowthRecord,
+                        ),
                       ),
                     ),
                   ],

@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'growth_record_input_dialog.dart';
 
 class GrowthInfoCard extends StatelessWidget {
   final Map<String, dynamic> summary;
+  final Future<void> Function(String type, double value, String? notes)? onAddRecord;
 
   const GrowthInfoCard({
     super.key,
     required this.summary,
+    this.onAddRecord,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final latestWeight = summary['latestWeight'] ?? 7.2;
-    final latestHeight = summary['latestHeight'] ?? 67.0;
-    final weightChange = summary['weightChange'] ?? 0.12;
-    final heightChange = summary['heightChange'] ?? 1.5;
+    final latestWeight = summary['latestWeight'];
+    final latestHeight = summary['latestHeight'];
+    final weightChange = summary['weightChange'] ?? 0.0;
+    final heightChange = summary['heightChange'] ?? 0.0;
+    final weightTimePeriod = summary['weightTimePeriod'];
+    final heightTimePeriod = summary['heightTimePeriod'];
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -35,10 +40,13 @@ class GrowthInfoCard extends StatelessWidget {
             child: _buildGrowthItem(
               context,
               '체중',
-              latestWeight,
+              latestWeight ?? 0.0,
               'kg',
               weightChange,
-              Colors.purple,
+              const Color(0xFFAB47BC), // 라벤더 파스텔
+              'weight',
+              hasValue: latestWeight != null && latestWeight > 0,
+              timePeriod: weightTimePeriod,
             ),
           ),
           Container(
@@ -51,10 +59,13 @@ class GrowthInfoCard extends StatelessWidget {
             child: _buildGrowthItem(
               context,
               '키',
-              latestHeight,
+              latestHeight ?? 0.0,
               'cm',
               heightChange,
-              Colors.green,
+              const Color(0xFF66BB6A), // 민트 파스텔
+              'height',
+              hasValue: latestHeight != null && latestHeight > 0,
+              timePeriod: heightTimePeriod,
             ),
           ),
         ],
@@ -69,93 +80,137 @@ class GrowthInfoCard extends StatelessWidget {
     String unit,
     double change,
     Color color,
-  ) {
+    String type, {
+    bool hasValue = true,
+    String? timePeriod,
+  }) {
     final theme = Theme.of(context);
     final isPositive = change >= 0;
     
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          label,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurface.withOpacity(0.7),
-            fontWeight: FontWeight.w600,
-          ),
+    return InkWell(
+      onTap: onAddRecord != null ? () => _showGrowthInputDialog(context, type, hasValue ? value : 0.0) : null,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: !hasValue && onAddRecord != null 
+              ? color.withOpacity(0.02) 
+              : Colors.transparent,
         ),
-        const SizedBox(height: 8),
-        Text(
-          '${value.toStringAsFixed(1)} $unit',
-          style: theme.textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 8),
-        if (change != 0)
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: (isPositive ? Colors.green : Colors.red).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  isPositive ? Icons.arrow_upward : Icons.arrow_downward,
-                  size: 12,
-                  color: isPositive ? Colors.green : Colors.red,
-                ),
-                const SizedBox(width: 2),
                 Text(
-                  '${isPositive ? '+' : '-'}${change.abs().toStringAsFixed(change < 1 ? 3 : 1)}$unit ${unit == 'kg' ? '(2주)' : '(1개월)'}',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: isPositive ? Colors.green : Colors.red,
+                  label,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurface.withOpacity(0.7),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+                if (onAddRecord != null) ...[
+                  const SizedBox(width: 4),
+                  Icon(
+                    hasValue ? Icons.add_circle_outline : Icons.add,
+                    size: hasValue ? 16 : 18,
+                    color: hasValue ? color.withOpacity(0.7) : color,
+                  ),
+                ],
               ],
             ),
-          )
-        else
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.onSurface.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              '변화 없음',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+            const SizedBox(height: 8),
+            if (hasValue)
+              Text(
+                '${value.toStringAsFixed(1)} $unit',
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            else
+              Text(
+                '-- $unit',
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.onSurface.withOpacity(0.4),
+                ),
               ),
-            ),
-          ),
-      ],
+            const SizedBox(height: 8),
+            if (hasValue && change != 0)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: (isPositive ? Colors.green : Colors.red).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      isPositive ? Icons.arrow_upward : Icons.arrow_downward,
+                      size: 12,
+                      color: isPositive ? Colors.green : Colors.red,
+                    ),
+                    const SizedBox(width: 2),
+                    Text(
+                      '${isPositive ? '+' : '-'}${change.abs().toStringAsFixed(change < 1 ? 3 : 1)}$unit ${timePeriod ?? ''}',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: isPositive ? Colors.green : Colors.red,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else if (hasValue)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.onSurface.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '변화 없음',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurface.withOpacity(0.7),
+                  ),
+                ),
+              )
+            else
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '첫 기록',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 
-  String _formatDate(String? timestamp) {
-    if (timestamp == null) return '';
-    
-    try {
-      final date = DateTime.parse(timestamp).toLocal();
-      final now = DateTime.now();
-      final difference = now.difference(date);
-      
-      if (difference.inDays == 0) {
-        return '오늘';
-      } else if (difference.inDays == 1) {
-        return '어제';
-      } else if (difference.inDays < 7) {
-        return '${difference.inDays}일 전';
-      } else if (difference.inDays < 30) {
-        return '${(difference.inDays / 7).floor()}주 전';
-      } else {
-        return '${(difference.inDays / 30).floor()}개월 전';
-      }
-    } catch (e) {
-      return '';
-    }
+  void _showGrowthInputDialog(BuildContext context, String type, double currentValue) {
+    showDialog(
+      context: context,
+      builder: (context) => GrowthRecordInputDialog(
+        initialType: type,
+        initialValue: currentValue,
+        onSave: (type, value, notes) async {
+          if (onAddRecord != null) {
+            await onAddRecord!(type, value, notes);
+          }
+        },
+      ),
+    );
   }
 }
