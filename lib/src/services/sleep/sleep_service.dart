@@ -122,8 +122,9 @@ class SleepService {
       if (response.isNotEmpty) {
         // 총 수면 시간 및 품질별 계산
         for (var sleep in response) {
-          if (sleep['duration_minutes'] != null) {
-            totalMinutes += sleep['duration_minutes'] as int;
+          final duration = sleep['duration_minutes'] as int?;
+          if (duration != null && duration > 0) {
+            totalMinutes += duration;
           }
           
           final quality = sleep['quality'] as String?;
@@ -266,23 +267,24 @@ class SleepService {
     try {
       final endDateTime = endTime ?? DateTime.now();
       
+      // 먼저 현재 수면 기록을 가져와서 시작 시간을 확인
+      final currentSleepResponse = await _supabase
+          .from('sleeps')
+          .select('started_at')
+          .eq('id', sleepId)
+          .single();
+      
+      // UTC 시간으로 duration 계산
+      final startedAtUtc = DateTime.parse(currentSleepResponse['started_at']).toUtc();
+      final endDateTimeUtc = endDateTime.toUtc();
+      final calculatedDuration = endDateTimeUtc.difference(startedAtUtc).inMinutes;
+      // 최소 1분으로 설정 (너무 짧은 수면 기록 방지)
+      final actualDuration = calculatedDuration < 1 ? 1 : calculatedDuration;
+      
       final response = await _supabase
           .from('sleeps')
           .update({
             'ended_at': endDateTime.toIso8601String(),
-            'updated_at': DateTime.now().toIso8601String(),
-          })
-          .eq('id', sleepId)
-          .select()
-          .single();
-      
-      // 실제 수면 시간으로 duration_minutes 업데이트
-      final sleep = Sleep.fromJson(response);
-      final actualDuration = endDateTime.difference(sleep.startedAt).inMinutes;
-      
-      final updatedResponse = await _supabase
-          .from('sleeps')
-          .update({
             'duration_minutes': actualDuration,
             'updated_at': DateTime.now().toIso8601String(),
           })
@@ -290,7 +292,7 @@ class SleepService {
           .select()
           .single();
       
-      return Sleep.fromJson(updatedResponse);
+      return Sleep.fromJson(response);
     } catch (e) {
       debugPrint('Error ending current sleep: $e');
       return null;
