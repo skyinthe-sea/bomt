@@ -5,6 +5,7 @@ class Baby {
   final String name;
   final DateTime birthDate;
   final String? gender;
+  final String? profileImageUrl;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -13,6 +14,7 @@ class Baby {
     required this.name,
     required this.birthDate,
     this.gender,
+    this.profileImageUrl,
     this.createdAt,
     this.updatedAt,
   }) : id = id ?? const Uuid().v4();
@@ -23,6 +25,7 @@ class Baby {
       name: json['name'],
       birthDate: DateTime.parse(json['birth_date']).toLocal(),
       gender: json['gender'],
+      profileImageUrl: json['profile_image_url'],
       createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']).toLocal() : null,
       updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']).toLocal() : null,
     );
@@ -34,6 +37,7 @@ class Baby {
       'name': name,
       'birth_date': birthDate.toIso8601String().split('T')[0],
       'gender': gender,
+      'profile_image_url': profileImageUrl,
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
     };

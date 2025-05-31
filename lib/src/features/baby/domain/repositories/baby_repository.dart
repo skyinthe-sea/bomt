@@ -20,4 +20,7 @@ abstract class BabyRepository {
 
   /// 아기 정보 조회
   Future<Baby?> getBabyById(String babyId);
+
+  /// 아기 프로필 이미지 업데이트
+  Future<Baby> updateBabyProfileImage(String babyId, String? imageUrl);
 }

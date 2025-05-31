@@ -6,6 +6,7 @@ class BabyModel extends Baby {
     required super.name,
     required super.birthDate,
     super.gender,
+    super.profileImageUrl,
     required super.createdAt,
     required super.updatedAt,
   });
@@ -17,6 +18,7 @@ class BabyModel extends Baby {
       name: json['name'] as String,
       birthDate: DateTime.parse(json['birth_date'] as String).toLocal(),
       gender: json['gender'] as String?,
+      profileImageUrl: json['profile_image_url'] as String?,
       createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
       updatedAt: DateTime.parse(json['updated_at'] as String).toLocal(),
     );
@@ -29,6 +31,7 @@ class BabyModel extends Baby {
       'name': name,
       'birth_date': birthDate.toIso8601String(),
       'gender': gender,
+      'profile_image_url': profileImageUrl,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
@@ -41,6 +44,7 @@ class BabyModel extends Baby {
       name: baby.name,
       birthDate: baby.birthDate,
       gender: baby.gender,
+      profileImageUrl: baby.profileImageUrl,
       createdAt: baby.createdAt,
       updatedAt: baby.updatedAt,
     );
@@ -53,6 +57,7 @@ class BabyModel extends Baby {
       name: name,
       birthDate: birthDate,
       gender: gender,
+      profileImageUrl: profileImageUrl,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );

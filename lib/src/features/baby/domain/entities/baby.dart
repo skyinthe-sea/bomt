@@ -3,6 +3,7 @@ class Baby {
   final String name;
   final DateTime birthDate;
   final String? gender;
+  final String? profileImageUrl;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -11,6 +12,7 @@ class Baby {
     required this.name,
     required this.birthDate,
     this.gender,
+    this.profileImageUrl,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -20,6 +22,7 @@ class Baby {
     String? name,
     DateTime? birthDate,
     String? gender,
+    String? profileImageUrl,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -28,6 +31,7 @@ class Baby {
       name: name ?? this.name,
       birthDate: birthDate ?? this.birthDate,
       gender: gender ?? this.gender,
+      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

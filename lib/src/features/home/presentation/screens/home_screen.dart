@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -22,6 +24,11 @@ import '../../../../services/baby_guide/baby_guide_service.dart';
 import '../../../../domain/models/baby_guide.dart';
 import '../widgets/baby_guide_alert.dart';
 import '../screens/baby_guide_list_screen.dart';
+import '../../../../services/image/image_service.dart';
+import '../../../baby/domain/repositories/baby_repository.dart';
+import '../../../baby/data/repositories/supabase_baby_repository.dart';
+import '../../../baby/domain/entities/baby.dart' as BabyEntity;
+import 'package:image_picker/image_picker.dart';
 
 class HomeScreen extends StatefulWidget {
   final LocalizationProvider? localizationProvider;
@@ -48,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Baby? _currentBaby;
   String? _currentUserId;
   bool _isLoading = true;
+  bool _isUploadingImage = false;
   
   // 요약 데이터
   Map<String, dynamic> _feedingSummary = {};
@@ -187,7 +195,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               id,
               name,
               birth_date,
-              gender
+              gender,
+              profile_image_url,
+              created_at,
+              updated_at
             )
           ''')
           .eq('user_id', userId);
@@ -208,6 +219,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         'name': babyData['name'], 
         'birth_date': babyData['birth_date'],
         'gender': babyData['gender'],
+        'profile_image_url': babyData['profile_image_url'],
+        'created_at': babyData['created_at'],
+        'updated_at': babyData['updated_at'],
       });
       
       // 모든 Provider 설정
@@ -268,6 +282,175 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         },
       ),
     );
+  }
+  
+  /// 프로필 이미지 업데이트
+  Future<void> _updateProfileImage() async {
+    if (_currentBaby == null) return;
+    
+    try {
+      // iOS 플랫폼에서는 시뮬레이터 제한 안내
+      // 실제 device_info 체크 없이 iOS 전체에서 갤러리 우선 권장
+      final bool isIOS = defaultTargetPlatform == TargetPlatform.iOS;
+      
+      // 이미지 선택 다이얼로그 표시
+      final result = await showDialog<ImageSource>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('프로필 사진 설정'),
+          content: const Text('사진을 어떻게 선택하시겠습니까?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(ImageSource.camera),
+              child: const Text('카메라'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(ImageSource.gallery),
+              child: const Text('갤러리'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('취소'),
+            ),
+          ],
+        ),
+      );
+      
+      if (result == null) return;
+      
+      String? imageUrl;
+      
+      try {
+        // 1. 먼저 이미지 선택 (로딩 없이)
+        debugPrint('Opening image picker...');
+        final pickedFile = await ImageService.instance.pickImage(source: result);
+        if (pickedFile == null) {
+          debugPrint('Image selection cancelled by user');
+          return; // 사용자가 취소한 경우
+        }
+        debugPrint('Image selected successfully: ${pickedFile.path}');
+        
+        // 2. 이미지 선택 완료 후 로딩 상태 표시 (setState 사용)
+        if (mounted) {
+          setState(() {
+            _isUploadingImage = true;
+          });
+          debugPrint('Upload loading state enabled');
+        }
+        
+        // 3. 이미지 업로드 수행 (기존 프로필 이미지 URL 전달)
+        debugPrint('Starting image upload process...');
+        imageUrl = await ImageService.instance.uploadImage(
+          pickedFile,
+          _currentBaby!.id,
+          oldImageUrl: _currentBaby!.profileImageUrl,
+        );
+        debugPrint('Image upload completed. URL: $imageUrl');
+        
+        // 4. 임시 파일 삭제
+        await pickedFile.delete();
+        debugPrint('Temporary file deleted');
+        
+        if (imageUrl != null) {
+          // 데이터베이스 업데이트
+          debugPrint('Updating database with new profile image URL...');
+          final babyRepository = SupabaseBabyRepository();
+          final updatedBabyEntity = await babyRepository.updateBabyProfileImage(
+            _currentBaby!.id,
+            imageUrl,
+          );
+          debugPrint('Database update completed.');
+          
+          // Entity를 Model로 변환하여 UI 업데이트
+          if (mounted) {
+            setState(() {
+              _currentBaby = Baby(
+                id: updatedBabyEntity.id,
+                name: updatedBabyEntity.name,
+                birthDate: updatedBabyEntity.birthDate,
+                gender: updatedBabyEntity.gender,
+                profileImageUrl: updatedBabyEntity.profileImageUrl,
+                createdAt: updatedBabyEntity.createdAt,
+                updatedAt: updatedBabyEntity.updatedAt,
+              );
+            });
+            debugPrint('UI state updated with new profile image.');
+          }
+        }
+        
+      } on PlatformException catch (e) {
+        debugPrint('PlatformException caught: ${e.code} - ${e.message}');
+        if (e.code == 'channel-error' && e.message?.contains('Unable to establish connection') == true) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(isIOS 
+                  ? 'iOS 시뮬레이터에서는 카메라를 사용할 수 없습니다.\n갤러리에서 다시 시도해주세요.'
+                  : '카메라 접근에 문제가 발생했습니다.\n갤러리에서 다시 시도해주세요.'),
+                backgroundColor: Colors.orange,
+                duration: const Duration(seconds: 4),
+              ),
+            );
+          }
+        } else {
+          rethrow;
+        }
+      } catch (e) {
+        debugPrint('Unexpected error during image process: $e');
+        rethrow;
+      } finally {
+        // 로딩 상태 끄기 (setState 사용)
+        if (mounted) {
+          setState(() {
+            _isUploadingImage = false;
+          });
+          debugPrint('Upload loading state disabled');
+        }
+      }
+      
+      // 성공 메시지 표시
+      if (imageUrl != null && mounted) {
+        debugPrint('Showing success message...');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('프로필 사진이 업데이트되었습니다.')),
+        );
+      }
+    } catch (e) {
+      debugPrint('Outer catch - Error updating profile image: $e');
+      
+      // 최종 안전장치 - 로딩 상태 끄기
+      if (mounted) {
+        setState(() {
+          _isUploadingImage = false;
+        });
+        debugPrint('Emergency upload loading state disabled');
+        
+        String errorMessage = '프로필 사진 업데이트에 실패했습니다.';
+        
+        // 에러 타입별 처리
+        if (e.toString().contains('로그인이 필요합니다') || 
+            e.toString().contains('not authenticated')) {
+          errorMessage = '🔐 로그인이 필요합니다!\n\n카카오 또는 이메일로 로그인 후\n프로필 사진을 설정해주세요.';
+        } else if (e.toString().contains('profile_image_url') || 
+                   e.toString().contains('PGRST204')) {
+          errorMessage = '✅ 데이터베이스가 업데이트되었습니다!\n\n앱을 재시작한 후 다시 시도해주세요.';
+        } else if (e.toString().contains('Bucket not found') || 
+                   e.toString().contains('baby-profiles')) {
+          errorMessage = '❌ Storage 버킷이 없습니다!\n\nSupabase 대시보드에서 baby-profiles 버킷을 생성해주세요.';
+        } else if (e.toString().contains('permission') || 
+                   e.toString().contains('Unauthorized')) {
+          errorMessage = '❌ 저장 권한이 없습니다!\n\n로그인 상태를 확인해주세요.';
+        }
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage),
+            duration: const Duration(seconds: 4),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
   
   Future<String?> _getUserId() async {
@@ -351,11 +534,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
       body: SafeArea(
-        child: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : _currentBaby == null
-                ? _buildNoBabyScreen(context)
-                : RefreshIndicator(
+        child: Stack(
+          children: [
+            // 메인 컨텐츠
+            _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _currentBaby == null
+                    ? _buildNoBabyScreen(context)
+                    : RefreshIndicator(
                     onRefresh: _loadData,
                     child: CustomScrollView(
                   slivers: [
@@ -412,6 +598,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           child: BabyInfoCard(
                             baby: _currentBaby!,
                             feedingSummary: _feedingSummary,
+                            onProfileImageTap: _updateProfileImage,
                           ),
                         ),
                       ),
@@ -528,6 +715,32 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ],
                 ),
               ),
+            
+            // 프로필 이미지 업로드 로딩 오버레이
+            if (_isUploadingImage)
+              Container(
+                color: Colors.black.withOpacity(0.5),
+                child: Center(
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          CircularProgressIndicator(),
+                          SizedBox(height: 16),
+                          Text(
+                            '프로필 사진 업로드 중...',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

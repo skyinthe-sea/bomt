@@ -25,6 +25,7 @@ class SupabaseBabyRepository implements BabyRepository {
         'name': name,
         'birth_date': birthDate.toIso8601String(),
         'gender': gender,
+        'profile_image_url': null,
         'created_at': now.toIso8601String(),
         'updated_at': now.toIso8601String(),
       };
@@ -61,6 +62,7 @@ class SupabaseBabyRepository implements BabyRepository {
               name,
               birth_date,
               gender,
+              profile_image_url,
               created_at,
               updated_at
             )
@@ -88,6 +90,7 @@ class SupabaseBabyRepository implements BabyRepository {
         'name': babyModel.name,
         'birth_date': babyModel.birthDate.toIso8601String(),
         'gender': babyModel.gender,
+        'profile_image_url': babyModel.profileImageUrl,
         'updated_at': DateTime.now().toIso8601String(),
       };
 
@@ -137,6 +140,27 @@ class SupabaseBabyRepository implements BabyRepository {
       return BabyModel.fromJson(response).toEntity();
     } catch (e) {
       throw Exception('아기 정보 조회 중 오류가 발생했습니다: $e');
+    }
+  }
+
+  @override
+  Future<Baby> updateBabyProfileImage(String babyId, String? imageUrl) async {
+    try {
+      final updateData = {
+        'profile_image_url': imageUrl,
+        'updated_at': DateTime.now().toIso8601String(),
+      };
+
+      final response = await _supabase
+          .from('babies')
+          .update(updateData)
+          .eq('id', babyId)
+          .select()
+          .single();
+
+      return BabyModel.fromJson(response).toEntity();
+    } catch (e) {
+      throw Exception('아기 프로필 이미지 업데이트 중 오류가 발생했습니다: $e');
     }
   }
 }

@@ -5,11 +5,13 @@ import '../../../../domain/models/baby.dart';
 class BabyInfoCard extends StatelessWidget {
   final Baby baby;
   final Map<String, dynamic> feedingSummary;
+  final VoidCallback? onProfileImageTap;
   
   const BabyInfoCard({
     super.key,
     required this.baby,
     required this.feedingSummary,
+    this.onProfileImageTap,
   });
 
   @override
@@ -56,20 +58,84 @@ class BabyInfoCard extends StatelessWidget {
           Row(
             children: [
               // 아기 아바타
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Text(
-                    baby.name.isNotEmpty ? baby.name[0] : '👶',
-                    style: theme.textTheme.headlineSmall?.copyWith(
-                      color: theme.colorScheme.primary,
+              GestureDetector(
+                onTap: onProfileImageTap,
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipOval(
+                        child: baby.profileImageUrl != null && baby.profileImageUrl!.isNotEmpty
+                            ? Image.network(
+                                baby.profileImageUrl!,
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Center(
+                                    child: Text(
+                                      baby.name.isNotEmpty ? baby.name[0] : '👶',
+                                      style: theme.textTheme.headlineSmall?.copyWith(
+                                        color: theme.colorScheme.primary,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                loadingBuilder: (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor: AlwaysStoppedAnimation<Color>(
+                                          theme.colorScheme.primary,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                            : Center(
+                                child: Text(
+                                  baby.name.isNotEmpty ? baby.name[0] : '👶',
+                                  style: theme.textTheme.headlineSmall?.copyWith(
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                ),
+                              ),
+                      ),
                     ),
-                  ),
+                    // 편집 아이콘
+                    if (onProfileImageTap != null)
+                      Positioned(
+                        right: -2,
+                        bottom: -2,
+                        child: Container(
+                          width: 18,
+                          height: 18,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primary,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: theme.colorScheme.surface,
+                              width: 2,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.camera_alt,
+                            size: 10,
+                            color: theme.colorScheme.onPrimary,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
               const SizedBox(width: 16),
