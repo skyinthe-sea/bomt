@@ -78,7 +78,7 @@ class FeedingService {
         'duration_minutes': durationMinutes ?? defaults['durationMinutes'],
         'side': side ?? defaults['side'],
         'notes': notes,
-        'started_at': (startedAt ?? DateTime.now()).toIso8601String(),
+        'started_at': (startedAt ?? DateTime.now()).toUtc().toIso8601String(),
         'ended_at': endedAt?.toIso8601String(),
         'created_at': DateTime.now().toIso8601String(),
         'updated_at': DateTime.now().toIso8601String(),
@@ -134,10 +134,34 @@ class FeedingService {
           }
         }
         
-        // 최근 수유 시간 계산
+        // 최근 수유 시간 계산 (오늘 수유가 있는 경우)
         final lastFeeding = response.first;
         lastFeedingTime = DateTime.parse(lastFeeding['started_at']).toLocal();
         lastFeedingMinutesAgo = now.difference(lastFeedingTime).inMinutes;
+      } else {
+        // 오늘 수유가 없는 경우, 전체 기간에서 가장 최근 수유 찾기
+        debugPrint('오늘 수유 없음. 전체 기간에서 최근 수유 검색...');
+        final allFeedingsResponse = await _supabase
+            .from('feedings')
+            .select('started_at')
+            .eq('baby_id', babyId)
+            .order('started_at', ascending: false)
+            .limit(1);
+        
+        debugPrint('전체 수유 검색 결과: ${allFeedingsResponse.length}개');
+        if (allFeedingsResponse.isNotEmpty) {
+          final lastFeeding = allFeedingsResponse.first;
+          final dbTime = lastFeeding['started_at'] as String;
+          // 기존 데이터는 한국시간이 UTC로 잘못 저장되어 있어서 9시간 빼서 보정
+          final parsedTime = DateTime.parse(dbTime);
+          lastFeedingTime = parsedTime.subtract(const Duration(hours: 9));
+          lastFeedingMinutesAgo = now.difference(lastFeedingTime).inMinutes;
+          
+          debugPrint('현재 시간: $now');
+          debugPrint('DB 시간 (원본): $dbTime');
+          debugPrint('보정된 시간: $lastFeedingTime');
+          debugPrint('분 차이: $lastFeedingMinutesAgo');
+        }
       }
       
       return {

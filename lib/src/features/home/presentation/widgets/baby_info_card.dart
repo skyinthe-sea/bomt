@@ -37,7 +37,7 @@ class BabyInfoCard extends StatelessWidget {
     final progressValue = (lastFeedingMinutes / feedingInterval).clamp(0.0, 1.0);
     
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
@@ -57,8 +57,8 @@ class BabyInfoCard extends StatelessWidget {
             children: [
               // 아기 아바타
               Container(
-                width: 60,
-                height: 60,
+                width: 50,
+                height: 50,
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primary.withOpacity(0.1),
                   shape: BoxShape.circle,
@@ -66,7 +66,7 @@ class BabyInfoCard extends StatelessWidget {
                 child: Center(
                   child: Text(
                     baby.name.isNotEmpty ? baby.name[0] : '👶',
-                    style: theme.textTheme.headlineMedium?.copyWith(
+                    style: theme.textTheme.headlineSmall?.copyWith(
                       color: theme.colorScheme.primary,
                     ),
                   ),
@@ -116,7 +116,7 @@ class BabyInfoCard extends StatelessWidget {
             ],
           ),
           
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
           
           // 마지막 수유 시간 섹션
           if (feedingSummary['lastFeedingTime'] != null) ...[
@@ -124,15 +124,15 @@ class BabyInfoCard extends StatelessWidget {
               children: [
                 // 원형 진행 인디케이터
                 SizedBox(
-                  width: 80,
-                  height: 80,
+                  width: 70,
+                  height: 70,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       // 배경 원
                       Container(
-                        width: 80,
-                        height: 80,
+                        width: 70,
+                        height: 70,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: theme.colorScheme.primary.withOpacity(0.1),
@@ -140,11 +140,11 @@ class BabyInfoCard extends StatelessWidget {
                       ),
                       // 진행 원
                       SizedBox(
-                        width: 80,
-                        height: 80,
+                        width: 70,
+                        height: 70,
                         child: CircularProgressIndicator(
                           value: progressValue,
-                          strokeWidth: 6,
+                          strokeWidth: 5,
                           backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
                           valueColor: AlwaysStoppedAnimation<Color>(
                             progressValue >= 1.0 
@@ -159,7 +159,7 @@ class BabyInfoCard extends StatelessWidget {
                       Icon(
                         Icons.local_drink,
                         color: theme.colorScheme.primary,
-                        size: 24,
+                        size: 22,
                       ),
                     ],
                   ),
@@ -176,14 +176,14 @@ class BabyInfoCard extends StatelessWidget {
                           color: theme.colorScheme.onSurface.withOpacity(0.7),
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 3),
                       Text(
                         lastFeedingText,
                         style: theme.textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 6),
                       Container(
                         width: double.infinity,
                         height: 6,
@@ -206,7 +206,7 @@ class BabyInfoCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 3),
                       Text(
                         nextFeedingMinutes == 0 
                             ? '지금 수유 시간입니다'
