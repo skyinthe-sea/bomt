@@ -800,12 +800,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             ),
                             TextButton(
                               onPressed: () {
-                                // TODO: Navigate to detailed growth screen
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('성장 상세 페이지는 곧 추가될 예정입니다'),
-                                  ),
-                                );
+                                if (_currentBaby != null) {
+                                  Navigator.of(context).pushNamed(
+                                    '/growth-chart',
+                                    arguments: _currentBaby,
+                                  );
+                                }
                               },
                               child: Text(
                                 '상세보기',
