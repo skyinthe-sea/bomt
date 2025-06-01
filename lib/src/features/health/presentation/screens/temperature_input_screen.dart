@@ -7,6 +7,7 @@ import '../../../../domain/models/temperature_guideline.dart';
 import '../../../../services/health/health_service.dart';
 import '../../../../services/health/temperature_feedback_service.dart';
 import '../widgets/temperature_feedback_dialog.dart';
+import 'temperature_chart_screen.dart';
 
 class TemperatureInputScreen extends StatefulWidget {
   final Baby baby;
@@ -88,58 +89,73 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen> {
   }
 
   Widget _buildBabyInfoCard(ThemeData theme, AppLocalizations l10n) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: theme.shadowColor.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => TemperatureChartScreen(baby: widget.baby),
           ),
-        ],
-      ),
-      child: Row(
-        children: [
-          // 아기 아바타
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.red.withOpacity(0.1),
-              shape: BoxShape.circle,
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: theme.shadowColor.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-            child: Icon(
-              Icons.thermostat,
-              color: Colors.red[600],
-              size: 24,
+          ],
+        ),
+        child: Row(
+          children: [
+            // 아기 아바타
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.red.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.thermostat,
+                color: Colors.red[600],
+                size: 24,
+              ),
             ),
-          ),
-          const SizedBox(width: 16),
-          // 아기 정보
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${widget.baby.name}의 체온 기록',
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+            const SizedBox(width: 16),
+            // 아기 정보
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${widget.baby.name}의 체온 기록',
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  widget.baby.ageInMonthsAndDays,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.7),
+                  const SizedBox(height: 4),
+                  Text(
+                    widget.baby.ageInMonthsAndDays,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurface.withOpacity(0.7),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+            // 그래프 아이콘 힌트
+            Icon(
+              Icons.bar_chart_rounded,
+              color: theme.colorScheme.primary.withOpacity(0.7),
+              size: 20,
+            ),
+          ],
+        ),
       ),
     );
   }
