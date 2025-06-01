@@ -46,7 +46,19 @@ class Baby {
   // 나이 계산 (일 단위)
   int get ageInDays => DateTime.now().difference(birthDate).inDays;
   
-  // 나이 계산 (개월 단위)
+  // 나이 계산 (개월 단위 - 숫자)
+  int get ageInMonths {
+    final now = DateTime.now();
+    int months = (now.year - birthDate.year) * 12 + now.month - birthDate.month;
+    
+    if (now.day < birthDate.day) {
+      months--;
+    }
+    
+    return months;
+  }
+  
+  // 나이 계산 (개월 단위 - 문자열)
   String get ageInMonthsAndDays {
     final now = DateTime.now();
     int months = (now.year - birthDate.year) * 12 + now.month - birthDate.month;

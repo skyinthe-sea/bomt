@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../domain/models/baby.dart';
+import '../../../health/presentation/screens/temperature_input_screen.dart';
 
 class BabyInfoCard extends StatelessWidget {
   final Baby baby;
@@ -199,6 +200,40 @@ class BabyInfoCard extends StatelessWidget {
                       ],
                     ),
                   ],
+                ),
+              ),
+              // 체온 체크 버튼
+              Container(
+                margin: const EdgeInsets.only(left: 8),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TemperatureInputScreen(baby: baby),
+                        ),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Colors.red.withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.thermostat,
+                        color: Colors.red[600],
+                        size: 20,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
