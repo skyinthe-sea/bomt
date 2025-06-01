@@ -373,7 +373,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                             children: [
                               if (bothCount > 0)
                                 Text(
-                                  '총 소+대 ${bothCount}회',
+                                  '소+대 ${bothCount}회',
                                   style: theme.textTheme.titleLarge?.copyWith(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -382,7 +382,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                                 ),
                               if (wetCount > 0 || dirtyCount > 0)
                                 Text(
-                                  '총 소${wetCount}, 대${dirtyCount}',
+                                  '소${wetCount}, 대${dirtyCount}',
                                   style: theme.textTheme.titleLarge?.copyWith(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
