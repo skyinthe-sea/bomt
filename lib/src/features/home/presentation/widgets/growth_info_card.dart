@@ -3,7 +3,7 @@ import 'growth_record_input_dialog.dart';
 
 class GrowthInfoCard extends StatelessWidget {
   final Map<String, dynamic> summary;
-  final Future<void> Function(String type, double value, String? notes)? onAddRecord;
+  final Future<void> Function(dynamic data, String? notes)? onAddRecord;
 
   const GrowthInfoCard({
     super.key,
@@ -200,17 +200,23 @@ class GrowthInfoCard extends StatelessWidget {
   }
 
   void _showGrowthInputDialog(BuildContext context, String type, double currentValue) {
+    final latestWeight = summary['latestWeight'];
+    final latestHeight = summary['latestHeight'];
+    
     showDialog(
       context: context,
       builder: (context) => GrowthRecordInputDialog(
         initialType: type,
         initialValue: currentValue,
-        onSave: (type, value, notes) async {
+        initialWeightValue: (latestWeight != null && latestWeight > 0) ? latestWeight.toDouble() : null,
+        initialHeightValue: (latestHeight != null && latestHeight > 0) ? latestHeight.toDouble() : null,
+        onSave: (data, notes) async {
           if (onAddRecord != null) {
-            await onAddRecord!(type, value, notes);
+            await onAddRecord!(data, notes);
           }
         },
       ),
     );
   }
+
 }

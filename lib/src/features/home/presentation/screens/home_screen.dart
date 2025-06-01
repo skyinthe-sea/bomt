@@ -456,17 +456,36 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
   
   /// 성장 기록 추가
-  Future<void> _addGrowthRecord(String type, double value, String? notes) async {
+  Future<void> _addGrowthRecord(dynamic data, String? notes) async {
     if (_currentBaby == null || _currentUserId == null) return;
     
     try {
-      final result = await _growthService.addSingleMeasurement(
-        babyId: _currentBaby!.id,
-        userId: _currentUserId!,
-        type: type,
-        value: value,
-        notes: notes,
-      );
+      dynamic result;
+      
+      if (data is Map<String, double>) {
+        // 동시 입력 (체중과 키 모두)
+        debugPrint('동시 입력 감지: $data');
+        result = await _growthService.addMultipleMeasurements(
+          babyId: _currentBaby!.id,
+          userId: _currentUserId!,
+          measurements: data,
+          notes: notes,
+        );
+      } else if (data is Map<String, dynamic> && 
+                 data.containsKey('type') && 
+                 data.containsKey('value')) {
+        // 단일 입력 (기존 방식과 호환)
+        debugPrint('단일 입력 감지: ${data['type']} = ${data['value']}');
+        result = await _growthService.addSingleMeasurement(
+          babyId: _currentBaby!.id,
+          userId: _currentUserId!,
+          type: data['type'] as String,
+          value: data['value'] as double,
+          notes: notes,
+        );
+      } else {
+        throw Exception('잘못된 데이터 형식입니다');
+      }
       
       if (result != null) {
         // 성장 데이터 새로고침
@@ -478,20 +497,40 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           });
           
           // 성공 메시지 표시
+          String message;
+          Color backgroundColor;
+          IconData icon;
+          
+          if (data is Map<String, double>) {
+            // 동시 입력
+            List<String> types = [];
+            if (data.containsKey('weight')) types.add('체중');
+            if (data.containsKey('height')) types.add('키');
+            message = '${types.join('과 ')} 정보가 기록되었습니다';
+            backgroundColor = Colors.indigo;
+            icon = Icons.dashboard;
+          } else {
+            // 단일 입력
+            final type = data['type'] as String;
+            message = '${type == 'weight' ? '체중' : '키'} 정보가 기록되었습니다';
+            backgroundColor = type == 'weight' ? Colors.purple : Colors.green;
+            icon = type == 'weight' ? Icons.monitor_weight : Icons.height;
+          }
+          
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Row(
                 children: [
                   Icon(
-                    type == 'weight' ? Icons.monitor_weight : Icons.height,
+                    icon,
                     color: Colors.white,
                     size: 20,
                   ),
                   const SizedBox(width: 8),
-                  Text('${type == 'weight' ? '체중' : '키'} 정보가 기록되었습니다'),
+                  Text(message),
                 ],
               ),
-              backgroundColor: type == 'weight' ? Colors.purple : Colors.green,
+              backgroundColor: backgroundColor,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),

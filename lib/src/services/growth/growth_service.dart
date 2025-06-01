@@ -251,6 +251,43 @@ class GrowthService {
     }
   }
   
+  /// 체중과 키를 동시에 저장하는 메서드
+  Future<GrowthRecord?> addMultipleMeasurements({
+    required String babyId,
+    required String userId,
+    required Map<String, double> measurements, // {'weight': value, 'height': value}
+    String? notes,
+    DateTime? recordedAt,
+  }) async {
+    try {
+      double? weightKg;
+      double? heightCm;
+      
+      // measurements 맵에서 값 추출
+      if (measurements.containsKey('weight')) {
+        weightKg = measurements['weight'];
+      }
+      if (measurements.containsKey('height')) {
+        heightCm = measurements['height'];
+      }
+      
+      debugPrint('동시 저장: 체중=$weightKg, 키=$heightCm');
+      
+      // 하나의 레코드로 저장
+      return addGrowthRecord(
+        babyId: babyId,
+        userId: userId,
+        weightKg: weightKg,
+        heightCm: heightCm,
+        notes: notes,
+        recordedAt: recordedAt,
+      );
+    } catch (e) {
+      debugPrint('Error adding multiple measurements: $e');
+      return null;
+    }
+  }
+
   /// 특정 타입(체중 또는 키)의 성장 기록만 추가하는 편의 메서드
   Future<GrowthRecord?> addSingleMeasurement({
     required String babyId,

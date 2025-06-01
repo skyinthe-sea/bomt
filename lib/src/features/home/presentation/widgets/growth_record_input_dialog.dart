@@ -4,12 +4,16 @@ import 'package:flutter/services.dart';
 class GrowthRecordInputDialog extends StatefulWidget {
   final String? initialType; // 'weight' 또는 'height'
   final double? initialValue;
-  final Function(String type, double value, String? notes) onSave;
+  final double? initialWeightValue; // 기존 체중 값
+  final double? initialHeightValue; // 기존 키 값
+  final Function(dynamic data, String? notes) onSave; // data는 String type + double value 또는 Map<String, double>
 
   const GrowthRecordInputDialog({
     super.key,
     this.initialType,
     this.initialValue,
+    this.initialWeightValue,
+    this.initialHeightValue,
     required this.onSave,
   });
 
@@ -23,6 +27,10 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
   late TextEditingController _valueController;
   late TextEditingController _notesController;
   bool _isLoading = false;
+  
+  // 탭 전환 시 입력값 유지를 위한 변수들
+  String? _weightValue;
+  String? _heightValue;
 
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
@@ -36,11 +44,32 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
     _valueController = TextEditingController();
     _notesController = TextEditingController();
     
-    // 초기값이 있고 타입이 일치하며 0이 아닌 경우에만 설정
+    // 기존 체중/키 값들을 설정
+    if (widget.initialWeightValue != null && widget.initialWeightValue! > 0) {
+      _weightValue = widget.initialWeightValue!.toStringAsFixed(1);
+    }
+    if (widget.initialHeightValue != null && widget.initialHeightValue! > 0) {
+      _heightValue = widget.initialHeightValue!.toStringAsFixed(1);
+    }
+    
+    // 현재 선택된 타입의 값을 컨트롤러에 설정
+    if (_selectedType == 'weight' && _weightValue != null) {
+      _valueController.text = _weightValue!;
+    } else if (_selectedType == 'height' && _heightValue != null) {
+      _valueController.text = _heightValue!;
+    }
+    
+    // 초기값이 있고 타입이 일치하며 0이 아닌 경우에만 설정 (기존 로직과 호환성 유지)
     if (widget.initialValue != null && 
         widget.initialType != null && 
         widget.initialValue! > 0) {
       _valueController.text = widget.initialValue!.toStringAsFixed(1);
+      // 해당 타입의 값도 저장
+      if (widget.initialType == 'weight') {
+        _weightValue = widget.initialValue!.toStringAsFixed(1);
+      } else {
+        _heightValue = widget.initialValue!.toStringAsFixed(1);
+      }
     }
 
     // 애니메이션 설정
@@ -100,30 +129,62 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
     return _selectedType == 'weight' ? Icons.monitor_weight : Icons.height;
   }
 
-  void _handleSave() async {
-    final valueText = _valueController.text.trim();
-    if (valueText.isEmpty) {
-      _showErrorSnackBar('${_typeLabel}을 입력해주세요');
-      return;
-    }
-
-    final value = double.tryParse(valueText);
-    if (value == null) {
-      _showErrorSnackBar('올바른 숫자를 입력해주세요');
-      return;
-    }
-
-    // 유효성 검증
+  void _saveCurrentValue() {
+    final currentValue = _valueController.text.trim();
     if (_selectedType == 'weight') {
-      if (value <= 0 || value > 50) {
+      _weightValue = currentValue.isEmpty ? null : currentValue;
+    } else {
+      _heightValue = currentValue.isEmpty ? null : currentValue;
+    }
+  }
+
+  void _loadCurrentValue() {
+    if (_selectedType == 'weight') {
+      _valueController.text = _weightValue ?? '';
+    } else {
+      _valueController.text = _heightValue ?? '';
+    }
+  }
+
+  void _handleSave() async {
+    // 현재 입력값 저장
+    _saveCurrentValue();
+    
+    // 입력된 값들을 체크
+    Map<String, double> measurements = {};
+    
+    // 체중 검증 및 추가
+    if (_weightValue != null && _weightValue!.isNotEmpty) {
+      final weight = double.tryParse(_weightValue!);
+      if (weight == null) {
+        _showErrorSnackBar('체중은 올바른 숫자를 입력해주세요');
+        return;
+      }
+      if (weight <= 0 || weight > 50) {
         _showErrorSnackBar('체중은 0.1~50kg 사이로 입력해주세요');
         return;
       }
-    } else {
-      if (value <= 0 || value > 200) {
+      measurements['weight'] = weight;
+    }
+    
+    // 키 검증 및 추가
+    if (_heightValue != null && _heightValue!.isNotEmpty) {
+      final height = double.tryParse(_heightValue!);
+      if (height == null) {
+        _showErrorSnackBar('키는 올바른 숫자를 입력해주세요');
+        return;
+      }
+      if (height <= 0 || height > 200) {
         _showErrorSnackBar('키는 1~200cm 사이로 입력해주세요');
         return;
       }
+      measurements['height'] = height;
+    }
+    
+    // 입력된 값이 없으면 에러
+    if (measurements.isEmpty) {
+      _showErrorSnackBar('체중 또는 키를 입력해주세요');
+      return;
     }
 
     setState(() {
@@ -132,11 +193,22 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
 
     try {
       final notes = _notesController.text.trim();
-      await widget.onSave(
-        _selectedType,
-        value,
-        notes.isEmpty ? null : notes,
-      );
+      
+      // 여러 값이 입력된 경우 Map으로 전달, 하나만 입력된 경우 개별 전달
+      if (measurements.length > 1) {
+        // 동시 입력: Map으로 전달
+        await widget.onSave(
+          measurements,
+          notes.isEmpty ? null : notes,
+        );
+      } else {
+        // 단일 입력: 개별 전달 (기존 방식과 호환)
+        final entry = measurements.entries.first;
+        await widget.onSave(
+          {'type': entry.key, 'value': entry.value},
+          notes.isEmpty ? null : notes,
+        );
+      }
       
       if (mounted) {
         Navigator.of(context).pop();
@@ -351,9 +423,14 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
           child: GestureDetector(
             onTap: () {
               setState(() {
+                // 현재 입력값을 저장
+                _saveCurrentValue();
+                
+                // 타입 변경
                 _selectedType = type['value'] as String;
-                // 타입 변경 시 입력 필드 완전히 초기화
-                _valueController.text = '';
+                
+                // 새 타입의 기존 값을 불러오기
+                _loadCurrentValue();
               });
             },
             child: AnimatedContainer(
@@ -457,4 +534,5 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
       ),
     );
   }
+
 }
