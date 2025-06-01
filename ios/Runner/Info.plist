@@ -45,6 +45,17 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- Alarm 패키지를 위한 백그라운드 모드 설정 -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>background-fetch</string>
+	</array>
+	<!-- Alarm 패키지를 위한 백그라운드 태스크 스케줄러 허용 -->
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.gdelataillade.fetch</string>
+	</array>
 	<!-- 이미지 선택 권한 설명 -->
 	<key>NSCameraUsageDescription</key>
 	<string>아기 프로필 사진을 촬영하기 위해 카메라 권한이 필요합니다.</string>

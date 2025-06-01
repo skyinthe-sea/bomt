@@ -27,16 +27,38 @@ class BabyInfoCard extends StatelessWidget {
         ? '${hours}시간 ${minutes}분 전' 
         : '${minutes}분 전';
     
-    // 다음 수유 예정 시간 (약 4시간 주기로 가정)
-    final feedingInterval = 240; // 4시간 = 240분
-    final nextFeedingMinutes = lastFeedingMinutes >= feedingInterval 
-        ? 0  // 이미 수유 시간이 지났으면 지금 수유 필요
-        : feedingInterval - lastFeedingMinutes;
-    final nextHours = nextFeedingMinutes ~/ 60;
-    final nextMinutes = nextFeedingMinutes % 60;
+    // 다음 수유까지 남은 시간 (알람 서비스에서 제공)
+    final minutesUntilNextFeeding = feedingSummary['minutesUntilNextFeeding'];
+    final nextFeedingTime = feedingSummary['nextFeedingTime'];
     
-    // 진행률 계산 (0.0 ~ 1.0)
-    final progressValue = (lastFeedingMinutes / feedingInterval).clamp(0.0, 1.0);
+    // 기본 수유 간격 (3시간)
+    final defaultFeedingInterval = 180; // 3시간 = 180분
+    
+    int nextFeedingMinutes;
+    int nextHours;
+    int nextMinutes;
+    double progressValue;
+    
+    if (minutesUntilNextFeeding != null && minutesUntilNextFeeding >= 0) {
+      // 알람 서비스에서 제공하는 실제 다음 수유까지 남은 시간 사용
+      nextFeedingMinutes = minutesUntilNextFeeding;
+      nextHours = nextFeedingMinutes ~/ 60;
+      nextMinutes = nextFeedingMinutes % 60;
+      
+      // 진행률은 마지막 수유부터 다음 수유까지의 총 시간 대비 경과 시간
+      final totalIntervalMinutes = lastFeedingMinutes + nextFeedingMinutes;
+      progressValue = totalIntervalMinutes > 0 
+          ? (lastFeedingMinutes / totalIntervalMinutes).clamp(0.0, 1.0)
+          : 0.0;
+    } else {
+      // 알람이 설정되지 않은 경우 기본 로직 사용
+      nextFeedingMinutes = lastFeedingMinutes >= defaultFeedingInterval 
+          ? 0  // 이미 수유 시간이 지났으면 지금 수유 필요
+          : (defaultFeedingInterval - lastFeedingMinutes).round();
+      nextHours = nextFeedingMinutes ~/ 60;
+      nextMinutes = nextFeedingMinutes % 60;
+      progressValue = (lastFeedingMinutes / defaultFeedingInterval).clamp(0.0, 1.0);
+    }
     
     return Container(
       padding: const EdgeInsets.all(16),
@@ -274,11 +296,7 @@ class BabyInfoCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        nextFeedingMinutes == 0 
-                            ? '지금 수유 시간입니다'
-                            : nextFeedingMinutes < 30
-                                ? '곧 수유 시간입니다 (${nextMinutes}분 후)'
-                                : '약 ${nextHours > 0 ? '${nextHours}시간 ' : ''}${nextMinutes}분 후 수유 예정',
+                        _buildNextFeedingText(minutesUntilNextFeeding, nextFeedingMinutes, nextHours, nextMinutes),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: nextFeedingMinutes == 0 
                               ? Colors.orange
@@ -297,5 +315,27 @@ class BabyInfoCard extends StatelessWidget {
         ],
       ),
     );
+  }
+  
+  String _buildNextFeedingText(int? minutesUntilNextFeeding, int nextFeedingMinutes, int nextHours, int nextMinutes) {
+    if (minutesUntilNextFeeding != null) {
+      // 알람이 설정된 경우
+      if (nextFeedingMinutes == 0) {
+        return '지금 수유 시간입니다 🍼';
+      } else if (nextFeedingMinutes < 30) {
+        return '곧 수유 시간입니다 (${nextMinutes}분 후)';
+      } else {
+        return '${nextHours > 0 ? '${nextHours}시간 ' : ''}${nextMinutes}분 후 수유 알람';
+      }
+    } else {
+      // 알람이 설정되지 않은 경우 (기본 로직)
+      if (nextFeedingMinutes == 0) {
+        return '수유 시간이 지났습니다';
+      } else if (nextFeedingMinutes < 30) {
+        return '곧 수유 시간 예정 (${nextMinutes}분 후)';
+      } else {
+        return '약 ${nextHours > 0 ? '${nextHours}시간 ' : ''}${nextMinutes}분 후 수유 예정';
+      }
+    }
   }
 }

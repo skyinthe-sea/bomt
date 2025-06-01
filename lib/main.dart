@@ -14,11 +14,15 @@ import 'src/presentation/providers/theme_provider.dart';
 import 'src/services/auth/auth_service.dart';
 import 'src/services/theme/theme_service.dart';
 import 'src/core/theme/app_theme.dart';
+import 'src/services/alarm/feeding_alarm_service.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
   KakaoSdk.init(nativeAppKey: KakaoConfig.nativeAppKey);
   await SupabaseConfig.initialize();
+  await FeedingAlarmService.instance.initialize();
   
   // Initialize dependencies
   final prefs = await SharedPreferences.getInstance();

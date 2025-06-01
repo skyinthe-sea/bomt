@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../domain/models/feeding.dart';
 import '../../core/config/supabase_config.dart';
+import '../alarm/feeding_alarm_service.dart';
 
 class FeedingService {
   static FeedingService? _instance;
@@ -90,7 +91,18 @@ class FeedingService {
           .select()
           .single();
       
-      return Feeding.fromJson(response);
+      final newFeeding = Feeding.fromJson(response);
+      
+      // 새로운 수유 기록 추가 후 다음 수유 알람 설정
+      try {
+        final alarmService = FeedingAlarmService.instance;
+        await alarmService.scheduleNextFeedingAlarm(newFeeding.startedAt);
+        debugPrint('새로운 수유 기록 추가 후 알람 설정 완료');
+      } catch (e) {
+        debugPrint('수유 알람 설정 중 오류: $e');
+      }
+      
+      return newFeeding;
     } catch (e) {
       debugPrint('Error adding feeding: $e');
       return null;
@@ -164,6 +176,17 @@ class FeedingService {
         }
       }
       
+      // 다음 수유까지 남은 시간 계산
+      int? minutesUntilNextFeeding;
+      DateTime? nextFeedingTime;
+      try {
+        final alarmService = FeedingAlarmService.instance;
+        minutesUntilNextFeeding = await alarmService.getMinutesUntilNextFeeding();
+        nextFeedingTime = await alarmService.getNextFeedingTime();
+      } catch (e) {
+        debugPrint('다음 수유 시간 확인 중 오류: $e');
+      }
+      
       return {
         'count': count,
         'totalAmount': totalAmount,
@@ -171,6 +194,8 @@ class FeedingService {
         'lastFeedingMinutesAgo': lastFeedingMinutesAgo,
         'typeCount': typeCount,
         'averageAmount': count > 0 ? (totalAmount / count).round() : 0,
+        'minutesUntilNextFeeding': minutesUntilNextFeeding,
+        'nextFeedingTime': nextFeedingTime,
       };
     } catch (e) {
       debugPrint('Error getting today feeding summary: $e');
@@ -186,6 +211,8 @@ class FeedingService {
           'solid': 0,
         },
         'averageAmount': 0,
+        'minutesUntilNextFeeding': null,
+        'nextFeedingTime': null,
       };
     }
   }
