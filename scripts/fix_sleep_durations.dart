@@ -26,7 +26,7 @@ Future<void> main() async {
         .from('sleeps')
         .select('id, started_at, ended_at, duration_minutes')
         .or('duration_minutes.lt.0,duration_minutes.gt.1440') // 음수이거나 24시간 초과
-        .neq('ended_at', null);
+        .not('ended_at', 'is', null);
     
     print('문제가 있는 수면 기록 ${problematicSleeps.length}개 발견');
     
