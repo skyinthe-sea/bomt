@@ -64,5 +64,21 @@
   "feeding": "수유",
   "totalFeeding": "총 수유량",
   "sleep": "수면",
-  "totalSleepTime": "총 수면시간"
+  "totalSleepTime": "총 수면시간",
+  "cardSettings": "카드 설정",
+  "cardSettingsGuide": "카드 설정 가이드",
+  "cardSettingsDescription": "• 토글 스위치로 카드 표시/숨김을 설정하세요\n• 드래그하여 카드 순서를 변경하세요\n• 변경사항은 실시간으로 미리보기됩니다",
+  "cardVisible": "표시됨",
+  "cardHidden": "숨김",
+  "save": "저장",
+  "cardSettingsSaved": "카드 설정이 저장되었습니다",
+  "cardSettingsError": "설정 저장 중 오류가 발생했습니다",
+  "discardChanges": "변경된 설정을 취소하고 이전 상태로 돌아가시겠습니까?",
+  "continueEditing": "계속 편집",
+  "discardChangesExit": "변경된 설정을 저장하지 않고 나가시겠습니까?",
+  "exit": "나가기",
+  "diaper": "기저귀",
+  "solidFood": "이유식",
+  "medication": "투약",
+  "milkPumping": "유축"
 }

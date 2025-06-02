@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
@@ -11,6 +12,10 @@ import '../../../../presentation/providers/feeding_provider.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../presentation/providers/diaper_provider.dart';
 import '../../../../presentation/providers/health_provider.dart';
+import '../../../../presentation/providers/solid_food_provider.dart';
+import '../../../../presentation/providers/medication_provider.dart';
+import '../../../../presentation/providers/milk_pumping_provider.dart';
+import '../../../../services/user_card_setting/user_card_setting_service.dart';
 import '../../../../features/settings/presentation/screens/settings_screen.dart';
 import '../widgets/baby_info_card.dart';
 import '../widgets/feeding_summary_card.dart';
@@ -18,6 +23,9 @@ import '../widgets/sleep_summary_card.dart';
 import '../widgets/diaper_summary_card.dart';
 import '../widgets/temperature_summary_card.dart';
 import '../widgets/growth_info_card.dart';
+import '../widgets/solid_food_summary_card.dart';
+import '../widgets/medication_summary_card.dart';
+import '../widgets/milk_pumping_summary_card.dart';
 import '../../../../domain/models/baby.dart';
 import '../../data/repositories/home_repository_impl.dart';
 import '../../../../services/growth/growth_service.dart';
@@ -30,6 +38,7 @@ import '../../../baby/domain/repositories/baby_repository.dart';
 import '../../../baby/data/repositories/supabase_baby_repository.dart';
 import '../../../baby/domain/entities/baby.dart' as BabyEntity;
 import 'package:image_picker/image_picker.dart';
+import 'card_settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final LocalizationProvider? localizationProvider;
@@ -53,11 +62,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final _sleepProvider = SleepProvider();
   final _diaperProvider = DiaperProvider();
   final _healthProvider = HealthProvider();
+  final _solidFoodProvider = SolidFoodProvider();
+  final _medicationProvider = MedicationProvider();
+  final _milkPumpingProvider = MilkPumpingProvider();
+  
+  // 카드 설정 서비스 (Provider 대신 직접 서비스 사용)
+  final _userCardSettingService = UserCardSettingService.instance;
+  List<String> _enabledCardTypes = ['feeding', 'sleep', 'diaper']; // 기본값
   
   Baby? _currentBaby;
   String? _currentUserId;
   bool _isLoading = true;
   bool _isUploadingImage = false;
+  
+  // 재진입 방지를 위한 플래그
+  bool _isLoadingData = false;
   
   // 요약 데이터
   Map<String, dynamic> _feedingSummary = {};
@@ -65,6 +84,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Map<String, dynamic> _diaperSummary = {};
   Map<String, dynamic> _temperatureSummary = {};
   Map<String, dynamic> _growthSummary = {};
+  Map<String, dynamic> _solidFoodSummary = {};
+  Map<String, dynamic> _medicationSummary = {};
+  Map<String, dynamic> _milkPumpingSummary = {};
 
   @override
   void initState() {
@@ -76,6 +98,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _sleepProvider.addListener(_onSleepDataChanged);
     _diaperProvider.addListener(_onDiaperDataChanged);
     _healthProvider.addListener(_onHealthDataChanged);
+    _solidFoodProvider.addListener(_onSolidFoodDataChanged);
+    _medicationProvider.addListener(_onMedicationDataChanged);
+    _milkPumpingProvider.addListener(_onMilkPumpingDataChanged);
     _loadData();
   }
 
@@ -87,10 +112,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _sleepProvider.removeListener(_onSleepDataChanged);
     _diaperProvider.removeListener(_onDiaperDataChanged);
     _healthProvider.removeListener(_onHealthDataChanged);
+    _solidFoodProvider.removeListener(_onSolidFoodDataChanged);
+    _medicationProvider.removeListener(_onMedicationDataChanged);
+    _milkPumpingProvider.removeListener(_onMilkPumpingDataChanged);
     _feedingProvider.dispose();
     _sleepProvider.dispose();
     _diaperProvider.dispose();
     _healthProvider.dispose();
+    _solidFoodProvider.dispose();
+    _medicationProvider.dispose();
+    _milkPumpingProvider.dispose();
     super.dispose();
   }
 
@@ -130,6 +161,33 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+  /// SolidFoodProvider 데이터 변경 시 호출되는 콜백
+  void _onSolidFoodDataChanged() {
+    if (mounted) {
+      setState(() {
+        _solidFoodSummary = _solidFoodProvider.todaySummary;
+      });
+    }
+  }
+
+  /// MedicationProvider 데이터 변경 시 호출되는 콜백
+  void _onMedicationDataChanged() {
+    if (mounted) {
+      setState(() {
+        _medicationSummary = _medicationProvider.todaySummary;
+      });
+    }
+  }
+
+  /// MilkPumpingProvider 데이터 변경 시 호출되는 콜백
+  void _onMilkPumpingDataChanged() {
+    if (mounted) {
+      setState(() {
+        _milkPumpingSummary = _milkPumpingProvider.todaySummary;
+      });
+    }
+  }
+
   /// 앱 생명주기 상태 변경 시 호출되는 콜백
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -138,15 +196,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     debugPrint('App lifecycle state changed to: $state');
     
     // 앱이 백그라운드에서 포그라운드로 돌아올 때 데이터 새로고침
-    if (state == AppLifecycleState.resumed && _currentBaby != null) {
+    if (state == AppLifecycleState.resumed && _currentBaby != null && !_isLoadingData) {
       debugPrint('App resumed - refreshing home screen data');
       _refreshData();
+    } else if (state == AppLifecycleState.resumed && _isLoadingData) {
+      debugPrint('App resumed - skipping refresh, loading already in progress');
     }
   }
 
   /// 데이터만 새로고침 (로딩 상태 없이)
   Future<void> _refreshData() async {
     if (_currentBaby == null || _currentUserId == null) return;
+    
+    // 재진입 방지 체크
+    if (_isLoadingData) {
+      debugPrint('⚠️ [HOME] _refreshData skipped - _loadData in progress');
+      return;
+    }
     
     try {
       // 모든 Provider의 데이터를 새로고침
@@ -155,6 +221,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         _sleepProvider.refreshData(),
         _diaperProvider.refreshData(),
         _healthProvider.refreshData(),
+        _solidFoodProvider.refreshData(),
+        _medicationProvider.refreshData(),
+        _milkPumpingProvider.refreshData(),
       ]);
       
       // 성장 데이터 새로고침
@@ -173,11 +242,41 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _loadData() async {
+    debugPrint('🏠 [HOME] Starting _loadData...');
+    
+    // 재진입 방지 체크
+    if (_isLoadingData) {
+      debugPrint('⚠️ [HOME] _loadData already in progress, skipping...');
+      return;
+    }
+    
     try {
+      _isLoadingData = true; // 재진입 방지 플래그 설정
+      debugPrint('🏠 [HOME] Setting _isLoading = true');
       setState(() => _isLoading = true);
       
+      // 타임아웃 제거하고 직접 실행 (디버깅용)
+      debugPrint('🏠 [HOME] Starting data loading without timeout...');
+      await _performDataLoading();
+      debugPrint('🏠 [HOME] Data loading completed successfully');
+      
+    } catch (e) {
+      debugPrint('❌ [HOME] Error loading home data: $e');
+      debugPrint('❌ [HOME] Stack trace: ${StackTrace.current}');
+      setState(() => _isLoading = false);
+      debugPrint('❌ [HOME] Set _isLoading = false in catch block');
+    } finally {
+      _isLoadingData = false; // 재진입 방지 플래그 해제
+      debugPrint('🏠 [HOME] Released _isLoadingData flag');
+    }
+  }
+  
+  /// 실제 데이터 로딩 수행
+  Future<void> _performDataLoading() async {
       // 카카오 로그인에서 받은 user_id 가져오기
+      debugPrint('🏠 [HOME] Getting user ID...');
       final userId = await _getUserId();
+      debugPrint('🏠 [HOME] User ID: $userId');
       
       if (userId == null) {
         // 로그인이 안되어 있으면 로그인 화면으로 이동
@@ -231,10 +330,24 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       _sleepProvider.setCurrentBaby(baby.id, userId);
       _diaperProvider.setCurrentBaby(baby.id, userId);
       _healthProvider.setCurrentBaby(baby.id, userId);
+      _solidFoodProvider.setCurrentBaby(baby.id, userId);
+      _medicationProvider.setCurrentBaby(baby.id, userId);
+      _milkPumpingProvider.setCurrentBaby(baby.id, userId);
+      
+      // 카드 설정 로드 (안전한 방식)
+      debugPrint('🏠 [HOME] Loading card settings safely...');
+      try {
+        await _loadCardSettings(userId);
+      } catch (e) {
+        debugPrint('❌ [HOME] Card settings load failed, using defaults: $e');
+        _enabledCardTypes = ['feeding', 'sleep', 'diaper']; // 폴백 기본값
+      }
       
       // 성장 데이터는 아직 Provider로 이동하지 않음 (추후 개발 예정)
+      debugPrint('🏠 [HOME] Getting growth summary...');
       final growthSummary = await _homeRepository.getGrowthSummary(baby.id);
       
+      debugPrint('🏠 [HOME] Setting final state (_isLoading = false)...');
       setState(() {
         _currentBaby = baby;
         _currentUserId = userId;
@@ -243,17 +356,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         _sleepSummary = _sleepProvider.todaySummary;
         _diaperSummary = _diaperProvider.todaySummary;
         _temperatureSummary = _healthProvider.todaySummary;
+        _solidFoodSummary = _solidFoodProvider.todaySummary;
+        _medicationSummary = _medicationProvider.todaySummary;
+        _milkPumpingSummary = _milkPumpingProvider.todaySummary;
         _growthSummary = growthSummary;
         _isLoading = false;
       });
+      debugPrint('✅ [HOME] Final state set successfully');
       
       // 아기 정보를 불러온 후 가이드 알럿 확인
+      debugPrint('🏠 [HOME] Checking for guide alert...');
       _checkForGuideAlert(userId);
-    } catch (e) {
-      debugPrint('Error loading home data: $e');
-      setState(() => _isLoading = false);
-    }
+      
+      debugPrint('✅ [HOME] _performDataLoading completed successfully');
   }
+  
   
   /// 가이드 알럿 확인 및 표시
   Future<void> _checkForGuideAlert(String userId) async {
@@ -565,6 +682,42 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
   
+  /// 카드 설정 로드
+  Future<void> _loadCardSettings(String userId) async {
+    try {
+      debugPrint('🃏 [CARD] Starting card settings load for user: $userId');
+      debugPrint('🃏 [CARD] Calling service.getUserCardSettings...');
+      
+      final cardSettings = await _userCardSettingService.getUserCardSettings(userId);
+      debugPrint('🃏 [CARD] Service returned ${cardSettings.length} settings');
+      
+      if (cardSettings.isNotEmpty) {
+        debugPrint('🃏 [CARD] Processing ${cardSettings.length} card settings...');
+        
+        // 표시되는 카드들만 필터링하고 순서대로 정렬
+        final visibleCards = cardSettings
+            .where((setting) => setting.isVisible)
+            .toList()
+          ..sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
+        
+        _enabledCardTypes = visibleCards.map((setting) => setting.cardType).toList();
+        debugPrint('🃏 [CARD] Loaded ${_enabledCardTypes.length} enabled cards: $_enabledCardTypes');
+      } else {
+        // 기본 카드 설정
+        _enabledCardTypes = ['feeding', 'sleep', 'diaper'];
+        debugPrint('🃏 [CARD] No card settings found, using defaults: $_enabledCardTypes');
+      }
+      
+      debugPrint('✅ [CARD] Card settings load completed successfully');
+    } catch (e) {
+      debugPrint('❌ [CARD] Error loading card settings: $e');
+      debugPrint('❌ [CARD] Stack trace: ${StackTrace.current}');
+      // 에러 시 기본값 사용
+      _enabledCardTypes = ['feeding', 'sleep', 'diaper'];
+      debugPrint('🃏 [CARD] Using fallback defaults due to error');
+    }
+  }
+
   Future<String?> _getUserId() async {
     try {
       // 카카오 로그인된 사용자 정보 가져오기
@@ -574,6 +727,142 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       debugPrint('Error getting user ID: $e');
       return null;
     }
+  }
+
+  /// 동적 카드 그리드 생성 (단순화된 버전)
+  Widget _buildDynamicCardGrid() {
+    debugPrint('🏠 [HOME] _buildDynamicCardGrid called');
+    debugPrint('🏠 [HOME] Enabled card types: $_enabledCardTypes');
+    
+    try {
+      // 안전장치: 최대 6개 카드로 제한
+      final limitedCardTypes = _enabledCardTypes.length > 6 
+          ? _enabledCardTypes.sublist(0, 6) 
+          : _enabledCardTypes;
+      
+      debugPrint('🏠 [HOME] Building ${limitedCardTypes.length} cards');
+      
+      // 각 카드 타입에 맞는 위젯 생성
+      final List<Widget> cardWidgets = [];
+      for (final cardType in limitedCardTypes) {
+        Widget? card = _buildCardWidget(cardType);
+        if (card != null) {
+          cardWidgets.add(card);
+        }
+      }
+      
+      debugPrint('🏠 [HOME] Successfully built ${cardWidgets.length} card widgets');
+      
+      // 간단한 Grid 레이아웃 (3열)
+      return _buildSimpleGrid(cardWidgets);
+      
+    } catch (e) {
+      debugPrint('❌ [HOME] Error in _buildDynamicCardGrid: $e');
+      // 폴백: 기본 3개 카드만 표시
+      return _buildFallbackGrid();
+    }
+  }
+  
+  /// 카드 타입에 따른 위젯 생성
+  Widget? _buildCardWidget(String cardType) {
+    try {
+      switch (cardType) {
+        case 'feeding':
+          return FeedingSummaryCard(
+            summary: _feedingSummary,
+            feedingProvider: _feedingProvider,
+            sleepProvider: _sleepProvider,
+          );
+        case 'sleep':
+          return SleepSummaryCard(
+            summary: _sleepSummary,
+            sleepProvider: _sleepProvider,
+          );
+        case 'diaper':
+          return DiaperSummaryCard(
+            summary: _diaperSummary,
+            diaperProvider: _diaperProvider,
+            sleepProvider: _sleepProvider,
+          );
+        case 'solid_food':
+          return SolidFoodSummaryCard(
+            summary: _solidFoodSummary,
+          );
+        case 'medication':
+          return MedicationSummaryCard(
+            summary: _medicationSummary,
+          );
+        case 'milk_pumping':
+          return MilkPumpingSummaryCard(
+            summary: _milkPumpingSummary,
+          );
+        case 'temperature':
+          return ChangeNotifierProvider.value(
+            value: _healthProvider,
+            child: TemperatureSummaryCard(
+              summary: _temperatureSummary,
+            ),
+          );
+        default:
+          debugPrint('⚠️ [HOME] Unknown card type: $cardType');
+          return null;
+      }
+    } catch (e) {
+      debugPrint('❌ [HOME] Error building card $cardType: $e');
+      return null;
+    }
+  }
+  
+  /// 간단한 그리드 레이아웃
+  Widget _buildSimpleGrid(List<Widget> cards) {
+    debugPrint('🏠 [HOME] Building grid with ${cards.length} cards');
+    
+    final List<Widget> rows = [];
+    for (int i = 0; i < cards.length; i += 3) {
+      final List<Widget> rowChildren = [];
+      
+      for (int j = 0; j < 3; j++) {
+        if (i + j < cards.length) {
+          rowChildren.add(Expanded(child: cards[i + j]));
+          if (j < 2 && i + j + 1 < cards.length) {
+            rowChildren.add(const SizedBox(width: 6));
+          }
+        } else {
+          rowChildren.add(const Expanded(child: SizedBox()));
+        }
+      }
+      
+      rows.add(Padding(
+        padding: EdgeInsets.only(bottom: i + 3 < cards.length ? 12 : 0),
+        child: Row(children: rowChildren),
+      ));
+    }
+    
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: Column(children: rows),
+    );
+  }
+  
+  /// 폴백 그리드 (기본 3개 카드)
+  Widget _buildFallbackGrid() {
+    debugPrint('🏠 [HOME] Using fallback grid');
+    return _buildSimpleGrid([
+      FeedingSummaryCard(
+        summary: _feedingSummary,
+        feedingProvider: _feedingProvider,
+        sleepProvider: _sleepProvider,
+      ),
+      SleepSummaryCard(
+        summary: _sleepSummary,
+        sleepProvider: _sleepProvider,
+      ),
+      DiaperSummaryCard(
+        summary: _diaperSummary,
+        diaperProvider: _diaperProvider,
+        sleepProvider: _sleepProvider,
+      ),
+    ]);
   }
   
   Widget _buildNoBabyScreen(BuildContext context) {
@@ -654,7 +943,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 : _currentBaby == null
                     ? _buildNoBabyScreen(context)
                     : RefreshIndicator(
-                    onRefresh: _loadData,
+                    onRefresh: () async {
+                      // RefreshIndicator에서 안전한 새로고침
+                      if (!_isLoadingData) {
+                        debugPrint('🔄 [HOME] RefreshIndicator triggered - calling _refreshData');
+                        await _refreshData();
+                      } else {
+                        debugPrint('⚠️ [HOME] RefreshIndicator skipped - loading in progress');
+                      }
+                    },
                     child: CustomScrollView(
                   slivers: [
                     // 앱바
@@ -736,45 +1033,83 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // 오늘의 요약 제목
-                            Text(
-                              l10n.todaySummary ?? '오늘의 요약',
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onSurface,
-                              ),
+                            // 오늘의 요약 제목과 설정 버튼
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  l10n.todaySummary ?? '오늘의 요약',
+                                  style: theme.textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: theme.colorScheme.onSurface,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.settings,
+                                    color: theme.colorScheme.onSurface.withOpacity(0.7),
+                                    size: 20,
+                                  ),
+                                  tooltip: '카드 설정',
+                                  onPressed: () async {
+                                    if (_currentUserId == null || _currentBaby == null) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text('사용자 정보를 불러오는 중입니다. 잠시 후 다시 시도해주세요.')),
+                                      );
+                                      return;
+                                    }
+                                    
+                                    debugPrint('🔧 [SETTINGS] Opening card settings...');
+                                    
+                                    try {
+                                      final result = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => CardSettingsScreen(
+                                            userId: _currentUserId!,
+                                            babyId: _currentBaby!.id,
+                                          ),
+                                        ),
+                                      );
+                                      
+                                      debugPrint('🔧 [SETTINGS] Returned from settings, result: $result');
+                                      
+                                      if (mounted && result == true) {
+                                        debugPrint('🔧 [SETTINGS] Settings saved successfully');
+                                        
+                                        // 간단한 UI 새로고침 (복잡한 로직 제거)
+                                        try {
+                                          await _loadCardSettings(_currentUserId!);
+                                          if (mounted) {
+                                            setState(() {});
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              const SnackBar(
+                                                content: Text('카드 설정이 저장되었습니다'),
+                                                duration: Duration(seconds: 2),
+                                              ),
+                                            );
+                                          }
+                                        } catch (e) {
+                                          debugPrint('❌ [SETTINGS] Error: $e');
+                                        }
+                                      } else {
+                                        debugPrint('⚠️ [SETTINGS] No result or result is not true: $result');
+                                      }
+                                    } catch (e) {
+                                      debugPrint('❌ [SETTINGS] Error opening settings: $e');
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text('설정 화면을 열 수 없습니다: $e')),
+                                        );
+                                      }
+                                    }
+                                  },
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 20),
-                            // 요약 카드 - 3개 가로 배치
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: FeedingSummaryCard(
-                                      summary: _feedingSummary,
-                                      feedingProvider: _feedingProvider,
-                                      sleepProvider: _sleepProvider,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Expanded(
-                                    child: SleepSummaryCard(
-                                      summary: _sleepSummary,
-                                      sleepProvider: _sleepProvider,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Expanded(
-                                    child: DiaperSummaryCard(
-                                      summary: _diaperSummary,
-                                      diaperProvider: _diaperProvider,
-                                      sleepProvider: _sleepProvider,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // 동적 카드 렌더링
+                            _buildDynamicCardGrid(),
                             // 건강 카드 - 재사용을 위해 주석 처리
                             // ChangeNotifierProvider.value(
                             //   value: _healthProvider,
