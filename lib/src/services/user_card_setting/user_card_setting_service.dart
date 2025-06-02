@@ -59,10 +59,10 @@ class UserCardSettingService {
       final cardSettingData = {
         'id': _uuid.v4(),
         'user_id': userId,
-        'baby_id': babyId,
-        'card_type': cardType,
+        'card_type': cardType, // baby_id 제거 (테이블에 없는 컬럼)
         'is_visible': isVisible ?? defaults['isVisible'],
         'display_order': displayOrder ?? defaults['displayOrder'],
+        // customSettings 필드는 현재 데이터베이스에 없으므로 임시로 제외
         'created_at': DateTime.now().toIso8601String(),
         'updated_at': DateTime.now().toIso8601String(),
       };
@@ -225,7 +225,8 @@ class UserCardSettingService {
       if (cardType != null) updateData['card_type'] = cardType;
       if (isVisible != null) updateData['is_visible'] = isVisible;
       if (displayOrder != null) updateData['display_order'] = displayOrder;
-      if (customSettings != null) updateData['custom_settings'] = customSettings;
+      // customSettings 필드는 현재 데이터베이스에 없으므로 임시로 제외
+      // if (customSettings != null) updateData['custom_settings'] = customSettings;
       
       final response = await _supabase
           .from('user_card_settings')
@@ -396,7 +397,7 @@ class UserCardSettingService {
     try {
       final response = await _supabase
           .from('user_card_settings')
-          .select('card_type, is_visible, updated_at, custom_settings')
+          .select('card_type, is_visible, updated_at')
           .eq('user_id', userId)
           .order('updated_at', ascending: false);
       
@@ -413,7 +414,7 @@ class UserCardSettingService {
       
       int totalSettings = response.length;
       int activeCards = 0;
-      int customizedCards = 0;
+      int customizedCards = 0; // 현재 사용하지 않음
       String? mostRecentlyUpdated;
       DateTime? latestUpdate;
       
@@ -422,9 +423,7 @@ class UserCardSettingService {
           activeCards++;
         }
         
-        if (setting['custom_settings'] != null) {
-          customizedCards++;
-        }
+        // custom_settings 필드가 없으므로 customizedCards는 0으로 유지
         
         final updatedAt = DateTime.parse(setting['updated_at']);
         if (latestUpdate == null || updatedAt.isAfter(latestUpdate)) {

@@ -26,7 +26,7 @@ class UserCardSetting {
       cardType: json['card_type'],
       isVisible: json['is_visible'],
       displayOrder: json['display_order'],
-      customSettings: json['custom_settings'],
+      customSettings: json.containsKey('custom_settings') ? json['custom_settings'] : null,
       createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']).toLocal() : null,
       updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']).toLocal() : null,
     );

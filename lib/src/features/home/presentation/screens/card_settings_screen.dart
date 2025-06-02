@@ -7,6 +7,9 @@ import '../../../../presentation/providers/user_card_setting_provider.dart';
 import '../../../../domain/models/user_card_setting.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../services/user_card_setting/user_card_setting_service.dart';
+import '../../../../services/feeding/feeding_service.dart';
+import '../../../../services/sleep/sleep_service.dart';
+import '../widgets/default_value_dialog.dart';
 
 /// 카드 설정 화면
 /// 
@@ -107,6 +110,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
         displayOrder: i,
         iconData: _getDefaultIcon(cardType),
         name: _getCardNameSafe(cardType),
+        customSettings: {},
       ));
     }
     
@@ -139,6 +143,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
         displayOrder: existingSetting.displayOrder,
         iconData: _getDefaultIcon(cardType),
         name: _getCardNameSafe(cardType),
+        customSettings: existingSetting.customSettings ?? {},
       ));
     }
     
@@ -292,6 +297,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
             cardSettingId: existingSetting.id,
             isVisible: item.isVisible,
             displayOrder: item.displayOrder,
+            customSettings: item.customSettings,
           );
           
           if (updatedSetting == null) {
@@ -308,6 +314,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
             cardType: item.cardType,
             isVisible: item.isVisible,
             displayOrder: item.displayOrder,
+            customSettings: item.customSettings,
           );
           
           if (newSetting == null) {
@@ -558,6 +565,8 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
                               horizontal: 16,
                               vertical: 8,
                             ),
+                            // 리스트 아이템 터치 시 기본값 설정 다이얼로그 열기
+                            onTap: () => _showDefaultValueDialog(item.cardType),
                             leading: Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
@@ -574,19 +583,31 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
                                 size: 24,
                               ),
                             ),
-                            title: Text(
-                              item.name,
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: item.isVisible
-                                    ? theme.colorScheme.onSurface
-                                    : theme.colorScheme.onSurface.withOpacity(0.5),
-                              ),
+                            title: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    item.name,
+                                    style: theme.textTheme.titleMedium?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: item.isVisible
+                                          ? theme.colorScheme.onSurface
+                                          : theme.colorScheme.onSurface.withOpacity(0.5),
+                                    ),
+                                  ),
+                                ),
+                                // 기본값 설정 힌트 아이콘 (작게)
+                                Icon(
+                                  Icons.tune,
+                                  size: 16,
+                                  color: theme.colorScheme.outline.withOpacity(0.4),
+                                ),
+                              ],
                             ),
                             subtitle: Text(
                               item.isVisible 
-                                  ? '표시됨' 
-                                  : '숨김',
+                                  ? '표시됨 • 터치하여 기본값 설정' 
+                                  : '숨김 • 터치하여 기본값 설정',
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: item.isVisible
                                     ? _getCardColor(item.cardType)
@@ -737,6 +758,87 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
     }
   }
   
+  /// 기본값 설정 다이얼로그 표시
+  void _showDefaultValueDialog(String cardType) {
+    debugPrint('🎨 [DIALOG] Opening default value dialog for: $cardType');
+    
+    showDialog(
+      context: context,
+      builder: (context) => DefaultValueDialog(
+        cardType: cardType,
+        cardColor: _getCardColor(cardType),
+        cardName: _getCardNameSafe(cardType),
+        currentSettings: _getCurrentCustomSettings(cardType),
+        onSave: (newSettings) => _updateCustomSettings(cardType, newSettings),
+      ),
+    );
+  }
+  
+  /// 현재 카드의 커스텀 설정 가져오기 (SharedPreferences에서)
+  Map<String, dynamic> _getCurrentCustomSettings(String cardType) {
+    // 편집 중인 설정에서 가져오기 (실시간 반영)
+    final editingItem = _editingSettings.firstWhere(
+      (item) => item.cardType == cardType,
+      orElse: () => CardSettingItem(
+        cardType: cardType,
+        isVisible: false,
+        displayOrder: 0,
+        iconData: _getDefaultIcon(cardType),
+        name: _getCardNameSafe(cardType),
+        customSettings: {},
+      ),
+    );
+    
+    // 현재는 편집 중인 설정에서 반환하되, 나중에 SharedPreferences에서 읽어올 수 있음
+    return editingItem.customSettings;
+  }
+  
+  /// 커스텀 설정 업데이트 (임시로 SharedPreferences에 저장)
+  void _updateCustomSettings(String cardType, Map<String, dynamic> newSettings) async {
+    debugPrint('🎨 [SETTINGS] Updating custom settings for $cardType: $newSettings');
+    
+    try {
+      // 개별 서비스에 저장
+      switch (cardType) {
+        case 'feeding':
+          final feedingService = FeedingService.instance;
+          await feedingService.saveFeedingDefaults(
+            type: newSettings['type'],
+            amountMl: newSettings['amount_ml'],
+            durationMinutes: newSettings['duration_minutes'],
+            side: newSettings['side'],
+          );
+          break;
+        case 'sleep':
+          final sleepService = SleepService.instance;
+          await sleepService.saveSleepDefaults(
+            durationMinutes: newSettings['duration_minutes'],
+            quality: newSettings['quality'],
+            location: newSettings['location'],
+          );
+          break;
+        // 다른 카드 타입들도 필요시 추가
+      }
+      
+      // 편집 중인 설정에서 해당 카드 찾아서 업데이트
+      final index = _editingSettings.indexWhere((item) => item.cardType == cardType);
+      if (index != -1) {
+        setState(() {
+          _editingSettings[index] = _editingSettings[index].copyWith(
+            customSettings: newSettings,
+          );
+        });
+        
+        // 변경사항 감지를 위해 설정 변경 플래그 설정
+        _onSettingChanged();
+      }
+      
+      debugPrint('✅ [SETTINGS] Custom settings updated successfully');
+    } catch (e) {
+      debugPrint('❌ [SETTINGS] Error updating custom settings: $e');
+    }
+  }
+
   /// 카드 타입에 따른 색상 반환
   Color _getCardColor(String cardType) {
     switch (cardType) {
@@ -765,6 +867,7 @@ class CardSettingItem {
   final int displayOrder;
   final IconData iconData;
   final String name;
+  final Map<String, dynamic> customSettings;
   
   const CardSettingItem({
     required this.cardType,
@@ -772,6 +875,7 @@ class CardSettingItem {
     required this.displayOrder,
     required this.iconData,
     required this.name,
+    required this.customSettings,
   });
   
   CardSettingItem copyWith({
@@ -780,6 +884,7 @@ class CardSettingItem {
     int? displayOrder,
     IconData? iconData,
     String? name,
+    Map<String, dynamic>? customSettings,
   }) {
     return CardSettingItem(
       cardType: cardType ?? this.cardType,
@@ -787,6 +892,7 @@ class CardSettingItem {
       displayOrder: displayOrder ?? this.displayOrder,
       iconData: iconData ?? this.iconData,
       name: name ?? this.name,
+      customSettings: customSettings ?? this.customSettings,
     );
   }
 }
