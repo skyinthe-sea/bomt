@@ -9,8 +9,8 @@ import '../../../../domain/models/baby.dart';
 import '../../../../services/auth/auth_service.dart';
 import '../../../baby/data/repositories/supabase_baby_repository.dart';
 import '../widgets/glassmorphic_timeline_card.dart';
-import '../widgets/animated_gradient_background.dart';
-import '../widgets/modern_timeline_header.dart';
+import '../widgets/clean_background.dart';
+import '../widgets/clean_timeline_header.dart';
 import '../widgets/circular_timeline_chart.dart';
 
 class TimelineScreen extends StatefulWidget {
@@ -211,13 +211,12 @@ class _TimelineScreenState extends State<TimelineScreen>
   Widget build(BuildContext context) {
     if (!_isInitialized || _currentBaby == null) {
       return Scaffold(
-        body: AnimatedGradientBackground(
+        body: CleanBackground(
           child: const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircularProgressIndicator(
-                  color: Color(0xFF8B5FBF),
                   strokeWidth: 3,
                 ),
                 SizedBox(height: 24),
@@ -226,7 +225,6 @@ class _TimelineScreenState extends State<TimelineScreen>
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF4A5568),
                   ),
                 ),
               ],
@@ -239,43 +237,32 @@ class _TimelineScreenState extends State<TimelineScreen>
     return ChangeNotifierProvider.value(
       value: _timelineProvider,
       child: Scaffold(
-        extendBodyBehindAppBar: true,
-        body: AnimatedGradientBackground(
-          child: Stack(
-            children: [
-              // 부유하는 파티클 효과
-              const FloatingParticles(particleCount: 15),
-              
-              // 메인 콘텐츠
-              SafeArea(
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: ModernGradientOverlay(
-                    child: Column(
-                      children: [
-                        // 모던 헤더
-                        _buildModernHeader(),
-                        
-                        // 스크롤 가능한 콘텐츠
-                        Expanded(
-                          child: _buildScrollableContent(),
-                        ),
-                      ],
-                    ),
+        body: CleanBackground(
+          child: SafeArea(
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: Column(
+                children: [
+                  // 깔끔한 헤더
+                  _buildCleanHeader(),
+                  
+                  // 스크롤 가능한 콘텐츠
+                  Expanded(
+                    child: _buildScrollableContent(),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildModernHeader() {
+  Widget _buildCleanHeader() {
     return Consumer<TimelineProvider>(
       builder: (context, provider, child) {
-        return ModernTimelineHeader(
+        return CleanTimelineHeader(
           selectedDate: provider.selectedDate,
           onPreviousDay: () {
             debugPrint('🔥 [TIMELINE] Previous day button pressed');
@@ -303,8 +290,22 @@ class _TimelineScreenState extends State<TimelineScreen>
           slivers: [
             // 24시간 원형 타임라인 차트
             SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+              child: Container(
+                margin: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.black.withOpacity(0.3)
+                          : Colors.grey.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
                 child: CircularTimelineChart(
                   timelineItems: provider.filteredItems,
                   selectedDate: provider.selectedDate,
@@ -339,10 +340,10 @@ class _TimelineScreenState extends State<TimelineScreen>
                     
                     return Padding(
                       padding: EdgeInsets.fromLTRB(
-                        20, 
-                        index == 0 ? 16 : 0, 
-                        20, 
-                        isLast ? 40 : 0
+                        16, 
+                        index == 0 ? 8 : 0, 
+                        16, 
+                        isLast ? 32 : 8
                       ),
                       child: GlassmorphicTimelineCard(
                         item: item,
@@ -361,23 +362,23 @@ class _TimelineScreenState extends State<TimelineScreen>
   }
 
   Widget _buildTimelineStoryHeader(TimelineProvider provider) {
+    final theme = Theme.of(context);
+    
     return Container(
-      margin: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.white.withOpacity(0.15),
-            Colors.white.withOpacity(0.05),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.2),
-          width: 1,
-        ),
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: theme.brightness == Brightness.dark
+                ? Colors.black.withOpacity(0.3)
+                : Colors.grey.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         children: [
@@ -385,24 +386,12 @@ class _TimelineScreenState extends State<TimelineScreen>
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFF10B981),
-                  Color(0xFF34D399),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(14),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF10B981).withOpacity(0.3),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+              color: theme.colorScheme.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.auto_stories_rounded,
-              color: Colors.white,
+              color: theme.colorScheme.primary,
               size: 20,
             ),
           ),
@@ -414,12 +403,11 @@ class _TimelineScreenState extends State<TimelineScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   '오늘의 스토리',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF1A202C),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -427,10 +415,8 @@ class _TimelineScreenState extends State<TimelineScreen>
                   provider.hasItems 
                       ? '${provider.filteredItems.length}개의 소중한 순간들' 
                       : '아직 기록된 순간이 없어요',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF4A5568),
-                    fontWeight: FontWeight.w500,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurface.withOpacity(0.7),
                   ),
                 ),
               ],
@@ -442,33 +428,23 @@ class _TimelineScreenState extends State<TimelineScreen>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    const Color(0xFF8B5FBF).withOpacity(0.2),
-                    const Color(0xFFB794F6).withOpacity(0.1),
-                  ],
-                ),
+                color: theme.colorScheme.secondary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: const Color(0xFF8B5FBF).withOpacity(0.3),
-                  width: 1,
-                ),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     Icons.insights_rounded,
-                    color: Color(0xFF8B5FBF),
+                    color: theme.colorScheme.secondary,
                     size: 16,
                   ),
-                  SizedBox(width: 6),
+                  const SizedBox(width: 6),
                   Text(
                     '패턴',
-                    style: TextStyle(
-                      fontSize: 12,
+                    style: theme.textTheme.labelMedium?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF8B5FBF),
+                      color: theme.colorScheme.secondary,
                     ),
                   ),
                 ],
@@ -480,21 +456,21 @@ class _TimelineScreenState extends State<TimelineScreen>
   }
 
   Widget _buildLoadingState() {
+    final theme = Theme.of(context);
+    
     return Container(
       padding: const EdgeInsets.all(40),
-      child: const Column(
+      child: Column(
         children: [
-          CircularProgressIndicator(
-            color: Color(0xFF8B5FBF),
+          const CircularProgressIndicator(
             strokeWidth: 3,
           ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Text(
             '타임라인을 불러오고 있어요...',
-            style: TextStyle(
-              fontSize: 16,
+            style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: Color(0xFF4A5568),
+              color: theme.colorScheme.onSurface.withOpacity(0.7),
             ),
           ),
         ],
@@ -503,44 +479,44 @@ class _TimelineScreenState extends State<TimelineScreen>
   }
 
   Widget _buildErrorState(String error) {
+    final theme = Theme.of(context);
+    
     return Container(
-      margin: const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            const Color(0xFFEF4444).withOpacity(0.1),
-            const Color(0xFFF87171).withOpacity(0.05),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: const Color(0xFFEF4444).withOpacity(0.2),
-          width: 1,
-        ),
+        color: theme.colorScheme.errorContainer.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: theme.brightness == Brightness.dark
+                ? Colors.black.withOpacity(0.3)
+                : Colors.grey.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         children: [
-          const Icon(
+          Icon(
             Icons.error_outline_rounded,
             size: 48,
-            color: Color(0xFFEF4444),
+            color: theme.colorScheme.error,
           ),
           const SizedBox(height: 16),
-          const Text(
+          Text(
             '데이터를 불러올 수 없어요',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF1A202C),
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: theme.colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             error,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color(0xFF6B7280),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurface.withOpacity(0.7),
             ),
             textAlign: TextAlign.center,
           ),
@@ -550,44 +526,44 @@ class _TimelineScreenState extends State<TimelineScreen>
   }
 
   Widget _buildEmptyState() {
+    final theme = Theme.of(context);
+    
     return Container(
-      margin: const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(40),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.white.withOpacity(0.15),
-            Colors.white.withOpacity(0.05),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.2),
-          width: 1,
-        ),
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: theme.brightness == Brightness.dark
+                ? Colors.black.withOpacity(0.3)
+                : Colors.grey.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      child: const Column(
+      child: Column(
         children: [
           Icon(
             Icons.auto_stories_outlined,
             size: 64,
-            color: Color(0xFF9CA3AF),
+            color: theme.colorScheme.onSurface.withOpacity(0.4),
           ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Text(
             '아직 기록이 없어요',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF1A202C),
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: theme.colorScheme.onSurface,
             ),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Text(
             '첫 번째 소중한 순간을 기록해보세요.\n매일의 작은 변화들이 모여 큰 성장이 됩니다.',
-            style: TextStyle(
-              fontSize: 15,
-              color: Color(0xFF6B7280),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurface.withOpacity(0.7),
               height: 1.5,
             ),
             textAlign: TextAlign.center,
