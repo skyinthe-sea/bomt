@@ -210,6 +210,9 @@ class MilkPumpingProvider extends ChangeNotifier {
         // 새로운 기록을 목록의 맨 앞에 추가
         _todayMilkPumpings.insert(0, milkPumping);
         
+        // UI 즉시 업데이트
+        notifyListeners();
+        
         // 요약 데이터 업데이트
         await _loadTodaySummary();
         

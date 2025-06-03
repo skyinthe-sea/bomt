@@ -141,8 +141,8 @@ class MilkPumpingService {
           .from('milk_pumping')
           .select('started_at, ended_at, amount_ml, duration_minutes, side, storage_method')
           .eq('baby_id', babyId)
-          .gte('started_at', today.toUtc().toIso8601String())
-          .lt('started_at', tomorrow.toUtc().toIso8601String())
+          .gte('started_at', today.toIso8601String())
+          .lt('started_at', tomorrow.toIso8601String())
           .order('started_at', ascending: false);
       
       int count = response.length;
@@ -245,8 +245,8 @@ class MilkPumpingService {
           .from('milk_pumping')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('started_at', today.toUtc().toIso8601String())
-          .lt('started_at', tomorrow.toUtc().toIso8601String())
+          .gte('started_at', today.toIso8601String())
+          .lt('started_at', tomorrow.toIso8601String())
           .order('started_at', ascending: false);
       
       return response.map((json) => MilkPumping.fromJson(json)).toList();
