@@ -232,6 +232,27 @@ class HealthService {
       return [];
     }
   }
+
+  /// 특정 날짜의 건강 기록 목록 가져오기
+  Future<List<HealthRecord>> getHealthRecordsForDate(String babyId, DateTime date) async {
+    try {
+      final startOfDay = DateTime(date.year, date.month, date.day);
+      final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      
+      final response = await _supabase
+          .from('health_records')
+          .select('*')
+          .eq('baby_id', babyId)
+          .gte('recorded_at', startOfDay.toIso8601String())
+          .lte('recorded_at', endOfDay.toIso8601String())
+          .order('recorded_at', ascending: false);
+      
+      return response.map((json) => HealthRecord.fromJson(json)).toList();
+    } catch (e) {
+      debugPrint('Error getting health records for date: $e');
+      return [];
+    }
+  }
   
   /// 건강 기록 삭제
   Future<bool> deleteHealthRecord(String recordId) async {

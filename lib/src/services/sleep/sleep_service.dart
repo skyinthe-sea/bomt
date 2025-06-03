@@ -235,6 +235,27 @@ class SleepService {
       return [];
     }
   }
+
+  /// 특정 날짜의 수면 기록 목록 가져오기
+  Future<List<Sleep>> getSleepsForDate(String babyId, DateTime date) async {
+    try {
+      final startOfDay = DateTime(date.year, date.month, date.day);
+      final endOfDay = startOfDay.add(const Duration(days: 1));
+      
+      final response = await _supabase
+          .from('sleeps')
+          .select('*')
+          .eq('baby_id', babyId)
+          .gte('started_at', startOfDay.toUtc().toIso8601String())
+          .lt('started_at', endOfDay.toUtc().toIso8601String())
+          .order('started_at', ascending: false);
+      
+      return response.map((json) => Sleep.fromJson(json)).toList();
+    } catch (e) {
+      debugPrint('Error getting sleeps for date: $e');
+      return [];
+    }
+  }
   
   /// 수면 기록 삭제
   Future<bool> deleteSleep(String sleepId) async {

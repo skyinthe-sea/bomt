@@ -255,6 +255,27 @@ class MilkPumpingService {
       return [];
     }
   }
+
+  /// 특정 날짜의 유축 기록 목록 가져오기
+  Future<List<MilkPumping>> getMilkPumpingsForDate(String babyId, DateTime date) async {
+    try {
+      final startOfDay = DateTime(date.year, date.month, date.day);
+      final endOfDay = startOfDay.add(const Duration(days: 1));
+      
+      final response = await _supabase
+          .from('milk_pumping')
+          .select('*')
+          .eq('baby_id', babyId)
+          .gte('started_at', startOfDay.toIso8601String())
+          .lt('started_at', endOfDay.toIso8601String())
+          .order('started_at', ascending: false);
+      
+      return response.map((json) => MilkPumping.fromJson(json)).toList();
+    } catch (e) {
+      debugPrint('Error getting milk pumpings for date: $e');
+      return [];
+    }
+  }
   
   /// 유축 기록 삭제
   Future<bool> deleteMilkPumping(String milkPumpingId) async {

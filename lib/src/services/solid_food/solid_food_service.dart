@@ -187,6 +187,27 @@ class SolidFoodService {
       return [];
     }
   }
+
+  /// 특정 날짜의 이유식 기록 목록 가져오기
+  Future<List<SolidFood>> getSolidFoodsForDate(String babyId, DateTime date) async {
+    try {
+      final startOfDay = DateTime(date.year, date.month, date.day);
+      final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      
+      final response = await _supabase
+          .from('solid_foods')
+          .select('*')
+          .eq('baby_id', babyId)
+          .gte('started_at', startOfDay.toIso8601String())
+          .lte('started_at', endOfDay.toIso8601String())
+          .order('started_at', ascending: false);
+      
+      return response.map((json) => SolidFood.fromJson(json)).toList();
+    } catch (e) {
+      debugPrint('Error getting solid foods for date: $e');
+      return [];
+    }
+  }
   
   /// 이유식 기록 삭제
   Future<bool> deleteSolidFood(String solidFoodId) async {

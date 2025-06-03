@@ -3,10 +3,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../domain/models/feeding.dart';
+import '../../domain/models/timeline_item.dart';
 import '../../core/config/supabase_config.dart';
+import '../../core/mixins/data_sync_mixin.dart';
+import '../../core/events/data_sync_events.dart';
 import '../alarm/feeding_alarm_service.dart';
 
-class FeedingService {
+class FeedingService with DataSyncMixin {
   static FeedingService? _instance;
   static FeedingService get instance => _instance ??= FeedingService._();
   
@@ -66,47 +69,52 @@ class FeedingService {
     DateTime? startedAt,
     DateTime? endedAt,
   }) async {
-    try {
-      // 기본값이 설정되지 않은 경우 저장된 기본값 사용
-      final defaults = await getFeedingDefaults();
-      
-      final feedingData = {
-        'id': _uuid.v4(),
-        'baby_id': babyId,
-        'user_id': userId,
-        'type': type ?? defaults['type'],
-        'amount_ml': amountMl ?? defaults['amountMl'],
-        'duration_minutes': durationMinutes ?? defaults['durationMinutes'],
-        'side': side ?? defaults['side'],
-        'notes': notes,
-        'started_at': (startedAt ?? DateTime.now()).toUtc().toIso8601String(),
-        'ended_at': endedAt?.toIso8601String(),
-        'created_at': DateTime.now().toIso8601String(),
-        'updated_at': DateTime.now().toIso8601String(),
-      };
-      
-      final response = await _supabase
-          .from('feedings')
-          .insert(feedingData)
-          .select()
-          .single();
-      
-      final newFeeding = Feeding.fromJson(response);
-      
-      // 새로운 수유 기록 추가 후 다음 수유 알람 설정
-      try {
-        final alarmService = FeedingAlarmService.instance;
-        await alarmService.scheduleNextFeedingAlarm(newFeeding.startedAt);
-        debugPrint('새로운 수유 기록 추가 후 알람 설정 완료');
-      } catch (e) {
-        debugPrint('수유 알람 설정 중 오류: $e');
-      }
-      
-      return newFeeding;
-    } catch (e) {
-      debugPrint('Error adding feeding: $e');
-      return null;
-    }
+    final feedingStartTime = startedAt ?? DateTime.now();
+    
+    return await withDataSyncEvent(
+      operation: () async {
+        // 기본값이 설정되지 않은 경우 저장된 기본값 사용
+        final defaults = await getFeedingDefaults();
+        
+        final feedingData = {
+          'id': _uuid.v4(),
+          'baby_id': babyId,
+          'user_id': userId,
+          'type': type ?? defaults['type'],
+          'amount_ml': amountMl ?? defaults['amountMl'],
+          'duration_minutes': durationMinutes ?? defaults['durationMinutes'],
+          'side': side ?? defaults['side'],
+          'notes': notes,
+          'started_at': feedingStartTime.toUtc().toIso8601String(),
+          'ended_at': endedAt?.toIso8601String(),
+          'created_at': DateTime.now().toIso8601String(),
+          'updated_at': DateTime.now().toIso8601String(),
+        };
+        
+        final response = await _supabase
+            .from('feedings')
+            .insert(feedingData)
+            .select()
+            .single();
+        
+        final newFeeding = Feeding.fromJson(response);
+        
+        // 새로운 수유 기록 추가 후 다음 수유 알람 설정
+        try {
+          final alarmService = FeedingAlarmService.instance;
+          await alarmService.scheduleNextFeedingAlarm(newFeeding.startedAt);
+          debugPrint('새로운 수유 기록 추가 후 알람 설정 완료');
+        } catch (e) {
+          debugPrint('수유 알람 설정 중 오류: $e');
+        }
+        
+        return newFeeding;
+      },
+      itemType: TimelineItemType.feeding,
+      babyId: babyId,
+      timestamp: feedingStartTime,
+      action: DataSyncAction.created,
+    );
   }
   
   /// 오늘의 수유 요약 정보 가져오기
@@ -236,16 +244,56 @@ class FeedingService {
       return [];
     }
   }
+
+  /// 특정 날짜의 수유 기록 목록 가져오기
+  Future<List<Feeding>> getFeedingsForDate(String babyId, DateTime date) async {
+    try {
+      final startOfDay = DateTime(date.year, date.month, date.day);
+      final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      
+      final response = await _supabase
+          .from('feedings')
+          .select('*')
+          .eq('baby_id', babyId)
+          .gte('started_at', startOfDay.toIso8601String())
+          .lte('started_at', endOfDay.toIso8601String())
+          .order('started_at', ascending: false);
+      
+      return response.map((json) => Feeding.fromJson(json)).toList();
+    } catch (e) {
+      debugPrint('Error getting feedings for date: $e');
+      return [];
+    }
+  }
   
   /// 수유 기록 삭제
   Future<bool> deleteFeeding(String feedingId) async {
     try {
-      await _supabase
+      // 삭제 전 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('feedings')
-          .delete()
-          .eq('id', feedingId);
+          .select('baby_id, started_at')
+          .eq('id', feedingId)
+          .single();
       
-      return true;
+      final babyId = existingResponse['baby_id'] as String;
+      final startedAt = DateTime.parse(existingResponse['started_at']);
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          await _supabase
+              .from('feedings')
+              .delete()
+              .eq('id', feedingId);
+          
+          return true;
+        },
+        itemType: TimelineItemType.feeding,
+        babyId: babyId,
+        timestamp: startedAt,
+        action: DataSyncAction.deleted,
+        recordId: feedingId,
+      );
     } catch (e) {
       debugPrint('Error deleting feeding: $e');
       return false;
@@ -264,26 +312,46 @@ class FeedingService {
     DateTime? endedAt,
   }) async {
     try {
-      final updateData = <String, dynamic>{
-        'updated_at': DateTime.now().toIso8601String(),
-      };
-      
-      if (type != null) updateData['type'] = type;
-      if (amountMl != null) updateData['amount_ml'] = amountMl;
-      if (durationMinutes != null) updateData['duration_minutes'] = durationMinutes;
-      if (side != null) updateData['side'] = side;
-      if (notes != null) updateData['notes'] = notes;
-      if (startedAt != null) updateData['started_at'] = startedAt.toIso8601String();
-      if (endedAt != null) updateData['ended_at'] = endedAt.toIso8601String();
-      
-      final response = await _supabase
+      // 기존 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('feedings')
-          .update(updateData)
+          .select('baby_id, started_at')
           .eq('id', feedingId)
-          .select()
           .single();
       
-      return Feeding.fromJson(response);
+      final babyId = existingResponse['baby_id'] as String;
+      final originalStartedAt = DateTime.parse(existingResponse['started_at']);
+      final updateTimestamp = startedAt ?? originalStartedAt;
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          final updateData = <String, dynamic>{
+            'updated_at': DateTime.now().toIso8601String(),
+          };
+          
+          if (type != null) updateData['type'] = type;
+          if (amountMl != null) updateData['amount_ml'] = amountMl;
+          if (durationMinutes != null) updateData['duration_minutes'] = durationMinutes;
+          if (side != null) updateData['side'] = side;
+          if (notes != null) updateData['notes'] = notes;
+          if (startedAt != null) updateData['started_at'] = startedAt.toIso8601String();
+          if (endedAt != null) updateData['ended_at'] = endedAt.toIso8601String();
+          
+          final response = await _supabase
+              .from('feedings')
+              .update(updateData)
+              .eq('id', feedingId)
+              .select()
+              .single();
+          
+          return Feeding.fromJson(response);
+        },
+        itemType: TimelineItemType.feeding,
+        babyId: babyId,
+        timestamp: updateTimestamp,
+        action: DataSyncAction.updated,
+        recordId: feedingId,
+      );
     } catch (e) {
       debugPrint('Error updating feeding: $e');
       return null;

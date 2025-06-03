@@ -194,6 +194,27 @@ class DiaperService {
       return [];
     }
   }
+
+  /// 특정 날짜의 기저귀 교체 기록 목록 가져오기
+  Future<List<Diaper>> getDiapersForDate(String babyId, DateTime date) async {
+    try {
+      final startOfDay = DateTime(date.year, date.month, date.day);
+      final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      
+      final response = await _supabase
+          .from('diapers')
+          .select('*')
+          .eq('baby_id', babyId)
+          .gte('changed_at', startOfDay.toIso8601String())
+          .lte('changed_at', endOfDay.toIso8601String())
+          .order('changed_at', ascending: false);
+      
+      return response.map((json) => Diaper.fromJson(json)).toList();
+    } catch (e) {
+      debugPrint('Error getting diapers for date: $e');
+      return [];
+    }
+  }
   
   /// 기저귀 기록 삭제
   Future<bool> deleteDiaper(String diaperId) async {

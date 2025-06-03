@@ -194,6 +194,27 @@ class MedicationService {
       return [];
     }
   }
+
+  /// 특정 날짜의 약물 투여 기록 목록 가져오기
+  Future<List<Medication>> getMedicationsForDate(String babyId, DateTime date) async {
+    try {
+      final startOfDay = DateTime(date.year, date.month, date.day);
+      final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      
+      final response = await _supabase
+          .from('medications')
+          .select('*')
+          .eq('baby_id', babyId)
+          .gte('administered_at', startOfDay.toIso8601String())
+          .lte('administered_at', endOfDay.toIso8601String())
+          .order('administered_at', ascending: false);
+      
+      return response.map((json) => Medication.fromJson(json)).toList();
+    } catch (e) {
+      debugPrint('Error getting medications for date: $e');
+      return [];
+    }
+  }
   
   /// 약물 투여 기록 삭제
   Future<bool> deleteMedication(String medicationId) async {
