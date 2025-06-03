@@ -43,7 +43,7 @@ class SolidFoodService {
     final prefs = await SharedPreferences.getInstance();
     
     return {
-      'foodName': prefs.getString(_foodNameKey) ?? '쌀죽',
+      'foodName': prefs.getString(_foodNameKey) ?? '미음',
       'amountGrams': prefs.getInt(_amountKey) ?? 50,
       'allergicReaction': prefs.getString(_allergicReactionKey) ?? 'none',
     };

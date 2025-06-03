@@ -9,6 +9,10 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../services/user_card_setting/user_card_setting_service.dart';
 import '../../../../services/feeding/feeding_service.dart';
 import '../../../../services/sleep/sleep_service.dart';
+import '../../../../services/solid_food/solid_food_service.dart';
+import '../../../../services/medication/medication_service.dart';
+import '../../../../services/milk_pumping/milk_pumping_service.dart';
+import '../../../../services/diaper/diaper_service.dart';
 import '../widgets/default_value_dialog.dart';
 
 /// 카드 설정 화면
@@ -817,7 +821,40 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
             location: newSettings['location'],
           );
           break;
-        // 다른 카드 타입들도 필요시 추가
+        case 'solid_food':
+          final solidFoodService = SolidFoodService.instance;
+          await solidFoodService.saveSolidFoodDefaults(
+            foodName: newSettings['food_name'],
+            amountGrams: newSettings['amount_grams'],
+            allergicReaction: newSettings['allergic_reaction'],
+          );
+          break;
+        case 'medication':
+          final medicationService = MedicationService.instance;
+          await medicationService.saveMedicationDefaults(
+            medicationName: newSettings['medication_name'],
+            dosage: newSettings['dosage'],
+            unit: newSettings['unit'],
+            route: newSettings['route'],
+          );
+          break;
+        case 'milk_pumping':
+          final milkPumpingService = MilkPumpingService.instance;
+          await milkPumpingService.saveMilkPumpingDefaults(
+            amountMl: newSettings['amount_ml'],
+            durationMinutes: newSettings['duration_minutes'],
+            side: newSettings['side'],
+            storageLocation: newSettings['storage_location'],
+          );
+          break;
+        case 'diaper':
+          final diaperService = DiaperService.instance;
+          await diaperService.saveDiaperDefaults(
+            type: newSettings['type'],
+            color: newSettings['color'],
+            consistency: newSettings['consistency'],
+          );
+          break;
       }
       
       // 편집 중인 설정에서 해당 카드 찾아서 업데이트

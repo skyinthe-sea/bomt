@@ -60,13 +60,13 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
         _settings.putIfAbsent('consistency', () => '보통');
         break;
       case 'solid_food':
-        _settings.putIfAbsent('food_name', () => '');
+        _settings.putIfAbsent('food_name', () => '미음');
         _settings.putIfAbsent('amount_grams', () => 50);
         _settings.putIfAbsent('allergic_reaction', () => 'none');
         break;
       case 'medication':
-        _settings.putIfAbsent('medication_name', () => '');
-        _settings.putIfAbsent('dosage', () => '');
+        _settings.putIfAbsent('medication_name', () => '해열제');
+        _settings.putIfAbsent('dosage', () => '2.5');
         _settings.putIfAbsent('unit', () => 'ml');
         _settings.putIfAbsent('route', () => 'oral');
         break;

@@ -49,7 +49,7 @@ class MedicationService {
     
     return {
       'medicationName': prefs.getString(_medicationNameKey) ?? '해열제',
-      'dosage': prefs.getString(_dosageKey) ?? '5',
+      'dosage': prefs.getString(_dosageKey) ?? '2.5',
       'unit': prefs.getString(_unitKey) ?? 'ml',
       'route': prefs.getString(_routeKey) ?? 'oral',
     };
