@@ -75,9 +75,9 @@ class MedicationService {
         'baby_id': babyId,
         'user_id': userId,
         'medication_name': medicationName ?? defaults['medicationName'],
-        'dosage': dosage ?? defaults['dosage'],
+        'dose': dosage ?? defaults['dosage'],
         'unit': unit ?? defaults['unit'],
-        'route': route ?? defaults['route'],
+        'medication_type': route ?? defaults['route'],
         'notes': notes,
         'administered_at': (administeredAt ?? DateTime.now()).toUtc().toIso8601String(),
         'created_at': DateTime.now().toIso8601String(),
@@ -226,9 +226,9 @@ class MedicationService {
       };
       
       if (medicationName != null) updateData['medication_name'] = medicationName;
-      if (dosage != null) updateData['dosage'] = dosage;
+      if (dosage != null) updateData['dose'] = dosage;
       if (unit != null) updateData['unit'] = unit;
-      if (route != null) updateData['route'] = route;
+      if (route != null) updateData['medication_type'] = route;
       if (notes != null) updateData['notes'] = notes;
       if (administeredAt != null) updateData['administered_at'] = administeredAt.toIso8601String();
       

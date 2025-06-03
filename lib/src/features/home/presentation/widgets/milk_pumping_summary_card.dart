@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../presentation/providers/milk_pumping_provider.dart';
+import '../../../../presentation/providers/sleep_provider.dart';
+import '../../../../services/sleep/sleep_interruption_service.dart';
 
 class MilkPumpingSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
+  final MilkPumpingProvider? milkPumpingProvider;
+  final SleepProvider? sleepProvider;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   
   const MilkPumpingSummaryCard({
     super.key,
     required this.summary,
+    this.milkPumpingProvider,
+    this.sleepProvider,
     this.onTap,
     this.onLongPress,
   });
@@ -64,7 +71,7 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
   void _handleTap() {
     if (widget.onTap != null) {
       widget.onTap!();
-    } else {
+    } else if (widget.milkPumpingProvider != null) {
       _handleQuickMilkPumping();
     }
   }
@@ -101,13 +108,26 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
   }
 
   Future<void> _handleQuickMilkPumping() async {
-    // TODO: Implement quick milk pumping addition
-    await _addQuickMilkPumping();
+    if (widget.milkPumpingProvider == null) return;
+
+    // 수면 중단 확인 로직
+    if (widget.sleepProvider?.hasActiveSleep == true) {
+      final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
+        context: context,
+        sleepProvider: widget.sleepProvider!,
+        activityName: '유축',
+        onProceed: () => _addQuickMilkPumping(),
+      );
+      
+      if (!shouldProceed) return;
+    } else {
+      // 진행 중인 수면이 없으면 바로 유축 추가
+      await _addQuickMilkPumping();
+    }
   }
 
   Future<void> _addQuickMilkPumping() async {
-    // TODO: Implement adding quick milk pumping record
-    final success = true; // Mock success for now
+    final success = await widget.milkPumpingProvider!.addQuickMilkPumping();
     
     if (mounted) {
       if (success) {
@@ -158,8 +178,8 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
     final totalAmount = widget.summary['totalAmount'] ?? 0;
     final averageAmount = widget.summary['averageAmount'] ?? 0;
     final totalDuration = widget.summary['totalDuration'] ?? 0;
-    final isUpdating = widget.summary['isUpdating'] ?? false;
-    final hasActivePumping = widget.summary['hasActivePumping'] ?? false;
+    final isUpdating = widget.milkPumpingProvider?.isUpdating ?? false;
+    final hasActivePumping = widget.milkPumpingProvider?.hasActivePumping ?? false;
 
     return GestureDetector(
       onTapDown: _handleTapDown,

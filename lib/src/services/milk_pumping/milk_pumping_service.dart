@@ -51,7 +51,7 @@ class MilkPumpingService {
       'amountMl': prefs.getInt(_amountKey) ?? 100,
       'durationMinutes': prefs.getInt(_durationKey) ?? 20,
       'side': prefs.getString(_sideKey) ?? 'both',
-      'storageLocation': prefs.getString(_storageLocationKey) ?? 'fridge',
+      'storageLocation': prefs.getString(_storageLocationKey) ?? 'refrigerator',
     };
   }
   
@@ -88,7 +88,7 @@ class MilkPumpingService {
           'amount_ml': null,
           'duration_minutes': null,
           'side': side ?? defaults['side'],
-          'storage_location': storageLocation ?? defaults['storageLocation'],
+          'storage_method': storageLocation ?? defaults['storageLocation'],
           'notes': notes,
           'started_at': pumpingStartTime.toIso8601String(),
           'ended_at': null,
@@ -108,7 +108,7 @@ class MilkPumpingService {
           'amount_ml': amountMl ?? defaults['amountMl'],
           'duration_minutes': actualDuration,
           'side': side ?? defaults['side'],
-          'storage_location': storageLocation ?? defaults['storageLocation'],
+          'storage_method': storageLocation ?? defaults['storageLocation'],
           'notes': notes,
           'started_at': pumpingStartTime.toIso8601String(),
           'ended_at': pumpingEndTime.toIso8601String(),
@@ -223,9 +223,10 @@ class MilkPumpingService {
           'both': 0,
         },
         'storageCount': {
-          'fridge': 0,
+          'refrigerator': 0,
           'freezer': 0,
-          'immediate_use': 0,
+          'room_temp': 0,
+          'fed_immediately': 0,
         },
         'averageAmount': 0,
         'averageDuration': 0,
@@ -289,7 +290,7 @@ class MilkPumpingService {
       if (amountMl != null) updateData['amount_ml'] = amountMl;
       if (durationMinutes != null) updateData['duration_minutes'] = durationMinutes;
       if (side != null) updateData['side'] = side;
-      if (storageLocation != null) updateData['storage_location'] = storageLocation;
+      if (storageLocation != null) updateData['storage_method'] = storageLocation;
       if (notes != null) updateData['notes'] = notes;
       if (startedAt != null) updateData['started_at'] = startedAt.toIso8601String();
       if (endedAt != null) updateData['ended_at'] = endedAt.toIso8601String();

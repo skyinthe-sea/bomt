@@ -74,7 +74,7 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
         _settings.putIfAbsent('amount_ml', () => 100);
         _settings.putIfAbsent('duration_minutes', () => 20);
         _settings.putIfAbsent('side', () => 'both');
-        _settings.putIfAbsent('storage_location', () => 'fridge');
+        _settings.putIfAbsent('storage_location', () => 'refrigerator');
         break;
     }
   }
@@ -480,9 +480,10 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
           label: '보관 위치',
           value: _settings['storage_location'],
           items: [
-            ('fridge', '냉장고'),
+            ('refrigerator', '냉장고'),
             ('freezer', '냉동고'),
-            ('immediate_use', '즉시 사용'),
+            ('room_temp', '실온'),
+            ('fed_immediately', '즉시 사용'),
           ],
           onChanged: (value) => setState(() => _settings['storage_location'] = value),
         ),

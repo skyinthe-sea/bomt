@@ -492,11 +492,13 @@ class MilkPumpingProvider extends ChangeNotifier {
   /// 저장 위치에 따른 아이콘 반환
   IconData getStorageLocationIcon(String? location) {
     switch (location) {
-      case 'fridge':
+      case 'refrigerator':
         return Icons.kitchen;
       case 'freezer':
         return Icons.ac_unit;
-      case 'immediate_use':
+      case 'room_temp':
+        return Icons.home;
+      case 'fed_immediately':
         return Icons.local_drink;
       default:
         return Icons.storage;
@@ -506,11 +508,13 @@ class MilkPumpingProvider extends ChangeNotifier {
   /// 저장 위치에 따른 이름 반환
   String getStorageLocationName(String? location) {
     switch (location) {
-      case 'fridge':
+      case 'refrigerator':
         return '냉장고';
       case 'freezer':
         return '냉동실';
-      case 'immediate_use':
+      case 'room_temp':
+        return '실온';
+      case 'fed_immediately':
         return '즉시 사용';
       default:
         return '기타';

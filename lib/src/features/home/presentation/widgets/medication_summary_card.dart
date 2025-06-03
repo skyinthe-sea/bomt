@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../presentation/providers/medication_provider.dart';
+import '../../../../presentation/providers/sleep_provider.dart';
+import '../../../../services/sleep/sleep_interruption_service.dart';
 
 class MedicationSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
+  final MedicationProvider? medicationProvider;
+  final SleepProvider? sleepProvider;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   
   const MedicationSummaryCard({
     super.key,
     required this.summary,
+    this.medicationProvider,
+    this.sleepProvider,
     this.onTap,
     this.onLongPress,
   });
@@ -64,7 +71,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
   void _handleTap() {
     if (widget.onTap != null) {
       widget.onTap!();
-    } else {
+    } else if (widget.medicationProvider != null) {
       _handleQuickMedication();
     }
   }
@@ -101,13 +108,26 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
   }
 
   Future<void> _handleQuickMedication() async {
-    // TODO: Implement quick medication addition
-    await _addQuickMedication();
+    if (widget.medicationProvider == null) return;
+
+    // 수면 중단 확인 로직
+    if (widget.sleepProvider?.hasActiveSleep == true) {
+      final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
+        context: context,
+        sleepProvider: widget.sleepProvider!,
+        activityName: '투약',
+        onProceed: () => _addQuickMedication(),
+      );
+      
+      if (!shouldProceed) return;
+    } else {
+      // 진행 중인 수면이 없으면 바로 투약 추가
+      await _addQuickMedication();
+    }
   }
 
   Future<void> _addQuickMedication() async {
-    // TODO: Implement adding quick medication record
-    final success = true; // Mock success for now
+    final success = await widget.medicationProvider!.addQuickMedication();
     
     if (mounted) {
       if (success) {
@@ -158,7 +178,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
     final medicineCount = widget.summary['medicineCount'] ?? 0;
     final vitaminCount = widget.summary['vitaminCount'] ?? 0;
     final vaccineCount = widget.summary['vaccineCount'] ?? 0;
-    final isUpdating = widget.summary['isUpdating'] ?? false;
+    final isUpdating = widget.medicationProvider?.isUpdating ?? false;
     final hasUpcomingMedication = widget.summary['hasUpcomingMedication'] ?? false;
 
     return GestureDetector(

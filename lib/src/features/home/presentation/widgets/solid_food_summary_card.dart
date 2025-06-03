@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../presentation/providers/solid_food_provider.dart';
+import '../../../../presentation/providers/sleep_provider.dart';
+import '../../../../services/sleep/sleep_interruption_service.dart';
 
 class SolidFoodSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
+  final SolidFoodProvider? solidFoodProvider;
+  final SleepProvider? sleepProvider;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   
   const SolidFoodSummaryCard({
     super.key,
     required this.summary,
+    this.solidFoodProvider,
+    this.sleepProvider,
     this.onTap,
     this.onLongPress,
   });
@@ -64,7 +71,7 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
   void _handleTap() {
     if (widget.onTap != null) {
       widget.onTap!();
-    } else {
+    } else if (widget.solidFoodProvider != null) {
       _handleQuickSolidFood();
     }
   }
@@ -101,13 +108,26 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
   }
 
   Future<void> _handleQuickSolidFood() async {
-    // TODO: Implement quick solid food addition
-    await _addQuickSolidFood();
+    if (widget.solidFoodProvider == null) return;
+
+    // 수면 중단 확인 로직
+    if (widget.sleepProvider?.hasActiveSleep == true) {
+      final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
+        context: context,
+        sleepProvider: widget.sleepProvider!,
+        activityName: '이유식',
+        onProceed: () => _addQuickSolidFood(),
+      );
+      
+      if (!shouldProceed) return;
+    } else {
+      // 진행 중인 수면이 없으면 바로 이유식 추가
+      await _addQuickSolidFood();
+    }
   }
 
   Future<void> _addQuickSolidFood() async {
-    // TODO: Implement adding quick solid food record
-    final success = true; // Mock success for now
+    final success = await widget.solidFoodProvider!.addQuickSolidFood();
     
     if (mounted) {
       if (success) {
@@ -158,7 +178,7 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
     final mainFoods = widget.summary['mainFoods'] ?? 0;
     final snacks = widget.summary['snacks'] ?? 0;
     final totalMeals = mainFoods + snacks;
-    final isUpdating = widget.summary['isUpdating'] ?? false;
+    final isUpdating = widget.solidFoodProvider?.isUpdating ?? false;
 
     return GestureDetector(
       onTapDown: _handleTapDown,

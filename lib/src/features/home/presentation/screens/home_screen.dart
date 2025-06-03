@@ -787,14 +787,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         case 'solid_food':
           return SolidFoodSummaryCard(
             summary: _solidFoodSummary,
+            solidFoodProvider: _solidFoodProvider,
+            sleepProvider: _sleepProvider,
           );
         case 'medication':
           return MedicationSummaryCard(
             summary: _medicationSummary,
+            medicationProvider: _medicationProvider,
+            sleepProvider: _sleepProvider,
           );
         case 'milk_pumping':
           return MilkPumpingSummaryCard(
             summary: _milkPumpingSummary,
+            milkPumpingProvider: _milkPumpingProvider,
+            sleepProvider: _sleepProvider,
           );
         case 'temperature':
           return ChangeNotifierProvider.value(

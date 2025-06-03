@@ -69,8 +69,8 @@ class SolidFoodService {
         'baby_id': babyId,
         'user_id': userId,
         'food_name': foodName ?? defaults['foodName'],
-        'amount_grams': amountGrams ?? defaults['amountGrams'],
-        'allergic_reaction': allergicReaction ?? defaults['allergicReaction'],
+        'amount': amountGrams ?? defaults['amountGrams'],
+        'reaction': allergicReaction ?? defaults['allergicReaction'],
         'notes': notes,
         'started_at': (startedAt ?? DateTime.now()).toUtc().toIso8601String(),
         'ended_at': endedAt?.toIso8601String(),
@@ -119,17 +119,10 @@ class SolidFoodService {
       if (response.isNotEmpty) {
         // 총 섭취량 및 음식별, 알레르기 반응별 계산
         for (var food in response) {
-          // 총 양 계산 (텍스트로 저장됨)
-          final amount = food['amount'] as String?;
+          // 총 양 계산 (정수로 저장됨)
+          final amount = food['amount'] as int?;
           if (amount != null) {
-            // 텍스트에서 숫자 추출 시도
-            final amountMatch = RegExp(r'\d+').firstMatch(amount);
-            if (amountMatch != null) {
-              final amountValue = int.tryParse(amountMatch.group(0)!);
-              if (amountValue != null) {
-                totalAmount += amountValue;
-              }
-            }
+            totalAmount += amount;
           }
           
           final foodName = food['food_name'] as String;
