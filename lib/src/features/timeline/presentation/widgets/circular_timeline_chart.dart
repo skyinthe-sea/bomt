@@ -86,19 +86,27 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: RadialGradient(
-          colors: [
+          colors: isDark ? [
             Colors.white.withOpacity(0.15),
             Colors.white.withOpacity(0.05),
+            Colors.transparent,
+          ] : [
+            Colors.black.withOpacity(0.04),
+            Colors.black.withOpacity(0.02),
             Colors.transparent,
           ],
         ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: Colors.white.withOpacity(0.2),
+          color: isDark 
+            ? Colors.white.withOpacity(0.2)
+            : Colors.black.withOpacity(0.08),
           width: 1,
         ),
       ),
@@ -115,6 +123,8 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
   }
 
   Widget _buildHeader() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Row(
       children: [
         Container(
@@ -142,7 +152,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
           ),
         ),
         const SizedBox(width: 16),
-        const Expanded(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -151,15 +161,15 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF1A202C),
+                  color: isDark ? Colors.white : const Color(0xFF1A202C),
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
                 '시계를 터치해서 시간대별 활동을 확인하세요',
                 style: TextStyle(
                   fontSize: 14,
-                  color: Color(0xFF4A5568),
+                  color: isDark ? Colors.white70 : const Color(0xFF4A5568),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -213,6 +223,8 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
         _rippleAnimation,
       ]),
       builder: (context, child) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        
         return GestureDetector(
           onPanUpdate: _handlePanUpdate,
           onTapUp: _handleTapUp,
@@ -227,6 +239,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
                 pulseValue: _pulseAnimation.value,
                 rippleValue: _rippleAnimation.value,
                 rippleCenter: _lastPanPosition,
+                isDark: isDark,
               ),
             ),
           ),
@@ -237,6 +250,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
 
   Widget _buildSelectedHourInfo() {
     final hourlyActivities = _getActivitiesForHour(_selectedHour!);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -244,14 +258,19 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
+          colors: isDark ? [
             Colors.white.withOpacity(0.2),
             Colors.white.withOpacity(0.1),
+          ] : [
+            Colors.black.withOpacity(0.08),
+            Colors.black.withOpacity(0.04),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.white.withOpacity(0.3),
+          color: isDark 
+            ? Colors.white.withOpacity(0.3)
+            : Colors.black.withOpacity(0.15),
           width: 1,
         ),
       ),
@@ -268,21 +287,21 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
               const SizedBox(width: 8),
               Text(
                 '${_selectedHour!.toString().padLeft(2, '0')}:00 시간대',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF1A202C),
+                  color: isDark ? Colors.white : const Color(0xFF1A202C),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 12),
           if (hourlyActivities.isEmpty)
-            const Text(
+            Text(
               '이 시간대에는 활동이 없었어요',
               style: TextStyle(
                 fontSize: 14,
-                color: Color(0xFF6B7280),
+                color: isDark ? Colors.white60 : const Color(0xFF6B7280),
               ),
             )
           else
@@ -444,6 +463,7 @@ class CircularTimelinePainter extends CustomPainter {
   final double pulseValue;
   final double rippleValue;
   final Offset? rippleCenter;
+  final bool isDark;
 
   CircularTimelinePainter({
     required this.timelineItems,
@@ -452,6 +472,7 @@ class CircularTimelinePainter extends CustomPainter {
     required this.pulseValue,
     required this.rippleValue,
     this.rippleCenter,
+    required this.isDark,
   });
 
   @override
@@ -486,9 +507,13 @@ class CircularTimelinePainter extends CustomPainter {
     // 외부 그라디언트 링
     final outerPaint = Paint()
       ..shader = RadialGradient(
-        colors: [
+        colors: isDark ? [
           Colors.white.withOpacity(0.1),
           Colors.white.withOpacity(0.05),
+          Colors.transparent,
+        ] : [
+          Colors.black.withOpacity(0.06),
+          Colors.black.withOpacity(0.03),
           Colors.transparent,
         ],
       ).createShader(Rect.fromCircle(center: center, radius: radius + 20));
@@ -497,7 +522,9 @@ class CircularTimelinePainter extends CustomPainter {
 
     // 메인 배경 원
     final backgroundPaint = Paint()
-      ..color = Colors.white.withOpacity(0.08)
+      ..color = isDark 
+        ? Colors.white.withOpacity(0.08)
+        : Colors.black.withOpacity(0.12)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
     
@@ -514,9 +541,15 @@ class CircularTimelinePainter extends CustomPainter {
       final angle = (hour * 15 - 90) * pi / 180; // 15도씩 (360/24)
       final isMainHour = hour % 6 == 0; // 6시간마다 주요 마커
       
-      paint.color = isMainHour 
-          ? Colors.white.withOpacity(0.6)
-          : Colors.white.withOpacity(0.2);
+      if (isDark) {
+        paint.color = isMainHour 
+            ? Colors.white.withOpacity(0.6)
+            : Colors.white.withOpacity(0.2);
+      } else {
+        paint.color = isMainHour 
+            ? Colors.black.withOpacity(0.4)
+            : Colors.black.withOpacity(0.15);
+      }
 
       final startRadius = isMainHour ? radius - 15 : radius - 8;
       final endRadius = radius;
@@ -538,8 +571,8 @@ class CircularTimelinePainter extends CustomPainter {
         final textPainter = TextPainter(
           text: TextSpan(
             text: hour.toString(),
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: isDark ? Colors.white : Colors.black.withOpacity(0.5),
               fontSize: 12,
               fontWeight: FontWeight.w600,
             ),
@@ -614,7 +647,9 @@ class CircularTimelinePainter extends CustomPainter {
     final sweepAngle = 15 * pi / 180;
     
     final highlightPaint = Paint()
-      ..color = Colors.white.withOpacity(0.3)
+      ..color = isDark 
+        ? Colors.white.withOpacity(0.3)
+        : Colors.black.withOpacity(0.1)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 25
       ..strokeCap = StrokeCap.round;
@@ -627,7 +662,9 @@ class CircularTimelinePainter extends CustomPainter {
     if (rippleCenter == null) return;
 
     final ripplePaint = Paint()
-      ..color = Colors.white.withOpacity(0.3 * (1 - rippleValue))
+      ..color = isDark 
+        ? Colors.white.withOpacity(0.3 * (1 - rippleValue))
+        : Colors.black.withOpacity(0.12 * (1 - rippleValue))
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 

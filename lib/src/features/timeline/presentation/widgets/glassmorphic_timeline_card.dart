@@ -243,15 +243,21 @@ class _GlassmorphicTimelineCardState extends State<GlassmorphicTimelineCard>
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
+              colors: Theme.of(context).brightness == Brightness.dark ? [
                 activityColors['primary']!.withOpacity(0.15),
                 activityColors['secondary']!.withOpacity(0.1),
                 Colors.white.withOpacity(0.05),
+              ] : [
+                activityColors['primary']!.withOpacity(0.08),
+                activityColors['secondary']!.withOpacity(0.05),
+                Colors.black.withOpacity(0.02),
               ],
             ),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: Colors.white.withOpacity(0.2 + _glowAnimation.value * 0.3),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white.withOpacity(0.2 + _glowAnimation.value * 0.3)
+                  : Colors.black.withOpacity(0.1 + _glowAnimation.value * 0.1),
               width: 1.5,
             ),
             boxShadow: [
@@ -309,10 +315,12 @@ class _GlassmorphicTimelineCardState extends State<GlassmorphicTimelineCard>
                         Expanded(
                           child: Text(
                             widget.item.title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFF1A202C),
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white
+                                  : const Color(0xFF1A202C),
                             ),
                           ),
                         ),
@@ -350,7 +358,9 @@ class _GlassmorphicTimelineCardState extends State<GlassmorphicTimelineCard>
                         widget.item.subtitle!,
                         style: TextStyle(
                           fontSize: 14,
-                          color: const Color(0xFF4A5568).withOpacity(0.8),
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white.withOpacity(0.7)
+                              : const Color(0xFF4A5568).withOpacity(0.8),
                           height: 1.4,
                         ),
                       ),

@@ -120,7 +120,9 @@ class CleanTimelineHeader extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         margin: const EdgeInsets.symmetric(horizontal: 8),
         decoration: BoxDecoration(
-          color: const Color(0xFFF0F8FF), // 홈스크린 스타일 연한 배경
+          color: theme.brightness == Brightness.dark
+              ? theme.colorScheme.primary.withOpacity(0.15)
+              : const Color(0xFFF0F8FF), // 홈스크린 스타일 연한 배경
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
