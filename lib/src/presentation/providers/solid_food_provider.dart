@@ -74,8 +74,10 @@ class SolidFoodProvider extends ChangeNotifier {
     
     try {
       _todaySummary = await _solidFoodService.getTodaySolidFoodSummary(_currentBabyId!);
+      notifyListeners();
     } catch (e) {
       debugPrint('Error loading today summary: $e');
+      notifyListeners();
     }
   }
   
@@ -137,9 +139,6 @@ class SolidFoodProvider extends ChangeNotifier {
       if (solidFood != null) {
         // 새로운 기록을 목록의 맨 앞에 추가
         _todaySolidFoods.insert(0, solidFood);
-        
-        // UI 즉시 업데이트
-        notifyListeners();
         
         // 요약 데이터 업데이트
         await _loadTodaySummary();

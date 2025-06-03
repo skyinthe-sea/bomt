@@ -175,9 +175,7 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
     final isDark = theme.brightness == Brightness.dark;
     
     final count = widget.summary['count'] ?? 0;
-    final mainFoods = widget.summary['mainFoods'] ?? 0;
-    final snacks = widget.summary['snacks'] ?? 0;
-    final totalMeals = mainFoods + snacks;
+    final totalMeals = count;
     final isUpdating = widget.solidFoodProvider?.isUpdating ?? false;
 
     return GestureDetector(
@@ -283,33 +281,19 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
                       ),
                       const SizedBox(height: 8),
                       
-                      // 세번째 줄: 주식과 간식 세부사항 (오른쪽 정렬)
+                      // 세번째 줄: 총량 정보 (오른쪽 정렬)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              if (mainFoods > 0)
-                                Text(
-                                  '주식 ${mainFoods}끼',
-                                  style: theme.textTheme.titleLarge?.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.green[700],
-                                  ),
-                                ),
-                              if (snacks > 0)
-                                Text(
-                                  '간식 ${snacks}회',
-                                  style: theme.textTheme.titleLarge?.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.green[600],
-                                  ),
-                                ),
-                            ],
-                          ),
+                          if (widget.summary['totalAmount'] != null && widget.summary['totalAmount'] > 0)
+                            Text(
+                              '총 ${widget.summary['totalAmount']}g',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.green[600],
+                              ),
+                            ),
                         ],
                       ),
                     ],
