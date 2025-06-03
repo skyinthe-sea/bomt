@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import '../../../../presentation/providers/solid_food_provider.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../services/sleep/sleep_interruption_service.dart';
+import '../../../../services/solid_food/solid_food_service.dart';
+import 'record_detail_overlay.dart';
 
 class SolidFoodSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
@@ -86,24 +88,61 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
   }
 
   Future<void> _showSolidFoodRecords() async {
-    // TODO: Implement showing solid food records
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Row(
-            children: [
-              Icon(Icons.info, color: Colors.white, size: 20),
-              SizedBox(width: 8),
-              Text('이유식 기록 상세보기 (준비 중)'),
-            ],
+    if (widget.solidFoodProvider == null) return;
+
+    // Get baby ID from the provider
+    final babyId = widget.solidFoodProvider!.currentBabyId;
+    if (babyId == null) return;
+
+    try {
+      // Fetch today's solid food records
+      final solidFoods = await SolidFoodService.instance.getTodaySolidFoods(babyId);
+      final solidFoodData = solidFoods.map((solidFood) => solidFood.toJson()).toList();
+
+      if (mounted) {
+        // Show the overlay
+        showDialog(
+          context: context,
+          barrierColor: Colors.transparent,
+          barrierDismissible: false,
+          builder: (context) => RecordDetailOverlay(
+            recordType: RecordType.solidFood,
+            summary: widget.summary,
+            records: solidFoodData,
+            primaryColor: Colors.green,
+            onClose: () => Navigator.of(context).pop(),
+            onRecordDeleted: () {
+              // Refresh the parent data
+              widget.solidFoodProvider?.refreshData();
+            },
+            onRecordUpdated: () {
+              // Refresh the parent data
+              widget.solidFoodProvider?.refreshData();
+            },
           ),
-          backgroundColor: Colors.green[600],
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error fetching solid food records: $e');
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.error, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('이유식 기록을 불러오는데 실패했습니다'),
+              ],
+            ),
+            backgroundColor: Colors.red[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
   }
 

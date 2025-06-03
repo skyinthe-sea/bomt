@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import '../../../../presentation/providers/milk_pumping_provider.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../services/sleep/sleep_interruption_service.dart';
+import '../../../../services/milk_pumping/milk_pumping_service.dart';
+import 'record_detail_overlay.dart';
 
 class MilkPumpingSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
@@ -86,24 +88,61 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
   }
 
   Future<void> _showMilkPumpingRecords() async {
-    // TODO: Implement showing milk pumping records
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Row(
-            children: [
-              Icon(Icons.info, color: Colors.white, size: 20),
-              SizedBox(width: 8),
-              Text('유축 기록 상세보기 (준비 중)'),
-            ],
+    if (widget.milkPumpingProvider == null) return;
+
+    // Get baby ID from the provider
+    final babyId = widget.milkPumpingProvider!.currentBabyId;
+    if (babyId == null) return;
+
+    try {
+      // Fetch today's milk pumping records
+      final milkPumpings = await MilkPumpingService.instance.getTodayMilkPumpings(babyId);
+      final milkPumpingData = milkPumpings.map((milkPumping) => milkPumping.toJson()).toList();
+
+      if (mounted) {
+        // Show the overlay
+        showDialog(
+          context: context,
+          barrierColor: Colors.transparent,
+          barrierDismissible: false,
+          builder: (context) => RecordDetailOverlay(
+            recordType: RecordType.milkPumping,
+            summary: widget.summary,
+            records: milkPumpingData,
+            primaryColor: Colors.teal,
+            onClose: () => Navigator.of(context).pop(),
+            onRecordDeleted: () {
+              // Refresh the parent data
+              widget.milkPumpingProvider?.refreshData();
+            },
+            onRecordUpdated: () {
+              // Refresh the parent data
+              widget.milkPumpingProvider?.refreshData();
+            },
           ),
-          backgroundColor: Colors.teal[600],
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error fetching milk pumping records: $e');
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.error, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('유축 기록을 불러오는데 실패했습니다'),
+              ],
+            ),
+            backgroundColor: Colors.red[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
   }
 

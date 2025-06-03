@@ -202,6 +202,7 @@ class MilkPumpingProvider extends ChangeNotifier {
       final milkPumping = await _milkPumpingService.addMilkPumping(
         babyId: _currentBabyId!,
         userId: _currentUserId!,
+        endedAt: DateTime.now(), // 완료된 유축으로 설정
         // 기본 설정값들이 자동으로 사용됨
       );
       

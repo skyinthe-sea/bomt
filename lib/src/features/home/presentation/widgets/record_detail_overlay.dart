@@ -3,9 +3,12 @@ import 'package:flutter/services.dart';
 import '../../../../services/feeding/feeding_service.dart';
 import '../../../../services/sleep/sleep_service.dart';
 import '../../../../services/diaper/diaper_service.dart';
+import '../../../../services/milk_pumping/milk_pumping_service.dart';
+import '../../../../services/solid_food/solid_food_service.dart';
+import '../../../../services/medication/medication_service.dart';
 import 'edit_record_dialog.dart';
 
-enum RecordType { feeding, sleep, diaper }
+enum RecordType { feeding, sleep, diaper, milkPumping, solidFood, medication }
 
 class RecordDetailOverlay extends StatefulWidget {
   final RecordType recordType;
@@ -159,6 +162,15 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
         case RecordType.diaper:
           success = await DiaperService.instance.deleteDiaper(recordId);
           break;
+        case RecordType.milkPumping:
+          success = await MilkPumpingService.instance.deleteMilkPumping(recordId);
+          break;
+        case RecordType.solidFood:
+          success = await SolidFoodService.instance.deleteSolidFood(recordId);
+          break;
+        case RecordType.medication:
+          success = await MedicationService.instance.deleteMedication(recordId);
+          break;
       }
 
       if (success && mounted) {
@@ -268,6 +280,12 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
         return '수면';
       case RecordType.diaper:
         return '기저귀';
+      case RecordType.milkPumping:
+        return '유축';
+      case RecordType.solidFood:
+        return '이유식';
+      case RecordType.medication:
+        return '투약';
     }
   }
 
@@ -279,6 +297,12 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
         return Icons.bedtime;
       case RecordType.diaper:
         return Icons.child_care;
+      case RecordType.milkPumping:
+        return Icons.opacity;
+      case RecordType.solidFood:
+        return Icons.restaurant;
+      case RecordType.medication:
+        return Icons.medical_services;
     }
   }
 
@@ -322,6 +346,40 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
             notes: updatedRecord['notes'],
             startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']).toLocal() : null,
             endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']).toLocal() : null,
+          );
+          break;
+        case RecordType.milkPumping:
+          result = await MilkPumpingService.instance.updateMilkPumping(
+            milkPumpingId: recordId,
+            amountMl: updatedRecord['amount_ml'],
+            durationMinutes: updatedRecord['duration_minutes'],
+            side: updatedRecord['side'],
+            storageLocation: updatedRecord['storage_method'],
+            notes: updatedRecord['notes'],
+            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']).toLocal() : null,
+            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']).toLocal() : null,
+          );
+          break;
+        case RecordType.solidFood:
+          result = await SolidFoodService.instance.updateSolidFood(
+            solidFoodId: recordId,
+            foodName: updatedRecord['food_name'],
+            amountGrams: updatedRecord['amount'],
+            allergicReaction: updatedRecord['reaction'],
+            notes: updatedRecord['notes'],
+            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']).toLocal() : null,
+            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']).toLocal() : null,
+          );
+          break;
+        case RecordType.medication:
+          result = await MedicationService.instance.updateMedication(
+            medicationId: recordId,
+            medicationName: updatedRecord['medication_name'],
+            dosage: updatedRecord['dosage'],
+            unit: updatedRecord['unit'],
+            route: updatedRecord['medication_type'],
+            notes: updatedRecord['notes'],
+            administeredAt: updatedRecord['administered_at'] != null ? DateTime.parse(updatedRecord['administered_at']).toLocal() : null,
           );
           break;
         case RecordType.diaper:
@@ -779,6 +837,12 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
         return _buildSleepRecord(record);
       case RecordType.diaper:
         return _buildDiaperRecord(record);
+      case RecordType.milkPumping:
+        return _buildMilkPumpingRecord(record);
+      case RecordType.solidFood:
+        return _buildSolidFoodRecord(record);
+      case RecordType.medication:
+        return _buildMedicationRecord(record);
     }
   }
 
@@ -1020,6 +1084,222 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                     const Text(' • '),
                     Text(
                       color,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMilkPumpingRecord(Map<String, dynamic> record) {
+    final theme = Theme.of(context);
+    final startedAt = DateTime.parse(record['started_at']).toLocal();
+    final amount = record['amount_ml'] ?? 0;
+    final duration = record['duration_minutes'] ?? 0;
+    final side = record['side'] ?? '';
+
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.teal.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            Icons.opacity,
+            color: Colors.teal,
+            size: 20,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    '${startedAt.hour.toString().padLeft(2, '0')}:${startedAt.minute.toString().padLeft(2, '0')}',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Spacer(),
+                  if (amount > 0)
+                    Text(
+                      '${amount}ml',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: Colors.teal,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  if (duration > 0) ...[
+                    Text(
+                      '${duration}분',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                  if (side.isNotEmpty) ...[
+                    const Text(' • '),
+                    Text(
+                      side == 'left' ? '왼쪽' : side == 'right' ? '오른쪽' : '양쪽',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSolidFoodRecord(Map<String, dynamic> record) {
+    final theme = Theme.of(context);
+    final startedAt = DateTime.parse(record['started_at']).toLocal();
+    final foodName = record['food_name'] ?? '';
+    final amount = record['amount'] ?? 0;
+    final reaction = record['reaction'] ?? '';
+
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.green.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            Icons.restaurant,
+            color: Colors.green,
+            size: 20,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    '${startedAt.hour.toString().padLeft(2, '0')}:${startedAt.minute.toString().padLeft(2, '0')}',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Spacer(),
+                  if (amount > 0)
+                    Text(
+                      '${amount}g',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  if (foodName.isNotEmpty) ...[
+                    Text(
+                      foodName,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                  if (reaction.isNotEmpty && reaction != 'none') ...[
+                    const Text(' • '),
+                    Text(
+                      reaction == 'mild' ? '경미한 반응' : 
+                      reaction == 'moderate' ? '보통 반응' :
+                      reaction == 'severe' ? '심각한 반응' : reaction,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: reaction == 'severe' ? Colors.red : 
+                               reaction == 'moderate' ? Colors.orange : Colors.yellow[700],
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMedicationRecord(Map<String, dynamic> record) {
+    final theme = Theme.of(context);
+    final administeredAt = DateTime.parse(record['administered_at']).toLocal();
+    final medicationName = record['medication_name'] ?? '';
+    final dosage = record['dosage'] ?? '';
+    final unit = record['unit'] ?? '';
+
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.pink.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            Icons.medical_services,
+            color: Colors.pink,
+            size: 20,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    '${administeredAt.hour.toString().padLeft(2, '0')}:${administeredAt.minute.toString().padLeft(2, '0')}',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Spacer(),
+                  if (dosage.isNotEmpty)
+                    Text(
+                      '$dosage$unit',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: Colors.pink,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  if (medicationName.isNotEmpty) ...[
+                    Text(
+                      medicationName,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),

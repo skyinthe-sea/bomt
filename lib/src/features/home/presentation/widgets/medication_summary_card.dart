@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import '../../../../presentation/providers/medication_provider.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../services/sleep/sleep_interruption_service.dart';
+import '../../../../services/medication/medication_service.dart';
+import 'record_detail_overlay.dart';
 
 class MedicationSummaryCard extends StatefulWidget {
   final Map<String, dynamic> summary;
@@ -86,24 +88,61 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
   }
 
   Future<void> _showMedicationRecords() async {
-    // TODO: Implement showing medication records
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Row(
-            children: [
-              Icon(Icons.info, color: Colors.white, size: 20),
-              SizedBox(width: 8),
-              Text('투약 기록 상세보기 (준비 중)'),
-            ],
+    if (widget.medicationProvider == null) return;
+
+    // Get baby ID from the provider
+    final babyId = widget.medicationProvider!.currentBabyId;
+    if (babyId == null) return;
+
+    try {
+      // Fetch today's medication records
+      final medications = await MedicationService.instance.getTodayMedications(babyId);
+      final medicationData = medications.map((medication) => medication.toJson()).toList();
+
+      if (mounted) {
+        // Show the overlay
+        showDialog(
+          context: context,
+          barrierColor: Colors.transparent,
+          barrierDismissible: false,
+          builder: (context) => RecordDetailOverlay(
+            recordType: RecordType.medication,
+            summary: widget.summary,
+            records: medicationData,
+            primaryColor: Colors.pink,
+            onClose: () => Navigator.of(context).pop(),
+            onRecordDeleted: () {
+              // Refresh the parent data
+              widget.medicationProvider?.refreshData();
+            },
+            onRecordUpdated: () {
+              // Refresh the parent data
+              widget.medicationProvider?.refreshData();
+            },
           ),
-          backgroundColor: Colors.pink[600],
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error fetching medication records: $e');
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.error, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text('투약 기록을 불러오는데 실패했습니다'),
+              ],
+            ),
+            backgroundColor: Colors.red[600],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
   }
 

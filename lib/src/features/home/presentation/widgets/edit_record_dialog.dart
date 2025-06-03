@@ -36,6 +36,12 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
         return '수면';
       case RecordType.diaper:
         return '기저귀';
+      case RecordType.milkPumping:
+        return '유축';
+      case RecordType.solidFood:
+        return '이유식';
+      case RecordType.medication:
+        return '투약';
     }
   }
 
@@ -173,6 +179,12 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
         return _buildSleepForm();
       case RecordType.diaper:
         return _buildDiaperForm();
+      case RecordType.milkPumping:
+        return _buildMilkPumpingForm();
+      case RecordType.solidFood:
+        return _buildSolidFoodForm();
+      case RecordType.medication:
+        return _buildMedicationForm();
     }
   }
 
@@ -664,6 +676,12 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
         return Colors.purple;
       case RecordType.diaper:
         return Colors.amber;
+      case RecordType.milkPumping:
+        return Colors.teal;
+      case RecordType.solidFood:
+        return Colors.green;
+      case RecordType.medication:
+        return Colors.pink;
     }
   }
 
@@ -675,6 +693,12 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
         return Icons.bedtime;
       case RecordType.diaper:
         return Icons.child_care;
+      case RecordType.milkPumping:
+        return Icons.opacity;
+      case RecordType.solidFood:
+        return Icons.restaurant;
+      case RecordType.medication:
+        return Icons.medical_services;
     }
   }
 
@@ -720,5 +744,35 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
         });
       }
     }
+  }
+
+  Widget _buildMilkPumpingForm() {
+    return Column(
+      children: [
+        const Text('유축 기록 편집 기능은 준비 중입니다.'),
+        const SizedBox(height: 20),
+        Text('기록 ID: ${widget.record['id']}'),
+      ],
+    );
+  }
+
+  Widget _buildSolidFoodForm() {
+    return Column(
+      children: [
+        const Text('이유식 기록 편집 기능은 준비 중입니다.'),
+        const SizedBox(height: 20),
+        Text('기록 ID: ${widget.record['id']}'),
+      ],
+    );
+  }
+
+  Widget _buildMedicationForm() {
+    return Column(
+      children: [
+        const Text('투약 기록 편집 기능은 준비 중입니다.'),
+        const SizedBox(height: 20),
+        Text('기록 ID: ${widget.record['id']}'),
+      ],
+    );
   }
 }
