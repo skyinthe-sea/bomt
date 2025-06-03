@@ -233,6 +233,7 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
             scale: _scaleAnimation.value,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
+              height: 120,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isPressed
@@ -348,15 +349,6 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
                                   color: Colors.teal[700],
                                 ),
                               ),
-                              if (averageAmount > 0)
-                                Text(
-                                  '평균 ${averageAmount}ml',
-                                  style: theme.textTheme.titleLarge?.copyWith(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.teal[600],
-                                  ),
-                                ),
                             ],
                           ),
                         ],

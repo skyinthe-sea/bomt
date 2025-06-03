@@ -233,7 +233,8 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
             scale: _scaleAnimation.value,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.all(12),
+              height: 120,
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: _isPressed
                     ? (isDark 

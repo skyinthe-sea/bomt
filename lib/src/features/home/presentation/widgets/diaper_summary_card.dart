@@ -274,6 +274,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
             scale: _scaleAnimation.value,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
+              height: 120,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isPressed

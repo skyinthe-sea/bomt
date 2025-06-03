@@ -276,6 +276,7 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
             scale: _scaleAnimation.value,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
+              height: 120,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isPressed

@@ -180,6 +180,7 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
           return Transform.scale(
             scale: _scaleAnimation.value,
             child: Container(
+              height: 120,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: isDark 
