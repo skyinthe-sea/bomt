@@ -748,30 +748,315 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
 
   Widget _buildMilkPumpingForm() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('유축 기록 편집 기능은 준비 중입니다.'),
+        _buildDateTimeField(
+          label: '유축 시작 시간',
+          value: DateTime.parse(_editedRecord['started_at']).toLocal(),
+          onChanged: (dateTime) {
+            setState(() {
+              _editedRecord['started_at'] = dateTime.toIso8601String();
+            });
+          },
+        ),
         const SizedBox(height: 20),
-        Text('기록 ID: ${widget.record['id']}'),
+        
+        if (_editedRecord['ended_at'] != null) ...[
+          _buildDateTimeField(
+            label: '유축 종료 시간',
+            value: DateTime.parse(_editedRecord['ended_at']).toLocal(),
+            onChanged: (dateTime) {
+              setState(() {
+                _editedRecord['ended_at'] = dateTime.toIso8601String();
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        if (_editedRecord['amount_ml'] != null) ...[
+          _buildNumberField(
+            label: '유축량 (ml)',
+            value: _editedRecord['amount_ml'] ?? 0,
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['amount_ml'] = value;
+              });
+            },
+            min: 0,
+            max: 500,
+            step: 10,
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        if (_editedRecord['duration_minutes'] != null) ...[
+          _buildNumberField(
+            label: '유축 시간 (분)',
+            value: _editedRecord['duration_minutes'] ?? 0,
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['duration_minutes'] = value;
+              });
+            },
+            min: 1,
+            max: 120,
+            step: 1,
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        if (_editedRecord['side'] != null) ...[
+          _buildDropdownField(
+            label: '유축 위치',
+            value: _editedRecord['side'] ?? 'both',
+            items: const [
+              {'value': 'left', 'label': '왼쪽'},
+              {'value': 'right', 'label': '오른쪽'},
+              {'value': 'both', 'label': '양쪽'},
+            ],
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['side'] = value;
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        if (_editedRecord['storage_method'] != null) ...[
+          _buildDropdownField(
+            label: '저장 방법',
+            value: _editedRecord['storage_method'] ?? 'refrigerator',
+            items: const [
+              {'value': 'refrigerator', 'label': '냉장고'},
+              {'value': 'freezer', 'label': '냉동실'},
+              {'value': 'room_temp', 'label': '실온'},
+              {'value': 'fed_immediately', 'label': '즉시 사용'},
+            ],
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['storage_method'] = value;
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        if (_editedRecord['notes'] != null) ...[
+          _buildTextField(
+            label: '메모',
+            value: _editedRecord['notes'] ?? '',
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['notes'] = value.isEmpty ? null : value;
+              });
+            },
+            maxLines: 3,
+          ),
+          const SizedBox(height: 20),
+        ],
       ],
     );
   }
 
   Widget _buildSolidFoodForm() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('이유식 기록 편집 기능은 준비 중입니다.'),
+        _buildDateTimeField(
+          label: '이유식 시작 시간',
+          value: DateTime.parse(_editedRecord['started_at']).toLocal(),
+          onChanged: (dateTime) {
+            setState(() {
+              _editedRecord['started_at'] = dateTime.toIso8601String();
+            });
+          },
+        ),
         const SizedBox(height: 20),
-        Text('기록 ID: ${widget.record['id']}'),
+        
+        if (_editedRecord['ended_at'] != null) ...[
+          _buildDateTimeField(
+            label: '이유식 종료 시간',
+            value: DateTime.parse(_editedRecord['ended_at']).toLocal(),
+            onChanged: (dateTime) {
+              setState(() {
+                _editedRecord['ended_at'] = dateTime.toIso8601String();
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        if (_editedRecord['food_name'] != null) ...[
+          _buildTextField(
+            label: '음식명',
+            value: _editedRecord['food_name'] ?? '',
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['food_name'] = value;
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        if (_editedRecord['amount'] != null) ...[
+          _buildNumberField(
+            label: '양 (g)',
+            value: _editedRecord['amount'] ?? 0,
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['amount'] = value;
+              });
+            },
+            min: 0,
+            max: 1000,
+            step: 5,
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        if (_editedRecord['reaction'] != null) ...[
+          _buildDropdownField(
+            label: '알레르기 반응',
+            value: _editedRecord['reaction'] ?? 'none',
+            items: const [
+              {'value': 'none', 'label': '없음'},
+              {'value': 'mild', 'label': '경미'},
+              {'value': 'moderate', 'label': '보통'},
+              {'value': 'severe', 'label': '심각'},
+            ],
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['reaction'] = value;
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        if (_editedRecord['notes'] != null) ...[
+          _buildTextField(
+            label: '메모',
+            value: _editedRecord['notes'] ?? '',
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['notes'] = value.isEmpty ? null : value;
+              });
+            },
+            maxLines: 3,
+          ),
+          const SizedBox(height: 20),
+        ],
       ],
     );
   }
 
   Widget _buildMedicationForm() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('투약 기록 편집 기능은 준비 중입니다.'),
+        _buildDateTimeField(
+          label: '투약 시간',
+          value: DateTime.parse(_editedRecord['administered_at']).toLocal(),
+          onChanged: (dateTime) {
+            setState(() {
+              _editedRecord['administered_at'] = dateTime.toIso8601String();
+            });
+          },
+        ),
         const SizedBox(height: 20),
-        Text('기록 ID: ${widget.record['id']}'),
+
+        if (_editedRecord['medication_name'] != null) ...[
+          _buildTextField(
+            label: '약물명',
+            value: _editedRecord['medication_name'] ?? '',
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['medication_name'] = value;
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        Row(
+          children: [
+            if (_editedRecord['dosage'] != null) ...[
+              Expanded(
+                flex: 2,
+                child: _buildTextField(
+                  label: '복용량',
+                  value: _editedRecord['dosage'] ?? '',
+                  onChanged: (value) {
+                    setState(() {
+                      _editedRecord['dosage'] = value;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(width: 12),
+            ],
+            if (_editedRecord['unit'] != null) ...[
+              Expanded(
+                child: _buildDropdownField(
+                  label: '단위',
+                  value: _editedRecord['unit'] ?? 'ml',
+                  items: const [
+                    {'value': 'ml', 'label': 'ml'},
+                    {'value': 'mg', 'label': 'mg'},
+                    {'value': 'g', 'label': 'g'},
+                    {'value': '정', 'label': '정'},
+                    {'value': '캡슐', 'label': '캡슐'},
+                    {'value': '방울', 'label': '방울'},
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _editedRecord['unit'] = value;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ],
+        ),
+        const SizedBox(height: 20),
+
+        if (_editedRecord['medication_type'] != null) ...[
+          _buildDropdownField(
+            label: '투약 경로',
+            value: _editedRecord['medication_type'] ?? 'oral',
+            items: const [
+              {'value': 'oral', 'label': '경구'},
+              {'value': 'topical', 'label': '국소'},
+              {'value': 'inhaled', 'label': '흡입'},
+              {'value': 'injection', 'label': '주사'},
+              {'value': 'eye_drops', 'label': '점안액'},
+              {'value': 'nasal', 'label': '비강'},
+            ],
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['medication_type'] = value;
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        if (_editedRecord['notes'] != null) ...[
+          _buildTextField(
+            label: '메모',
+            value: _editedRecord['notes'] ?? '',
+            onChanged: (value) {
+              setState(() {
+                _editedRecord['notes'] = value.isEmpty ? null : value;
+              });
+            },
+            maxLines: 3,
+          ),
+          const SizedBox(height: 20),
+        ],
       ],
     );
   }
