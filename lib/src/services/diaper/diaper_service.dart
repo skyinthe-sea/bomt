@@ -3,9 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../domain/models/diaper.dart';
+import '../../domain/models/timeline_item.dart';
 import '../../core/config/supabase_config.dart';
+import '../../core/mixins/data_sync_mixin.dart';
+import '../../core/events/data_sync_events.dart';
 
-class DiaperService {
+class DiaperService with DataSyncMixin {
   static DiaperService? _instance;
   static DiaperService get instance => _instance ??= DiaperService._();
   
@@ -59,34 +62,39 @@ class DiaperService {
     String? notes,
     DateTime? changedAt,
   }) async {
-    try {
-      // 기본값이 설정되지 않은 경우 저장된 기본값 사용
-      final defaults = await getDiaperDefaults();
-      
-      final diaperData = {
-        'id': _uuid.v4(),
-        'baby_id': babyId,
-        'user_id': userId,
-        'type': type ?? defaults['type'],
-        'color': color ?? defaults['color'],
-        'consistency': consistency ?? defaults['consistency'],
-        'notes': notes,
-        'changed_at': (changedAt ?? DateTime.now()).toIso8601String(),
-        'created_at': DateTime.now().toIso8601String(),
-        'updated_at': DateTime.now().toIso8601String(),
-      };
-      
-      final response = await _supabase
-          .from('diapers')
-          .insert(diaperData)
-          .select()
-          .single();
-      
-      return Diaper.fromJson(response);
-    } catch (e) {
-      debugPrint('Error adding diaper: $e');
-      return null;
-    }
+    final diaperChangeTime = changedAt ?? DateTime.now();
+    
+    return await withDataSyncEvent(
+      operation: () async {
+        // 기본값이 설정되지 않은 경우 저장된 기본값 사용
+        final defaults = await getDiaperDefaults();
+        
+        final diaperData = {
+          'id': _uuid.v4(),
+          'baby_id': babyId,
+          'user_id': userId,
+          'type': type ?? defaults['type'],
+          'color': color ?? defaults['color'],
+          'consistency': consistency ?? defaults['consistency'],
+          'notes': notes,
+          'changed_at': diaperChangeTime.toIso8601String(),
+          'created_at': DateTime.now().toIso8601String(),
+          'updated_at': DateTime.now().toIso8601String(),
+        };
+        
+        final response = await _supabase
+            .from('diapers')
+            .insert(diaperData)
+            .select()
+            .single();
+        
+        return Diaper.fromJson(response);
+      },
+      itemType: TimelineItemType.diaper,
+      babyId: babyId,
+      timestamp: diaperChangeTime,
+      action: DataSyncAction.created,
+    );
   }
   
   /// 오늘의 기저귀 요약 정보 가져오기
@@ -219,12 +227,31 @@ class DiaperService {
   /// 기저귀 기록 삭제
   Future<bool> deleteDiaper(String diaperId) async {
     try {
-      await _supabase
+      // 삭제 전 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('diapers')
-          .delete()
-          .eq('id', diaperId);
+          .select('baby_id, changed_at')
+          .eq('id', diaperId)
+          .single();
       
-      return true;
+      final babyId = existingResponse['baby_id'] as String;
+      final changedAt = DateTime.parse(existingResponse['changed_at']);
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          await _supabase
+              .from('diapers')
+              .delete()
+              .eq('id', diaperId);
+          
+          return true;
+        },
+        itemType: TimelineItemType.diaper,
+        babyId: babyId,
+        timestamp: changedAt,
+        action: DataSyncAction.deleted,
+        recordId: diaperId,
+      );
     } catch (e) {
       debugPrint('Error deleting diaper: $e');
       return false;
@@ -241,24 +268,44 @@ class DiaperService {
     DateTime? changedAt,
   }) async {
     try {
-      final updateData = <String, dynamic>{
-        'updated_at': DateTime.now().toIso8601String(),
-      };
-      
-      if (type != null) updateData['type'] = type;
-      if (color != null) updateData['color'] = color;
-      if (consistency != null) updateData['consistency'] = consistency;
-      if (notes != null) updateData['notes'] = notes;
-      if (changedAt != null) updateData['changed_at'] = changedAt.toIso8601String();
-      
-      final response = await _supabase
+      // 기존 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('diapers')
-          .update(updateData)
+          .select('baby_id, changed_at')
           .eq('id', diaperId)
-          .select()
           .single();
       
-      return Diaper.fromJson(response);
+      final babyId = existingResponse['baby_id'] as String;
+      final originalChangedAt = DateTime.parse(existingResponse['changed_at']);
+      final updateTimestamp = changedAt ?? originalChangedAt;
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          final updateData = <String, dynamic>{
+            'updated_at': DateTime.now().toIso8601String(),
+          };
+          
+          if (type != null) updateData['type'] = type;
+          if (color != null) updateData['color'] = color;
+          if (consistency != null) updateData['consistency'] = consistency;
+          if (notes != null) updateData['notes'] = notes;
+          if (changedAt != null) updateData['changed_at'] = changedAt.toIso8601String();
+          
+          final response = await _supabase
+              .from('diapers')
+              .update(updateData)
+              .eq('id', diaperId)
+              .select()
+              .single();
+          
+          return Diaper.fromJson(response);
+        },
+        itemType: TimelineItemType.diaper,
+        babyId: babyId,
+        timestamp: updateTimestamp,
+        action: DataSyncAction.updated,
+        recordId: diaperId,
+      );
     } catch (e) {
       debugPrint('Error updating diaper: $e');
       return null;

@@ -3,9 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../domain/models/medication.dart';
+import '../../domain/models/timeline_item.dart';
 import '../../core/config/supabase_config.dart';
+import '../../core/mixins/data_sync_mixin.dart';
+import '../../core/events/data_sync_events.dart';
 
-class MedicationService {
+class MedicationService with DataSyncMixin {
   static MedicationService? _instance;
   static MedicationService get instance => _instance ??= MedicationService._();
   
@@ -66,35 +69,40 @@ class MedicationService {
     String? notes,
     DateTime? administeredAt,
   }) async {
-    try {
-      // 기본값이 설정되지 않은 경우 저장된 기본값 사용
-      final defaults = await getMedicationDefaults();
-      
-      final medicationData = {
-        'id': _uuid.v4(),
-        'baby_id': babyId,
-        'user_id': userId,
-        'medication_name': medicationName ?? defaults['medicationName'],
-        'dose': dosage ?? defaults['dosage'],
-        'unit': unit ?? defaults['unit'],
-        'medication_type': route ?? defaults['route'],
-        'notes': notes,
-        'administered_at': (administeredAt ?? DateTime.now()).toUtc().toIso8601String(),
-        'created_at': DateTime.now().toIso8601String(),
-        'updated_at': DateTime.now().toIso8601String(),
-      };
-      
-      final response = await _supabase
-          .from('medications')
-          .insert(medicationData)
-          .select()
-          .single();
-      
-      return Medication.fromJson(response);
-    } catch (e) {
-      debugPrint('Error adding medication: $e');
-      return null;
-    }
+    final medicationTime = administeredAt ?? DateTime.now();
+    
+    return await withDataSyncEvent(
+      operation: () async {
+        // 기본값이 설정되지 않은 경우 저장된 기본값 사용
+        final defaults = await getMedicationDefaults();
+        
+        final medicationData = {
+          'id': _uuid.v4(),
+          'baby_id': babyId,
+          'user_id': userId,
+          'medication_name': medicationName ?? defaults['medicationName'],
+          'dose': dosage ?? defaults['dosage'],
+          'unit': unit ?? defaults['unit'],
+          'medication_type': route ?? defaults['route'],
+          'notes': notes,
+          'administered_at': medicationTime.toUtc().toIso8601String(),
+          'created_at': DateTime.now().toIso8601String(),
+          'updated_at': DateTime.now().toIso8601String(),
+        };
+        
+        final response = await _supabase
+            .from('medications')
+            .insert(medicationData)
+            .select()
+            .single();
+        
+        return Medication.fromJson(response);
+      },
+      itemType: TimelineItemType.medication,
+      babyId: babyId,
+      timestamp: medicationTime,
+      action: DataSyncAction.created,
+    );
   }
   
   /// 오늘의 약물 투여 요약 정보 가져오기
@@ -219,12 +227,31 @@ class MedicationService {
   /// 약물 투여 기록 삭제
   Future<bool> deleteMedication(String medicationId) async {
     try {
-      await _supabase
+      // 삭제 전 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('medications')
-          .delete()
-          .eq('id', medicationId);
+          .select('baby_id, administered_at')
+          .eq('id', medicationId)
+          .single();
       
-      return true;
+      final babyId = existingResponse['baby_id'] as String;
+      final administeredAt = DateTime.parse(existingResponse['administered_at']);
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          await _supabase
+              .from('medications')
+              .delete()
+              .eq('id', medicationId);
+          
+          return true;
+        },
+        itemType: TimelineItemType.medication,
+        babyId: babyId,
+        timestamp: administeredAt,
+        action: DataSyncAction.deleted,
+        recordId: medicationId,
+      );
     } catch (e) {
       debugPrint('Error deleting medication: $e');
       return false;
@@ -242,25 +269,45 @@ class MedicationService {
     DateTime? administeredAt,
   }) async {
     try {
-      final updateData = <String, dynamic>{
-        'updated_at': DateTime.now().toIso8601String(),
-      };
-      
-      if (medicationName != null) updateData['medication_name'] = medicationName;
-      if (dosage != null) updateData['dose'] = dosage;
-      if (unit != null) updateData['unit'] = unit;
-      if (route != null) updateData['medication_type'] = route;
-      if (notes != null) updateData['notes'] = notes;
-      if (administeredAt != null) updateData['administered_at'] = administeredAt.toIso8601String();
-      
-      final response = await _supabase
+      // 기존 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('medications')
-          .update(updateData)
+          .select('baby_id, administered_at')
           .eq('id', medicationId)
-          .select()
           .single();
       
-      return Medication.fromJson(response);
+      final babyId = existingResponse['baby_id'] as String;
+      final originalAdministeredAt = DateTime.parse(existingResponse['administered_at']);
+      final updateTimestamp = administeredAt ?? originalAdministeredAt;
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          final updateData = <String, dynamic>{
+            'updated_at': DateTime.now().toIso8601String(),
+          };
+          
+          if (medicationName != null) updateData['medication_name'] = medicationName;
+          if (dosage != null) updateData['dose'] = dosage;
+          if (unit != null) updateData['unit'] = unit;
+          if (route != null) updateData['medication_type'] = route;
+          if (notes != null) updateData['notes'] = notes;
+          if (administeredAt != null) updateData['administered_at'] = administeredAt.toIso8601String();
+          
+          final response = await _supabase
+              .from('medications')
+              .update(updateData)
+              .eq('id', medicationId)
+              .select()
+              .single();
+          
+          return Medication.fromJson(response);
+        },
+        itemType: TimelineItemType.medication,
+        babyId: babyId,
+        timestamp: updateTimestamp,
+        action: DataSyncAction.updated,
+        recordId: medicationId,
+      );
     } catch (e) {
       debugPrint('Error updating medication: $e');
       return null;

@@ -3,9 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../domain/models/solid_food.dart';
+import '../../domain/models/timeline_item.dart';
 import '../../core/config/supabase_config.dart';
+import '../../core/mixins/data_sync_mixin.dart';
+import '../../core/events/data_sync_events.dart';
 
-class SolidFoodService {
+class SolidFoodService with DataSyncMixin {
   static SolidFoodService? _instance;
   static SolidFoodService get instance => _instance ??= SolidFoodService._();
   
@@ -60,35 +63,40 @@ class SolidFoodService {
     DateTime? startedAt,
     DateTime? endedAt,
   }) async {
-    try {
-      // 기본값이 설정되지 않은 경우 저장된 기본값 사용
-      final defaults = await getSolidFoodDefaults();
-      
-      final solidFoodData = {
-        'id': _uuid.v4(),
-        'baby_id': babyId,
-        'user_id': userId,
-        'food_name': foodName ?? defaults['foodName'],
-        'amount': amountGrams ?? defaults['amountGrams'],
-        'reaction': allergicReaction ?? defaults['allergicReaction'],
-        'notes': notes,
-        'started_at': (startedAt ?? DateTime.now()).toUtc().toIso8601String(),
-        'ended_at': endedAt?.toIso8601String(),
-        'created_at': DateTime.now().toIso8601String(),
-        'updated_at': DateTime.now().toIso8601String(),
-      };
-      
-      final response = await _supabase
-          .from('solid_foods')
-          .insert(solidFoodData)
-          .select()
-          .single();
-      
-      return SolidFood.fromJson(response);
-    } catch (e) {
-      debugPrint('Error adding solid food: $e');
-      return null;
-    }
+    final solidFoodStartTime = startedAt ?? DateTime.now();
+    
+    return await withDataSyncEvent(
+      operation: () async {
+        // 기본값이 설정되지 않은 경우 저장된 기본값 사용
+        final defaults = await getSolidFoodDefaults();
+        
+        final solidFoodData = {
+          'id': _uuid.v4(),
+          'baby_id': babyId,
+          'user_id': userId,
+          'food_name': foodName ?? defaults['foodName'],
+          'amount': amountGrams ?? defaults['amountGrams'],
+          'reaction': allergicReaction ?? defaults['allergicReaction'],
+          'notes': notes,
+          'started_at': solidFoodStartTime.toUtc().toIso8601String(),
+          'ended_at': endedAt?.toIso8601String(),
+          'created_at': DateTime.now().toIso8601String(),
+          'updated_at': DateTime.now().toIso8601String(),
+        };
+        
+        final response = await _supabase
+            .from('solid_foods')
+            .insert(solidFoodData)
+            .select()
+            .single();
+        
+        return SolidFood.fromJson(response);
+      },
+      itemType: TimelineItemType.solidFood,
+      babyId: babyId,
+      timestamp: solidFoodStartTime,
+      action: DataSyncAction.created,
+    );
   }
   
   /// 오늘의 이유식 요약 정보 가져오기
@@ -212,12 +220,31 @@ class SolidFoodService {
   /// 이유식 기록 삭제
   Future<bool> deleteSolidFood(String solidFoodId) async {
     try {
-      await _supabase
+      // 삭제 전 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('solid_foods')
-          .delete()
-          .eq('id', solidFoodId);
+          .select('baby_id, started_at')
+          .eq('id', solidFoodId)
+          .single();
       
-      return true;
+      final babyId = existingResponse['baby_id'] as String;
+      final startedAt = DateTime.parse(existingResponse['started_at']);
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          await _supabase
+              .from('solid_foods')
+              .delete()
+              .eq('id', solidFoodId);
+          
+          return true;
+        },
+        itemType: TimelineItemType.solidFood,
+        babyId: babyId,
+        timestamp: startedAt,
+        action: DataSyncAction.deleted,
+        recordId: solidFoodId,
+      );
     } catch (e) {
       debugPrint('Error deleting solid food: $e');
       return false;
@@ -235,25 +262,45 @@ class SolidFoodService {
     DateTime? endedAt,
   }) async {
     try {
-      final updateData = <String, dynamic>{
-        'updated_at': DateTime.now().toIso8601String(),
-      };
-      
-      if (foodName != null) updateData['food_name'] = foodName;
-      if (amountGrams != null) updateData['amount_grams'] = amountGrams;
-      if (allergicReaction != null) updateData['allergic_reaction'] = allergicReaction;
-      if (notes != null) updateData['notes'] = notes;
-      if (startedAt != null) updateData['started_at'] = startedAt.toIso8601String();
-      if (endedAt != null) updateData['ended_at'] = endedAt.toIso8601String();
-      
-      final response = await _supabase
+      // 기존 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('solid_foods')
-          .update(updateData)
+          .select('baby_id, started_at')
           .eq('id', solidFoodId)
-          .select()
           .single();
       
-      return SolidFood.fromJson(response);
+      final babyId = existingResponse['baby_id'] as String;
+      final originalStartedAt = DateTime.parse(existingResponse['started_at']);
+      final updateTimestamp = startedAt ?? originalStartedAt;
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          final updateData = <String, dynamic>{
+            'updated_at': DateTime.now().toIso8601String(),
+          };
+          
+          if (foodName != null) updateData['food_name'] = foodName;
+          if (amountGrams != null) updateData['amount_grams'] = amountGrams;
+          if (allergicReaction != null) updateData['allergic_reaction'] = allergicReaction;
+          if (notes != null) updateData['notes'] = notes;
+          if (startedAt != null) updateData['started_at'] = startedAt.toIso8601String();
+          if (endedAt != null) updateData['ended_at'] = endedAt.toIso8601String();
+          
+          final response = await _supabase
+              .from('solid_foods')
+              .update(updateData)
+              .eq('id', solidFoodId)
+              .select()
+              .single();
+          
+          return SolidFood.fromJson(response);
+        },
+        itemType: TimelineItemType.solidFood,
+        babyId: babyId,
+        timestamp: updateTimestamp,
+        action: DataSyncAction.updated,
+        recordId: solidFoodId,
+      );
     } catch (e) {
       debugPrint('Error updating solid food: $e');
       return null;

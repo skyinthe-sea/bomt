@@ -3,9 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../domain/models/sleep.dart';
+import '../../domain/models/timeline_item.dart';
 import '../../core/config/supabase_config.dart';
+import '../../core/mixins/data_sync_mixin.dart';
+import '../../core/events/data_sync_events.dart';
 
-class SleepService {
+class SleepService with DataSyncMixin {
   static SleepService? _instance;
   static SleepService get instance => _instance ??= SleepService._();
   
@@ -60,65 +63,79 @@ class SleepService {
     DateTime? startedAt,
     DateTime? endedAt,
   }) async {
-    try {
-      // 기본값이 설정되지 않은 경우 저장된 기본값 사용
-      final defaults = await getSleepDefaults();
-      
-      final now = DateTime.now();
-      final sleepStartTime = startedAt ?? now;
-      
-      // 진행 중인 수면인지 완료된 수면인지 구분
-      final isActiveSleep = endedAt == null;
-      
-      Map<String, dynamic> sleepData;
-      
-      if (isActiveSleep) {
-        // 진행 중인 수면: duration과 ended_at은 null
-        sleepData = {
-          'id': _uuid.v4(),
-          'baby_id': babyId,
-          'user_id': userId,
-          'duration_minutes': null,
-          'quality': quality ?? defaults['quality'],
-          'location': location ?? defaults['location'],
-          'notes': notes,
-          'started_at': sleepStartTime.toIso8601String(),
-          'ended_at': null,
-          'created_at': now.toIso8601String(),
-          'updated_at': now.toIso8601String(),
-        };
-      } else {
-        // 완료된 수면: duration 계산 또는 기본값 사용
-        final duration = durationMinutes ?? defaults['durationMinutes'];
-        final sleepEndTime = endedAt ?? sleepStartTime.add(Duration(minutes: duration));
-        final actualDuration = durationMinutes ?? sleepEndTime.difference(sleepStartTime).inMinutes;
+    final sleepStartTime = startedAt ?? DateTime.now();
+    final isActiveSleep = endedAt == null;
+    
+    return await withDataSyncEvent(
+      operation: () async {
+        // 기본값이 설정되지 않은 경우 저장된 기본값 사용
+        final defaults = await getSleepDefaults();
         
-        sleepData = {
-          'id': _uuid.v4(),
-          'baby_id': babyId,
-          'user_id': userId,
-          'duration_minutes': actualDuration,
-          'quality': quality ?? defaults['quality'],
-          'location': location ?? defaults['location'],
-          'notes': notes,
-          'started_at': sleepStartTime.toIso8601String(),
-          'ended_at': sleepEndTime.toIso8601String(),
-          'created_at': now.toIso8601String(),
-          'updated_at': now.toIso8601String(),
-        };
-      }
-      
-      final response = await _supabase
-          .from('sleeps')
-          .insert(sleepData)
-          .select()
-          .single();
-      
-      return Sleep.fromJson(response);
-    } catch (e) {
-      debugPrint('Error adding sleep: $e');
-      return null;
-    }
+        final now = DateTime.now();
+        
+        Map<String, dynamic> sleepData;
+        
+        if (isActiveSleep) {
+          // 진행 중인 수면: duration과 ended_at은 null
+          sleepData = {
+            'id': _uuid.v4(),
+            'baby_id': babyId,
+            'user_id': userId,
+            'duration_minutes': null,
+            'quality': quality ?? defaults['quality'],
+            'location': location ?? defaults['location'],
+            'notes': notes,
+            'started_at': sleepStartTime.toIso8601String(),
+            'ended_at': null,
+            'created_at': now.toIso8601String(),
+            'updated_at': now.toIso8601String(),
+          };
+        } else {
+          // 완료된 수면: duration 계산 또는 기본값 사용
+          final duration = durationMinutes ?? defaults['durationMinutes'];
+          final sleepEndTime = endedAt ?? sleepStartTime.add(Duration(minutes: duration));
+          final actualDuration = durationMinutes ?? sleepEndTime.difference(sleepStartTime).inMinutes;
+          
+          sleepData = {
+            'id': _uuid.v4(),
+            'baby_id': babyId,
+            'user_id': userId,
+            'duration_minutes': actualDuration,
+            'quality': quality ?? defaults['quality'],
+            'location': location ?? defaults['location'],
+            'notes': notes,
+            'started_at': sleepStartTime.toIso8601String(),
+            'ended_at': sleepEndTime.toIso8601String(),
+            'created_at': now.toIso8601String(),
+            'updated_at': now.toIso8601String(),
+          };
+        }
+        
+        final response = await _supabase
+            .from('sleeps')
+            .insert(sleepData)
+            .select()
+            .single();
+        
+        final newSleep = Sleep.fromJson(response);
+        
+        // 진행 중인 수면일 경우 ongoing activity started 이벤트 추가 발송
+        if (isActiveSleep) {
+          notifyOngoingStarted(
+            itemType: TimelineItemType.sleep,
+            babyId: babyId,
+            timestamp: sleepStartTime,
+            recordId: newSleep.id,
+          );
+        }
+        
+        return newSleep;
+      },
+      itemType: TimelineItemType.sleep,
+      babyId: babyId,
+      timestamp: sleepStartTime,
+      action: DataSyncAction.created,
+    );
   }
   
   /// 오늘의 수면 요약 정보 가져오기
@@ -260,12 +277,31 @@ class SleepService {
   /// 수면 기록 삭제
   Future<bool> deleteSleep(String sleepId) async {
     try {
-      await _supabase
+      // 삭제 전 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('sleeps')
-          .delete()
-          .eq('id', sleepId);
+          .select('baby_id, started_at')
+          .eq('id', sleepId)
+          .single();
       
-      return true;
+      final babyId = existingResponse['baby_id'] as String;
+      final startedAt = DateTime.parse(existingResponse['started_at']);
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          await _supabase
+              .from('sleeps')
+              .delete()
+              .eq('id', sleepId);
+          
+          return true;
+        },
+        itemType: TimelineItemType.sleep,
+        babyId: babyId,
+        timestamp: startedAt,
+        action: DataSyncAction.deleted,
+        recordId: sleepId,
+      );
     } catch (e) {
       debugPrint('Error deleting sleep: $e');
       return false;
@@ -283,25 +319,45 @@ class SleepService {
     DateTime? endedAt,
   }) async {
     try {
-      final updateData = <String, dynamic>{
-        'updated_at': DateTime.now().toIso8601String(),
-      };
-      
-      if (durationMinutes != null) updateData['duration_minutes'] = durationMinutes;
-      if (quality != null) updateData['quality'] = quality;
-      if (location != null) updateData['location'] = location;
-      if (notes != null) updateData['notes'] = notes;
-      if (startedAt != null) updateData['started_at'] = startedAt.toIso8601String();
-      if (endedAt != null) updateData['ended_at'] = endedAt.toIso8601String();
-      
-      final response = await _supabase
+      // 기존 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('sleeps')
-          .update(updateData)
+          .select('baby_id, started_at')
           .eq('id', sleepId)
-          .select()
           .single();
       
-      return Sleep.fromJson(response);
+      final babyId = existingResponse['baby_id'] as String;
+      final originalStartedAt = DateTime.parse(existingResponse['started_at']);
+      final updateTimestamp = startedAt ?? originalStartedAt;
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          final updateData = <String, dynamic>{
+            'updated_at': DateTime.now().toIso8601String(),
+          };
+          
+          if (durationMinutes != null) updateData['duration_minutes'] = durationMinutes;
+          if (quality != null) updateData['quality'] = quality;
+          if (location != null) updateData['location'] = location;
+          if (notes != null) updateData['notes'] = notes;
+          if (startedAt != null) updateData['started_at'] = startedAt.toIso8601String();
+          if (endedAt != null) updateData['ended_at'] = endedAt.toIso8601String();
+          
+          final response = await _supabase
+              .from('sleeps')
+              .update(updateData)
+              .eq('id', sleepId)
+              .select()
+              .single();
+          
+          return Sleep.fromJson(response);
+        },
+        itemType: TimelineItemType.sleep,
+        babyId: babyId,
+        timestamp: updateTimestamp,
+        action: DataSyncAction.updated,
+        recordId: sleepId,
+      );
     } catch (e) {
       debugPrint('Error updating sleep: $e');
       return null;
@@ -334,32 +390,54 @@ class SleepService {
     try {
       final endDateTime = endTime ?? DateTime.now();
       
-      // 먼저 현재 수면 기록을 가져와서 시작 시간을 확인
+      // 먼저 현재 수면 기록을 가져와서 시작 시간과 babyId 확인
       final currentSleepResponse = await _supabase
           .from('sleeps')
-          .select('started_at')
+          .select('baby_id, started_at')
           .eq('id', sleepId)
           .single();
       
-      // UTC 시간으로 duration 계산
-      final startedAtUtc = DateTime.parse(currentSleepResponse['started_at']).toUtc();
-      final endDateTimeUtc = endDateTime.toUtc();
-      final calculatedDuration = endDateTimeUtc.difference(startedAtUtc).inMinutes;
-      // 최소 1분으로 설정 (너무 짧은 수면 기록 방지)
-      final actualDuration = calculatedDuration < 1 ? 1 : calculatedDuration;
+      final babyId = currentSleepResponse['baby_id'] as String;
+      final startedAt = DateTime.parse(currentSleepResponse['started_at']);
       
-      final response = await _supabase
-          .from('sleeps')
-          .update({
-            'ended_at': endDateTime.toIso8601String(),
-            'duration_minutes': actualDuration,
-            'updated_at': DateTime.now().toIso8601String(),
-          })
-          .eq('id', sleepId)
-          .select()
-          .single();
-      
-      return Sleep.fromJson(response);
+      return await withDataSyncEvent(
+        operation: () async {
+          // UTC 시간으로 duration 계산
+          final startedAtUtc = startedAt.toUtc();
+          final endDateTimeUtc = endDateTime.toUtc();
+          final calculatedDuration = endDateTimeUtc.difference(startedAtUtc).inMinutes;
+          // 최소 1분으로 설정 (너무 짧은 수면 기록 방지)
+          final actualDuration = calculatedDuration < 1 ? 1 : calculatedDuration;
+          
+          final response = await _supabase
+              .from('sleeps')
+              .update({
+                'ended_at': endDateTime.toIso8601String(),
+                'duration_minutes': actualDuration,
+                'updated_at': DateTime.now().toIso8601String(),
+              })
+              .eq('id', sleepId)
+              .select()
+              .single();
+          
+          final endedSleep = Sleep.fromJson(response);
+          
+          // 진행 중인 활동 종료 이벤트 추가 발송
+          notifyOngoingStopped(
+            itemType: TimelineItemType.sleep,
+            babyId: babyId,
+            timestamp: endDateTime,
+            recordId: sleepId,
+          );
+          
+          return endedSleep;
+        },
+        itemType: TimelineItemType.sleep,
+        babyId: babyId,
+        timestamp: endDateTime,
+        action: DataSyncAction.updated,
+        recordId: sleepId,
+      );
     } catch (e) {
       debugPrint('Error ending current sleep: $e');
       return null;

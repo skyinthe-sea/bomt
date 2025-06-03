@@ -3,9 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../domain/models/milk_pumping.dart';
+import '../../domain/models/timeline_item.dart';
 import '../../core/config/supabase_config.dart';
+import '../../core/mixins/data_sync_mixin.dart';
+import '../../core/events/data_sync_events.dart';
 
-class MilkPumpingService {
+class MilkPumpingService with DataSyncMixin {
   static MilkPumpingService? _instance;
   static MilkPumpingService get instance => _instance ??= MilkPumpingService._();
   
@@ -67,67 +70,81 @@ class MilkPumpingService {
     DateTime? startedAt,
     DateTime? endedAt,
   }) async {
-    try {
-      // 기본값이 설정되지 않은 경우 저장된 기본값 사용
-      final defaults = await getMilkPumpingDefaults();
-      
-      final now = DateTime.now();
-      final pumpingStartTime = startedAt ?? now;
-      
-      // 진행 중인 유축인지 완료된 유축인지 구분
-      final isActivePumping = endedAt == null;
-      
-      Map<String, dynamic> pumpingData;
-      
-      if (isActivePumping) {
-        // 진행 중인 유축: amount와 ended_at은 null
-        pumpingData = {
-          'id': _uuid.v4(),
-          'baby_id': babyId,
-          'user_id': userId,
-          'amount_ml': null,
-          'duration_minutes': null,
-          'side': side ?? defaults['side'],
-          'storage_method': storageLocation ?? defaults['storageLocation'],
-          'notes': notes,
-          'started_at': pumpingStartTime.toIso8601String(),
-          'ended_at': null,
-          'created_at': now.toIso8601String(),
-          'updated_at': now.toIso8601String(),
-        };
-      } else {
-        // 완료된 유축: duration 계산 또는 기본값 사용
-        final duration = durationMinutes ?? defaults['durationMinutes'];
-        final pumpingEndTime = endedAt ?? pumpingStartTime.add(Duration(minutes: duration));
-        final actualDuration = durationMinutes ?? pumpingEndTime.difference(pumpingStartTime).inMinutes;
+    final pumpingStartTime = startedAt ?? DateTime.now();
+    final isActivePumping = endedAt == null;
+    
+    return await withDataSyncEvent(
+      operation: () async {
+        // 기본값이 설정되지 않은 경우 저장된 기본값 사용
+        final defaults = await getMilkPumpingDefaults();
         
-        pumpingData = {
-          'id': _uuid.v4(),
-          'baby_id': babyId,
-          'user_id': userId,
-          'amount_ml': amountMl ?? defaults['amountMl'],
-          'duration_minutes': actualDuration,
-          'side': side ?? defaults['side'],
-          'storage_method': storageLocation ?? defaults['storageLocation'],
-          'notes': notes,
-          'started_at': pumpingStartTime.toIso8601String(),
-          'ended_at': pumpingEndTime.toIso8601String(),
-          'created_at': now.toIso8601String(),
-          'updated_at': now.toIso8601String(),
-        };
-      }
-      
-      final response = await _supabase
-          .from('milk_pumping')
-          .insert(pumpingData)
-          .select()
-          .single();
-      
-      return MilkPumping.fromJson(response);
-    } catch (e) {
-      debugPrint('Error adding milk pumping: $e');
-      return null;
-    }
+        final now = DateTime.now();
+        
+        Map<String, dynamic> pumpingData;
+        
+        if (isActivePumping) {
+          // 진행 중인 유축: amount와 ended_at은 null
+          pumpingData = {
+            'id': _uuid.v4(),
+            'baby_id': babyId,
+            'user_id': userId,
+            'amount_ml': null,
+            'duration_minutes': null,
+            'side': side ?? defaults['side'],
+            'storage_method': storageLocation ?? defaults['storageLocation'],
+            'notes': notes,
+            'started_at': pumpingStartTime.toIso8601String(),
+            'ended_at': null,
+            'created_at': now.toIso8601String(),
+            'updated_at': now.toIso8601String(),
+          };
+        } else {
+          // 완료된 유축: duration 계산 또는 기본값 사용
+          final duration = durationMinutes ?? defaults['durationMinutes'];
+          final pumpingEndTime = endedAt ?? pumpingStartTime.add(Duration(minutes: duration));
+          final actualDuration = durationMinutes ?? pumpingEndTime.difference(pumpingStartTime).inMinutes;
+          
+          pumpingData = {
+            'id': _uuid.v4(),
+            'baby_id': babyId,
+            'user_id': userId,
+            'amount_ml': amountMl ?? defaults['amountMl'],
+            'duration_minutes': actualDuration,
+            'side': side ?? defaults['side'],
+            'storage_method': storageLocation ?? defaults['storageLocation'],
+            'notes': notes,
+            'started_at': pumpingStartTime.toIso8601String(),
+            'ended_at': pumpingEndTime.toIso8601String(),
+            'created_at': now.toIso8601String(),
+            'updated_at': now.toIso8601String(),
+          };
+        }
+        
+        final response = await _supabase
+            .from('milk_pumping')
+            .insert(pumpingData)
+            .select()
+            .single();
+        
+        final newPumping = MilkPumping.fromJson(response);
+        
+        // 진행 중인 유축일 경우 ongoing activity started 이벤트 추가 발송
+        if (isActivePumping) {
+          notifyOngoingStarted(
+            itemType: TimelineItemType.milkPumping,
+            babyId: babyId,
+            timestamp: pumpingStartTime,
+            recordId: newPumping.id,
+          );
+        }
+        
+        return newPumping;
+      },
+      itemType: TimelineItemType.milkPumping,
+      babyId: babyId,
+      timestamp: pumpingStartTime,
+      action: DataSyncAction.created,
+    );
   }
   
   /// 오늘의 유축 요약 정보 가져오기
@@ -280,12 +297,31 @@ class MilkPumpingService {
   /// 유축 기록 삭제
   Future<bool> deleteMilkPumping(String milkPumpingId) async {
     try {
-      await _supabase
+      // 삭제 전 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('milk_pumping')
-          .delete()
-          .eq('id', milkPumpingId);
+          .select('baby_id, started_at')
+          .eq('id', milkPumpingId)
+          .single();
       
-      return true;
+      final babyId = existingResponse['baby_id'] as String;
+      final startedAt = DateTime.parse(existingResponse['started_at']);
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          await _supabase
+              .from('milk_pumping')
+              .delete()
+              .eq('id', milkPumpingId);
+          
+          return true;
+        },
+        itemType: TimelineItemType.milkPumping,
+        babyId: babyId,
+        timestamp: startedAt,
+        action: DataSyncAction.deleted,
+        recordId: milkPumpingId,
+      );
     } catch (e) {
       debugPrint('Error deleting milk pumping: $e');
       return false;
@@ -304,26 +340,46 @@ class MilkPumpingService {
     DateTime? endedAt,
   }) async {
     try {
-      final updateData = <String, dynamic>{
-        'updated_at': DateTime.now().toIso8601String(),
-      };
-      
-      if (amountMl != null) updateData['amount_ml'] = amountMl;
-      if (durationMinutes != null) updateData['duration_minutes'] = durationMinutes;
-      if (side != null) updateData['side'] = side;
-      if (storageLocation != null) updateData['storage_method'] = storageLocation;
-      if (notes != null) updateData['notes'] = notes;
-      if (startedAt != null) updateData['started_at'] = startedAt.toIso8601String();
-      if (endedAt != null) updateData['ended_at'] = endedAt.toIso8601String();
-      
-      final response = await _supabase
+      // 기존 데이터 조회 (babyId와 timestamp 정보 필요)
+      final existingResponse = await _supabase
           .from('milk_pumping')
-          .update(updateData)
+          .select('baby_id, started_at')
           .eq('id', milkPumpingId)
-          .select()
           .single();
       
-      return MilkPumping.fromJson(response);
+      final babyId = existingResponse['baby_id'] as String;
+      final originalStartedAt = DateTime.parse(existingResponse['started_at']);
+      final updateTimestamp = startedAt ?? originalStartedAt;
+      
+      return await withDataSyncEvent(
+        operation: () async {
+          final updateData = <String, dynamic>{
+            'updated_at': DateTime.now().toIso8601String(),
+          };
+          
+          if (amountMl != null) updateData['amount_ml'] = amountMl;
+          if (durationMinutes != null) updateData['duration_minutes'] = durationMinutes;
+          if (side != null) updateData['side'] = side;
+          if (storageLocation != null) updateData['storage_method'] = storageLocation;
+          if (notes != null) updateData['notes'] = notes;
+          if (startedAt != null) updateData['started_at'] = startedAt.toIso8601String();
+          if (endedAt != null) updateData['ended_at'] = endedAt.toIso8601String();
+          
+          final response = await _supabase
+              .from('milk_pumping')
+              .update(updateData)
+              .eq('id', milkPumpingId)
+              .select()
+              .single();
+          
+          return MilkPumping.fromJson(response);
+        },
+        itemType: TimelineItemType.milkPumping,
+        babyId: babyId,
+        timestamp: updateTimestamp,
+        action: DataSyncAction.updated,
+        recordId: milkPumpingId,
+      );
     } catch (e) {
       debugPrint('Error updating milk pumping: $e');
       return null;
@@ -359,39 +415,61 @@ class MilkPumpingService {
     try {
       final endDateTime = endTime ?? DateTime.now();
       
-      // 먼저 현재 유축 기록을 가져와서 시작 시간을 확인
+      // 먼저 현재 유축 기록을 가져와서 시작 시간과 babyId 확인
       final currentPumpingResponse = await _supabase
           .from('milk_pumping')
-          .select('started_at')
+          .select('baby_id, started_at')
           .eq('id', pumpingId)
           .single();
       
-      // UTC 시간으로 duration 계산
-      final startedAtUtc = DateTime.parse(currentPumpingResponse['started_at']).toUtc();
-      final endDateTimeUtc = endDateTime.toUtc();
-      final calculatedDuration = endDateTimeUtc.difference(startedAtUtc).inMinutes;
-      // 최소 1분으로 설정 (너무 짧은 유축 기록 방지)
-      final actualDuration = calculatedDuration < 1 ? 1 : calculatedDuration;
+      final babyId = currentPumpingResponse['baby_id'] as String;
+      final startedAt = DateTime.parse(currentPumpingResponse['started_at']);
       
-      final updateData = {
-        'ended_at': endDateTime.toIso8601String(),
-        'duration_minutes': actualDuration,
-        'updated_at': DateTime.now().toIso8601String(),
-      };
-      
-      // 유축량이 제공된 경우 추가
-      if (amountMl != null) {
-        updateData['amount_ml'] = amountMl;
-      }
-      
-      final response = await _supabase
-          .from('milk_pumping')
-          .update(updateData)
-          .eq('id', pumpingId)
-          .select()
-          .single();
-      
-      return MilkPumping.fromJson(response);
+      return await withDataSyncEvent(
+        operation: () async {
+          // UTC 시간으로 duration 계산
+          final startedAtUtc = startedAt.toUtc();
+          final endDateTimeUtc = endDateTime.toUtc();
+          final calculatedDuration = endDateTimeUtc.difference(startedAtUtc).inMinutes;
+          // 최소 1분으로 설정 (너무 짧은 유축 기록 방지)
+          final actualDuration = calculatedDuration < 1 ? 1 : calculatedDuration;
+          
+          final updateData = {
+            'ended_at': endDateTime.toIso8601String(),
+            'duration_minutes': actualDuration,
+            'updated_at': DateTime.now().toIso8601String(),
+          };
+          
+          // 유축량이 제공된 경우 추가
+          if (amountMl != null) {
+            updateData['amount_ml'] = amountMl;
+          }
+          
+          final response = await _supabase
+              .from('milk_pumping')
+              .update(updateData)
+              .eq('id', pumpingId)
+              .select()
+              .single();
+          
+          final endedPumping = MilkPumping.fromJson(response);
+          
+          // 진행 중인 활동 종료 이벤트 추가 발송
+          notifyOngoingStopped(
+            itemType: TimelineItemType.milkPumping,
+            babyId: babyId,
+            timestamp: endDateTime,
+            recordId: pumpingId,
+          );
+          
+          return endedPumping;
+        },
+        itemType: TimelineItemType.milkPumping,
+        babyId: babyId,
+        timestamp: endDateTime,
+        action: DataSyncAction.updated,
+        recordId: pumpingId,
+      );
     } catch (e) {
       debugPrint('Error ending current pumping: $e');
       return null;
