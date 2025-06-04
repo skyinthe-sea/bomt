@@ -1,0 +1,48 @@
+Synthetic package output (package:flutter_gen) is deprecated: https://flutter.dev/to/flutter-gen-deprecation. In a future release, synthetic-package will default to `false` and will later be removed entirely.
+Launching lib/main.dart on iPhone 16 Pro Max in debug mode...
+Running Xcode build...                                          
+Xcode build done.                                           14.3s
+Syncing files to device iPhone 16 Pro Max...                    
+flutter: supabase.supabase_flutter: INFO: ***** Supabase init completed *****
+flutter: 알림 서비스 초기화 완료
+Syncing files to device iPhone 16 Pro Max...                       182ms
+
+Flutter run key commands.
+r Hot reload. 🔥🔥🔥
+R Hot restart.
+h List all available interactive commands.
+d Detach (terminate "flutter run" but leave application running).
+c Clear the screen
+q Quit (terminate the application on the device).
+
+A Dart VM Service on iPhone 16 Pro Max is available at: http://127.0.0.1:62317/59GSbynmK3Y=/
+The Flutter DevTools debugger and profiler on iPhone 16 Pro Max is available at: http://127.0.0.1:9102?uri=http://127.0.0.1:62317/59GSbynmK3Y=/
+flutter: 🏠 [HOME] Starting _loadData...
+flutter: 🏠 [HOME] Setting _isLoading = true
+flutter: 🏠 [HOME] Starting data loading without timeout...
+flutter: 🏠 [HOME] Getting user ID...
+flutter: 🏠 [HOME] User ID: 4271061560
+flutter: 🏠 [HOME] Loading card settings safely...
+flutter: 🃏 [CARD] Starting card settings load for user: 4271061560
+flutter: 🃏 [CARD] Calling service.getUserCardSettings...
+flutter: 🗃️ [SERVICE] Starting getUserCardSettings for user: 4271061560
+flutter: 🗃️ [SERVICE] Executing Supabase query...
+flutter: 🗃️ [SERVICE] Query completed, processing 6 records
+flutter: ✅ [SERVICE] Successfully processed 6 user card settings
+flutter: 🃏 [CARD] Service returned 6 settings
+flutter: 🃏 [CARD] Processing 6 card settings...
+flutter: 🃏 [CARD] Loaded 3 enabled cards: [feeding, diaper, sleep]
+flutter: ✅ [CARD] Card settings load completed successfully
+flutter: 🏠 [HOME] Getting growth summary...
+flutter: 🏠 [HOME] Setting final state (_isLoading = false)...
+flutter: ✅ [HOME] Final state set successfully
+flutter: 🏠 [HOME] Checking for guide alert...
+flutter: ✅ [HOME] _performDataLoading completed successfully
+flutter: 🏠 [HOME] Data loading completed successfully
+flutter: 🏠 [HOME] Released _isLoadingData flag
+flutter: 🏠 [HOME] _buildDynamicCardGrid called
+flutter: 🏠 [HOME] Enabled card types: [feeding, diaper, sleep]
+flutter: 🏠 [HOME] Building 3 cards
+flutter: 🏠 [HOME] Successfully built 3 card widgets
+flutter: 🏠 [HOME] Building grid with 3 cards
+Lost connection to device.

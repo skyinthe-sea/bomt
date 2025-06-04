@@ -38,7 +38,7 @@ class _SampleDataScreenState extends State<SampleDataScreen> {
             .insert({
               'user_id': userId,
               'name': '임지서',
-              'birth_date': '2024-10-15',
+              'birth_date': '${DateTime.now().year - 1}-10-15',
               'gender': 'male',
             })
             .select()

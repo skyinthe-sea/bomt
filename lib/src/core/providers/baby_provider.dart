@@ -16,17 +16,21 @@ class BabyProvider extends ChangeNotifier {
   /// 아기 정보 로드
   Future<void> loadBabyData() async {
     try {
+      debugPrint('👶 [BABY_PROVIDER] Starting loadBabyData...');
       _setLoading(true);
       
       // 카카오 로그인에서 받은 user_id 가져오기
       final userId = await _getUserId();
+      debugPrint('👶 [BABY_PROVIDER] Retrieved user_id: $userId');
       
       if (userId == null) {
+        debugPrint('❌ [BABY_PROVIDER] No user_id found, clearing baby data');
         _clearBabyData();
         return;
       }
       
       // 해당 user_id와 연결된 아기 정보 조회
+      debugPrint('👶 [BABY_PROVIDER] Querying baby_users table...');
       final response = await Supabase.instance.client
           .from('baby_users')
           .select('''
@@ -44,13 +48,19 @@ class BabyProvider extends ChangeNotifier {
           ''')
           .eq('user_id', userId);
       
+      debugPrint('👶 [BABY_PROVIDER] Query response: $response');
+      debugPrint('👶 [BABY_PROVIDER] Response length: ${response.length}');
+      
       if (response.isEmpty || response.first['babies'] == null) {
         // 등록된 아기가 없는 경우
+        debugPrint('❌ [BABY_PROVIDER] No baby found for user_id: $userId');
         _clearBabyData();
         return;
       }
       
       final babyData = response.first['babies'];
+      debugPrint('👶 [BABY_PROVIDER] Baby data: $babyData');
+      
       final baby = Baby.fromJson({
         'id': babyData['id'],
         'name': babyData['name'], 
@@ -63,6 +73,9 @@ class BabyProvider extends ChangeNotifier {
       
       _currentBaby = baby;
       _currentUserId = userId;
+      
+      debugPrint('✅ [BABY_PROVIDER] Baby loaded successfully: ${baby.name} (ID: ${baby.id})');
+      debugPrint('✅ [BABY_PROVIDER] Current user ID: $userId');
       
     } catch (e) {
       debugPrint('Error loading baby data: $e');

@@ -2,12 +2,16 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:provider/provider.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/timeline/presentation/screens/timeline_screen.dart';
 import '../../features/statistics/presentation/screens/statistics_screen.dart';
 import '../../features/community/presentation/screens/community_screen.dart';
 import '../providers/localization_provider.dart';
 import '../providers/theme_provider.dart';
+import '../providers/statistics_provider.dart';
+import '../providers/tab_controller_provider.dart';
+import '../../core/providers/baby_provider.dart';
 
 class MainScreen extends StatefulWidget {
   final LocalizationProvider? localizationProvider;
@@ -91,16 +95,33 @@ class _MainScreenState extends State<MainScreen> {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     
-    return PersistentTabView(
-      controller: _controller,
-      tabs: _tabs(context),
-      navBarBuilder: (config) => _buildModernBottomNav(config, theme, isDark),
-      backgroundColor: theme.scaffoldBackgroundColor,
-      handleAndroidBackButtonPress: true,
-      resizeToAvoidBottomInset: true,
-      stateManagement: true,
-      selectedTabPressConfig: const SelectedTabPressConfig(
-        popAction: PopActionType.all,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => BabyProvider()),
+        ChangeNotifierProvider(create: (context) => StatisticsProvider()),
+        ChangeNotifierProvider(create: (context) => TabControllerProvider()),
+      ],
+      child: Builder(
+        builder: (context) {
+          // TabControllerProvider에 컨트롤러 설정
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Provider.of<TabControllerProvider>(context, listen: false)
+                .setController(_controller);
+          });
+          
+          return PersistentTabView(
+            controller: _controller,
+            tabs: _tabs(context),
+            navBarBuilder: (config) => _buildModernBottomNav(config, theme, isDark),
+            backgroundColor: theme.scaffoldBackgroundColor,
+            handleAndroidBackButtonPress: true,
+            resizeToAvoidBottomInset: true,
+            stateManagement: true,
+            selectedTabPressConfig: const SelectedTabPressConfig(
+              popAction: PopActionType.all,
+            ),
+          );
+        },
       ),
     );
   }
