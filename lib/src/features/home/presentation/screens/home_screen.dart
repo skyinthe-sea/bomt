@@ -8,6 +8,8 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import '../../../../presentation/providers/localization_provider.dart';
 import '../../../../presentation/providers/theme_provider.dart';
+import '../../../../presentation/providers/tab_controller_provider.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import '../../../../presentation/providers/feeding_provider.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../presentation/providers/diaper_provider.dart';
@@ -78,6 +80,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   // 재진입 방지를 위한 플래그
   bool _isLoadingData = false;
   
+  // 탭 변경 감지를 위한 변수들
+  PersistentTabController? _tabController;
+  DateTime? _lastRefreshTime;
+  
   // 요약 데이터
   Map<String, dynamic> _feedingSummary = {};
   Map<String, dynamic> _sleepSummary = {};
@@ -101,6 +107,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _solidFoodProvider.addListener(_onSolidFoodDataChanged);
     _medicationProvider.addListener(_onMedicationDataChanged);
     _milkPumpingProvider.addListener(_onMilkPumpingDataChanged);
+    
+    // 탭 컨트롤러 감지 설정 (PostFrameCallback으로 처리)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _setupTabChangeListener();
+    });
+    
     _loadData();
   }
 
@@ -108,6 +120,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void dispose() {
     // App lifecycle observer 제거
     WidgetsBinding.instance.removeObserver(this);
+    // 탭 컨트롤러 리스너 제거
+    _tabController?.removeListener(_onTabChanged);
+    // Provider 리스너 제거
     _feedingProvider.removeListener(_onFeedingDataChanged);
     _sleepProvider.removeListener(_onSleepDataChanged);
     _diaperProvider.removeListener(_onDiaperDataChanged);
@@ -185,6 +200,59 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       setState(() {
         _milkPumpingSummary = _milkPumpingProvider.todaySummary;
       });
+    }
+  }
+
+  /// 탭 변경 감지 설정
+  void _setupTabChangeListener() {
+    try {
+      final tabControllerProvider = Provider.of<TabControllerProvider>(context, listen: false);
+      _tabController = tabControllerProvider.controller;
+      
+      if (_tabController != null) {
+        _tabController!.addListener(_onTabChanged);
+        debugPrint('🏠 [HOME] Tab change listener added successfully');
+      } else {
+        debugPrint('⚠️ [HOME] TabController is null, retrying in 500ms...');
+        // 500ms 후 재시도
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) {
+            _setupTabChangeListener();
+          }
+        });
+      }
+    } catch (e) {
+      debugPrint('❌ [HOME] Error setting up tab listener: $e');
+    }
+  }
+
+  /// 탭 변경 시 호출되는 콜백
+  void _onTabChanged() {
+    if (!mounted || _tabController == null) return;
+    
+    final currentIndex = _tabController!.index;
+    debugPrint('🏠 [HOME] Tab changed to index: $currentIndex');
+    
+    // 홈 탭(index 0)으로 돌아왔을 때만 새로고침
+    if (currentIndex == 0) {
+      debugPrint('🏠 [HOME] Home tab selected - checking for refresh');
+      _refreshDataIfNeeded();
+    }
+  }
+
+  /// 필요시에만 데이터 새로고침 (중복 방지)
+  void _refreshDataIfNeeded() {
+    final now = DateTime.now();
+    
+    // 마지막 새로고침으로부터 30초가 지났거나 첫 번째 새로고침인 경우에만 실행
+    if (_lastRefreshTime == null || 
+        now.difference(_lastRefreshTime!).inSeconds > 30) {
+      
+      debugPrint('🏠 [HOME] Refreshing data due to tab change');
+      _lastRefreshTime = now;
+      _refreshData();
+    } else {
+      debugPrint('🏠 [HOME] Skipping refresh - too recent (${now.difference(_lastRefreshTime!).inSeconds}s ago)');
     }
   }
 
