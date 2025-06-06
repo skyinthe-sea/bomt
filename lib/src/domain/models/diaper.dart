@@ -32,9 +32,9 @@ class Diaper {
       color: json['color'],
       consistency: json['consistency'],
       notes: json['notes'],
-      changedAt: DateTime.parse(json['changed_at']).toLocal(),
-      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']).toLocal() : null,
-      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']).toLocal() : null,
+      changedAt: DateTime.parse(json['changed_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 

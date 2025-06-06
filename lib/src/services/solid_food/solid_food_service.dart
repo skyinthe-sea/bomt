@@ -78,7 +78,7 @@ class SolidFoodService with DataSyncMixin {
           'amount': amountGrams ?? defaults['amountGrams'],
           'reaction': allergicReaction ?? defaults['allergicReaction'],
           'notes': notes,
-          'started_at': solidFoodStartTime.toUtc().toIso8601String(),
+          'started_at': solidFoodStartTime.toIso8601String(),
           'ended_at': endedAt?.toIso8601String(),
           'created_at': DateTime.now().toIso8601String(),
           'updated_at': DateTime.now().toIso8601String(),

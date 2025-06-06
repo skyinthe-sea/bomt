@@ -85,7 +85,7 @@ class MedicationService with DataSyncMixin {
           'unit': unit ?? defaults['unit'],
           'medication_type': route ?? defaults['route'],
           'notes': notes,
-          'administered_at': medicationTime.toUtc().toIso8601String(),
+          'administered_at': medicationTime.toIso8601String(),
           'created_at': DateTime.now().toIso8601String(),
           'updated_at': DateTime.now().toIso8601String(),
         };

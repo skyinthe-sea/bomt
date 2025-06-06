@@ -284,10 +284,17 @@ class _TimelineScreenState extends State<TimelineScreen>
   Widget _buildScrollableContent() {
     return Consumer<TimelineProvider>(
       builder: (context, provider, child) {
-        return CustomScrollView(
-          controller: _scrollListController,
-          physics: const BouncingScrollPhysics(),
-          slivers: [
+        return RefreshIndicator(
+          onRefresh: () async {
+            // 새로고침 시 타임라인 데이터 재로드
+            await provider.refreshData();
+          },
+          child: CustomScrollView(
+            controller: _scrollListController,
+            physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics(),
+            ),
+            slivers: [
             // 24시간 원형 타임라인 차트
             SliverToBoxAdapter(
               child: Container(
@@ -355,7 +362,8 @@ class _TimelineScreenState extends State<TimelineScreen>
                   childCount: provider.filteredItems.length,
                 ),
               ),
-          ],
+            ],
+          ),
         );
       },
     );

@@ -85,7 +85,7 @@ class FeedingService with DataSyncMixin {
           'duration_minutes': durationMinutes ?? defaults['durationMinutes'],
           'side': side ?? defaults['side'],
           'notes': notes,
-          'started_at': feedingStartTime.toUtc().toIso8601String(),
+          'started_at': feedingStartTime.toIso8601String(),
           'ended_at': endedAt?.toIso8601String(),
           'created_at': DateTime.now().toIso8601String(),
           'updated_at': DateTime.now().toIso8601String(),

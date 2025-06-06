@@ -35,9 +35,9 @@ class Medication {
       unit: json['unit'],
       route: json['medication_type'],
       notes: json['notes'],
-      administeredAt: DateTime.parse(json['administered_at']).toLocal(),
-      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']).toLocal() : null,
-      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']).toLocal() : null,
+      administeredAt: DateTime.parse(json['administered_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 

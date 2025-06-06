@@ -35,9 +35,9 @@ class HealthRecord {
       medicationName: json['medication_name'],
       medicationDose: json['medication_dose'],
       notes: json['notes'],
-      recordedAt: DateTime.parse(json['recorded_at']).toLocal(),
-      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']).toLocal() : null,
-      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']).toLocal() : null,
+      recordedAt: DateTime.parse(json['recorded_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
