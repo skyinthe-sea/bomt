@@ -82,6 +82,7 @@ class CommunityProvider with ChangeNotifier {
         );
       }
       
+      
       // 시스템 카테고리를 앞에, DB 카테고리를 뒤에 배치
       // 카테고리 순서: "전체" → "인기" → 기타
       final allCategories = [...systemCategories, ...categories];
@@ -354,12 +355,29 @@ class CommunityProvider with ChangeNotifier {
 
   // 초기화
   Future<void> initialize() async {
-    await _loadCurrentUserId();
-    await Future.wait([
-      loadCategories(),
-      loadCurrentUserProfile(),
-    ]);
-    await loadPosts(refresh: true);
+    try {
+      print('DEBUG: CommunityProvider 초기화 시작');
+      
+      await _loadCurrentUserId();
+      print('DEBUG: 사용자 ID 로드 완료: $_currentUserId');
+      
+      await Future.wait([
+        loadCategories(),
+        loadCurrentUserProfile(),
+      ]);
+      print('DEBUG: 카테고리 로드 완료: ${_categories.length}개');
+      print('DEBUG: 사용자 프로필 로드 완료: $_currentUserProfile');
+      
+      await loadPosts(refresh: true);
+      print('DEBUG: 게시글 로드 완료: ${_posts.length}개');
+      
+    } catch (e, stackTrace) {
+      print('ERROR: CommunityProvider 초기화 실패');
+      print('ERROR 상세: $e');
+      print('스택 트레이스: $stackTrace');
+      _error = e.toString();
+      notifyListeners();
+    }
   }
 
   // 새로고침

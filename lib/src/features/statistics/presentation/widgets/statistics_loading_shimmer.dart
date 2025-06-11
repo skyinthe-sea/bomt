@@ -143,43 +143,47 @@ class _StatisticsLoadingShimmerState extends State<StatisticsLoadingShimmer>
                 ),
                 // 콘텐츠 플레이스홀더
                 if (height != null)
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildShimmerBox(
-                          theme: theme,
-                          width: 150,
-                          height: 20,
-                        ),
-                        const SizedBox(height: 8),
-                        _buildShimmerBox(
-                          theme: theme,
-                          width: 100,
-                          height: 14,
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _buildShimmerBox(
-                                theme: theme,
-                                width: double.infinity,
-                                height: 60,
-                              ),
+                  Positioned.fill(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildShimmerBox(
+                            theme: theme,
+                            width: 150,
+                            height: 20,
+                          ),
+                          const SizedBox(height: 8),
+                          _buildShimmerBox(
+                            theme: theme,
+                            width: 100,
+                            height: 14,
+                          ),
+                          const SizedBox(height: 12),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: _buildShimmerBox(
+                                    theme: theme,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: _buildShimmerBox(
+                                    theme: theme,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: _buildShimmerBox(
-                                theme: theme,
-                                width: double.infinity,
-                                height: 60,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 else

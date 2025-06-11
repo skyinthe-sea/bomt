@@ -43,13 +43,21 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
 
   IconData _getCategoryIcon(String? iconString) {
     switch (iconString) {
+      case 'apps':
+        return Icons.dashboard_rounded;
+      case 'local_fire_department':
+        return Icons.local_fire_department_rounded;
       case 'fire':
         return Icons.local_fire_department_rounded;
       case 'grid':
         return Icons.dashboard_rounded;
       case 'help-circle':
         return Icons.help_center_rounded;
+      case 'help_center':
+        return Icons.help_center_rounded;
       case 'heart':
+        return Icons.favorite_rounded;
+      case 'favorite':
         return Icons.favorite_rounded;
       case 'info':
         return Icons.info_rounded;
@@ -57,27 +65,40 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
         return Icons.child_care_rounded;
       case 'feeding':
         return Icons.restaurant_rounded;
+      case 'restaurant':
+        return Icons.restaurant_rounded;
       case 'sleep':
         return Icons.bedtime_rounded;
+      case 'bedtime':
+        return Icons.bedtime_rounded;
+      case 'nightlight':
+        return Icons.nightlight_rounded;
       case 'play':
         return Icons.toys_rounded;
       case 'health':
         return Icons.medical_services_rounded;
+      case 'trending_up':
+        return Icons.trending_up_rounded;
+      case 'vaccines':
+        return Icons.vaccines_rounded;
+      case 'healing':
+        return Icons.healing_rounded;
+      case 'self_care':
+        return Icons.healing_rounded;
       default:
         return Icons.category_rounded;
     }
   }
 
   Widget _buildCategoryGrid(BuildContext context, CommunityProvider provider, ThemeData theme) {
-    // 카테고리를 2개씩 그룹화
+    // 카테고리를 3개씩 그룹화 (3x3 그리드)
     final categories = provider.categories;
     final rows = <List<CommunityCategory>>[];
     
-    for (int i = 0; i < categories.length; i += 2) {
+    for (int i = 0; i < categories.length; i += 3) {
       final rowCategories = <CommunityCategory>[];
-      rowCategories.add(categories[i]);
-      if (i + 1 < categories.length) {
-        rowCategories.add(categories[i + 1]);
+      for (int j = 0; j < 3 && i + j < categories.length; j++) {
+        rowCategories.add(categories[i + j]);
       }
       rows.add(rowCategories);
     }
@@ -85,22 +106,24 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
     return Column(
       children: rows.map((rowCategories) {
         return Container(
-          margin: const EdgeInsets.only(bottom: 12),
+          margin: const EdgeInsets.only(bottom: 8),
           child: Row(
             children: [
-              ...rowCategories.map((category) {
+              ...rowCategories.asMap().entries.map((entry) {
+                final index = entry.key;
+                final category = entry.value;
                 return Expanded(
                   child: Container(
                     margin: EdgeInsets.only(
-                      right: rowCategories.last == category ? 0 : 6,
-                      left: rowCategories.first == category ? 0 : 6,
+                      right: index < 2 ? 4 : 0,
+                      left: index > 0 ? 4 : 0,
                     ),
                     child: _buildCategoryCard(context, category, provider, theme),
                   ),
                 );
               }).toList(),
-              // 홀수 개일 때 빈 공간 채우기
-              if (rowCategories.length == 1) const Expanded(child: SizedBox()),
+              // 빈 공간 채우기
+              ...List.generate(3 - rowCategories.length, (index) => const Expanded(child: SizedBox())),
             ],
           ),
         );
@@ -135,7 +158,7 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOutCubic,
-              height: 80,
+              height: 85, // 오버플로우 완전 방지 (+5px 추가)
               decoration: BoxDecoration(
                 gradient: isSelected
                     ? LinearGradient(
@@ -186,14 +209,14 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
                     provider.selectCategory(category.slug);
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // 아이콘
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? Colors.white.withOpacity(0.2)
@@ -202,30 +225,33 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
                           ),
                           child: Icon(
                             _getCategoryIcon(category.icon),
-                            size: 20,
+                            size: 18,
                             color: isSelected
                                 ? Colors.white
                                 : categoryColor,
                           ),
                         ),
                         
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 4),
                         
                         // 텍스트
-                        Text(
-                          category.name,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: isSelected
-                                ? Colors.white
-                                : theme.colorScheme.onSurface,
-                            fontWeight: isSelected
-                                ? FontWeight.w700
-                                : FontWeight.w600,
-                            fontSize: 12,
+                        Flexible(
+                          child: Text(
+                            category.name,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: isSelected
+                                  ? Colors.white
+                                  : theme.colorScheme.onSurface,
+                              fontWeight: isSelected
+                                  ? FontWeight.w700
+                                  : FontWeight.w600,
+                              fontSize: 10,
+                              height: 1.0, // 줄 높이 명시적 설정
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),

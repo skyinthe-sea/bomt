@@ -11,6 +11,7 @@ import '../providers/localization_provider.dart';
 import '../providers/theme_provider.dart';
 import '../providers/statistics_provider.dart';
 import '../providers/tab_controller_provider.dart';
+import '../providers/community_provider.dart';
 import '../../core/providers/baby_provider.dart';
 
 class MainScreen extends StatefulWidget {
@@ -100,6 +101,7 @@ class _MainScreenState extends State<MainScreen> {
         ChangeNotifierProvider(create: (context) => BabyProvider()),
         ChangeNotifierProvider(create: (context) => StatisticsProvider()),
         ChangeNotifierProvider(create: (context) => TabControllerProvider()),
+        ChangeNotifierProvider(create: (context) => CommunityProvider()),
       ],
       child: Builder(
         builder: (context) {
