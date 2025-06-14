@@ -48,7 +48,7 @@ void main() async {
     final nullCategoryPosts = await supabase
         .from('community_posts')
         .select('id, title, category_id')
-        .is_('category_id', null)
+        .filter('category_id', 'is', null)
         .eq('is_deleted', false);
     
     if (nullCategoryPosts.isNotEmpty) {
