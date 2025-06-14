@@ -36,6 +36,11 @@ migrate_working_dir/
 # Symbolication related
 app.*.symbols
 
+# Dart build files
+*@v11_mod=*
+*@v11_hash=*
+WORKSPACE@*
+
 # Obfuscation related
 app.*.map.json
 
