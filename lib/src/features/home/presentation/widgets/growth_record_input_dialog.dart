@@ -115,14 +115,42 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
 
   Color get _primaryColor {
     return _selectedType == 'weight' 
-        ? const Color(0xFFAB47BC) // 라벤더 파스텔 (더 진한 버전)
-        : const Color(0xFF66BB6A); // 민트 파스텔 (더 진한 버전)
+        ? const Color(0xFF8B7EC8) // 소프트 퍼플
+        : const Color(0xFF6B8BB5); // 소프트 블루
   }
   
   Color get _lightColor {
     return _selectedType == 'weight' 
-        ? const Color(0xFFE1BEE7) // 연한 라벤더 파스텔 
-        : const Color(0xFFC8E6C9); // 연한 민트 파스텔
+        ? const Color(0xFFE8E4F6) // 연한 퍼플
+        : const Color(0xFFE3E9F3); // 연한 블루
+  }
+  
+  LinearGradient get _primaryGradient {
+    return _selectedType == 'weight'
+        ? const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF9B8CE8), Color(0xFF7B6FD1)],
+          )
+        : const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF7A9BC8), Color(0xFF5B7FA8)],
+          );
+  }
+  
+  LinearGradient get _lightGradient {
+    return _selectedType == 'weight'
+        ? LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [_lightColor.withOpacity(0.4), _lightColor.withOpacity(0.2)],
+          )
+        : LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [_lightColor.withOpacity(0.4), _lightColor.withOpacity(0.2)],
+          );
   }
 
   IconData get _typeIcon {
@@ -252,17 +280,33 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
             child: ScaleTransition(
               scale: _scaleAnimation,
               child: Container(
-                constraints: const BoxConstraints(maxWidth: 400),
-                margin: const EdgeInsets.all(16),
-                padding: const EdgeInsets.all(24),
+                constraints: const BoxConstraints(maxWidth: 600),
+                margin: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(32),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.surface,
-                  borderRadius: BorderRadius.circular(24),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      theme.colorScheme.surface,
+                      theme.colorScheme.surface.withOpacity(0.95),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(28),
+                  border: Border.all(
+                    color: _primaryColor.withOpacity(0.1),
+                    width: 1,
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 20,
-                      offset: const Offset(0, 8),
+                      color: _primaryColor.withOpacity(0.1),
+                      blurRadius: 24,
+                      offset: const Offset(0, 10),
+                    ),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
@@ -276,8 +320,12 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: _lightColor.withOpacity(0.3),
+                            gradient: _lightGradient,
                             borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: _primaryColor.withOpacity(0.2),
+                              width: 1,
+                            ),
                           ),
                           child: Icon(
                             _typeIcon,
@@ -350,30 +398,45 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
                         const SizedBox(width: 12),
                         Expanded(
                           flex: 2,
-                          child: ElevatedButton(
-                            onPressed: _isLoading ? null : _handleSave,
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              backgroundColor: _primaryColor,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              elevation: 0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: _primaryGradient,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: _primaryColor.withOpacity(0.3),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
                             ),
-                            child: _isLoading
-                                ? const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                    ),
-                                  )
-                                : const Text(
-                                    '저장',
-                                    style: TextStyle(fontWeight: FontWeight.w600),
-                                  ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: _isLoading ? null : _handleSave,
+                                borderRadius: BorderRadius.circular(12),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  alignment: Alignment.center,
+                                  child: _isLoading
+                                      ? const SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                          ),
+                                        )
+                                      : const Text(
+                                          '저장',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -404,15 +467,35 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
         'value': 'weight', 
         'label': '체중', 
         'icon': Icons.monitor_weight, 
-        'color': const Color(0xFFAB47BC),
-        'lightColor': const Color(0xFFE1BEE7)
+        'color': const Color(0xFF8B7EC8),
+        'lightColor': const Color(0xFFE8E4F6),
+        'gradient': const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF9B8CE8), Color(0xFF7B6FD1)],
+        ),
+        'lightGradient': const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFE8E4F6), Color(0xFFDDD6F0)],
+        )
       },
       {
         'value': 'height', 
         'label': '키', 
         'icon': Icons.height, 
-        'color': const Color(0xFF66BB6A),
-        'lightColor': const Color(0xFFC8E6C9)
+        'color': const Color(0xFF6B8BB5),
+        'lightColor': const Color(0xFFE3E9F3),
+        'gradient': const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF7A9BC8), Color(0xFF5B7FA8)],
+        ),
+        'lightGradient': const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFE3E9F3), Color(0xFFD6E2ED)],
+        )
       },
     ];
 
@@ -438,9 +521,11 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
               margin: const EdgeInsets.only(right: 8),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               decoration: BoxDecoration(
-                color: isSelected
-                    ? (type['lightColor'] as Color)
-                    : Theme.of(context).colorScheme.surfaceVariant,
+                gradient: isSelected
+                    ? (type['lightGradient'] as LinearGradient)
+                    : LinearGradient(
+                        colors: [Theme.of(context).colorScheme.surfaceVariant, Theme.of(context).colorScheme.surfaceVariant],
+                      ),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: isSelected
@@ -448,6 +533,13 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
                       : Colors.transparent,
                   width: 2,
                 ),
+                boxShadow: isSelected ? [
+                  BoxShadow(
+                    color: (type['color'] as Color).withOpacity(0.2),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ] : null,
               ),
               child: Column(
                 children: [
