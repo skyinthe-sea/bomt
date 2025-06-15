@@ -291,7 +291,7 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
                       Text(
                         '${count}회',
                         style: theme.textTheme.headlineLarge?.copyWith(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -299,8 +299,8 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
                       Text(
                         '총 ${totalAmount}ml',
                         style: theme.textTheme.titleLarge?.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
                           color: theme.colorScheme.onSurface.withOpacity(0.7),
                         ),
                       ),

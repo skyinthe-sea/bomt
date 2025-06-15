@@ -277,17 +277,23 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                       Text(
                         '$count회',
                         style: theme.textTheme.headlineLarge?.copyWith(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
                         ),
                       ),
-                      Text(
-                        '총 ${totalHours}시간 ${remainingMinutes}분',
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: theme.colorScheme.onSurface.withOpacity(0.7),
+                      Flexible(
+                        child: Text(
+                          totalHours > 0 || remainingMinutes > 0
+                              ? '총 ${totalHours}h ${remainingMinutes}m'
+                              : '총 0시간',
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: theme.colorScheme.onSurface.withOpacity(0.7),
+                          ),
+                          textAlign: TextAlign.right,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],

@@ -989,12 +989,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             const SizedBox(height: 32),
             ElevatedButton.icon(
               onPressed: () {
-                // TODO: 아기 등록 화면으로 이동
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('아기 등록 기능은 곧 추가될 예정입니다'),
-                  ),
-                );
+                Navigator.of(context).pushNamed('/baby-register');
               },
               icon: const Icon(Icons.add),
               label: const Text('아기 등록하기'),

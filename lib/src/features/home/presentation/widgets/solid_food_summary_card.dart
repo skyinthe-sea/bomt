@@ -280,7 +280,7 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
                       Text(
                         '${totalMeals}끼',
                         style: theme.textTheme.headlineLarge?.copyWith(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -289,8 +289,8 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
                         Text(
                           '총 ${totalAmount}g',
                           style: theme.textTheme.titleLarge?.copyWith(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
                             color: theme.colorScheme.onSurface.withOpacity(0.7),
                           ),
                         ),
