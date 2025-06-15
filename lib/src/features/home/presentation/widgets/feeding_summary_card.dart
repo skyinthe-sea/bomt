@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,7 +15,7 @@ class FeedingSummaryCard extends StatefulWidget {
   final SleepProvider? sleepProvider;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
-  
+
   const FeedingSummaryCard({
     super.key,
     required this.summary,
@@ -92,17 +93,14 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
   Future<void> _showFeedingRecords() async {
     if (widget.feedingProvider == null) return;
 
-    // Get baby ID from the provider
     final babyId = widget.feedingProvider!.currentBabyId;
     if (babyId == null) return;
 
     try {
-      // Fetch today's feeding records
       final feedings = await FeedingService.instance.getTodayFeedings(babyId);
       final feedingData = feedings.map((feeding) => feeding.toJson()).toList();
 
       if (mounted) {
-        // Show the overlay
         showDialog(
           context: context,
           barrierColor: Colors.transparent,
@@ -114,11 +112,9 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
             primaryColor: Colors.blue,
             onClose: () => Navigator.of(context).pop(),
             onRecordDeleted: () {
-              // Refresh the parent data
               widget.feedingProvider?.refreshData();
             },
             onRecordUpdated: () {
-              // Refresh the parent data
               widget.feedingProvider?.refreshData();
             },
           ),
@@ -151,7 +147,6 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
   Future<void> _handleQuickFeeding() async {
     if (widget.feedingProvider == null) return;
 
-    // 수면 중단 확인 로직
     if (widget.sleepProvider?.hasActiveSleep == true) {
       final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
         context: context,
@@ -162,7 +157,6 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
       
       if (!shouldProceed) return;
     } else {
-      // 진행 중인 수면이 없으면 바로 수유 추가
       await _addQuickFeeding();
     }
   }
@@ -181,7 +175,7 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
                 Text('수유 기록이 추가되었습니다'),
               ],
             ),
-            backgroundColor: Colors.green[600],
+            backgroundColor: Colors.blue[600],
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -210,47 +204,6 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
     }
   }
 
-  void _showFeedingSettings() {
-    if (widget.feedingProvider == null) return;
-
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) => FeedingSettingsDialog(
-        currentDefaults: widget.feedingProvider!.feedingDefaults,
-        onSave: (settings) async {
-          await widget.feedingProvider!.saveFeedingDefaults(
-            type: settings['type'],
-            amountMl: settings['amountMl'],
-            durationMinutes: settings['durationMinutes'],
-            side: settings['side'],
-          );
-
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Row(
-                  children: [
-                    Icon(Icons.settings, color: Colors.white, size: 20),
-                    SizedBox(width: 8),
-                    Text('수유 설정이 저장되었습니다'),
-                  ],
-                ),
-                backgroundColor: Colors.blue[600],
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          }
-        },
-      ),
-    );
-  }
-
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -274,66 +227,38 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
         builder: (context, child) {
           return Transform.scale(
             scale: _scaleAnimation.value,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              height: 120,
+            child: Container(
+              height: 85,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isPressed
-                    ? (isDark 
-                        ? Colors.blue.withOpacity(0.2)
-                        : const Color(0xFFE3F2FD))
-                    : (isDark 
-                        ? Colors.blue.withOpacity(0.1)
-                        : const Color(0xFFF0F8FF)),
-                borderRadius: BorderRadius.circular(12),
+                    ? theme.colorScheme.surface.withOpacity(0.95)
+                    : theme.colorScheme.surface.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: _isPressed
-                      ? Colors.blue[400]!.withOpacity(0.5)
-                      : Colors.transparent,
-                  width: 2,
+                      ? theme.colorScheme.outline.withOpacity(0.2)
+                      : theme.colorScheme.outline.withOpacity(0.1),
+                  width: 1,
                 ),
-                boxShadow: _isPressed
-                    ? [
-                        BoxShadow(
-                          color: Colors.blue.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ]
-                    : null,
+                boxShadow: [
+                  BoxShadow(
+                    color: theme.shadowColor.withOpacity(0.08),
+                    blurRadius: 20,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 헤더 - 아이콘, 제목, 로딩 인디케이터
+                  // 헤더
                   Row(
                     children: [
-                      Stack(
-                        children: [
-                          Icon(
-                            Icons.local_drink,
-                            color: Colors.blue[700],
-                            size: 20,
-                          ),
-                          if (isUpdating)
-                            Positioned.fill(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
+                      Icon(
+                        Icons.local_drink,
+                        color: Colors.blue,
+                        size: 20,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -348,42 +273,28 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
                   ),
                   const SizedBox(height: 12),
                   
-                  // 메인 콘텐츠 - 3줄 세로 레이아웃
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  // 메인 콘텐츠
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // 두번째 줄: 횟수 (왼쪽 정렬)
-                      Row(
-                        children: [
-                          Text(
-                            '$count회',
-                            style: theme.textTheme.headlineLarge?.copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onSurface,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '$count회',
+                        style: theme.textTheme.headlineLarge?.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onSurface,
+                        ),
                       ),
-                      const SizedBox(height: 8),
-                      
-                      // 세번째 줄: 총 수유량 (오른쪽 정렬)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '총 ${totalAmount}ml',
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.blue[700],
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '총 ${totalAmount}ml',
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.onSurface.withOpacity(0.7),
+                        ),
                       ),
                     ],
                   ),
-                  
                 ],
               ),
             ),

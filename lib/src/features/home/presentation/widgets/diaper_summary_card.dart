@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:flutter/services.dart';
 import '../../../../presentation/providers/diaper_provider.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
@@ -91,17 +92,14 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
   Future<void> _showDiaperRecords() async {
     if (widget.diaperProvider == null) return;
 
-    // Get baby ID from the provider
     final babyId = widget.diaperProvider!.currentBabyId;
     if (babyId == null) return;
 
     try {
-      // Fetch today's diaper records
       final diapers = await DiaperService.instance.getTodayDiapers(babyId);
       final diaperData = diapers.map((diaper) => diaper.toJson()).toList();
 
       if (mounted) {
-        // Show the overlay
         showDialog(
           context: context,
           barrierColor: Colors.transparent,
@@ -113,11 +111,9 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
             primaryColor: Colors.amber,
             onClose: () => Navigator.of(context).pop(),
             onRecordDeleted: () {
-              // Refresh the parent data
               widget.diaperProvider?.refreshData();
             },
             onRecordUpdated: () {
-              // Refresh the parent data
               widget.diaperProvider?.refreshData();
             },
           ),
@@ -150,7 +146,6 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
   Future<void> _handleQuickDiaper() async {
     if (widget.diaperProvider == null) return;
 
-    // 수면 중단 확인 로직
     if (widget.sleepProvider?.hasActiveSleep == true) {
       final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
         context: context,
@@ -161,7 +156,6 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
       
       if (!shouldProceed) return;
     } else {
-      // 진행 중인 수면이 없으면 바로 기저귀 교체 추가
       await _addQuickDiaper();
     }
   }
@@ -209,46 +203,6 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
     }
   }
 
-  void _showDiaperSettings() {
-    if (widget.diaperProvider == null) return;
-
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) => DiaperSettingsDialog(
-        currentDefaults: widget.diaperProvider!.diaperDefaults,
-        onSave: (settings) async {
-          await widget.diaperProvider!.saveDiaperDefaults(
-            type: settings['type'],
-            color: settings['color'],
-            consistency: settings['consistency'],
-          );
-
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Row(
-                  children: [
-                    Icon(Icons.settings, color: Colors.white, size: 20),
-                    SizedBox(width: 8),
-                    Text('기저귀 설정이 저장되었습니다'),
-                  ],
-                ),
-                backgroundColor: Colors.amber[600],
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          }
-        },
-      ),
-    );
-  }
-
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -272,66 +226,38 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
         builder: (context, child) {
           return Transform.scale(
             scale: _scaleAnimation.value,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              height: 120,
+            child: Container(
+              height: 85,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isPressed
-                    ? (isDark 
-                        ? Colors.amber.withOpacity(0.2)
-                        : const Color(0xFFFFF8E1))
-                    : (isDark 
-                        ? Colors.amber.withOpacity(0.1)
-                        : const Color(0xFFFFFDE7)),
-                borderRadius: BorderRadius.circular(12),
+                    ? theme.colorScheme.surface.withOpacity(0.95)
+                    : theme.colorScheme.surface.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: _isPressed
-                      ? Colors.amber[400]!.withOpacity(0.5)
-                      : Colors.transparent,
-                  width: 2,
+                      ? theme.colorScheme.outline.withOpacity(0.2)
+                      : theme.colorScheme.outline.withOpacity(0.1),
+                  width: 1,
                 ),
-                boxShadow: _isPressed
-                    ? [
-                        BoxShadow(
-                          color: Colors.amber.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ]
-                    : null,
+                boxShadow: [
+                  BoxShadow(
+                    color: theme.shadowColor.withOpacity(0.08),
+                    blurRadius: 20,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 헤더 - 아이콘, 제목, 로딩 인디케이터
+                  // 헤더
                   Row(
                     children: [
-                      Stack(
-                        children: [
-                          Icon(
-                            Icons.child_care,
-                            color: Colors.amber[700],
-                            size: 20,
-                          ),
-                          if (isUpdating)
-                            Positioned.fill(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
+                      Icon(
+                        Icons.child_care,
+                        color: Colors.amber,
+                        size: 20,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -346,57 +272,44 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                   ),
                   const SizedBox(height: 12),
                   
-                  // 메인 콘텐츠 - 3줄 세로 레이아웃
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  // 메인 콘텐츠
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // 두번째 줄: 횟수 (왼쪽 정렬)
-                      Row(
-                        children: [
-                          Text(
-                            '${totalCount}회',
-                            style: theme.textTheme.headlineLarge?.copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onSurface,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '${totalCount}회',
+                        style: theme.textTheme.headlineLarge?.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onSurface,
+                        ),
                       ),
-                      const SizedBox(height: 8),
-                      
-                      // 세번째 줄: 총 교체 세부사항 (오른쪽 정렬)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              if (bothCount > 0)
-                                Text(
-                                  '소+대 ${bothCount}회',
-                                  style: theme.textTheme.titleLarge?.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.purple[700],
-                                  ),
-                                ),
-                              if (wetCount > 0 || dirtyCount > 0)
-                                Text(
-                                  '소${wetCount}, 대${dirtyCount}',
-                                  style: theme.textTheme.titleLarge?.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.amber[700],
-                                  ),
-                                ),
-                            ],
-                          ),
+                          if (bothCount > 0)
+                            Text(
+                              '소+대 ${bothCount}회',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                              ),
+                            ),
+                          if (wetCount > 0 || dirtyCount > 0)
+                            Text(
+                              '소${wetCount}, 대${dirtyCount}',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              ),
+                            ),
                         ],
                       ),
                     ],
                   ),
-                  
                 ],
               ),
             ),
@@ -404,53 +317,5 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
         },
       ),
     );
-  }
-
-  Widget _buildStatItem(
-    BuildContext context,
-    String label,
-    String value,
-    Color color,
-  ) {
-    final theme = Theme.of(context);
-    
-    return Column(
-      children: [
-        Text(
-          label,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: theme.textTheme.titleMedium?.copyWith(
-            color: color,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    );
-  }
-
-  String _formatTime(String? timestamp) {
-    if (timestamp == null) return '';
-    
-    try {
-      final time = DateTime.parse(timestamp).toLocal();
-      final now = DateTime.now();
-      final difference = now.difference(time);
-      
-      if (difference.inMinutes < 60) {
-        return '${difference.inMinutes}분 전';
-      } else if (difference.inHours < 24) {
-        return '${difference.inHours}시간 전';
-      } else {
-        return '${difference.inDays}일 전';
-      }
-    } catch (e) {
-      return '';
-    }
   }
 }

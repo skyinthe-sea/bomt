@@ -211,10 +211,9 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    
     final count = widget.summary['count'] ?? 0;
     final totalMeals = count;
+    final totalAmount = widget.summary['totalAmount'] ?? 0;
     final isUpdating = widget.solidFoodProvider?.isUpdating ?? false;
 
     return GestureDetector(
@@ -228,66 +227,38 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
         builder: (context, child) {
           return Transform.scale(
             scale: _scaleAnimation.value,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              height: 120,
+            child: Container(
+              height: 85,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isPressed
-                    ? (isDark 
-                        ? Colors.green.withOpacity(0.2)
-                        : const Color(0xFFE8F5E8))
-                    : (isDark 
-                        ? Colors.green.withOpacity(0.1)
-                        : const Color(0xFFF1F8E9)),
-                borderRadius: BorderRadius.circular(12),
+                    ? theme.colorScheme.surface.withOpacity(0.95)
+                    : theme.colorScheme.surface.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: _isPressed
-                      ? Colors.green[400]!.withOpacity(0.5)
-                      : Colors.transparent,
-                  width: 2,
+                      ? theme.colorScheme.outline.withOpacity(0.2)
+                      : theme.colorScheme.outline.withOpacity(0.1),
+                  width: 1,
                 ),
-                boxShadow: _isPressed
-                    ? [
-                        BoxShadow(
-                          color: Colors.green.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ]
-                    : null,
+                boxShadow: [
+                  BoxShadow(
+                    color: theme.shadowColor.withOpacity(0.08),
+                    blurRadius: 20,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 헤더 - 아이콘, 제목, 로딩 인디케이터
+                  // 헤더
                   Row(
                     children: [
-                      Stack(
-                        children: [
-                          Icon(
-                            Icons.restaurant,
-                            color: Colors.green[700],
-                            size: 20,
-                          ),
-                          if (isUpdating)
-                            Positioned.fill(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
+                      Icon(
+                        Icons.restaurant,
+                        color: Colors.green,
+                        size: 20,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -302,43 +273,29 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
                   ),
                   const SizedBox(height: 12),
                   
-                  // 메인 콘텐츠 - 3줄 세로 레이아웃
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  // 메인 콘텐츠
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // 두번째 줄: 횟수 (왼쪽 정렬)
-                      Row(
-                        children: [
-                          Text(
-                            '${totalMeals}끼',
-                            style: theme.textTheme.headlineLarge?.copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onSurface,
-                            ),
+                      Text(
+                        '${totalMeals}끼',
+                        style: theme.textTheme.headlineLarge?.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onSurface,
+                        ),
+                      ),
+                      if (totalAmount > 0)
+                        Text(
+                          '총 ${totalAmount}g',
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.onSurface.withOpacity(0.7),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      
-                      // 세번째 줄: 총량 정보 (오른쪽 정렬)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          if (widget.summary['totalAmount'] != null && widget.summary['totalAmount'] > 0)
-                            Text(
-                              '총 ${widget.summary['totalAmount']}g',
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.green[600],
-                              ),
-                            ),
-                        ],
-                      ),
+                        ),
                     ],
                   ),
-                  
                 ],
               ),
             ),

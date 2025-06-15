@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../domain/models/baby.dart';
@@ -62,14 +63,18 @@ class BabyInfoCard extends StatelessWidget {
     }
     
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        color: theme.colorScheme.surface.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: theme.colorScheme.outline.withOpacity(0.1),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
-            color: theme.shadowColor.withOpacity(0.1),
-            blurRadius: 10,
+            color: theme.shadowColor.withOpacity(0.08),
+            blurRadius: 20,
             offset: const Offset(0, 4),
           ),
         ],
@@ -77,279 +82,281 @@ class BabyInfoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 아기 정보 상단
-          Row(
-            children: [
-              // 아기 아바타
-              GestureDetector(
-                onTap: onProfileImageTap,
-                child: Stack(
+                // 아기 정보 상단
+                Row(
                   children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primary.withOpacity(0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: ClipOval(
-                        child: baby.profileImageUrl != null && baby.profileImageUrl!.isNotEmpty
-                            ? Image.network(
-                                baby.profileImageUrl!,
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Center(
-                                    child: Text(
-                                      baby.name.isNotEmpty ? baby.name[0] : '👶',
-                                      style: theme.textTheme.headlineSmall?.copyWith(
-                                        color: theme.colorScheme.primary,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Center(
-                                    child: SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                          theme.colorScheme.primary,
+                    // 아기 아바타
+                    GestureDetector(
+                      onTap: onProfileImageTap,
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: ClipOval(
+                              child: baby.profileImageUrl != null && baby.profileImageUrl!.isNotEmpty
+                                  ? Image.network(
+                                      baby.profileImageUrl!,
+                                      width: 50,
+                                      height: 50,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Center(
+                                          child: Text(
+                                            baby.name.isNotEmpty ? baby.name[0] : '👶',
+                                            style: theme.textTheme.headlineSmall?.copyWith(
+                                              color: theme.colorScheme.primary,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      loadingBuilder: (context, child, loadingProgress) {
+                                        if (loadingProgress == null) return child;
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              valueColor: AlwaysStoppedAnimation<Color>(
+                                                theme.colorScheme.primary,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  : Center(
+                                      child: Text(
+                                        baby.name.isNotEmpty ? baby.name[0] : '👶',
+                                        style: theme.textTheme.headlineSmall?.copyWith(
+                                          color: theme.colorScheme.primary,
                                         ),
                                       ),
                                     ),
-                                  );
-                                },
-                              )
-                            : Center(
+                            ),
+                          ),
+                          // 편집 아이콘
+                          if (onProfileImageTap != null)
+                            Positioned(
+                              right: -2,
+                              bottom: -2,
+                              child: Container(
+                                width: 18,
+                                height: 18,
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.primary,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: theme.colorScheme.surface,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  size: 10,
+                                  color: theme.colorScheme.onPrimary,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    // 아기 이름과 나이
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            baby.name,
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Text(
+                                baby.ageInMonthsAndDays,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onSurface.withOpacity(0.7),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.secondary.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                                 child: Text(
-                                  baby.name.isNotEmpty ? baby.name[0] : '👶',
-                                  style: theme.textTheme.headlineSmall?.copyWith(
-                                    color: theme.colorScheme.primary,
+                                  l10n.healthy,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: theme.colorScheme.secondary,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    // 편집 아이콘
-                    if (onProfileImageTap != null)
-                      Positioned(
-                        right: -2,
-                        bottom: -2,
-                        child: Container(
-                          width: 18,
-                          height: 18,
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primary,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: theme.colorScheme.surface,
-                              width: 2,
+                    // 체온 체크 버튼
+                    Container(
+                      margin: const EdgeInsets.only(left: 8),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => TemperatureInputScreen(baby: baby),
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.red.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: Colors.red.withOpacity(0.3),
+                                width: 1,
+                              ),
                             ),
-                          ),
-                          child: Icon(
-                            Icons.camera_alt,
-                            size: 10,
-                            color: theme.colorScheme.onPrimary,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 16),
-              // 아기 이름과 나이
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      baby.name,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Text(
-                          baby.ageInMonthsAndDays,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurface.withOpacity(0.7),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.secondary.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            l10n.healthy,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.secondary,
-                              fontWeight: FontWeight.w600,
+                            child: Icon(
+                              Icons.thermostat,
+                              color: Colors.red[600],
+                              size: 20,
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
-              ),
-              // 체온 체크 버튼
-              Container(
-                margin: const EdgeInsets.only(left: 8),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => TemperatureInputScreen(baby: baby),
-                        ),
-                      );
-                    },
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.red.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.red.withOpacity(0.3),
-                          width: 1,
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.thermostat,
-                        color: Colors.red[600],
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // 마지막 수유 시간 섹션
-          if (feedingSummary['lastFeedingTime'] != null) ...[
-            Row(
-              children: [
-                // 원형 진행 인디케이터
-                SizedBox(
-                  width: 70,
-                  height: 70,
-                  child: Stack(
-                    alignment: Alignment.center,
+                
+                const SizedBox(height: 16),
+                
+                // 마지막 수유 시간 섹션
+                if (feedingSummary['lastFeedingTime'] != null) ...[
+                  Row(
                     children: [
-                      // 배경 원
-                      Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: theme.colorScheme.primary.withOpacity(0.1),
-                        ),
-                      ),
-                      // 진행 원
+                      // 원형 진행 인디케이터
                       SizedBox(
                         width: 70,
                         height: 70,
-                        child: CircularProgressIndicator(
-                          value: progressValue,
-                          strokeWidth: 5,
-                          backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            progressValue >= 1.0 
-                                ? Colors.orange 
-                                : progressValue >= 0.8 
-                                    ? Colors.orange[700]! 
-                                    : theme.colorScheme.primary
-                          ),
-                        ),
-                      ),
-                      // 중앙 아이콘
-                      Icon(
-                        Icons.local_drink,
-                        color: theme.colorScheme.primary,
-                        size: 22,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 16),
-                // 텍스트 정보
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '마지막 수유 시간',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.7),
-                        ),
-                      ),
-                      const SizedBox(height: 3),
-                      Text(
-                        lastFeedingText,
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Container(
-                        width: double.infinity,
-                        height: 6,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                        child: FractionallySizedBox(
-                          alignment: Alignment.centerLeft,
-                          widthFactor: progressValue,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: progressValue >= 1.0 
-                                  ? Colors.orange 
-                                  : progressValue >= 0.8 
-                                      ? Colors.orange[700]! 
-                                      : theme.colorScheme.primary,
-                              borderRadius: BorderRadius.circular(3),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // 배경 원
+                            Container(
+                              width: 70,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: theme.colorScheme.primary.withOpacity(0.1),
+                              ),
                             ),
-                          ),
+                            // 진행 원
+                            SizedBox(
+                              width: 70,
+                              height: 70,
+                              child: CircularProgressIndicator(
+                                value: progressValue,
+                                strokeWidth: 5,
+                                backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  progressValue >= 1.0 
+                                      ? Colors.orange 
+                                      : progressValue >= 0.8 
+                                          ? Colors.orange[700]! 
+                                          : theme.colorScheme.primary
+                                ),
+                              ),
+                            ),
+                            // 중앙 아이콘
+                            Icon(
+                              Icons.local_drink,
+                              color: theme.colorScheme.primary,
+                              size: 22,
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 3),
-                      Text(
-                        _buildNextFeedingText(minutesUntilNextFeeding, nextFeedingMinutes, nextHours, nextMinutes),
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: nextFeedingMinutes == 0 
-                              ? Colors.orange
-                              : nextFeedingMinutes < 30 
-                                  ? Colors.orange[700]
-                                  : theme.colorScheme.primary,
-                          fontWeight: nextFeedingMinutes <= 30 ? FontWeight.w600 : FontWeight.normal,
+                      const SizedBox(width: 16),
+                      // 텍스트 정보
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '마지막 수유 시간',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              lastFeedingText,
+                              style: theme.textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onSurface,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Container(
+                              width: double.infinity,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.primary.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: FractionallySizedBox(
+                                alignment: Alignment.centerLeft,
+                                widthFactor: progressValue,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: progressValue >= 1.0 
+                                        ? Colors.orange 
+                                        : progressValue >= 0.8 
+                                            ? Colors.orange[700]! 
+                                            : theme.colorScheme.primary,
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              _buildNextFeedingText(minutesUntilNextFeeding, nextFeedingMinutes, nextHours, nextMinutes),
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: nextFeedingMinutes == 0 
+                                    ? Colors.orange
+                                    : nextFeedingMinutes < 30 
+                                        ? Colors.orange[700]
+                                        : theme.colorScheme.primary,
+                                fontWeight: nextFeedingMinutes <= 30 ? FontWeight.w600 : FontWeight.normal,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
+                ],
               ],
             ),
-          ],
-        ],
-      ),
-    );
+          );
   }
   
   String _buildNextFeedingText(int? minutesUntilNextFeeding, int nextFeedingMinutes, int nextHours, int nextMinutes) {

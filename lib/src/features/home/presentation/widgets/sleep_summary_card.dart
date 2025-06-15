@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
@@ -86,17 +87,14 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
   Future<void> _showSleepRecords() async {
     if (widget.sleepProvider == null) return;
 
-    // Get baby ID from the provider
     final babyId = widget.sleepProvider!.currentBabyId;
     if (babyId == null) return;
 
     try {
-      // Fetch today's sleep records
       final sleeps = await SleepService.instance.getTodaySleeps(babyId);
       final sleepData = sleeps.map((sleep) => sleep.toJson()).toList();
 
       if (mounted) {
-        // Show the overlay
         showDialog(
           context: context,
           barrierColor: Colors.transparent,
@@ -108,11 +106,9 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
             primaryColor: Colors.purple,
             onClose: () => Navigator.of(context).pop(),
             onRecordDeleted: () {
-              // Refresh the parent data
               widget.sleepProvider?.refreshData();
             },
             onRecordUpdated: () {
-              // Refresh the parent data
               widget.sleepProvider?.refreshData();
             },
           ),
@@ -195,8 +191,6 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -219,66 +213,40 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
         builder: (context, child) {
           return Transform.scale(
             scale: _scaleAnimation.value,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              height: 120,
+            child: Container(
+              height: 85,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isPressed
-                    ? (isDark 
-                        ? Colors.purple.withOpacity(0.2)
-                        : const Color(0xFFE1BEE7))
-                    : (isDark 
-                        ? Colors.purple.withOpacity(0.1)
-                        : const Color(0xFFF8F5FF)),
-                borderRadius: BorderRadius.circular(12),
+                    ? theme.colorScheme.surface.withOpacity(0.95)
+                    : theme.colorScheme.surface.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: _isPressed
-                      ? Colors.purple[400]!.withOpacity(0.5)
-                      : (hasActiveSleep ? Colors.purple[600]! : Colors.transparent),
-                  width: 2,
+                      ? theme.colorScheme.outline.withOpacity(0.2)
+                      : hasActiveSleep 
+                          ? Colors.green.withOpacity(0.3)
+                          : theme.colorScheme.outline.withOpacity(0.1),
+                  width: 1,
                 ),
-                boxShadow: _isPressed
-                    ? [
-                        BoxShadow(
-                          color: Colors.purple.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ]
-                    : null,
+                boxShadow: [
+                  BoxShadow(
+                    color: theme.shadowColor.withOpacity(0.08),
+                    blurRadius: 20,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 헤더 - 아이콘, 제목, 로딩 인디케이터
+                  // 헤더
                   Row(
                     children: [
-                      Stack(
-                        children: [
-                          Icon(
-                            hasActiveSleep ? Icons.airline_seat_flat : Icons.bedtime,
-                            color: hasActiveSleep ? Colors.green[700] : Colors.purple[700],
-                            size: 20,
-                          ),
-                          if (isUpdating)
-                            Positioned.fill(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.purple),
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
+                      Icon(
+                        hasActiveSleep ? Icons.airline_seat_flat : Icons.bedtime,
+                        color: hasActiveSleep ? Colors.green[700] : Colors.purple[700],
+                        size: 20,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -289,57 +257,41 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                         ),
                       ),
                       const Spacer(),
+                      if (hasActiveSleep)
+                        Text(
+                          '진행 중',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: Colors.green[300],
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                     ],
                   ),
                   const SizedBox(height: 12),
                   
-                  // 메인 콘텐츠 - 3줄 세로 레이아웃
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  // 메인 콘텐츠
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // 두번째 줄: 횟수 (왼쪽 정렬)
-                      Row(
-                        children: [
-                          Text(
-                            '$count회',
-                            style: theme.textTheme.headlineLarge?.copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onSurface,
-                            ),
-                          ),
-                          if (hasActiveSleep) ...[
-                            const SizedBox(width: 8),
-                            Text(
-                              '진행 중',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: Colors.green[700],
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ]
-                        ],
+                      Text(
+                        '$count회',
+                        style: theme.textTheme.headlineLarge?.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onSurface,
+                        ),
                       ),
-                      const SizedBox(height: 8),
-                      
-                      // 세번째 줄: 총 수면시간 (오른쪽 정렬)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '총 ${totalHours}시간 ${remainingMinutes}분',
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.purple[700],
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '총 ${totalHours}시간 ${remainingMinutes}분',
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.onSurface.withOpacity(0.7),
+                        ),
                       ),
                     ],
                   ),
-                  
                 ],
               ),
             ),

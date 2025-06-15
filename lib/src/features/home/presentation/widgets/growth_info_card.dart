@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'growth_record_input_dialog.dart';
 
@@ -24,12 +25,16 @@ class GrowthInfoCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        color: theme.colorScheme.surface.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: theme.colorScheme.outline.withOpacity(0.1),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
-            color: theme.shadowColor.withOpacity(0.05),
-            blurRadius: 10,
+            color: theme.shadowColor.withOpacity(0.08),
+            blurRadius: 20,
             offset: const Offset(0, 4),
           ),
         ],
@@ -116,7 +121,7 @@ class GrowthInfoCard extends StatelessWidget {
                   Icon(
                     hasValue ? Icons.add_circle_outline : Icons.add,
                     size: hasValue ? 16 : 18,
-                    color: hasValue ? color.withOpacity(0.7) : color,
+                    color: theme.colorScheme.onSurface.withOpacity(0.5),
                   ),
                 ],
               ],
@@ -127,6 +132,7 @@ class GrowthInfoCard extends StatelessWidget {
                 '${value.toStringAsFixed(1)} $unit',
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.onSurface,
                 ),
               )
             else
@@ -134,7 +140,7 @@ class GrowthInfoCard extends StatelessWidget {
                 '-- $unit',
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.onSurface.withOpacity(0.4),
+                  color: theme.colorScheme.onSurface.withOpacity(0.3),
                 ),
               ),
             const SizedBox(height: 8),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
@@ -887,19 +888,33 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
   
-  /// 간단한 그리드 레이아웃
+  /// 간단한 그리드 레이아웃 (카드 개수에 따라 동적 배치)
   Widget _buildSimpleGrid(List<Widget> cards) {
     debugPrint('🏠 [HOME] Building grid with ${cards.length} cards');
     
+    if (cards.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    
+    // 카드 개수에 따른 열 수 결정
+    int columnsPerRow;
+    if (cards.length <= 3) {
+      columnsPerRow = 3; // 1-3개: 1행에 모두 배치
+    } else if (cards.length == 4) {
+      columnsPerRow = 2; // 4개: 2x2
+    } else {
+      columnsPerRow = 3; // 5-6개: 3열로 배치
+    }
+    
     final List<Widget> rows = [];
-    for (int i = 0; i < cards.length; i += 3) {
+    for (int i = 0; i < cards.length; i += columnsPerRow) {
       final List<Widget> rowChildren = [];
       
-      for (int j = 0; j < 3; j++) {
+      for (int j = 0; j < columnsPerRow; j++) {
         if (i + j < cards.length) {
           rowChildren.add(Expanded(child: cards[i + j]));
-          if (j < 2 && i + j + 1 < cards.length) {
-            rowChildren.add(const SizedBox(width: 6));
+          if (j < columnsPerRow - 1 && i + j + 1 < cards.length) {
+            rowChildren.add(const SizedBox(width: 8));
           }
         } else {
           rowChildren.add(const Expanded(child: SizedBox()));
@@ -907,7 +922,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
       
       rows.add(Padding(
-        padding: EdgeInsets.only(bottom: i + 3 < cards.length ? 12 : 0),
+        padding: EdgeInsets.only(bottom: i + columnsPerRow < cards.length ? 12 : 0),
         child: Row(children: rowChildren),
       ));
     }
@@ -1007,10 +1022,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
-      body: SafeArea(
-        child: Stack(
-          children: [
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              theme.colorScheme.primary.withOpacity(0.05),
+              theme.scaffoldBackgroundColor,
+              theme.scaffoldBackgroundColor,
+            ],
+            stops: const [0.0, 0.3, 1.0],
+          ),
+        ),
+        child: SafeArea(
+          child: Stack(
+            children: [
             // 메인 컨텐츠
             _isLoading
                 ? const Center(child: CircularProgressIndicator())
@@ -1031,7 +1058,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     // 앱바
                     SliverAppBar(
                       floating: true,
-                      backgroundColor: theme.colorScheme.background,
+                      backgroundColor: Colors.transparent,
                       elevation: 0,
                       actions: [
                         // Baby guide list button
@@ -1039,7 +1066,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           IconButton(
                             icon: Icon(
                               Icons.menu_book,
-                              color: theme.colorScheme.onBackground,
+                              color: theme.colorScheme.onSurface,
                             ),
                             tooltip: '육아 가이드',
                             onPressed: () {
@@ -1056,7 +1083,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         IconButton(
                           icon: Icon(
                             Icons.settings,
-                            color: theme.colorScheme.onBackground,
+                            color: theme.colorScheme.onSurface,
                           ),
                           onPressed: () {
                             Navigator.push(
@@ -1086,21 +1113,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         ),
                       ),
                     
-                    // 오늘의 요약 섹션 (흰 배경으로 감싸기)
+                    // 오늘의 요약 섹션
                     SliverToBoxAdapter(
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: theme.colorScheme.surface,
-                          borderRadius: BorderRadius.circular(16),
+                          color: theme.colorScheme.surface.withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: theme.colorScheme.outline.withOpacity(0.1),
+                            width: 1,
+                          ),
                           boxShadow: [
                             BoxShadow(
-                              color: theme.brightness == Brightness.dark
-                                  ? Colors.black.withOpacity(0.3)
-                                  : Colors.grey.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(0, 2),
+                              color: theme.shadowColor.withOpacity(0.08),
+                              blurRadius: 20,
+                              offset: const Offset(0, 4),
                             ),
                           ],
                         ),
@@ -1121,7 +1150,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 IconButton(
                                   icon: Icon(
                                     Icons.settings,
-                                    color: theme.colorScheme.onSurface.withOpacity(0.7),
+                                    color: theme.colorScheme.onSurface.withOpacity(0.6),
                                     size: 20,
                                   ),
                                   tooltip: '카드 설정',
@@ -1205,6 +1234,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                               l10n.growthInfo ?? '성장 정보',
                               style: theme.textTheme.titleLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onSurface,
                               ),
                             ),
                             TextButton(
@@ -1268,6 +1298,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ],
         ),
       ),
+    ),
     );
   }
 }

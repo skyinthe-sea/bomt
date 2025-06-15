@@ -211,8 +211,6 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    
     final count = widget.summary['count'] ?? 0;
     final medicineCount = widget.summary['medicineCount'] ?? 0;
     final vitaminCount = widget.summary['vitaminCount'] ?? 0;
@@ -231,66 +229,40 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
         builder: (context, child) {
           return Transform.scale(
             scale: _scaleAnimation.value,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              height: 120,
-              padding: const EdgeInsets.all(16),
+            child: Container(
+              height: 85,
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isPressed
-                    ? (isDark 
-                        ? Colors.pink.withOpacity(0.2)
-                        : const Color(0xFFFCE4EC))
-                    : (isDark 
-                        ? Colors.pink.withOpacity(0.1)
-                        : const Color(0xFFFFF0F5)),
-                borderRadius: BorderRadius.circular(12),
+                    ? theme.colorScheme.surface.withOpacity(0.95)
+                    : theme.colorScheme.surface.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: _isPressed
-                      ? Colors.pink[400]!.withOpacity(0.5)
-                      : (hasUpcomingMedication ? Colors.pink[600]! : Colors.transparent),
-                  width: 2,
+                      ? theme.colorScheme.outline.withOpacity(0.2)
+                      : hasUpcomingMedication 
+                          ? Colors.orange.withOpacity(0.3)
+                          : theme.colorScheme.outline.withOpacity(0.1),
+                  width: 1,
                 ),
-                boxShadow: _isPressed
-                    ? [
-                        BoxShadow(
-                          color: Colors.pink.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ]
-                    : null,
+                boxShadow: [
+                  BoxShadow(
+                    color: theme.shadowColor.withOpacity(0.08),
+                    blurRadius: 20,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 헤더 - 아이콘, 제목, 로딩 인디케이터
+                  // 헤더
                   Row(
                     children: [
-                      Stack(
-                        children: [
-                          Icon(
-                            hasUpcomingMedication ? Icons.schedule : Icons.medical_services,
-                            color: hasUpcomingMedication ? Colors.orange[700] : Colors.pink[700],
-                            size: 20,
-                          ),
-                          if (isUpdating)
-                            Positioned.fill(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.pink),
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
+                      Icon(
+                        hasUpcomingMedication ? Icons.schedule : Icons.medical_services,
+                        color: hasUpcomingMedication ? Colors.orange[700] : Colors.pink[700],
+                        size: 20,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -301,71 +273,57 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
                         ),
                       ),
                       const Spacer(),
-                      if (hasUpcomingMedication) ...[
+                      if (hasUpcomingMedication)
                         Text(
                           '예정',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: Colors.orange[700],
+                            color: Colors.orange[300],
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ]
                     ],
                   ),
                   const SizedBox(height: 12),
                   
-                  // 메인 콘텐츠 - 3줄 세로 레이아웃
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  // 메인 콘텐츠
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // 두번째 줄: 횟수 (왼쪽 정렬)
-                      Row(
-                        children: [
-                          Text(
-                            '${count}회',
-                            style: theme.textTheme.headlineLarge?.copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onSurface,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '${count}회',
+                        style: theme.textTheme.headlineLarge?.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onSurface,
+                        ),
                       ),
-                      const SizedBox(height: 8),
-                      
-                      // 세번째 줄: 투약 종류별 세부사항 (오른쪽 정렬)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              if (medicineCount > 0)
-                                Text(
-                                  '약 ${medicineCount}회',
-                                  style: theme.textTheme.titleLarge?.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.pink[700],
-                                  ),
-                                ),
-                              if (vitaminCount > 0 || vaccineCount > 0)
-                                Text(
-                                  '영양제 ${vitaminCount}, 백신 ${vaccineCount}',
-                                  style: theme.textTheme.titleLarge?.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.pink[600],
-                                  ),
-                                ),
-                            ],
-                          ),
+                          if (medicineCount > 0)
+                            Text(
+                              '약 ${medicineCount}회',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                              ),
+                            ),
+                          if (vitaminCount > 0 || vaccineCount > 0)
+                            Text(
+                              '영양제${vitaminCount}, 백신${vaccineCount}',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              ),
+                            ),
                         ],
                       ),
                     ],
                   ),
-                  
                 ],
               ),
             ),
