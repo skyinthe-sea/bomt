@@ -36,7 +36,7 @@ class StatisticsOverviewCard extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -44,15 +44,15 @@ class StatisticsOverviewCard extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: theme.colorScheme.primary.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(
                         Icons.analytics_rounded,
                         color: theme.colorScheme.primary,
-                        size: 24,
+                        size: 20,
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -62,14 +62,14 @@ class StatisticsOverviewCard extends StatelessWidget {
                         children: [
                           Text(
                             '전체 활동 개요',
-                            style: theme.textTheme.titleLarge?.copyWith(
+                            style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: theme.colorScheme.onSurface,
                             ),
                           ),
                           Text(
                             statistics.dateRange.label,
-                            style: theme.textTheme.bodyMedium?.copyWith(
+                            style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurface.withOpacity(0.7),
                             ),
                           ),
@@ -79,7 +79,7 @@ class StatisticsOverviewCard extends StatelessWidget {
                   ],
                 ),
                 
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
                 
                 // 메트릭 그리드
                 _buildMetricsGrid(context, theme),
@@ -151,7 +151,7 @@ class StatisticsOverviewCard extends StatelessWidget {
     required Color color,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface.withOpacity(0.8),
         borderRadius: BorderRadius.circular(16),
@@ -171,28 +171,43 @@ class StatisticsOverviewCard extends StatelessWidget {
           Icon(
             icon,
             color: color,
-            size: 24,
+            size: 20,
           ),
           const SizedBox(height: 8),
-          Text(
-            value,
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: theme.colorScheme.onSurface,
-            ),
-          ),
-          const SizedBox(height: 2),
+          // 세로 배치: "총 활동" (위) + "3 회" (아래)
           Text(
             title,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.7),
+              fontSize: 10,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
           ),
-          Text(
-            subtitle,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w500,
+          const SizedBox(height: 2),
+          RichText(
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: value,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.onSurface,
+                  ),
+                ),
+                TextSpan(
+                  text: ' ${subtitle.replaceAll('/일', '')}', // "/일" 제거
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 10,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
