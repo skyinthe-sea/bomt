@@ -203,7 +203,7 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
                           Icon(
                             Icons.thermostat,
                             color: Colors.orange[700],
-                            size: 20,
+                            size: 18,
                           ),
                           if (_isLoading)
                             Positioned.fill(
@@ -220,10 +220,11 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
                             ),
                         ],
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       Text(
                         '건강',
                         style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -247,7 +248,7 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
                       Text(
                         '${latestTemp.toStringAsFixed(1)}°C',
                         style: theme.textTheme.headlineLarge?.copyWith(
-                          fontSize: 22,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -266,8 +267,8 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
                           Text(
                             tempStatus,
                             style: theme.textTheme.titleLarge?.copyWith(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
                               color: statusColor,
                             ),
                           ),
@@ -310,7 +311,7 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
           label,
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
-            fontSize: 11,
+            fontSize: 10,
           ),
         ),
         const SizedBox(height: 2),
@@ -319,7 +320,7 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
           style: theme.textTheme.titleSmall?.copyWith(
             color: color,
             fontWeight: FontWeight.bold,
-            fontSize: 12,
+            fontSize: 11,
           ),
         ),
       ],

@@ -262,12 +262,13 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
                       Icon(
                         hasUpcomingMedication ? Icons.schedule : Icons.medical_services,
                         color: hasUpcomingMedication ? Colors.orange[700] : Colors.pink[700],
-                        size: 20,
+                        size: 18,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       Text(
                         '투약',
                         style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -293,7 +294,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
                       Text(
                         '${count}회',
                         style: theme.textTheme.headlineLarge?.copyWith(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -306,7 +307,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
                             Text(
                               '약 ${medicineCount}회',
                               style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 12,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w500,
                                 color: theme.colorScheme.onSurface.withOpacity(0.7),
                               ),
@@ -315,7 +316,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
                             Text(
                               '영양제${vitaminCount}, 백신${vaccineCount}',
                               style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 12,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w500,
                                 color: theme.colorScheme.onSurface.withOpacity(0.6),
                               ),

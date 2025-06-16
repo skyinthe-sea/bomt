@@ -246,12 +246,13 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                       Icon(
                         hasActiveSleep ? Icons.airline_seat_flat : Icons.bedtime,
                         color: hasActiveSleep ? Colors.green[700] : Colors.purple[700],
-                        size: 20,
+                        size: 18,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       Text(
                         '수면',
                         style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -277,7 +278,7 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                       Text(
                         '$count회',
                         style: theme.textTheme.headlineLarge?.copyWith(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -285,10 +286,10 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                       Flexible(
                         child: Text(
                           totalHours > 0 || remainingMinutes > 0
-                              ? '총 ${totalHours}h ${remainingMinutes}m'
-                              : '총 0시간',
+                              ? '${totalHours}h ${remainingMinutes}m'
+                              : '0시간',
                           style: theme.textTheme.titleLarge?.copyWith(
-                            fontSize: 12,
+                            fontSize: 11,
                             fontWeight: FontWeight.w500,
                             color: theme.colorScheme.onSurface.withOpacity(0.7),
                           ),

@@ -258,12 +258,13 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
                       Icon(
                         Icons.restaurant,
                         color: Colors.green,
-                        size: 20,
+                        size: 18,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       Text(
                         '이유식',
                         style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -280,16 +281,16 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
                       Text(
                         '${totalMeals}끼',
                         style: theme.textTheme.headlineLarge?.copyWith(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
                         ),
                       ),
                       if (totalAmount > 0)
                         Text(
-                          '총 ${totalAmount}g',
+                          '${totalAmount}g',
                           style: theme.textTheme.titleLarge?.copyWith(
-                            fontSize: 12,
+                            fontSize: 11,
                             fontWeight: FontWeight.w500,
                             color: theme.colorScheme.onSurface.withOpacity(0.7),
                           ),

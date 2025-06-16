@@ -257,12 +257,13 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                       Icon(
                         Icons.child_care,
                         color: Colors.amber,
-                        size: 20,
+                        size: 18,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       Text(
                         '기저귀',
                         style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -279,7 +280,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                       Text(
                         '${totalCount}회',
                         style: theme.textTheme.headlineLarge?.copyWith(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -292,7 +293,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                             Text(
                               '소+대 ${bothCount}회',
                               style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 12,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w500,
                                 color: theme.colorScheme.onSurface.withOpacity(0.7),
                               ),
@@ -301,7 +302,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                             Text(
                               '소${wetCount}, 대${dirtyCount}',
                               style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 12,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w500,
                                 color: theme.colorScheme.onSurface.withOpacity(0.6),
                               ),

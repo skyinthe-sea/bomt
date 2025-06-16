@@ -258,12 +258,13 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
                       Icon(
                         Icons.local_drink,
                         color: Colors.blue,
-                        size: 20,
+                        size: 18,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       Text(
                         '수유',
                         style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -280,15 +281,15 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
                       Text(
                         '$count회',
                         style: theme.textTheme.headlineLarge?.copyWith(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
                         ),
                       ),
                       Text(
-                        '총 ${totalAmount}ml',
+                        '${totalAmount}ml',
                         style: theme.textTheme.titleLarge?.copyWith(
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: theme.colorScheme.onSurface.withOpacity(0.7),
                         ),
