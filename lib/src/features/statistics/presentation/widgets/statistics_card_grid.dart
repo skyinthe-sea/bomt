@@ -34,7 +34,7 @@ class StatisticsCardGrid extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
-              childAspectRatio: 0.75, // 카드 높이를 늘려서 오버플로 방지
+              childAspectRatio: 0.9, // 카드 높이를 더 늘려서 오버플로 방지
             ),
             itemCount: cardStatistics.length,
             itemBuilder: (context, index) {
@@ -132,7 +132,7 @@ class _StatisticsCard extends StatelessWidget {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.all(14), // 패딩 조금 줄임
+              padding: const EdgeInsets.all(12), // 패딩 더 줄임
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -166,12 +166,12 @@ class _StatisticsCard extends StatelessWidget {
                     ],
                   ),
                   
-                  const SizedBox(height: 12), // 간격 줄임
+                  const SizedBox(height: 8), // 간격 더 줄임
                   
                   // 총 횟수
                   _buildMainMetric(context, theme, cardColor),
                   
-                  const SizedBox(height: 10), // 간격 줄임
+                  const SizedBox(height: 6), // 간격 더 줄임
                   
                   // 주요 메트릭들
                   Expanded(
@@ -188,7 +188,7 @@ class _StatisticsCard extends StatelessWidget {
 
   Widget _buildMainMetric(BuildContext context, ThemeData theme, Color cardColor) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: cardColor.withOpacity(0.05),
         borderRadius: BorderRadius.circular(12),
@@ -199,24 +199,26 @@ class _StatisticsCard extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '총 횟수',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.7),
+            child: RichText(
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: '총 횟수 ',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurface.withOpacity(0.7),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${cardStatistics.totalCount}회',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: cardColor,
+                  TextSpan(
+                    text: '${cardStatistics.totalCount}회',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: cardColor,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Icon(
@@ -247,7 +249,7 @@ class _StatisticsCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: keyMetrics.map((metric) => 
         Padding(
-          padding: const EdgeInsets.only(bottom: 4), // 간격 줄임
+          padding: const EdgeInsets.only(bottom: 2), // 간격 더 줄임
           child: _buildMetricRow(context, theme, metric),
         ),
       ).toList(),
@@ -272,6 +274,7 @@ class _StatisticsCard extends StatelessWidget {
             metric.label,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.7),
+              fontSize: 11, // 폰트 크기 축소
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -282,6 +285,7 @@ class _StatisticsCard extends StatelessWidget {
           style: theme.textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w600,
             color: theme.colorScheme.onSurface,
+            fontSize: 11, // 폰트 크기 축소
           ),
         ),
       ],
@@ -298,19 +302,19 @@ class _StatisticsCard extends StatelessWidget {
           m.label == '평균 수유량' || 
           m.label == '평균 수유 시간' ||
           m.label == '하루 평균 수유 횟수'
-        ).take(3).toList();
+        ).take(2).toList(); // 2개로 줄임
       case 'sleep':
         return allMetrics.where((m) => 
           m.label == '평균 수면 시간' || 
           m.label == '하루 평균 총 수면 시간' ||
           m.label == '하루 평균 수면 횟수'
-        ).take(3).toList();
+        ).take(2).toList(); // 2개로 줄임
       case 'diaper':
         return allMetrics.where((m) => 
           m.label == '하루 평균 교체 횟수'
-        ).take(2).toList();
+        ).take(1).toList(); // 1개로 줄임
       default:
-        return allMetrics.take(3).toList();
+        return allMetrics.take(2).toList(); // 2개로 줄임
     }
   }
 
