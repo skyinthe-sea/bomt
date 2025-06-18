@@ -42,6 +42,7 @@ import '../../../baby/data/repositories/supabase_baby_repository.dart';
 import '../../../baby/domain/entities/baby.dart' as BabyEntity;
 import 'package:image_picker/image_picker.dart';
 import 'card_settings_screen.dart';
+import '../../../invitation/presentation/screens/simple_invite_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final LocalizationProvider? localizationProvider;
@@ -994,6 +995,26 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               icon: const Icon(Icons.add),
               label: const Text('아기 등록하기'),
               style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SimpleInviteScreen(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.qr_code_scanner),
+              label: const Text('초대 코드로 참여하기'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.colorScheme.secondary,
+                foregroundColor: theme.colorScheme.onSecondary,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                   vertical: 12,
