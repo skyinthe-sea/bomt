@@ -130,7 +130,7 @@ class GrowthInfoCard extends StatelessWidget {
             if (hasValue)
               Text(
                 '${value.toStringAsFixed(1)} $unit',
-                style: theme.textTheme.headlineMedium?.copyWith(
+                style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: theme.colorScheme.onSurface,
                 ),
@@ -138,7 +138,7 @@ class GrowthInfoCard extends StatelessWidget {
             else
               Text(
                 '-- $unit',
-                style: theme.textTheme.headlineMedium?.copyWith(
+                style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: theme.colorScheme.onSurface.withOpacity(0.3),
                 ),
