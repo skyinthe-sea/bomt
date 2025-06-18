@@ -102,7 +102,7 @@ class _CommunityScreenState extends State<CommunityScreen>
                   slivers: [
                     // 상단 여백
                     const SliverToBoxAdapter(
-                      child: SizedBox(height: 16),
+                      child: SizedBox(height: 8),
                     ),
                     
                     // 상단 배너
@@ -118,7 +118,7 @@ class _CommunityScreenState extends State<CommunityScreen>
                     // 정렬 버튼
                     SliverToBoxAdapter(
                       child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                         child: Row(
                           children: [
                             Expanded(
@@ -157,7 +157,7 @@ class _CommunityScreenState extends State<CommunityScreen>
                                               child: AnimatedContainer(
                                                 duration: const Duration(milliseconds: 200),
                                                 curve: Curves.easeInOut,
-                                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                                padding: const EdgeInsets.symmetric(vertical: 10),
                                                 decoration: BoxDecoration(
                                                   color: provider.postSortOrder == 'like_count'
                                                       ? theme.colorScheme.primary
@@ -202,7 +202,7 @@ class _CommunityScreenState extends State<CommunityScreen>
                                               child: AnimatedContainer(
                                                 duration: const Duration(milliseconds: 200),
                                                 curve: Curves.easeInOut,
-                                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                                padding: const EdgeInsets.symmetric(vertical: 10),
                                                 decoration: BoxDecoration(
                                                   color: provider.postSortOrder == 'created_at'
                                                       ? theme.colorScheme.primary

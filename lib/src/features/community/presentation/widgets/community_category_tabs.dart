@@ -106,7 +106,7 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
     return Column(
       children: rows.map((rowCategories) {
         return Container(
-          margin: const EdgeInsets.only(bottom: 8),
+          margin: const EdgeInsets.only(bottom: 6),
           child: Row(
             children: [
               ...rowCategories.asMap().entries.map((entry) {
@@ -158,7 +158,7 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOutCubic,
-              height: 85, // 오버플로우 완전 방지 (+5px 추가)
+              height: 68, // 더 컴팩트한 크기
               decoration: BoxDecoration(
                 gradient: isSelected
                     ? LinearGradient(
@@ -209,14 +209,14 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
                     provider.selectCategory(category.slug);
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // 아이콘
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
-                          padding: const EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? Colors.white.withOpacity(0.2)
@@ -225,14 +225,14 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
                           ),
                           child: Icon(
                             _getCategoryIcon(category.icon),
-                            size: 18,
+                            size: 16,
                             color: isSelected
                                 ? Colors.white
                                 : categoryColor,
                           ),
                         ),
                         
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 3),
                         
                         // 텍스트
                         Flexible(
@@ -245,7 +245,7 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
                               fontWeight: isSelected
                                   ? FontWeight.w700
                                   : FontWeight.w600,
-                              fontSize: 10,
+                              fontSize: 9,
                               height: 1.0, // 줄 높이 명시적 설정
                             ),
                             textAlign: TextAlign.center,
@@ -276,7 +276,7 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
         }
 
         return Container(
-          margin: const EdgeInsets.only(bottom: 20),
+          margin: const EdgeInsets.only(bottom: 12),
           child: Column(
             children: [
               // 카테고리 Grid

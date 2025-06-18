@@ -53,7 +53,7 @@ class CommunityPostCard extends StatelessWidget {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
             child: Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.05),
                 borderRadius: BorderRadius.circular(20),
@@ -165,7 +165,7 @@ class CommunityPostCard extends StatelessWidget {
                     ],
                   ),
                   
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   
                   // 게시글 제목
                   Text(
@@ -179,74 +179,7 @@ class CommunityPostCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   
-                  const SizedBox(height: 8),
-                  
-                  // 게시글 내용 미리보기
-                  Text(
-                    post.contentPreview,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withOpacity(0.7),
-                      height: 1.4,
-                    ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  
-                  // 이미지가 있는 경우
-                  if (post.images.isNotEmpty) ...[
-                    const SizedBox(height: 12),
-                    Container(
-                      height: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Image.network(
-                                post.images.first,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Icon(
-                                      Icons.image,
-                                      color: theme.colorScheme.onSurface.withOpacity(0.3),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            if (post.images.length > 1)
-                              Container(
-                                width: 40,
-                                height: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '+${post.images.length - 1}',
-                                    style: theme.textTheme.bodySmall?.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                  
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   
                   // 하단 상호작용 버튼들
                   Row(

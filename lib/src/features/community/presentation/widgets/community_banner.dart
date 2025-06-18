@@ -36,7 +36,7 @@ class CommunityBanner extends StatelessWidget {
     return GestureDetector(
       onTap: () => _showComingSoonToast(context),
       child: Container(
-        margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+        margin: const EdgeInsets.fromLTRB(20, 0, 20, 12),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -62,7 +62,7 @@ class CommunityBanner extends StatelessWidget {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
             child: Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(20),
@@ -75,7 +75,7 @@ class CommunityBanner extends StatelessWidget {
                 children: [
                   // 이벤트 아이콘
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(16),
@@ -83,11 +83,11 @@ class CommunityBanner extends StatelessWidget {
                     child: const Icon(
                       Icons.campaign,
                       color: Colors.white,
-                      size: 24,
+                      size: 20,
                     ),
                   ),
                   
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 12),
                   
                   // 이벤트 내용
                   Expanded(
@@ -101,7 +101,7 @@ class CommunityBanner extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 3),
                         Text(
                           '오늘 오후 7시! 궁금했던 모든 질문에 전문의가 답변해드려요',
                           style: theme.textTheme.bodySmall?.copyWith(

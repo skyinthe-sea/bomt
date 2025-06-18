@@ -58,7 +58,7 @@ class CommunityPostList extends StatelessWidget {
               // 5개마다 광고 삽입
               if ((index + 1) % 6 == 0 && index < provider.posts.length) {
                 return const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                   child: CommunityAdCard(),
                 );
               }
@@ -73,7 +73,7 @@ class CommunityPostList extends StatelessWidget {
               final post = provider.posts[postIndex];
 
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                 child: CommunityPostCard(
                   post: post,
                   selectedCategorySlug: provider.selectedCategorySlug, // 현재 선택된 카테고리 전달
