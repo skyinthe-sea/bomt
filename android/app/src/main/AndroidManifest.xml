@@ -41,6 +41,22 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            
+            <!-- 초대 딩링크 처리 -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="bomtapp" />
+            </intent-filter>
+            
+            <!-- 대체 스킴 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="bomt" />
+            </intent-filter>
         </activity>
         <!-- 카카오 로그인 관련 -->
         <activity android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity">

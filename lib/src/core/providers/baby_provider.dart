@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../domain/models/baby.dart';
 
 class BabyProvider extends ChangeNotifier {
@@ -195,10 +195,28 @@ class BabyProvider extends ChangeNotifier {
     }
   }
 
-  /// 사용자 ID 가져오기
+  /// 사용자 ID 가져오기 (실시간 카카오 API 호출)
   Future<String?> _getUserId() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_id');
+    try {
+      debugPrint('🔍 [BABY_PROVIDER] Getting user ID from Kakao API...');
+      
+      // 카카오 토큰 유효성 검사 및 사용자 정보 가져오기
+      final tokenInfo = await UserApi.instance.accessTokenInfo();
+      if (tokenInfo != null) {
+        // 현재 로그인된 카카오 사용자 정보 가져오기
+        final kakaoUser = await UserApi.instance.me();
+        final kakaoUserId = kakaoUser.id.toString();
+        
+        debugPrint('✅ [BABY_PROVIDER] Retrieved Kakao user ID: $kakaoUserId');
+        return kakaoUserId;
+      } else {
+        debugPrint('❌ [BABY_PROVIDER] Invalid Kakao token');
+        return null;
+      }
+    } catch (e) {
+      debugPrint('❌ [BABY_PROVIDER] Kakao API error: $e');
+      return null;
+    }
   }
 
   /// 로딩 상태 설정

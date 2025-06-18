@@ -5,6 +5,7 @@ import '../../../../presentation/providers/localization_provider.dart';
 import '../../../auth/data/repositories/kakao_auth_repository.dart';
 import '../../../../services/auth/auth_service.dart';
 import '../../../../presentation/providers/theme_provider.dart';
+import '../../../invitation/presentation/screens/simple_invite_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   final LocalizationProvider localizationProvider;
@@ -26,6 +27,8 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
+          _buildInvitationSection(context, l10n),
+          const SizedBox(height: 16),
           if (themeProvider != null) ...[
             _buildAppearanceSection(context, l10n),
             const SizedBox(height: 16),
@@ -38,6 +41,27 @@ class SettingsScreen extends StatelessWidget {
     );
   }
   
+  Widget _buildInvitationSection(BuildContext context, AppLocalizations l10n) {
+    return Card(
+      margin: const EdgeInsets.all(16.0),
+      child: ListTile(
+        leading: const Icon(Icons.family_restroom, color: Colors.blue),
+        title: const Text('가족 초대'),
+        subtitle: const Text('초대 코드로 가족과 함께 육아 기록을 관리하세요'),
+        trailing: const Icon(Icons.arrow_forward_ios),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SimpleInviteScreen(),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+
   Widget _buildLanguageSection(BuildContext context, AppLocalizations l10n) {
     return Card(
       margin: const EdgeInsets.all(16.0),

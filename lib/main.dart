@@ -15,7 +15,9 @@ import 'src/services/auth/auth_service.dart';
 import 'src/services/theme/theme_service.dart';
 import 'src/core/theme/app_theme.dart';
 import 'src/services/alarm/feeding_alarm_service.dart';
+import 'src/services/invitation/invitation_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter/foundation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +25,15 @@ void main() async {
   KakaoSdk.init(nativeAppKey: KakaoConfig.nativeAppKey);
   await SupabaseConfig.initialize();
   await FeedingAlarmService.instance.initialize();
+  
+  // Initialize invitation system
+  try {
+    await InvitationService.instance.initialize();
+    debugPrint('초대 시스템 초기화 완료');
+  } catch (e) {
+    debugPrint('초대 시스템 초기화 실패: $e');
+    // 초대 시스템 실패해도 앱은 계속 실행
+  }
   
   // Initialize dependencies
   final prefs = await SharedPreferences.getInstance();
