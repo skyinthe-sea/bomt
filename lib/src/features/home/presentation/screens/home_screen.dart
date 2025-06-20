@@ -43,6 +43,7 @@ import '../../../baby/domain/entities/baby.dart' as BabyEntity;
 import 'package:image_picker/image_picker.dart';
 import 'card_settings_screen.dart';
 import '../../../invitation/presentation/screens/simple_invite_screen.dart';
+import '../../../../core/providers/baby_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final LocalizationProvider? localizationProvider;
@@ -113,9 +114,109 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // 탭 컨트롤러 감지 설정 (PostFrameCallback으로 처리)
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _setupTabChangeListener();
+      _waitForBabyProviderAndLoadData();
     });
+  }
+  
+  /// BabyProvider가 준비될 때까지 기다렸다가 데이터 로드
+  Future<void> _waitForBabyProviderAndLoadData() async {
+    // BabyProvider가 준비될 때까지 대기
+    int attempts = 0;
+    const maxAttempts = 10;
     
-    _loadData();
+    while (attempts < maxAttempts) {
+      try {
+        final babyProvider = Provider.of<BabyProvider>(context, listen: false);
+        
+        // BabyProvider가 로딩 완료되고 아기가 있는 경우
+        if (!babyProvider.isLoading && babyProvider.hasBaby) {
+          debugPrint('✅ [HOME] BabyProvider ready, loading home data...');
+          _currentBaby = babyProvider.selectedBaby;
+          _currentUserId = babyProvider.currentUserId;
+          await _loadHomeDataOnly(); // 아기 정보 로딩 없이 홈 데이터만 로드
+          return;
+        }
+        
+        // BabyProvider가 로딩 완료되었지만 아기가 없는 경우
+        if (!babyProvider.isLoading && !babyProvider.hasBaby) {
+          debugPrint('⚠️ [HOME] BabyProvider ready but no baby found');
+          setState(() => _isLoading = false);
+          return;
+        }
+        
+        // 아직 로딩 중인 경우 잠시 대기
+        await Future.delayed(const Duration(milliseconds: 500));
+        attempts++;
+      } catch (e) {
+        debugPrint('❌ [HOME] Error waiting for BabyProvider: $e');
+        await Future.delayed(const Duration(milliseconds: 500));
+        attempts++;
+      }
+    }
+    
+    // 최대 시도 횟수 초과 시
+    debugPrint('❌ [HOME] Failed to get BabyProvider after $maxAttempts attempts');
+    setState(() => _isLoading = false);
+  }
+  
+  /// 홈 데이터만 로드 (아기 정보는 BabyProvider에서 가져옴)
+  Future<void> _loadHomeDataOnly() async {
+    if (_currentBaby == null || _currentUserId == null) {
+      setState(() => _isLoading = false);
+      return;
+    }
+    
+    try {
+      setState(() => _isLoading = true);
+      
+      // 기존의 _performDataLoading에서 아기 정보 조회 부분을 제외하고 실행
+      await _loadDataWithExistingBaby();
+      
+      debugPrint('✅ [HOME] Home data loaded successfully');
+    } catch (e) {
+      debugPrint('❌ [HOME] Error loading home data: $e');
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+  
+  /// 기존 아기 정보로 데이터 로드
+  Future<void> _loadDataWithExistingBaby() async {
+    // 카드 설정 로드
+    await _loadCardSettings(_currentUserId!);
+    
+    // 모든 Provider들에 현재 아기 정보 설정
+    _feedingProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!);
+    _sleepProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!);
+    _diaperProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!);
+    _healthProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!);
+    _solidFoodProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!);
+    _medicationProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!);
+    _milkPumpingProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!);
+    
+    // Provider들이 데이터를 로드할 때까지 잠시 대기
+    await Future.delayed(const Duration(milliseconds: 100));
+    
+    // 성장 데이터 로드
+    final growthSummary = await _homeRepository.getGrowthSummary(_currentBaby!.id);
+    
+    if (mounted) {
+      setState(() {
+        _feedingSummary = _feedingProvider.todaySummary;
+        _sleepSummary = _sleepProvider.todaySummary;
+        _diaperSummary = _diaperProvider.todaySummary;
+        _temperatureSummary = _healthProvider.todaySummary;
+        _solidFoodSummary = _solidFoodProvider.todaySummary;
+        _medicationSummary = _medicationProvider.todaySummary;
+        _milkPumpingSummary = _milkPumpingProvider.todaySummary;
+        _growthSummary = growthSummary;
+        _isLoading = false;
+      });
+    }
+    
+    // 가이드 알럿 확인
+    await _checkForGuideAlert(_currentUserId!);
   }
 
   @override
@@ -1037,7 +1138,83 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     
-    return Scaffold(
+    return Consumer<BabyProvider>(
+      builder: (context, babyProvider, child) {
+        // BabyProvider의 selectedBaby가 변경되면 현재 아기 정보 업데이트
+        if (babyProvider.hasBaby && babyProvider.selectedBaby != _currentBaby) {
+          debugPrint('👶 [HOME] Selected baby changed, updating current baby');
+          _currentBaby = babyProvider.selectedBaby;
+          _currentUserId = babyProvider.currentUserId;
+          // 아기가 변경되면 홈 데이터 다시 로드
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _loadHomeDataOnly();
+          });
+        }
+        
+        // BabyProvider가 로딩 중이거나 아기가 없는 경우 처리
+        if (babyProvider.isLoading) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  Text(
+                    '아기 정보를 불러오는 중...',
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        
+        if (!babyProvider.hasBaby) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.child_friendly,
+                    size: 80,
+                    color: theme.colorScheme.primary.withOpacity(0.5),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    '등록된 아기가 없습니다',
+                    style: theme.textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    '설정에서 아기를 등록해주세요',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurface.withOpacity(0.7),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SettingsScreen(
+                            localizationProvider: widget.localizationProvider!,
+                            themeProvider: widget.themeProvider,
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Text('설정으로 이동'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        
+        return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -1315,6 +1492,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
       ),
     ),
+    );
+      },
     );
   }
 }

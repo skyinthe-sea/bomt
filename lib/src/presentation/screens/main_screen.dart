@@ -98,7 +98,14 @@ class _MainScreenState extends State<MainScreen> {
     
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => BabyProvider()),
+        ChangeNotifierProvider(create: (context) {
+          final babyProvider = BabyProvider();
+          // BabyProvider 생성 후 데이터 로드
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            babyProvider.loadBabyData();
+          });
+          return babyProvider;
+        }),
         ChangeNotifierProvider(create: (context) => StatisticsProvider()),
         ChangeNotifierProvider(create: (context) => TabControllerProvider()),
         ChangeNotifierProvider(create: (context) => CommunityProvider()),
