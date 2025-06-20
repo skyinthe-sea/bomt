@@ -145,24 +145,48 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
     bool isFuture,
     ThemeData theme,
   ) {
+    final isDark = theme.brightness == Brightness.dark;
+    
     Color cardColor;
     Color borderColor;
+    Color iconColor;
     IconData statusIcon;
     String statusText;
     
     if (isCurrent) {
-      cardColor = Colors.blue.shade50;
-      borderColor = Colors.blue.shade300;
+      if (isDark) {
+        cardColor = const Color(0xFF1E3A8A).withOpacity(0.2); // 다크 블루 배경
+        borderColor = const Color(0xFF3B82F6).withOpacity(0.6); // 더 밝은 블루 경계
+        iconColor = const Color(0xFF60A5FA); // 밝은 블루 아이콘
+      } else {
+        cardColor = Colors.blue.shade50;
+        borderColor = Colors.blue.shade300;
+        iconColor = Colors.blue.shade600;
+      }
       statusIcon = Icons.star;
       statusText = '현재';
     } else if (isPast) {
-      cardColor = Colors.grey.shade50;
-      borderColor = Colors.grey.shade300;
+      if (isDark) {
+        cardColor = const Color(0xFF374151).withOpacity(0.3); // 다크 그레이 배경
+        borderColor = const Color(0xFF6B7280).withOpacity(0.6); // 그레이 경계
+        iconColor = const Color(0xFF9CA3AF); // 밝은 그레이 아이콘
+      } else {
+        cardColor = Colors.grey.shade50;
+        borderColor = Colors.grey.shade300;
+        iconColor = Colors.grey.shade600;
+      }
       statusIcon = Icons.check_circle_outline;
       statusText = '지남';
     } else {
-      cardColor = Colors.orange.shade50;
-      borderColor = Colors.orange.shade300;
+      if (isDark) {
+        cardColor = const Color(0xFF92400E).withOpacity(0.2); // 다크 오렌지 배경
+        borderColor = const Color(0xFFF59E0B).withOpacity(0.6); // 더 밝은 오렌지 경계
+        iconColor = const Color(0xFFFBBF24); // 밝은 오렌지 아이콘
+      } else {
+        cardColor = Colors.orange.shade50;
+        borderColor = Colors.orange.shade300;
+        iconColor = Colors.orange.shade600;
+      }
       statusIcon = Icons.schedule;
       statusText = '예정';
     }
@@ -188,12 +212,12 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: borderColor.withOpacity(0.2),
+                      color: iconColor.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
                       statusIcon,
-                      color: borderColor,
+                      color: iconColor,
                       size: 20,
                     ),
                   ),
@@ -212,7 +236,7 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
                         Text(
                           statusText,
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: borderColor,
+                            color: iconColor,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -247,7 +271,9 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
+                    color: isDark 
+                        ? theme.colorScheme.surface.withOpacity(0.8)
+                        : Colors.white.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
