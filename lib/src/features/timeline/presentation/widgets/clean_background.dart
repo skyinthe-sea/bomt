@@ -15,7 +15,15 @@ class CleanBackground extends StatelessWidget {
     
     return Container(
       decoration: BoxDecoration(
-        color: theme.colorScheme.background,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            theme.colorScheme.surface,
+            theme.colorScheme.surface.withOpacity(0.8),
+            theme.colorScheme.primaryContainer.withOpacity(0.1),
+          ],
+        ),
       ),
       child: child,
     );

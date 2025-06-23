@@ -77,14 +77,13 @@ class _CommunityScreenState extends State<CommunityScreen>
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
               colors: [
-                theme.colorScheme.primary.withOpacity(0.05),
-                theme.scaffoldBackgroundColor,
-                theme.scaffoldBackgroundColor,
+                theme.colorScheme.surface,
+                theme.colorScheme.surface.withOpacity(0.8),
+                theme.colorScheme.primaryContainer.withOpacity(0.1),
               ],
-              stops: const [0.0, 0.3, 1.0],
             ),
           ),
           child: Consumer<CommunityProvider>(
