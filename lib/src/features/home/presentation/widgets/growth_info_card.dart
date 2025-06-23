@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'growth_record_input_dialog.dart';
 
 class GrowthInfoCard extends StatelessWidget {
@@ -15,6 +16,7 @@ class GrowthInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final latestWeight = summary['latestWeight'];
     final latestHeight = summary['latestHeight'];
     final weightChange = summary['weightChange'] ?? 0.0;
@@ -44,7 +46,7 @@ class GrowthInfoCard extends StatelessWidget {
           Expanded(
             child: _buildGrowthItem(
               context,
-              '체중',
+              l10n.weight,
               latestWeight ?? 0.0,
               'kg',
               weightChange,
@@ -63,7 +65,7 @@ class GrowthInfoCard extends StatelessWidget {
           Expanded(
             child: _buildGrowthItem(
               context,
-              '키',
+              l10n.height,
               latestHeight ?? 0.0,
               'cm',
               heightChange,
@@ -178,7 +180,7 @@ class GrowthInfoCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  '변화 없음',
+                  AppLocalizations.of(context)!.noChange,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurface.withOpacity(0.7),
                   ),
@@ -192,7 +194,7 @@ class GrowthInfoCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  '첫 기록',
+                  AppLocalizations.of(context)!.firstRecord,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: color,
                     fontWeight: FontWeight.w600,

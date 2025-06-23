@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../presentation/providers/diaper_provider.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../services/diaper/diaper_service.dart';
@@ -125,11 +126,11 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('기저귀 기록을 불러오는데 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.diaperRecordsLoadFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -150,7 +151,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
       final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
         context: context,
         sleepProvider: widget.sleepProvider!,
-        activityName: '기저귀 교체',
+        activityName: AppLocalizations.of(context)!.diaperChanged,
         onProceed: () => _addQuickDiaper(),
       );
       
@@ -167,11 +168,11 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.check_circle, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('기저귀 교체 기록이 추가되었습니다'),
+                const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.diaperRecordAdded),
               ],
             ),
             backgroundColor: Colors.amber[600],
@@ -185,11 +186,11 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('기저귀 기록 추가에 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.diaperRecordAddFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -206,6 +207,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final isDark = theme.brightness == Brightness.dark;
     final wetCount = widget.summary['wetCount'] ?? 0;
     final dirtyCount = widget.summary['dirtyCount'] ?? 0;
@@ -261,7 +263,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '기저귀',
+                        l10n.diaper,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -278,7 +280,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${totalCount}회',
+                        l10n.diaperCount(totalCount),
                         style: theme.textTheme.headlineLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -291,7 +293,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                         children: [
                           if (bothCount > 0)
                             Text(
-                              '소+대 ${bothCount}회',
+                              l10n.diaperWetAndDirty(bothCount),
                               style: theme.textTheme.titleLarge?.copyWith(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
@@ -300,7 +302,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                             ),
                           if (wetCount > 0 || dirtyCount > 0)
                             Text(
-                              '소${wetCount}, 대${dirtyCount}',
+                              '${l10n.wetCount(wetCount)}, ${l10n.dirtyCount(dirtyCount)}',
                               style: theme.textTheme.titleLarge?.copyWith(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,

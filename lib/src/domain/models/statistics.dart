@@ -20,7 +20,7 @@ class StatisticsDateRange {
   });
 
   /// 주간 범위 생성
-  factory StatisticsDateRange.weekly({DateTime? date}) {
+  factory StatisticsDateRange.weekly({DateTime? date, String? label}) {
     final now = date ?? DateTime.now();
     final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
     final endOfWeek = startOfWeek.add(const Duration(days: 6));
@@ -39,12 +39,12 @@ class StatisticsDateRange {
       type: StatisticsDateRangeType.weekly,
       startDate: startDate,
       endDate: endDate,
-      label: '이번 주 (${startOfWeek.month}/${startOfWeek.day} - ${endOfWeek.month}/${endOfWeek.day})',
+      label: label ?? '${startOfWeek.month}/${startOfWeek.day} - ${endOfWeek.month}/${endOfWeek.day}',
     );
   }
 
   /// 월간 범위 생성
-  factory StatisticsDateRange.monthly({DateTime? date}) {
+  factory StatisticsDateRange.monthly({DateTime? date, String? label}) {
     final now = date ?? DateTime.now();
     final startOfMonth = DateTime(now.year, now.month, 1);
     final endOfMonth = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
@@ -53,7 +53,7 @@ class StatisticsDateRange {
       type: StatisticsDateRangeType.monthly,
       startDate: startOfMonth,
       endDate: endOfMonth,
-      label: '이번 달 (${now.year}년 ${now.month}월)',
+      label: label ?? '${now.year}/${now.month}',
     );
   }
 
@@ -61,12 +61,13 @@ class StatisticsDateRange {
   factory StatisticsDateRange.custom({
     required DateTime startDate,
     required DateTime endDate,
+    String? label,
   }) {
     return StatisticsDateRange(
       type: StatisticsDateRangeType.custom,
       startDate: DateTime(startDate.year, startDate.month, startDate.day),
       endDate: DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59),
-      label: '${startDate.month}/${startDate.day} - ${endDate.month}/${endDate.day}',
+      label: label ?? '${startDate.month}/${startDate.day} - ${endDate.month}/${endDate.day}',
     );
   }
 

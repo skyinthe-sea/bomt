@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../domain/models/baby.dart';
 import '../../../../domain/models/baby_guide.dart';
+import '../../../../domain/models/baby_guide_extensions.dart';
 import '../../../../services/baby_guide/baby_guide_service.dart';
 import '../../../../services/locale/locale_service.dart';
 import '../widgets/baby_guide_alert.dart';
@@ -88,7 +90,7 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
       backgroundColor: theme.colorScheme.background,
       appBar: AppBar(
         title: Text(
-          '${widget.baby.name}의 육아 가이드',
+          AppLocalizations.of(context)!.babyGuideTitle(widget.baby.name),
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: theme.colorScheme.background,
@@ -109,7 +111,7 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        '사용 가능한 가이드가 없습니다',
+                        AppLocalizations.of(context)!.noAvailableGuides,
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: theme.colorScheme.onBackground.withOpacity(0.7),
                         ),
@@ -145,6 +147,7 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
     bool isFuture,
     ThemeData theme,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = theme.brightness == Brightness.dark;
     
     Color cardColor;
@@ -164,7 +167,7 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
         iconColor = Colors.blue.shade600;
       }
       statusIcon = Icons.star;
-      statusText = '현재';
+      statusText = AppLocalizations.of(context)!.current;
     } else if (isPast) {
       if (isDark) {
         cardColor = const Color(0xFF374151).withOpacity(0.3); // 다크 그레이 배경
@@ -176,7 +179,7 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
         iconColor = Colors.grey.shade600;
       }
       statusIcon = Icons.check_circle_outline;
-      statusText = '지남';
+      statusText = AppLocalizations.of(context)!.past;
     } else {
       if (isDark) {
         cardColor = const Color(0xFF92400E).withOpacity(0.2); // 다크 오렌지 배경
@@ -188,7 +191,7 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
         iconColor = Colors.orange.shade600;
       }
       statusIcon = Icons.schedule;
-      statusText = '예정';
+      statusText = AppLocalizations.of(context)!.upcoming;
     }
 
     return Card(
@@ -227,7 +230,7 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          guide.weekText,
+                          guide.getWeekText(l10n),
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: theme.colorScheme.onBackground,
@@ -267,7 +270,7 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
               const SizedBox(height: 12),
               
               // 수유 정보 요약
-              if (guide.frequencyRange != null || guide.singleFeedingRange != null) ...[
+              if (guide.getFrequencyRange(l10n) != null || guide.getSingleFeedingRange(l10n) != null) ...[
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
@@ -287,8 +290,8 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
                       Expanded(
                         child: Text(
                           [
-                            if (guide.frequencyRange != null) guide.frequencyRange!,
-                            if (guide.singleFeedingRange != null) guide.singleFeedingRange!,
+                            if (guide.getFrequencyRange(l10n) != null) guide.getFrequencyRange(l10n)!,
+                            if (guide.getSingleFeedingRange(l10n) != null) guide.getSingleFeedingRange(l10n)!,
                           ].join(' · '),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onBackground,

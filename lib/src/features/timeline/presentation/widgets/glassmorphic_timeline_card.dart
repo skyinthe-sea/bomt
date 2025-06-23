@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../domain/models/timeline_item.dart';
 
 class GlassmorphicTimelineCard extends StatefulWidget {
@@ -314,7 +315,7 @@ class _GlassmorphicTimelineCardState extends State<GlassmorphicTimelineCard>
                       children: [
                         Expanded(
                           child: Text(
-                            widget.item.title,
+                            _buildLocalizedTitle(context),
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -339,9 +340,9 @@ class _GlassmorphicTimelineCardState extends State<GlassmorphicTimelineCard>
                               ),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: const Text(
-                              '진행중',
-                              style: TextStyle(
+                            child: Text(
+                              AppLocalizations.of(context)!.inProgress,
+                              style: const TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
@@ -352,10 +353,10 @@ class _GlassmorphicTimelineCardState extends State<GlassmorphicTimelineCard>
                     ),
                     
                     // 서브타이틀
-                    if (widget.item.subtitle?.isNotEmpty == true) ...[
+                    ...[
                       const SizedBox(height: 6),
                       Text(
-                        widget.item.subtitle!,
+                        _buildLocalizedSubtitle(context),
                         style: TextStyle(
                           fontSize: 14,
                           color: Theme.of(context).brightness == Brightness.dark
@@ -439,5 +440,264 @@ class _GlassmorphicTimelineCardState extends State<GlassmorphicTimelineCard>
       default:
         return Icons.circle;
     }
+  }
+
+  String _buildLocalizedTitle(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final data = widget.item.data;
+    
+    switch (widget.item.type) {
+      case TimelineItemType.feeding:
+        return l10n.feeding;
+      case TimelineItemType.sleep:
+        // 진행 중인 수면인지 확인
+        final endedAt = data['ended_at'] as String?;
+        return endedAt == null ? l10n.sleeping : l10n.sleep;
+      case TimelineItemType.diaper:
+        return l10n.diaperChange;
+      case TimelineItemType.medication:
+        return l10n.medication;
+      case TimelineItemType.milkPumping:
+        // 진행 중인 유축인지 확인
+        final endedAt = data['ended_at'] as String?;
+        return endedAt == null ? l10n.pumping : l10n.milkPumping;
+      case TimelineItemType.solidFood:
+        return l10n.solidFood;
+      case TimelineItemType.temperature:
+        return l10n.temperatureMeasurement;
+      default:
+        return widget.item.title;
+    }
+  }
+
+  String _buildLocalizedSubtitle(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final data = widget.item.data;
+    
+    switch (widget.item.type) {
+      case TimelineItemType.feeding:
+        return _buildFeedingSubtitle(l10n, data);
+      case TimelineItemType.sleep:
+        return _buildSleepSubtitle(l10n, data);
+      case TimelineItemType.diaper:
+        return _buildDiaperSubtitle(l10n, data);
+      case TimelineItemType.medication:
+        return _buildMedicationSubtitle(l10n, data);
+      case TimelineItemType.milkPumping:
+        return _buildMilkPumpingSubtitle(l10n, data);
+      case TimelineItemType.solidFood:
+        return _buildSolidFoodSubtitle(l10n, data);
+      case TimelineItemType.temperature:
+        return _buildTemperatureSubtitle(l10n, data);
+      default:
+        return widget.item.subtitle ?? '';
+    }
+  }
+
+  String _buildFeedingSubtitle(AppLocalizations l10n, Map<String, dynamic> data) {
+    String subtitle = '';
+    final type = data['type'] as String?;
+    
+    if (type == 'bottle' || type == 'formula') {
+      subtitle = l10n.formula;
+      final amountMl = data['amount_ml'] as int?;
+      if (amountMl != null && amountMl > 0) {
+        subtitle += ' ${amountMl}ml';
+      }
+    } else if (type == 'breast') {
+      subtitle = l10n.breastMilk;
+      final durationMinutes = data['duration_minutes'] as int?;
+      if (durationMinutes != null && durationMinutes > 0) {
+        subtitle += ' ${durationMinutes}${l10n.minutesText}';
+      }
+      final side = data['side'] as String?;
+      if (side != null) {
+        final sideText = side == 'left' ? l10n.left : 
+                        side == 'right' ? l10n.right : l10n.both;
+        subtitle += ' ($sideText)';
+      }
+    } else if (type == 'solid') {
+      subtitle = l10n.babyFood;
+      final amountMl = data['amount_ml'] as int?;
+      if (amountMl != null && amountMl > 0) {
+        subtitle += ' ${amountMl}ml';
+      }
+    }
+    return subtitle;
+  }
+
+  String _buildSleepSubtitle(AppLocalizations l10n, Map<String, dynamic> data) {
+    final endedAt = data['ended_at'] as String?;
+    final startedAt = data['started_at'] as String?;
+    
+    if (endedAt == null && startedAt != null) {
+      // 진행 중인 수면
+      final start = DateTime.parse(startedAt);
+      final now = DateTime.now();
+      final duration = now.difference(start);
+      final hours = duration.inHours;
+      final minutes = duration.inMinutes % 60;
+      return '${l10n.sleeping} - ${hours}${l10n.hoursText} ${minutes}${l10n.minutesText} ${l10n.elapsed}';
+    } else if (endedAt != null && startedAt != null) {
+      // 완료된 수면
+      final start = DateTime.parse(startedAt);
+      final end = DateTime.parse(endedAt);
+      final duration = end.difference(start);
+      final hours = duration.inHours;
+      final minutes = duration.inMinutes % 60;
+      String subtitle = '${hours}${l10n.hoursText} ${minutes}${l10n.minutesText}';
+      
+      // 수면 품질 추가
+      final quality = data['quality'] as String?;
+      if (quality != null) {
+        String qualityText;
+        switch (quality) {
+          case 'good':
+            qualityText = l10n.qualityGood;
+            break;
+          case 'fair':
+            qualityText = l10n.qualityFair;
+            break;
+          case 'poor':
+            qualityText = l10n.qualityPoor;
+            break;
+          default:
+            qualityText = quality;
+        }
+        subtitle += ' (${l10n.quality}: $qualityText)';
+      }
+      return subtitle;
+    }
+    return widget.item.subtitle ?? '';
+  }
+
+  String _buildDiaperSubtitle(AppLocalizations l10n, Map<String, dynamic> data) {
+    final type = data['type'] as String?;
+    String subtitle = '';
+    
+    if (type == 'wet') {
+      subtitle = l10n.urineOnly;
+    } else if (type == 'dirty') {
+      subtitle = l10n.stoolOnly;
+      final color = data['color'] as String?;
+      if (color != null && color.isNotEmpty) {
+        subtitle += ' (${l10n.color}: $color)';
+      }
+      final consistency = data['consistency'] as String?;
+      if (consistency != null && consistency.isNotEmpty) {
+        subtitle += ' (${l10n.consistency}: $consistency)';
+      }
+    } else if (type == 'both') {
+      subtitle = l10n.urineAndStool;
+      final color = data['color'] as String?;
+      if (color != null && color.isNotEmpty) {
+        subtitle += ' (${l10n.color}: $color)';
+      }
+    }
+    return subtitle;
+  }
+
+  String _buildMedicationSubtitle(AppLocalizations l10n, Map<String, dynamic> data) {
+    final route = data['route'] as String?;
+    String subtitle = '';
+    
+    if (route == 'oral') {
+      subtitle = l10n.oralMedication;
+    } else if (route == 'topical') {
+      subtitle = l10n.topical;
+    } else if (route == 'inhaled') {
+      subtitle = l10n.inhaled;
+    } else {
+      subtitle = l10n.medication;
+    }
+
+    final medicationName = data['medication_name'] as String?;
+    if (medicationName != null && medicationName.isNotEmpty) {
+      subtitle += ' - $medicationName';
+    }
+
+    final dosage = data['dosage'] as String?;
+    if (dosage != null && dosage.isNotEmpty) {
+      subtitle += ' $dosage';
+      final unit = data['unit'] as String?;
+      if (unit != null && unit.isNotEmpty) {
+        subtitle += unit;
+      }
+    }
+    return subtitle;
+  }
+
+  String _buildMilkPumpingSubtitle(AppLocalizations l10n, Map<String, dynamic> data) {
+    final endedAt = data['ended_at'] as String?;
+    final startedAt = data['started_at'] as String?;
+    
+    if (endedAt == null && startedAt != null) {
+      // 진행 중인 유축
+      final start = DateTime.parse(startedAt);
+      final now = DateTime.now();
+      final duration = now.difference(start);
+      return '${l10n.pumping} - ${duration.inMinutes}${l10n.minutesText} ${l10n.elapsed}';
+    } else {
+      // 완료된 유축
+      String subtitle = '';
+      final amountMl = data['amount_ml'] as int?;
+      if (amountMl != null && amountMl > 0) {
+        subtitle = '${amountMl}ml';
+      }
+      
+      final durationMinutes = data['duration_minutes'] as int?;
+      if (durationMinutes != null && durationMinutes > 0) {
+        if (subtitle.isNotEmpty) subtitle += ', ';
+        subtitle += '${durationMinutes}${l10n.minutesText}';
+      }
+      
+      final side = data['side'] as String?;
+      if (side != null) {
+        final sideText = side == 'left' ? l10n.left :
+                        side == 'right' ? l10n.right : l10n.both;
+        if (subtitle.isNotEmpty) subtitle += ' ';
+        subtitle += '($sideText)';
+      }
+      return subtitle;
+    }
+  }
+
+  String _buildSolidFoodSubtitle(AppLocalizations l10n, Map<String, dynamic> data) {
+    String subtitle = '';
+    final foodName = data['food_name'] as String?;
+    if (foodName != null && foodName.isNotEmpty) {
+      subtitle = foodName;
+    }
+    
+    final amountGrams = data['amount_grams'] as int?;
+    if (amountGrams != null && amountGrams > 0) {
+      if (subtitle.isNotEmpty) subtitle += ' - ';
+      subtitle += '${amountGrams}g';
+    }
+    return subtitle;
+  }
+
+  String _buildTemperatureSubtitle(AppLocalizations l10n, Map<String, dynamic> data) {
+    final temperature = data['temperature'] as double?;
+    if (temperature != null) {
+      String subtitle = '${temperature.toStringAsFixed(1)}°C';
+      
+      // 온도 상태 판단
+      String status;
+      if (temperature >= 38.0) {
+        status = ' (${l10n.fever})';
+      } else if (temperature >= 37.5) {
+        status = ' (${l10n.lowFever})';
+      } else if (temperature < 36.0) {
+        status = ' (${l10n.hypothermia})';
+      } else {
+        status = ' (${l10n.normal})';
+      }
+      subtitle += status;
+      return subtitle;
+    }
+    
+    final type = data['type'] as String?;
+    return type ?? '';
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../domain/models/baby.dart';
 import '../../../../domain/models/baby_guide.dart';
+import '../../../../domain/models/baby_guide_extensions.dart';
 
 class BabyGuideAlert extends StatelessWidget {
   final BabyGuide guide;
@@ -16,6 +18,7 @@ class BabyGuideAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final screenSize = MediaQuery.of(context).size;
     
@@ -85,14 +88,14 @@ class BabyGuideAlert extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${baby.name}의',
+                              l10n.babysGuide(baby.name),
                               style: theme.textTheme.titleMedium?.copyWith(
                                 color: Colors.white.withOpacity(0.9),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
-                              '${guide.weekText} 가이드',
+                              l10n.weekGuide(guide.getWeekText(l10n)),
                               style: theme.textTheme.headlineSmall?.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -142,11 +145,11 @@ class BabyGuideAlert extends StatelessWidget {
                       const SizedBox(height: 20),
                       
                       // 수유 정보
-                      if (guide.feedingAmountRange != null ||
-                          guide.frequencyRange != null ||
-                          guide.singleFeedingRange != null) ...[
+                      if (guide.getFeedingAmountRange(l10n) != null ||
+                          guide.getFrequencyRange(l10n) != null ||
+                          guide.getSingleFeedingRange(l10n) != null) ...[
                         Text(
-                          '💡 수유 가이드',
+                          l10n.feedingGuide,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.blue.shade700,
@@ -167,22 +170,22 @@ class BabyGuideAlert extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (guide.frequencyRange != null)
+                              if (guide.getFrequencyRange(l10n) != null)
                                 _buildInfoRow(
-                                  '수유 횟수',
-                                  guide.frequencyRange!,
+                                  l10n.feedingFrequency,
+                                  guide.getFrequencyRange(l10n)!,
                                   Icons.schedule,
                                 ),
-                              if (guide.singleFeedingRange != null)
+                              if (guide.getSingleFeedingRange(l10n) != null)
                                 _buildInfoRow(
-                                  '1회 수유량',
-                                  guide.singleFeedingRange!,
+                                  l10n.singleFeedingAmount,
+                                  guide.getSingleFeedingRange(l10n)!,
                                   Icons.local_drink,
                                 ),
-                              if (guide.feedingAmountRange != null)
+                              if (guide.getFeedingAmountRange(l10n) != null)
                                 _buildInfoRow(
-                                  '일일 총량',
-                                  guide.feedingAmountRange!,
+                                  l10n.dailyTotal,
+                                  guide.getFeedingAmountRange(l10n)!,
                                   Icons.water_drop,
                                 ),
                             ],
@@ -194,7 +197,7 @@ class BabyGuideAlert extends StatelessWidget {
                       // 추가 정보
                       if (guide.policyInfo != null && guide.policyInfo!.isNotEmpty) ...[
                         Text(
-                          '📋 추가 팁',
+                          l10n.additionalTips,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.green.shade700,
@@ -241,7 +244,7 @@ class BabyGuideAlert extends StatelessWidget {
                     elevation: 2,
                   ),
                   child: Text(
-                    '확인했어요',
+                    l10n.understood,
                     style: theme.textTheme.titleMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

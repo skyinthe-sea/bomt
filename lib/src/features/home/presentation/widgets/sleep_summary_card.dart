@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../services/sleep/sleep_service.dart';
 import 'record_detail_overlay.dart';
@@ -120,11 +121,11 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('수면 기록을 불러오는데 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.sleepRecordsLoadFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -146,9 +147,10 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
     
     if (mounted) {
       if (success) {
+        final l10n = AppLocalizations.of(context)!;
         final message = hasActiveSleep 
-            ? '수면이 종료되었습니다'
-            : '수면을 시작했습니다';
+            ? l10n.sleepEnded
+            : l10n.sleepStarted;
         final icon = hasActiveSleep 
             ? Icons.alarm_off 
             : Icons.bedtime;
@@ -173,11 +175,11 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('수면 기록 처리에 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.sleepRecordProcessFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -194,6 +196,7 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final isDark = theme.brightness == Brightness.dark;
     
     final count = widget.summary['count'] ?? 0;
@@ -250,7 +253,7 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '수면',
+                        l10n.sleep,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -260,7 +263,7 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                       const Spacer(),
                       if (hasActiveSleep)
                         Text(
-                          '진행 중',
+                          l10n.inProgress,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: Colors.green[300],
                             fontSize: 11,
@@ -276,7 +279,7 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '$count회',
+                        l10n.sleepCount(count),
                         style: theme.textTheme.headlineLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -286,8 +289,8 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
                       Flexible(
                         child: Text(
                           totalHours > 0 || remainingMinutes > 0
-                              ? '${totalHours}h ${remainingMinutes}m'
-                              : '0시간',
+                              ? l10n.sleepDuration(totalHours, remainingMinutes)
+                              : l10n.sleepZeroHours,
                           style: theme.textTheme.titleLarge?.copyWith(
                             fontSize: 11,
                             fontWeight: FontWeight.w500,

@@ -10,6 +10,7 @@ import '../../../../presentation/providers/theme_provider.dart';
 import '../../../invitation/presentation/screens/simple_invite_screen.dart';
 import '../../../../core/providers/baby_provider.dart';
 import '../../../../domain/models/baby.dart';
+import 'language_selection_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   final LocalizationProvider localizationProvider;
@@ -67,8 +68,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       margin: const EdgeInsets.all(16.0),
       child: ListTile(
         leading: const Icon(Icons.family_restroom, color: Colors.blue),
-        title: const Text('가족 초대'),
-        subtitle: const Text('초대 코드로 가족과 함께 육아 기록을 관리하세요'),
+        title: Text(l10n.familyInvitation),
+        subtitle: Text(l10n.familyInvitationDescription),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
           Navigator.push(
@@ -96,13 +97,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '아기 관리',
+                      l10n.babyManagement,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     IconButton(
                       onPressed: () => _showAddBabyDialog(context),
                       icon: const Icon(Icons.add_circle_outline),
-                      tooltip: '아기 추가',
+                      tooltip: l10n.addBaby,
                     ),
                   ],
                 ),
@@ -115,11 +116,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   )
                 else if (babyProvider.babies.isEmpty)
-                  const Center(
+                  Center(
                     child: Text(
-                      '등록된 아기가 없습니다.\n아기를 추가해주세요.',
+                      l10n.noBabiesMessage,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Colors.grey),
                     ),
                   )
                 else
@@ -142,7 +143,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('${baby.name}이(가) 선택되었습니다'),
+                                  content: Text(l10n.babySelected(baby.name)),
                                   duration: const Duration(seconds: 1),
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
@@ -292,14 +293,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('${babyProvider.selectedBaby?.name}이(가) 선택되었습니다'),
+                              content: Text(l10n.babySelected(babyProvider.selectedBaby?.name ?? '')),
                               duration: const Duration(seconds: 1),
                             ),
                           );
                         }
                       },
                       icon: const Icon(Icons.swap_horiz),
-                      label: const Text('다음 아기로 전환'),
+                      label: Text(l10n.switchToNextBaby),
                     ),
                   ),
                 ],
@@ -331,34 +332,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildLanguageSection(BuildContext context, AppLocalizations l10n) {
     return Card(
       margin: const EdgeInsets.all(16.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.language ?? 'Language',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 16),
-            ...widget.localizationProvider.supportedLocales.map((locale) {
-              final isSelected = widget.localizationProvider.currentLocale.languageCode == locale.languageCode;
-              return RadioListTile<String>(
-                title: Text(
-                  widget.localizationProvider.getLanguageName(locale.languageCode),
-                ),
-                value: locale.languageCode,
-                groupValue: widget.localizationProvider.currentLocale.languageCode,
-                onChanged: (value) {
-                  if (value != null) {
-                    widget.localizationProvider.changeLanguage(Locale(value));
-                  }
-                },
-                activeColor: Theme.of(context).primaryColor,
-              );
-            }).toList(),
-          ],
+      child: ListTile(
+        leading: const Icon(Icons.language, color: Colors.green),
+        title: Text(l10n.language ?? 'Language'),
+        subtitle: Text(
+          widget.localizationProvider.getLanguageName(
+            widget.localizationProvider.currentLocale.languageCode,
+          ),
         ),
+        trailing: const Icon(Icons.arrow_forward_ios),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LanguageSelectionScreen(
+                localizationProvider: widget.localizationProvider,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -561,11 +553,11 @@ class _AddBabyDialogState extends State<_AddBabyDialog> {
             ),
             if (isLoading) ...[
               const SizedBox(height: 16),
-              const Row(
+              Row(
                 children: [
-                  CircularProgressIndicator(),
-                  SizedBox(width: 16),
-                  Text('등록 중...'),
+                  const CircularProgressIndicator(),
+                  const SizedBox(width: 16),
+                  Text(AppLocalizations.of(context)!.registering),
                 ],
               ),
             ],
@@ -575,22 +567,23 @@ class _AddBabyDialogState extends State<_AddBabyDialog> {
       actions: [
         TextButton(
           onPressed: isLoading ? null : () => Navigator.of(context).pop(),
-          child: const Text('취소'),
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
         ElevatedButton(
           onPressed: isLoading ? null : _registerBaby,
-          child: const Text('등록'),
+          child: Text(AppLocalizations.of(context)!.register),
         ),
       ],
     );
   }
 
   void _registerBaby() async {
+    final l10n = AppLocalizations.of(context)!;
     debugPrint('🎯 [DIALOG] Starting baby registration');
     
     if (nameController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('아기 이름을 입력해주세요')),
+        SnackBar(content: Text(l10n.pleaseEnterBabyName)),
       );
       return;
     }
@@ -625,14 +618,14 @@ class _AddBabyDialogState extends State<_AddBabyDialog> {
         if (success) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('${baby.name}이(가) 성공적으로 등록되었습니다'),
+              content: Text(l10n.babyRegistrationSuccess(baby.name)),
               backgroundColor: Colors.green,
             ),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('아기 등록에 실패했습니다'),
+            SnackBar(
+              content: Text(l10n.babyRegistrationFailed),
               backgroundColor: Colors.red,
             ),
           );
@@ -649,7 +642,7 @@ class _AddBabyDialogState extends State<_AddBabyDialog> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('오류가 발생했습니다: $e'),
+            content: Text(l10n.babyRegistrationError(e.toString())),
             backgroundColor: Colors.red,
           ),
         );

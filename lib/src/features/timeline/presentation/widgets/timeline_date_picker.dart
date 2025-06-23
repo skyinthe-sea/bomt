@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TimelineDatePicker extends StatefulWidget {
   final DateTime selectedDate;
@@ -62,11 +64,27 @@ class _TimelineDatePickerState extends State<TimelineDatePicker>
     super.dispose();
   }
 
-  String _formatDate(DateTime date) {
-    final weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-    final weekday = weekdays[date.weekday % 7];
+  String _formatDate(DateTime date, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final locale = l10n.localeName;
     
-    return '${date.year}년 ${date.month}월 ${date.day}일 ($weekday)';
+    DateFormat dateFormat;
+    switch (locale) {
+      case 'ko':
+        dateFormat = DateFormat('yyyy년 M월 d일 (EEEE)', 'ko_KR');
+        break;
+      case 'ja':
+        dateFormat = DateFormat('yyyy年M月d日 (EEEE)', 'ja_JP');
+        break;
+      case 'hi':
+        dateFormat = DateFormat('d MMMM yyyy (EEEE)', 'hi_IN');
+        break;
+      default: // 'en'
+        dateFormat = DateFormat('MMMM d, yyyy (EEEE)', 'en_US');
+        break;
+    }
+    
+    return dateFormat.format(date);
   }
 
   @override
@@ -119,7 +137,7 @@ class _TimelineDatePickerState extends State<TimelineDatePicker>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        _formatDate(widget.selectedDate),
+                        _formatDate(widget.selectedDate, context),
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.onSurface,

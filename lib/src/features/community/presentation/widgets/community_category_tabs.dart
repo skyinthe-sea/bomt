@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../domain/models/community_category.dart';
 import '../../../../presentation/providers/community_provider.dart';
 
@@ -14,6 +15,38 @@ class CommunityCategoryTabs extends StatefulWidget {
 class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
     with TickerProviderStateMixin {
   final Map<String, AnimationController> _scaleControllers = {};
+
+  // 카테고리 이름 현지화 함수
+  String _getLocalizedCategoryName(AppLocalizations l10n, CommunityCategory category) {
+    switch (category.slug) {
+      case 'all':
+        return l10n.categoryAll;
+      case 'popular':
+        return l10n.categoryPopular;
+      default:
+        // 한국어 카테고리 이름을 기반으로 현지화
+        switch (category.name) {
+          case '임상':
+            return l10n.categoryClinical;
+          case '정보공유':
+            return l10n.categoryInfoSharing;
+          case '수면문제':
+            return l10n.categorySleepIssues;
+          case '이유식':
+            return l10n.categoryBabyFood;
+          case '발달단계':
+            return l10n.categoryDevelopment;
+          case '예방접종':
+            return l10n.categoryVaccination;
+          case '산후회복':
+            return l10n.categoryPostpartum;
+          case '일상':
+            return l10n.categoryDailyLife;
+          default:
+            return category.name; // 기본값으로 원래 이름 반환
+        }
+    }
+  }
 
   @override
   void dispose() {
@@ -90,7 +123,7 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
     }
   }
 
-  Widget _buildCategoryGrid(BuildContext context, CommunityProvider provider, ThemeData theme) {
+  Widget _buildCategoryGrid(BuildContext context, CommunityProvider provider, ThemeData theme, AppLocalizations l10n) {
     // 카테고리를 3개씩 그룹화 (3x3 그리드)
     final categories = provider.categories;
     final rows = <List<CommunityCategory>>[];
@@ -118,7 +151,7 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
                       right: index < 2 ? 4 : 0,
                       left: index > 0 ? 4 : 0,
                     ),
-                    child: _buildCategoryCard(context, category, provider, theme),
+                    child: _buildCategoryCard(context, category, provider, theme, l10n),
                   ),
                 );
               }).toList(),
@@ -131,7 +164,7 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
     );
   }
 
-  Widget _buildCategoryCard(BuildContext context, CommunityCategory category, CommunityProvider provider, ThemeData theme) {
+  Widget _buildCategoryCard(BuildContext context, CommunityCategory category, CommunityProvider provider, ThemeData theme, AppLocalizations l10n) {
     final isSelected = provider.selectedCategorySlug == category.slug;
     final categoryColor = _getCategoryColor(category.color);
     final scaleController = _getScaleController(category.slug);
@@ -237,7 +270,7 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
                         // 텍스트
                         Flexible(
                           child: Text(
-                            category.name,
+                            _getLocalizedCategoryName(l10n, category),
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: isSelected
                                   ? Colors.white
@@ -268,6 +301,7 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     
     return Consumer<CommunityProvider>(
       builder: (context, provider, child) {
@@ -282,7 +316,7 @@ class _CommunityCategoryTabsState extends State<CommunityCategoryTabs>
               // 카테고리 Grid
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: _buildCategoryGrid(context, provider, theme),
+                child: _buildCategoryGrid(context, provider, theme, l10n),
               ),
               
               // 선택된 카테고리 설명 (선택사항)

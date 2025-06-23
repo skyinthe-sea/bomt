@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../domain/models/community_post.dart';
 
 class CommunityPostDetailCard extends StatelessWidget {
@@ -23,9 +24,42 @@ class CommunityPostDetailCard extends StatelessWidget {
     }
   }
 
+  // 카테고리 이름 현지화 함수
+  String _getLocalizedCategoryName(AppLocalizations l10n, String categoryName, String? categorySlug) {
+    switch (categorySlug) {
+      case 'all':
+        return l10n.categoryAll;
+      case 'popular':
+        return l10n.categoryPopular;
+      default:
+        // 한국어 카테고리 이름을 기반으로 현지화
+        switch (categoryName) {
+          case '임상':
+            return l10n.categoryClinical;
+          case '정보공유':
+            return l10n.categoryInfoSharing;
+          case '수면문제':
+            return l10n.categorySleepIssues;
+          case '이유식':
+            return l10n.categoryBabyFood;
+          case '발달단계':
+            return l10n.categoryDevelopment;
+          case '예방접종':
+            return l10n.categoryVaccination;
+          case '산후회복':
+            return l10n.categoryPostpartum;
+          case '일상':
+            return l10n.categoryDailyLife;
+          default:
+            return categoryName; // 기본값으로 원래 이름 반환
+        }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final categoryColor = _getCategoryColor(post.category?.color);
 
     return Container(
@@ -74,7 +108,7 @@ class CommunityPostDetailCard extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          post.category!.name,
+                          _getLocalizedCategoryName(l10n, post.category!.name, post.category!.slug),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: categoryColor,
                             fontWeight: FontWeight.w600,

@@ -21,13 +21,13 @@ class BabyInfoCard extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     
-    // 마지막 수유 시간 계산
+    // Calculate last feeding time
     final lastFeedingMinutes = feedingSummary['lastFeedingMinutesAgo'] ?? 0;
     final hours = lastFeedingMinutes ~/ 60;
     final minutes = lastFeedingMinutes % 60;
     final lastFeedingText = hours > 0 
-        ? '${hours}시간 ${minutes}분 전' 
-        : '${minutes}분 전';
+        ? l10n.hoursAndMinutesAgo(hours, minutes)
+        : l10n.minutesAgo(minutes);
     
     // 다음 수유까지 남은 시간 (알람 서비스에서 제공)
     final minutesUntilNextFeeding = feedingSummary['minutesUntilNextFeeding'];
@@ -182,11 +182,16 @@ class BabyInfoCard extends StatelessWidget {
                           const SizedBox(height: 4),
                           Row(
                             children: [
-                              Text(
-                                baby.ageInMonthsAndDays,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: theme.colorScheme.onSurface.withOpacity(0.7),
-                                ),
+                              Builder(
+                                builder: (context) {
+                                  final age = baby.ageMonthsAndDays;
+                                  return Text(
+                                    l10n.ageMonthsAndDays(age['months']!, age['days']!),
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color: theme.colorScheme.onSurface.withOpacity(0.7),
+                                    ),
+                                  );
+                                },
                               ),
                               const SizedBox(width: 8),
                               Container(
@@ -300,7 +305,7 @@ class BabyInfoCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '마지막 수유 시간',
+                              l10n.lastFeedingTime,
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: theme.colorScheme.onSurface.withOpacity(0.6),
                               ),
@@ -338,7 +343,7 @@ class BabyInfoCard extends StatelessWidget {
                             ),
                             const SizedBox(height: 3),
                             Text(
-                              _buildNextFeedingText(minutesUntilNextFeeding, nextFeedingMinutes, nextHours, nextMinutes),
+                              _buildNextFeedingText(l10n, minutesUntilNextFeeding, nextFeedingMinutes, nextHours, nextMinutes),
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: nextFeedingMinutes == 0 
                                     ? Colors.orange
@@ -359,24 +364,28 @@ class BabyInfoCard extends StatelessWidget {
           );
   }
   
-  String _buildNextFeedingText(int? minutesUntilNextFeeding, int nextFeedingMinutes, int nextHours, int nextMinutes) {
+  String _buildNextFeedingText(AppLocalizations l10n, int? minutesUntilNextFeeding, int nextFeedingMinutes, int nextHours, int nextMinutes) {
     if (minutesUntilNextFeeding != null) {
-      // 알람이 설정된 경우
+      // Alarm is set
       if (nextFeedingMinutes == 0) {
-        return '지금 수유 시간입니다 🍼';
+        return l10n.feedingTimeNow;
       } else if (nextFeedingMinutes < 30) {
-        return '곧 수유 시간입니다 (${nextMinutes}분 후)';
+        return l10n.feedingTimeSoon(nextMinutes);
       } else {
-        return '${nextHours > 0 ? '${nextHours}시간 ' : ''}${nextMinutes}분 후 수유 알람';
+        return nextHours > 0 
+            ? l10n.feedingAlarm(nextHours, nextMinutes)
+            : l10n.feedingAlarmMinutes(nextMinutes);
       }
     } else {
-      // 알람이 설정되지 않은 경우 (기본 로직)
+      // Default logic when no alarm is set
       if (nextFeedingMinutes == 0) {
-        return '수유 시간이 지났습니다';
+        return l10n.feedingTimeOverdue;
       } else if (nextFeedingMinutes < 30) {
-        return '곧 수유 시간 예정 (${nextMinutes}분 후)';
+        return l10n.feedingTimeSoon(nextMinutes);
       } else {
-        return '약 ${nextHours > 0 ? '${nextHours}시간 ' : ''}${nextMinutes}분 후 수유 예정';
+        return nextHours > 0 
+            ? l10n.nextFeedingSchedule(nextHours, nextMinutes)
+            : l10n.nextFeedingScheduleMinutes(nextMinutes);
       }
     }
   }

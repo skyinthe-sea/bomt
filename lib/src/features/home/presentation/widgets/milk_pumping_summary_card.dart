@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../presentation/providers/milk_pumping_provider.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../services/sleep/sleep_interruption_service.dart';
@@ -128,11 +129,11 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('유축 기록을 불러오는데 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.loadFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -154,7 +155,7 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
       final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
         context: context,
         sleepProvider: widget.sleepProvider!,
-        activityName: '유축',
+        activityName: AppLocalizations.of(context)!.milkPumping,
         onProceed: () => _addQuickMilkPumping(),
       );
       
@@ -172,11 +173,11 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.check_circle, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('유축 기록이 추가되었습니다'),
+                const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.milkPumpingAdded),
               ],
             ),
             backgroundColor: Colors.teal[600],
@@ -190,11 +191,11 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('유축 기록 추가에 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.saveFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -211,6 +212,7 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final count = widget.summary['count'] ?? 0;
     final totalAmount = widget.summary['totalAmount'] ?? 0;
     final isUpdating = widget.milkPumpingProvider?.isUpdating ?? false;
@@ -264,7 +266,7 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '유축',
+                        l10n.milkPumping,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -274,7 +276,7 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
                       const Spacer(),
                       if (hasActivePumping)
                         Text(
-                          '진행 중',
+                          l10n.inProgress,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: Colors.green[300],
                             fontSize: 11,
@@ -290,7 +292,7 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${count}회',
+                        '${count} ${l10n.times}',
                         style: theme.textTheme.headlineLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -298,7 +300,7 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
                         ),
                       ),
                       Text(
-                        '${totalAmount}ml',
+                        '${totalAmount}${l10n.milliliters}',
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,

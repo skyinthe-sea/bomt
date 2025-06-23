@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../domain/models/timeline_item.dart';
 
 class TimelineEmptyState extends StatefulWidget {
@@ -67,14 +69,15 @@ class _TimelineEmptyStateState extends State<TimelineEmptyState>
     super.dispose();
   }
 
-  String _getEmptyMessage() {
+  String _getEmptyMessage(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isToday = _isToday(widget.selectedDate);
-    final dateString = isToday ? '오늘' : _formatDate(widget.selectedDate);
+    final dateString = isToday ? l10n.today : _formatDate(widget.selectedDate, context);
     
     if (widget.currentFilter == TimelineFilterType.all) {
-      return '$dateString은 아직 기록이 없습니다';
+      return l10n.noRecordsForDate.replaceAll('{date}', dateString);
     } else {
-      return '$dateString은 ${widget.currentFilter.displayName} 기록이 없습니다';
+      return l10n.noRecordsForDateAndFilter.replaceAll('{date}', dateString).replaceAll('{filter}', widget.currentFilter.displayName);
     }
   }
 
@@ -82,12 +85,14 @@ class _TimelineEmptyStateState extends State<TimelineEmptyState>
     final isToday = _isToday(widget.selectedDate);
     final isFuture = _isFuture(widget.selectedDate);
     
+    final l10n = AppLocalizations.of(context)!;
+    
     if (isFuture) {
-      return '미래의 기록은 아직 작성할 수 없습니다';
+      return l10n.cannotRecordFuture;
     } else if (isToday) {
-      return '첫 번째 기록을 추가해보세요!';
+      return l10n.addFirstRecord;
     } else {
-      return '과거의 기록을 추가할 수 있습니다';
+      return l10n.canAddPastRecord;
     }
   }
 
@@ -155,8 +160,27 @@ class _TimelineEmptyStateState extends State<TimelineEmptyState>
     return date.isAfter(DateTime(today.year, today.month, today.day));
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.month}월 ${date.day}일';
+  String _formatDate(DateTime date, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final locale = l10n.localeName;
+    
+    DateFormat dateFormat;
+    switch (locale) {
+      case 'ko':
+        dateFormat = DateFormat('M월 d일', 'ko_KR');
+        break;
+      case 'ja':
+        dateFormat = DateFormat('M月d日', 'ja_JP');
+        break;
+      case 'hi':
+        dateFormat = DateFormat('d MMMM', 'hi_IN');
+        break;
+      default: // 'en'
+        dateFormat = DateFormat('MMM d', 'en_US');
+        break;
+    }
+    
+    return dateFormat.format(date);
   }
 
   @override
@@ -198,7 +222,7 @@ class _TimelineEmptyStateState extends State<TimelineEmptyState>
                 
                 // 메인 메시지
                 Text(
-                  _getEmptyMessage(),
+                  _getEmptyMessage(context),
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: theme.colorScheme.onBackground.withOpacity(0.8),
@@ -228,7 +252,7 @@ class _TimelineEmptyStateState extends State<TimelineEmptyState>
                       widget.onAddRecord?.call();
                     },
                     icon: Icons.add,
-                    label: '기록 추가하기',
+                    label: AppLocalizations.of(context)!.addRecord,
                     color: emptyColor,
                     isPrimary: true,
                   ),
@@ -242,7 +266,7 @@ class _TimelineEmptyStateState extends State<TimelineEmptyState>
                       // TODO: 날짜 선택 다이얼로그 열기
                     },
                     icon: Icons.calendar_today,
-                    label: '다른 날짜 보기',
+                    label: AppLocalizations.of(context)!.viewOtherDates,
                     color: theme.colorScheme.onBackground.withOpacity(0.6),
                     isPrimary: false,
                   ),
@@ -254,7 +278,7 @@ class _TimelineEmptyStateState extends State<TimelineEmptyState>
                       // TODO: 오늘로 이동
                     },
                     icon: Icons.today,
-                    label: '오늘로 가기',
+                    label: AppLocalizations.of(context)!.goToToday,
                     color: theme.colorScheme.primary,
                     isPrimary: true,
                   ),
@@ -283,7 +307,7 @@ class _TimelineEmptyStateState extends State<TimelineEmptyState>
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          '홈 화면에서 빠르게 기록을 추가할 수 있습니다',
+                          AppLocalizations.of(context)!.quickRecordFromHome,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onBackground.withOpacity(0.5),
                           ),

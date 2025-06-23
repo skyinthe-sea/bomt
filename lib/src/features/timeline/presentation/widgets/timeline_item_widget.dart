@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../domain/models/timeline_item.dart';
 
 class TimelineItemWidget extends StatefulWidget {
@@ -111,18 +112,19 @@ class _TimelineItemWidgetState extends State<TimelineItemWidget>
     }
   }
 
-  String _formatTime(DateTime dateTime) {
+  String _formatTime(DateTime dateTime, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final hour = dateTime.hour;
     final minute = dateTime.minute.toString().padLeft(2, '0');
     
     if (hour == 0) {
-      return '오전 12:$minute';
+      return '${l10n.am} 12:$minute';
     } else if (hour < 12) {
-      return '오전 $hour:$minute';
+      return '${l10n.am} $hour:$minute';
     } else if (hour == 12) {
-      return '오후 12:$minute';
+      return '${l10n.pm} 12:$minute';
     } else {
-      return '오후 ${hour - 12}:$minute';
+      return '${l10n.pm} ${hour - 12}:$minute';
     }
   }
 
@@ -154,7 +156,7 @@ class _TimelineItemWidgetState extends State<TimelineItemWidget>
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: Text(
-                        _formatTime(widget.item.timestamp),
+                        _formatTime(widget.item.timestamp, context),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onBackground.withOpacity(0.6),
                           fontWeight: FontWeight.w500,
@@ -264,7 +266,7 @@ class _TimelineItemWidgetState extends State<TimelineItemWidget>
                                     ),
                                   ),
                                   child: Text(
-                                    '진행 중',
+                                    AppLocalizations.of(context)!.inProgress,
                                     style: theme.textTheme.bodySmall?.copyWith(
                                       color: Colors.green[700],
                                       fontSize: 10,

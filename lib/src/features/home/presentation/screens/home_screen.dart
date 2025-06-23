@@ -1161,7 +1161,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   const CircularProgressIndicator(),
                   const SizedBox(height: 16),
                   Text(
-                    '아기 정보를 불러오는 중...',
+                    AppLocalizations.of(context)!.loadingBabyInfo,
                     style: theme.textTheme.bodyMedium,
                   ),
                 ],
@@ -1261,7 +1261,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                               Icons.menu_book,
                               color: theme.colorScheme.onSurface,
                             ),
-                            tooltip: '육아 가이드',
+                            tooltip: l10n.babyGuide,
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -1440,7 +1440,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 }
                               },
                               child: Text(
-                                '상세보기',
+                                l10n.viewDetails,
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   color: theme.colorScheme.primary,
                                 ),

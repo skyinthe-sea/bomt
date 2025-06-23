@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../presentation/providers/community_provider.dart';
 import '../screens/community_post_detail_screen.dart';
 import 'community_post_card.dart';
@@ -10,6 +11,8 @@ class CommunityPostList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Consumer<CommunityProvider>(
       builder: (context, provider, child) {
         if (provider.posts.isEmpty && !provider.isLoading) {
@@ -27,14 +30,14 @@ class CommunityPostList extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    '아직 게시글이 없어요',
+                    l10n.noPostsYet,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                     ),
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    '첫 번째 게시글을 작성해보세요!',
+                    l10n.writeFirstPost,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
                     ),
@@ -52,7 +55,7 @@ class CommunityPostList extends StatelessWidget {
               
               // 마지막 인덱스에서 상태 UI 표시
               if (index == totalPostsWithAds) {
-                return _buildBottomStateWidget(context, provider);
+                return _buildBottomStateWidget(context, provider, l10n);
               }
               
               // 5개마다 광고 삽입
@@ -102,7 +105,7 @@ class CommunityPostList extends StatelessWidget {
   }
 
   // 하단 상태 위젯 (로딩, 완료, 에러)
-  Widget _buildBottomStateWidget(BuildContext context, CommunityProvider provider) {
+  Widget _buildBottomStateWidget(BuildContext context, CommunityProvider provider, AppLocalizations l10n) {
     final theme = Theme.of(context);
     
     // 로딩 중
@@ -121,7 +124,7 @@ class CommunityPostList extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              '새로운 게시글을 불러오는 중...',
+              l10n.loadingNewPosts,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface.withOpacity(0.6),
               ),
@@ -152,7 +155,7 @@ class CommunityPostList extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              '게시글을 불러오는데 실패했어요',
+              l10n.failedToLoadPosts,
               style: theme.textTheme.titleSmall?.copyWith(
                 color: theme.colorScheme.error,
                 fontWeight: FontWeight.w600,
@@ -160,7 +163,7 @@ class CommunityPostList extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              '네트워크 연결을 확인하고 다시 시도해주세요',
+              l10n.checkNetworkAndRetry,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurface.withOpacity(0.6),
               ),
@@ -170,7 +173,7 @@ class CommunityPostList extends StatelessWidget {
             OutlinedButton.icon(
               onPressed: () => provider.refresh(),
               icon: const Icon(Icons.refresh, size: 18),
-              label: const Text('다시 시도'),
+              label: Text(l10n.tryAgain),
               style: OutlinedButton.styleFrom(
                 foregroundColor: theme.colorScheme.error,
                 side: BorderSide(color: theme.colorScheme.error.withOpacity(0.5)),
@@ -201,7 +204,7 @@ class CommunityPostList extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              '모든 게시글을 확인했어요! 👍',
+              l10n.allPostsChecked,
               style: theme.textTheme.titleSmall?.copyWith(
                 color: theme.colorScheme.onSurface.withOpacity(0.8),
                 fontWeight: FontWeight.w600,
@@ -209,7 +212,7 @@ class CommunityPostList extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              '새로운 게시글이 올라올 때까지 잠시 기다려주세요',
+              l10n.waitForNewPosts,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurface.withOpacity(0.5),
               ),

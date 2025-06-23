@@ -58,8 +58,8 @@ class Baby {
     return months;
   }
   
-  // 나이 계산 (개월 단위 - 문자열)
-  String get ageInMonthsAndDays {
+  // 나이 계산 (개월과 일수 분리)
+  Map<String, int> get ageMonthsAndDays {
     final now = DateTime.now();
     int months = (now.year - birthDate.year) * 12 + now.month - birthDate.month;
     
@@ -70,6 +70,13 @@ class Baby {
     final tempDate = DateTime(birthDate.year, birthDate.month + months, birthDate.day);
     final days = now.difference(tempDate).inDays;
     
-    return '${months}개월 ${days}일';
+    return {'months': months, 'days': days};
+  }
+  
+  // 레거시 지원용 - UI에서 다국어 처리 후 제거 예정
+  @deprecated
+  String get ageInMonthsAndDays {
+    final age = ageMonthsAndDays;
+    return '${age['months']}개월 ${age['days']}일';
   }
 }

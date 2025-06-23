@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -111,6 +112,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
 
   // 초대 코드 생성
   Future<void> _generateInviteCode() async {
+    final l10n = AppLocalizations.of(context)!;
     final babyProvider = Provider.of<BabyProvider>(context, listen: false);
     
     // 먼저 BabyProvider를 새로고침하여 최신 정보 로드
@@ -127,16 +129,16 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
       final shouldCreateTestBaby = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('아기 정보 없음'),
-          content: const Text('아기 정보가 없습니다.\n테스트용 아기를 생성하시겠습니까?'),
+          title: Text(l10n.noBabyInfo),
+          content: Text(l10n.noBabyInfoDescription),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('취소'),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('생성'),
+              child: Text(l10n.create),
             ),
           ],
         ),
@@ -163,20 +165,16 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
         final shouldProceed = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('새로운 초대 코드 생성'),
-            content: Text(
-              '기존 초대 코드($existingCode)는 만료되고\n'
-              '새로운 초대 코드가 생성됩니다.\n\n'
-              '계속하시겠습니까?'
-            ),
+            title: Text(l10n.generateNewInviteCode),
+            content: Text(l10n.replaceExistingCode),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text('취소'),
+                child: Text(l10n.cancel),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text('확인'),
+                child: Text(l10n.confirm),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.orange,
                 ),
@@ -219,6 +217,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
 
   // 초대 코드로 참여
   Future<void> _joinWithInviteCode() async {
+    final l10n = AppLocalizations.of(context)!;
     final code = _inviteCodeController.text.trim().toUpperCase();
     final babyProvider = Provider.of<BabyProvider>(context, listen: false);
     
@@ -229,17 +228,17 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
     debugPrint('🔍 초대 코드 참여 시도 - code: $code, userId: $userId');
     
     if (code.isEmpty) {
-      _showErrorSnackBar('초대 코드를 입력해주세요');
+      _showErrorSnackBar(l10n.pleaseEnterInviteCode);
       return;
     }
 
     if (code.length != 6) {
-      _showErrorSnackBar('초대 코드는 6자리입니다');
+      _showErrorSnackBar(l10n.inviteCodeMustBe6Digits);
       return;
     }
 
     if (userId == null) {
-      _showErrorSnackBar('로그인 정보가 없습니다. 먼저 로그인해주세요.');
+      _showErrorSnackBar(l10n.pleaseLoginFirst);
       return;
     }
 
@@ -255,20 +254,18 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
       final shouldProceed = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('초대 수락'),
+          title: Text(l10n.acceptInvitation),
           content: Text(
-            '기존에 등록된 아기 기록은 사라지고,\n'
-            '초대받은 아기(${inviteInfo['babyName']})로 변경됩니다.\n\n'
-            '계속하시겠습니까?'
+            l10n.acceptInvitationWarning(inviteInfo['babyName'] ?? '')
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('취소'),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('확인'),
+              child: Text(l10n.confirm),
               style: TextButton.styleFrom(
                 foregroundColor: Colors.red,
               ),
@@ -308,19 +305,21 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
 
   // 초대 코드 복사
   void _copyInviteCode() {
+    final l10n = AppLocalizations.of(context)!;
     if (_generatedInviteCode == null) return;
     
     Clipboard.setData(ClipboardData(text: _generatedInviteCode!));
-    _showSuccessSnackBar('초대 코드가 복사되었습니다');
+    _showSuccessSnackBar(l10n.copiedToClipboard);
   }
 
   // 남은 시간을 포맷하여 반환
   String _formatRemainingTime() {
+    final l10n = AppLocalizations.of(context)!;
     if (_remainingTime == null) return '';
     
     final minutes = _remainingTime!.inMinutes;
     final seconds = _remainingTime!.inSeconds % 60;
-    return '${minutes}분 ${seconds}초';
+    return l10n.minutesAndSeconds(minutes, seconds);
   }
 
   // 테스트용 아기 생성
@@ -370,12 +369,13 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final babyProvider = Provider.of<BabyProvider>(context);
-    final babyName = babyProvider.currentBaby?.name ?? '아기';
+    final babyName = babyProvider.currentBaby?.name ?? l10n.babyName;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('가족 초대'),
+        title: Text(l10n.familyInvitation),
         elevation: 0,
         actions: [
           IconButton(
@@ -416,7 +416,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    '$babyName와 함께 육아해요',
+                    l10n.careTogetherWith(babyName),
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -424,7 +424,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '가족이나 파트너를 초대해서\n함께 육아 기록을 관리하세요',
+                    l10n.inviteFamilyDescription,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
@@ -440,8 +440,8 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
             const SizedBox(height: 32),
             
             // 초대 코드 생성 섹션
-            const Text(
-              '초대 코드 생성',
+            Text(
+              l10n.generateInviteCode,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -465,7 +465,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
               child: Column(
                 children: [
                   Text(
-                    '새로운 초대 코드를 생성하고 복사하세요',
+                    l10n.generateInviteCodeDescription,
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
                           ? Colors.blueGrey[200]
@@ -501,7 +501,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                '초대 코드 생성 완료!',
+                                l10n.inviteCodeGenerated,
                                 style: TextStyle(
                                   color: Theme.of(context).brightness == Brightness.dark
                                       ? Colors.green[400]
@@ -552,8 +552,8 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                               const SizedBox(width: 4),
                               Text(
                                 _remainingTime != null
-                                    ? '남은 시간: ${_formatRemainingTime()}'
-                                    : '유효 시간: 5분',
+                                    ? l10n.remainingTime(_formatRemainingTime())
+                                    : l10n.validTime,
                                 style: TextStyle(
                                   color: Theme.of(context).brightness == Brightness.dark
                                       ? Colors.orange[400]
@@ -581,7 +581,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
                           : const Icon(Icons.qr_code),
-                      label: Text(_isLoading ? '생성 중...' : '초대 코드 생성'),
+                      label: Text(_isLoading ? l10n.generating : l10n.generateInviteCodeButton),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
@@ -609,7 +609,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    '또는',
+                    l10n.orText,
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
                           ? Colors.blueGrey[300]
@@ -630,8 +630,8 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
             const SizedBox(height: 32),
             
             // 초대 코드 입력 섹션
-            const Text(
-              '초대 코드로 참여',
+            Text(
+              l10n.joinWithInviteCode,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -655,7 +655,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
               child: Column(
                 children: [
                   Text(
-                    '받은 초대 코드를 입력해주세요',
+                    l10n.enterInviteCodeDescription,
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
                           ? Colors.blueGrey[200]
@@ -666,8 +666,8 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                   
                   TextField(
                     controller: _inviteCodeController,
-                    decoration: const InputDecoration(
-                      labelText: '초대 코드 (6자리)',
+                    decoration: InputDecoration(
+                      labelText: l10n.inviteCodePlaceholder,
                       hintText: 'ABC123',
                       border: OutlineInputBorder(),
                       counterText: '',
@@ -698,7 +698,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
                           : const Icon(Icons.login),
-                      label: Text(_isLoading ? '참여 중...' : '초대 수락'),
+                      label: Text(_isLoading ? l10n.joining : l10n.acceptInvite),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(

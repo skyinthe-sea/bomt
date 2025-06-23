@@ -1,16 +1,18 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CommunityBanner extends StatelessWidget {
   const CommunityBanner({super.key});
 
   void _showComingSoonToast(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     HapticFeedback.lightImpact();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          '기능 준비중입니다',
+          l10n.comingSoon,
           style: TextStyle(
             color: Theme.of(context).colorScheme.onInverseSurface,
             fontWeight: FontWeight.w600,
@@ -31,6 +33,7 @@ class CommunityBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final isDark = theme.brightness == Brightness.dark;
 
     return GestureDetector(
@@ -95,7 +98,7 @@ class CommunityBanner extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '🔥 소아과 라이브 Q&A',
+                          l10n.liveQA,
                           style: theme.textTheme.titleMedium?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -103,7 +106,7 @@ class CommunityBanner extends StatelessWidget {
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          '오늘 오후 7시! 궁금했던 모든 질문에 전문의가 답변해드려요',
+                          l10n.liveQADescription,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: Colors.white.withOpacity(0.9),
                             height: 1.3,

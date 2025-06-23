@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../presentation/providers/statistics_provider.dart';
+import '../utils/date_range_localizer.dart';
 
 class StatisticsHeader extends StatelessWidget {
   final VoidCallback onRefresh;
@@ -29,7 +30,7 @@ class StatisticsHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '통계',
+                      l10n.statisticsTitle,
                       style: theme.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurface,
@@ -40,14 +41,18 @@ class StatisticsHeader extends StatelessWidget {
                       builder: (context, provider, child) {
                         if (provider.statistics != null) {
                           return Text(
-                            '${provider.dateRange.label} • ${provider.statistics!.totalActivities}개 활동',
+                            '${DateRangeLocalizer.getLocalizedLabel(l10n, provider.dateRange, Localizations.localeOf(context).toString())} • ${l10n.totalActivities}: ${provider.statistics!.totalActivities}',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.onSurface.withOpacity(0.7),
                             ),
                           );
                         }
                         return Text(
-                          provider.dateRange.label,
+                          DateRangeLocalizer.getLocalizedLabel(
+                            l10n,
+                            provider.dateRange,
+                            Localizations.localeOf(context).toString(),
+                          ),
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.onSurface.withOpacity(0.7),
                           ),
@@ -65,14 +70,14 @@ class StatisticsHeader extends StatelessWidget {
                     context: context,
                     icon: Icons.refresh_rounded,
                     onPressed: onRefresh,
-                    tooltip: '새로고침',
+                    tooltip: l10n.refresh,
                   ),
                   const SizedBox(width: 8),
                   _buildActionButton(
                     context: context,
                     icon: Icons.share_rounded,
                     onPressed: () => _showShareOptions(context),
-                    tooltip: '공유',
+                    tooltip: l10n.shareStatistics,
                   ),
                 ],
               ),
@@ -109,7 +114,7 @@ class StatisticsHeader extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '업데이트 중...',
+                        l10n.updating,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.primary,
                           fontWeight: FontWeight.w500,
@@ -142,7 +147,7 @@ class StatisticsHeader extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '마지막 업데이트: ${_formatLastUpdated(provider.statistics!.lastUpdated)}',
+                        '${l10n.lastUpdated} ${_formatLastUpdated(context, provider.statistics!.lastUpdated)}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurface.withOpacity(0.6),
                         ),
@@ -206,6 +211,7 @@ class StatisticsHeader extends StatelessWidget {
 
   void _showShareOptions(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     
     showModalBottomSheet(
       context: context,
@@ -229,7 +235,7 @@ class StatisticsHeader extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              '통계 공유',
+              l10n.shareStatistics,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -240,8 +246,8 @@ class StatisticsHeader extends StatelessWidget {
                 Icons.image_rounded,
                 color: theme.colorScheme.primary,
               ),
-              title: const Text('이미지로 저장'),
-              subtitle: const Text('통계를 이미지로 저장합니다'),
+              title: Text(l10n.saveAsImage),
+              subtitle: Text(l10n.saveAsImageDescription),
               onTap: () {
                 Navigator.pop(context);
                 // TODO: 이미지 저장 구현
@@ -252,8 +258,8 @@ class StatisticsHeader extends StatelessWidget {
                 Icons.text_snippet_rounded,
                 color: theme.colorScheme.secondary,
               ),
-              title: const Text('텍스트로 공유'),
-              subtitle: const Text('통계 요약을 텍스트로 공유합니다'),
+              title: Text(l10n.shareAsText),
+              subtitle: Text(l10n.shareAsTextDescription),
               onTap: () {
                 Navigator.pop(context);
                 // TODO: 텍스트 공유 구현
@@ -266,16 +272,17 @@ class StatisticsHeader extends StatelessWidget {
     );
   }
 
-  String _formatLastUpdated(DateTime dateTime) {
+  String _formatLastUpdated(BuildContext context, DateTime dateTime) {
+    final l10n = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final difference = now.difference(dateTime);
     
     if (difference.inMinutes < 1) {
-      return '방금 전';
+      return l10n.justNow;
     } else if (difference.inMinutes < 60) {
-      return '${difference.inMinutes}분 전';
+      return l10n.minutesAgo(difference.inMinutes);
     } else if (difference.inHours < 24) {
-      return '${difference.inHours}시간 전';
+      return l10n.hoursAgo(difference.inHours);
     } else {
       return '${dateTime.month}/${dateTime.day} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
     }

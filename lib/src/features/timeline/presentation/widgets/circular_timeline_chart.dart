@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:math';
 import '../../../../domain/models/timeline_item.dart';
 
@@ -87,6 +88,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
     
     return Container(
       padding: const EdgeInsets.all(24),
@@ -125,6 +127,8 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
   Widget _buildHeader() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
+    final l10n = AppLocalizations.of(context)!;
+    
     return Row(
       children: [
         Container(
@@ -157,7 +161,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '24시간 활동 패턴',
+                l10n.hourActivityPattern,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -166,7 +170,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
               ),
               const SizedBox(height: 4),
               Text(
-                '시계를 터치해서 시간대별 활동을 확인하세요',
+                l10n.touchClockInstruction,
                 style: TextStyle(
                   fontSize: 14,
                   color: isDark ? Colors.white70 : const Color(0xFF4A5568),
@@ -191,18 +195,18 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
               width: 1,
             ),
           ),
-          child: const Row(
+          child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
+              const Icon(
                 Icons.touch_app_rounded,
                 color: Color(0xFF059669),
                 size: 16,
               ),
-              SizedBox(width: 6),
+              const SizedBox(width: 6),
               Text(
-                '터치',
-                style: TextStyle(
+                l10n.touch,
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF059669),
@@ -251,6 +255,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
   Widget _buildSelectedHourInfo() {
     final hourlyActivities = _getActivitiesForHour(_selectedHour!);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
     
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -286,7 +291,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
               ),
               const SizedBox(width: 8),
               Text(
-                '${_selectedHour!.toString().padLeft(2, '0')}:00 시간대',
+                '${_selectedHour!.toString().padLeft(2, '0')}:00 ${AppLocalizations.of(context)!.timeSlot}',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -298,7 +303,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
           const SizedBox(height: 12),
           if (hourlyActivities.isEmpty)
             Text(
-              '이 시간대에는 활동이 없었어요',
+              l10n.noActivitiesInTimeframe,
               style: TextStyle(
                 fontSize: 14,
                 color: isDark ? Colors.white60 : const Color(0xFF6B7280),

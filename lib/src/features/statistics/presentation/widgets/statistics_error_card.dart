@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatisticsErrorCard extends StatelessWidget {
   final String errorMessage;
@@ -13,6 +14,7 @@ class StatisticsErrorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       margin: const EdgeInsets.all(20),
@@ -48,7 +50,7 @@ class StatisticsErrorCard extends StatelessWidget {
                 
                 // 에러 제목
                 Text(
-                  '데이터를 불러올 수 없습니다',
+                  l10n.cannotLoadData,
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: theme.colorScheme.onSurface,
@@ -116,6 +118,7 @@ class StatisticsErrorCard extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       children: [
         // 재시도 버튼
@@ -132,7 +135,7 @@ class StatisticsErrorCard extends StatelessWidget {
               ),
             ),
             icon: const Icon(Icons.refresh_rounded),
-            label: const Text('다시 시도'),
+            label: Text(l10n.tryAgain),
           ),
         ),
         
@@ -151,7 +154,7 @@ class StatisticsErrorCard extends StatelessWidget {
                   ),
                 ),
                 icon: const Icon(Icons.info_outline_rounded, size: 18),
-                label: const Text('자세히'),
+                label: Text(l10n.details),
               ),
             ),
             
@@ -167,7 +170,7 @@ class StatisticsErrorCard extends StatelessWidget {
                   ),
                 ),
                 icon: const Icon(Icons.home_rounded, size: 18),
-                label: const Text('홈으로'),
+                label: Text(l10n.goToHome),
               ),
             ),
           ],
@@ -177,6 +180,7 @@ class StatisticsErrorCard extends StatelessWidget {
   }
 
   Widget _buildTroubleshootingGuide(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -198,7 +202,7 @@ class StatisticsErrorCard extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                '문제 해결 방법',
+                l10n.troubleshootingMethods,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: theme.colorScheme.onSurface,
@@ -209,7 +213,7 @@ class StatisticsErrorCard extends StatelessWidget {
           
           const SizedBox(height: 12),
           
-          ...['인터넷 연결을 확인해보세요', '앱을 완전히 종료 후 다시 실행해보세요', '문제가 계속되면 고객센터에 문의해주세요']
+          ...['Check your internet connection', 'Try closing and reopening the app', 'Contact customer support if the problem persists']
               .map((tip) => Padding(
                     padding: const EdgeInsets.only(bottom: 6),
                     child: Row(
@@ -263,6 +267,7 @@ class _ErrorDetailsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -298,7 +303,7 @@ class _ErrorDetailsDialog extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      '오류 상세 정보',
+                      'Error Details',
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurface,
@@ -323,7 +328,7 @@ class _ErrorDetailsDialog extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '오류 메시지',
+                    'Error Message',
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.onSurface,
@@ -350,7 +355,7 @@ class _ErrorDetailsDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    '발생 시간',
+                    'Occurrence Time',
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.onSurface,

@@ -117,7 +117,7 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
                                 ),
                               ),
                               Text(
-                                '함께 나누는 육아 이야기',
+                                l10n.communitySubtitle,
                                 style: theme.textTheme.bodySmall?.copyWith(
                                   color: theme.colorScheme.onSurface.withOpacity(0.6),
                                   fontSize: 11,
@@ -144,7 +144,7 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
                           // TODO: 검색 페이지로 이동
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text('검색 기능 준비 중입니다'),
+                              content: Text(l10n.searchFeatureComingSoon),
                               backgroundColor: theme.colorScheme.surface,
                               behavior: SnackBarBehavior.floating,
                               shape: RoundedRectangleBorder(
@@ -158,7 +158,7 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
                           color: theme.colorScheme.onSurface.withOpacity(0.7),
                           size: 20,
                         ),
-                        tooltip: '검색',
+                        tooltip: l10n.search,
                       ),
                     ),
                     
@@ -224,7 +224,7 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
                               ),
                           ],
                         ),
-                        tooltip: '알림',
+                        tooltip: l10n.notification,
                       ),
                     ),
                   ],

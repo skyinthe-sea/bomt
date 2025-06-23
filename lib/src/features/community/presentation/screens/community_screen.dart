@@ -67,6 +67,7 @@ class _CommunityScreenState extends State<CommunityScreen>
     super.build(context);
     
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final isDark = theme.brightness == Brightness.dark;
     
     return Scaffold(
@@ -176,7 +177,7 @@ class _CommunityScreenState extends State<CommunityScreen>
                                                     ),
                                                     const SizedBox(width: 6),
                                                     Text(
-                                                      '좋아요순',
+                                                      l10n.sortByLikes,
                                                       style: theme.textTheme.bodySmall?.copyWith(
                                                         color: provider.postSortOrder == 'like_count'
                                                             ? Colors.white
@@ -221,7 +222,7 @@ class _CommunityScreenState extends State<CommunityScreen>
                                                     ),
                                                     const SizedBox(width: 6),
                                                     Text(
-                                                      '최신순',
+                                                      l10n.sortByLatest,
                                                       style: theme.textTheme.bodySmall?.copyWith(
                                                         color: provider.postSortOrder == 'created_at'
                                                             ? Colors.white

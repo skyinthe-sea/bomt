@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../presentation/providers/medication_provider.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../services/sleep/sleep_interruption_service.dart';
@@ -128,11 +129,11 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('투약 기록을 불러오는데 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.loadFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -154,7 +155,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
       final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
         context: context,
         sleepProvider: widget.sleepProvider!,
-        activityName: '투약',
+        activityName: AppLocalizations.of(context)!.medication,
         onProceed: () => _addQuickMedication(),
       );
       
@@ -172,11 +173,11 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.check_circle, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('투약 기록이 추가되었습니다'),
+                const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.medicationAdded),
               ],
             ),
             backgroundColor: Colors.pink[600],
@@ -190,11 +191,11 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('투약 기록 추가에 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.saveFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -211,6 +212,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final count = widget.summary['count'] ?? 0;
     final medicineCount = widget.summary['medicineCount'] ?? 0;
     final vitaminCount = widget.summary['vitaminCount'] ?? 0;
@@ -266,7 +268,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '투약',
+                        l10n.medication,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -276,7 +278,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
                       const Spacer(),
                       if (hasUpcomingMedication)
                         Text(
-                          '예정',
+                          l10n.scheduled,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: Colors.orange[300],
                             fontSize: 11,
@@ -292,7 +294,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${count}회',
+                        '${count} ${l10n.times}',
                         style: theme.textTheme.headlineLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -305,7 +307,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
                         children: [
                           if (medicineCount > 0)
                             Text(
-                              '약 ${medicineCount}회',
+                              l10n.medicationScheduled(medicineCount),
                               style: theme.textTheme.titleLarge?.copyWith(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
@@ -314,7 +316,7 @@ class _MedicationSummaryCardState extends State<MedicationSummaryCard>
                             ),
                           if (vitaminCount > 0 || vaccineCount > 0)
                             Text(
-                              '영양제${vitaminCount}, 백신${vaccineCount}',
+                              l10n.medicationTypes(vitaminCount, vaccineCount),
                               style: theme.textTheme.titleLarge?.copyWith(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,

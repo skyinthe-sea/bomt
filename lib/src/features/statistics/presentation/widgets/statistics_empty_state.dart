@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../presentation/providers/statistics_provider.dart';
 import '../../../../presentation/providers/tab_controller_provider.dart';
+import '../utils/date_range_localizer.dart';
 
 class StatisticsEmptyState extends StatelessWidget {
   const StatisticsEmptyState({super.key});
@@ -9,6 +11,7 @@ class StatisticsEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       padding: const EdgeInsets.all(32),
@@ -22,7 +25,7 @@ class StatisticsEmptyState extends StatelessWidget {
           
           // 제목
           Text(
-            '통계 데이터가 없습니다',
+            l10n.noStatisticsData,
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: theme.colorScheme.onSurface,
@@ -36,7 +39,7 @@ class StatisticsEmptyState extends StatelessWidget {
           Consumer<StatisticsProvider>(
             builder: (context, provider, child) {
               return Text(
-                '${provider.dateRange.label} 기간 동안 기록된 활동이 없습니다.\n아기의 활동을 기록해보세요!',
+                '${l10n.noActivitiesRecordedInPeriod(DateRangeLocalizer.getLocalizedLabel(l10n, provider.dateRange, Localizations.localeOf(context).toString()))}\n${l10n.recordBabyActivities}',
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: theme.colorScheme.onSurface.withOpacity(0.7),
                   height: 1.5,
@@ -111,6 +114,7 @@ class StatisticsEmptyState extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       children: [
         // 기록하기 버튼
@@ -125,7 +129,7 @@ class StatisticsEmptyState extends StatelessWidget {
               ),
             ),
             icon: const Icon(Icons.add_rounded),
-            label: const Text('활동 기록하기'),
+            label: Text(l10n.recordActivity),
           ),
         ),
         
@@ -144,7 +148,7 @@ class StatisticsEmptyState extends StatelessWidget {
                   ),
                 ),
                 icon: const Icon(Icons.calendar_month_rounded, size: 18),
-                label: const Text('다른 기간 보기'),
+                label: Text(l10n.viewOtherPeriod),
               ),
             ),
             
@@ -160,7 +164,7 @@ class StatisticsEmptyState extends StatelessWidget {
                   ),
                 ),
                 icon: const Icon(Icons.refresh_rounded, size: 18),
-                label: const Text('새로고침'),
+                label: Text(l10n.refresh),
               ),
             ),
           ],
@@ -170,6 +174,7 @@ class StatisticsEmptyState extends StatelessWidget {
   }
 
   Widget _buildHelpCard(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -198,7 +203,7 @@ class StatisticsEmptyState extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                '통계를 보려면?',
+                l10n.howToViewStatistics,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: theme.colorScheme.onSurface,
@@ -209,7 +214,7 @@ class StatisticsEmptyState extends StatelessWidget {
           
           const SizedBox(height: 12),
           
-          ...['수유, 수면, 기저귀 등의 활동을 기록하세요', '최소 하루 이상의 데이터가 있어야 통계가 표시됩니다', '홈 화면에서 간편하게 기록할 수 있습니다']
+          ...[l10n.recordActivitiesLikeFeedingSleep, l10n.atLeastOneDayDataRequired, l10n.canRecordEasilyFromHome]
               .map((tip) => Padding(
                     padding: const EdgeInsets.only(bottom: 6),
                     child: Row(
@@ -273,6 +278,7 @@ class _DateRangeBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       decoration: BoxDecoration(
@@ -297,7 +303,7 @@ class _DateRangeBottomSheet extends StatelessWidget {
           
           // 제목
           Text(
-            '다른 기간 보기',
+            l10n.viewOtherPeriodTitle,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -307,10 +313,10 @@ class _DateRangeBottomSheet extends StatelessWidget {
           
           // 날짜 범위 옵션들
           ...[
-            {'label': '지난 주', 'onTap': () => _selectLastWeek(context)},
-            {'label': '지난 달', 'onTap': () => _selectLastMonth(context)},
-            {'label': '지난 3개월', 'onTap': () => _selectLast3Months(context)},
-            {'label': '전체 기간', 'onTap': () => _selectAllTime(context)},
+            {'label': l10n.lastWeek, 'onTap': () => _selectLastWeek(context)},
+            {'label': l10n.lastMonth, 'onTap': () => _selectLastMonth(context)},
+            {'label': l10n.last3Months, 'onTap': () => _selectLast3Months(context)},
+            {'label': l10n.allTime, 'onTap': () => _selectAllTime(context)},
           ].map((option) => 
             ListTile(
               leading: Icon(

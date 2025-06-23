@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CleanTimelineHeader extends StatelessWidget {
   final DateTime selectedDate;
@@ -102,8 +103,32 @@ class CleanTimelineHeader extends StatelessWidget {
 
   Widget _buildDateSection(BuildContext context) {
     final theme = Theme.of(context);
-    final dateFormat = DateFormat('M월 d일', 'ko_KR');
-    final dayFormat = DateFormat('EEEE', 'ko_KR');
+    final l10n = AppLocalizations.of(context)!;
+    final locale = l10n.localeName;
+    
+    // 현재 언어에 따라 날짜 형식 설정
+    DateFormat dateFormat;
+    DateFormat dayFormat;
+    
+    switch (locale) {
+      case 'ko':
+        dateFormat = DateFormat('M월 d일', 'ko_KR');
+        dayFormat = DateFormat('EEEE', 'ko_KR');
+        break;
+      case 'ja':
+        dateFormat = DateFormat('M月d日', 'ja_JP');
+        dayFormat = DateFormat('EEEE', 'ja_JP');
+        break;
+      case 'hi':
+        dateFormat = DateFormat('d MMMM', 'hi_IN');
+        dayFormat = DateFormat('EEEE', 'hi_IN');
+        break;
+      default: // 'en'
+        dateFormat = DateFormat('MMM d', 'en_US');
+        dayFormat = DateFormat('EEEE', 'en_US');
+        break;
+    }
+    
     final formattedDate = dateFormat.format(selectedDate);
     final formattedDay = dayFormat.format(selectedDate);
     
@@ -159,7 +184,7 @@ class CleanTimelineHeader extends StatelessWidget {
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(
-                          '오늘',
+                          AppLocalizations.of(context)!.today,
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: theme.colorScheme.onPrimary,
                             fontWeight: FontWeight.w600,

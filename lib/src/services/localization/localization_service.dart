@@ -25,9 +25,17 @@ class LocalizationService {
     return const [
       Locale('ko'),
       Locale('en'),
-      Locale('zh'),
       Locale('ja'),
       Locale('hi'),
+      Locale('de'),
+      Locale('pt'),
+      Locale('fr'),
+      Locale('id'),
+      Locale('es'),
+      Locale('tl'),
+      Locale('ru'),
+      Locale('th'),
+      Locale('tr'),
     ];
   }
 }

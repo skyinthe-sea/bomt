@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:ui';
 import 'dart:math';
 import '../../../../domain/models/timeline_item.dart';
@@ -171,7 +172,7 @@ class _ModernPatternAnalyticsState extends State<ModernPatternAnalytics>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '활동 패턴 분석',
+                AppLocalizations.of(context)!.activityPatternAnalysis,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -180,7 +181,7 @@ class _ModernPatternAnalyticsState extends State<ModernPatternAnalytics>
               ),
               SizedBox(height: 4),
               Text(
-                '하루 중 활동이 집중된 시간대',
+                AppLocalizations.of(context)!.activityConcentrationTime,
                 style: TextStyle(
                   fontSize: 14,
                   color: Color(0xFF4A5568),
@@ -334,7 +335,7 @@ class _ModernPatternAnalyticsState extends State<ModernPatternAnalytics>
       runSpacing: 12,
       children: topActivities.take(4).map((entry) {
         final colors = _getActivityColors(entry.key);
-        final name = _getActivityName(entry.key);
+        final name = _getActivityName(entry.key, context);
         
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -460,24 +461,25 @@ class _ModernPatternAnalyticsState extends State<ModernPatternAnalytics>
     }
   }
 
-  String _getActivityName(TimelineItemType type) {
+  String _getActivityName(TimelineItemType type, BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (type) {
       case TimelineItemType.sleep:
-        return '수면';
+        return l10n.sleep;
       case TimelineItemType.feeding:
-        return '수유';
+        return l10n.feeding;
       case TimelineItemType.diaper:
-        return '기저귀';
+        return l10n.diaper;
       case TimelineItemType.medication:
-        return '투약';
+        return l10n.medication;
       case TimelineItemType.milkPumping:
-        return '유축';
+        return l10n.milkPumping;
       case TimelineItemType.solidFood:
-        return '이유식';
+        return l10n.solidFood;
       case TimelineItemType.temperature:
-        return '체온';
+        return l10n.temperature;
       default:
-        return '기타';
+        return l10n.other;
     }
   }
 }

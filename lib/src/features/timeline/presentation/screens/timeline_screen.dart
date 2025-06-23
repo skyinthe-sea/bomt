@@ -412,7 +412,7 @@ class _TimelineScreenState extends State<TimelineScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '오늘의 스토리',
+                  AppLocalizations.of(context)!.todaysStory,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: theme.colorScheme.onSurface,
@@ -421,8 +421,8 @@ class _TimelineScreenState extends State<TimelineScreen>
                 const SizedBox(height: 4),
                 Text(
                   provider.hasItems 
-                      ? '${provider.filteredItems.length}개의 소중한 순간들' 
-                      : '아직 기록된 순간이 없어요',
+                      ? AppLocalizations.of(context)!.preciousMoments(provider.filteredItems.length)
+                      : AppLocalizations.of(context)!.noRecordedMoments,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurface.withOpacity(0.7),
                   ),
@@ -475,7 +475,7 @@ class _TimelineScreenState extends State<TimelineScreen>
           ),
           const SizedBox(height: 24),
           Text(
-            '타임라인을 불러오고 있어요...',
+            AppLocalizations.of(context)!.loadingTimeline,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
               color: theme.colorScheme.onSurface.withOpacity(0.7),
@@ -514,7 +514,7 @@ class _TimelineScreenState extends State<TimelineScreen>
           ),
           const SizedBox(height: 16),
           Text(
-            '데이터를 불러올 수 없어요',
+            AppLocalizations.of(context)!.loadFailed,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
               color: theme.colorScheme.onSurface,
@@ -561,7 +561,7 @@ class _TimelineScreenState extends State<TimelineScreen>
           ),
           const SizedBox(height: 24),
           Text(
-            '아직 기록이 없어요',
+            AppLocalizations.of(context)!.noRecordsYet,
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w600,
               color: theme.colorScheme.onSurface,
@@ -569,7 +569,7 @@ class _TimelineScreenState extends State<TimelineScreen>
           ),
           const SizedBox(height: 12),
           Text(
-            '첫 번째 소중한 순간을 기록해보세요.\n매일의 작은 변화들이 모여 큰 성장이 됩니다.',
+            AppLocalizations.of(context)!.firstMomentMessage,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.7),
               height: 1.5,
@@ -589,7 +589,7 @@ class _TimelineScreenState extends State<TimelineScreen>
     // 간단한 피드백 표시
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${item.title} 상세보기 (개발 예정)'),
+        content: Text(AppLocalizations.of(context)!.detailViewComingSoon(item.title)),
         behavior: SnackBarBehavior.floating,
         backgroundColor: const Color(0xFF8B5FBF),
         shape: RoundedRectangleBorder(
@@ -608,9 +608,9 @@ class _TimelineScreenState extends State<TimelineScreen>
       initialDate: provider.selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
-      helpText: '날짜 선택',
-      cancelText: '취소',
-      confirmText: '확인',
+      helpText: AppLocalizations.of(context)!.selectBirthDate,
+      cancelText: AppLocalizations.of(context)!.cancel,
+      confirmText: AppLocalizations.of(context)!.confirm,
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(

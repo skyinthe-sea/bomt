@@ -31,11 +31,35 @@ class LocaleService {
             case 'ja':
               _countryCode = 'JP';
               break;
-            case 'zh':
-              _countryCode = 'CN';
-              break;
             case 'en':
               _countryCode = 'US';
+              break;
+            case 'de':
+              _countryCode = 'DE';
+              break;
+            case 'pt':
+              _countryCode = 'BR';
+              break;
+            case 'fr':
+              _countryCode = 'FR';
+              break;
+            case 'id':
+              _countryCode = 'ID';
+              break;
+            case 'es':
+              _countryCode = 'MX';
+              break;
+            case 'tl':
+              _countryCode = 'PH';
+              break;
+            case 'ru':
+              _countryCode = 'RU';
+              break;
+            case 'th':
+              _countryCode = 'TH';
+              break;
+            case 'tr':
+              _countryCode = 'TR';
               break;
             default:
               _countryCode = 'KR'; // 기본값
@@ -62,7 +86,7 @@ class LocaleService {
       _languageCode = locale.languageCode.toLowerCase();
       
       // 지원하지 않는 언어는 한국어로 기본 설정
-      if (!['ko', 'en', 'ja', 'zh'].contains(_languageCode)) {
+      if (!['ko', 'en', 'ja', 'hi', 'de', 'pt', 'fr', 'id', 'es', 'tl', 'ru', 'th', 'tr'].contains(_languageCode)) {
         _languageCode = 'ko';
       }
     } catch (e) {

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import '../../../../presentation/providers/statistics_provider.dart';
 import '../../../../domain/models/statistics.dart';
+import '../utils/date_range_localizer.dart';
 
 class StatisticsDateSelector extends StatelessWidget {
   const StatisticsDateSelector({super.key});
@@ -27,6 +30,7 @@ class StatisticsDateSelector extends StatelessWidget {
   }
 
   Widget _buildDateRangeTypeSelector(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Consumer<StatisticsProvider>(
       builder: (context, provider, child) {
         return Container(
@@ -47,21 +51,21 @@ class StatisticsDateSelector extends StatelessWidget {
               _buildDateTypeButton(
                 context: context,
                 theme: theme,
-                label: '주간',
+                label: l10n.weekly,
                 isSelected: provider.dateRange.type == StatisticsDateRangeType.weekly,
                 onTap: () => provider.setWeeklyRange(),
               ),
               _buildDateTypeButton(
                 context: context,
                 theme: theme,
-                label: '월간',
+                label: l10n.monthly,
                 isSelected: provider.dateRange.type == StatisticsDateRangeType.monthly,
                 onTap: () => provider.setMonthlyRange(),
               ),
               _buildDateTypeButton(
                 context: context,
                 theme: theme,
-                label: '커스텀',
+                label: l10n.custom,
                 isSelected: provider.dateRange.type == StatisticsDateRangeType.custom,
                 onTap: () => _showCustomDatePicker(context, provider),
               ),
@@ -119,6 +123,7 @@ class StatisticsDateSelector extends StatelessWidget {
   }
 
   Widget _buildDateNavigation(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Consumer<StatisticsProvider>(
       builder: (context, provider, child) {
         return Container(
@@ -160,7 +165,11 @@ class StatisticsDateSelector extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          provider.dateRange.label,
+                          DateRangeLocalizer.getLocalizedLabel(
+                            l10n,
+                            provider.dateRange,
+                            Localizations.localeOf(context).toString(),
+                          ),
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w600,
                             color: theme.colorScheme.onSurface,
@@ -169,7 +178,7 @@ class StatisticsDateSelector extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${provider.dateRange.totalDays}일간',
+                          l10n.daysCount(provider.dateRange.totalDays),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurface.withOpacity(0.6),
                           ),
@@ -290,6 +299,7 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       decoration: BoxDecoration(
@@ -314,7 +324,7 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
           
           // 제목
           Text(
-            '기간 선택',
+            l10n.periodSelection,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -326,7 +336,7 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
           _buildDatePickerTile(
             context: context,
             theme: theme,
-            title: '시작일',
+            title: l10n.startDate,
             date: _startDate,
             onTap: () => _selectStartDate(context),
           ),
@@ -337,7 +347,7 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
           _buildDatePickerTile(
             context: context,
             theme: theme,
-            title: '종료일',
+            title: l10n.endDate,
             date: _endDate,
             onTap: () => _selectEndDate(context),
           ),
@@ -355,7 +365,7 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text('적용'),
+              child: Text(l10n.apply),
             ),
           ),
           
@@ -372,6 +382,7 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
     required DateTime? date,
     required VoidCallback onTap,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -400,8 +411,8 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
                     const SizedBox(height: 4),
                     Text(
                       date != null 
-                          ? '${date.year}년 ${date.month}월 ${date.day}일'
-                          : '날짜를 선택하세요',
+                          ? DateFormat.yMMMd(Localizations.localeOf(context).toString()).format(date)
+                          : l10n.pleaseSelectDate,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w500,
                         color: date != null 

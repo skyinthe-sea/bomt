@@ -33,12 +33,28 @@ class LocalizationProvider extends ChangeNotifier {
         return '한국어';
       case 'en':
         return 'English';
-      case 'zh':
-        return '中文';
       case 'ja':
         return '日本語';
       case 'hi':
         return 'हिन्दी';
+      case 'de':
+        return 'Deutsch';
+      case 'pt':
+        return 'Português';
+      case 'fr':
+        return 'Français';
+      case 'id':
+        return 'Bahasa Indonesia';
+      case 'es':
+        return 'Español';
+      case 'tl':
+        return 'Filipino';
+      case 'ru':
+        return 'Русский';
+      case 'th':
+        return 'ไทย';
+      case 'tr':
+        return 'Türkçe';
       default:
         return languageCode;
     }

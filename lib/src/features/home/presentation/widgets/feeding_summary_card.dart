@@ -126,11 +126,11 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('수유 기록을 불러오는데 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.feedingRecordsLoadFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -151,7 +151,7 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
       final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
         context: context,
         sleepProvider: widget.sleepProvider!,
-        activityName: '수유',
+        activityName: AppLocalizations.of(context)!.feeding,
         onProceed: () => _addQuickFeeding(),
       );
       
@@ -168,11 +168,11 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.check_circle, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('수유 기록이 추가되었습니다'),
+                const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.feedingRecordAdded),
               ],
             ),
             backgroundColor: Colors.blue[600],
@@ -186,11 +186,11 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('수유 기록 추가에 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.feedingRecordAddFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -262,7 +262,7 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '수유',
+                        l10n.feeding,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -279,7 +279,7 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '$count회',
+                        l10n.feedingCount(count),
                         style: theme.textTheme.headlineLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -287,7 +287,7 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
                         ),
                       ),
                       Text(
-                        '${totalAmount}ml',
+                        l10n.feedingAmount(totalAmount),
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../presentation/providers/solid_food_provider.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../services/sleep/sleep_interruption_service.dart';
@@ -128,11 +129,11 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('이유식 기록을 불러오는데 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.loadFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -154,7 +155,7 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
       final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
         context: context,
         sleepProvider: widget.sleepProvider!,
-        activityName: '이유식',
+        activityName: AppLocalizations.of(context)!.solidFood,
         onProceed: () => _addQuickSolidFood(),
       );
       
@@ -172,11 +173,11 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.check_circle, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('이유식 기록이 추가되었습니다'),
+                const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.solidFoodAdded),
               ],
             ),
             backgroundColor: Colors.green[600],
@@ -190,11 +191,11 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('이유식 기록 추가에 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.saveFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -211,6 +212,7 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final count = widget.summary['count'] ?? 0;
     final totalMeals = count;
     final totalAmount = widget.summary['totalAmount'] ?? 0;
@@ -262,7 +264,7 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '이유식',
+                        l10n.solidFood,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -279,7 +281,7 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${totalMeals}끼',
+                        l10n.solidFoodMeals(totalMeals),
                         style: theme.textTheme.headlineLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -288,7 +290,7 @@ class _SolidFoodSummaryCardState extends State<SolidFoodSummaryCard>
                       ),
                       if (totalAmount > 0)
                         Text(
-                          '${totalAmount}g',
+                          l10n.solidFoodAmount(totalAmount),
                           style: theme.textTheme.titleLarge?.copyWith(
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
