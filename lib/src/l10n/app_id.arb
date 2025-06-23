@@ -1,0 +1,420 @@
+{
+  "@@locale": "id",
+  
+  "user": "Pengguna",
+  "@user": {
+    "description": "User label"
+  },
+
+  "userInfoLoadFailed": "Gagal memuat informasi pengguna: {error}",
+  "@userInfoLoadFailed": {
+    "description": "Error message when user info loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "babyListLoadError": "Error saat memuat daftar bayi: {error}",
+  "@babyListLoadError": {
+    "description": "Error message when baby list loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "welcomeUser": "Halo, {userName}!",
+  "@welcomeUser": {
+    "description": "Welcome message with user name",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "registerBaby": "Daftarkan bayi",
+  "@registerBaby": {
+    "description": "Register baby button text"
+  },
+
+  "noBabiesRegistered": "Belum ada bayi terdaftar",
+  "@noBabiesRegistered": {
+    "description": "Message when no babies are registered"
+  },
+
+  "registerFirstBaby": "Daftarkan bayi pertama Anda!",
+  "@registerFirstBaby": {
+    "description": "Prompt to register first baby"
+  },
+
+  "settings": "Pengaturan",
+  "language": "Bahasa", 
+  "appearance": "Tampilan",
+  "darkMode": "Mode gelap",
+  "logout": "Keluar",
+  "logoutConfirm": "Yakin ingin keluar?",
+  "yes": "Ya",
+  "no": "Tidak",
+  "comingSoon": "Segera hadir",
+
+  "enterBabyInfo": "Masukkan informasi bayi",
+  "@enterBabyInfo": {
+    "description": "Baby info entry prompt"
+  },
+
+  "babyName": "Nama bayi",
+  "@babyName": {
+    "description": "Baby name field label"
+  },
+
+  "babyNameHint": "contoh: Sari",
+  "@babyNameHint": {
+    "description": "Baby name field hint"
+  },
+
+  "babyNameRequired": "Masukkan nama bayi",
+  "@babyNameRequired": {
+    "description": "Baby name required validation message"
+  },
+
+  "babyNameMinLength": "Nama harus minimal 2 karakter",
+  "@babyNameMinLength": {
+    "description": "Baby name minimum length validation"
+  },
+
+  "selectBirthdateButton": "Pilih tanggal lahir",
+  "@selectBirthdateButton": {
+    "description": "Select birthdate button text"
+  },
+
+  "selectedDate": "{day}/{month}/{year}",
+  "@selectedDate": {
+    "description": "Selected date format",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+
+  "categoryAll": "Semua",
+  "categoryPopular": "Populer",
+  "categoryClinical": "Klinis",
+  "categoryInfoSharing": "Berbagi info",
+  "categorySleepProblems": "Masalah tidur",
+  "categoryBabyFood": "Makanan bayi",
+  "categoryDevelopment": "Perkembangan",
+  "categoryVaccination": "Vaksinasi",
+  "categoryPostpartum": "Pasca melahirkan",
+  "categoryDailyLife": "Kehidupan sehari-hari",
+  "sortByLikes": "Urutkan berdasarkan like",
+  "sortByLatest": "Urutkan berdasarkan terbaru",
+  "edited": "(diedit)",
+  "commentsCount": "{count} komentar",
+  "deletePost": "Hapus postingan",
+  "deletePostConfirm": "Yakin ingin menghapus postingan ini?\\nPostingan yang dihapus tidak dapat dikembalikan.",
+  "deletePostSuccess": "Postingan dihapus.",
+  "deletePostError": "Gagal menghapus: {error}",
+  "postNotFound": "Postingan tidak ditemukan",
+  "shareFeatureComingSoon": "Fitur berbagi segera hadir",
+  "loadingComments": "Memuat komentar...",
+  "loadMoreComments": "Muat lebih banyak komentar",
+  "editComment": "Edit komentar",
+  "editCommentHint": "Edit komentar Anda...",
+  "editCommentSuccess": "Komentar diperbarui.",
+  "editCommentError": "Gagal mengedit: {error}",
+  "deleteComment": "Hapus komentar",
+  "deleteCommentConfirm": "Yakin ingin menghapus komentar ini?\\nKomentar yang dihapus tidak dapat dikembalikan.",
+  "deleteCommentSuccess": "Komentar dihapus.",
+  "replySuccess": "Balasan diposting.",
+  "commentSuccess": "Komentar diposting.",
+  "commentError": "Gagal memposting komentar.",
+  "titlePlaceholder": "Masukkan judul",
+  "contentPlaceholder": "Bagikan pemikiran Anda...\\n\\nTulis dengan bebas tentang pengalaman sebagai orang tua.",
+  "imageSelectionError": "Gagal memilih gambar: {error}",
+  "userNotFoundError": "Informasi pengguna tidak ditemukan.",
+  "postCreateSuccess": "Postingan berhasil dibuat!",
+  "postCreateError": "Gagal membuat postingan: {error}",
+  "titleCharacterCount": "Judul: {count}/200",
+  "contentCharacterCount": "Konten: {count}/10000",
+  "imageCountDisplay": "Gambar: {count}/5",
+  "addImageTooltip": "Tambahkan gambar",
+  "allPostsChecked": "Semua postingan sudah diperiksa! 👍",
+  "waitForNewPosts": "Tunggu postingan baru",
+  "noPostsYet": "Belum ada postingan",
+  "writeFirstPost": "Tulis postingan pertama!",
+  "loadingNewPosts": "Memuat postingan baru...",
+  "failedToLoadPosts": "Gagal memuat postingan",
+  "checkNetworkAndRetry": "Periksa koneksi dan coba lagi",
+  "tryAgain": "Coba lagi",
+  "selectCategory": "Pilih kategori",
+  "preparingTimeline": "Menyiapkan timeline...",
+  "noRecordedMoments": "Belum ada momen yang direkam",
+  "loadingTimeline": "Memuat timeline...",
+  "noRecordsYet": "Belum ada catatan",
+  "noRecordsForDate": "Tidak ada catatan untuk {date}",
+  "noRecordsForDateAndFilter": "Tidak ada catatan {filter} untuk {date}",
+  "cannotRecordFuture": "Belum bisa mencatat aktivitas masa depan",
+  "addFirstRecord": "Tambahkan catatan pertama Anda!",
+  "canAddPastRecord": "Anda bisa menambahkan catatan masa lalu",
+  "addRecord": "Tambahkan catatan",
+  "viewOtherDates": "Lihat tanggal lain",
+  "goToToday": "Pergi ke hari ini",
+  "quickRecordFromHome": "Anda bisa menambahkan catatan dengan cepat dari layar utama",
+  "detailViewComingSoon": "Detail {title} (Segera hadir)",
+  "@detailViewComingSoon": {
+    "description": "Timeline item detail view coming soon message",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "familyInvitation": "Undangan keluarga",
+  "familyInvitationDescription": "Kelola catatan perawatan bayi bersama keluarga melalui kode undangan",
+  "babyManagement": "Manajemen bayi",
+  "addBaby": "Tambahkan bayi",
+  "noBabiesMessage": "Belum ada bayi terdaftar.\\nSilakan tambahkan bayi.",
+  "switchToNextBaby": "Beralih ke bayi berikutnya",
+  "gender": "Jenis kelamin",
+  "male": "Laki-laki",
+  "female": "Perempuan",
+  "birthDate": "Tanggal lahir",
+  "registering": "Mendaftar...",
+  "cancel": "Batal",
+  "register": "Daftar",
+  "pleaseEnterBabyName": "Masukkan nama bayi",
+  "careTogetherWith": "Merawat bayi bersama {name}",
+  "@careTogetherWith": {
+    "description": "Take care together message with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteFamilyDescription": "Undang keluarga atau pasangan\\nuntuk mengelola catatan perawatan bayi bersama",
+  "generateInviteCode": "Buat kode undangan",
+  "generateInviteCodeDescription": "Buat kode undangan baru dan salin",
+  "generateInviteCodeButton": "Buat kode undangan",
+  "orText": "Atau",
+  "joinWithInviteCode": "Bergabung dengan kode undangan",
+  "enterInviteCodeDescription": "Masukkan kode undangan yang diterima",
+  "inviteCodePlaceholder": "Kode undangan (6 digit)",
+  "acceptInvite": "Terima undangan",
+  "loadingBabyInfo": "Memuat informasi bayi...",
+  "babyRegistrationSuccess": "{name} berhasil didaftarkan",
+  "@babyRegistrationSuccess": {
+    "description": "Baby registration success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyRegistrationFailed": "Gagal mendaftarkan bayi",
+  "babyRegistrationError": "Terjadi kesalahan: {error}",
+  "@babyRegistrationError": {
+    "description": "Baby registration error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "babySelected": "{name} telah dipilih",
+  "@babySelected": {
+    "description": "Baby selection message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteCodeGenerated": "Kode undangan dibuat!",
+  "remainingTime": "Waktu tersisa: {time}",
+  "@remainingTime": {
+    "description": "Remaining time message",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "validTime": "Waktu berlaku: 5 menit",
+  "generating": "Membuat...",
+  "joining": "Bergabung...",
+  "noBabyInfo": "Tidak ada info bayi",
+  "noBabyInfoDescription": "Informasi bayi tidak ditemukan.\\nIngin membuat bayi percobaan?",
+  "create": "Buat",
+  "generateNewInviteCode": "Buat kode undangan baru",
+  "replaceExistingCode": "Ini akan mengganti kode undangan yang ada.\\nIngin lanjutkan?",
+  "confirm": "Konfirmasi",
+  "acceptInvitation": "Terima undangan",
+  "acceptInvitationDescription": "Ingin menerima undangan dan bergabung dengan keluarga?",
+  "acceptInvitationWarning": "Catatan bayi yang ada akan dihapus dan diganti dengan bayi yang diundang ({babyName}).\\n\\nIngin lanjutkan?",
+  "@acceptInvitationWarning": {
+    "description": "Warning message when accepting invitation",
+    "placeholders": {
+      "babyName": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseEnterInviteCode": "Masukkan kode undangan",
+  "inviteCodeMustBe6Digits": "Kode undangan harus 6 digit",
+  "pleaseLoginFirst": "Informasi login tidak ditemukan. Silakan login terlebih dahulu.",
+  "copiedToClipboard": "Kode undangan disalin!",
+  "joinedSuccessfully": "Berhasil bergabung dengan keluarga!",
+  "inviteCodeExpired": "Kode undangan kedaluwarsa",
+  "invalidInviteCode": "Kode undangan tidak valid",
+  "alreadyMember": "Anda sudah menjadi anggota keluarga ini",
+  "cannotInviteSelf": "Anda tidak bisa mengundang diri sendiri",
+  "minutesAndSeconds": "{minutes}mnt {seconds}dtk",
+  "@minutesAndSeconds": {
+    "description": "Time format for remaining time",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "babyGuideTitle": "Panduan perawatan {name}",
+  "@babyGuideTitle": {
+    "description": "Baby guide title with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyGuide": "Panduan bayi",
+  "noAvailableGuides": "Tidak ada panduan tersedia",
+  "current": "Saat ini",
+  "past": "Sudah lewat",
+  "upcoming": "Akan datang",
+  "babysGuide": "{name}",
+  "@babysGuide": {
+    "description": "Possessive form of baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "weekGuide": "Panduan {weekText}",
+  "@weekGuide": {
+    "description": "Week guide title",
+    "placeholders": {
+      "weekText": {
+        "type": "String"
+      }
+    }
+  },
+  "feedingGuide": "💡 Panduan menyusui",
+  "feedingFrequency": "Frekuensi menyusui",
+  "singleFeedingAmount": "Jumlah per menyusui",
+  "dailyTotal": "Total harian",
+  "additionalTips": "📋 Tips tambahan",
+  "understood": "Mengerti!",
+  "newborn": "Bayi baru lahir",
+  "weekNumber": "Minggu {number}",
+  "@weekNumber": {
+    "description": "Week number format",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "newbornWeek0": "Bayi baru lahir (Minggu 0)",
+  "dailyFrequencyRange": "Harian {min} - {max} kali",
+  "@dailyFrequencyRange": {
+    "description": "Daily frequency range format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMin": "Harian {min}+ kali",
+  "@dailyFrequencyMin": {
+    "description": "Daily minimum frequency format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMax": "Harian sampai {max} kali",
+  "@dailyFrequencyMax": {
+    "description": "Daily maximum frequency format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountRangeML": "{min}ml - {max}ml",
+  "@amountRangeML": {
+    "description": "Amount range in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMinML": "{min}ml atau lebih",
+  "@amountMinML": {
+    "description": "Minimum amount in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMaxML": "Sampai {max}ml",
+  "@amountMaxML": {
+    "description": "Maximum amount in ml format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "languageSelection": "Pilihan Bahasa",
+  "@languageSelection": {
+    "description": "Language selection screen title"
+  },
+  
+  "selectLanguage": "Pilih bahasa",
+  "@selectLanguage": {
+    "description": "Instruction to select a language"
+  },
+  
+  "currentLanguage": "Bahasa saat ini",
+  "@currentLanguage": {
+    "description": "Current language label"
+  }
+}

@@ -1,0 +1,420 @@
+{
+  "@@locale": "th",
+  
+  "user": "ผู้ใช้",
+  "@user": {
+    "description": "User label"
+  },
+
+  "userInfoLoadFailed": "โหลดข้อมูลผู้ใช้ไม่สำเร็จ: {error}",
+  "@userInfoLoadFailed": {
+    "description": "Error message when user info loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "babyListLoadError": "ข้อผิดพลาดในการโหลดรายการลูก: {error}",
+  "@babyListLoadError": {
+    "description": "Error message when baby list loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "welcomeUser": "สวัสดี {userName}!",
+  "@welcomeUser": {
+    "description": "Welcome message with user name",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "registerBaby": "ลงทะเบียนลูก",
+  "@registerBaby": {
+    "description": "Register baby button text"
+  },
+
+  "noBabiesRegistered": "ยังไม่มีลูกที่ลงทะเบียน",
+  "@noBabiesRegistered": {
+    "description": "Message when no babies are registered"
+  },
+
+  "registerFirstBaby": "ลงทะเบียนลูกคนแรกของคุณ!",
+  "@registerFirstBaby": {
+    "description": "Prompt to register first baby"
+  },
+
+  "settings": "การตั้งค่า",
+  "language": "ภาษา", 
+  "appearance": "รูปลักษณ์",
+  "darkMode": "โหมดมืด",
+  "logout": "ออกจากระบบ",
+  "logoutConfirm": "คุณแน่ใจว่าต้องการออกจากระบบ?",
+  "yes": "ใช่",
+  "no": "ไม่",
+  "comingSoon": "เร็วๆ นี้",
+
+  "enterBabyInfo": "กรุณากรอกข้อมูลลูก",
+  "@enterBabyInfo": {
+    "description": "Baby info entry prompt"
+  },
+
+  "babyName": "ชื่อลูก",
+  "@babyName": {
+    "description": "Baby name field label"
+  },
+
+  "babyNameHint": "เช่น: น้องมิ้น",
+  "@babyNameHint": {
+    "description": "Baby name field hint"
+  },
+
+  "babyNameRequired": "กรุณากรอกชื่อลูก",
+  "@babyNameRequired": {
+    "description": "Baby name required validation message"
+  },
+
+  "babyNameMinLength": "ชื่อต้องมีอย่างน้อย 2 ตัวอักษร",
+  "@babyNameMinLength": {
+    "description": "Baby name minimum length validation"
+  },
+
+  "selectBirthdateButton": "เลือกวันเกิด",
+  "@selectBirthdateButton": {
+    "description": "Select birthdate button text"
+  },
+
+  "selectedDate": "{day}/{month}/{year}",
+  "@selectedDate": {
+    "description": "Selected date format",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+
+  "categoryAll": "ทั้งหมด",
+  "categoryPopular": "ยอดนิยม",
+  "categoryClinical": "คลินิก",
+  "categoryInfoSharing": "แบ่งปันข้อมูล",
+  "categorySleepProblems": "ปัญหาการนอน",
+  "categoryBabyFood": "อาหารเด็ก",
+  "categoryDevelopment": "พัฒนาการ",
+  "categoryVaccination": "การฉีดวัคซีน",
+  "categoryPostpartum": "หลังคลอด",
+  "categoryDailyLife": "ชีวิตประจำวัน",
+  "sortByLikes": "เรียงตามไลค์",
+  "sortByLatest": "เรียงตามล่าสุด",
+  "edited": "(แก้ไขแล้ว)",
+  "commentsCount": "{count} ความคิดเห็น",
+  "deletePost": "ลบโพสต์",
+  "deletePostConfirm": "คุณแน่ใจว่าต้องการลบโพสต์นี้?\\nโพสต์ที่ลบแล้วไม่สามารถกู้คืนได้",
+  "deletePostSuccess": "ลบโพสต์แล้ว",
+  "deletePostError": "ลบไม่สำเร็จ: {error}",
+  "postNotFound": "ไม่พบโพสต์",
+  "shareFeatureComingSoon": "ฟีเจอร์แชร์เร็วๆ นี้",
+  "loadingComments": "กำลังโหลดความคิดเห็น...",
+  "loadMoreComments": "โหลดความคิดเห็นเพิ่มเติม",
+  "editComment": "แก้ไขความคิดเห็น",
+  "editCommentHint": "แก้ไขความคิดเห็นของคุณ...",
+  "editCommentSuccess": "อัปเดตความคิดเห็นแล้ว",
+  "editCommentError": "แก้ไขไม่สำเร็จ: {error}",
+  "deleteComment": "ลบความคิดเห็น",
+  "deleteCommentConfirm": "คุณแน่ใจว่าต้องการลบความคิดเห็นนี้?\\nความคิดเห็นที่ลบแล้วไม่สามารถกู้คืนได้",
+  "deleteCommentSuccess": "ลบความคิดเห็นแล้ว",
+  "replySuccess": "โพสต์การตอบกลับแล้ว",
+  "commentSuccess": "โพสต์ความคิดเห็นแล้ว",
+  "commentError": "โพสต์ความคิดเห็นไม่สำเร็จ",
+  "titlePlaceholder": "กรอกหัวข้อ",
+  "contentPlaceholder": "แบ่งปันความคิดของคุณ...\\n\\nเขียนเกี่ยวกับประสบการณ์การเป็นพ่อแม่ได้อย่างอิสระ",
+  "imageSelectionError": "เลือกรูปภาพไม่สำเร็จ: {error}",
+  "userNotFoundError": "ไม่พบข้อมูลผู้ใช้",
+  "postCreateSuccess": "สร้างโพสต์สำเร็จ!",
+  "postCreateError": "สร้างโพสต์ไม่สำเร็จ: {error}",
+  "titleCharacterCount": "หัวข้อ: {count}/200",
+  "contentCharacterCount": "เนื้อหา: {count}/10000",
+  "imageCountDisplay": "รูปภาพ: {count}/5",
+  "addImageTooltip": "เพิ่มรูปภาพ",
+  "allPostsChecked": "ตรวจสอบโพสต์ทั้งหมดแล้ว! 👍",
+  "waitForNewPosts": "รอโพสต์ใหม่",
+  "noPostsYet": "ยังไม่มีโพสต์",
+  "writeFirstPost": "เขียนโพสต์แรก!",
+  "loadingNewPosts": "กำลังโหลดโพสต์ใหม่...",
+  "failedToLoadPosts": "โหลดโพสต์ไม่สำเร็จ",
+  "checkNetworkAndRetry": "ตรวจสอบการเชื่อมต่อและลองใหม่",
+  "tryAgain": "ลองใหม่",
+  "selectCategory": "เลือกหมวดหมู่",
+  "preparingTimeline": "กำลังเตรียมไทม์ไลน์...",
+  "noRecordedMoments": "ยังไม่มีช่วงเวลาที่บันทึกไว้",
+  "loadingTimeline": "กำลังโหลดไทม์ไลน์...",
+  "noRecordsYet": "ยังไม่มีบันทึก",
+  "noRecordsForDate": "ไม่มีบันทึกสำหรับ {date}",
+  "noRecordsForDateAndFilter": "ไม่มีบันทึก {filter} สำหรับ {date}",
+  "cannotRecordFuture": "ยังไม่สามารถบันทึกกิจกรรมอนาคตได้",
+  "addFirstRecord": "เพิ่มบันทึกแรกของคุณ!",
+  "canAddPastRecord": "คุณสามารถเพิ่มบันทึกในอดีตได้",
+  "addRecord": "เพิ่มบันทึก",
+  "viewOtherDates": "ดูวันที่อื่น",
+  "goToToday": "ไปยังวันนี้",
+  "quickRecordFromHome": "คุณสามารถเพิ่มบันทึกได้อย่างรวดเร็วจากหน้าหลัก",
+  "detailViewComingSoon": "รายละเอียด {title} (เร็วๆ นี้)",
+  "@detailViewComingSoon": {
+    "description": "Timeline item detail view coming soon message",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "familyInvitation": "การเชิญครอบครัว",
+  "familyInvitationDescription": "จัดการบันทึกการดูแลลูกร่วมกับครอบครัวผ่านรหัสเชิญ",
+  "babyManagement": "การจัดการลูก",
+  "addBaby": "เพิ่มลูก",
+  "noBabiesMessage": "ยังไม่มีลูกที่ลงทะเบียน\\nกรุณาเพิ่มลูก",
+  "switchToNextBaby": "เปลี่ยนไปลูกคนต่อไป",
+  "gender": "เพศ",
+  "male": "ชาย",
+  "female": "หญิง",
+  "birthDate": "วันเกิด",
+  "registering": "กำลังลงทะเบียน...",
+  "cancel": "ยกเลิก",
+  "register": "ลงทะเบียน",
+  "pleaseEnterBabyName": "กรุณากรอกชื่อลูก",
+  "careTogetherWith": "ดูแลลูกร่วมกับ {name}",
+  "@careTogetherWith": {
+    "description": "Take care together message with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteFamilyDescription": "เชิญครอบครัวหรือคู่ครอง\\nเพื่อจัดการบันทึกการดูแลลูกร่วมกัน",
+  "generateInviteCode": "สร้างรหัสเชิญ",
+  "generateInviteCodeDescription": "สร้างรหัสเชิญใหม่และคัดลอก",
+  "generateInviteCodeButton": "สร้างรหัสเชิญ",
+  "orText": "หรือ",
+  "joinWithInviteCode": "เข้าร่วมด้วยรหัสเชิญ",
+  "enterInviteCodeDescription": "กรุณากรอกรหัสเชิญที่ได้รับ",
+  "inviteCodePlaceholder": "รหัสเชิญ (6 หลัก)",
+  "acceptInvite": "ยอมรับคำเชิญ",
+  "loadingBabyInfo": "กำลังโหลดข้อมูลลูก...",
+  "babyRegistrationSuccess": "ลงทะเบียน {name} สำเร็จแล้ว",
+  "@babyRegistrationSuccess": {
+    "description": "Baby registration success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyRegistrationFailed": "ลงทะเบียนลูกไม่สำเร็จ",
+  "babyRegistrationError": "เกิดข้อผิดพลาด: {error}",
+  "@babyRegistrationError": {
+    "description": "Baby registration error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "babySelected": "เลือก {name} แล้ว",
+  "@babySelected": {
+    "description": "Baby selection message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteCodeGenerated": "สร้างรหัสเชิญแล้ว!",
+  "remainingTime": "เวลาที่เหลือ: {time}",
+  "@remainingTime": {
+    "description": "Remaining time message",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "validTime": "เวลาที่ใช้ได้: 5 นาที",
+  "generating": "กำลังสร้าง...",
+  "joining": "กำลังเข้าร่วม...",
+  "noBabyInfo": "ไม่มีข้อมูลลูก",
+  "noBabyInfoDescription": "ไม่พบข้อมูลลูก\\nต้องการสร้างลูกทดสอบหรือไม่?",
+  "create": "สร้าง",
+  "generateNewInviteCode": "สร้างรหัสเชิญใหม่",
+  "replaceExistingCode": "นี่จะแทนที่รหัสเชิญที่มีอยู่\\nต้องการดำเนินการต่อหรือไม่?",
+  "confirm": "ยืนยัน",
+  "acceptInvitation": "ยอมรับคำเชิญ",
+  "acceptInvitationDescription": "ต้องการยอมรับคำเชิญและเข้าร่วมครอบครัวหรือไม่?",
+  "acceptInvitationWarning": "บันทึกลูกที่มีอยู่จะถูกลบและแทนที่ด้วยลูกที่เชิญ ({babyName})\\n\\nต้องการดำเนินการต่อหรือไม่?",
+  "@acceptInvitationWarning": {
+    "description": "Warning message when accepting invitation",
+    "placeholders": {
+      "babyName": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseEnterInviteCode": "กรุณากรอกรหัสเชิญ",
+  "inviteCodeMustBe6Digits": "รหัสเชิญต้องมี 6 หลัก",
+  "pleaseLoginFirst": "ไม่พบข้อมูลการเข้าสู่ระบบ กรุณาเข้าสู่ระบบก่อน",
+  "copiedToClipboard": "คัดลอกรหัสเชิญแล้ว!",
+  "joinedSuccessfully": "เข้าร่วมครอบครัวสำเร็จ!",
+  "inviteCodeExpired": "รหัสเชิญหมดอายุแล้ว",
+  "invalidInviteCode": "รหัสเชิญไม่ถูกต้อง",
+  "alreadyMember": "คุณเป็นสมาชิกของครอบครัวนี้แล้ว",
+  "cannotInviteSelf": "คุณไม่สามารถเชิญตัวเองได้",
+  "minutesAndSeconds": "{minutes}นาที {seconds}วินาที",
+  "@minutesAndSeconds": {
+    "description": "Time format for remaining time",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "babyGuideTitle": "คู่มือการดูแล {name}",
+  "@babyGuideTitle": {
+    "description": "Baby guide title with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyGuide": "คู่มือลูก",
+  "noAvailableGuides": "ไม่มีคู่มือที่พร้อมใช้งาน",
+  "current": "ปัจจุบัน",
+  "past": "ผ่านมาแล้ว",
+  "upcoming": "กำลังจะมาถึง",
+  "babysGuide": "ของ {name}",
+  "@babysGuide": {
+    "description": "Possessive form of baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "weekGuide": "คู่มือ {weekText}",
+  "@weekGuide": {
+    "description": "Week guide title",
+    "placeholders": {
+      "weekText": {
+        "type": "String"
+      }
+    }
+  },
+  "feedingGuide": "💡 คู่มือการให้นม",
+  "feedingFrequency": "ความถี่ในการให้นม",
+  "singleFeedingAmount": "ปริมาณต่อมื้อ",
+  "dailyTotal": "รวมต่อวัน",
+  "additionalTips": "📋 เคล็ดลับเพิ่มเติม",
+  "understood": "เข้าใจแล้ว!",
+  "newborn": "ทารกแรกเกิด",
+  "weekNumber": "สัปดาห์ที่ {number}",
+  "@weekNumber": {
+    "description": "Week number format",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "newbornWeek0": "ทารกแรกเกิด (สัปดาห์ที่ 0)",
+  "dailyFrequencyRange": "วันละ {min} - {max} ครั้ง",
+  "@dailyFrequencyRange": {
+    "description": "Daily frequency range format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMin": "วันละ {min}+ ครั้ง",
+  "@dailyFrequencyMin": {
+    "description": "Daily minimum frequency format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMax": "วันละสูงสุด {max} ครั้ง",
+  "@dailyFrequencyMax": {
+    "description": "Daily maximum frequency format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountRangeML": "{min}มล. - {max}มล.",
+  "@amountRangeML": {
+    "description": "Amount range in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMinML": "{min}มล. หรือมากกว่า",
+  "@amountMinML": {
+    "description": "Minimum amount in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMaxML": "สูงสุด {max}มล.",
+  "@amountMaxML": {
+    "description": "Maximum amount in ml format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "languageSelection": "การเลือกภาษา",
+  "@languageSelection": {
+    "description": "Language selection screen title"
+  },
+  
+  "selectLanguage": "เลือกภาษา",
+  "@selectLanguage": {
+    "description": "Instruction to select a language"
+  },
+  
+  "currentLanguage": "ภาษาปัจจุบัน",
+  "@currentLanguage": {
+    "description": "Current language label"
+  }
+}

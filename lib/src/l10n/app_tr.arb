@@ -1,0 +1,420 @@
+{
+  "@@locale": "tr",
+  
+  "user": "Kullanıcı",
+  "@user": {
+    "description": "User label"
+  },
+
+  "userInfoLoadFailed": "Kullanıcı bilgileri yüklenemedi: {error}",
+  "@userInfoLoadFailed": {
+    "description": "Error message when user info loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "babyListLoadError": "Bebek listesi yüklenirken hata: {error}",
+  "@babyListLoadError": {
+    "description": "Error message when baby list loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "welcomeUser": "Merhaba {userName}!",
+  "@welcomeUser": {
+    "description": "Welcome message with user name",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "registerBaby": "Bebek kaydet",
+  "@registerBaby": {
+    "description": "Register baby button text"
+  },
+
+  "noBabiesRegistered": "Kayıtlı bebek yok",
+  "@noBabiesRegistered": {
+    "description": "Message when no babies are registered"
+  },
+
+  "registerFirstBaby": "İlk bebeğinizi kaydedin!",
+  "@registerFirstBaby": {
+    "description": "Prompt to register first baby"
+  },
+
+  "settings": "Ayarlar",
+  "language": "Dil", 
+  "appearance": "Görünüm",
+  "darkMode": "Karanlık mod",
+  "logout": "Çıkış yap",
+  "logoutConfirm": "Çıkış yapmak istediğinizden emin misiniz?",
+  "yes": "Evet",
+  "no": "Hayır",
+  "comingSoon": "Yakında",
+
+  "enterBabyInfo": "Bebek bilgilerini girin",
+  "@enterBabyInfo": {
+    "description": "Baby info entry prompt"
+  },
+
+  "babyName": "Bebek adı",
+  "@babyName": {
+    "description": "Baby name field label"
+  },
+
+  "babyNameHint": "örn: Elif",
+  "@babyNameHint": {
+    "description": "Baby name field hint"
+  },
+
+  "babyNameRequired": "Bebek adını girin",
+  "@babyNameRequired": {
+    "description": "Baby name required validation message"
+  },
+
+  "babyNameMinLength": "Ad en az 2 karakter olmalı",
+  "@babyNameMinLength": {
+    "description": "Baby name minimum length validation"
+  },
+
+  "selectBirthdateButton": "Doğum tarihini seç",
+  "@selectBirthdateButton": {
+    "description": "Select birthdate button text"
+  },
+
+  "selectedDate": "{day}.{month}.{year}",
+  "@selectedDate": {
+    "description": "Selected date format",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+
+  "categoryAll": "Tümü",
+  "categoryPopular": "Popüler",
+  "categoryClinical": "Klinik",
+  "categoryInfoSharing": "Bilgi paylaşımı",
+  "categorySleepProblems": "Uyku sorunları",
+  "categoryBabyFood": "Bebek maması",
+  "categoryDevelopment": "Gelişim",
+  "categoryVaccination": "Aşılama",
+  "categoryPostpartum": "Doğum sonrası",
+  "categoryDailyLife": "Günlük hayat",
+  "sortByLikes": "Beğeniye göre sırala",
+  "sortByLatest": "En yeniye göre sırala",
+  "edited": "(düzenlendi)",
+  "commentsCount": "{count} yorum",
+  "deletePost": "Gönderisini sil",
+  "deletePostConfirm": "Bu gönderiyi silmek istediğinizden emin misiniz?\\nSilinen gönderiler geri alınamaz.",
+  "deletePostSuccess": "Gönderi silindi.",
+  "deletePostError": "Silme başarısız: {error}",
+  "postNotFound": "Gönderi bulunamadı",
+  "shareFeatureComingSoon": "Paylaşım özelliği yakında",
+  "loadingComments": "Yorumlar yükleniyor...",
+  "loadMoreComments": "Daha fazla yorum yükle",
+  "editComment": "Yorumu düzenle",
+  "editCommentHint": "Yorumunuzu düzenleyin...",
+  "editCommentSuccess": "Yorum güncellendi.",
+  "editCommentError": "Düzenleme başarısız: {error}",
+  "deleteComment": "Yorumu sil",
+  "deleteCommentConfirm": "Bu yorumu silmek istediğinizden emin misiniz?\\nSilinen yorumlar geri alınamaz.",
+  "deleteCommentSuccess": "Yorum silindi.",
+  "replySuccess": "Yanıt gönderildi.",
+  "commentSuccess": "Yorum gönderildi.",
+  "commentError": "Yorum gönderilemedi.",
+  "titlePlaceholder": "Başlık girin",
+  "contentPlaceholder": "Düşüncelerinizi paylaşın...\\n\\nEbeveynlik deneyimleriniz hakkında özgürce yazın.",
+  "imageSelectionError": "Resim seçimi başarısız: {error}",
+  "userNotFoundError": "Kullanıcı bilgileri bulunamadı.",
+  "postCreateSuccess": "Gönderi başarıyla oluşturuldu!",
+  "postCreateError": "Gönderi oluşturulamadı: {error}",
+  "titleCharacterCount": "Başlık: {count}/200",
+  "contentCharacterCount": "İçerik: {count}/10000",
+  "imageCountDisplay": "Resimler: {count}/5",
+  "addImageTooltip": "Resim ekle",
+  "allPostsChecked": "Tüm gönderiler kontrol edildi! 👍",
+  "waitForNewPosts": "Yeni gönderileri bekleyin",
+  "noPostsYet": "Henüz gönderi yok",
+  "writeFirstPost": "İlk gönderiyi yazın!",
+  "loadingNewPosts": "Yeni gönderiler yükleniyor...",
+  "failedToLoadPosts": "Gönderiler yüklenemedi",
+  "checkNetworkAndRetry": "Bağlantınızı kontrol edin ve tekrar deneyin",
+  "tryAgain": "Tekrar dene",
+  "selectCategory": "Kategori seç",
+  "preparingTimeline": "Zaman çizelgesi hazırlanıyor...",
+  "noRecordedMoments": "Henüz kayıtlı anlar yok",
+  "loadingTimeline": "Zaman çizelgesi yükleniyor...",
+  "noRecordsYet": "Henüz kayıt yok",
+  "noRecordsForDate": "{date} için kayıt yok",
+  "noRecordsForDateAndFilter": "{date} için {filter} kaydı yok",
+  "cannotRecordFuture": "Gelecekteki aktiviteler henüz kaydedilemez",
+  "addFirstRecord": "İlk kaydınızı ekleyin!",
+  "canAddPastRecord": "Geçmiş kayıtları ekleyebilirsiniz",
+  "addRecord": "Kayıt ekle",
+  "viewOtherDates": "Diğer tarihleri görüntüle",
+  "goToToday": "Bugüne git",
+  "quickRecordFromHome": "Ana ekrandan hızlıca kayıt ekleyebilirsiniz",
+  "detailViewComingSoon": "{title} detayları (Yakında)",
+  "@detailViewComingSoon": {
+    "description": "Timeline item detail view coming soon message",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "familyInvitation": "Aile daveti",
+  "familyInvitationDescription": "Davet kodları ile aile ile birlikte bebek bakımı kayıtlarını yönetin",
+  "babyManagement": "Bebek yönetimi",
+  "addBaby": "Bebek ekle",
+  "noBabiesMessage": "Kayıtlı bebek yok.\\nLütfen bir bebek ekleyin.",
+  "switchToNextBaby": "Sonraki bebeğe geç",
+  "gender": "Cinsiyet",
+  "male": "Erkek",
+  "female": "Kız",
+  "birthDate": "Doğum tarihi",
+  "registering": "Kaydediliyor...",
+  "cancel": "İptal",
+  "register": "Kaydet",
+  "pleaseEnterBabyName": "Bebek adını girin",
+  "careTogetherWith": "{name} ile birlikte bebek bakımı",
+  "@careTogetherWith": {
+    "description": "Take care together message with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteFamilyDescription": "Bebek bakımı kayıtlarını birlikte yönetmek için\\naile veya eşinizi davet edin",
+  "generateInviteCode": "Davet kodu oluştur",
+  "generateInviteCodeDescription": "Yeni davet kodu oluşturun ve kopyalayın",
+  "generateInviteCodeButton": "Davet kodu oluştur",
+  "orText": "Veya",
+  "joinWithInviteCode": "Davet koduyla katıl",
+  "enterInviteCodeDescription": "Aldığınız davet kodunu girin",
+  "inviteCodePlaceholder": "Davet kodu (6 haneli)",
+  "acceptInvite": "Daveti kabul et",
+  "loadingBabyInfo": "Bebek bilgileri yükleniyor...",
+  "babyRegistrationSuccess": "{name} başarıyla kaydedildi",
+  "@babyRegistrationSuccess": {
+    "description": "Baby registration success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyRegistrationFailed": "Bebek kaydı başarısız",
+  "babyRegistrationError": "Hata oluştu: {error}",
+  "@babyRegistrationError": {
+    "description": "Baby registration error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "babySelected": "{name} seçildi",
+  "@babySelected": {
+    "description": "Baby selection message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteCodeGenerated": "Davet kodu oluşturuldu!",
+  "remainingTime": "Kalan süre: {time}",
+  "@remainingTime": {
+    "description": "Remaining time message",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "validTime": "Geçerlilik süresi: 5 dakika",
+  "generating": "Oluşturuluyor...",
+  "joining": "Katılıyor...",
+  "noBabyInfo": "Bebek bilgisi yok",
+  "noBabyInfoDescription": "Bebek bilgisi bulunamadı.\\nTest bebeği oluşturmak ister misiniz?",
+  "create": "Oluştur",
+  "generateNewInviteCode": "Yeni davet kodu oluştur",
+  "replaceExistingCode": "Bu mevcut davet kodunu değiştirecek.\\nDevam etmek istiyor musunuz?",
+  "confirm": "Onayla",
+  "acceptInvitation": "Daveti kabul et",
+  "acceptInvitationDescription": "Daveti kabul edip aileye katılmak istiyor musunuz?",
+  "acceptInvitationWarning": "Mevcut bebek kayıtları silinecek ve davet edilen bebek ({babyName}) ile değiştirilecek.\\n\\nDevam etmek istiyor musunuz?",
+  "@acceptInvitationWarning": {
+    "description": "Warning message when accepting invitation",
+    "placeholders": {
+      "babyName": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseEnterInviteCode": "Davet kodunu girin",
+  "inviteCodeMustBe6Digits": "Davet kodu 6 haneli olmalı",
+  "pleaseLoginFirst": "Giriş bilgileri bulunamadı. Lütfen önce giriş yapın.",
+  "copiedToClipboard": "Davet kodu kopyalandı!",
+  "joinedSuccessfully": "Başarıyla aileye katıldınız!",
+  "inviteCodeExpired": "Davet kodu süresi dolmuş",
+  "invalidInviteCode": "Geçersiz davet kodu",
+  "alreadyMember": "Zaten bu ailenin üyesisiniz",
+  "cannotInviteSelf": "Kendinizi davet edemezsiniz",
+  "minutesAndSeconds": "{minutes}dk {seconds}sn",
+  "@minutesAndSeconds": {
+    "description": "Time format for remaining time",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "babyGuideTitle": "{name}'in bakım rehberi",
+  "@babyGuideTitle": {
+    "description": "Baby guide title with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyGuide": "Bebek rehberi",
+  "noAvailableGuides": "Mevcut rehber yok",
+  "current": "Mevcut",
+  "past": "Geçmiş",
+  "upcoming": "Gelecek",
+  "babysGuide": "{name}'in",
+  "@babysGuide": {
+    "description": "Possessive form of baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "weekGuide": "{weekText} rehberi",
+  "@weekGuide": {
+    "description": "Week guide title",
+    "placeholders": {
+      "weekText": {
+        "type": "String"
+      }
+    }
+  },
+  "feedingGuide": "💡 Beslenme rehberi",
+  "feedingFrequency": "Beslenme sıklığı",
+  "singleFeedingAmount": "Öğün başına miktar",
+  "dailyTotal": "Günlük toplam",
+  "additionalTips": "📋 Ek ipuçları",
+  "understood": "Anladım!",
+  "newborn": "Yenidoğan",
+  "weekNumber": "Hafta {number}",
+  "@weekNumber": {
+    "description": "Week number format",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "newbornWeek0": "Yenidoğan (Hafta 0)",
+  "dailyFrequencyRange": "Günde {min} - {max} kez",
+  "@dailyFrequencyRange": {
+    "description": "Daily frequency range format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMin": "Günde {min}+ kez",
+  "@dailyFrequencyMin": {
+    "description": "Daily minimum frequency format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMax": "Günde en fazla {max} kez",
+  "@dailyFrequencyMax": {
+    "description": "Daily maximum frequency format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountRangeML": "{min}ml - {max}ml",
+  "@amountRangeML": {
+    "description": "Amount range in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMinML": "{min}ml veya daha fazla",
+  "@amountMinML": {
+    "description": "Minimum amount in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMaxML": "En fazla {max}ml",
+  "@amountMaxML": {
+    "description": "Maximum amount in ml format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "languageSelection": "Dil Seçimi",
+  "@languageSelection": {
+    "description": "Language selection screen title"
+  },
+  
+  "selectLanguage": "Bir dil seçin",
+  "@selectLanguage": {
+    "description": "Instruction to select a language"
+  },
+  
+  "currentLanguage": "Mevcut dil",
+  "@currentLanguage": {
+    "description": "Current language label"
+  }
+}

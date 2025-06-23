@@ -1,0 +1,420 @@
+{
+  "@@locale": "ru",
+  
+  "user": "Пользователь",
+  "@user": {
+    "description": "User label"
+  },
+
+  "userInfoLoadFailed": "Ошибка загрузки информации пользователя: {error}",
+  "@userInfoLoadFailed": {
+    "description": "Error message when user info loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "babyListLoadError": "Ошибка загрузки списка детей: {error}",
+  "@babyListLoadError": {
+    "description": "Error message when baby list loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "welcomeUser": "Привет, {userName}!",
+  "@welcomeUser": {
+    "description": "Welcome message with user name",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "registerBaby": "Зарегистрировать ребёнка",
+  "@registerBaby": {
+    "description": "Register baby button text"
+  },
+
+  "noBabiesRegistered": "Дети не зарегистрированы",
+  "@noBabiesRegistered": {
+    "description": "Message when no babies are registered"
+  },
+
+  "registerFirstBaby": "Зарегистрируйте вашего первого ребёнка!",
+  "@registerFirstBaby": {
+    "description": "Prompt to register first baby"
+  },
+
+  "settings": "Настройки",
+  "language": "Язык", 
+  "appearance": "Оформление",
+  "darkMode": "Тёмная тема",
+  "logout": "Выйти",
+  "logoutConfirm": "Вы уверены, что хотите выйти?",
+  "yes": "Да",
+  "no": "Нет",
+  "comingSoon": "Скоро",
+
+  "enterBabyInfo": "Введите информацию о ребёнке",
+  "@enterBabyInfo": {
+    "description": "Baby info entry prompt"
+  },
+
+  "babyName": "Имя ребёнка",
+  "@babyName": {
+    "description": "Baby name field label"
+  },
+
+  "babyNameHint": "например: Анна",
+  "@babyNameHint": {
+    "description": "Baby name field hint"
+  },
+
+  "babyNameRequired": "Введите имя ребёнка",
+  "@babyNameRequired": {
+    "description": "Baby name required validation message"
+  },
+
+  "babyNameMinLength": "Имя должно содержать минимум 2 символа",
+  "@babyNameMinLength": {
+    "description": "Baby name minimum length validation"
+  },
+
+  "selectBirthdateButton": "Выберите дату рождения",
+  "@selectBirthdateButton": {
+    "description": "Select birthdate button text"
+  },
+
+  "selectedDate": "{day}.{month}.{year}",
+  "@selectedDate": {
+    "description": "Selected date format",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+
+  "categoryAll": "Все",
+  "categoryPopular": "Популярные",
+  "categoryClinical": "Клинические",
+  "categoryInfoSharing": "Обмен информацией",
+  "categorySleepProblems": "Проблемы со сном",
+  "categoryBabyFood": "Детское питание",
+  "categoryDevelopment": "Развитие",
+  "categoryVaccination": "Вакцинация",
+  "categoryPostpartum": "Послеродовой период",
+  "categoryDailyLife": "Повседневная жизнь",
+  "sortByLikes": "Сортировать по лайкам",
+  "sortByLatest": "Сортировать по новизне",
+  "edited": "(отредактировано)",
+  "commentsCount": "{count} комментариев",
+  "deletePost": "Удалить пост",
+  "deletePostConfirm": "Вы уверены, что хотите удалить этот пост?\\nУдалённые посты нельзя восстановить.",
+  "deletePostSuccess": "Пост удалён.",
+  "deletePostError": "Ошибка удаления: {error}",
+  "postNotFound": "Пост не найден",
+  "shareFeatureComingSoon": "Функция публикации скоро",
+  "loadingComments": "Загрузка комментариев...",
+  "loadMoreComments": "Загрузить больше комментариев",
+  "editComment": "Редактировать комментарий",
+  "editCommentHint": "Редактируйте ваш комментарий...",
+  "editCommentSuccess": "Комментарий обновлён.",
+  "editCommentError": "Ошибка редактирования: {error}",
+  "deleteComment": "Удалить комментарий",
+  "deleteCommentConfirm": "Вы уверены, что хотите удалить этот комментарий?\\nУдалённые комментарии нельзя восстановить.",
+  "deleteCommentSuccess": "Комментарий удалён.",
+  "replySuccess": "Ответ опубликован.",
+  "commentSuccess": "Комментарий опубликован.",
+  "commentError": "Ошибка публикации комментария.",
+  "titlePlaceholder": "Введите заголовок",
+  "contentPlaceholder": "Поделитесь своими мыслями...\\n\\nПишите свободно о своём родительском опыте.",
+  "imageSelectionError": "Ошибка выбора изображения: {error}",
+  "userNotFoundError": "Информация пользователя не найдена.",
+  "postCreateSuccess": "Пост успешно создан!",
+  "postCreateError": "Ошибка создания поста: {error}",
+  "titleCharacterCount": "Заголовок: {count}/200",
+  "contentCharacterCount": "Содержание: {count}/10000",
+  "imageCountDisplay": "Изображения: {count}/5",
+  "addImageTooltip": "Добавить изображение",
+  "allPostsChecked": "Все посты проверены! 👍",
+  "waitForNewPosts": "Ждите новые посты",
+  "noPostsYet": "Пока нет постов",
+  "writeFirstPost": "Напишите первый пост!",
+  "loadingNewPosts": "Загрузка новых постов...",
+  "failedToLoadPosts": "Ошибка загрузки постов",
+  "checkNetworkAndRetry": "Проверьте соединение и попробуйте снова",
+  "tryAgain": "Попробовать снова",
+  "selectCategory": "Выберите категорию",
+  "preparingTimeline": "Подготовка временной шкалы...",
+  "noRecordedMoments": "Пока нет записанных моментов",
+  "loadingTimeline": "Загрузка временной шкалы...",
+  "noRecordsYet": "Пока нет записей",
+  "noRecordsForDate": "Нет записей для {date}",
+  "noRecordsForDateAndFilter": "Нет записей {filter} для {date}",
+  "cannotRecordFuture": "Пока нельзя записывать будущие активности",
+  "addFirstRecord": "Добавьте вашу первую запись!",
+  "canAddPastRecord": "Вы можете добавлять прошлые записи",
+  "addRecord": "Добавить запись",
+  "viewOtherDates": "Посмотреть другие даты",
+  "goToToday": "Перейти к сегодня",
+  "quickRecordFromHome": "Вы можете быстро добавлять записи с главного экрана",
+  "detailViewComingSoon": "Детали {title} (Скоро)",
+  "@detailViewComingSoon": {
+    "description": "Timeline item detail view coming soon message",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "familyInvitation": "Семейное приглашение",
+  "familyInvitationDescription": "Управляйте записями ухода за ребёнком вместе с семьёй через коды приглашений",
+  "babyManagement": "Управление ребёнком",
+  "addBaby": "Добавить ребёнка",
+  "noBabiesMessage": "Дети не зарегистрированы.\\nПожалуйста, добавьте ребёнка.",
+  "switchToNextBaby": "Переключиться на следующего ребёнка",
+  "gender": "Пол",
+  "male": "Мальчик",
+  "female": "Девочка",
+  "birthDate": "Дата рождения",
+  "registering": "Регистрация...",
+  "cancel": "Отмена",
+  "register": "Зарегистрировать",
+  "pleaseEnterBabyName": "Введите имя ребёнка",
+  "careTogetherWith": "Ухаживать за ребёнком вместе с {name}",
+  "@careTogetherWith": {
+    "description": "Take care together message with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteFamilyDescription": "Пригласите семью или партнёра\\nдля совместного управления записями ухода за ребёнком",
+  "generateInviteCode": "Создать код приглашения",
+  "generateInviteCodeDescription": "Создать новый код приглашения и скопировать",
+  "generateInviteCodeButton": "Создать код приглашения",
+  "orText": "Или",
+  "joinWithInviteCode": "Присоединиться по коду приглашения",
+  "enterInviteCodeDescription": "Введите полученный код приглашения",
+  "inviteCodePlaceholder": "Код приглашения (6 цифр)",
+  "acceptInvite": "Принять приглашение",
+  "loadingBabyInfo": "Загрузка информации о ребёнке...",
+  "babyRegistrationSuccess": "{name} успешно зарегистрирован",
+  "@babyRegistrationSuccess": {
+    "description": "Baby registration success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyRegistrationFailed": "Ошибка регистрации ребёнка",
+  "babyRegistrationError": "Произошла ошибка: {error}",
+  "@babyRegistrationError": {
+    "description": "Baby registration error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "babySelected": "{name} выбран",
+  "@babySelected": {
+    "description": "Baby selection message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteCodeGenerated": "Код приглашения создан!",
+  "remainingTime": "Оставшееся время: {time}",
+  "@remainingTime": {
+    "description": "Remaining time message",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "validTime": "Время действия: 5 минут",
+  "generating": "Создание...",
+  "joining": "Присоединение...",
+  "noBabyInfo": "Нет информации о ребёнке",
+  "noBabyInfoDescription": "Информация о ребёнке не найдена.\\nХотите создать тестового ребёнка?",
+  "create": "Создать",
+  "generateNewInviteCode": "Создать новый код приглашения",
+  "replaceExistingCode": "Это заменит существующий код приглашения.\\nХотите продолжить?",
+  "confirm": "Подтвердить",
+  "acceptInvitation": "Принять приглашение",
+  "acceptInvitationDescription": "Хотите принять приглашение и присоединиться к семье?",
+  "acceptInvitationWarning": "Существующие записи ребёнка будут удалены и заменены приглашённым ребёнком ({babyName}).\\n\\nХотите продолжить?",
+  "@acceptInvitationWarning": {
+    "description": "Warning message when accepting invitation",
+    "placeholders": {
+      "babyName": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseEnterInviteCode": "Введите код приглашения",
+  "inviteCodeMustBe6Digits": "Код приглашения должен содержать 6 цифр",
+  "pleaseLoginFirst": "Информация для входа не найдена. Сначала войдите в систему.",
+  "copiedToClipboard": "Код приглашения скопирован!",
+  "joinedSuccessfully": "Успешно присоединились к семье!",
+  "inviteCodeExpired": "Срок действия кода приглашения истёк",
+  "invalidInviteCode": "Неверный код приглашения",
+  "alreadyMember": "Вы уже член этой семьи",
+  "cannotInviteSelf": "Вы не можете пригласить самого себя",
+  "minutesAndSeconds": "{minutes}мин {seconds}сек",
+  "@minutesAndSeconds": {
+    "description": "Time format for remaining time",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "babyGuideTitle": "Руководство по уходу за {name}",
+  "@babyGuideTitle": {
+    "description": "Baby guide title with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyGuide": "Детское руководство",
+  "noAvailableGuides": "Нет доступных руководств",
+  "current": "Текущий",
+  "past": "Прошедший",
+  "upcoming": "Предстоящий",
+  "babysGuide": "{name}",
+  "@babysGuide": {
+    "description": "Possessive form of baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "weekGuide": "Руководство {weekText}",
+  "@weekGuide": {
+    "description": "Week guide title",
+    "placeholders": {
+      "weekText": {
+        "type": "String"
+      }
+    }
+  },
+  "feedingGuide": "💡 Руководство по кормлению",
+  "feedingFrequency": "Частота кормления",
+  "singleFeedingAmount": "Количество за одно кормление",
+  "dailyTotal": "Общее количество в день",
+  "additionalTips": "📋 Дополнительные советы",
+  "understood": "Понятно!",
+  "newborn": "Новорождённый",
+  "weekNumber": "Неделя {number}",
+  "@weekNumber": {
+    "description": "Week number format",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "newbornWeek0": "Новорождённый (Неделя 0)",
+  "dailyFrequencyRange": "Ежедневно {min} - {max} раз",
+  "@dailyFrequencyRange": {
+    "description": "Daily frequency range format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMin": "Ежедневно {min}+ раз",
+  "@dailyFrequencyMin": {
+    "description": "Daily minimum frequency format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMax": "Ежедневно до {max} раз",
+  "@dailyFrequencyMax": {
+    "description": "Daily maximum frequency format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountRangeML": "{min}мл - {max}мл",
+  "@amountRangeML": {
+    "description": "Amount range in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMinML": "{min}мл или больше",
+  "@amountMinML": {
+    "description": "Minimum amount in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMaxML": "До {max}мл",
+  "@amountMaxML": {
+    "description": "Maximum amount in ml format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "languageSelection": "Выбор языка",
+  "@languageSelection": {
+    "description": "Language selection screen title"
+  },
+  
+  "selectLanguage": "Выберите язык",
+  "@selectLanguage": {
+    "description": "Instruction to select a language"
+  },
+  
+  "currentLanguage": "Текущий язык",
+  "@currentLanguage": {
+    "description": "Current language label"
+  }
+}

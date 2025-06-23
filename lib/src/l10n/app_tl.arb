@@ -1,0 +1,420 @@
+{
+  "@@locale": "tl",
+  
+  "user": "User",
+  "@user": {
+    "description": "User label"
+  },
+
+  "userInfoLoadFailed": "Hindi na-load ang user info: {error}",
+  "@userInfoLoadFailed": {
+    "description": "Error message when user info loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "babyListLoadError": "Error sa pag-load ng baby list: {error}",
+  "@babyListLoadError": {
+    "description": "Error message when baby list loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "welcomeUser": "Kumusta, {userName}!",
+  "@welcomeUser": {
+    "description": "Welcome message with user name",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "registerBaby": "I-register ang baby",
+  "@registerBaby": {
+    "description": "Register baby button text"
+  },
+
+  "noBabiesRegistered": "Walang baby na naka-register",
+  "@noBabiesRegistered": {
+    "description": "Message when no babies are registered"
+  },
+
+  "registerFirstBaby": "I-register ang inyong unang baby!",
+  "@registerFirstBaby": {
+    "description": "Prompt to register first baby"
+  },
+
+  "settings": "Settings",
+  "language": "Wika", 
+  "appearance": "Hitsura",
+  "darkMode": "Dark mode",
+  "logout": "Mag-logout",
+  "logoutConfirm": "Sigurado ka bang mag-logout?",
+  "yes": "Oo",
+  "no": "Hindi",
+  "comingSoon": "Malapit na",
+
+  "enterBabyInfo": "I-enter ang baby info",
+  "@enterBabyInfo": {
+    "description": "Baby info entry prompt"
+  },
+
+  "babyName": "Pangalan ng baby",
+  "@babyName": {
+    "description": "Baby name field label"
+  },
+
+  "babyNameHint": "halimbawa: Maria",
+  "@babyNameHint": {
+    "description": "Baby name field hint"
+  },
+
+  "babyNameRequired": "I-enter ang pangalan ng baby",
+  "@babyNameRequired": {
+    "description": "Baby name required validation message"
+  },
+
+  "babyNameMinLength": "Ang pangalan ay dapat may 2 characters o higit pa",
+  "@babyNameMinLength": {
+    "description": "Baby name minimum length validation"
+  },
+
+  "selectBirthdateButton": "Piliin ang kaarawan",
+  "@selectBirthdateButton": {
+    "description": "Select birthdate button text"
+  },
+
+  "selectedDate": "{month}/{day}/{year}",
+  "@selectedDate": {
+    "description": "Selected date format",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+
+  "categoryAll": "Lahat",
+  "categoryPopular": "Sikat",
+  "categoryClinical": "Clinical",
+  "categoryInfoSharing": "Pagbabahagi ng info",
+  "categorySleepProblems": "Problema sa tulog",
+  "categoryBabyFood": "Pagkain ng baby",
+  "categoryDevelopment": "Development",
+  "categoryVaccination": "Bakuna",
+  "categoryPostpartum": "Pagkatapos manganak",
+  "categoryDailyLife": "Araw-araw na buhay",
+  "sortByLikes": "I-sort ayon sa likes",
+  "sortByLatest": "I-sort ayon sa pinakabago",
+  "edited": "(na-edit)",
+  "commentsCount": "{count} comments",
+  "deletePost": "I-delete ang post",
+  "deletePostConfirm": "Sigurado ka bang i-delete ang post na ito?\\nHindi na maibabalik ang na-delete na posts.",
+  "deletePostSuccess": "Na-delete ang post.",
+  "deletePostError": "Hindi na-delete: {error}",
+  "postNotFound": "Hindi nahanap ang post",
+  "shareFeatureComingSoon": "Share feature ay malapit na",
+  "loadingComments": "Nilo-load ang comments...",
+  "loadMoreComments": "Mag-load ng higit pang comments",
+  "editComment": "I-edit ang comment",
+  "editCommentHint": "I-edit ang inyong comment...",
+  "editCommentSuccess": "Na-update ang comment.",
+  "editCommentError": "Hindi na-edit: {error}",
+  "deleteComment": "I-delete ang comment",
+  "deleteCommentConfirm": "Sigurado ka bang i-delete ang comment na ito?\\nHindi na maibabalik ang na-delete na comments.",
+  "deleteCommentSuccess": "Na-delete ang comment.",
+  "replySuccess": "Na-post ang reply.",
+  "commentSuccess": "Na-post ang comment.",
+  "commentError": "Hindi na-post ang comment.",
+  "titlePlaceholder": "I-enter ang title",
+  "contentPlaceholder": "I-share ang inyong mga iniisip...\\n\\nSumulat nang malaya tungkol sa inyong mga karanasan bilang magulang.",
+  "imageSelectionError": "Hindi napili ang larawan: {error}",
+  "userNotFoundError": "Hindi nahanap ang user info.",
+  "postCreateSuccess": "Matagumpay na nagawa ang post!",
+  "postCreateError": "Hindi nagawa ang post: {error}",
+  "titleCharacterCount": "Title: {count}/200",
+  "contentCharacterCount": "Content: {count}/10000",
+  "imageCountDisplay": "Mga larawan: {count}/5",
+  "addImageTooltip": "Magdagdag ng larawan",
+  "allPostsChecked": "Lahat ng posts ay na-check na! 👍",
+  "waitForNewPosts": "Maghintay ng mga bagong posts",
+  "noPostsYet": "Wala pang posts",
+  "writeFirstPost": "Magsulat ng unang post!",
+  "loadingNewPosts": "Nilo-load ang mga bagong posts...",
+  "failedToLoadPosts": "Hindi na-load ang mga posts",
+  "checkNetworkAndRetry": "I-check ang connection at subukan ulit",
+  "tryAgain": "Subukan ulit",
+  "selectCategory": "Pumili ng category",
+  "preparingTimeline": "Inihahanda ang timeline...",
+  "noRecordedMoments": "Wala pang naka-record na moments",
+  "loadingTimeline": "Nilo-load ang timeline...",
+  "noRecordsYet": "Wala pang records",
+  "noRecordsForDate": "Walang records para sa {date}",
+  "noRecordsForDateAndFilter": "Walang {filter} records para sa {date}",
+  "cannotRecordFuture": "Hindi pa pwedeng mag-record ng future activities",
+  "addFirstRecord": "Magdagdag ng unang record!",
+  "canAddPastRecord": "Pwede kayong magdagdag ng past records",
+  "addRecord": "Magdagdag ng record",
+  "viewOtherDates": "Tingnan ang ibang dates",
+  "goToToday": "Pumunta sa ngayon",
+  "quickRecordFromHome": "Mabilis kayong makapag-add ng records sa home screen",
+  "detailViewComingSoon": "{title} details (Malapit na)",
+  "@detailViewComingSoon": {
+    "description": "Timeline item detail view coming soon message",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "familyInvitation": "Family invitation",
+  "familyInvitationDescription": "Pamahalaan ang baby care records kasama ang pamilya gamit ang invitation codes",
+  "babyManagement": "Baby management",
+  "addBaby": "Magdagdag ng baby",
+  "noBabiesMessage": "Walang baby na naka-register.\\nPakidagdag ang baby.",
+  "switchToNextBaby": "Lumipat sa susunod na baby",
+  "gender": "Kasarian",
+  "male": "Lalaki",
+  "female": "Babae",
+  "birthDate": "Kaarawan",
+  "registering": "Nire-register...",
+  "cancel": "Cancel",
+  "register": "Register",
+  "pleaseEnterBabyName": "I-enter ang pangalan ng baby",
+  "careTogetherWith": "Alagaan ang baby kasama si {name}",
+  "@careTogetherWith": {
+    "description": "Take care together message with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteFamilyDescription": "Anyayahan ang pamilya o partner\\npara pamahalaan ang baby care records",
+  "generateInviteCode": "Gumawa ng invite code",
+  "generateInviteCodeDescription": "Gumawa ng bagong invite code at i-copy",
+  "generateInviteCodeButton": "Gumawa ng invite code",
+  "orText": "O",
+  "joinWithInviteCode": "Sumali gamit ang invite code",
+  "enterInviteCodeDescription": "I-enter ang natanggap na invite code",
+  "inviteCodePlaceholder": "Invite code (6 digits)",
+  "acceptInvite": "Tanggapin ang invitation",
+  "loadingBabyInfo": "Nilo-load ang baby info...",
+  "babyRegistrationSuccess": "Matagumpay na na-register si {name}",
+  "@babyRegistrationSuccess": {
+    "description": "Baby registration success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyRegistrationFailed": "Hindi na-register ang baby",
+  "babyRegistrationError": "May nangyaring error: {error}",
+  "@babyRegistrationError": {
+    "description": "Baby registration error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "babySelected": "Napili si {name}",
+  "@babySelected": {
+    "description": "Baby selection message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteCodeGenerated": "Nagawa ang invite code!",
+  "remainingTime": "Natitirang oras: {time}",
+  "@remainingTime": {
+    "description": "Remaining time message",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "validTime": "Valid na oras: 5 minuto",
+  "generating": "Ginagawa...",
+  "joining": "Sumasali...",
+  "noBabyInfo": "Walang baby info",
+  "noBabyInfoDescription": "Hindi nahanap ang baby info.\\nGusto ba ninyong gumawa ng test baby?",
+  "create": "Gumawa",
+  "generateNewInviteCode": "Gumawa ng bagong invite code",
+  "replaceExistingCode": "Papalitan nito ang existing invite code.\\nGusto ba ninyong magpatuloy?",
+  "confirm": "Kumpirmahin",
+  "acceptInvitation": "Tanggapin ang invitation",
+  "acceptInvitationDescription": "Gusto ba ninyong tanggapin ang invitation at sumali sa pamilya?",
+  "acceptInvitationWarning": "Ang existing baby records ay matatanggal at papalitan ng invited baby ({babyName}).\\n\\nGusto ba ninyong magpatuloy?",
+  "@acceptInvitationWarning": {
+    "description": "Warning message when accepting invitation",
+    "placeholders": {
+      "babyName": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseEnterInviteCode": "I-enter ang invite code",
+  "inviteCodeMustBe6Digits": "Ang invite code ay dapat 6 digits",
+  "pleaseLoginFirst": "Hindi nahanap ang login info. Mag-login muna.",
+  "copiedToClipboard": "Na-copy ang invite code!",
+  "joinedSuccessfully": "Matagumpay na sumali sa pamilya!",
+  "inviteCodeExpired": "Nag-expire ang invite code",
+  "invalidInviteCode": "Hindi valid ang invite code",
+  "alreadyMember": "Member ka na ng pamilyang ito",
+  "cannotInviteSelf": "Hindi mo pwedeng anyayahan ang sarili mo",
+  "minutesAndSeconds": "{minutes}min {seconds}s",
+  "@minutesAndSeconds": {
+    "description": "Time format for remaining time",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "babyGuideTitle": "Baby care guide ni {name}",
+  "@babyGuideTitle": {
+    "description": "Baby guide title with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyGuide": "Baby guide",
+  "noAvailableGuides": "Walang available na guides",
+  "current": "Kasalukuyan",
+  "past": "Nakaraan",
+  "upcoming": "Paparating",
+  "babysGuide": "ni {name}",
+  "@babysGuide": {
+    "description": "Possessive form of baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "weekGuide": "Guide sa {weekText}",
+  "@weekGuide": {
+    "description": "Week guide title",
+    "placeholders": {
+      "weekText": {
+        "type": "String"
+      }
+    }
+  },
+  "feedingGuide": "💡 Feeding guide",
+  "feedingFrequency": "Feeding frequency",
+  "singleFeedingAmount": "Dami bawat feeding",
+  "dailyTotal": "Kabuuang araw-araw",
+  "additionalTips": "📋 Karagdagang tips",
+  "understood": "Naiintindihan!",
+  "newborn": "Bagong silang",
+  "weekNumber": "Linggo {number}",
+  "@weekNumber": {
+    "description": "Week number format",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "newbornWeek0": "Bagong silang (Linggo 0)",
+  "dailyFrequencyRange": "Araw-araw {min} - {max} beses",
+  "@dailyFrequencyRange": {
+    "description": "Daily frequency range format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMin": "Araw-araw {min}+ beses",
+  "@dailyFrequencyMin": {
+    "description": "Daily minimum frequency format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMax": "Araw-araw hanggang {max} beses",
+  "@dailyFrequencyMax": {
+    "description": "Daily maximum frequency format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountRangeML": "{min}ml - {max}ml",
+  "@amountRangeML": {
+    "description": "Amount range in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMinML": "{min}ml o higit pa",
+  "@amountMinML": {
+    "description": "Minimum amount in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMaxML": "Hanggang {max}ml",
+  "@amountMaxML": {
+    "description": "Maximum amount in ml format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "languageSelection": "Pagpili ng Wika",
+  "@languageSelection": {
+    "description": "Language selection screen title"
+  },
+  
+  "selectLanguage": "Pumili ng wika",
+  "@selectLanguage": {
+    "description": "Instruction to select a language"
+  },
+  
+  "currentLanguage": "Kasalukuyang wika",
+  "@currentLanguage": {
+    "description": "Current language label"
+  }
+}

@@ -1,0 +1,420 @@
+{
+  "@@locale": "es",
+  
+  "user": "Usuario",
+  "@user": {
+    "description": "User label"
+  },
+
+  "userInfoLoadFailed": "Error al cargar información del usuario: {error}",
+  "@userInfoLoadFailed": {
+    "description": "Error message when user info loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "babyListLoadError": "Error al cargar lista de bebés: {error}",
+  "@babyListLoadError": {
+    "description": "Error message when baby list loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "welcomeUser": "¡Hola, {userName}!",
+  "@welcomeUser": {
+    "description": "Welcome message with user name",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "registerBaby": "Registrar bebé",
+  "@registerBaby": {
+    "description": "Register baby button text"
+  },
+
+  "noBabiesRegistered": "No hay bebés registrados",
+  "@noBabiesRegistered": {
+    "description": "Message when no babies are registered"
+  },
+
+  "registerFirstBaby": "¡Registra tu primer bebé!",
+  "@registerFirstBaby": {
+    "description": "Prompt to register first baby"
+  },
+
+  "settings": "Configuración",
+  "language": "Idioma", 
+  "appearance": "Apariencia",
+  "darkMode": "Modo oscuro",
+  "logout": "Cerrar sesión",
+  "logoutConfirm": "¿Estás seguro de que quieres cerrar sesión?",
+  "yes": "Sí",
+  "no": "No",
+  "comingSoon": "Próximamente",
+
+  "enterBabyInfo": "Ingresa la información del bebé",
+  "@enterBabyInfo": {
+    "description": "Baby info entry prompt"
+  },
+
+  "babyName": "Nombre del bebé",
+  "@babyName": {
+    "description": "Baby name field label"
+  },
+
+  "babyNameHint": "ej: Sofía",
+  "@babyNameHint": {
+    "description": "Baby name field hint"
+  },
+
+  "babyNameRequired": "Ingresa el nombre del bebé",
+  "@babyNameRequired": {
+    "description": "Baby name required validation message"
+  },
+
+  "babyNameMinLength": "El nombre debe tener al menos 2 caracteres",
+  "@babyNameMinLength": {
+    "description": "Baby name minimum length validation"
+  },
+
+  "selectBirthdateButton": "Seleccionar fecha de nacimiento",
+  "@selectBirthdateButton": {
+    "description": "Select birthdate button text"
+  },
+
+  "selectedDate": "{day}/{month}/{year}",
+  "@selectedDate": {
+    "description": "Selected date format",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+
+  "categoryAll": "Todo",
+  "categoryPopular": "Popular",
+  "categoryClinical": "Clínico",
+  "categoryInfoSharing": "Compartir info",
+  "categorySleepProblems": "Problemas de sueño",
+  "categoryBabyFood": "Comida de bebé",
+  "categoryDevelopment": "Desarrollo",
+  "categoryVaccination": "Vacunación",
+  "categoryPostpartum": "Posparto",
+  "categoryDailyLife": "Vida diaria",
+  "sortByLikes": "Ordenar por me gusta",
+  "sortByLatest": "Ordenar por más recientes",
+  "edited": "(editado)",
+  "commentsCount": "{count} comentarios",
+  "deletePost": "Eliminar publicación",
+  "deletePostConfirm": "¿Estás seguro de que quieres eliminar esta publicación?\\nLas publicaciones eliminadas no se pueden recuperar.",
+  "deletePostSuccess": "Publicación eliminada.",
+  "deletePostError": "Error al eliminar: {error}",
+  "postNotFound": "Publicación no encontrada",
+  "shareFeatureComingSoon": "Función de compartir próximamente",
+  "loadingComments": "Cargando comentarios...",
+  "loadMoreComments": "Cargar más comentarios",
+  "editComment": "Editar comentario",
+  "editCommentHint": "Edita tu comentario...",
+  "editCommentSuccess": "Comentario actualizado.",
+  "editCommentError": "Error al editar: {error}",
+  "deleteComment": "Eliminar comentario",
+  "deleteCommentConfirm": "¿Estás seguro de que quieres eliminar este comentario?\\nLos comentarios eliminados no se pueden recuperar.",
+  "deleteCommentSuccess": "Comentario eliminado.",
+  "replySuccess": "Respuesta publicada.",
+  "commentSuccess": "Comentario publicado.",
+  "commentError": "Error al publicar comentario.",
+  "titlePlaceholder": "Ingresa el título",
+  "contentPlaceholder": "Comparte tus pensamientos...\\n\\nEscribe libremente sobre tus experiencias como padre/madre.",
+  "imageSelectionError": "Error al seleccionar imagen: {error}",
+  "userNotFoundError": "Información del usuario no encontrada.",
+  "postCreateSuccess": "¡Publicación creada exitosamente!",
+  "postCreateError": "Error al crear publicación: {error}",
+  "titleCharacterCount": "Título: {count}/200",
+  "contentCharacterCount": "Contenido: {count}/10000",
+  "imageCountDisplay": "Imágenes: {count}/5",
+  "addImageTooltip": "Agregar imagen",
+  "allPostsChecked": "¡Todas las publicaciones han sido revisadas! 👍",
+  "waitForNewPosts": "Espera nuevas publicaciones",
+  "noPostsYet": "Aún no hay publicaciones",
+  "writeFirstPost": "¡Escribe la primera publicación!",
+  "loadingNewPosts": "Cargando nuevas publicaciones...",
+  "failedToLoadPosts": "Error al cargar publicaciones",
+  "checkNetworkAndRetry": "Verifica tu conexión e inténtalo de nuevo",
+  "tryAgain": "Intentar de nuevo",
+  "selectCategory": "Seleccionar categoría",
+  "preparingTimeline": "Preparando cronología...",
+  "noRecordedMoments": "Aún no hay momentos registrados",
+  "loadingTimeline": "Cargando cronología...",
+  "noRecordsYet": "Aún no hay registros",
+  "noRecordsForDate": "No hay registros para {date}",
+  "noRecordsForDateAndFilter": "No hay registros de {filter} para {date}",
+  "cannotRecordFuture": "Aún no se pueden registrar actividades futuras",
+  "addFirstRecord": "¡Agrega tu primer registro!",
+  "canAddPastRecord": "Puedes agregar registros pasados",
+  "addRecord": "Agregar registro",
+  "viewOtherDates": "Ver otras fechas",
+  "goToToday": "Ir a hoy",
+  "quickRecordFromHome": "Puedes agregar registros rápidamente desde la pantalla principal",
+  "detailViewComingSoon": "Detalles de {title} (Próximamente)",
+  "@detailViewComingSoon": {
+    "description": "Timeline item detail view coming soon message",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "familyInvitation": "Invitación familiar",
+  "familyInvitationDescription": "Gestiona registros de cuidado del bebé junto con la familia a través de códigos de invitación",
+  "babyManagement": "Gestión del bebé",
+  "addBaby": "Agregar bebé",
+  "noBabiesMessage": "No hay bebés registrados.\\nPor favor agrega un bebé.",
+  "switchToNextBaby": "Cambiar al siguiente bebé",
+  "gender": "Género",
+  "male": "Niño",
+  "female": "Niña",
+  "birthDate": "Fecha de nacimiento",
+  "registering": "Registrando...",
+  "cancel": "Cancelar",
+  "register": "Registrar",
+  "pleaseEnterBabyName": "Ingresa el nombre del bebé",
+  "careTogetherWith": "Cuidar al bebé junto con {name}",
+  "@careTogetherWith": {
+    "description": "Take care together message with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteFamilyDescription": "Invita a la familia o pareja\\npara gestionar juntos los registros de cuidado del bebé",
+  "generateInviteCode": "Generar código de invitación",
+  "generateInviteCodeDescription": "Genera un nuevo código de invitación y cópialo",
+  "generateInviteCodeButton": "Generar código de invitación",
+  "orText": "O",
+  "joinWithInviteCode": "Unirse con código de invitación",
+  "enterInviteCodeDescription": "Ingresa el código de invitación recibido",
+  "inviteCodePlaceholder": "Código de invitación (6 dígitos)",
+  "acceptInvite": "Aceptar invitación",
+  "loadingBabyInfo": "Cargando información del bebé...",
+  "babyRegistrationSuccess": "{name} ha sido registrado exitosamente",
+  "@babyRegistrationSuccess": {
+    "description": "Baby registration success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyRegistrationFailed": "Error al registrar bebé",
+  "babyRegistrationError": "Ocurrió un error: {error}",
+  "@babyRegistrationError": {
+    "description": "Baby registration error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "babySelected": "{name} ha sido seleccionado",
+  "@babySelected": {
+    "description": "Baby selection message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteCodeGenerated": "¡Código de invitación generado!",
+  "remainingTime": "Tiempo restante: {time}",
+  "@remainingTime": {
+    "description": "Remaining time message",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "validTime": "Tiempo válido: 5 minutos",
+  "generating": "Generando...",
+  "joining": "Uniéndose...",
+  "noBabyInfo": "Sin información del bebé",
+  "noBabyInfoDescription": "No se encontró información del bebé.\\n¿Quieres crear un bebé de prueba?",
+  "create": "Crear",
+  "generateNewInviteCode": "Generar nuevo código de invitación",
+  "replaceExistingCode": "Esto reemplazará el código de invitación existente.\\n¿Quieres continuar?",
+  "confirm": "Confirmar",
+  "acceptInvitation": "Aceptar invitación",
+  "acceptInvitationDescription": "¿Quieres aceptar la invitación y unirte a la familia?",
+  "acceptInvitationWarning": "Los registros existentes del bebé serán eliminados y reemplazados por el bebé invitado ({babyName}).\\n\\n¿Quieres continuar?",
+  "@acceptInvitationWarning": {
+    "description": "Warning message when accepting invitation",
+    "placeholders": {
+      "babyName": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseEnterInviteCode": "Ingresa el código de invitación",
+  "inviteCodeMustBe6Digits": "El código de invitación debe tener 6 dígitos",
+  "pleaseLoginFirst": "Información de inicio de sesión no encontrada. Por favor inicia sesión primero.",
+  "copiedToClipboard": "¡Código de invitación copiado!",
+  "joinedSuccessfully": "¡Te has unido a la familia exitosamente!",
+  "inviteCodeExpired": "Código de invitación expirado",
+  "invalidInviteCode": "Código de invitación inválido",
+  "alreadyMember": "Ya eres miembro de esta familia",
+  "cannotInviteSelf": "No puedes invitarte a ti mismo",
+  "minutesAndSeconds": "{minutes}min {seconds}s",
+  "@minutesAndSeconds": {
+    "description": "Time format for remaining time",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "babyGuideTitle": "Guía de cuidados de {name}",
+  "@babyGuideTitle": {
+    "description": "Baby guide title with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyGuide": "Guía del bebé",
+  "noAvailableGuides": "No hay guías disponibles",
+  "current": "Actual",
+  "past": "Pasado",
+  "upcoming": "Próximo",
+  "babysGuide": "de {name}",
+  "@babysGuide": {
+    "description": "Possessive form of baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "weekGuide": "Guía de la {weekText}",
+  "@weekGuide": {
+    "description": "Week guide title",
+    "placeholders": {
+      "weekText": {
+        "type": "String"
+      }
+    }
+  },
+  "feedingGuide": "💡 Guía de alimentación",
+  "feedingFrequency": "Frecuencia de alimentación",
+  "singleFeedingAmount": "Cantidad por toma",
+  "dailyTotal": "Total diario",
+  "additionalTips": "📋 Consejos adicionales",
+  "understood": "¡Entendido!",
+  "newborn": "Recién nacido",
+  "weekNumber": "Semana {number}",
+  "@weekNumber": {
+    "description": "Week number format",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "newbornWeek0": "Recién nacido (Semana 0)",
+  "dailyFrequencyRange": "Diariamente {min} - {max} veces",
+  "@dailyFrequencyRange": {
+    "description": "Daily frequency range format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMin": "Diariamente {min}+ veces",
+  "@dailyFrequencyMin": {
+    "description": "Daily minimum frequency format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMax": "Diariamente hasta {max} veces",
+  "@dailyFrequencyMax": {
+    "description": "Daily maximum frequency format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountRangeML": "{min}ml - {max}ml",
+  "@amountRangeML": {
+    "description": "Amount range in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMinML": "{min}ml o más",
+  "@amountMinML": {
+    "description": "Minimum amount in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMaxML": "Hasta {max}ml",
+  "@amountMaxML": {
+    "description": "Maximum amount in ml format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "languageSelection": "Selección de idioma",
+  "@languageSelection": {
+    "description": "Language selection screen title"
+  },
+  
+  "selectLanguage": "Selecciona un idioma",
+  "@selectLanguage": {
+    "description": "Instruction to select a language"
+  },
+  
+  "currentLanguage": "Idioma actual",
+  "@currentLanguage": {
+    "description": "Current language label"
+  }
+}
