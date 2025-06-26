@@ -167,22 +167,22 @@ class _ModernPatternAnalyticsState extends State<ModernPatternAnalytics>
         const SizedBox(width: 16),
         
         // 제목과 부제목
-        const Expanded(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 AppLocalizations.of(context)!.activityPatternAnalysis,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF1A202C),
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
                 AppLocalizations.of(context)!.activityConcentrationTime,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   color: Color(0xFF4A5568),
                   fontWeight: FontWeight.w500,

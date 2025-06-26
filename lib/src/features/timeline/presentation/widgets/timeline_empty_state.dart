@@ -75,9 +75,9 @@ class _TimelineEmptyStateState extends State<TimelineEmptyState>
     final dateString = isToday ? l10n.today : _formatDate(widget.selectedDate, context);
     
     if (widget.currentFilter == TimelineFilterType.all) {
-      return l10n.noRecordsForDate.replaceAll('{date}', dateString);
+      return l10n.noRecordsForDate(dateString);
     } else {
-      return l10n.noRecordsForDateAndFilter.replaceAll('{date}', dateString).replaceAll('{filter}', widget.currentFilter.displayName);
+      return l10n.noRecordsForDateAndFilter(dateString, widget.currentFilter.displayName);
     }
   }
 
