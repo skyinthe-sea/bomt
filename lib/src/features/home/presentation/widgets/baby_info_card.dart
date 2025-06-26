@@ -186,7 +186,7 @@ class BabyInfoCard extends StatelessWidget {
                                 builder: (context) {
                                   final age = baby.ageMonthsAndDays;
                                   return Text(
-                                    l10n.ageMonthsAndDays(age['months']!, age['days']!),
+                                    l10n.ageMonthsAndDays(age['days']!, age['months']!),
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       color: theme.colorScheme.onSurface.withOpacity(0.7),
                                     ),
