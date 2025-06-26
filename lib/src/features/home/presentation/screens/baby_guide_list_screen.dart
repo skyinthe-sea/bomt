@@ -45,9 +45,9 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
       final countryCode = localeInfo['countryCode']!;
       final languageCode = localeInfo['languageCode']!;
       
-      // 0주차부터 현재 주령 + 3주까지의 가이드 로드
+      // 0주차부터 현재 주령 + 1주까지의 가이드 로드
       final guides = <BabyGuide>[];
-      final maxWeek = _currentWeek + 3;
+      final maxWeek = _currentWeek + 1;
       
       for (int week = 0; week <= maxWeek; week++) {
         final guide = await _babyGuideService.getGuideForWeek(
