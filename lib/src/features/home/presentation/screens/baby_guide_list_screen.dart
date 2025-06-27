@@ -60,6 +60,9 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
         }
       }
       
+      // 주차별 내림차순 정렬
+      guides.sort((a, b) => b.weekNumber.compareTo(a.weekNumber));
+      
       setState(() {
         _guides = guides;
         _isLoading = false;

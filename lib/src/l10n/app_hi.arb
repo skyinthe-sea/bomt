@@ -337,6 +337,8 @@
   "checkNetworkAndRetry": "कृपया नेटवर्क कनेक्शन जाँचें और फिर कोशिश करें",
   "tryAgain": "फिर कोशिश करें",
   "selectCategory": "कैटेगरी चुनें",
+  "writePost": "पोस्ट लिखें",
+  "post": "पोस्ट",
   "categoryDailyLife": "दैनिक जीवन",
   "preparingTimeline": "टाइमलाइन तैयार कर रहे हैं...",
   "noRecordedMoments": "अभी तक कोई रिकॉर्ड किए गए पल नहीं",

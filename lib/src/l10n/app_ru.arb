@@ -158,6 +158,8 @@
   "checkNetworkAndRetry": "Проверьте соединение и попробуйте снова",
   "tryAgain": "Попробовать снова",
   "selectCategory": "Выберите категорию",
+  "writePost": "Написать пост",
+  "post": "Опубликовать",
   "preparingTimeline": "Подготовка временной шкалы...",
   "noRecordedMoments": "Пока нет записанных моментов",
   "loadingTimeline": "Загрузка временной шкалы...",

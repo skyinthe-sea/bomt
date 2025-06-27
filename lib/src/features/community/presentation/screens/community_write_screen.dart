@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../domain/models/community_category.dart';
 import '../../../../presentation/providers/community_provider.dart';
 import '../../../../services/image/image_service.dart';
@@ -75,9 +76,10 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
       }
     } catch (e) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('이미지 선택 실패: ${e.toString()}'),
+            content: Text(l10n.imageSelectionError(e.toString())),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -118,7 +120,8 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
       print('DEBUG: currentUserId = ${provider.currentUserId}');
       
       if (currentUser == null) {
-        throw Exception('사용자 정보를 찾을 수 없습니다.');
+        final l10n = AppLocalizations.of(context)!;
+        throw Exception(l10n.userNotFoundError);
       }
 
       // 이미지 업로드
@@ -143,9 +146,10 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
 
       if (post != null && mounted) {
         // 성공 메시지
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('게시글이 성공적으로 작성되었습니다!'),
+            content: Text(l10n.postCreateSuccess),
             backgroundColor: Theme.of(context).colorScheme.primary,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -159,9 +163,10 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
       }
     } catch (e) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('게시글 작성 실패: ${e.toString()}'),
+            content: Text(l10n.postCreateError(e.toString())),
             backgroundColor: Theme.of(context).colorScheme.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -182,6 +187,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     
     // 디버그: 현재 상태 출력
     print('DEBUG: Build - _canPost = $_canPost');
@@ -249,7 +255,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                       controller: _titleController,
                       focusNode: _titleFocus,
                       decoration: InputDecoration(
-                        hintText: '제목을 입력하세요',
+                        hintText: l10n.titlePlaceholder,
                         hintStyle: theme.textTheme.titleMedium?.copyWith(
                           color: theme.colorScheme.onSurface.withOpacity(0.5),
                         ),
@@ -294,7 +300,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                         controller: _contentController,
                         focusNode: _contentFocus,
                         decoration: InputDecoration(
-                          hintText: '내용을 입력하세요...\n\n함께 나누고 싶은 이야기를 자유롭게 작성해보세요.',
+                          hintText: l10n.contentPlaceholder,
                           hintStyle: theme.textTheme.bodyLarge?.copyWith(
                             color: theme.colorScheme.onSurface.withOpacity(0.5),
                             height: 1.5,
@@ -349,7 +355,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                           Icons.image_outlined,
                           color: theme.colorScheme.primary,
                         ),
-                        tooltip: '이미지 추가',
+                        tooltip: l10n.addImageTooltip,
                       ),
                     ),
                     
@@ -362,20 +368,20 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            '제목: ${_titleController.text.length}/200',
+                            l10n.titleCharacterCount(_titleController.text.length),
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurface.withOpacity(0.6),
                             ),
                           ),
                           Text(
-                            '내용: ${_contentController.text.length}/10000',
+                            l10n.contentCharacterCount(_contentController.text.length),
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurface.withOpacity(0.6),
                             ),
                           ),
                           if (_selectedImages.isNotEmpty)
                             Text(
-                              '이미지: ${_selectedImages.length}/5',
+                              l10n.imageCountDisplay(_selectedImages.length),
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: theme.colorScheme.primary.withOpacity(0.8),
                                 fontWeight: FontWeight.w600,

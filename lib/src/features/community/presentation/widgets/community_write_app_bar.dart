@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CommunityWriteAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool canPost;
@@ -23,6 +24,7 @@ class CommunityWriteAppBar extends StatelessWidget implements PreferredSizeWidge
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       decoration: BoxDecoration(
@@ -60,7 +62,7 @@ class CommunityWriteAppBar extends StatelessWidget implements PreferredSizeWidge
               ),
             ),
             title: Text(
-              title ?? '글쓰기',
+              title ?? l10n.writePost,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: theme.colorScheme.onSurface,
@@ -115,7 +117,7 @@ class CommunityWriteAppBar extends StatelessWidget implements PreferredSizeWidge
                               ),
                             )
                           : Text(
-                              actionText ?? '게시',
+                              actionText ?? l10n.post,
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: canPost
                                     ? Colors.white

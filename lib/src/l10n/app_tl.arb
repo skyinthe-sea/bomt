@@ -158,6 +158,8 @@
   "checkNetworkAndRetry": "I-check ang connection at subukan ulit",
   "tryAgain": "Subukan ulit",
   "selectCategory": "Pumili ng category",
+  "writePost": "Sumulat ng post",
+  "post": "I-post",
   "preparingTimeline": "Inihahanda ang timeline...",
   "noRecordedMoments": "Wala pang naka-record na moments",
   "loadingTimeline": "Nilo-load ang timeline...",

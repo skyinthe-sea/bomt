@@ -152,6 +152,8 @@
   "postTitleHint": "タイトルを入力",
   "postContentHint": "内容を入力してください...\n\n自由にお話しください。",
   "selectCategory": "カテゴリ選択",
+  "writePost": "投稿を書く",
+  "post": "投稿",
   "postCreated": "投稿が正常に作成されました！",
   "postCreateFailed": "投稿の作成に失敗しました：{error}",
   "nickname": "ニックネーム",

@@ -158,6 +158,8 @@
   "checkNetworkAndRetry": "ตรวจสอบการเชื่อมต่อและลองใหม่",
   "tryAgain": "ลองใหม่",
   "selectCategory": "เลือกหมวดหมู่",
+  "writePost": "เขียนโพสต์",
+  "post": "โพสต์",
   "preparingTimeline": "กำลังเตรียมไทม์ไลน์...",
   "noRecordedMoments": "ยังไม่มีช่วงเวลาที่บันทึกไว้",
   "loadingTimeline": "กำลังโหลดไทม์ไลน์...",

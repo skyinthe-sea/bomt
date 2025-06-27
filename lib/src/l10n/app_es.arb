@@ -158,6 +158,8 @@
   "checkNetworkAndRetry": "Verifica tu conexión e inténtalo de nuevo",
   "tryAgain": "Intentar de nuevo",
   "selectCategory": "Seleccionar categoría",
+  "writePost": "Escribir publicación",
+  "post": "Publicar",
   "preparingTimeline": "Preparando cronología...",
   "noRecordedMoments": "Aún no hay momentos registrados",
   "loadingTimeline": "Cargando cronología...",

@@ -158,6 +158,8 @@
   "checkNetworkAndRetry": "Bağlantınızı kontrol edin ve tekrar deneyin",
   "tryAgain": "Tekrar dene",
   "selectCategory": "Kategori seç",
+  "writePost": "Gönderi yaz",
+  "post": "Gönder",
   "preparingTimeline": "Zaman çizelgesi hazırlanıyor...",
   "noRecordedMoments": "Henüz kayıtlı anlar yok",
   "loadingTimeline": "Zaman çizelgesi yükleniyor...",
