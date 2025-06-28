@@ -6,29 +6,29 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class CommunityBanner extends StatelessWidget {
   const CommunityBanner({super.key});
 
-  void _showComingSoonToast(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    HapticFeedback.lightImpact();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          l10n.comingSoon,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onInverseSurface,
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-          ),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.inverseSurface,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        duration: const Duration(seconds: 2),
-        margin: const EdgeInsets.all(16),
-      ),
-    );
-  }
+  // void _showComingSoonToast(BuildContext context) {
+  //   final l10n = AppLocalizations.of(context)!;
+  //   HapticFeedback.lightImpact();
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(
+  //         l10n.comingSoon,
+  //         style: TextStyle(
+  //           color: Theme.of(context).colorScheme.onInverseSurface,
+  //           fontWeight: FontWeight.w600,
+  //           fontSize: 14,
+  //         ),
+  //       ),
+  //       backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+  //       behavior: SnackBarBehavior.floating,
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(12),
+  //       ),
+  //       duration: const Duration(seconds: 2),
+  //       margin: const EdgeInsets.all(16),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,8 @@ class CommunityBanner extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final isDark = theme.brightness == Brightness.dark;
 
-    return GestureDetector(
-      onTap: () => _showComingSoonToast(context),
+    return Container(
+      // onTap: () => _showComingSoonToast(context), // 소아과 라이브 Q&A 기능 주석처리
       child: Container(
         margin: const EdgeInsets.fromLTRB(20, 0, 20, 12),
         decoration: BoxDecoration(
@@ -84,7 +84,7 @@ class CommunityBanner extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: const Icon(
-                      Icons.campaign,
+                      Icons.groups,
                       color: Colors.white,
                       size: 20,
                     ),
@@ -98,37 +98,30 @@ class CommunityBanner extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          l10n.liveQA,
-                          style: theme.textTheme.titleMedium?.copyWith(
+                          l10n.communityWelcomeDescription,
+                          style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 3),
-                        Text(
-                          l10n.liveQADescription,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: Colors.white.withOpacity(0.9),
-                            height: 1.3,
+                            fontWeight: FontWeight.w600,
+                            height: 1.4,
                           ),
                         ),
                       ],
                     ),
                   ),
                   
-                  // 더보기 버튼 아이콘
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(
-                      Icons.chevron_right,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
+                  // 더보기 버튼 아이콘 (주석처리 - 이제 클릭할 수 없는 안내 배너)
+                  // Container(
+                  //   padding: const EdgeInsets.all(8),
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white.withOpacity(0.2),
+                  //     borderRadius: BorderRadius.circular(12),
+                  //   ),
+                  //   child: const Icon(
+                  //     Icons.chevron_right,
+                  //     color: Colors.white,
+                  //     size: 20,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
