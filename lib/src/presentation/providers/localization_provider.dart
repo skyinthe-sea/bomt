@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../domain/use_cases/localization/change_language_use_case.dart';
 
@@ -20,10 +21,15 @@ class LocalizationProvider extends ChangeNotifier {
   }
   
   Future<void> changeLanguage(Locale locale) async {
+    debugPrint('🌍 [LocalizationProvider] Language change requested: ${_currentLocale.languageCode} → ${locale.languageCode}');
     if (_currentLocale.languageCode != locale.languageCode) {
+      debugPrint('🌍 [LocalizationProvider] Executing language change...');
       await _changeLanguageUseCase.execute(locale);
       _currentLocale = locale;
+      debugPrint('🌍 [LocalizationProvider] Language changed, notifying listeners');
       notifyListeners();
+    } else {
+      debugPrint('🌍 [LocalizationProvider] Same language, no change needed');
     }
   }
   

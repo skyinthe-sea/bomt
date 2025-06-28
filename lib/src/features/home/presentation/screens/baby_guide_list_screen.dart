@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../domain/models/baby.dart';
 import '../../../../domain/models/baby_guide.dart';
 import '../../../../domain/models/baby_guide_extensions.dart';
@@ -26,10 +27,13 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
   List<BabyGuide> _guides = [];
   bool _isLoading = true;
   int _currentWeek = 0;
+  String? _lastLanguageCode;
 
   @override
   void initState() {
     super.initState();
+    debugPrint('🔄 [BabyGuideListScreen] initState called');
+    _checkLanguageChange();
     _loadGuides();
   }
 
@@ -40,10 +44,12 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
       // 현재 주령 계산
       _currentWeek = _babyGuideService.calculateWeekNumber(widget.baby.birthDate);
       
-      // 로케일 정보 가져오기
-      final localeInfo = await _localeService.getLocaleInfo();
+      // 사용자 설정 언어를 우선적으로 사용하는 로케일 정보 가져오기
+      final localeInfo = await _babyGuideService.getUserLocaleInfo();
       final countryCode = localeInfo['countryCode']!;
       final languageCode = localeInfo['languageCode']!;
+      
+      debugPrint('BabyGuideListScreen: Loading guides with $countryCode/$languageCode');
       
       // 0주차부터 현재 주령 + 1주까지의 가이드 로드
       final guides = <BabyGuide>[];
@@ -86,8 +92,52 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
+    // 언어 변경 감지 - 시스템 로케일 확인
+    final currentLocale = Localizations.localeOf(context);
+    final currentLanguageCode = currentLocale.languageCode;
+    
+    debugPrint('🔍 [BabyGuideListScreen] didChangeDependencies: currentLocale=$currentLocale, lastLanguage=$_lastLanguageCode');
+    
+    if (_lastLanguageCode != null && _lastLanguageCode != currentLanguageCode) {
+      debugPrint('🌍 [BabyGuideListScreen] Language changed from $_lastLanguageCode to $currentLanguageCode - reloading guides');
+      _loadGuides();
+    }
+    _lastLanguageCode = currentLanguageCode;
+  }
+
+  /// SharedPreferences를 직접 확인하여 언어 변경 감지
+  Future<void> _checkLanguageChange() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final currentUserLanguage = prefs.getString('selected_language');
+      
+      debugPrint('🔍 [BabyGuideListScreen] Current user language from prefs: $currentUserLanguage');
+      
+      if (_lastLanguageCode != null && _lastLanguageCode != currentUserLanguage) {
+        debugPrint('🌍 [BabyGuideListScreen] User language changed from $_lastLanguageCode to $currentUserLanguage - reloading guides');
+        _lastLanguageCode = currentUserLanguage;
+        await _loadGuides();
+      } else if (_lastLanguageCode == null) {
+        _lastLanguageCode = currentUserLanguage ?? 'ko';
+      }
+    } catch (e) {
+      debugPrint('❌ [BabyGuideListScreen] Error checking language change: $e');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    
+    debugPrint('🔄 [BabyGuideListScreen] build called');
+    
+    // 언어 변경 체크를 비동기로 수행
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkLanguageChange();
+    });
     
     return Scaffold(
       backgroundColor: theme.colorScheme.background,

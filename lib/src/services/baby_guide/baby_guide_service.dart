@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../locale/locale_service.dart';
 import '../../domain/models/baby.dart';
 import '../../domain/models/baby_guide.dart';
@@ -11,6 +12,77 @@ class BabyGuideService {
 
   final _supabase = Supabase.instance.client;
   final _localeService = LocaleService.instance;
+
+  /// 사용자 설정 언어를 우선적으로 사용하여 로케일 정보 가져오기
+  Future<Map<String, String>> getUserLocaleInfo() async {
+    try {
+      // 사용자가 설정한 언어를 먼저 확인
+      final prefs = await SharedPreferences.getInstance();
+      final userLanguage = prefs.getString('selected_language');
+      
+      debugPrint('🔍 [BabyGuideService] UserLanguage from SharedPreferences: $userLanguage');
+      debugPrint('🔍 [BabyGuideService] All SharedPreferences keys: ${prefs.getKeys()}');
+      
+      if (userLanguage != null) {
+        // 언어 코드에 따른 국가 코드 매핑
+        String countryCode;
+        switch (userLanguage) {
+          case 'ko':
+            countryCode = 'KR';
+            break;
+          case 'en':
+            countryCode = 'US';
+            break;
+          case 'ja':
+            countryCode = 'JP';
+            break;
+          case 'de':
+            countryCode = 'DE';
+            break;
+          case 'pt':
+            countryCode = 'BR';
+            break;
+          case 'fr':
+            countryCode = 'FR';
+            break;
+          case 'id':
+            countryCode = 'ID';
+            break;
+          case 'es':
+            countryCode = 'MX';
+            break;
+          case 'tl':
+            countryCode = 'PH';
+            break;
+          case 'ru':
+            countryCode = 'RU';
+            break;
+          case 'th':
+            countryCode = 'TH';
+            break;
+          case 'tr':
+            countryCode = 'TR';
+            break;
+          default:
+            countryCode = 'KR';
+        }
+        
+        final result = {
+          'countryCode': countryCode,
+          'languageCode': userLanguage,
+        };
+        debugPrint('🎯 [BabyGuideService] Using user locale: $result');
+        return result;
+      }
+    } catch (e) {
+      debugPrint('❌ [BabyGuideService] Error getting user locale info: $e');
+    }
+    
+    // 사용자 설정이 없으면 시스템 로케일 사용
+    final systemLocale = await _localeService.getLocaleInfo();
+    debugPrint('🔄 [BabyGuideService] Using system locale fallback: $systemLocale');
+    return systemLocale;
+  }
 
   /// 아기의 현재 주령 계산 (0주차부터 시작)
   int calculateWeekNumber(DateTime birthDate) {
@@ -27,6 +99,8 @@ class BabyGuideService {
     String languageCode,
   ) async {
     try {
+      debugPrint('Fetching guide for week $weekNumber, country: $countryCode, language: $languageCode');
+      
       final response = await _supabase
           .from('baby_guides')
           .select()
@@ -35,22 +109,105 @@ class BabyGuideService {
           .eq('language_code', languageCode)
           .limit(1);
 
-      if (response.isEmpty) {
-        // 해당 언어가 없으면 영어로 fallback
-        if (languageCode != 'en') {
-          return await getGuideForWeek(weekNumber, countryCode, 'en');
-        }
-        // 영어도 없으면 한국어로 fallback
-        if (countryCode != 'KR' || languageCode != 'ko') {
-          return await getGuideForWeek(weekNumber, 'KR', 'ko');
-        }
-        return null;
+      if (response.isNotEmpty) {
+        debugPrint('Found guide for week $weekNumber with $countryCode/$languageCode');
+        return BabyGuide.fromJson(response.first);
       }
 
-      return BabyGuide.fromJson(response.first);
+      // Fallback 로직 개선
+      return await _getGuideWithFallback(weekNumber, countryCode, languageCode);
     } catch (e) {
       debugPrint('Error getting guide for week $weekNumber: $e');
       return null;
+    }
+  }
+
+  /// 개선된 fallback 로직
+  Future<BabyGuide?> _getGuideWithFallback(
+    int weekNumber,
+    String originalCountryCode,
+    String originalLanguageCode,
+  ) async {
+    try {
+      // 1. 같은 언어의 다른 국가 시도
+      if (originalLanguageCode != 'ko' && originalLanguageCode != 'en') {
+        final fallbackCountryCode = _getDefaultCountryForLanguage(originalLanguageCode);
+        if (fallbackCountryCode != originalCountryCode) {
+          debugPrint('Trying fallback: same language ($originalLanguageCode) with country $fallbackCountryCode');
+          final response = await _supabase
+              .from('baby_guides')
+              .select()
+              .eq('week_number', weekNumber)
+              .eq('country_code', fallbackCountryCode)
+              .eq('language_code', originalLanguageCode)
+              .limit(1);
+          
+          if (response.isNotEmpty) {
+            debugPrint('Found guide with fallback country');
+            return BabyGuide.fromJson(response.first);
+          }
+        }
+      }
+
+      // 2. 영어로 fallback (US 우선, 없으면 다른 영어권)
+      if (originalLanguageCode != 'en') {
+        debugPrint('Trying English fallback for week $weekNumber');
+        final response = await _supabase
+            .from('baby_guides')
+            .select()
+            .eq('week_number', weekNumber)
+            .eq('country_code', 'US')
+            .eq('language_code', 'en')
+            .limit(1);
+        
+        if (response.isNotEmpty) {
+          debugPrint('Found English guide for week $weekNumber');
+          return BabyGuide.fromJson(response.first);
+        }
+      }
+
+      // 3. 한국어로 최종 fallback
+      if (originalCountryCode != 'KR' || originalLanguageCode != 'ko') {
+        debugPrint('Trying Korean fallback for week $weekNumber');
+        final response = await _supabase
+            .from('baby_guides')
+            .select()
+            .eq('week_number', weekNumber)
+            .eq('country_code', 'KR')
+            .eq('language_code', 'ko')
+            .limit(1);
+        
+        if (response.isNotEmpty) {
+          debugPrint('Found Korean guide for week $weekNumber');
+          return BabyGuide.fromJson(response.first);
+        }
+      }
+
+      debugPrint('No guide found for week $weekNumber with any fallback');
+      return null;
+    } catch (e) {
+      debugPrint('Error in fallback logic: $e');
+      return null;
+    }
+  }
+
+  /// 언어 코드에 따른 기본 국가 코드 반환
+  String _getDefaultCountryForLanguage(String languageCode) {
+    switch (languageCode) {
+      case 'ko': return 'KR';
+      case 'en': return 'US';
+      case 'ja': return 'JP';
+      case 'de': return 'DE';
+      case 'pt': return 'BR';
+      case 'fr': return 'FR';
+      case 'id': return 'ID';
+      case 'es': return 'MX';
+      case 'tl': return 'PH';
+      case 'ru': return 'RU';
+      case 'th': return 'TH';
+      case 'tr': return 'TR';
+      case 'hi': return 'IN';
+      default: return 'KR';
     }
   }
 
@@ -128,7 +285,7 @@ class BabyGuideService {
   /// 아기와 사용자에 대해 표시해야 할 알럿이 있는지 확인
   Future<BabyGuide?> checkForPendingAlert(String userId, Baby baby) async {
     try {
-      final localeInfo = await _localeService.getLocaleInfo();
+      final localeInfo = await getUserLocaleInfo();
       final countryCode = localeInfo['countryCode']!;
       final languageCode = localeInfo['languageCode']!;
 
@@ -183,7 +340,7 @@ class BabyGuideService {
   /// 알럿 표시 후 처리
   Future<void> handleAlertShown(String userId, Baby baby, BabyGuide guide) async {
     try {
-      final localeInfo = await _localeService.getLocaleInfo();
+      final localeInfo = await getUserLocaleInfo();
       await markAlertAsSeen(
         userId,
         baby.id,
