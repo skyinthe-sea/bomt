@@ -16,6 +16,7 @@ import 'src/services/theme/theme_service.dart';
 import 'src/core/theme/app_theme.dart';
 import 'src/services/alarm/feeding_alarm_service.dart';
 import 'src/services/invitation/invitation_service.dart';
+import 'src/services/update_check/update_check_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter/foundation.dart';
 
@@ -33,6 +34,15 @@ void main() async {
   } catch (e) {
     debugPrint('초대 시스템 초기화 실패: $e');
     // 초대 시스템 실패해도 앱은 계속 실행
+  }
+  
+  // Initialize update check service
+  try {
+    UpdateCheckService().initialize();
+    debugPrint('업데이트 체크 서비스 초기화 완료');
+  } catch (e) {
+    debugPrint('업데이트 체크 서비스 초기화 실패: $e');
+    // 업데이트 체크 실패해도 앱은 계속 실행
   }
   
   // Initialize dependencies
@@ -111,35 +121,37 @@ class _MyAppState extends State<MyApp> {
     return ListenableBuilder(
       listenable: Listenable.merge([widget.localizationProvider, widget.themeProvider]),
       builder: (context, child) {
-        return MaterialApp(
-          title: 'Baby One More Time',
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: widget.themeProvider.themeMode,
-          initialRoute: _initialRoute,
-          onGenerateRoute: (settings) {
-            // Pass providers to home route
-            if (settings.name == AppRouter.homeRoute) {
-              return AppRouter.generateRoute(
-                RouteSettings(
-                  name: settings.name,
-                  arguments: {
-                    'localizationProvider': widget.localizationProvider,
-                    'themeProvider': widget.themeProvider,
-                  },
-                ),
-              );
-            }
-            return AppRouter.generateRoute(settings);
-          },
-          locale: widget.localizationProvider.currentLocale,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
+        return UpdateCheckService().wrapWithUpdateCheck(
+          MaterialApp(
+            title: 'Baby One More Time',
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: widget.themeProvider.themeMode,
+            initialRoute: _initialRoute,
+            onGenerateRoute: (settings) {
+              // Pass providers to home route
+              if (settings.name == AppRouter.homeRoute) {
+                return AppRouter.generateRoute(
+                  RouteSettings(
+                    name: settings.name,
+                    arguments: {
+                      'localizationProvider': widget.localizationProvider,
+                      'themeProvider': widget.themeProvider,
+                    },
+                  ),
+                );
+              }
+              return AppRouter.generateRoute(settings);
+            },
+            locale: widget.localizationProvider.currentLocale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+          ),
         );
       },
     );
