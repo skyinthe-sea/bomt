@@ -35,7 +35,8 @@ class HomeRepositoryImpl implements HomeRepository {
         
         // 최근 수유 시간 계산
         final lastFeeding = response.first;
-        lastFeedingTime = DateTime.parse(lastFeeding['started_at']).toLocal();
+        // 기존 데이터는 한국시간이 UTC로 잘못 저장되어 있어서 9시간 빼서 보정
+        lastFeedingTime = DateTime.parse(lastFeeding['started_at']).subtract(const Duration(hours: 9));
         lastFeedingMinutesAgo = now.difference(lastFeedingTime).inMinutes;
       }
       
@@ -201,7 +202,8 @@ class HomeRepositoryImpl implements HomeRepository {
       final minTemperature = temperatures.reduce((a, b) => a < b ? a : b);
       final maxTemperature = temperatures.reduce((a, b) => a > b ? a : b);
       final avgTemperature = temperatures.reduce((a, b) => a + b) / temperatures.length;
-      final latestRecordTime = DateTime.parse(response.first['recorded_at']).toLocal();
+      // 기존 데이터는 한국시간이 UTC로 잘못 저장되어 있어서 9시간 빼서 보정
+      final latestRecordTime = DateTime.parse(response.first['recorded_at']).subtract(const Duration(hours: 9));
       
       // 체온 상태 판단
       String status;
@@ -264,7 +266,8 @@ class HomeRepositoryImpl implements HomeRepository {
       final current = response.first;
       final currentWeight = _parseDouble(current['weight_kg']);
       final currentHeight = _parseDouble(current['height_cm']);
-      final lastRecordDate = DateTime.parse(current['recorded_at']).toLocal();
+      // 기존 데이터는 한국시간이 UTC로 잘못 저장되어 있어서 9시간 빼서 보정
+      final lastRecordDate = DateTime.parse(current['recorded_at']).subtract(const Duration(hours: 9));
       
       double? weightChange;
       double? heightChange;

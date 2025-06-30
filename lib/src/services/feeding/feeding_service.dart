@@ -8,6 +8,8 @@ import '../../core/config/supabase_config.dart';
 import '../../core/mixins/data_sync_mixin.dart';
 import '../../core/events/data_sync_events.dart';
 import '../alarm/feeding_alarm_service.dart';
+import 'feeding_pattern_analyzer.dart';
+import 'feeding_cache_manager.dart';
 
 class FeedingService with DataSyncMixin {
   static FeedingService? _instance;
@@ -108,6 +110,9 @@ class FeedingService with DataSyncMixin {
           debugPrint('수유 알람 설정 중 오류: $e');
         }
         
+        // 패턴 캐시 백그라운드 업데이트
+        await _updatePatternCacheAfterFeeding(babyId);
+        
         return newFeeding;
       },
       itemType: TimelineItemType.feeding,
@@ -184,15 +189,44 @@ class FeedingService with DataSyncMixin {
         }
       }
       
-      // 다음 수유까지 남은 시간 계산
+      // 다음 수유까지 남은 시간 계산 (패턴 기반)
       int? minutesUntilNextFeeding;
       DateTime? nextFeedingTime;
+      String? nextFeedingMessage;
+      bool isPatternBased = false;
+      
       try {
-        final alarmService = FeedingAlarmService.instance;
-        minutesUntilNextFeeding = await alarmService.getMinutesUntilNextFeeding();
-        nextFeedingTime = await alarmService.getNextFeedingTime();
+        final patternResult = await getPatternBasedNextFeeding(babyId);
+        
+        if (patternResult['status'] == 'scheduled') {
+          minutesUntilNextFeeding = patternResult['totalMinutesUntilNext'] as int;
+          nextFeedingTime = patternResult['nextFeedingTime'] as DateTime;
+          nextFeedingMessage = patternResult['message'] as String;
+          isPatternBased = true;
+          debugPrint('패턴 기반 다음 수유 시간 사용: ${patternResult['hoursUntilNext']}시간 ${patternResult['minutesUntilNext']}분');
+        } else if (patternResult['status'] == 'insufficient_data') {
+          nextFeedingMessage = 'insufficient_feeding_records';
+          debugPrint('수유 기록 부족: ${patternResult['reason']}');
+        } else if (patternResult['status'] == 'overdue') {
+          nextFeedingMessage = 'feeding_overdue';
+          debugPrint('수유 시간 지남');
+        } else {
+          // 패턴 분석 실패 시 기존 알람 시스템 사용
+          final alarmService = FeedingAlarmService.instance;
+          minutesUntilNextFeeding = await alarmService.getMinutesUntilNextFeeding();
+          nextFeedingTime = await alarmService.getNextFeedingTime();
+          debugPrint('알람 기반 다음 수유 시간 사용 (패턴 분석 실패)');
+        }
       } catch (e) {
         debugPrint('다음 수유 시간 확인 중 오류: $e');
+        // 오류 시 기존 알람 시스템 사용
+        try {
+          final alarmService = FeedingAlarmService.instance;
+          minutesUntilNextFeeding = await alarmService.getMinutesUntilNextFeeding();
+          nextFeedingTime = await alarmService.getNextFeedingTime();
+        } catch (alarmError) {
+          debugPrint('알람 기반 다음 수유 시간도 실패: $alarmError');
+        }
       }
       
       return {
@@ -204,6 +238,8 @@ class FeedingService with DataSyncMixin {
         'averageAmount': count > 0 ? (totalAmount / count).round() : 0,
         'minutesUntilNextFeeding': minutesUntilNextFeeding,
         'nextFeedingTime': nextFeedingTime,
+        'nextFeedingMessage': nextFeedingMessage,
+        'isPatternBased': isPatternBased,
       };
     } catch (e) {
       debugPrint('Error getting today feeding summary: $e');
@@ -221,6 +257,8 @@ class FeedingService with DataSyncMixin {
         'averageAmount': 0,
         'minutesUntilNextFeeding': null,
         'nextFeedingTime': null,
+        'nextFeedingMessage': null,
+        'isPatternBased': false,
       };
     }
   }
@@ -323,7 +361,7 @@ class FeedingService with DataSyncMixin {
       final originalStartedAt = DateTime.parse(existingResponse['started_at']);
       final updateTimestamp = startedAt ?? originalStartedAt;
       
-      return await withDataSyncEvent(
+      final result = await withDataSyncEvent(
         operation: () async {
           final updateData = <String, dynamic>{
             'updated_at': DateTime.now().toIso8601String(),
@@ -352,9 +390,177 @@ class FeedingService with DataSyncMixin {
         action: DataSyncAction.updated,
         recordId: feedingId,
       );
+      
+      // 수유 기록 수정 후 캐시 무효화 (패턴이 변경될 수 있음)
+      if (result != null) {
+        await FeedingCacheManager.instance.invalidateCache(babyId);
+      }
+      
+      return result;
     } catch (e) {
       debugPrint('Error updating feeding: $e');
       return null;
+    }
+  }
+
+  /// 패턴 분석용 최근 수유 기록 가져오기
+  Future<List<Feeding>> getRecentFeedingsForPattern(String babyId, {int limit = 15}) async {
+    try {
+      final response = await _supabase
+          .from('feedings')
+          .select('*')
+          .eq('baby_id', babyId)
+          .order('started_at', ascending: false)
+          .limit(limit);
+      
+      final feedings = response.map((json) => Feeding.fromJson(json)).toList();
+      debugPrint('패턴 분석용 수유 기록 조회: ${feedings.length}건');
+      
+      return feedings;
+    } catch (e) {
+      debugPrint('Error getting recent feedings for pattern: $e');
+      return [];
+    }
+  }
+
+  /// 패턴 기반 다음 수유 예측 정보
+  Future<Map<String, dynamic>> getPatternBasedNextFeeding(String babyId) async {
+    try {
+      final cacheManager = FeedingCacheManager.instance;
+      
+      // 현재 수유 기록 수 확인
+      final countResponse = await _supabase
+          .from('feedings')
+          .select('id')
+          .eq('baby_id', babyId);
+      
+      final currentFeedingCount = countResponse.length;
+      
+      // 캐시 확인 및 재계산 필요성 판단
+      final shouldRecalc = await cacheManager.shouldRecalculate(babyId, currentFeedingCount);
+      FeedingPatternCache? cachedPattern;
+      
+      if (!shouldRecalc) {
+        cachedPattern = await cacheManager.getCachedPattern(babyId);
+      }
+      
+      FeedingPatternAnalysisResult analysis;
+      
+      if (cachedPattern != null) {
+        // 캐시된 결과 사용
+        analysis = cachedPattern.result;
+        debugPrint('캐시된 패턴 분석 결과 사용: $babyId');
+      } else {
+        // 새로 패턴 분석
+        debugPrint('새로운 패턴 분석 시작: $babyId');
+        final recentFeedings = await getRecentFeedingsForPattern(babyId);
+        analysis = FeedingPatternAnalyzer.analyzePattern(recentFeedings);
+        
+        // 결과 캐싱
+        final lastFeedingId = recentFeedings.isNotEmpty ? recentFeedings.first.id : null;
+        await cacheManager.cachePattern(
+          babyId: babyId,
+          result: analysis,
+          currentFeedingCount: currentFeedingCount,
+          lastFeedingId: lastFeedingId,
+        );
+        
+        debugPrint('패턴 분석 완료 및 캐싱: $babyId');
+      }
+      
+      // 다음 수유 시간 계산
+      if (!analysis.isDataSufficient) {
+        return {
+          'status': 'insufficient_data',
+          'reason': analysis.insufficientDataReason,
+          'message': 'insufficient_feeding_records',
+          'analysis': analysis,
+        };
+      }
+      
+      if (analysis.lastFeedingTime == null) {
+        return {
+          'status': 'no_recent_feeding',
+          'message': 'no_recent_feeding',
+          'analysis': analysis,
+        };
+      }
+      
+      final now = DateTime.now();
+      final nextFeedingTime = analysis.lastFeedingTime!.add(
+        Duration(minutes: (analysis.averageIntervalHours * 60).round())
+      );
+      
+      if (nextFeedingTime.isBefore(now)) {
+        return {
+          'status': 'overdue',
+          'message': 'feeding_overdue',
+          'minutesOverdue': now.difference(nextFeedingTime).inMinutes,
+          'analysis': analysis,
+        };
+      }
+      
+      final timeUntilNext = nextFeedingTime.difference(now);
+      final hoursUntil = timeUntilNext.inHours;
+      final minutesUntil = timeUntilNext.inMinutes % 60;
+      
+      return {
+        'status': 'scheduled',
+        'message': hoursUntil > 0 ? 'hours_minutes_until_feeding' : 'minutes_until_feeding',
+        'hoursUntilNext': hoursUntil,
+        'minutesUntilNext': minutesUntil,
+        'totalMinutesUntilNext': timeUntilNext.inMinutes,
+        'nextFeedingTime': nextFeedingTime,
+        'analysis': analysis,
+      };
+      
+    } catch (e) {
+      debugPrint('Error getting pattern-based next feeding: $e');
+      return {
+        'status': 'error',
+        'message': 'calculation_error',
+        'analysis': null,
+      };
+    }
+  }
+
+  /// 수유 기록 추가 시 패턴 캐시 업데이트
+  Future<void> _updatePatternCacheAfterFeeding(String babyId) async {
+    try {
+      final cacheManager = FeedingCacheManager.instance;
+      
+      // 백그라운드에서 패턴 업데이트 (비동기)
+      Future.microtask(() async {
+        try {
+          final countResponse = await _supabase
+              .from('feedings')
+              .select('id')
+              .eq('baby_id', babyId);
+          
+          final currentCount = countResponse.length;
+          final shouldRecalc = await cacheManager.shouldRecalculate(babyId, currentCount);
+          
+          if (shouldRecalc) {
+            debugPrint('백그라운드 패턴 업데이트 시작: $babyId');
+            final recentFeedings = await getRecentFeedingsForPattern(babyId);
+            final analysis = FeedingPatternAnalyzer.analyzePattern(recentFeedings);
+            
+            final lastFeedingId = recentFeedings.isNotEmpty ? recentFeedings.first.id : null;
+            await cacheManager.cachePattern(
+              babyId: babyId,
+              result: analysis,
+              currentFeedingCount: currentCount,
+              lastFeedingId: lastFeedingId,
+            );
+            
+            debugPrint('백그라운드 패턴 업데이트 완료: $babyId');
+          }
+        } catch (e) {
+          debugPrint('백그라운드 패턴 업데이트 오류: $e');
+        }
+      });
+    } catch (e) {
+      debugPrint('패턴 캐시 업데이트 오류: $e');
     }
   }
 }

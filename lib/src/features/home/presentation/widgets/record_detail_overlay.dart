@@ -333,8 +333,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
             durationMinutes: updatedRecord['duration_minutes'],
             side: updatedRecord['side'],
             notes: updatedRecord['notes'],
-            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']).toLocal() : null,
-            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']).toLocal() : null,
+            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']) : null,
+            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']) : null,
           );
           break;
         case RecordType.sleep:
@@ -344,8 +344,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
             quality: updatedRecord['quality'],
             location: updatedRecord['location'],
             notes: updatedRecord['notes'],
-            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']).toLocal() : null,
-            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']).toLocal() : null,
+            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']) : null,
+            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']) : null,
           );
           break;
         case RecordType.milkPumping:
@@ -356,8 +356,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
             side: updatedRecord['side'],
             storageLocation: updatedRecord['storage_method'],
             notes: updatedRecord['notes'],
-            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']).toLocal() : null,
-            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']).toLocal() : null,
+            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']) : null,
+            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']) : null,
           );
           break;
         case RecordType.solidFood:
@@ -367,8 +367,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
             amountGrams: updatedRecord['amount'],
             allergicReaction: updatedRecord['reaction'],
             notes: updatedRecord['notes'],
-            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']).toLocal() : null,
-            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']).toLocal() : null,
+            startedAt: updatedRecord['started_at'] != null ? DateTime.parse(updatedRecord['started_at']) : null,
+            endedAt: updatedRecord['ended_at'] != null ? DateTime.parse(updatedRecord['ended_at']) : null,
           );
           break;
         case RecordType.medication:
@@ -379,7 +379,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
             unit: updatedRecord['unit'],
             route: updatedRecord['medication_type'],
             notes: updatedRecord['notes'],
-            administeredAt: updatedRecord['administered_at'] != null ? DateTime.parse(updatedRecord['administered_at']).toLocal() : null,
+            administeredAt: updatedRecord['administered_at'] != null ? DateTime.parse(updatedRecord['administered_at']) : null,
           );
           break;
         case RecordType.diaper:
@@ -389,7 +389,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
             color: updatedRecord['color'],
             consistency: updatedRecord['consistency'],
             notes: updatedRecord['notes'],
-            changedAt: updatedRecord['changed_at'] != null ? DateTime.parse(updatedRecord['changed_at']).toLocal() : null,
+            changedAt: updatedRecord['changed_at'] != null ? DateTime.parse(updatedRecord['changed_at']) : null,
           );
           break;
       }
@@ -848,7 +848,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
 
   Widget _buildFeedingRecord(Map<String, dynamic> record) {
     final theme = Theme.of(context);
-    final startedAt = DateTime.parse(record['started_at']).toLocal();
+    // 데이터베이스 시간을 그대로 표시
+    final startedAt = DateTime.parse(record['started_at']);
     final amount = record['amount_ml'] ?? 0;
     final type = record['type'] ?? '';
     final duration = record['duration_minutes'] ?? 0;
@@ -928,8 +929,9 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
 
   Widget _buildSleepRecord(Map<String, dynamic> record) {
     final theme = Theme.of(context);
-    final startedAt = DateTime.parse(record['started_at']).toLocal();
-    final endedAt = record['ended_at'] != null ? DateTime.parse(record['ended_at']).toLocal() : null;
+    // 데이터베이스 시간을 그대로 표시
+    final startedAt = DateTime.parse(record['started_at']);
+    final endedAt = record['ended_at'] != null ? DateTime.parse(record['ended_at']) : null;
     final duration = record['duration_minutes'] ?? 0;
     final quality = record['quality'] ?? '';
 
@@ -1019,7 +1021,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
 
   Widget _buildDiaperRecord(Map<String, dynamic> record) {
     final theme = Theme.of(context);
-    final changedAt = DateTime.parse(record['changed_at']).toLocal();
+    // 데이터베이스 시간을 그대로 표시
+    final changedAt = DateTime.parse(record['changed_at']);
     final type = record['type'] ?? '';
     final color = record['color'] ?? '';
 
@@ -1100,7 +1103,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
 
   Widget _buildMilkPumpingRecord(Map<String, dynamic> record) {
     final theme = Theme.of(context);
-    final startedAt = DateTime.parse(record['started_at']).toLocal();
+    // 데이터베이스 시간을 그대로 표시
+    final startedAt = DateTime.parse(record['started_at']);
     final amount = record['amount_ml'] ?? 0;
     final duration = record['duration_minutes'] ?? 0;
     final side = record['side'] ?? '';
@@ -1174,7 +1178,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
 
   Widget _buildSolidFoodRecord(Map<String, dynamic> record) {
     final theme = Theme.of(context);
-    final startedAt = DateTime.parse(record['started_at']).toLocal();
+    // 데이터베이스 시간을 그대로 표시
+    final startedAt = DateTime.parse(record['started_at']);
     final foodName = record['food_name'] ?? '';
     final amount = record['amount'] ?? 0;
     final reaction = record['reaction'] ?? '';
@@ -1251,7 +1256,8 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
 
   Widget _buildMedicationRecord(Map<String, dynamic> record) {
     final theme = Theme.of(context);
-    final administeredAt = DateTime.parse(record['administered_at']).toLocal();
+    // 데이터베이스 시간을 그대로 표시
+    final administeredAt = DateTime.parse(record['administered_at']);
     final medicationName = record['medication_name'] ?? '';
     final dosage = record['dosage'] ?? '';
     final unit = record['unit'] ?? '';

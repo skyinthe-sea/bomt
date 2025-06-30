@@ -1090,6 +1090,16 @@
     }
   },
   
+  "insufficientFeedingRecords": "Insufficient feeding records",
+  "@insufficientFeedingRecords": {
+    "description": "Message shown when there are insufficient feeding records for pattern analysis"
+  },
+  
+  "noRecentFeeding": "No recent feeding records",
+  "@noRecentFeeding": {
+    "description": "Message shown when there are no recent feeding records"
+  },
+  
   "languageSelection": "Language Selection",
   "@languageSelection": {
     "description": "Language selection screen title"

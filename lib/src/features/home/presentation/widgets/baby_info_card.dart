@@ -365,8 +365,24 @@ class BabyInfoCard extends StatelessWidget {
   }
   
   String _buildNextFeedingText(AppLocalizations l10n, int? minutesUntilNextFeeding, int nextFeedingMinutes, int nextHours, int nextMinutes) {
+    // 패턴 기반 메시지 확인
+    final nextFeedingMessage = feedingSummary['nextFeedingMessage'] as String?;
+    
+    if (nextFeedingMessage != null) {
+      switch (nextFeedingMessage) {
+        case 'insufficient_feeding_records':
+          return l10n.insufficientFeedingRecords;
+        case 'feeding_overdue':
+          return l10n.feedingTimeOverdue;
+        case 'no_recent_feeding':
+          return l10n.noRecentFeeding;
+        default:
+          break;
+      }
+    }
+    
     if (minutesUntilNextFeeding != null) {
-      // Alarm is set
+      // Alarm is set or pattern-based calculation
       if (nextFeedingMinutes == 0) {
         return l10n.feedingTimeNow;
       } else if (nextFeedingMinutes < 30) {

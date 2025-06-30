@@ -137,7 +137,7 @@ class _GlassmorphicTimelineCardState extends State<GlassmorphicTimelineCard>
             ),
           ),
           child: Text(
-            DateFormat('HH:mm').format(widget.item.timestamp),
+            DateFormat('HH:mm').format(widget.item.timestamp.subtract(const Duration(hours: 9))),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12,
