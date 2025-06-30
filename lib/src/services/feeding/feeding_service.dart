@@ -161,8 +161,19 @@ class FeedingService with DataSyncMixin {
         
         // 최근 수유 시간 계산 (오늘 수유가 있는 경우)
         final lastFeeding = response.first;
-        lastFeedingTime = DateTime.parse(lastFeeding['started_at']).toLocal();
+        // 모든 데이터를 동일한 방식으로 처리: 9시간 보정
+        final parsedTime = DateTime.parse(lastFeeding['started_at']);
+        lastFeedingTime = parsedTime.subtract(const Duration(hours: 9));
         lastFeedingMinutesAgo = now.difference(lastFeedingTime).inMinutes;
+        
+        debugPrint('=== 오늘 수유 시간 계산 디버그 ===');
+        debugPrint('현재 시간: $now');
+        debugPrint('DB 수유 시간: ${lastFeeding['started_at']}');
+        debugPrint('파싱된 시간: $parsedTime');
+        debugPrint('9시간 보정 후: $lastFeedingTime');
+        debugPrint('시간 차이 (분): $lastFeedingMinutesAgo');
+        debugPrint('시간 차이 (시:분): ${lastFeedingMinutesAgo ~/ 60}시간 ${lastFeedingMinutesAgo % 60}분');
+        debugPrint('===============================');
       } else {
         // 오늘 수유가 없는 경우, 전체 기간에서 가장 최근 수유 찾기
         debugPrint('오늘 수유 없음. 전체 기간에서 최근 수유 검색...');
@@ -181,6 +192,15 @@ class FeedingService with DataSyncMixin {
           final parsedTime = DateTime.parse(dbTime);
           lastFeedingTime = parsedTime.subtract(const Duration(hours: 9));
           lastFeedingMinutesAgo = now.difference(lastFeedingTime).inMinutes;
+          
+          debugPrint('=== 과거 수유 시간 계산 디버그 ===');
+          debugPrint('현재 시간: $now');
+          debugPrint('DB 수유 시간: $dbTime');
+          debugPrint('파싱된 시간: $parsedTime');
+          debugPrint('9시간 보정 후: $lastFeedingTime');
+          debugPrint('시간 차이 (분): $lastFeedingMinutesAgo');
+          debugPrint('시간 차이 (시:분): ${lastFeedingMinutesAgo ~/ 60}시간 ${lastFeedingMinutesAgo % 60}분');
+          debugPrint('================================');
           
           debugPrint('현재 시간: $now');
           debugPrint('DB 시간 (원본): $dbTime');
