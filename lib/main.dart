@@ -17,6 +17,7 @@ import 'src/core/theme/app_theme.dart';
 import 'src/services/alarm/feeding_alarm_service.dart';
 import 'src/services/invitation/invitation_service.dart';
 import 'src/services/update_check/update_check_service.dart';
+import 'src/services/locale/device_locale_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter/foundation.dart';
 
@@ -44,6 +45,9 @@ void main() async {
     debugPrint('업데이트 체크 서비스 초기화 실패: $e');
     // 업데이트 체크 실패해도 앱은 계속 실행
   }
+  
+  // Log device locale info for debugging
+  DeviceLocaleService.instance.logDeviceInfo();
   
   // Initialize dependencies
   final prefs = await SharedPreferences.getInstance();
