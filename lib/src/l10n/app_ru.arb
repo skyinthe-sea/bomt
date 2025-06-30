@@ -419,5 +419,9 @@
   "currentLanguage": "Текущий язык",
   "@currentLanguage": {
     "description": "Current language label"
-  }
+  },
+
+  "lastFeedingTime": "Время последнего кормления",
+  "minutesAgo": "{minutes} минут назад",
+  "hoursAndMinutesAgo": "{hours} часов {minutes} минут назад"
 }

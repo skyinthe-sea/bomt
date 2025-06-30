@@ -303,8 +303,8 @@
   
   "ageMonthsAndDays": "{months}か月{days}日",
   "lastFeedingTime": "最後の授乳時間",
-  "minutesAgo": "{minutes}m前",
-  "hoursAndMinutesAgo": "{hours}h {minutes}m前",
+  "minutesAgo": "{minutes}分前",
+  "hoursAndMinutesAgo": "{hours}時間{minutes}分前",
   "nextFeedingSchedule": "約{hours}時間{minutes}分後に授乳予定",
   "nextFeedingScheduleMinutes": "約{minutes}分後に授乳予定",
   "feedingTimeNow": "今が授乳時間です🍼",

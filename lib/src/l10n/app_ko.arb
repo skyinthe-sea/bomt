@@ -300,8 +300,8 @@
   
   "ageMonthsAndDays": "{months}개월 {days}일",
   "lastFeedingTime": "마지막 수유 시간",
-  "minutesAgo": "{minutes}m 전",
-  "hoursAndMinutesAgo": "{hours}h {minutes}m 전",
+  "minutesAgo": "{minutes}분 전",
+  "hoursAndMinutesAgo": "{hours}시간 {minutes}분 전",
   "nextFeedingSchedule": "약 {hours}시간 {minutes}분 후 수유 예정",
   "nextFeedingScheduleMinutes": "약 {minutes}분 후 수유 예정",
   "feedingTimeNow": "지금 수유 시간입니다 🍼",

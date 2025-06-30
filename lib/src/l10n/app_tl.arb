@@ -419,5 +419,9 @@
   "currentLanguage": "Kasalukuyang wika",
   "@currentLanguage": {
     "description": "Current language label"
-  }
+  },
+
+  "lastFeedingTime": "Huling oras ng pagpapakain",
+  "minutesAgo": "{minutes} minuto na ang nakakaraan",
+  "hoursAndMinutesAgo": "{hours} oras {minutes} minuto na ang nakakaraan"
 }

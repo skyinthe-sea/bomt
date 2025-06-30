@@ -419,5 +419,9 @@
   "currentLanguage": "Bahasa saat ini",
   "@currentLanguage": {
     "description": "Current language label"
-  }
+  },
+
+  "lastFeedingTime": "Waktu menyusui terakhir",
+  "minutesAgo": "{minutes} menit yang lalu",
+  "hoursAndMinutesAgo": "{hours} jam {minutes} menit yang lalu"
 }

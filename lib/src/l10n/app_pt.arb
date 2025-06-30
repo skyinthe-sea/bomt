@@ -419,5 +419,9 @@
   "currentLanguage": "Idioma atual",
   "@currentLanguage": {
     "description": "Current language label"
-  }
+  },
+
+  "lastFeedingTime": "Último horário de alimentação",
+  "minutesAgo": "há {minutes} minutos",
+  "hoursAndMinutesAgo": "há {hours} horas {minutes} minutos"
 }

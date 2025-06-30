@@ -634,8 +634,8 @@
   
   "ageMonthsAndDays": "{months} months {days} days",
   "lastFeedingTime": "Last feeding time",
-  "minutesAgo": "{minutes}m ago",
-  "hoursAndMinutesAgo": "{hours}h {minutes}m ago",
+  "minutesAgo": "{minutes} minutes ago",
+  "hoursAndMinutesAgo": "{hours} hours {minutes} minutes ago",
   "nextFeedingSchedule": "Next feeding in about {hours}h {minutes}m",
   "nextFeedingScheduleMinutes": "Next feeding in about {minutes} minutes",
   "feedingTimeNow": "It's feeding time now 🍼",

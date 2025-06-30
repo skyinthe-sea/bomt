@@ -419,5 +419,9 @@
   "currentLanguage": "ภาษาปัจจุบัน",
   "@currentLanguage": {
     "description": "Current language label"
-  }
+  },
+
+  "lastFeedingTime": "เวลาการให้อาหารครั้งสุดท้าย",
+  "minutesAgo": "{minutes} นาทีที่แล้ว",
+  "hoursAndMinutesAgo": "{hours} ชั่วโมง {minutes} นาทีที่แล้ว"
 }

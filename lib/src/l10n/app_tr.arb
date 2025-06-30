@@ -419,5 +419,9 @@
   "currentLanguage": "Mevcut dil",
   "@currentLanguage": {
     "description": "Current language label"
-  }
+  },
+
+  "lastFeedingTime": "Son beslenme zamanı",
+  "minutesAgo": "{minutes} dakika önce",
+  "hoursAndMinutesAgo": "{hours} saat {minutes} dakika önce"
 }

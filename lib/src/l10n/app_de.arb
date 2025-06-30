@@ -419,5 +419,9 @@
   "currentLanguage": "Aktuelle Sprache",
   "@currentLanguage": {
     "description": "Current language label"
-  }
+  },
+
+  "lastFeedingTime": "Letzte Stillzeit",
+  "minutesAgo": "{minutes} Minuten her",
+  "hoursAndMinutesAgo": "{hours} Stunden {minutes} Minuten her"
 }

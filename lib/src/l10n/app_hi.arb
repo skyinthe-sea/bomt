@@ -155,8 +155,8 @@
   
   "ageMonthsAndDays": "{months} महीने {days} दिन",
   "lastFeedingTime": "अंतिम दूध पिलाने का समय",
-  "minutesAgo": "{minutes}m पहले",
-  "hoursAndMinutesAgo": "{hours}h {minutes}m पहले",
+  "minutesAgo": "{minutes} मिनट पहले",
+  "hoursAndMinutesAgo": "{hours} घंटे {minutes} मिनट पहले",
   "nextFeedingSchedule": "लगभग {hours} घंटे {minutes} मिनट बाद दूध पिलाना",
   "nextFeedingScheduleMinutes": "लगभग {minutes} मिनट बाद दूध पिलाना",
   "feedingTimeNow": "अभी दूध पिलाने का समय है 🍼",
