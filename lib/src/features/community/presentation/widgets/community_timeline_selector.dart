@@ -2,12 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../../../core/providers/baby_provider.dart';
 import '../../../../services/timeline/timeline_service.dart';
 import '../../../../domain/models/timeline_item.dart';
-import '../../../../domain/models/baby.dart';
-import '../../../baby/data/repositories/supabase_baby_repository.dart';
 import 'compact_timeline_chart.dart';
 
 class CommunityTimelineSelector extends StatefulWidget {
@@ -41,7 +38,6 @@ class _CommunityTimelineSelectorState extends State<CommunityTimelineSelector> {
 
   Future<void> _selectDate() async {
     final now = DateTime.now();
-    // 현재 날짜를 기본값으로 사용 (실제 데이터는 2025년에 있음)
     final defaultDate = _selectedDate ?? now;
     final picked = await showDatePicker(
       context: context,
@@ -60,69 +56,25 @@ class _CommunityTimelineSelectorState extends State<CommunityTimelineSelector> {
     }
   }
 
-  // 타임라인 페이지와 동일한 방식으로 User ID 가져오기 (직접 Kakao API 사용)
-  Future<String?> _getUserId() async {
-    try {
-      final user = await UserApi.instance.me();
-      final userId = user.id.toString();
-      print('DEBUG: Kakao userId: $userId');
-      return userId;
-    } catch (e) {
-      print('DEBUG: Error getting user ID: $e');
-      return null;
-    }
-  }
-
-  Future<Baby?> _getCurrentBaby(String userId) async {
-    try {
-      final babyRepository = SupabaseBabyRepository();
-      final babyEntities = await babyRepository.getBabiesByUserId(userId);
-      
-      print('DEBUG: Found ${babyEntities.length} babies for user $userId');
-      
-      if (babyEntities.isEmpty) {
-        print('DEBUG: No babies found for user');
-        return null;
-      }
-
-      final babyEntity = babyEntities.first;
-      print('DEBUG: Using baby: ${babyEntity.id} - ${babyEntity.name}');
-      
-      return Baby(
-        id: babyEntity.id,
-        name: babyEntity.name,
-        birthDate: babyEntity.birthDate,
-        gender: babyEntity.gender,
-        profileImageUrl: babyEntity.profileImageUrl,
-        createdAt: babyEntity.createdAt,
-        updatedAt: babyEntity.updatedAt,
-      );
-    } catch (e) {
-      print('DEBUG: Error getting current baby: $e');
-      return null;
-    }
-  }
-
   Future<void> _loadTimelineData(DateTime date) async {
     try {
       print('DEBUG: _loadTimelineData called with date: $date');
       
-      // 1. 타임라인 페이지와 동일한 방식으로 Baby ID 가져오기
-      final userId = await _getUserId();
-      if (userId == null) {
-        print('DEBUG: Failed to get user ID');
+      // BabyProvider의 선택된 아기 사용
+      final babyProvider = Provider.of<BabyProvider>(context, listen: false);
+      
+      if (babyProvider.selectedBaby == null) {
+        print('DEBUG: No baby selected in BabyProvider');
+        setState(() {
+          _isLoading = false;
+        });
         return;
       }
       
-      final currentBaby = await _getCurrentBaby(userId);
-      if (currentBaby == null) {
-        print('DEBUG: Failed to get current baby');
-        return;
-      }
-      
-      print('DEBUG: Using baby from direct query: ${currentBaby.id} - ${currentBaby.name}');
+      final currentBaby = babyProvider.selectedBaby!;
+      print('DEBUG: Using selected baby: ${currentBaby.id} - ${currentBaby.name}');
 
-      // 2. TimelineService를 사용해서 데이터 가져오기
+      // TimelineService를 사용해서 데이터 가져오기
       final timelineService = TimelineService.instance;
       final timelineItems = await timelineService.getTimelineItemsForDate(currentBaby.id, date);
       
@@ -222,7 +174,6 @@ class _CommunityTimelineSelectorState extends State<CommunityTimelineSelector> {
     };
   }
 
-
   void _removeTimeline() {
     setState(() {
       _selectedDate = null;
@@ -236,190 +187,226 @@ class _CommunityTimelineSelectorState extends State<CommunityTimelineSelector> {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withOpacity(0.9),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.1),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: theme.colorScheme.shadow.withOpacity(0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // 헤더
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.timeline,
-                  color: theme.colorScheme.primary,
-                  size: 20,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '24시간 활동 패턴',
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-                const Spacer(),
-                if (_selectedDate != null)
-                  IconButton(
-                    onPressed: _removeTimeline,
-                    icon: Icon(
-                      Icons.close,
-                      size: 20,
-                      color: theme.colorScheme.onSurface.withOpacity(0.6),
-                    ),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(
-                      minWidth: 24,
-                      minHeight: 24,
-                    ),
-                  ),
-              ],
+    return Consumer<BabyProvider>(
+      builder: (context, babyProvider, child) {
+        // 선택된 아기가 없으면 선택 요청 메시지 표시
+        if (babyProvider.selectedBaby == null) {
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface.withOpacity(0.9),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: theme.colorScheme.outline.withOpacity(0.1),
+              ),
             ),
-          ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Center(
+                child: Text(
+                  '먼저 아기를 선택해주세요',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurface.withOpacity(0.6),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
 
-          // 내용
-          if (_selectedDate == null)
-            // 날짜 선택 버튼
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-              child: InkWell(
-                onTap: _selectDate,
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: theme.colorScheme.primary.withOpacity(0.3),
-                      style: BorderStyle.solid,
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: theme.colorScheme.outline.withOpacity(0.1),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.shadow.withOpacity(0.03),
+                blurRadius: 8,
+                offset: const Offset(0, 1),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 헤더
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.timeline,
+                      color: theme.colorScheme.primary,
+                      size: 20,
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.add_circle_outline,
+                    const SizedBox(width: 8),
+                    Text(
+                      '24시간 활동 패턴',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
                         color: theme.colorScheme.primary,
-                        size: 20,
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '날짜를 선택하여 타임라인 추가',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.primary,
-                          fontWeight: FontWeight.w500,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '(${babyProvider.selectedBaby!.name})',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurface.withOpacity(0.6),
+                      ),
+                    ),
+                    const Spacer(),
+                    if (_selectedDate != null)
+                      IconButton(
+                        onPressed: _removeTimeline,
+                        icon: Icon(
+                          Icons.close,
+                          size: 20,
+                          color: theme.colorScheme.onSurface.withOpacity(0.6),
+                        ),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(
+                          minWidth: 24,
+                          minHeight: 24,
                         ),
                       ),
+                  ],
+                ),
+              ),
+
+              // 내용
+              if (_selectedDate == null)
+                // 날짜 선택 버튼
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                  child: InkWell(
+                    onTap: _selectDate,
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: theme.colorScheme.primary.withOpacity(0.3),
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.add_circle_outline,
+                            color: theme.colorScheme.primary,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            '날짜를 선택하여 타임라인 추가',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.primary,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              else
+                // 선택된 날짜 및 타임라인 미리보기
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 선택된 날짜
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              '${_selectedDate!.month}월 ${_selectedDate!.day}일',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          TextButton(
+                            onPressed: _selectDate,
+                            child: Text(
+                              '변경',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      
+                      const SizedBox(height: 8),
+                      
+                      // 타임라인 미리보기
+                      if (_isLoading)
+                        const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(12),
+                            child: SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          ),
+                        )
+                      else if (_timelineItems.isNotEmpty && _selectedDate != null)
+                        Container(
+                          height: 100,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: CompactTimelineChart(
+                              timelineItems: _timelineItems,
+                              selectedDate: _selectedDate!,
+                            ),
+                          ),
+                        )
+                      else
+                        Container(
+                          height: 100,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '해당 날짜에 기록된 활동이 없습니다',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
-              ),
-            )
-          else
-            // 선택된 날짜 및 타임라인 미리보기
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 선택된 날짜
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          '${_selectedDate!.month}월 ${_selectedDate!.day}일',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      TextButton(
-                        onPressed: _selectDate,
-                        child: Text(
-                          '변경',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  
-                  const SizedBox(height: 8),
-                  
-                  // 타임라인 미리보기
-                  if (_isLoading)
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(12),
-                        child: SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                      ),
-                    )
-                  else if (_timelineItems.isNotEmpty && _selectedDate != null)
-                    Container(
-                      height: 100,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: CompactTimelineChart(
-                          timelineItems: _timelineItems,
-                          selectedDate: _selectedDate!,
-                        ),
-                      ),
-                    )
-                  else
-                    Container(
-                      height: 100,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '해당 날짜에 기록된 활동이 없습니다',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurface.withOpacity(0.6),
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-        ],
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

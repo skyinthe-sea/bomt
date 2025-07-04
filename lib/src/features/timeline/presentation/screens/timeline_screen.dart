@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../../../presentation/providers/timeline_provider.dart';
 import '../../../../domain/models/timeline_item.dart';
-import '../../../../domain/models/baby.dart';
-import '../../../../services/auth/auth_service.dart';
-import '../../../baby/data/repositories/supabase_baby_repository.dart';
+import '../../../../core/providers/baby_provider.dart';
 import '../widgets/glassmorphic_timeline_card.dart';
 import '../widgets/clean_background.dart';
 import '../widgets/clean_timeline_header.dart';
@@ -28,7 +25,6 @@ class _TimelineScreenState extends State<TimelineScreen>
   late Animation<double> _fadeAnimation;
   late ScrollController _scrollListController;
   
-  Baby? _currentBaby;
   bool _isInitialized = false;
   
   // 화면 포커스 감지용
@@ -141,121 +137,94 @@ class _TimelineScreenState extends State<TimelineScreen>
 
   Future<void> _initializeData() async {
     try {
-      debugPrint('📱 [TIMELINE] Initializing modern timeline data...');
+      debugPrint('📱 [TIMELINE] Initializing timeline data...');
       
-      // 사용자 정보 가져오기
-      final userId = await _getUserId();
-      if (userId == null) {
-        debugPrint('❌ [TIMELINE] No user ID found');
-        return;
-      }
-
-      // 아기 정보 가져오기
-      final baby = await _getCurrentBaby(userId);
-      if (baby == null) {
-        debugPrint('❌ [TIMELINE] No baby found for user: $userId');
+      // BabyProvider의 선택된 아기 사용
+      final babyProvider = Provider.of<BabyProvider>(context, listen: false);
+      await babyProvider.loadBabyData();
+      
+      if (babyProvider.selectedBaby == null) {
+        debugPrint('❌ [TIMELINE] No baby selected');
         return;
       }
 
       setState(() {
-        _currentBaby = baby;
         _isInitialized = true;
       });
 
-      // Provider에 아기 ID 설정
-      _timelineProvider.setCurrentBaby(baby.id);
+      // Provider에 선택된 아기 ID 설정
+      _timelineProvider.setCurrentBaby(babyProvider.selectedBaby!.id);
       
       // 페이드 인 애니메이션 시작
       _fadeController.forward();
       
-      debugPrint('✅ [TIMELINE] Modern timeline initialized successfully');
+      debugPrint('✅ [TIMELINE] Timeline initialized for baby: ${babyProvider.selectedBaby!.name}');
     } catch (e) {
       debugPrint('❌ [TIMELINE] Error initializing timeline: $e');
     }
   }
 
-  Future<String?> _getUserId() async {
-    try {
-      final user = await UserApi.instance.me();
-      return user.id.toString();
-    } catch (e) {
-      debugPrint('Error getting user ID: $e');
-      return null;
-    }
-  }
-
-  Future<Baby?> _getCurrentBaby(String userId) async {
-    try {
-      final babyRepository = SupabaseBabyRepository();
-      final babyEntities = await babyRepository.getBabiesByUserId(userId);
-      if (babyEntities.isEmpty) return null;
-      
-      // Entity를 Model로 변환
-      final babyEntity = babyEntities.first;
-      return Baby(
-        id: babyEntity.id,
-        name: babyEntity.name,
-        birthDate: babyEntity.birthDate,
-        gender: babyEntity.gender,
-        profileImageUrl: babyEntity.profileImageUrl,
-        createdAt: babyEntity.createdAt,
-        updatedAt: babyEntity.updatedAt,
-      );
-    } catch (e) {
-      debugPrint('Error getting baby: $e');
-      return null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (!_isInitialized || _currentBaby == null) {
-      return Scaffold(
-        body: CleanBackground(
-          child: const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(
-                  strokeWidth: 3,
+    return Consumer<BabyProvider>(
+      builder: (context, babyProvider, child) {
+        if (!_isInitialized || babyProvider.selectedBaby == null) {
+          return Scaffold(
+            body: CleanBackground(
+              child: const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      strokeWidth: 3,
+                    ),
+                    SizedBox(height: 24),
+                    Text(
+                      '타임라인을 준비하고 있어요...',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 24),
-                Text(
-                  '타임라인을 준비하고 있어요...',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      );
-    }
+          );
+        }
 
-    return ChangeNotifierProvider.value(
-      value: _timelineProvider,
-      child: Scaffold(
-        body: CleanBackground(
-          child: SafeArea(
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: Column(
-                children: [
-                  // 깔끔한 헤더
-                  _buildCleanHeader(),
-                  
-                  // 스크롤 가능한 콘텐츠
-                  Expanded(
-                    child: _buildScrollableContent(),
+        // 아기가 변경되었을 때 타임라인 업데이트
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_timelineProvider.currentBabyId != babyProvider.selectedBaby!.id) {
+            debugPrint('🔄 [TIMELINE] Baby changed, updating timeline for: ${babyProvider.selectedBaby!.name}');
+            _timelineProvider.setCurrentBaby(babyProvider.selectedBaby!.id);
+          }
+        });
+
+        return ChangeNotifierProvider.value(
+          value: _timelineProvider,
+          child: Scaffold(
+            body: CleanBackground(
+              child: SafeArea(
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: Column(
+                    children: [
+                      // 깔끔한 헤더
+                      _buildCleanHeader(),
+                      
+                      // 스크롤 가능한 콘텐츠
+                      Expanded(
+                        child: _buildScrollableContent(),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

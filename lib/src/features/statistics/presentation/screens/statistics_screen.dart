@@ -72,31 +72,19 @@ class _StatisticsScreenState extends State<StatisticsScreen>
       final babyProvider = Provider.of<BabyProvider>(context, listen: false);
       final statisticsProvider = Provider.of<StatisticsProvider>(context, listen: false);
       
-      debugPrint('🍼 [STATISTICS_SCREEN] Initializing providers...');
-      debugPrint('🍼 [STATISTICS_SCREEN] Before loadBabyData - currentBaby: ${babyProvider.currentBaby}, currentUserId: ${babyProvider.currentUserId}');
+      debugPrint('📊 [STATISTICS_SCREEN] Initializing providers...');
       
       // BabyProvider 데이터 로드
       await babyProvider.loadBabyData();
       
-      debugPrint('🍼 [STATISTICS_SCREEN] After loadBabyData - currentBaby: ${babyProvider.currentBaby}, currentUserId: ${babyProvider.currentUserId}');
-      
-      if (babyProvider.currentBaby != null && babyProvider.currentUserId != null) {
-        debugPrint('🍼 [STATISTICS_SCREEN] Setting current user: ${babyProvider.currentUserId}, baby: ${babyProvider.currentBaby!.id}');
+      if (babyProvider.selectedBaby != null && babyProvider.currentUserId != null) {
+        debugPrint('📊 [STATISTICS_SCREEN] Setting statistics for baby: ${babyProvider.selectedBaby!.name} (${babyProvider.selectedBaby!.id})');
         statisticsProvider.setCurrentUser(
           babyProvider.currentUserId!,
-          babyProvider.currentBaby!.id,
+          babyProvider.selectedBaby!.id,
         );
       } else {
-        debugPrint('❌ [STATISTICS_SCREEN] Cannot set current user - missing data');
-        debugPrint('❌ [STATISTICS_SCREEN] currentBaby: ${babyProvider.currentBaby}');
-        debugPrint('❌ [STATISTICS_SCREEN] currentUserId: ${babyProvider.currentUserId}');
-        
-        // BabyProvider가 실패할 경우 데이터베이스에서 확인된 값들로 대체
-        debugPrint('🔧 [STATISTICS_SCREEN] Using fallback data for statistics...');
-        statisticsProvider.setCurrentUser(
-          '4271061560',
-          'b2a9a743-fed8-4e5d-a4a8-4e9d1ae0500f',
-        );
+        debugPrint('❌ [STATISTICS_SCREEN] Cannot set statistics - missing baby selection');
       }
     });
   }
@@ -113,67 +101,84 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      body: Container(
-        decoration: _buildBackgroundGradient(),
-        child: SafeArea(
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: SlideTransition(
-            position: _slideAnimation,
-            child: Consumer<StatisticsProvider>(
-              builder: (context, statisticsProvider, child) {
-                return RefreshIndicator(
-                  onRefresh: () => statisticsProvider.refreshStatistics(),
-                  backgroundColor: theme.cardColor,
-                  color: theme.colorScheme.primary,
-                  child: CustomScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    slivers: [
-                      // 헤더
-                      SliverToBoxAdapter(
-                        child: StatisticsHeader(
-                          onRefresh: () => statisticsProvider.refreshStatistics(),
+    return Consumer<BabyProvider>(
+      builder: (context, babyProvider, child) {
+        return Scaffold(
+          body: Container(
+            decoration: _buildBackgroundGradient(),
+            child: SafeArea(
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: SlideTransition(
+                  position: _slideAnimation,
+                  child: Consumer<StatisticsProvider>(
+                    builder: (context, statisticsProvider, child) {
+                      // 아기가 변경되었을 때 통계 업데이트
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (babyProvider.selectedBaby != null && 
+                            babyProvider.currentUserId != null &&
+                            statisticsProvider.currentBabyId != babyProvider.selectedBaby!.id) {
+                          debugPrint('🔄 [STATISTICS] Baby changed, updating statistics for: ${babyProvider.selectedBaby!.name}');
+                          statisticsProvider.setCurrentUser(
+                            babyProvider.currentUserId!,
+                            babyProvider.selectedBaby!.id,
+                          );
+                        }
+                      });
+
+                      return RefreshIndicator(
+                        onRefresh: () => statisticsProvider.refreshStatistics(),
+                        backgroundColor: theme.cardColor,
+                        color: theme.colorScheme.primary,
+                        child: CustomScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          slivers: [
+                            // 헤더
+                            SliverToBoxAdapter(
+                              child: StatisticsHeader(
+                                onRefresh: () => statisticsProvider.refreshStatistics(),
+                              ),
+                            ),
+                            
+                            // 날짜 선택기
+                            const SliverToBoxAdapter(
+                              child: StatisticsDateSelector(),
+                            ),
+                            
+                            // 메인 컨텐츠
+                            if (statisticsProvider.isLoading)
+                              const SliverToBoxAdapter(
+                                child: StatisticsLoadingShimmer(),
+                              )
+                            else if (statisticsProvider.hasError)
+                              SliverToBoxAdapter(
+                                child: StatisticsErrorCard(
+                                  errorMessage: statisticsProvider.errorMessage!,
+                                  onRetry: () => statisticsProvider.refreshStatistics(),
+                                ),
+                              )
+                            else if (!statisticsProvider.hasData)
+                              const SliverToBoxAdapter(
+                                child: StatisticsEmptyState(),
+                              )
+                            else
+                              ..._buildStatisticsContent(statisticsProvider),
+                            
+                            // 하단 패딩
+                            const SliverToBoxAdapter(
+                              child: SizedBox(height: 32),
+                            ),
+                          ],
                         ),
-                      ),
-                      
-                      // 날짜 선택기
-                      const SliverToBoxAdapter(
-                        child: StatisticsDateSelector(),
-                      ),
-                      
-                      // 메인 컨텐츠
-                      if (statisticsProvider.isLoading)
-                        const SliverToBoxAdapter(
-                          child: StatisticsLoadingShimmer(),
-                        )
-                      else if (statisticsProvider.hasError)
-                        SliverToBoxAdapter(
-                          child: StatisticsErrorCard(
-                            errorMessage: statisticsProvider.errorMessage!,
-                            onRetry: () => statisticsProvider.refreshStatistics(),
-                          ),
-                        )
-                      else if (!statisticsProvider.hasData)
-                        const SliverToBoxAdapter(
-                          child: StatisticsEmptyState(),
-                        )
-                      else
-                        ..._buildStatisticsContent(statisticsProvider),
-                      
-                      // 하단 패딩
-                      const SliverToBoxAdapter(
-                        child: SizedBox(height: 32),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ),
             ),
           ),
-        ),
-        ),
-      ),
+        );
+      },
     );
   }
 

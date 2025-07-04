@@ -2,14 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../../../domain/models/community_post.dart';
 import '../../../../domain/models/timeline_item.dart';
-import '../../../../domain/models/baby.dart';
 import '../../../../core/providers/baby_provider.dart';
 import '../../../../services/timeline/timeline_service.dart';
-import '../../../baby/data/repositories/supabase_baby_repository.dart';
-import 'compact_timeline_chart.dart';
 import '../../../timeline/presentation/widgets/circular_timeline_chart.dart';
 import 'mosaic_image_widget.dart';
 
@@ -64,49 +60,6 @@ class CommunityPostDetailCard extends StatelessWidget {
     }
   }
 
-  // 타임라인 페이지와 동일한 방식으로 User ID 가져오기 (직접 Kakao API 사용)
-  Future<String?> _getUserId() async {
-    try {
-      final user = await UserApi.instance.me();
-      final userId = user.id.toString();
-      print('DEBUG: Post detail - Kakao userId: $userId');
-      return userId;
-    } catch (e) {
-      print('DEBUG: Error getting user ID in post detail: $e');
-      return null;
-    }
-  }
-
-  Future<Baby?> _getCurrentBaby(String userId) async {
-    try {
-      final babyRepository = SupabaseBabyRepository();
-      final babyEntities = await babyRepository.getBabiesByUserId(userId);
-      
-      print('DEBUG: Post detail - Found ${babyEntities.length} babies for user $userId');
-      
-      if (babyEntities.isEmpty) {
-        print('DEBUG: Post detail - No babies found for user');
-        return null;
-      }
-
-      final babyEntity = babyEntities.first;
-      print('DEBUG: Post detail - Using baby: ${babyEntity.id} - ${babyEntity.name}');
-      
-      return Baby(
-        id: babyEntity.id,
-        name: babyEntity.name,
-        birthDate: babyEntity.birthDate,
-        gender: babyEntity.gender,
-        profileImageUrl: babyEntity.profileImageUrl,
-        createdAt: babyEntity.createdAt,
-        updatedAt: babyEntity.updatedAt,
-      );
-    } catch (e) {
-      print('DEBUG: Error getting current baby in post detail: $e');
-      return null;
-    }
-  }
-
   // 최적화된 타임라인 데이터 로딩 (저장된 데이터 우선 사용)
   Future<List<TimelineItem>> _loadTimelineDataFromDatabase(BuildContext context, DateTime date) async {
     try {
@@ -120,19 +73,15 @@ class CommunityPostDetailCard extends StatelessWidget {
         }
       }
 
-      // 2. 타임라인 페이지와 동일한 방식으로 Baby ID 가져오기
-      final userId = await _getUserId();
-      if (userId == null) {
-        print('DEBUG: Post detail - Failed to get user ID, falling back to legacy data');
+      // 2. BabyProvider의 선택된 아기 사용
+      final babyProvider = Provider.of<BabyProvider>(context, listen: false);
+      
+      if (babyProvider.selectedBaby == null) {
+        print('DEBUG: Post detail - No baby selected, falling back to legacy data');
         return _convertLegacyTimelineData(post.timelineData ?? {});
       }
       
-      final currentBaby = await _getCurrentBaby(userId);
-      if (currentBaby == null) {
-        print('DEBUG: Post detail - Failed to get current baby, falling back to legacy data');
-        return _convertLegacyTimelineData(post.timelineData ?? {});
-      }
-
+      final currentBaby = babyProvider.selectedBaby!;
       print('DEBUG: Post detail - Loading fresh timeline data - date: $date, baby: ${currentBaby.id}');
 
       // 3. TimelineService를 사용해서 데이터 가져오기
@@ -253,53 +202,6 @@ class CommunityPostDetailCard extends StatelessWidget {
             return categoryName; // 기본값으로 원래 이름 반환
         }
     }
-  }
-
-  Widget _buildTimelineLegend(ThemeData theme) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _buildLegendItem(
-          theme,
-          const Color(0xFFFF9800),
-          '수유',
-          Icons.baby_changing_station,
-        ),
-        _buildLegendItem(
-          theme,
-          const Color(0xFF9C27B0),
-          '수면',
-          Icons.bedtime,
-        ),
-        _buildLegendItem(
-          theme,
-          const Color(0xFF4CAF50),
-          '기저귀',
-          Icons.child_friendly,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLegendItem(ThemeData theme, Color color, String label, IconData icon) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          icon,
-          color: color,
-          size: 16,
-        ),
-        const SizedBox(width: 4),
-        Text(
-          label,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.onSurface.withOpacity(0.7),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
   }
 
   @override
@@ -592,7 +494,7 @@ class CommunityPostDetailCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Container(
-                          height: 350, // 오버플로우 완전 해결을 위한 충분한 공간
+                          height: 350,
                           child: FutureBuilder<List<TimelineItem>>(
                             future: _loadTimelineDataFromDatabase(context, post.timelineDate!),
                             builder: (context, snapshot) {
@@ -654,7 +556,7 @@ class CommunityPostDetailCard extends StatelessWidget {
                               
                               return Center(
                                 child: Transform.scale(
-                                  scale: 0.8, // 80% 크기로 더 잘 보이도록 하면서 오버플로우 방지
+                                  scale: 0.8, // 80% 크기로 축소하여 더 많은 여유 공간 확보
                                   child: CircularTimelineChart(
                                     timelineItems: timelineItems,
                                     selectedDate: post.timelineDate!,
