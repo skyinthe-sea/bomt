@@ -1,0 +1,290 @@
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:logger/logger.dart';
+
+import '../../features/auth/domain/repositories/auth_repository.dart';
+import '../../features/auth/domain/models/auth_user.dart';
+import '../../features/auth/data/repositories/unified_auth_repository.dart';
+
+class UnifiedAuthService {
+  static UnifiedAuthService? _instance;
+  static UnifiedAuthService get instance => _instance ??= UnifiedAuthService._();
+  
+  UnifiedAuthService._();
+
+  final AuthRepository _authRepository = UnifiedAuthRepository();
+  final Logger _logger = Logger();
+  
+  // SharedPreferences keys
+  static const String _autoLoginKey = 'auto_login_enabled';
+  static const String _lastAuthUserKey = 'last_auth_user';
+  static const String _lastAuthProviderKey = 'last_auth_provider';
+
+  AuthUser? _currentUser;
+  SharedPreferences? _prefs;
+
+  /// 초기화
+  Future<void> initialize() async {
+    _prefs = await SharedPreferences.getInstance();
+    _logger.i('🔧 [AUTH_SERVICE] Initialized');
+  }
+
+  /// 현재 사용자
+  AuthUser? get currentUser => _currentUser;
+
+  /// 로그인 상태 확인
+  bool get isLoggedIn => _currentUser != null;
+
+  /// 자동 로그인 설정 가져오기
+  bool getAutoLogin() {
+    return _prefs?.getBool(_autoLoginKey) ?? false;
+  }
+
+  /// 자동 로그인 설정
+  Future<void> setAutoLogin(bool enabled) async {
+    await _prefs?.setBool(_autoLoginKey, enabled);
+    _logger.i('⚙️ [AUTH_SERVICE] Auto login set to: $enabled');
+  }
+
+  /// 이메일 로그인
+  Future<AuthUser?> signInWithEmail(String email, String password) async {
+    try {
+      _logger.i('📧 [AUTH_SERVICE] Email sign in attempt');
+      final user = await _authRepository.signInWithEmail(email, password);
+      if (user != null) {
+        _currentUser = user;
+        await _saveLastAuthUser(user);
+        _logger.i('✅ [AUTH_SERVICE] Email sign in successful');
+      }
+      return user;
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Email sign in failed: $e');
+      rethrow;
+    }
+  }
+
+  /// 이메일 회원가입
+  Future<AuthUser?> signUpWithEmail(String email, String password, String displayName) async {
+    try {
+      _logger.i('📧 [AUTH_SERVICE] Email sign up attempt');
+      final user = await _authRepository.signUpWithEmail(email, password, displayName);
+      if (user != null) {
+        _currentUser = user;
+        await _saveLastAuthUser(user);
+        _logger.i('✅ [AUTH_SERVICE] Email sign up successful');
+      }
+      return user;
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Email sign up failed: $e');
+      rethrow;
+    }
+  }
+
+  /// 구글 로그인
+  Future<AuthUser?> signInWithGoogle() async {
+    try {
+      _logger.i('🔍 [AUTH_SERVICE] Google sign in attempt');
+      final user = await _authRepository.signInWithGoogle();
+      if (user != null) {
+        _currentUser = user;
+        await _saveLastAuthUser(user);
+        _logger.i('✅ [AUTH_SERVICE] Google sign in successful');
+      }
+      return user;
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Google sign in failed: $e');
+      rethrow;
+    }
+  }
+
+  /// 페이스북 로그인
+  Future<AuthUser?> signInWithFacebook() async {
+    try {
+      _logger.i('📘 [AUTH_SERVICE] Facebook sign in attempt');
+      final user = await _authRepository.signInWithFacebook();
+      if (user != null) {
+        _currentUser = user;
+        await _saveLastAuthUser(user);
+        _logger.i('✅ [AUTH_SERVICE] Facebook sign in successful');
+      }
+      return user;
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Facebook sign in failed: $e');
+      rethrow;
+    }
+  }
+
+  /// 카카오 로그인
+  Future<AuthUser?> signInWithKakao() async {
+    try {
+      _logger.i('💬 [AUTH_SERVICE] Kakao sign in attempt');
+      final user = await _authRepository.signInWithKakao();
+      if (user != null) {
+        _currentUser = user;
+        await _saveLastAuthUser(user);
+        _logger.i('✅ [AUTH_SERVICE] Kakao sign in successful');
+      }
+      return user;
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Kakao sign in failed: $e');
+      rethrow;
+    }
+  }
+
+  /// 비밀번호 재설정
+  Future<void> resetPassword(String email) async {
+    try {
+      _logger.i('🔐 [AUTH_SERVICE] Password reset request for: $email');
+      await _authRepository.resetPassword(email);
+      _logger.i('✅ [AUTH_SERVICE] Password reset email sent');
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Password reset failed: $e');
+      rethrow;
+    }
+  }
+
+  /// 자동 로그인 확인
+  Future<AuthUser?> tryAutoLogin() async {
+    try {
+      if (!getAutoLogin()) {
+        _logger.d('🔍 [AUTH_SERVICE] Auto login disabled');
+        return null;
+      }
+
+      _logger.i('🔍 [AUTH_SERVICE] Checking auto login');
+      
+      // 현재 사용자 정보 가져오기
+      final user = await _authRepository.getCurrentUser();
+      if (user != null) {
+        _currentUser = user;
+        await _saveLastAuthUser(user);
+        _logger.i('✅ [AUTH_SERVICE] Auto login successful');
+        return user;
+      }
+
+      _logger.w('⚠️ [AUTH_SERVICE] No valid session found');
+      return null;
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Auto login failed: $e');
+      return null;
+    }
+  }
+
+  /// 로그아웃
+  Future<void> signOut() async {
+    try {
+      _logger.i('🚪 [AUTH_SERVICE] Starting sign out');
+      
+      await _authRepository.signOut();
+      _currentUser = null;
+      
+      // 자동 로그인 비활성화
+      await setAutoLogin(false);
+      
+      // 저장된 사용자 정보 삭제
+      await _clearLastAuthUser();
+      
+      _logger.i('✅ [AUTH_SERVICE] Sign out completed');
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Sign out failed: $e');
+      rethrow;
+    }
+  }
+
+  /// 사용자 정보 업데이트
+  Future<void> updateDisplayName(String displayName) async {
+    try {
+      await _authRepository.updateDisplayName(displayName);
+      if (_currentUser != null) {
+        _currentUser = _currentUser!.copyWith(displayName: displayName);
+        await _saveLastAuthUser(_currentUser!);
+      }
+      _logger.i('✅ [AUTH_SERVICE] Display name updated');
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Display name update failed: $e');
+      rethrow;
+    }
+  }
+
+  /// 프로필 이미지 업데이트
+  Future<void> updatePhotoURL(String photoURL) async {
+    try {
+      await _authRepository.updatePhotoURL(photoURL);
+      if (_currentUser != null) {
+        _currentUser = _currentUser!.copyWith(photoURL: photoURL);
+        await _saveLastAuthUser(_currentUser!);
+      }
+      _logger.i('✅ [AUTH_SERVICE] Photo URL updated');
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Photo URL update failed: $e');
+      rethrow;
+    }
+  }
+
+  /// 인증 상태 스트림
+  Stream<AuthUser?> authStateChanges() {
+    return _authRepository.authStateChanges();
+  }
+
+  /// 마지막 인증 제공자 가져오기
+  AuthProvider? getLastAuthProvider() {
+    final providerName = _prefs?.getString(_lastAuthProviderKey);
+    if (providerName != null) {
+      return AuthProvider.values.firstWhere(
+        (e) => e.name == providerName,
+        orElse: () => AuthProvider.email,
+      );
+    }
+    return null;
+  }
+
+  /// 마지막 사용자 정보 저장
+  Future<void> _saveLastAuthUser(AuthUser user) async {
+    try {
+      await _prefs?.setString(_lastAuthUserKey, jsonEncode(user.toJson()));
+      await _prefs?.setString(_lastAuthProviderKey, user.provider.name);
+      _logger.d('💾 [AUTH_SERVICE] Last auth user saved');
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Failed to save last auth user: $e');
+    }
+  }
+
+  /// 마지막 사용자 정보 삭제
+  Future<void> _clearLastAuthUser() async {
+    try {
+      await _prefs?.remove(_lastAuthUserKey);
+      await _prefs?.remove(_lastAuthProviderKey);
+      _logger.d('🗑️ [AUTH_SERVICE] Last auth user cleared');
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Failed to clear last auth user: $e');
+    }
+  }
+
+  /// 저장된 사용자 정보 가져오기
+  AuthUser? getLastAuthUser() {
+    try {
+      final userJson = _prefs?.getString(_lastAuthUserKey);
+      if (userJson != null) {
+        final userData = jsonDecode(userJson) as Map<String, dynamic>;
+        return AuthUser.fromJson(userData);
+      }
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Failed to get last auth user: $e');
+    }
+    return null;
+  }
+
+  /// 현재 사용자 새로고침
+  Future<void> refreshCurrentUser() async {
+    try {
+      final user = await _authRepository.getCurrentUser();
+      if (user != null) {
+        _currentUser = user;
+        await _saveLastAuthUser(user);
+        _logger.d('🔄 [AUTH_SERVICE] Current user refreshed');
+      }
+    } catch (e) {
+      _logger.e('❌ [AUTH_SERVICE] Failed to refresh current user: $e');
+    }
+  }
+}

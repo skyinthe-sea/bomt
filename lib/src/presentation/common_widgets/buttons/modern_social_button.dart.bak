@@ -1,0 +1,300 @@
+import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
+
+enum SocialProvider { email, google, facebook, kakao }
+
+class ModernSocialButton extends StatefulWidget {
+  final SocialProvider provider;
+  final VoidCallback onPressed;
+  final bool isLoading;
+  final String? customText;
+
+  const ModernSocialButton({
+    Key? key,
+    required this.provider,
+    required this.onPressed,
+    this.isLoading = false,
+    this.customText,
+  }) : super(key: key);
+
+  @override
+  State<ModernSocialButton> createState() => _ModernSocialButtonState();
+}
+
+class _ModernSocialButtonState extends State<ModernSocialButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
+  bool _isPressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 150),
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.95,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void _onTapDown(TapDownDetails details) {
+    setState(() => _isPressed = true);
+    _animationController.forward();
+  }
+
+  void _onTapUp(TapUpDetails details) {
+    setState(() => _isPressed = false);
+    _animationController.reverse();
+  }
+
+  void _onTapCancel() {
+    setState(() => _isPressed = false);
+    _animationController.reverse();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final config = _getProviderConfig(widget.provider);
+    
+    return FadeInUp(
+      duration: const Duration(milliseconds: 600),
+      child: AnimatedBuilder(
+        animation: _scaleAnimation,
+        builder: (context, child) {
+          return Transform.scale(
+            scale: _scaleAnimation.value,
+            child: GestureDetector(
+              onTapDown: _onTapDown,
+              onTapUp: _onTapUp,
+              onTapCancel: _onTapCancel,
+              onTap: widget.isLoading ? null : widget.onPressed,
+              child: Container(
+                width: double.infinity,
+                height: 56,
+                decoration: BoxDecoration(
+                  gradient: config.gradient,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: config.shadowColor.withOpacity(0.3),
+                      blurRadius: 20,
+                      offset: const Offset(0, 8),
+                      spreadRadius: 0,
+                    ),
+                    BoxShadow(
+                      color: config.shadowColor.withOpacity(0.1),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                      spreadRadius: 0,
+                    ),
+                  ],
+                  border: config.borderColor != null 
+                    ? Border.all(color: config.borderColor!, width: 1.5)
+                    : null,
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    onTap: widget.isLoading ? null : widget.onPressed,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (widget.isLoading) ...[
+                            SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(config.textColor),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                          ] else ...[
+                            config.icon,
+                            const SizedBox(width: 12),
+                          ],
+                          Text(
+                            widget.isLoading 
+                              ? '로그인 중...' 
+                              : (widget.customText ?? config.text),
+                            style: TextStyle(
+                              color: config.textColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  _SocialButtonConfig _getProviderConfig(SocialProvider provider) {
+    switch (provider) {
+      case SocialProvider.email:
+        return _SocialButtonConfig(
+          icon: Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+              ),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: const Icon(
+              Icons.email_outlined,
+              color: Colors.white,
+              size: 16,
+            ),
+          ),
+          text: '이메일로 계속하기',
+          gradient: const LinearGradient(
+            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          textColor: Colors.white,
+          shadowColor: const Color(0xFF667EEA),
+        );
+        
+      case SocialProvider.google:
+        return _SocialButtonConfig(
+          icon: Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Image.asset(
+              'assets/icons/google_icon.png',
+              width: 20,
+              height: 20,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(
+                  Icons.g_mobiledata,
+                  color: Color(0xFF4285F4),
+                  size: 20,
+                );
+              },
+            ),
+          ),
+          text: 'Google로 계속하기',
+          gradient: const LinearGradient(
+            colors: [Colors.white, Color(0xFFF8F9FA)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          textColor: const Color(0xFF1F2937),
+          shadowColor: const Color(0xFF9CA3AF),
+          borderColor: const Color(0xFFE5E7EB),
+        );
+        
+      case SocialProvider.facebook:
+        return _SocialButtonConfig(
+          icon: Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFF1877F2), Color(0xFF42A5F5)],
+              ),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: const Icon(
+              Icons.facebook,
+              color: Colors.white,
+              size: 16,
+            ),
+          ),
+          text: 'Facebook으로 계속하기',
+          gradient: const LinearGradient(
+            colors: [Color(0xFF1877F2), Color(0xFF42A5F5)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          textColor: Colors.white,
+          shadowColor: const Color(0xFF1877F2),
+        );
+        
+      case SocialProvider.kakao:
+        return _SocialButtonConfig(
+          icon: Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              color: const Color(0xFF3C1E1E),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: const Center(
+              child: Text(
+                'K',
+                style: TextStyle(
+                  color: Color(0xFFFEE500),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          text: '카카오로 계속하기',
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFEE500), Color(0xFFFDD835)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          textColor: const Color(0xFF3C1E1E),
+          shadowColor: const Color(0xFFFEE500),
+        );
+    }
+  }
+}
+
+class _SocialButtonConfig {
+  final Widget icon;
+  final String text;
+  final Gradient gradient;
+  final Color textColor;
+  final Color shadowColor;
+  final Color? borderColor;
+
+  const _SocialButtonConfig({
+    required this.icon,
+    required this.text,
+    required this.gradient,
+    required this.textColor,
+    required this.shadowColor,
+    this.borderColor,
+  });
+}

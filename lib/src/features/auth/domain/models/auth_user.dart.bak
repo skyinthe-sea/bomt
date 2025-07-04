@@ -1,0 +1,150 @@
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart' as kakao;
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart' as facebook;
+import 'package:google_sign_in/google_sign_in.dart' as google;
+
+enum AuthProvider { email, google, facebook, kakao }
+
+class AuthUser {
+  final String uid;
+  final String? email;
+  final String? displayName;
+  final String? photoURL;
+  final AuthProvider provider;
+  final bool isEmailVerified;
+  final Map<String, dynamic>? additionalUserInfo;
+
+  const AuthUser({
+    required this.uid,
+    this.email,
+    this.displayName,
+    this.photoURL,
+    required this.provider,
+    this.isEmailVerified = false,
+    this.additionalUserInfo,
+  });
+
+  // Firebase User에서 변환
+  factory AuthUser.fromFirebaseUser(firebase_auth.User firebaseUser, AuthProvider provider) {
+    return AuthUser(
+      uid: firebaseUser.uid,
+      email: firebaseUser.email,
+      displayName: firebaseUser.displayName,
+      photoURL: firebaseUser.photoURL,
+      provider: provider,
+      isEmailVerified: firebaseUser.emailVerified,
+    );
+  }
+
+  // Kakao User에서 변환
+  factory AuthUser.fromKakaoUser(kakao.User kakaoUser) {
+    return AuthUser(
+      uid: kakaoUser.id.toString(),
+      email: kakaoUser.kakaoAccount?.email,
+      displayName: kakaoUser.kakaoAccount?.profile?.nickname,
+      photoURL: kakaoUser.kakaoAccount?.profile?.profileImageUrl,
+      provider: AuthProvider.kakao,
+      isEmailVerified: kakaoUser.kakaoAccount?.isEmailVerified ?? false,
+      additionalUserInfo: {
+        'kakao_account': kakaoUser.kakaoAccount?.toJson(),
+      },
+    );
+  }
+
+  // Facebook User에서 변환
+  factory AuthUser.fromFacebookUser(facebook.AccessToken token, Map<String, dynamic> userData) {
+    return AuthUser(
+      uid: userData['id'].toString(),
+      email: userData['email'],
+      displayName: userData['name'],
+      photoURL: userData['picture']?['data']?['url'],
+      provider: AuthProvider.facebook,
+      isEmailVerified: true, // Facebook은 기본적으로 인증된 것으로 간주
+      additionalUserInfo: {
+        'facebook_data': userData,
+        'access_token': token.tokenString,
+      },
+    );
+  }
+
+  // Google User에서 변환
+  factory AuthUser.fromGoogleUser(google.GoogleSignInAccount googleUser) {
+    return AuthUser(
+      uid: googleUser.id,
+      email: googleUser.email,
+      displayName: googleUser.displayName,
+      photoURL: googleUser.photoUrl,
+      provider: AuthProvider.google,
+      isEmailVerified: true, // Google은 기본적으로 인증된 것으로 간주
+      additionalUserInfo: {
+        'google_data': {
+          'server_auth_code': googleUser.serverAuthCode,
+        },
+      },
+    );
+  }
+
+  // copyWith 메서드
+  AuthUser copyWith({
+    String? uid,
+    String? email,
+    String? displayName,
+    String? photoURL,
+    AuthProvider? provider,
+    bool? isEmailVerified,
+    Map<String, dynamic>? additionalUserInfo,
+  }) {
+    return AuthUser(
+      uid: uid ?? this.uid,
+      email: email ?? this.email,
+      displayName: displayName ?? this.displayName,
+      photoURL: photoURL ?? this.photoURL,
+      provider: provider ?? this.provider,
+      isEmailVerified: isEmailVerified ?? this.isEmailVerified,
+      additionalUserInfo: additionalUserInfo ?? this.additionalUserInfo,
+    );
+  }
+
+  // JSON 직렬화
+  Map<String, dynamic> toJson() {
+    return {
+      'uid': uid,
+      'email': email,
+      'displayName': displayName,
+      'photoURL': photoURL,
+      'provider': provider.name,
+      'isEmailVerified': isEmailVerified,
+      'additionalUserInfo': additionalUserInfo,
+    };
+  }
+
+  // JSON 역직렬화
+  factory AuthUser.fromJson(Map<String, dynamic> json) {
+    return AuthUser(
+      uid: json['uid'],
+      email: json['email'],
+      displayName: json['displayName'],
+      photoURL: json['photoURL'],
+      provider: AuthProvider.values.firstWhere(
+        (e) => e.name == json['provider'],
+        orElse: () => AuthProvider.email,
+      ),
+      isEmailVerified: json['isEmailVerified'] ?? false,
+      additionalUserInfo: json['additionalUserInfo'],
+    );
+  }
+
+  @override
+  String toString() {
+    return 'AuthUser(uid: $uid, email: $email, displayName: $displayName, provider: $provider)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is AuthUser && other.uid == uid && other.provider == provider;
+  }
+
+  @override
+  int get hashCode => Object.hash(uid, provider);
+}

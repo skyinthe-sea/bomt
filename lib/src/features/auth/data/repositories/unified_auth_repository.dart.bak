@@ -1,0 +1,329 @@
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart' as kakao;
+import 'package:logger/logger.dart';
+
+import '../../domain/repositories/auth_repository.dart';
+import '../../domain/models/auth_user.dart';
+
+class UnifiedAuthRepository implements AuthRepository {
+  final firebase_auth.FirebaseAuth _firebaseAuth = firebase_auth.FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'profile'],
+  );
+  final FacebookAuth _facebookAuth = FacebookAuth.instance;
+  final Logger _logger = Logger();
+
+  @override
+  Future<AuthUser?> signInWithEmail(String email, String password) async {
+    try {
+      _logger.i('📧 [AUTH] Attempting email sign in for: $email');
+      
+      final credential = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (credential.user != null) {
+        final authUser = AuthUser.fromFirebaseUser(credential.user!, AuthProvider.email);
+        _logger.i('✅ [AUTH] Email sign in successful');
+        return authUser;
+      }
+      
+      return null;
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      _logger.e('❌ [AUTH] Email sign in failed: ${e.code} - ${e.message}');
+      throw _handleFirebaseAuthException(e);
+    } catch (e) {
+      _logger.e('❌ [AUTH] Email sign in error: $e');
+      throw Exception('로그인 중 오류가 발생했습니다: $e');
+    }
+  }
+
+  @override
+  Future<AuthUser?> signUpWithEmail(String email, String password, String displayName) async {
+    try {
+      _logger.i('📧 [AUTH] Attempting email sign up for: $email');
+      
+      final credential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (credential.user != null) {
+        // 사용자 이름 업데이트
+        await credential.user!.updateDisplayName(displayName);
+        await credential.user!.reload();
+        
+        // 이메일 인증 메일 발송
+        await credential.user!.sendEmailVerification();
+        
+        final updatedUser = _firebaseAuth.currentUser;
+        if (updatedUser != null) {
+          final authUser = AuthUser.fromFirebaseUser(updatedUser, AuthProvider.email);
+          _logger.i('✅ [AUTH] Email sign up successful');
+          return authUser;
+        }
+      }
+      
+      return null;
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      _logger.e('❌ [AUTH] Email sign up failed: ${e.code} - ${e.message}');
+      throw _handleFirebaseAuthException(e);
+    } catch (e) {
+      _logger.e('❌ [AUTH] Email sign up error: $e');
+      throw Exception('회원가입 중 오류가 발생했습니다: $e');
+    }
+  }
+
+  @override
+  Future<AuthUser?> signInWithGoogle() async {
+    try {
+      _logger.i('🔍 [AUTH] Attempting Google sign in');
+      
+      // Google 로그인 시작
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        _logger.w('⚠️ [AUTH] Google sign in cancelled by user');
+        return null;
+      }
+
+      // Google 인증 정보 가져오기
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      // Firebase 자격 증명 생성
+      final credential = firebase_auth.GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Firebase에 로그인
+      final firebase_auth.UserCredential userCredential = 
+          await _firebaseAuth.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        final authUser = AuthUser.fromFirebaseUser(userCredential.user!, AuthProvider.google);
+        _logger.i('✅ [AUTH] Google sign in successful');
+        return authUser;
+      }
+      
+      return null;
+    } catch (e) {
+      _logger.e('❌ [AUTH] Google sign in error: $e');
+      await _googleSignIn.signOut();
+      throw Exception('Google 로그인 중 오류가 발생했습니다: $e');
+    }
+  }
+
+  @override
+  Future<AuthUser?> signInWithFacebook() async {
+    try {
+      _logger.i('📘 [AUTH] Attempting Facebook sign in');
+      
+      // Facebook 로그인
+      final LoginResult result = await _facebookAuth.login();
+      
+      if (result.status == LoginStatus.success) {
+        final AccessToken accessToken = result.accessToken!;
+        
+        // 사용자 정보 가져오기
+        final userData = await _facebookAuth.getUserData();
+        
+        // Firebase 자격 증명 생성
+        final credential = firebase_auth.FacebookAuthProvider.credential(accessToken.tokenString);
+        
+        // Firebase에 로그인
+        final firebase_auth.UserCredential userCredential = 
+            await _firebaseAuth.signInWithCredential(credential);
+
+        if (userCredential.user != null) {
+          final authUser = AuthUser.fromFirebaseUser(userCredential.user!, AuthProvider.facebook);
+          _logger.i('✅ [AUTH] Facebook sign in successful');
+          return authUser;
+        }
+      } else if (result.status == LoginStatus.cancelled) {
+        _logger.w('⚠️ [AUTH] Facebook sign in cancelled by user');
+        return null;
+      } else {
+        throw Exception('Facebook 로그인 실패: ${result.message}');
+      }
+      
+      return null;
+    } catch (e) {
+      _logger.e('❌ [AUTH] Facebook sign in error: $e');
+      throw Exception('Facebook 로그인 중 오류가 발생했습니다: $e');
+    }
+  }
+
+  @override
+  Future<AuthUser?> signInWithKakao() async {
+    try {
+      _logger.i('💬 [AUTH] Attempting Kakao sign in');
+      
+      // 카카오톡 설치 여부 확인
+      if (await kakao.isKakaoTalkInstalled()) {
+        try {
+          await kakao.UserApi.instance.loginWithKakaoTalk();
+          _logger.i('📱 [AUTH] Kakao login via KakaoTalk app');
+        } catch (error) {
+          _logger.w('⚠️ [AUTH] KakaoTalk login failed, trying web login: $error');
+          if (error is kakao.PlatformException && error.code == 'CANCELED') {
+            _logger.w('⚠️ [AUTH] Kakao login cancelled by user');
+            return null;
+          }
+          // 카카오톡 로그인 실패 시 웹 로그인 시도
+          await kakao.UserApi.instance.loginWithKakaoAccount();
+          _logger.i('🌐 [AUTH] Kakao login via web');
+        }
+      } else {
+        await kakao.UserApi.instance.loginWithKakaoAccount();
+        _logger.i('🌐 [AUTH] Kakao login via web (KakaoTalk not installed)');
+      }
+
+      // 사용자 정보 가져오기
+      final kakao.User user = await kakao.UserApi.instance.me();
+      
+      final authUser = AuthUser.fromKakaoUser(user);
+      _logger.i('✅ [AUTH] Kakao sign in successful');
+      return authUser;
+      
+    } catch (error) {
+      _logger.e('❌ [AUTH] Kakao sign in error: $error');
+      throw Exception('카카오 로그인 중 오류가 발생했습니다: $error');
+    }
+  }
+
+  @override
+  Future<void> resetPassword(String email) async {
+    try {
+      _logger.i('🔐 [AUTH] Sending password reset email to: $email');
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      _logger.i('✅ [AUTH] Password reset email sent successfully');
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      _logger.e('❌ [AUTH] Password reset failed: ${e.code} - ${e.message}');
+      throw _handleFirebaseAuthException(e);
+    }
+  }
+
+  @override
+  Future<AuthUser?> getCurrentUser() async {
+    try {
+      final firebaseUser = _firebaseAuth.currentUser;
+      if (firebaseUser != null) {
+        // Firebase 사용자인 경우
+        return AuthUser.fromFirebaseUser(firebaseUser, AuthProvider.email);
+      }
+
+      // 카카오 로그인 확인
+      try {
+        final token = await kakao.TokenManagerProvider.instance.manager.getToken();
+        if (token != null) {
+          final kakaoUser = await kakao.UserApi.instance.me();
+          return AuthUser.fromKakaoUser(kakaoUser);
+        }
+      } catch (e) {
+        _logger.d('No Kakao user found: $e');
+      }
+
+      return null;
+    } catch (e) {
+      _logger.e('❌ [AUTH] Error getting current user: $e');
+      return null;
+    }
+  }
+
+  @override
+  Future<void> signOut() async {
+    try {
+      _logger.i('🚪 [AUTH] Signing out all accounts');
+      
+      // Firebase 로그아웃
+      await _firebaseAuth.signOut();
+      
+      // Google 로그아웃
+      await _googleSignIn.signOut();
+      
+      // Facebook 로그아웃
+      await _facebookAuth.logOut();
+      
+      // 카카오 로그아웃
+      try {
+        await kakao.UserApi.instance.logout();
+      } catch (e) {
+        _logger.d('Kakao logout error (may not be logged in): $e');
+      }
+      
+      _logger.i('✅ [AUTH] Sign out completed');
+    } catch (e) {
+      _logger.e('❌ [AUTH] Sign out error: $e');
+      throw Exception('로그아웃 중 오류가 발생했습니다: $e');
+    }
+  }
+
+  @override
+  Future<void> updateDisplayName(String displayName) async {
+    try {
+      final user = _firebaseAuth.currentUser;
+      if (user != null) {
+        await user.updateDisplayName(displayName);
+        await user.reload();
+        _logger.i('✅ [AUTH] Display name updated successfully');
+      }
+    } catch (e) {
+      _logger.e('❌ [AUTH] Error updating display name: $e');
+      throw Exception('사용자 이름 업데이트 중 오류가 발생했습니다: $e');
+    }
+  }
+
+  @override
+  Future<void> updatePhotoURL(String photoURL) async {
+    try {
+      final user = _firebaseAuth.currentUser;
+      if (user != null) {
+        await user.updatePhotoURL(photoURL);
+        await user.reload();
+        _logger.i('✅ [AUTH] Photo URL updated successfully');
+      }
+    } catch (e) {
+      _logger.e('❌ [AUTH] Error updating photo URL: $e');
+      throw Exception('프로필 이미지 업데이트 중 오류가 발생했습니다: $e');
+    }
+  }
+
+  @override
+  Stream<AuthUser?> authStateChanges() {
+    return _firebaseAuth.authStateChanges().map((firebaseUser) {
+      if (firebaseUser != null) {
+        return AuthUser.fromFirebaseUser(firebaseUser, AuthProvider.email);
+      }
+      return null;
+    });
+  }
+
+  // Firebase Auth 예외 처리
+  Exception _handleFirebaseAuthException(firebase_auth.FirebaseAuthException e) {
+    switch (e.code) {
+      case 'user-not-found':
+        return Exception('등록되지 않은 이메일입니다.');
+      case 'wrong-password':
+        return Exception('잘못된 비밀번호입니다.');
+      case 'email-already-in-use':
+        return Exception('이미 사용 중인 이메일입니다.');
+      case 'weak-password':
+        return Exception('비밀번호가 너무 약합니다.');
+      case 'invalid-email':
+        return Exception('유효하지 않은 이메일 형식입니다.');
+      case 'user-disabled':
+        return Exception('비활성화된 계정입니다.');
+      case 'too-many-requests':
+        return Exception('너무 많은 요청이 발생했습니다. 잠시 후 다시 시도해주세요.');
+      case 'operation-not-allowed':
+        return Exception('현재 사용할 수 없는 로그인 방식입니다.');
+      default:
+        return Exception('로그인 중 오류가 발생했습니다: ${e.message}');
+    }
+  }
+}

@@ -113,10 +113,125 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     if (_initialRoute == null) {
       // 초기 라우트 결정 중 로딩 화면
-      return const MaterialApp(
+      return MaterialApp(
+        title: 'BabyMom',
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: widget.themeProvider.themeMode,
         home: Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  widget.themeProvider.isDarkMode
+                      ? const Color(0xFF1A1A2E)
+                      : const Color(0xFFF8FAFC),
+                  widget.themeProvider.isDarkMode
+                      ? const Color(0xFF16213E)
+                      : const Color(0xFFE2E8F0),
+                ],
+              ),
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // 모던한 로고
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [
+                          Theme.of(context).brightness == Brightness.dark
+                              ? const Color(0xFF667EEA)
+                              : const Color(0xFF764BA2),
+                          Theme.of(context).brightness == Brightness.dark
+                              ? const Color(0xFF764BA2)
+                              : const Color(0xFF667EEA),
+                        ],
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: (Theme.of(context).brightness == Brightness.dark
+                                  ? const Color(0xFF667EEA)
+                                  : const Color(0xFF764BA2))
+                              .withOpacity(0.3),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        const Icon(
+                          Icons.favorite,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                        Positioned(
+                          bottom: 10,
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.9),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.child_friendly,
+                              size: 12,
+                              color: Color(0xFF667EEA),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  // 앱 이름
+                  Text(
+                    'BabyMom',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : const Color(0xFF1A1A2E),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    '엄마와 아기의 특별한 순간들',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: (Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : const Color(0xFF1A1A2E))
+                          .withOpacity(0.7),
+                    ),
+                  ),
+                  const SizedBox(height: 48),
+                  // 모던한 로딩 인디케이터
+                  SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).brightness == Brightness.dark
+                            ? const Color(0xFF667EEA)
+                            : const Color(0xFF764BA2),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       );
@@ -127,7 +242,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) {
         return UpdateCheckService().wrapWithUpdateCheck(
           MaterialApp(
-            title: 'Baby One More Time',
+            title: 'BabyMom',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: widget.themeProvider.themeMode,

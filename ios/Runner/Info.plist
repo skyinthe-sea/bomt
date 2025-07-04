@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Bomt</string>
+	<string>BabyMom</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -67,6 +67,13 @@
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 	</array>
+	<!-- Facebook 로그인 지원 -->
+	<key>FacebookAppID</key>
+	<string>1879904729467935</string>
+	<key>FacebookClientToken</key>
+	<string>fee6ea699579678f03835747a2deb54b</string>
+	<key>FacebookDisplayName</key>
+	<string>BabyMom</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<!-- 카카오 로그인 -->
@@ -88,6 +95,25 @@
 			<array>
 				<string>bomtapp</string>
 				<string>bomt</string>
+			</array>
+		</dict>
+		<!-- Google 로그인 -->
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- Google OAuth Client ID의 reversed client id -->
+				<string>com.googleusercontent.apps.373535971104-h7a842pm38pokmuevt8ibs79554m2koe</string>
+			</array>
+		</dict>
+		<!-- Facebook 로그인 -->
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1879904729467935</string>
 			</array>
 		</dict>
 	</array>

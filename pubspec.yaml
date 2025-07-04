@@ -1,5 +1,5 @@
 name: bomt
-description: "baby one more time"
+description: "BabyMom - 엄마와 아기의 특별한 순간들"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -48,6 +48,13 @@ dependencies:
   flutter_local_notifications: ^18.0.1
   timezone: ^0.9.4
   fl_chart: ^0.69.0
+  
+  # Authentication packages
+  google_sign_in: ^6.3.0
+  flutter_facebook_auth: ^7.0.1
+  
+  # Additional utilities
+  crypto: ^3.0.6
   app_links: ^6.3.2
   url_launcher: ^6.3.1
   share_plus: ^10.1.1
