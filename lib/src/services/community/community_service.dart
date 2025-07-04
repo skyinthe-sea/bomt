@@ -272,21 +272,37 @@ class CommunityService {
     required String title,
     required String content,
     List<String>? images,
+    List<String>? mosaicImages,
+    bool? hasMosaic,
+    DateTime? timelineDate,
+    Map<String, dynamic>? timelineData,
   }) async {
     try {
       print('DEBUG: createPost 호출 - authorId: $authorId, categoryId: $categoryId');
       print('DEBUG: title: $title');
       
       // 단순한 INSERT만 실행 (조인 없음)
+      final insertData = {
+        'author_id': authorId,
+        'category_id': categoryId,
+        'title': title,
+        'content': content,
+        'images': images ?? [],
+        'mosaic_images': mosaicImages ?? [],
+        'has_mosaic': hasMosaic ?? false,
+      };
+      
+      // 타임라인 데이터가 있는 경우 추가
+      if (timelineDate != null) {
+        insertData['timeline_date'] = timelineDate.toIso8601String().split('T')[0];
+      }
+      if (timelineData != null) {
+        insertData['timeline_data'] = timelineData;
+      }
+      
       final response = await _supabase
           .from('community_posts')
-          .insert({
-            'author_id': authorId,
-            'category_id': categoryId,
-            'title': title,
-            'content': content,
-            'images': images ?? [],
-          })
+          .insert(insertData)
           .select()
           .single();
       
@@ -335,6 +351,8 @@ class CommunityService {
     required String title,
     required String content,
     List<String>? images,
+    List<String>? mosaicImages,
+    bool? hasMosaic,
   }) async {
     try {
       // 작성자 확인
@@ -356,6 +374,8 @@ class CommunityService {
             'title': title,
             'content': content,
             'images': images ?? [],
+            'mosaic_images': mosaicImages ?? [],
+            'has_mosaic': hasMosaic ?? false,
             'updated_at': DateTime.now().toIso8601String(),
           })
           .eq('id', postId)

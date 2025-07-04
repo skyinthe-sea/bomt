@@ -7,11 +7,13 @@ import '../../../../domain/models/timeline_item.dart';
 class CircularTimelineChart extends StatefulWidget {
   final List<TimelineItem> timelineItems;
   final DateTime selectedDate;
+  final bool hideLabels; // 텍스트 라벨 숨기기 옵션
 
   const CircularTimelineChart({
     Key? key,
     required this.timelineItems,
     required this.selectedDate,
+    this.hideLabels = false, // 기본값은 false (라벨 표시)
   }) : super(key: key);
 
   @override
@@ -114,11 +116,15 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
       ),
       child: Column(
         children: [
-          _buildHeader(),
-          const SizedBox(height: 24),
+          if (!widget.hideLabels) ...[
+            _buildHeader(),
+            const SizedBox(height: 24),
+          ],
           _buildCircularChart(),
-          const SizedBox(height: 20),
-          if (_selectedHour != null) _buildSelectedHourInfo(),
+          if (!widget.hideLabels) ...[
+            const SizedBox(height: 20),
+            if (_selectedHour != null) _buildSelectedHourInfo(),
+          ],
         ],
       ),
     );

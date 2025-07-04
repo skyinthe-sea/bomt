@@ -31,6 +31,7 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
   CommunityCategory? _selectedCategory;
   bool _isUpdating = false;
   List<File> _selectedImages = [];
+  List<bool> _mosaicStates = []; // 새로 추가되는 이미지의 모자이크 상태
   List<String> _existingImageUrls = [];
   final ImageService _imageService = ImageService.instance;
 
@@ -103,6 +104,8 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
       if (newImages.isNotEmpty) {
         setState(() {
           _selectedImages.addAll(newImages);
+          // 새로 추가된 이미지들은 기본적으로 모자이크 처리 안 함
+          _mosaicStates.addAll(List.filled(newImages.length, false));
         });
       }
     } catch (e) {
@@ -120,7 +123,18 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
   void _handleRemoveImage(int index) {
     setState(() {
       _selectedImages.removeAt(index);
+      if (index < _mosaicStates.length) {
+        _mosaicStates.removeAt(index);
+      }
     });
+  }
+
+  void _handleToggleMosaic(int index) {
+    if (index < _mosaicStates.length) {
+      setState(() {
+        _mosaicStates[index] = !_mosaicStates[index];
+      });
+    }
   }
 
   void _handleRemoveExistingImage(int index) {
@@ -145,17 +159,26 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
         throw Exception('사용자 정보를 찾을 수 없습니다.');
       }
 
-      // 새로운 이미지 업로드
+      // 새로운 이미지 업로드 (모자이크 처리 포함)
       List<String> newImageUrls = [];
+      List<String> newMosaicImageUrls = [];
+      bool hasNewMosaic = _mosaicStates.contains(true);
+      
       if (_selectedImages.isNotEmpty) {
+        // 원본 이미지 업로드
         newImageUrls = await _imageService.uploadCommunityImages(
           _selectedImages, 
           currentUser.userId,
         );
+        
+        // 딤 처리는 UI에서만 하므로 새 이미지의 딤 처리 여부만 표시
+        newMosaicImageUrls = _mosaicStates.map((needsBlur) => needsBlur ? "blur" : "").toList();
       }
 
       // 기존 이미지 + 새로운 이미지 합치기
       final allImageUrls = [..._existingImageUrls, ...newImageUrls];
+      final allMosaicImageUrls = [...widget.post.mosaicImages, ...newMosaicImageUrls];
+      final finalHasMosaic = widget.post.hasMosaic || hasNewMosaic;
 
       final updatedPost = await provider.updatePost(
         postId: widget.post.id,
@@ -163,6 +186,8 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
         title: _titleController.text.trim(),
         content: _contentController.text.trim(),
         images: allImageUrls,
+        mosaicImages: allMosaicImageUrls,
+        hasMosaic: finalHasMosaic,
       );
 
       if (updatedPost != null && mounted) {
@@ -443,8 +468,10 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
               if (_selectedImages.isNotEmpty)
                 CommunityImagePicker(
                   selectedImages: _selectedImages,
+                  mosaicStates: _mosaicStates,
                   onAddImages: _handleAddImages,
                   onRemoveImage: _handleRemoveImage,
+                  onToggleMosaic: _handleToggleMosaic,
                   maxImages: 5,
                 ),
               

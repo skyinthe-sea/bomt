@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 
 class CommunityImagePicker extends StatelessWidget {
   final List<File> selectedImages;
+  final List<bool> mosaicStates; // 각 이미지의 모자이크 상태
   final VoidCallback onAddImages;
   final Function(int) onRemoveImage;
+  final Function(int) onToggleMosaic; // 모자이크 토글 콜백
   final int maxImages;
 
   const CommunityImagePicker({
     super.key,
     required this.selectedImages,
+    required this.mosaicStates,
     required this.onAddImages,
     required this.onRemoveImage,
+    required this.onToggleMosaic,
     this.maxImages = 5,
   });
 
@@ -104,6 +108,7 @@ class CommunityImagePicker extends StatelessWidget {
                   separatorBuilder: (context, index) => const SizedBox(width: 12),
                   itemBuilder: (context, index) {
                     final imageFile = selectedImages[index];
+                    final hasMosaic = index < mosaicStates.length ? mosaicStates[index] : false;
                     
                     return Stack(
                       children: [
@@ -124,6 +129,77 @@ class CommunityImagePicker extends StatelessWidget {
                                 offset: const Offset(0, 2),
                               ),
                             ],
+                          ),
+                        ),
+                        
+                        // 모자이크 오버레이 (시각적 표시용)
+                        if (hasMosaic)
+                          Container(
+                            width: 96,
+                            height: 96,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.black.withOpacity(0.98), // 게시글과 같은 강도로
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.visibility_off,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    '딤처리',
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        
+                        // 모자이크 토글 버튼
+                        Positioned(
+                          top: 4,
+                          left: 4,
+                          child: GestureDetector(
+                            onTap: () => onToggleMosaic(index),
+                            child: Container(
+                              width: 24,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: hasMosaic 
+                                    ? theme.colorScheme.secondary.withOpacity(0.9)
+                                    : theme.colorScheme.surface.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: hasMosaic 
+                                      ? theme.colorScheme.secondary
+                                      : theme.colorScheme.outline.withOpacity(0.5),
+                                  width: 1,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: theme.colorScheme.shadow.withOpacity(0.3),
+                                    blurRadius: 4,
+                                    offset: const Offset(0, 1),
+                                  ),
+                                ],
+                              ),
+                              child: Icon(
+                                hasMosaic ? Icons.visibility_off : Icons.visibility,
+                                size: 12,
+                                color: hasMosaic 
+                                    ? Colors.white
+                                    : theme.colorScheme.onSurface.withOpacity(0.7),
+                              ),
+                            ),
                           ),
                         ),
                         

@@ -204,6 +204,10 @@ class CommunityProvider with ChangeNotifier {
     required String title,
     required String content,
     List<String>? images,
+    List<String>? mosaicImages,
+    bool? hasMosaic,
+    DateTime? timelineDate,
+    Map<String, dynamic>? timelineData,
   }) async {
     if (currentUserId == null) {
       return null;
@@ -216,6 +220,10 @@ class CommunityProvider with ChangeNotifier {
         title: title,
         content: content,
         images: images,
+        mosaicImages: mosaicImages,
+        hasMosaic: hasMosaic,
+        timelineDate: timelineDate,
+        timelineData: timelineData,
       );
 
       // 현재 카테고리가 전체이거나 해당 카테고리인 경우 목록에 추가
@@ -240,6 +248,8 @@ class CommunityProvider with ChangeNotifier {
     required String title,
     required String content,
     List<String>? images,
+    List<String>? mosaicImages,
+    bool? hasMosaic,
   }) async {
     if (currentUserId == null) return null;
 
@@ -251,6 +261,8 @@ class CommunityProvider with ChangeNotifier {
         title: title,
         content: content,
         images: images,
+        mosaicImages: mosaicImages,
+        hasMosaic: hasMosaic,
       );
 
       // 목록에서 해당 게시글 업데이트

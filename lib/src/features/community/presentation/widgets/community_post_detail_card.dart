@@ -1,7 +1,17 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../../../domain/models/community_post.dart';
+import '../../../../domain/models/timeline_item.dart';
+import '../../../../domain/models/baby.dart';
+import '../../../../core/providers/baby_provider.dart';
+import '../../../../services/timeline/timeline_service.dart';
+import '../../../baby/data/repositories/supabase_baby_repository.dart';
+import 'compact_timeline_chart.dart';
+import '../../../timeline/presentation/widgets/circular_timeline_chart.dart';
+import 'mosaic_image_widget.dart';
 
 class CommunityPostDetailCard extends StatelessWidget {
   final CommunityPost post;
@@ -21,6 +31,195 @@ class CommunityPostDetailCard extends StatelessWidget {
       return Color(int.parse(colorString.replaceFirst('#', '0xFF')));
     } catch (e) {
       return const Color(0xFF6366F1);
+    }
+  }
+
+  // 저장된 타임라인 데이터를 TimelineItem으로 변환하는 함수
+  List<TimelineItem> _parseStoredTimelineData(Map<String, dynamic> timelineData) {
+    try {
+      // 새로운 형태의 저장된 데이터가 있는지 확인
+      if (timelineData.containsKey('timelineItems')) {
+        final storedItems = timelineData['timelineItems'] as List<dynamic>;
+        print('DEBUG: Found stored timelineItems: ${storedItems.length} items');
+        
+        return storedItems.map((item) => TimelineItem(
+          id: item['id'] ?? '',
+          type: TimelineItemType.values.firstWhere(
+            (e) => e.name == item['type'],
+            orElse: () => TimelineItemType.feeding,
+          ),
+          timestamp: DateTime.parse(item['timestamp']),
+          title: item['title'] ?? '',
+          subtitle: item['subtitle'],
+          data: Map<String, dynamic>.from(item['data'] ?? {}),
+          isOngoing: item['isOngoing'] ?? false,
+          colorCode: item['colorCode'],
+        )).toList();
+      }
+      
+      return [];
+    } catch (e) {
+      print('DEBUG: Error parsing stored timeline data: $e');
+      return [];
+    }
+  }
+
+  // 타임라인 페이지와 동일한 방식으로 User ID 가져오기 (직접 Kakao API 사용)
+  Future<String?> _getUserId() async {
+    try {
+      final user = await UserApi.instance.me();
+      final userId = user.id.toString();
+      print('DEBUG: Post detail - Kakao userId: $userId');
+      return userId;
+    } catch (e) {
+      print('DEBUG: Error getting user ID in post detail: $e');
+      return null;
+    }
+  }
+
+  Future<Baby?> _getCurrentBaby(String userId) async {
+    try {
+      final babyRepository = SupabaseBabyRepository();
+      final babyEntities = await babyRepository.getBabiesByUserId(userId);
+      
+      print('DEBUG: Post detail - Found ${babyEntities.length} babies for user $userId');
+      
+      if (babyEntities.isEmpty) {
+        print('DEBUG: Post detail - No babies found for user');
+        return null;
+      }
+
+      final babyEntity = babyEntities.first;
+      print('DEBUG: Post detail - Using baby: ${babyEntity.id} - ${babyEntity.name}');
+      
+      return Baby(
+        id: babyEntity.id,
+        name: babyEntity.name,
+        birthDate: babyEntity.birthDate,
+        gender: babyEntity.gender,
+        profileImageUrl: babyEntity.profileImageUrl,
+        createdAt: babyEntity.createdAt,
+        updatedAt: babyEntity.updatedAt,
+      );
+    } catch (e) {
+      print('DEBUG: Error getting current baby in post detail: $e');
+      return null;
+    }
+  }
+
+  // 최적화된 타임라인 데이터 로딩 (저장된 데이터 우선 사용)
+  Future<List<TimelineItem>> _loadTimelineDataFromDatabase(BuildContext context, DateTime date) async {
+    try {
+      // 1. 먼저 저장된 타임라인 데이터가 있는지 확인
+      if (post.timelineData != null) {
+        print('DEBUG: Post has stored timeline data, trying to parse it first');
+        final storedItems = _parseStoredTimelineData(post.timelineData!);
+        if (storedItems.isNotEmpty) {
+          print('DEBUG: Successfully loaded ${storedItems.length} items from stored data');
+          return storedItems;
+        }
+      }
+
+      // 2. 타임라인 페이지와 동일한 방식으로 Baby ID 가져오기
+      final userId = await _getUserId();
+      if (userId == null) {
+        print('DEBUG: Post detail - Failed to get user ID, falling back to legacy data');
+        return _convertLegacyTimelineData(post.timelineData ?? {});
+      }
+      
+      final currentBaby = await _getCurrentBaby(userId);
+      if (currentBaby == null) {
+        print('DEBUG: Post detail - Failed to get current baby, falling back to legacy data');
+        return _convertLegacyTimelineData(post.timelineData ?? {});
+      }
+
+      print('DEBUG: Post detail - Loading fresh timeline data - date: $date, baby: ${currentBaby.id}');
+
+      // 3. TimelineService를 사용해서 데이터 가져오기
+      final timelineService = TimelineService.instance;
+      final timelineItems = await timelineService.getTimelineItemsForDate(currentBaby.id, date);
+      
+      print('DEBUG: Post detail - TimelineService returned ${timelineItems.length} items');
+      for (var item in timelineItems.take(3)) {
+        print('DEBUG: Post detail - ${item.type} - ${item.title} - ${item.subtitle} - ${item.timestamp}');
+      }
+      
+      return timelineItems;
+    } catch (e) {
+      print('DEBUG: Error loading timeline data in post detail: $e');
+      // 최후의 수단으로 기존 방식으로 변환 시도
+      return _convertLegacyTimelineData(post.timelineData ?? {});
+    }
+  }
+
+  // 기존 형태의 타임라인 데이터를 TimelineItem으로 변환 (fallback)
+  List<TimelineItem> _convertLegacyTimelineData(Map<String, dynamic> timelineData) {
+    List<TimelineItem> timelineItems = [];
+    
+    try {
+      final activities = timelineData['activities'] as Map<String, dynamic>?;
+      if (activities == null) return timelineItems;
+
+      // 수유 데이터 변환
+      final feedings = activities['feedings'] as List<dynamic>?;
+      if (feedings != null) {
+        for (int i = 0; i < feedings.length; i++) {
+          final feeding = feedings[i] as Map<String, dynamic>;
+          timelineItems.add(TimelineItem(
+            id: 'feeding_$i',
+            type: TimelineItemType.feeding,
+            timestamp: DateTime.parse(feeding['startedAt']),
+            title: '수유',
+            subtitle: '${feeding['type']} • ${feeding['amountMl']}ml',
+            data: feeding,
+            colorCode: '#2196F3',
+          ));
+        }
+      }
+
+      // 수면 데이터 변환
+      final sleeps = activities['sleeps'] as List<dynamic>?;
+      if (sleeps != null) {
+        for (int i = 0; i < sleeps.length; i++) {
+          final sleep = sleeps[i] as Map<String, dynamic>;
+          final durationMinutes = sleep['durationMinutes'] as int?;
+          timelineItems.add(TimelineItem(
+            id: 'sleep_$i',
+            type: TimelineItemType.sleep,
+            timestamp: DateTime.parse(sleep['startedAt']),
+            title: '수면',
+            subtitle: durationMinutes != null 
+                ? '${(durationMinutes / 60).floor()}시간 ${durationMinutes % 60}분'
+                : '진행중',
+            data: sleep,
+            isOngoing: sleep['endedAt'] == null,
+            colorCode: '#9C27B0',
+          ));
+        }
+      }
+
+      // 기저귀 데이터 변환
+      final diapers = activities['diapers'] as List<dynamic>?;
+      if (diapers != null) {
+        for (int i = 0; i < diapers.length; i++) {
+          final diaper = diapers[i] as Map<String, dynamic>;
+          timelineItems.add(TimelineItem(
+            id: 'diaper_$i',
+            type: TimelineItemType.diaper,
+            timestamp: DateTime.parse(diaper['changedAt']),
+            title: '기저귀',
+            subtitle: diaper['type'],
+            data: diaper,
+            colorCode: '#FF9800',
+          ));
+        }
+      }
+
+      timelineItems.sort((a, b) => a.timestamp.compareTo(b.timestamp));
+      return timelineItems;
+    } catch (e) {
+      print('DEBUG: Error converting legacy timeline data: $e');
+      return timelineItems;
     }
   }
 
@@ -54,6 +253,53 @@ class CommunityPostDetailCard extends StatelessWidget {
             return categoryName; // 기본값으로 원래 이름 반환
         }
     }
+  }
+
+  Widget _buildTimelineLegend(ThemeData theme) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildLegendItem(
+          theme,
+          const Color(0xFFFF9800),
+          '수유',
+          Icons.baby_changing_station,
+        ),
+        _buildLegendItem(
+          theme,
+          const Color(0xFF9C27B0),
+          '수면',
+          Icons.bedtime,
+        ),
+        _buildLegendItem(
+          theme,
+          const Color(0xFF4CAF50),
+          '기저귀',
+          Icons.child_friendly,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLegendItem(ThemeData theme, Color color, String label, IconData icon) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          color: color,
+          size: 16,
+        ),
+        const SizedBox(width: 4),
+        Text(
+          label,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurface.withOpacity(0.7),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -257,27 +503,22 @@ class CommunityPostDetailCard extends StatelessWidget {
                     itemCount: post.images.length > 4 ? 4 : post.images.length,
                     itemBuilder: (context, index) {
                       final isLastItem = index == 3 && post.images.length > 4;
+                      // 딤 처리 여부 결정: mosaicImages에 해당 인덱스가 있고 비어있지 않으면 딤 처리
+                      final shouldBlur = post.hasMosaic && 
+                          index < post.mosaicImages.length && 
+                          post.mosaicImages[index].isNotEmpty;
                       
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Stack(
                           fit: StackFit.expand,
                           children: [
-                            Image.network(
-                              post.images[index],
+                            MosaicImageWidget(
+                              originalImageUrl: post.images[index],
+                              mosaicImageUrl: null, // 더 이상 사용하지 않음
+                              hasMosaic: shouldBlur,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Icon(
-                                    Icons.image,
-                                    color: theme.colorScheme.onSurface.withOpacity(0.3),
-                                  ),
-                                );
-                              },
+                              borderRadius: BorderRadius.circular(12),
                             ),
                             if (isLastItem)
                               Container(
@@ -299,6 +540,133 @@ class CommunityPostDetailCard extends StatelessWidget {
                         ),
                       );
                     },
+                  ),
+                ],
+                
+                // 타임라인 표시
+                if (post.timelineData != null && post.timelineDate != null) ...[
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primaryContainer.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: theme.colorScheme.primary.withOpacity(0.2),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.timeline,
+                              color: theme.colorScheme.primary,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              '24시간 활동 패턴',
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                            const Spacer(),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.primary.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                '${post.timelineDate!.month}월 ${post.timelineDate!.day}일',
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.primary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          height: 350, // 오버플로우 완전 해결을 위한 충분한 공간
+                          child: FutureBuilder<List<TimelineItem>>(
+                            future: _loadTimelineDataFromDatabase(context, post.timelineDate!),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Center(
+                                    child: SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(strokeWidth: 2),
+                                    ),
+                                  ),
+                                );
+                              }
+                              
+                              if (snapshot.hasError) {
+                                print('DEBUG: Error loading timeline data: ${snapshot.error}');
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '타임라인 데이터 로드 오류',
+                                      style: theme.textTheme.bodySmall?.copyWith(
+                                        color: theme.colorScheme.error.withOpacity(0.8),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                );
+                              }
+                              
+                              final timelineItems = snapshot.data ?? [];
+                              print('DEBUG: Loaded ${timelineItems.length} timeline items from database');
+                              
+                              if (timelineItems.isEmpty) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '표시할 활동 데이터가 없습니다',
+                                      style: theme.textTheme.bodySmall?.copyWith(
+                                        color: theme.colorScheme.onSurface.withOpacity(0.6),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                );
+                              }
+                              
+                              return Center(
+                                child: Transform.scale(
+                                  scale: 0.8, // 80% 크기로 더 잘 보이도록 하면서 오버플로우 방지
+                                  child: CircularTimelineChart(
+                                    timelineItems: timelineItems,
+                                    selectedDate: post.timelineDate!,
+                                    hideLabels: true, // 게시글에서는 라벨 숨김
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
                 

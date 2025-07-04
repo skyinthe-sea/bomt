@@ -60,7 +60,9 @@ class TimelineService {
   // 수유 아이템 변환
   Future<List<TimelineItem>> _getFeedingItems(String babyId, DateTime date) async {
     try {
+      debugPrint('📅 [TIMELINE] Getting feedings for baby: $babyId, date: ${date.toIso8601String()}');
       final feedings = await FeedingService.instance.getFeedingsForDate(babyId, date);
+      debugPrint('📅 [TIMELINE] Found ${feedings.length} feedings');
       return feedings.map((feeding) => _convertFeedingToTimelineItem(feeding)).toList();
     } catch (e) {
       debugPrint('❌ [TIMELINE] Error getting feeding items: $e');
@@ -71,7 +73,9 @@ class TimelineService {
   // 수면 아이템 변환
   Future<List<TimelineItem>> _getSleepItems(String babyId, DateTime date) async {
     try {
+      debugPrint('📅 [TIMELINE] Getting sleeps for baby: $babyId, date: ${date.toIso8601String()}');
       final sleeps = await SleepService.instance.getSleepsForDate(babyId, date);
+      debugPrint('📅 [TIMELINE] Found ${sleeps.length} sleeps');
       return sleeps.map((sleep) => _convertSleepToTimelineItem(sleep)).toList();
     } catch (e) {
       debugPrint('❌ [TIMELINE] Error getting sleep items: $e');
@@ -82,7 +86,9 @@ class TimelineService {
   // 기저귀 아이템 변환
   Future<List<TimelineItem>> _getDiaperItems(String babyId, DateTime date) async {
     try {
+      debugPrint('📅 [TIMELINE] Getting diapers for baby: $babyId, date: ${date.toIso8601String()}');
       final diapers = await DiaperService.instance.getDiapersForDate(babyId, date);
+      debugPrint('📅 [TIMELINE] Found ${diapers.length} diapers');
       return diapers.map((diaper) => _convertDiaperToTimelineItem(diaper)).toList();
     } catch (e) {
       debugPrint('❌ [TIMELINE] Error getting diaper items: $e');

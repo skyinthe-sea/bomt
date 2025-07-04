@@ -8,6 +8,8 @@ class CommunityPost {
   final String title;
   final String content;
   final List<String> images;
+  final List<String> mosaicImages; // 모자이크 처리된 이미지 URL들
+  final bool hasMosaic; // 이미지에 모자이크 처리가 있는지 여부
   final int viewCount;
   final int likeCount;
   final int commentCount;
@@ -16,6 +18,10 @@ class CommunityPost {
   final DateTime? deletedAt;
   final DateTime createdAt;
   final DateTime updatedAt;
+  
+  // 타임라인 관련
+  final DateTime? timelineDate;
+  final Map<String, dynamic>? timelineData;
   
   // 관련 데이터 (조인된 데이터)
   final UserProfile? author;
@@ -29,6 +35,8 @@ class CommunityPost {
     required this.title,
     required this.content,
     required this.images,
+    required this.mosaicImages,
+    required this.hasMosaic,
     required this.viewCount,
     required this.likeCount,
     required this.commentCount,
@@ -37,6 +45,8 @@ class CommunityPost {
     this.deletedAt,
     required this.createdAt,
     required this.updatedAt,
+    this.timelineDate,
+    this.timelineData,
     this.author,
     this.category,
     this.isLikedByCurrentUser,
@@ -45,6 +55,9 @@ class CommunityPost {
   factory CommunityPost.fromJson(Map<String, dynamic> json) {
     final imagesJson = json['images'] as List<dynamic>?;
     final images = imagesJson?.map((e) => e.toString()).toList() ?? <String>[];
+    
+    final mosaicImagesJson = json['mosaic_images'] as List<dynamic>?;
+    final mosaicImages = mosaicImagesJson?.map((e) => e.toString()).toList() ?? <String>[];
 
     // 디버깅을 위한 로그
     if (json['category_id'] == null) {
@@ -59,6 +72,8 @@ class CommunityPost {
         title: json['title'] as String? ?? '',
         content: json['content'] as String? ?? '',
         images: images,
+        mosaicImages: mosaicImages,
+        hasMosaic: json['has_mosaic'] as bool? ?? false,
         viewCount: json['view_count'] as int? ?? 0,
         likeCount: json['like_count'] as int? ?? 0,
         commentCount: json['comment_count'] as int? ?? 0,
@@ -73,6 +88,10 @@ class CommunityPost {
         updatedAt: json['updated_at'] != null 
             ? DateTime.parse(json['updated_at'] as String)
             : DateTime.now(),
+        timelineDate: json['timeline_date'] != null 
+            ? DateTime.parse(json['timeline_date'] as String)
+            : null,
+        timelineData: json['timeline_data'] as Map<String, dynamic>?,
         author: json['author'] != null 
             ? UserProfile.fromJson(json['author'] as Map<String, dynamic>)
             : null,
@@ -97,6 +116,8 @@ class CommunityPost {
       'title': title,
       'content': content,
       'images': images,
+      'mosaic_images': mosaicImages,
+      'has_mosaic': hasMosaic,
       'view_count': viewCount,
       'like_count': likeCount,
       'comment_count': commentCount,
@@ -105,6 +126,8 @@ class CommunityPost {
       'deleted_at': deletedAt?.toIso8601String(),
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
+      if (timelineDate != null) 'timeline_date': timelineDate!.toIso8601String().split('T')[0],
+      if (timelineData != null) 'timeline_data': timelineData,
       if (author != null) 'author': author!.toJson(),
       if (category != null) 'category': category!.toJson(),
       if (isLikedByCurrentUser != null) 'is_liked_by_current_user': isLikedByCurrentUser,
@@ -146,6 +169,8 @@ class CommunityPost {
     String? title,
     String? content,
     List<String>? images,
+    List<String>? mosaicImages,
+    bool? hasMosaic,
     int? viewCount,
     int? likeCount,
     int? commentCount,
@@ -154,6 +179,8 @@ class CommunityPost {
     DateTime? deletedAt,
     DateTime? createdAt,
     DateTime? updatedAt,
+    DateTime? timelineDate,
+    Map<String, dynamic>? timelineData,
     UserProfile? author,
     CommunityCategory? category,
     bool? isLikedByCurrentUser,
@@ -165,6 +192,8 @@ class CommunityPost {
       title: title ?? this.title,
       content: content ?? this.content,
       images: images ?? this.images,
+      mosaicImages: mosaicImages ?? this.mosaicImages,
+      hasMosaic: hasMosaic ?? this.hasMosaic,
       viewCount: viewCount ?? this.viewCount,
       likeCount: likeCount ?? this.likeCount,
       commentCount: commentCount ?? this.commentCount,
@@ -173,6 +202,8 @@ class CommunityPost {
       deletedAt: deletedAt ?? this.deletedAt,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      timelineDate: timelineDate ?? this.timelineDate,
+      timelineData: timelineData ?? this.timelineData,
       author: author ?? this.author,
       category: category ?? this.category,
       isLikedByCurrentUser: isLikedByCurrentUser ?? this.isLikedByCurrentUser,

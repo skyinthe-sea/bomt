@@ -155,32 +155,29 @@ class ImageService {
     }
   }
 
-  /// 커뮤니티 Storage 버킷이 존재하는지 확인
+  /// 커뮤니티 Storage 버킷이 존재하는지 확인하고 없으면 생성
   Future<void> _checkCommunityBucketExists() async {
     try {
       // 버킷 목록 가져오기
       final buckets = await _supabase.storage.listBuckets();
       
-      // 'community-images' 버킷이 있는지 확인
-      bool bucketExists = buckets.any((bucket) => bucket.name == _communityBucketName);
+      // 'community-images' 버킷이 있는지 확인 (id 또는 name으로 체크)
+      bool bucketExists = buckets.any((bucket) => 
+          bucket.id == _communityBucketName || bucket.name == _communityBucketName);
       
       if (!bucketExists) {
-        throw Exception(
-          'Storage bucket "$_communityBucketName" not found.\n\n'
-          'Please create it by running the SQL script in:\n'
-          'scripts/create_community_storage_bucket.sql\n\n'
-          'Or manually create the bucket in Supabase Dashboard:\n'
-          '1. Go to Storage section\n'
-          '2. Create new bucket named "community-images"\n'
-          '3. Make it public\n'
-          '4. Set up appropriate RLS policies'
+        // 버킷이 없으면 자동 생성
+        await _supabase.storage.createBucket(
+          _communityBucketName,
+          const BucketOptions(public: true),
         );
+        debugPrint('Created community images bucket: $_communityBucketName');
+      } else {
+        debugPrint('Storage bucket "$_communityBucketName" found successfully');
       }
-      
-      debugPrint('Storage bucket "$_communityBucketName" found successfully');
     } catch (e) {
-      debugPrint('Error checking community bucket: $e');
-      rethrow;
+      debugPrint('Error checking/creating community bucket: $e');
+      // 버킷이 이미 존재하는 경우 등의 오류는 무시하고 계속 진행
     }
   }
   
@@ -286,55 +283,172 @@ class ImageService {
   /// 커뮤니티 이미지 Supabase Storage에 업로드
   Future<String?> uploadCommunityImage(File imageFile, String userId) async {
     try {
+      debugPrint('🔍 [UPLOAD] Starting upload for user: $userId, file: ${imageFile.path}');
+      
       // 버킷 존재 확인
+      debugPrint('🔍 [UPLOAD] Checking bucket exists...');
       await _checkCommunityBucketExists();
       
       // 이미지 압축
+      debugPrint('🔍 [UPLOAD] Compressing image...');
       final compressedFile = await compressCommunityImage(imageFile);
-      if (compressedFile == null) return null;
+      if (compressedFile == null) {
+        debugPrint('❌ [UPLOAD] Image compression failed');
+        return null;
+      }
+      debugPrint('✅ [UPLOAD] Image compressed successfully: ${compressedFile.path}');
       
       // 파일명 생성 (사용자ID_타임스탬프_랜덤값)
       final timestamp = DateTime.now().millisecondsSinceEpoch;
       final random = (DateTime.now().microsecond % 1000).toString().padLeft(3, '0');
       final fileName = 'posts/${userId}_${timestamp}_$random.jpg';
+      debugPrint('🔍 [UPLOAD] Generated filename: $fileName');
       
       // Supabase Storage에 업로드
+      debugPrint('🔍 [UPLOAD] Uploading to Supabase Storage...');
       await _supabase.storage
           .from(_communityBucketName)
           .upload(fileName, compressedFile);
+      debugPrint('✅ [UPLOAD] File uploaded successfully to Storage');
       
       // 공개 URL 가져오기
       final imageUrl = _supabase.storage
           .from(_communityBucketName)
           .getPublicUrl(fileName);
+      debugPrint('✅ [UPLOAD] Public URL generated: $imageUrl');
       
       // 임시 파일 삭제
       await compressedFile.delete();
+      debugPrint('🗑️ [UPLOAD] Temporary file deleted');
       
       return imageUrl;
-    } catch (e) {
-      debugPrint('Error uploading community image: $e');
+    } catch (e, stackTrace) {
+      debugPrint('❌ [UPLOAD] Error uploading community image: $e');
+      debugPrint('❌ [UPLOAD] Stack trace: $stackTrace');
       return null;
     }
   }
 
   /// 커뮤니티용 다중 이미지 업로드
   Future<List<String>> uploadCommunityImages(List<File> imageFiles, String userId) async {
+    debugPrint('🖼️ [IMAGE_UPLOAD] Starting upload of ${imageFiles.length} images for user: $userId');
     final List<String> uploadedUrls = [];
     
-    for (final imageFile in imageFiles) {
+    for (int i = 0; i < imageFiles.length; i++) {
+      final imageFile = imageFiles[i];
       try {
+        debugPrint('🖼️ [IMAGE_UPLOAD] Uploading image ${i + 1}/${imageFiles.length}: ${imageFile.path}');
         final url = await uploadCommunityImage(imageFile, userId);
         if (url != null) {
           uploadedUrls.add(url);
+          debugPrint('✅ [IMAGE_UPLOAD] Successfully uploaded image ${i + 1}: $url');
+        } else {
+          debugPrint('❌ [IMAGE_UPLOAD] Failed to upload image ${i + 1}: URL is null');
         }
-      } catch (e) {
-        debugPrint('Error uploading image ${imageFile.path}: $e');
+      } catch (e, stackTrace) {
+        debugPrint('❌ [IMAGE_UPLOAD] Error uploading image ${i + 1} (${imageFile.path}): $e');
+        debugPrint('❌ [IMAGE_UPLOAD] Stack trace: $stackTrace');
         // 개별 이미지 업로드 실패는 무시하고 계속 진행
       }
     }
     
+    debugPrint('🖼️ [IMAGE_UPLOAD] Upload completed. ${uploadedUrls.length}/${imageFiles.length} images uploaded successfully');
+    debugPrint('🖼️ [IMAGE_UPLOAD] Uploaded URLs: $uploadedUrls');
     return uploadedUrls;
+  }
+
+  /// 이미지 모자이크 처리 - 간단한 픽셀화 방식
+  Future<File?> applyMosaicEffect(File imageFile, {int blockSize = 40}) async {
+    try {
+      final bytes = await imageFile.readAsBytes();
+      img.Image? image = img.decodeImage(bytes);
+      
+      if (image == null) return null;
+      
+      // 방법 1: 간단한 축소-확대 방식 (더 강한 모자이크)
+      final originalWidth = image.width;
+      final originalHeight = image.height;
+      
+      // 1/8 크기로 축소 (더 강한 모자이크를 위해)
+      final smallWidth = (originalWidth / 8).round();
+      final smallHeight = (originalHeight / 8).round();
+      
+      // 축소
+      final smallImage = img.copyResize(
+        image, 
+        width: smallWidth, 
+        height: smallHeight,
+        interpolation: img.Interpolation.nearest, // 보간 없이 날카롭게
+      );
+      
+      // 다시 원래 크기로 확대 (보간 없이)
+      final mosaicImage = img.copyResize(
+        smallImage,
+        width: originalWidth,
+        height: originalHeight,
+        interpolation: img.Interpolation.nearest, // 보간 없이 블록화
+      );
+      
+      // 임시 파일로 저장
+      final tempDir = await getTemporaryDirectory();
+      final tempPath = '${tempDir.path}/mosaic_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      
+      final mosaicBytes = img.encodeJpg(mosaicImage, quality: 85);
+      final mosaicFile = File(tempPath);
+      await mosaicFile.writeAsBytes(mosaicBytes);
+      
+      return mosaicFile;
+    } catch (e) {
+      debugPrint('Error applying mosaic effect: $e');
+      return null;
+    }
+  }
+  
+  /// 모자이크 이미지 생성 (픽셀 블록화)
+  img.Image _createMosaicImage(img.Image originalImage, int blockSize) {
+    final width = originalImage.width;
+    final height = originalImage.height;
+    final mosaicImage = img.Image(width: width, height: height);
+    
+    // 블록 단위로 처리
+    for (int y = 0; y < height; y += blockSize) {
+      for (int x = 0; x < width; x += blockSize) {
+        // 현재 블록의 경계 계산
+        final blockWidth = (x + blockSize > width) ? width - x : blockSize;
+        final blockHeight = (y + blockSize > height) ? height - y : blockSize;
+        
+        // 블록 내 픽셀들의 평균 색상 계산
+        double totalR = 0, totalG = 0, totalB = 0, totalA = 0;
+        int pixelCount = 0;
+        
+        for (int by = y; by < y + blockHeight; by++) {
+          for (int bx = x; bx < x + blockWidth; bx++) {
+            final pixel = originalImage.getPixel(bx, by);
+            totalR += pixel.r;
+            totalG += pixel.g;
+            totalB += pixel.b;
+            totalA += pixel.a;
+            pixelCount++;
+          }
+        }
+        
+        // 평균 색상
+        final avgR = (totalR / pixelCount).round();
+        final avgG = (totalG / pixelCount).round();
+        final avgB = (totalB / pixelCount).round();
+        final avgA = (totalA / pixelCount).round();
+        final avgColor = img.ColorRgba8(avgR, avgG, avgB, avgA);
+        
+        // 블록 전체를 평균 색상으로 채우기
+        for (int by = y; by < y + blockHeight; by++) {
+          for (int bx = x; bx < x + blockWidth; bx++) {
+            mosaicImage.setPixel(bx, by, avgColor);
+          }
+        }
+      }
+    }
+    
+    return mosaicImage;
   }
 
   /// 커뮤니티 이미지 삭제
@@ -354,4 +468,5 @@ class ImageService {
       return false;
     }
   }
+
 }

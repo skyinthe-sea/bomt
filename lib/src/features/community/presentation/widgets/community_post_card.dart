@@ -120,6 +120,51 @@ class CommunityPostCard extends StatelessWidget {
                           ),
                         ),
                       
+                      // 이미지 배지 (딤 처리 여부에 따라 다른 표시)
+                      if (post.images.isNotEmpty) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: post.hasMosaic 
+                                ? theme.colorScheme.error.withOpacity(0.15)
+                                : theme.colorScheme.secondary.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: post.hasMosaic 
+                                  ? theme.colorScheme.error.withOpacity(0.3)
+                                  : theme.colorScheme.secondary.withOpacity(0.3),
+                              width: 0.5,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                post.hasMosaic ? Icons.visibility_off : Icons.image,
+                                size: 12,
+                                color: post.hasMosaic 
+                                    ? theme.colorScheme.error
+                                    : theme.colorScheme.secondary,
+                              ),
+                              if (post.images.length > 1) ...[
+                                const SizedBox(width: 2),
+                                Text(
+                                  post.images.length.toString(),
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: post.hasMosaic 
+                                        ? theme.colorScheme.error
+                                        : theme.colorScheme.secondary,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ],
+                      
                       const SizedBox(width: 12),
                       
                       // 작성자 정보
