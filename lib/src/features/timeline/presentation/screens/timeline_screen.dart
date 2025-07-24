@@ -143,14 +143,17 @@ class _TimelineScreenState extends State<TimelineScreen>
       final babyProvider = Provider.of<BabyProvider>(context, listen: false);
       await babyProvider.loadBabyData();
       
-      if (babyProvider.selectedBaby == null) {
-        debugPrint('❌ [TIMELINE] No baby selected');
-        return;
-      }
-
+      // 🎯 아기가 없어도 초기화 완료로 처리
       setState(() {
         _isInitialized = true;
       });
+      
+      if (babyProvider.selectedBaby == null) {
+        debugPrint('⚠️ [TIMELINE] No baby selected - showing empty state');
+        // 페이드 인 애니메이션 시작 (빈 상태도 보여줘야 함)
+        _fadeController.forward();
+        return;
+      }
 
       // Provider에 선택된 아기 ID 설정
       _timelineProvider.setCurrentBaby(babyProvider.selectedBaby!.id);
@@ -161,6 +164,11 @@ class _TimelineScreenState extends State<TimelineScreen>
       debugPrint('✅ [TIMELINE] Timeline initialized for baby: ${babyProvider.selectedBaby!.name}');
     } catch (e) {
       debugPrint('❌ [TIMELINE] Error initializing timeline: $e');
+      // 에러가 있어도 초기화 완료로 처리
+      setState(() {
+        _isInitialized = true;
+      });
+      _fadeController.forward();
     }
   }
 
@@ -168,7 +176,8 @@ class _TimelineScreenState extends State<TimelineScreen>
   Widget build(BuildContext context) {
     return Consumer<BabyProvider>(
       builder: (context, babyProvider, child) {
-        if (!_isInitialized || babyProvider.selectedBaby == null) {
+        // 🎯 아기가 없는 상태 처리
+        if (!_isInitialized) {
           return Scaffold(
             body: CleanBackground(
               child: const Center(
@@ -187,6 +196,115 @@ class _TimelineScreenState extends State<TimelineScreen>
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+          );
+        }
+        
+        // 🎯 아기가 등록되지 않은 상태
+        if (babyProvider.selectedBaby == null) {
+          return Scaffold(
+            body: CleanBackground(
+              child: SafeArea(
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(32),
+                      margin: const EdgeInsets.symmetric(horizontal: 24),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? Colors.black.withOpacity(0.3)
+                                : Colors.grey.withOpacity(0.1),
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // 아이콘
+                          Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                colors: [
+                                  Theme.of(context).colorScheme.primary,
+                                  Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                                ],
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.baby_changing_station,
+                              size: 40,
+                              color: Colors.white,
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 24),
+                          
+                          // 제목
+                          Text(
+                            '아기를 등록해주세요',
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          
+                          const SizedBox(height: 12),
+                          
+                          // 설명
+                          Text(
+                            '아기의 소중한 순간들을 기록하기 위해\n먼저 아기 정보를 등록해주세요.',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                              height: 1.5,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          
+                          const SizedBox(height: 32),
+                          
+                          // 등록 버튼
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // 홈 화면으로 이동 (홈에서 아기 추가 가능)
+                                Navigator.of(context).pushReplacementNamed('/home');
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Theme.of(context).colorScheme.primary,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                elevation: 2,
+                              ),
+                              child: const Text(
+                                '홈에서 아기 추가하기',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
