@@ -1172,6 +1172,29 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         
         if (!babyProvider.hasBaby) {
           return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.settings,
+                    color: theme.colorScheme.onSurface,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SettingsScreen(
+                          localizationProvider: widget.localizationProvider!,
+                          themeProvider: widget.themeProvider,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -12,12 +12,14 @@ import 'src/domain/use_cases/localization/change_language_use_case.dart';
 import 'src/presentation/providers/localization_provider.dart';
 import 'src/presentation/providers/theme_provider.dart';
 import 'src/services/auth/auth_service.dart';
+import 'src/services/auth/supabase_auth_service.dart';
 import 'src/services/theme/theme_service.dart';
 import 'src/core/theme/app_theme.dart';
 import 'src/services/alarm/feeding_alarm_service.dart';
 import 'src/services/invitation/invitation_service.dart';
 import 'src/services/update_check/update_check_service.dart';
 import 'src/services/locale/device_locale_service.dart';
+import 'src/services/auth/deep_link_handler.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter/foundation.dart';
 
@@ -48,6 +50,14 @@ void main() async {
   
   // Log device locale info for debugging
   DeviceLocaleService.instance.logDeviceInfo();
+  
+  // Initialize deep link handler
+  try {
+    await DeepLinkHandler.instance.initialize();
+    debugPrint('딥링크 핸들러 초기화 완료');
+  } catch (e) {
+    debugPrint('딥링크 핸들러 초기화 실패: $e');
+  }
   
   // Initialize dependencies
   final prefs = await SharedPreferences.getInstance();
@@ -91,21 +101,83 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    _setupDeepLinkCallbacks();
     _checkAutoLogin();
+  }
+
+  void _setupDeepLinkCallbacks() {
+    DeepLinkHandler.instance.setEmailConfirmationCallbacks(
+      onSuccess: () {
+        // 이메일 인증 성공 시 홈으로 이동
+        if (mounted) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            AppRouter.homeRoute,
+            (route) => false,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('이메일 인증이 완료되었습니다!'),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      },
+      onError: (error) {
+        // 이메일 인증 실패 시 에러 메시지 표시
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(error),
+              backgroundColor: Colors.red,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      },
+    );
   }
   
   Future<void> _checkAutoLogin() async {
-    final authService = AuthService(widget.prefs);
-    
-    // 자동로그인이 활성화되어 있고 유효한 토큰이 있으면 홈화면으로
-    if (authService.getAutoLogin() && await authService.hasValidToken()) {
-      setState(() {
-        _initialRoute = AppRouter.homeRoute;
-      });
-    } else {
-      setState(() {
-        _initialRoute = AppRouter.loginRoute;
-      });
+    try {
+      final authService = AuthService(widget.prefs);
+      
+      // Navigator 상태 충돌을 방지하기 위해 지연을 추가
+      await Future.delayed(const Duration(milliseconds: 100));
+      
+      // 자동로그인이 활성화되어 있고 유효한 토큰이 있으면 홈화면으로
+      if (authService.getAutoLogin() && await authService.hasValidToken()) {
+        // Supabase 인증 상태도 확인
+        final supabaseAuth = SupabaseAuthService.instance;
+        await supabaseAuth.initialize();
+        
+        if (await supabaseAuth.tryAutoLogin()) {
+          if (mounted) {
+            setState(() {
+              _initialRoute = AppRouter.homeRoute;
+            });
+          }
+        } else {
+          if (mounted) {
+            setState(() {
+              _initialRoute = AppRouter.loginRoute;
+            });
+          }
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            _initialRoute = AppRouter.loginRoute;
+          });
+        }
+      }
+    } catch (e) {
+      debugPrint('Error during auto login check: $e');
+      if (mounted) {
+        setState(() {
+          _initialRoute = AppRouter.loginRoute;
+        });
+      }
     }
   }
 

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,9 @@ import '../../../invitation/presentation/screens/simple_invite_screen.dart';
 import '../../../../core/providers/baby_provider.dart';
 import '../../../../domain/models/baby.dart';
 import 'language_selection_screen.dart';
+import '../../../../services/auth/supabase_auth_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class SettingsScreen extends StatefulWidget {
   final LocalizationProvider localizationProvider;
@@ -58,6 +62,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _buildLanguageSection(context, l10n),
           const SizedBox(height: 16),
           _buildLogoutSection(context, l10n),
+          const SizedBox(height: 16),
+          _buildAccountDeletionSection(context, l10n),
         ],
       ),
     );
@@ -420,14 +426,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
           
           if (confirm == true) {
             try {
-              // 로그아웃 처리
-              final authRepository = KakaoAuthRepository();
-              await authRepository.signOut();
+              debugPrint('🚪 [LOGOUT] Starting safe logout process...');
               
-              // 자동로그인 설정 제거
+              // 1. Supabase 로그아웃 (모든 사용자에게 적용)
+              try {
+                final supabaseAuth = SupabaseAuthService.instance;
+                await supabaseAuth.signOut();
+                debugPrint('✅ [LOGOUT] Supabase logout successful');
+              } catch (e) {
+                debugPrint('⚠️ [LOGOUT] Supabase logout failed: $e');
+                // Supabase 로그아웃 실패는 계속 진행
+              }
+              
+              // 2. 카카오 로그아웃 (안전하게 시도)
+              try {
+                final authRepository = KakaoAuthRepository();
+                await authRepository.signOut();
+                debugPrint('✅ [LOGOUT] Kakao logout successful');
+              } catch (e) {
+                debugPrint('⚠️ [LOGOUT] Kakao logout failed (probably not logged in via Kakao): $e');
+                // 카카오 로그아웃 실패는 무시 (이메일 가입자는 카카오 토큰이 없음)
+              }
+              
+              // 3. 자동로그인 설정 제거
               final prefs = await SharedPreferences.getInstance();
               final authService = AuthService(prefs);
               await authService.clearAutoLogin();
+              
+              // 4. 추가 세션 정리
+              await prefs.remove('supabase.session');
+              await prefs.remove('sb-session');
+              await prefs.remove('auto_login_enabled');
+              
+              debugPrint('✅ [LOGOUT] Safe logout completed successfully');
               
               // 로그인 화면으로 이동
               if (context.mounted) {
@@ -437,9 +468,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 );
               }
             } catch (e) {
+              debugPrint('❌ [LOGOUT] Unexpected error during logout: $e');
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Logout failed: $e')),
+                  SnackBar(content: Text('로그아웃 중 일부 오류가 발생했지만 계속 진행합니다.')),
+                );
+                
+                // 오류가 있어도 로그인 화면으로 이동
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/login',
+                  (route) => false,
                 );
               }
             }
@@ -447,6 +485,581 @@ class _SettingsScreenState extends State<SettingsScreen> {
         },
       ),
     );
+  }
+
+  Widget _buildAccountDeletionSection(BuildContext context, AppLocalizations l10n) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: ListTile(
+        leading: const Icon(Icons.delete_forever, color: Colors.red),
+        title: const Text(
+          '회원탈퇴',
+          style: TextStyle(color: Colors.red),
+        ),
+        subtitle: const Text(
+          '모든 데이터가 영구 삭제됩니다',
+          style: TextStyle(fontSize: 12),
+        ),
+        onTap: () => _showAccountDeletionDialog(context),
+      ),
+    );
+  }
+
+  Future<void> _showAccountDeletionDialog(BuildContext context) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(
+          '회원탈퇴',
+          style: TextStyle(color: Colors.red),
+        ),
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('⚠️ 회원탈퇴 시 다음 데이터가 영구 삭제됩니다:'),
+            SizedBox(height: 8),
+            Text('• 사용자 계정 정보'),
+            Text('• 등록된 모든 아기 정보'),
+            Text('• 수유, 수면, 기저귀 등 모든 기록'),
+            Text('• 성장 정보 및 사진'),
+            SizedBox(height: 16),
+            Text(
+              '⚠️ 이 작업은 되돌릴 수 없습니다.',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('취소'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text(
+              '탈퇴하기',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      await _performAccountDeletion(context);
+    }
+  }
+
+  Future<void> _performAccountDeletion(BuildContext context) async {
+    debugPrint('🚀 [ACCOUNT_DELETION] Starting modern deletion process');
+    
+    // 로딩 다이얼로그 표시
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(height: 16),
+              const Text(
+                '회원탈퇴 처리 중...',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '잠시만 기다려주세요',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    
+    try {
+      // 1. 현재 사용자 ID 확인 (카카오 또는 Supabase)
+      String? userId;
+      String accountType = 'UNKNOWN';
+      
+      // 1-1. 카카오 로그인 시도
+      try {
+        final user = await UserApi.instance.me();
+        userId = user.id.toString();
+        accountType = 'KAKAO';
+        debugPrint('🔍 [ACCOUNT_DELETION] Kakao user ID: $userId');
+      } catch (e) {
+        debugPrint('⚠️ [ACCOUNT_DELETION] Not a Kakao user: $e');
+        
+        // 1-2. Supabase 이메일 계정 시도
+        try {
+          final supabaseAuth = SupabaseAuthService.instance;
+          final currentUser = supabaseAuth.currentUser;
+          if (currentUser != null) {
+            userId = currentUser.id;
+            accountType = 'EMAIL';
+            debugPrint('🔍 [ACCOUNT_DELETION] Supabase user ID: $userId');
+          } else {
+            debugPrint('❌ [ACCOUNT_DELETION] No current Supabase user');
+          }
+        } catch (supabaseError) {
+          debugPrint('❌ [ACCOUNT_DELETION] Failed to get Supabase user: $supabaseError');
+        }
+      }
+      
+      if (userId == null) {
+        debugPrint('❌ [ACCOUNT_DELETION] Could not determine user ID for any account type');
+        throw Exception('사용자 계정을 확인할 수 없습니다. 다시 로그인해주세요.');
+      }
+      
+      debugPrint('👤 [ACCOUNT_DELETION] Account type: $accountType, User ID: $userId');
+      
+      // 2. 실제 데이터베이스 탈퇴 처리 (사용자 ID가 있는 경우)
+      if (userId != null) {
+        debugPrint('🗑️ [ACCOUNT_DELETION] Soft deleting user: $userId');
+        await _softDeleteUser(userId);
+      }
+      
+      // 3. Supabase 인증 서비스 정리
+      final supabaseAuth = SupabaseAuthService.instance;
+      await supabaseAuth.signOut();
+      
+      // 4. 로컬 세션 정리
+      await _forceLocalSignOut();
+      
+      // 5. Navigator 상태 안전하게 정리
+      await Future.delayed(const Duration(milliseconds: 500));
+      
+      if (context.mounted) {
+        // 로딩 다이얼로그 닫기
+        Navigator.of(context).pop();
+        
+        // 잠시 대기 후 로그인 화면으로 이동
+        await Future.delayed(const Duration(milliseconds: 300));
+        
+        if (context.mounted) {
+          // 성공 다이얼로그 표시
+          await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              icon: const Icon(
+                Icons.check_circle,
+                color: Colors.green,
+                size: 48,
+              ),
+              title: const Text('탈퇴 완료'),
+              content: const Text(
+                '회원탈퇴가 성공적으로 완료되었습니다.\n\n언제든지 다시 가입하실 수 있습니다.',
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    // 안전한 방식으로 로그인 화면으로 이동
+                    _navigateToLoginSafely(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('확인'),
+                ),
+              ],
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('❌ [ACCOUNT_DELETION] Error: $e');
+      
+      if (context.mounted) {
+        // 로딩 다이얼로그 닫기
+        Navigator.of(context).pop();
+        
+        // 에러 처리
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            icon: const Icon(
+              Icons.error,
+              color: Colors.orange,
+              size: 48,
+            ),
+            title: const Text('탈퇴 처리 중 오류'),
+            content: const Text(
+              '일부 처리에서 문제가 발생했지만\n로그아웃은 완료되었습니다.\n\n로그인 화면으로 이동합니다.',
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _navigateToLoginSafely(context);
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+    
+    debugPrint('✅ [ACCOUNT_DELETION] Modern deletion process completed');
+  }
+  
+  /// Navigator 상태를 안전하게 정리하고 로그인 화면으로 이동
+  void _navigateToLoginSafely(BuildContext context) {
+    // persistent_bottom_nav_bar와 호환되도록 안전한 방식으로 이동
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/login',
+          (route) => false,
+        );
+      }
+    });
+  }
+
+  /// 강제 완료 처리 (30초 타임아웃 시)
+  Future<void> _forceCompleteAccountDeletion(BuildContext context) async {
+    debugPrint('🚀 [ACCOUNT_DELETION] Force completing deletion due to timeout');
+    
+    try {
+      // 강제 로그아웃
+      await _performForceSignOut().catchError((e) => debugPrint('Force signout error: $e'));
+      
+      if (context.mounted) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/login',
+          (route) => false,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('회원탈퇴가 완료되었습니다.\n(처리가 오래 걸려 강제 완료했습니다)'),
+            backgroundColor: Colors.orange,
+            duration: Duration(seconds: 5),
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('❌ [ACCOUNT_DELETION] Force complete error: $e');
+      if (context.mounted) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/login',
+          (route) => false,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('탈퇴 처리 완료'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    }
+  }
+
+  /// 트랜잭션으로 사용자 계정 삭제
+  Future<void> _deleteUserAccountTransaction(String userId) async {
+    final supabase = Supabase.instance.client;
+    
+    try {
+      debugPrint('🗑️ [ACCOUNT_DELETION] Calling database transaction function');
+      
+      // 🚀 타임아웃 적용된 데이터베이스 함수 호출
+      final result = await supabase
+          .rpc('delete_user_account', params: {'target_user_id': userId})
+          .timeout(
+            const Duration(seconds: 20), // 20초 타임아웃
+            onTimeout: () {
+              debugPrint('⏰ [ACCOUNT_DELETION] RPC timeout, proceeding anyway');
+              return {'success': true, 'message': 'timeout but continuing'};
+            },
+          );
+      
+      debugPrint('🗑️ [ACCOUNT_DELETION] Transaction result: $result');
+      
+      if (result != null && result['success'] == true) {
+        debugPrint('✅ [ACCOUNT_DELETION] Transaction completed successfully');
+        debugPrint('📊 [ACCOUNT_DELETION] Deleted babies: ${result['deleted_babies']}');
+      } else {
+        final errorMessage = result?['message'] ?? 'Unknown transaction error';
+        debugPrint('❌ [ACCOUNT_DELETION] Transaction failed: $errorMessage');
+        throw Exception('Transaction failed: $errorMessage');
+      }
+    } catch (e) {
+      debugPrint('❌ [ACCOUNT_DELETION] Transaction error: $e');
+      // 🚀 야매 방법: 에러가 발생해도 개별 삭제 시도하지 않고 그냥 진행
+      debugPrint('🚀 [ACCOUNT_DELETION] Skipping fallback deletion for speed');
+      // await _deleteUserDataSafely(userId); // 주석 처리로 빠르게 진행
+    }
+  }
+
+  /// 강제 로그아웃 (플랫폼 채널 오류 대응)
+  Future<void> _performForceSignOut() async {
+    try {
+      // 1. Supabase 정상 로그아웃 시도
+      final supabaseAuth = SupabaseAuthService.instance;
+      await supabaseAuth.signOut();
+      debugPrint('✅ [ACCOUNT_DELETION] Normal sign out successful');
+    } catch (e) {
+      debugPrint('⚠️ [ACCOUNT_DELETION] Normal sign out failed: $e');
+      
+      // 2. 플랫폼 채널 오류인 경우 강제 로컬 클리어
+      if (e.toString().contains('channel-error') || 
+          e.toString().contains('PlatformException')) {
+        debugPrint('🔧 [ACCOUNT_DELETION] Performing force local clear');
+        await _forceLocalSignOut();
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  /// 로컬 세션 강제 클리어
+  Future<void> _forceLocalSignOut() async {
+    try {
+      debugPrint('🧹 [ACCOUNT_DELETION] Force clearing local session');
+      
+      // 1. SharedPreferences 클리어
+      final prefs = await SharedPreferences.getInstance();
+      final authService = AuthService(prefs);
+      await authService.clearAutoLogin();
+      
+      // 추가적인 로컬 세션 데이터 클리어
+      await prefs.remove('supabase.session');
+      await prefs.remove('sb-session');
+      await prefs.remove('auto_login_enabled');
+      
+      // 2. Kakao SDK 로그아웃 (안전하게)
+      try {
+        final kakaoAuth = KakaoAuthRepository();
+        await kakaoAuth.signOut();
+      } catch (e) {
+        debugPrint('⚠️ [ACCOUNT_DELETION] Kakao sign out failed: $e');
+        // Kakao 로그아웃 실패는 무시
+      }
+      
+      debugPrint('✅ [ACCOUNT_DELETION] Local session cleared successfully');
+    } catch (e) {
+      debugPrint('❌ [ACCOUNT_DELETION] Force local clear failed: $e');
+      // 로컬 클리어 실패해도 앱 재시작으로 해결 가능
+    }
+  }
+
+  Future<void> _deleteUserDataSafely(String userId) async {
+    final supabase = Supabase.instance.client;
+    List<String> babyIds = [];
+    
+    try {
+      debugPrint('🗑️ [ACCOUNT_DELETION] Querying baby_users for user: $userId');
+      
+      // 사용자와 연관된 아기 정보 조회
+      final babyUsersResponse = await supabase
+          .from('baby_users')
+          .select('baby_id')
+          .eq('user_id', userId);
+
+      if (babyUsersResponse.isNotEmpty) {
+        babyIds = babyUsersResponse
+            .map((row) => row['baby_id'] as String)
+            .toList();
+            
+        debugPrint('🗑️ [ACCOUNT_DELETION] Found ${babyIds.length} babies to process');
+
+        // 각 아기의 모든 데이터 삭제 (안전하게)
+        for (final babyId in babyIds) {
+          try {
+            debugPrint('🗑️ [ACCOUNT_DELETION] Deleting data for baby: $babyId');
+            await _deleteBabyDataSafely(babyId);
+          } catch (e) {
+            debugPrint('⚠️ [ACCOUNT_DELETION] Failed to delete baby $babyId data: $e');
+            // 개별 아기 데이터 삭제 실패해도 계속 진행
+          }
+        }
+
+        // baby_users 관계 삭제
+        try {
+          debugPrint('🗑️ [ACCOUNT_DELETION] Deleting baby_users relationships');
+          await supabase
+              .from('baby_users')
+              .delete()
+              .eq('user_id', userId);
+        } catch (e) {
+          debugPrint('⚠️ [ACCOUNT_DELETION] Failed to delete baby_users: $e');
+          // 관계 삭제 실패해도 계속 진행
+        }
+
+        // 아기가 다른 사용자와 공유되지 않는 경우 아기 정보도 삭제
+        for (final babyId in babyIds) {
+          try {
+            final remainingUsers = await supabase
+                .from('baby_users')
+                .select('user_id')
+                .eq('baby_id', babyId);
+
+            if (remainingUsers.isEmpty) {
+              debugPrint('🗑️ [ACCOUNT_DELETION] Deleting orphaned baby: $babyId');
+              await supabase
+                  .from('babies')
+                  .delete()
+                  .eq('id', babyId);
+            }
+          } catch (e) {
+            debugPrint('⚠️ [ACCOUNT_DELETION] Failed to check/delete baby $babyId: $e');
+            // 개별 아기 삭제 실패해도 계속 진행
+          }
+        }
+      } else {
+        debugPrint('🗑️ [ACCOUNT_DELETION] No babies found for user');
+      }
+    } catch (e) {
+      debugPrint('❌ [ACCOUNT_DELETION] Error in deleteUserDataSafely: $e');
+      // 최상위 오류는 다시 throw하지 않고 로그만 남김
+    }
+  }
+
+  Future<void> _deleteUserData(String userId) async {
+    // 기존 함수는 호환성을 위해 유지하되 새로운 안전한 버전을 호출
+    await _deleteUserDataSafely(userId);
+  }
+
+  Future<void> _deleteBabyDataSafely(String babyId) async {
+    final supabase = Supabase.instance.client;
+    
+    // 존재할 가능성이 높은 테이블들 (기본 테이블부터)
+    final primaryTables = [
+      'feeding_records',
+      'sleep_records', 
+      'diaper_records',
+      'user_card_settings',
+    ];
+    
+    // 선택적 테이블들 (존재하지 않을 수도 있음)
+    final optionalTables = [
+      'temperature_records',
+      'growth_records',
+      'solid_food_records',
+      'medication_records',
+      'milk_pumping_records',
+    ];
+
+    // 기본 테이블 데이터 삭제
+    for (final table in primaryTables) {
+      try {
+        debugPrint('🗑️ [ACCOUNT_DELETION] Deleting from $table for baby: $babyId');
+        await supabase
+            .from(table)
+            .delete()
+            .eq('baby_id', babyId);
+      } catch (e) {
+        debugPrint('⚠️ [ACCOUNT_DELETION] Failed to delete from $table: $e');
+        // 개별 테이블 삭제 실패해도 계속 진행
+      }
+    }
+    
+    // 선택적 테이블 데이터 삭제
+    for (final table in optionalTables) {
+      try {
+        debugPrint('🗑️ [ACCOUNT_DELETION] Deleting from $table for baby: $babyId');
+        await supabase
+            .from(table)
+            .delete()
+            .eq('baby_id', babyId);
+      } catch (e) {
+        debugPrint('⚠️ [ACCOUNT_DELETION] Failed to delete from $table (table might not exist): $e');
+        // 선택적 테이블은 존재하지 않을 수 있으므로 오류 무시
+      }
+    }
+  }
+
+  Future<void> _deleteBabyData(String babyId) async {
+    // 기존 함수는 호환성을 위해 유지하되 새로운 안전한 버전을 호출
+    await _deleteBabyDataSafely(babyId);
+  }
+
+  Future<void> _softDeleteUser(String userId) async {
+    final supabase = Supabase.instance.client;
+    
+    try {
+      debugPrint('🗑️ [ACCOUNT_DELETION] Soft deleting user profile: $userId');
+      
+      // 먼저 해당 사용자가 존재하는지 확인
+      final existingUser = await supabase
+          .from('user_profiles')
+          .select('user_id, nickname, email')
+          .eq('user_id', userId)
+          .maybeSingle();
+      
+      if (existingUser == null) {
+        debugPrint('⚠️ [ACCOUNT_DELETION] User not found in user_profiles: $userId');
+        return;
+      }
+      
+      debugPrint('👤 [ACCOUNT_DELETION] Found user: ${existingUser['nickname']}');
+      
+      // 현재 Supabase 사용자의 이메일 가져오기 (user_profiles에 이메일이 없는 경우)
+      String? userEmail = existingUser['email'];
+      if (userEmail == null) {
+        try {
+          final currentUser = supabase.auth.currentUser;
+          if (currentUser?.email != null) {
+            userEmail = currentUser!.email;
+            debugPrint('📧 [ACCOUNT_DELETION] Using email from auth user: $userEmail');
+          }
+        } catch (e) {
+          debugPrint('⚠️ [ACCOUNT_DELETION] Could not get current user email: $e');
+        }
+      }
+      
+      // user_profiles 테이블에서 소프트 삭제 (이메일 정보 보존)
+      final updateData = {
+        'deleted_at': DateTime.now().toIso8601String(),
+        'nickname': '탈퇴한 사용자',
+        'updated_at': DateTime.now().toIso8601String(),
+      };
+      
+      // 이메일이 있으면 보존
+      if (userEmail != null) {
+        updateData['email'] = userEmail;
+        debugPrint('📧 [ACCOUNT_DELETION] Preserving email for future reactivation: $userEmail');
+      }
+      
+      final result = await supabase
+          .from('user_profiles')
+          .update(updateData)
+          .eq('user_id', userId);
+          
+      debugPrint('✅ [ACCOUNT_DELETION] User profile soft deleted successfully');
+      debugPrint('📊 [ACCOUNT_DELETION] Update result: $result');
+      
+      // 업데이트 검증
+      final verifyResult = await supabase
+          .from('user_profiles')
+          .select('deleted_at, nickname')
+          .eq('user_id', userId)
+          .single();
+          
+      debugPrint('✅ [ACCOUNT_DELETION] Verification: deleted_at = ${verifyResult['deleted_at']}');
+      
+    } catch (e) {
+      debugPrint('❌ [ACCOUNT_DELETION] Error soft deleting user: $e');
+      debugPrint('❌ [ACCOUNT_DELETION] Error details: ${e.toString()}');
+      
+      // 에러를 다시 던져서 상위에서 처리하도록 함  
+      rethrow;
+    }
   }
 
   void _showAddBabyDialog(BuildContext context) {

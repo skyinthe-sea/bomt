@@ -116,6 +116,17 @@
 				<string>fb1879904729467935</string>
 			</array>
 		</dict>
+		<!-- 이메일 인증용 딥링크 -->
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>babymom.auth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>babymom</string>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>

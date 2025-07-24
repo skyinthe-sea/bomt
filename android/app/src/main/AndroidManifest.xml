@@ -57,6 +57,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="bomt" />
             </intent-filter>
+            
+            <!-- 이메일 인증용 딥링크 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="babymom" android:host="auth" />
+            </intent-filter>
         </activity>
         <!-- 카카오 로그인 관련 -->
         <activity android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity">
