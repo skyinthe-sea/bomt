@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import '../../../../presentation/common_widgets/buttons/auth_button.dart';
 import '../../../../presentation/common_widgets/dialogs/email_auth_dialog.dart';
 import '../../../../presentation/common_widgets/dialogs/account_linking_dialog.dart';
@@ -8,6 +9,8 @@ import '../../../../services/auth/account_linking_service.dart';
 import '../../data/repositories/kakao_auth_repository.dart';
 import '../../../../services/auth/auth_service.dart';
 import '../../../../services/auth/supabase_auth_service.dart';
+import '../../../../services/locale/device_locale_service.dart';
+import '../../../../presentation/providers/localization_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -30,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _initializeServices();
+    _initializeAutoLocale();
   }
   
   Future<void> _initializeServices() async {
@@ -39,6 +43,51 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _autoLoginEnabled = _authService.getAutoLogin();
     });
+  }
+
+  /// 🌐 자동 로케일 감지 및 적용
+  Future<void> _initializeAutoLocale() async {
+    try {
+      final deviceLocale = DeviceLocaleService.instance;
+      
+      // 디바이스 로케일 정보 로깅
+      deviceLocale.logDeviceInfo();
+      
+      // LocalizationProvider가 사용 가능한지 확인
+      try {
+        final localizationProvider = Provider.of<LocalizationProvider>(context, listen: false);
+        final currentLocale = localizationProvider.currentLocale;
+        
+        // 디바이스 언어 코드를 기반으로 자동 설정
+        final deviceLanguageCode = deviceLocale.languageCode;
+        
+        // 지원하는 언어인지 확인하고 설정
+        if (_isSupportedLanguage(deviceLanguageCode) && 
+            _shouldUpdateLocale(currentLocale, deviceLanguageCode)) {
+          
+          debugPrint('🌐 [LOGIN] Auto-applying locale: $deviceLanguageCode');
+          await localizationProvider.changeLanguage(Locale(deviceLanguageCode));
+        }
+      } catch (providerError) {
+        debugPrint('⚠️ [LOGIN] LocalizationProvider not available: $providerError');
+        // Provider가 없어도 앱은 계속 실행 (한국어 기본값 사용)
+      }
+    } catch (e) {
+      debugPrint('❌ [LOGIN] Auto locale detection failed: $e');
+      // 에러가 발생해도 앱 실행은 계속
+    }
+  }
+
+  /// 지원하는 언어인지 확인
+  bool _isSupportedLanguage(String languageCode) {
+    const supportedLanguages = ['ko', 'en', 'ja', 'zh'];
+    return supportedLanguages.contains(languageCode);
+  }
+
+  /// 로케일을 업데이트해야 하는지 확인
+  bool _shouldUpdateLocale(Locale currentLocale, String deviceLanguageCode) {
+    // 현재 설정이 영어(기본값)이고 디바이스가 다른 언어인 경우 업데이트
+    return currentLocale.languageCode == 'en' && deviceLanguageCode != 'en';
   }
 
   Future<void> _handleKakaoLogin() async {
@@ -582,16 +631,30 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     
     return Scaffold(
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: isDarkMode
-                ? [theme.colorScheme.surface, theme.colorScheme.background]
-                : [const Color(0xFFF8FAFC), const Color(0xFFE2E8F0)],
+                ? [
+                    const Color(0xFF1E293B),
+                    const Color(0xFF0F172A),
+                    const Color(0xFF020617),
+                  ]
+                : [
+                    const Color(0xFFF8FAFC),
+                    const Color(0xFFE2E8F0),
+                    const Color(0xFFCBD5E1),
+                  ],
+            stops: const [0.0, 0.6, 1.0],
           ),
         ),
         child: SafeArea(
@@ -601,57 +664,202 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height - 
-                             MediaQuery.of(context).padding.top - 
-                             MediaQuery.of(context).padding.bottom,
+                  minHeight: screenHeight - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+                    SizedBox(height: screenHeight * 0.08),
                     
-                    // 로고 섹션
+                    // 🎨 Modern Logo Section
+                    TweenAnimationBuilder<double>(
+                      tween: Tween<double>(begin: 0.0, end: 1.0),
+                      duration: const Duration(milliseconds: 800),
+                      curve: Curves.elasticOut,
+                      builder: (context, value, child) {
+                        return Transform.scale(
+                          scale: value,
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  const Color(0xFF6366F1),
+                                  const Color(0xFF8B5CF6),
+                                  const Color(0xFFA855F7),
+                                ],
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF6366F1).withOpacity(0.4),
+                                  blurRadius: 30,
+                                  offset: const Offset(0, 15),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.favorite_rounded,
+                              size: 50,
+                              color: Colors.white,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    
+                    const SizedBox(height: 32),
+                    
+                    // 🎨 App Title
+                    const Text(
+                      'BabyMom',
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFF1E293B),
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 12),
+                    
+                    // 🎨 Subtitle
+                    Text(
+                      '아기 성장 기록을 손쉽게 관리하세요',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: isDarkMode 
+                            ? Colors.white.withOpacity(0.7)
+                            : const Color(0xFF64748B),
+                        height: 1.4,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    
+                    SizedBox(height: screenHeight * 0.08),
+                    
+                    // 🎨 Login Methods Title
+                    Text(
+                      '로그인 방법을 선택해주세요',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: isDarkMode 
+                            ? Colors.white
+                            : const Color(0xFF1E293B),
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 32),
+                    
+                    // 🎨 Modern Auth Buttons Container
                     Container(
-                      width: 120,
-                      height: 120,
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          colors: [
-                            theme.colorScheme.primary,
-                            theme.colorScheme.primary.withOpacity(0.7),
-                          ],
+                        color: isDarkMode 
+                            ? Colors.white.withOpacity(0.05)
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(
+                          color: isDarkMode 
+                              ? Colors.white.withOpacity(0.1)
+                              : Colors.black.withOpacity(0.05),
+                          width: 1,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: theme.colorScheme.primary.withOpacity(0.3),
+                            color: isDarkMode 
+                                ? Colors.black.withOpacity(0.3)
+                                : Colors.black.withOpacity(0.04),
                             blurRadius: 20,
-                            offset: const Offset(0, 10),
+                            offset: const Offset(0, 8),
                           ),
                         ],
                       ),
-                      child: Stack(
-                        alignment: Alignment.center,
+                      child: Column(
                         children: [
-                          const Icon(
-                            Icons.favorite,
-                            size: 65,
-                            color: Colors.white,
+                          // 🎨 Email Login Button
+                          _buildModernAuthButton(
+                            onPressed: _handleEmailAuth,
+                            isLoading: _isEmailLoading,
+                            backgroundColor: const Color(0xFF6366F1),
+                            icon: Icons.email_rounded,
+                            text: '이메일로 계속하기',
+                            textColor: Colors.white,
                           ),
-                          Positioned(
-                            bottom: 15,
-                            child: Container(
-                              width: 25,
-                              height: 25,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.9),
-                                shape: BoxShape.circle,
+                    
+                          const SizedBox(height: 16),
+                    
+                          // 🎨 Google Login Button with Custom Google Icon 
+                          _buildGoogleAuthButton(
+                            onPressed: _handleGoogleLogin,
+                            isLoading: _isGoogleLoading,
+                          ),
+                    
+                          const SizedBox(height: 16),
+                    
+                          // 🎨 Facebook Login Button
+                          _buildModernAuthButton(
+                            onPressed: _handleFacebookLogin,
+                            isLoading: _isFacebookLoading,
+                            backgroundColor: const Color(0xFF1877F2),
+                            icon: Icons.facebook_rounded,
+                            text: 'Facebook으로 계속하기',
+                            textColor: Colors.white,
+                          ),
+                          
+                          const SizedBox(height: 24),
+                          
+                          // 🎨 Divider
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: 1,
+                                  color: isDarkMode 
+                                      ? Colors.white.withOpacity(0.1)
+                                      : const Color(0xFFE5E7EB),
+                                ),
                               ),
-                              child: Icon(
-                                Icons.child_friendly,
-                                size: 16,
-                                color: theme.colorScheme.primary,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Text(
+                                  '또는',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: isDarkMode 
+                                        ? Colors.white.withOpacity(0.6)
+                                        : const Color(0xFF9CA3AF),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Expanded(
+                                child: Container(
+                                  height: 1,
+                                  color: isDarkMode 
+                                      ? Colors.white.withOpacity(0.1)
+                                      : const Color(0xFFE5E7EB),
+                                ),
+                              ),
+                            ],
+                          ),
+                          
+                          const SizedBox(height: 24),
+                          
+                          // 🎨 Kakao Login Button
+                          _buildModernAuthButton(
+                            onPressed: _handleKakaoLogin,
+                            isLoading: _isKakaoLoading,
+                            backgroundColor: const Color(0xFFFFE812),
+                            icon: Icons.chat_bubble_rounded,
+                            text: '카카오로 계속하기',
+                            textColor: const Color(0xFF1F2937),
+                            iconColor: const Color(0xFF1F2937),
                           ),
                         ],
                       ),
@@ -659,120 +867,39 @@ class _LoginScreenState extends State<LoginScreen> {
                     
                     const SizedBox(height: 32),
                     
-                    // 앱 이름
-                    Text(
-                      'BabyMom',
-                      style: theme.textTheme.displaySmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    
-                    const SizedBox(height: 12),
-                    
-                    // 앱 소개 문구
-                    Text(
-                      AppLocalizations.of(context)?.appTagline ?? '아기의 성장 기록을 쉽게 관리하세요',
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onSurface.withOpacity(0.7),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-                    
-                    // 로그인 방법 안내
-                    Text(
-                      '로그인 방법을 선택해주세요',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // 이메일 로그인 버튼
-                    AuthButton(
-                      type: AuthButtonType.email,
-                      onPressed: _handleEmailAuth,
-                      isLoading: _isEmailLoading,
-                    ),
-                    
-                    // 구글 로그인 버튼
-                    AuthButton(
-                      type: AuthButtonType.google,
-                      onPressed: _handleGoogleLogin,
-                      isLoading: _isGoogleLoading,
-                    ),
-                    
-                    // 페이스북 로그인 버튼
-                    AuthButton(
-                      type: AuthButtonType.facebook,
-                      onPressed: _handleFacebookLogin,
-                      isLoading: _isFacebookLoading,
-                    ),
-                    
-                    // 구분선
+                    // 🎨 Auto Login Toggle
                     Container(
-                      margin: const EdgeInsets.symmetric(vertical: 16),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              color: theme.colorScheme.onSurface.withOpacity(0.2),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(
-                              '또는',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.onSurface.withOpacity(0.6),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              color: theme.colorScheme.onSurface.withOpacity(0.2),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    
-                    // 카카오 로그인 버튼
-                    AuthButton(
-                      type: AuthButtonType.kakao,
-                      onPressed: _handleKakaoLogin,
-                      isLoading: _isKakaoLoading,
-                    ),
-                    
-                    const SizedBox(height: 20),
-                    
-                    // 자동로그인 체크박스
-                    Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: theme.colorScheme.surface.withOpacity(0.8),
+                        color: isDarkMode 
+                            ? Colors.white.withOpacity(0.05)
+                            : Colors.white.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: theme.colorScheme.outline.withOpacity(0.2),
+                          color: isDarkMode 
+                              ? Colors.white.withOpacity(0.1)
+                              : Colors.black.withOpacity(0.05),
                         ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Checkbox(
-                            value: _autoLoginEnabled,
-                            onChanged: (value) {
-                              setState(() {
-                                _autoLoginEnabled = value ?? false;
-                              });
-                            },
-                            activeColor: theme.colorScheme.primary,
+                          Transform.scale(
+                            scale: 1.2,
+                            child: Checkbox(
+                              value: _autoLoginEnabled,
+                              onChanged: (value) {
+                                setState(() {
+                                  _autoLoginEnabled = value ?? false;
+                                });
+                              },
+                              activeColor: const Color(0xFF6366F1),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
                           ),
+                          const SizedBox(width: 12),
                           GestureDetector(
                             onTap: () {
                               setState(() {
@@ -780,9 +907,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               });
                             },
                             child: Text(
-                              AppLocalizations.of(context)?.autoLogin ?? '자동 로그인',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w500,
+                              '자동 로그인',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: isDarkMode 
+                                    ? Colors.white
+                                    : const Color(0xFF1F2937),
                               ),
                             ),
                           ),
@@ -790,15 +921,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     
-                    const SizedBox(height: 40),
+                    SizedBox(height: screenHeight * 0.06),
                     
-                    // 이용약관 동의
+                    // 🎨 Terms Notice
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
-                        AppLocalizations.of(context)?.termsNotice ?? '로그인 시 이용약관 및 개인정보처리방침에 동의하게 됩니다',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.6),
+                        '로그인 시 이용약관 및 개인정보처리방침에 동의하게 됩니다',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: isDarkMode 
+                              ? Colors.white.withOpacity(0.6)
+                              : const Color(0xFF9CA3AF),
+                          height: 1.4,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -814,4 +950,119 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  /// 🎨 Modern Auth Button Builder
+  Widget _buildModernAuthButton({
+    required VoidCallback onPressed,
+    required bool isLoading,
+    required Color backgroundColor,
+    required IconData icon,
+    required String text,
+    required Color textColor,
+    Color? iconColor,
+    Color? borderColor,
+  }) {
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          foregroundColor: textColor,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: borderColor != null 
+                ? BorderSide(color: borderColor, width: 1.5)
+                : BorderSide.none,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+        ),
+        child: isLoading
+            ? SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  valueColor: AlwaysStoppedAnimation<Color>(textColor),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    icon,
+                    size: 24,
+                    color: iconColor ?? textColor,
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: textColor,
+                    ),
+                  ),
+                ],
+              ),
+      ),
+    );
+  }
+
+  /// 🎨 Google Auth Button with Authentic Google Logo
+  Widget _buildGoogleAuthButton({
+    required VoidCallback onPressed,
+    required bool isLoading,
+  }) {
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: const Color(0xFF1F2937),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: const BorderSide(color: Color(0xFFE5E7EB), width: 1.5),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+        ),
+        child: isLoading
+            ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // 🎨 Real Google Logo Image
+                  Image.asset(
+                    'assets/images/googlelogo.jpeg',
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.contain,
+                  ),
+                  const SizedBox(width: 12),
+                  const Text(
+                    'Google로 계속하기',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF1F2937),
+                    ),
+                  ),
+                ],
+              ),
+      ),
+    );
+  }
 }
+

@@ -320,8 +320,18 @@ class _MyAppState extends State<MyApp> {
             themeMode: widget.themeProvider.themeMode,
             initialRoute: _initialRoute,
             onGenerateRoute: (settings) {
-              // Pass providers to home route
+              // Pass providers to routes that need them
               if (settings.name == AppRouter.homeRoute) {
+                return AppRouter.generateRoute(
+                  RouteSettings(
+                    name: settings.name,
+                    arguments: {
+                      'localizationProvider': widget.localizationProvider,
+                      'themeProvider': widget.themeProvider,
+                    },
+                  ),
+                );
+              } else if (settings.name == AppRouter.loginRoute) {
                 return AppRouter.generateRoute(
                   RouteSettings(
                     name: settings.name,
