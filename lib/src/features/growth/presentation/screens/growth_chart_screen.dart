@@ -51,23 +51,27 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final baby = widget.baby;
     
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: colorScheme.surface,
         elevation: 0,
-        shadowColor: Colors.black12,
+        shadowColor: colorScheme.shadow,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.grey[700]),
+          icon: Icon(
+            Icons.arrow_back_ios, 
+            color: colorScheme.onSurface.withOpacity(0.7),
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           '${baby?.name ?? '아기'}의 성장곡선',
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
-            color: Colors.grey[800],
+            color: colorScheme.onSurface,
           ),
         ),
         centerTitle: true,
@@ -81,6 +85,9 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
   }
 
   Widget _buildEmptyState() {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -88,21 +95,21 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
           Icon(
             Icons.analytics_outlined,
             size: 80,
-            color: Colors.grey[400],
+            color: colorScheme.onSurface.withOpacity(0.4),
           ),
           const SizedBox(height: 16),
           Text(
             '성장 기록이 없습니다',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: Colors.grey[600],
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: colorScheme.onSurface.withOpacity(0.7),
               fontWeight: FontWeight.w500,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             '홈 화면에서 체중과 키를 입력해보세요',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.grey[500],
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurface.withOpacity(0.5),
             ),
           ),
         ],
@@ -111,17 +118,20 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
   }
 
   Widget _buildChartContent() {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     return Column(
       children: [
         // 차트 타입 선택
         Container(
           margin: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: colorScheme.shadow.withOpacity(0.1),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -135,8 +145,8 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
                   Icons.monitor_weight_outlined,
                   _showWeight,
                   () => setState(() => _showWeight = true),
-                  Colors.blue[100]!,
-                  Colors.blue[600]!,
+                  colorScheme.primary.withOpacity(0.1),
+                  colorScheme.primary,
                 ),
               ),
               Expanded(
@@ -145,8 +155,8 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
                   Icons.height,
                   !_showWeight,
                   () => setState(() => _showWeight = false),
-                  Colors.green[100]!,
-                  Colors.green[600]!,
+                  colorScheme.secondary.withOpacity(0.1),
+                  colorScheme.secondary,
                 ),
               ),
             ],
@@ -158,11 +168,11 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
           child: Container(
             margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: colorScheme.surface,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: colorScheme.shadow.withOpacity(0.1),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -189,6 +199,9 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
     Color backgroundColor,
     Color iconColor,
   ) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -202,14 +215,14 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
           children: [
             Icon(
               icon,
-              color: isSelected ? iconColor : Colors.grey[500],
+              color: isSelected ? iconColor : colorScheme.onSurface.withOpacity(0.5),
               size: 20,
             ),
             const SizedBox(width: 8),
             Text(
               text,
               style: TextStyle(
-                color: isSelected ? iconColor : Colors.grey[600],
+                color: isSelected ? iconColor : colorScheme.onSurface.withOpacity(0.7),
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 fontSize: 16,
               ),

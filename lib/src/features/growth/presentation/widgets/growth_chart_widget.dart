@@ -14,10 +14,12 @@ class GrowthChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final chartData = _processChartData();
     
     if (chartData.isEmpty) {
-      return _buildNoDataMessage();
+      return _buildNoDataMessage(context);
     }
 
     return Column(
@@ -28,15 +30,15 @@ class GrowthChartWidget extends StatelessWidget {
           children: [
             Icon(
               showWeight ? Icons.monitor_weight_outlined : Icons.height,
-              color: showWeight ? Colors.blue[600] : Colors.green[600],
+              color: showWeight ? colorScheme.primary : colorScheme.secondary,
               size: 20,
             ),
             const SizedBox(width: 8),
             Text(
               showWeight ? '체중 변화' : '키 변화',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Colors.grey[800],
+                color: colorScheme.onSurface,
               ),
             ),
           ],
@@ -52,7 +54,7 @@ class GrowthChartWidget extends StatelessWidget {
                 drawVerticalLine: false,
                 horizontalInterval: showWeight ? 0.5 : 2,
                 getDrawingHorizontalLine: (value) => FlLine(
-                  color: Colors.grey[200]!,
+                  color: colorScheme.outline.withOpacity(0.3),
                   strokeWidth: 1,
                 ),
               ),
@@ -64,7 +66,7 @@ class GrowthChartWidget extends StatelessWidget {
                   sideTitles: SideTitles(
                     showTitles: true,
                     reservedSize: 45,
-                    getTitlesWidget: (value, meta) => _buildLeftTitle(value),
+                    getTitlesWidget: (value, meta) => _buildLeftTitle(value, context),
                   ),
                 ),
                 bottomTitles: AxisTitles(
@@ -72,15 +74,15 @@ class GrowthChartWidget extends StatelessWidget {
                     showTitles: true,
                     reservedSize: 32,
                     interval: _calculateBottomInterval(chartData.length),
-                    getTitlesWidget: (value, meta) => _buildBottomTitle(value, chartData),
+                    getTitlesWidget: (value, meta) => _buildBottomTitle(value, chartData, context),
                   ),
                 ),
               ),
               borderData: FlBorderData(
                 show: true,
                 border: Border(
-                  left: BorderSide(color: Colors.grey[300]!, width: 1),
-                  bottom: BorderSide(color: Colors.grey[300]!, width: 1),
+                  left: BorderSide(color: colorScheme.outline.withOpacity(0.5), width: 1),
+                  bottom: BorderSide(color: colorScheme.outline.withOpacity(0.5), width: 1),
                 ),
               ),
               lineBarsData: [
@@ -90,7 +92,7 @@ class GrowthChartWidget extends StatelessWidget {
                   }).toList(),
                   isCurved: true,
                   curveSmoothness: 0.3,
-                  color: showWeight ? Colors.blue[400] : Colors.green[400],
+                  color: showWeight ? colorScheme.primary : colorScheme.secondary,
                   barWidth: 3,
                   isStrokeCapRound: true,
                   dotData: FlDotData(
@@ -98,9 +100,9 @@ class GrowthChartWidget extends StatelessWidget {
                     getDotPainter: (spot, percent, barData, index) {
                       return FlDotCirclePainter(
                         radius: 4,
-                        color: showWeight ? Colors.blue[600]! : Colors.green[600]!,
+                        color: showWeight ? colorScheme.primary : colorScheme.secondary,
                         strokeWidth: 2,
-                        strokeColor: Colors.white,
+                        strokeColor: colorScheme.surface,
                       );
                     },
                   ),
@@ -110,9 +112,9 @@ class GrowthChartWidget extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        (showWeight ? Colors.blue[400]! : Colors.green[400]!)
+                        (showWeight ? colorScheme.primary : colorScheme.secondary)
                             .withOpacity(0.2),
-                        (showWeight ? Colors.blue[400]! : Colors.green[400]!)
+                        (showWeight ? colorScheme.primary : colorScheme.secondary)
                             .withOpacity(0.05),
                       ],
                     ),
@@ -122,7 +124,7 @@ class GrowthChartWidget extends StatelessWidget {
               lineTouchData: LineTouchData(
                 enabled: true,
                 touchTooltipData: LineTouchTooltipData(
-                  getTooltipColor: (touchedSpot) => Colors.grey[800]!,
+                  getTooltipColor: (touchedSpot) => colorScheme.inverseSurface,
                   getTooltipItems: (touchedSpots) {
                     return touchedSpots.map((touchedSpot) {
                       final dataPoint = chartData[touchedSpot.spotIndex];
@@ -131,8 +133,8 @@ class GrowthChartWidget extends StatelessWidget {
                       
                       return LineTooltipItem(
                         '$date\n${dataPoint.value.toStringAsFixed(1)}$unit',
-                        const TextStyle(
-                          color: Colors.white,
+                        TextStyle(
+                          color: colorScheme.onInverseSurface,
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
                         ),
@@ -147,7 +149,7 @@ class GrowthChartWidget extends StatelessWidget {
         
         // 범례 및 통계
         const SizedBox(height: 16),
-        _buildStatistics(chartData),
+        _buildStatistics(chartData, context),
       ],
     );
   }
@@ -183,7 +185,10 @@ class GrowthChartWidget extends StatelessWidget {
     }).toList();
   }
 
-  Widget _buildNoDataMessage() {
+  Widget _buildNoDataMessage(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -191,13 +196,13 @@ class GrowthChartWidget extends StatelessWidget {
           Icon(
             showWeight ? Icons.monitor_weight_outlined : Icons.height,
             size: 48,
-            color: Colors.grey[400],
+            color: colorScheme.onSurface.withOpacity(0.4),
           ),
           const SizedBox(height: 12),
           Text(
             showWeight ? '체중 데이터가 없습니다' : '키 데이터가 없습니다',
             style: TextStyle(
-              color: Colors.grey[600],
+              color: colorScheme.onSurface.withOpacity(0.6),
               fontSize: 16,
             ),
           ),
@@ -206,20 +211,22 @@ class GrowthChartWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildLeftTitle(double value) {
+  Widget _buildLeftTitle(double value, BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final unit = showWeight ? 'kg' : 'cm';
     return Text(
       '${value.toStringAsFixed(0)}$unit',
       style: TextStyle(
-        color: Colors.grey[600],
+        color: colorScheme.onSurface.withOpacity(0.6),
         fontSize: 11,
       ),
     );
   }
 
-  Widget _buildBottomTitle(double value, List<ChartDataPoint> data) {
+  Widget _buildBottomTitle(double value, List<ChartDataPoint> data, BuildContext context) {
     if (value.toInt() >= data.length || value < 0) return const SizedBox();
     
+    final colorScheme = Theme.of(context).colorScheme;
     final dataPoint = data[value.toInt()];
     final month = dataPoint.date.month;
     final day = dataPoint.date.day;
@@ -229,7 +236,7 @@ class GrowthChartWidget extends StatelessWidget {
       child: Text(
         '$month/$day',
         style: TextStyle(
-          color: Colors.grey[600],
+          color: colorScheme.onSurface.withOpacity(0.6),
           fontSize: 11,
         ),
       ),
@@ -243,29 +250,34 @@ class GrowthChartWidget extends StatelessWidget {
     return (dataLength / 5).ceil().toDouble();
   }
 
-  Widget _buildStatistics(List<ChartDataPoint> data) {
+  Widget _buildStatistics(List<ChartDataPoint> data, BuildContext context) {
     if (data.isEmpty) return const SizedBox();
 
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final firstValue = data.first.value;
     final lastValue = data.last.value;
     final totalChange = lastValue - firstValue;
     final unit = showWeight ? 'kg' : 'cm';
     
-    final changeColor = totalChange >= 0 ? Colors.green[600] : Colors.red[600];
+    // 성장의 경우 증가가 좋으므로 색상을 다르게 처리
+    final changeColor = totalChange >= 0 
+      ? (colorScheme.brightness == Brightness.dark ? Colors.green[400] : Colors.green[600])
+      : (colorScheme.brightness == Brightness.dark ? Colors.red[400] : Colors.red[600]);
     final changeIcon = totalChange >= 0 ? Icons.trending_up : Icons.trending_down;
 
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey[50],
+        color: colorScheme.surfaceVariant.withOpacity(0.3),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildStatItem('총 기록', '${data.length}개', Colors.grey[600]!),
-          _buildStatItem('시작', '${firstValue.toStringAsFixed(1)}$unit', Colors.grey[600]!),
-          _buildStatItem('현재', '${lastValue.toStringAsFixed(1)}$unit', Colors.grey[600]!),
+          _buildStatItem('총 기록', '${data.length}개', colorScheme.onSurface.withOpacity(0.7), context),
+          _buildStatItem('시작', '${firstValue.toStringAsFixed(1)}$unit', colorScheme.onSurface.withOpacity(0.7), context),
+          _buildStatItem('현재', '${lastValue.toStringAsFixed(1)}$unit', colorScheme.onSurface.withOpacity(0.7), context),
           Row(
             children: [
               Icon(changeIcon, size: 16, color: changeColor),
@@ -276,7 +288,7 @@ class GrowthChartWidget extends StatelessWidget {
                     '총 변화',
                     style: TextStyle(
                       fontSize: 11,
-                      color: Colors.grey[500],
+                      color: colorScheme.onSurface.withOpacity(0.5),
                     ),
                   ),
                   Text(
@@ -296,14 +308,16 @@ class GrowthChartWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildStatItem(String label, String value, Color color) {
+  Widget _buildStatItem(String label, String value, Color color, BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    
     return Column(
       children: [
         Text(
           label,
           style: TextStyle(
             fontSize: 11,
-            color: Colors.grey[500],
+            color: colorScheme.onSurface.withOpacity(0.5),
           ),
         ),
         Text(
