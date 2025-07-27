@@ -14,6 +14,8 @@ class SupabaseAuthService {
   final SupabaseClient _supabase = Supabase.instance.client;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: ['email', 'profile'],
+    // iOS 클라이언트 ID 사용 (네이티브 앱에 필수)
+    clientId: '373535971104-ktelo9crh5vg7kjpfhaq586oufbcab1e.apps.googleusercontent.com',
   );
   
   // SharedPreferences keys
@@ -893,39 +895,154 @@ class SupabaseAuthService {
   /// 구글 로그인
   Future<AuthResponse> signInWithGoogle() async {
     try {
+      print('🔍 [SUPABASE_AUTH] ======= GOOGLE SIGN IN START =======');
       print('🔍 [SUPABASE_AUTH] Google sign in attempt');
+      print('🔍 [SUPABASE_AUTH] Platform: iOS Simulator');
+      print('🔍 [SUPABASE_AUTH] GoogleSignIn instance: $_googleSignIn');
+      print('🔍 [SUPABASE_AUTH] GoogleSignIn scopes: ${_googleSignIn.scopes}');
       
-      // Google 로그인 시작
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      // 🔧 iOS 시뮬레이터 체크
+      print('⚠️ [SUPABASE_AUTH] IMPORTANT: iOS Simulator has limitations with Google Sign-In');
+      print('⚠️ [SUPABASE_AUTH] Consider testing on real device if issues persist');
+      
+      // Step 1: Google Sign-In 초기화 확인
+      print('📱 [SUPABASE_AUTH] Step 1: Checking Google Sign-In initialization...');
+      try {
+        final bool isSignedIn = await _googleSignIn.isSignedIn();
+        print('📱 [SUPABASE_AUTH] Already signed in: $isSignedIn');
+        
+        if (isSignedIn) {
+          print('🔄 [SUPABASE_AUTH] User already signed in, signing out first...');
+          await _googleSignIn.signOut();
+          print('✅ [SUPABASE_AUTH] Previous session cleared');
+        }
+      } catch (initError) {
+        print('⚠️ [SUPABASE_AUTH] Init check failed: $initError');
+        print('⚠️ [SUPABASE_AUTH] This might be normal on iOS Simulator');
+      }
+      
+      // Step 2: Google 로그인 시작
+      print('🚀 [SUPABASE_AUTH] Step 2: Starting Google Sign-In flow...');
+      final GoogleSignInAccount? googleUser;
+      try {
+        googleUser = await _googleSignIn.signIn();
+        print('📱 [SUPABASE_AUTH] Google Sign-In completed');
+        print('📱 [SUPABASE_AUTH] GoogleUser result: $googleUser');
+      } catch (signInError) {
+        print('💥 [SUPABASE_AUTH] Google Sign-In CRASHED!');
+        print('💥 [SUPABASE_AUTH] Error type: ${signInError.runtimeType}');
+        print('💥 [SUPABASE_AUTH] Error message: $signInError');
+        print('💥 [SUPABASE_AUTH] Error string: ${signInError.toString()}');
+        
+        // iOS 시뮬레이터 특화 에러 체크
+        if (signInError.toString().contains('simulator') || 
+            signInError.toString().contains('Simulator') ||
+            signInError.toString().contains('SIMULATOR')) {
+          throw Exception('❌ iOS 시뮬레이터에서는 Google 로그인이 제한될 수 있습니다.\n\n실제 iOS 기기에서 테스트해보세요.');
+        }
+        
+        throw Exception('Google 로그인 초기화 실패: $signInError');
+      }
+      
       if (googleUser == null) {
+        print('❌ [SUPABASE_AUTH] Google 로그인이 취소되었습니다.');
         throw Exception('Google 로그인이 취소되었습니다.');
       }
+      
+      print('✅ [SUPABASE_AUTH] Google User obtained: ${googleUser.email}');
+      print('✅ [SUPABASE_AUTH] Display name: ${googleUser.displayName}');
+      print('✅ [SUPABASE_AUTH] ID: ${googleUser.id}');
 
-      // Google 인증 정보 가져오기
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      // Step 3: Google 인증 정보 가져오기
+      print('🔑 [SUPABASE_AUTH] Step 3: Getting Google authentication...');
+      final GoogleSignInAuthentication googleAuth;
+      try {
+        googleAuth = await googleUser.authentication;
+        print('✅ [SUPABASE_AUTH] Google authentication obtained');
+        print('🔑 [SUPABASE_AUTH] Access token exists: ${googleAuth.accessToken != null}');
+        print('🔑 [SUPABASE_AUTH] ID token exists: ${googleAuth.idToken != null}');
+        
+        if (googleAuth.accessToken != null) {
+          print('🔑 [SUPABASE_AUTH] Access token length: ${googleAuth.accessToken!.length}');
+        }
+        if (googleAuth.idToken != null) {
+          print('🔑 [SUPABASE_AUTH] ID token length: ${googleAuth.idToken!.length}');
+        }
+      } catch (authError) {
+        print('💥 [SUPABASE_AUTH] Google authentication FAILED!');
+        print('💥 [SUPABASE_AUTH] Auth error: $authError');
+        throw Exception('Google 인증 정보 가져오기 실패: $authError');
+      }
       
       if (googleAuth.accessToken == null || googleAuth.idToken == null) {
+        print('❌ [SUPABASE_AUTH] Missing tokens:');
+        print('❌ [SUPABASE_AUTH] Access token: ${googleAuth.accessToken}');
+        print('❌ [SUPABASE_AUTH] ID token: ${googleAuth.idToken}');
         throw Exception('Google 인증 토큰을 가져올 수 없습니다.');
       }
+      
+      print('✅ [SUPABASE_AUTH] All Google tokens obtained successfully');
 
-      // Supabase에 Google OAuth로 로그인
-      final response = await _supabase.auth.signInWithIdToken(
-        provider: OAuthProvider.google,
-        idToken: googleAuth.idToken!,
-        accessToken: googleAuth.accessToken!,
-      );
+      // Step 4: Supabase에 Google OAuth로 로그인
+      print('🔗 [SUPABASE_AUTH] Step 4: Signing into Supabase with Google tokens...');
+      final AuthResponse response;
+      try {
+        response = await _supabase.auth.signInWithIdToken(
+          provider: OAuthProvider.google,
+          idToken: googleAuth.idToken!,
+          accessToken: googleAuth.accessToken!,
+        );
+        print('✅ [SUPABASE_AUTH] Supabase Google auth completed');
+        print('✅ [SUPABASE_AUTH] Response user: ${response.user?.id}');
+        print('✅ [SUPABASE_AUTH] Response session: ${response.session != null}');
+      } catch (supabaseError) {
+        print('💥 [SUPABASE_AUTH] Supabase Google auth FAILED!');
+        print('💥 [SUPABASE_AUTH] Supabase error: $supabaseError');
+        print('💥 [SUPABASE_AUTH] Error type: ${supabaseError.runtimeType}');
+        throw Exception('Supabase Google 로그인 실패: $supabaseError');
+      }
 
+      // Step 5: 사용자 검증
       if (response.user != null) {
-        // 탈퇴한 사용자 체크
-        await _checkDeletedUser(response.user!.id);
+        print('👤 [SUPABASE_AUTH] Step 5: Checking user status...');
+        print('👤 [SUPABASE_AUTH] User ID: ${response.user!.id}');
+        print('👤 [SUPABASE_AUTH] User email: ${response.user!.email}');
         
-        print('✅ [SUPABASE_AUTH] Google sign in successful');
+        try {
+          // 탈퇴한 사용자 체크
+          await _checkDeletedUser(response.user!.id);
+          print('✅ [SUPABASE_AUTH] User status check passed');
+        } catch (userCheckError) {
+          print('❌ [SUPABASE_AUTH] User status check failed: $userCheckError');
+          rethrow;
+        }
+        
+        print('🎉 [SUPABASE_AUTH] Google sign in successful!');
+        print('🎉 [SUPABASE_AUTH] Welcome: ${response.user!.email}');
+      } else {
+        print('❌ [SUPABASE_AUTH] No user in response');
+        throw Exception('Google 로그인 후 사용자 정보를 가져올 수 없습니다.');
       }
       
+      print('🔍 [SUPABASE_AUTH] ======= GOOGLE SIGN IN SUCCESS =======');
       return response;
     } catch (e) {
-      print('❌ [SUPABASE_AUTH] Google sign in failed: $e');
-      await _googleSignIn.signOut(); // 실패 시 정리
+      print('💥 [SUPABASE_AUTH] ======= GOOGLE SIGN IN ERROR =======');
+      print('💥 [SUPABASE_AUTH] Final error: $e');
+      print('💥 [SUPABASE_AUTH] Error type: ${e.runtimeType}');
+      print('💥 [SUPABASE_AUTH] Error string: ${e.toString()}');
+      
+      // 🧹 실패 시 정리
+      try {
+        print('🧹 [SUPABASE_AUTH] Cleaning up Google Sign-In state...');
+        await _googleSignIn.signOut();
+        print('✅ [SUPABASE_AUTH] Google Sign-In cleanup completed');
+      } catch (cleanupError) {
+        print('⚠️ [SUPABASE_AUTH] Cleanup failed: $cleanupError');
+        // 정리 실패해도 원본 에러는 그대로 전달
+      }
+      
+      print('💥 [SUPABASE_AUTH] ======= GOOGLE SIGN IN ERROR END =======');
       rethrow;
     }
   }

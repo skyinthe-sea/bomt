@@ -103,8 +103,8 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<!-- Google OAuth Client ID의 reversed client id -->
-				<string>com.googleusercontent.apps.373535971104-h7a842pm38pokmuevt8ibs79554m2koe</string>
+				<!-- Google OAuth Client ID의 reversed client id (iOS 클라이언트 ID) -->
+				<string>com.googleusercontent.apps.373535971104-ktelo9crh5vg7kjpfhaq586oufbcab1e</string>
 			</array>
 		</dict>
 		<!-- Facebook 로그인 -->
