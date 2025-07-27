@@ -129,15 +129,16 @@ class _BabyGuideListScreenState extends State<BabyGuideListScreen> {
   }
 
   @override
+  void dispose() {
+    debugPrint('🗑️ [BabyGuideListScreen] dispose called');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     
     debugPrint('🔄 [BabyGuideListScreen] build called');
-    
-    // 언어 변경 체크를 비동기로 수행
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkLanguageChange();
-    });
     
     return Scaffold(
       backgroundColor: theme.colorScheme.background,

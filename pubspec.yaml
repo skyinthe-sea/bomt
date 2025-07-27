@@ -52,6 +52,7 @@ dependencies:
   # Authentication packages
   google_sign_in: ^6.3.0
   flutter_facebook_auth: ^7.0.1
+  flutter_secure_storage: ^9.2.2
   
   # Additional utilities
   crypto: ^3.0.6

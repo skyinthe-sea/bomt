@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import '../../../../presentation/common_widgets/buttons/auth_button.dart';
 import '../../../../presentation/common_widgets/dialogs/email_auth_dialog.dart';
 import '../../../../presentation/common_widgets/dialogs/account_linking_dialog.dart';
@@ -9,6 +13,7 @@ import '../../../../services/auth/account_linking_service.dart';
 import '../../data/repositories/kakao_auth_repository.dart';
 import '../../../../services/auth/auth_service.dart';
 import '../../../../services/auth/supabase_auth_service.dart';
+import '../../../../services/auth/secure_auth_service.dart';
 import '../../../../services/locale/device_locale_service.dart';
 import '../../../../presentation/providers/localization_provider.dart';
 
@@ -98,6 +103,29 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final user = await _authRepository.signInWithKakao();
       if (user != null) {
+        // 🔐 Kakao 세션 정보를 보안 저장소에 저장
+        try {
+          final secureAuthService = SecureAuthService.instance;
+          await secureAuthService.initialize();
+          
+          if (await AuthApi.instance.hasToken()) {
+            final tokenInfo = await UserApi.instance.accessTokenInfo();
+            final token = await TokenManagerProvider.instance.manager.getToken();
+            
+            if (token?.accessToken != null) {
+              await secureAuthService.saveLoginSession(
+                provider: 'kakao',
+                accessToken: token!.accessToken,
+                refreshToken: token.refreshToken,
+                userId: user.id.toString(),
+                expiresIn: Duration(seconds: tokenInfo.expiresIn ?? 3600),
+              );
+            }
+          }
+        } catch (e) {
+          debugPrint('⚠️ [LOGIN] Failed to save Kakao session: $e');
+        }
+        
         await _completeLogin();
       } else {
         if (mounted) {
@@ -226,6 +254,33 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final response = await _supabaseAuth.signInWithGoogle();
       if (response.user != null) {
+        // 🔐 Google 세션 정보를 보안 저장소에 저장
+        try {
+          final secureAuthService = SecureAuthService.instance;
+          await secureAuthService.initialize();
+          
+          final googleSignIn = GoogleSignIn(
+            scopes: ['email', 'profile'],
+            clientId: '373535971104-ktelo9crh5vg7kjpfhaq586oufbcab1e.apps.googleusercontent.com',
+          );
+          
+          final currentUser = googleSignIn.currentUser;
+          if (currentUser != null) {
+            final auth = await currentUser.authentication;
+            if (auth.accessToken != null) {
+              await secureAuthService.saveLoginSession(
+                provider: 'google',
+                accessToken: auth.accessToken!,
+                refreshToken: auth.idToken,
+                userId: currentUser.id,
+                expiresIn: const Duration(hours: 1), // Google 토큰은 보통 1시간
+              );
+            }
+          }
+        } catch (e) {
+          debugPrint('⚠️ [LOGIN] Failed to save Google session: $e');
+        }
+        
         await _completeLogin();
       } else {
         if (mounted) {
@@ -253,6 +308,23 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final response = await _supabaseAuth.signInWithFacebook();
       if (response.user != null) {
+        // 🔐 Facebook 세션 정보를 보안 저장소에 저장
+        try {
+          final secureAuthService = SecureAuthService.instance;
+          await secureAuthService.initialize();
+          
+          final accessToken = await FacebookAuth.instance.accessToken;
+          if (accessToken != null) {
+            await secureAuthService.saveLoginSession(
+              provider: 'facebook',
+              accessToken: accessToken.tokenString,
+              expiresIn: const Duration(hours: 2), // Facebook 토큰 기본 만료 시간
+            );
+          }
+        } catch (e) {
+          debugPrint('⚠️ [LOGIN] Failed to save Facebook session: $e');
+        }
+        
         await _completeLogin();
       } else {
         if (mounted) {
@@ -273,13 +345,49 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _completeLogin() async {
-    // 자동로그인 설정 저장
-    await _authService.setAutoLogin(_autoLoginEnabled);
-    await _supabaseAuth.setAutoLogin(_autoLoginEnabled);
-    
-    // 로그인 성공 시 메인 화면으로 이동
-    if (mounted) {
-      Navigator.of(context).pushReplacementNamed('/home');
+    try {
+      // 🔐 개선된 보안 자동로그인 서비스 사용
+      final secureAuthService = SecureAuthService.instance;
+      await secureAuthService.initialize();
+      
+      // 자동로그인 설정 저장 (보안 저장소 사용)
+      await secureAuthService.setAutoLoginEnabled(_autoLoginEnabled);
+      
+      // 기존 방식도 호환성을 위해 유지
+      await _authService.setAutoLogin(_autoLoginEnabled);
+      await _supabaseAuth.setAutoLogin(_autoLoginEnabled);
+      
+      // 현재 세션 정보를 보안 저장소에 저장
+      final currentUser = _supabaseAuth.currentUser;
+      if (currentUser != null) {
+        final session = Supabase.instance.client.auth.currentSession;
+        if (session != null) {
+          await secureAuthService.saveLoginSession(
+            provider: 'supabase',
+            accessToken: session.accessToken,
+            refreshToken: session.refreshToken,
+            userId: currentUser.id,
+            expiresIn: Duration(seconds: session.expiresIn ?? 3600),
+          );
+        }
+      }
+      
+      debugPrint('✅ [LOGIN] Auto login settings and session saved securely');
+      
+      // 로그인 성공 시 메인 화면으로 이동
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed('/home');
+      }
+    } catch (e) {
+      debugPrint('❌ [LOGIN] Failed to save login session: $e');
+      
+      // 에러가 발생해도 기존 방식으로 계속 진행
+      await _authService.setAutoLogin(_autoLoginEnabled);
+      await _supabaseAuth.setAutoLogin(_autoLoginEnabled);
+      
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed('/home');
+      }
     }
   }
 

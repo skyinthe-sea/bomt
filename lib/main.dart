@@ -13,6 +13,7 @@ import 'src/presentation/providers/localization_provider.dart';
 import 'src/presentation/providers/theme_provider.dart';
 import 'src/services/auth/auth_service.dart';
 import 'src/services/auth/supabase_auth_service.dart';
+import 'src/services/auth/secure_auth_service.dart';
 import 'src/services/theme/theme_service.dart';
 import 'src/core/theme/app_theme.dart';
 import 'src/services/alarm/feeding_alarm_service.dart';
@@ -140,31 +141,30 @@ class _MyAppState extends State<MyApp> {
   
   Future<void> _checkAutoLogin() async {
     try {
-      final authService = AuthService(widget.prefs);
+      // 🔐 개선된 보안 자동로그인 서비스 사용
+      final secureAuthService = SecureAuthService.instance;
+      await secureAuthService.initialize();
       
       // Navigator 상태 충돌을 방지하기 위해 지연을 추가
       await Future.delayed(const Duration(milliseconds: 100));
       
-      // 자동로그인이 활성화되어 있고 유효한 토큰이 있으면 홈화면으로
-      if (authService.getAutoLogin() && await authService.hasValidToken()) {
-        // Supabase 인증 상태도 확인
-        final supabaseAuth = SupabaseAuthService.instance;
-        await supabaseAuth.initialize();
+      debugPrint('🔍 [MAIN] Starting enhanced auto login check...');
+      
+      // 🎯 통합 자동로그인 시도 (모든 로그인 방법 지원 + 보안 강화)
+      final autoLoginSuccess = await secureAuthService.tryAutoLogin();
+      
+      if (autoLoginSuccess) {
+        final userInfo = await secureAuthService.getCurrentUserInfo();
+        debugPrint('✅ [MAIN] Auto login successful with provider: ${userInfo?['provider']}');
         
-        if (await supabaseAuth.tryAutoLogin()) {
-          if (mounted) {
-            setState(() {
-              _initialRoute = AppRouter.homeRoute;
-            });
-          }
-        } else {
-          if (mounted) {
-            setState(() {
-              _initialRoute = AppRouter.loginRoute;
-            });
-          }
+        if (mounted) {
+          setState(() {
+            _initialRoute = AppRouter.homeRoute;
+          });
         }
       } else {
+        debugPrint('🚫 [MAIN] Auto login failed or disabled');
+        
         if (mounted) {
           setState(() {
             _initialRoute = AppRouter.loginRoute;
@@ -172,7 +172,8 @@ class _MyAppState extends State<MyApp> {
         }
       }
     } catch (e) {
-      debugPrint('Error during auto login check: $e');
+      debugPrint('❌ [MAIN] Error during auto login check: $e');
+      
       if (mounted) {
         setState(() {
           _initialRoute = AppRouter.loginRoute;
