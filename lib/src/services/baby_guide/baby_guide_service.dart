@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../locale/locale_service.dart';
 import '../../domain/models/baby.dart';
 import '../../domain/models/baby_guide.dart';
+import '../../core/cache/universal_cache_service.dart';
 
 class BabyGuideService {
   static BabyGuideService? _instance;
@@ -12,9 +13,19 @@ class BabyGuideService {
 
   final _supabase = Supabase.instance.client;
   final _localeService = LocaleService.instance;
+  final _cache = UniversalCacheService.instance;
 
-  /// 사용자 설정 언어를 우선적으로 사용하여 로케일 정보 가져오기
+  /// 사용자 설정 언어를 우선적으로 사용하여 로케일 정보 가져오기 (캐싱 적용)
   Future<Map<String, String>> getUserLocaleInfo() async {
+    const cacheKey = 'baby_guide_user_locale_info';
+    
+    // 🚀 캐시에서 먼저 확인
+    final cachedLocale = await _cache.get<Map<String, String>>(cacheKey);
+    if (cachedLocale != null) {
+      debugPrint('⚡ [BabyGuideService] Cache hit for user locale info');
+      return cachedLocale;
+    }
+    
     try {
       // 사용자가 설정한 언어를 먼저 확인
       final prefs = await SharedPreferences.getInstance();
@@ -22,6 +33,8 @@ class BabyGuideService {
       
       debugPrint('🔍 [BabyGuideService] UserLanguage from SharedPreferences: $userLanguage');
       debugPrint('🔍 [BabyGuideService] All SharedPreferences keys: ${prefs.getKeys()}');
+      
+      Map<String, String> result;
       
       if (userLanguage != null) {
         // 언어 코드에 따른 국가 코드 매핑
@@ -67,21 +80,34 @@ class BabyGuideService {
             countryCode = 'KR';
         }
         
-        final result = {
+        result = {
           'countryCode': countryCode,
           'languageCode': userLanguage,
         };
         debugPrint('🎯 [BabyGuideService] Using user locale: $result');
-        return result;
+      } else {
+        // 사용자 설정이 없으면 시스템 로케일 사용
+        result = await _localeService.getLocaleInfo();
+        debugPrint('🔄 [BabyGuideService] Using system locale fallback: $result');
       }
+      
+      // 💾 결과를 캐시에 저장 (짧은 캐시 - 5분)
+      await _cache.set(
+        key: cacheKey,
+        data: result,
+        strategy: CacheStrategy.short,
+        category: 'baby_guide',
+      );
+      
+      return result;
     } catch (e) {
       debugPrint('❌ [BabyGuideService] Error getting user locale info: $e');
+      
+      // 에러 시 시스템 로케일 사용 (캐시하지 않음)
+      final systemLocale = await _localeService.getLocaleInfo();
+      debugPrint('🔄 [BabyGuideService] Using system locale fallback due to error: $systemLocale');
+      return systemLocale;
     }
-    
-    // 사용자 설정이 없으면 시스템 로케일 사용
-    final systemLocale = await _localeService.getLocaleInfo();
-    debugPrint('🔄 [BabyGuideService] Using system locale fallback: $systemLocale');
-    return systemLocale;
   }
 
   /// 아기의 현재 주령 계산 (0주차부터 시작)
@@ -92,14 +118,26 @@ class BabyGuideService {
     return weekNumber < 0 ? 0 : weekNumber; // 음수 방지
   }
 
-  /// 특정 주차의 가이드 정보 가져오기
+  /// 특정 주차의 가이드 정보 가져오기 (캐싱 적용)
   Future<BabyGuide?> getGuideForWeek(
     int weekNumber,
     String countryCode,
     String languageCode,
   ) async {
+    final cacheKey = 'baby_guide_week_${weekNumber}_${countryCode}_$languageCode';
+    
+    // 🚀 캐시에서 먼저 확인
+    final cachedGuide = await _cache.get<BabyGuide>(
+      cacheKey,
+      fromJson: (json) => BabyGuide.fromJson(json),
+    );
+    if (cachedGuide != null) {
+      debugPrint('⚡ [BabyGuideService] Cache hit for guide week $weekNumber');
+      return cachedGuide;
+    }
+    
     try {
-      debugPrint('Fetching guide for week $weekNumber, country: $countryCode, language: $languageCode');
+      debugPrint('🔍 [BabyGuideService] Fetching guide for week $weekNumber, country: $countryCode, language: $languageCode');
       
       final response = await _supabase
           .from('baby_guides')
@@ -109,15 +147,29 @@ class BabyGuideService {
           .eq('language_code', languageCode)
           .limit(1);
 
+      BabyGuide? guide;
+      
       if (response.isNotEmpty) {
-        debugPrint('Found guide for week $weekNumber with $countryCode/$languageCode');
-        return BabyGuide.fromJson(response.first);
+        debugPrint('✅ [BabyGuideService] Found guide for week $weekNumber with $countryCode/$languageCode');
+        guide = BabyGuide.fromJson(response.first);
+      } else {
+        // Fallback 로직 개선
+        guide = await _getGuideWithFallback(weekNumber, countryCode, languageCode);
       }
-
-      // Fallback 로직 개선
-      return await _getGuideWithFallback(weekNumber, countryCode, languageCode);
+      
+      // 💾 가이드를 찾았으면 캐시에 저장 (긴 캐시 - 6시간, 정적 데이터)
+      if (guide != null) {
+        await _cache.set(
+          key: cacheKey,
+          data: guide.toJson(),
+          strategy: CacheStrategy.long,
+          category: 'baby_guide',
+        );
+      }
+      
+      return guide;
     } catch (e) {
-      debugPrint('Error getting guide for week $weekNumber: $e');
+      debugPrint('❌ [BabyGuideService] Error getting guide for week $weekNumber: $e');
       return null;
     }
   }
@@ -211,7 +263,7 @@ class BabyGuideService {
     }
   }
 
-  /// 사용자가 특정 주차 알럿을 이미 봤는지 확인
+  /// 사용자가 특정 주차 알럿을 이미 봤는지 확인 (캐싱 적용)
   Future<bool> hasUserSeenAlert(
     String userId,
     String babyId,
@@ -219,6 +271,15 @@ class BabyGuideService {
     String countryCode,
     String languageCode,
   ) async {
+    final cacheKey = 'baby_guide_alert_seen_${userId}_${babyId}_${weekNumber}_${countryCode}_$languageCode';
+    
+    // 🚀 캐시에서 먼저 확인
+    final cachedResult = await _cache.get<bool>(cacheKey);
+    if (cachedResult != null) {
+      debugPrint('⚡ [BabyGuideService] Cache hit for alert seen status');
+      return cachedResult;
+    }
+    
     try {
       final response = await _supabase
           .from('user_guide_alerts')
@@ -230,14 +291,24 @@ class BabyGuideService {
           .eq('language_code', languageCode)
           .limit(1);
 
-      return response.isNotEmpty;
+      final hasSeen = response.isNotEmpty;
+      
+      // 💾 결과를 캐시에 저장 (중간 캐시 - 30분)
+      await _cache.set(
+        key: cacheKey,
+        data: {'_primitive': hasSeen}, // boolean을 Map으로 래핑
+        strategy: CacheStrategy.medium,
+        category: 'baby_guide',
+      );
+      
+      return hasSeen;
     } catch (e) {
-      debugPrint('Error checking alert status: $e');
+      debugPrint('❌ [BabyGuideService] Error checking alert status: $e');
       return true; // 에러 시 이미 본 것으로 처리
     }
   }
 
-  /// 알럿을 본 것으로 기록
+  /// 알럿을 본 것으로 기록 (캐시 무효화 포함)
   Future<void> markAlertAsSeen(
     String userId,
     String babyId,
@@ -253,18 +324,36 @@ class BabyGuideService {
         'country_code': countryCode,
         'language_code': languageCode,
       });
+      
+      // 🗑️ 관련 캐시 무효화
+      final alertCacheKey = 'baby_guide_alert_seen_${userId}_${babyId}_${weekNumber}_${countryCode}_$languageCode';
+      final anyAlertCacheKey = 'baby_guide_any_alert_seen_${userId}_${babyId}_${countryCode}_$languageCode';
+      
+      await _cache.remove(alertCacheKey);
+      await _cache.remove(anyAlertCacheKey);
+      
+      debugPrint('🗑️ [BabyGuideService] Invalidated alert caches after marking as seen');
     } catch (e) {
-      debugPrint('Error marking alert as seen: $e');
+      debugPrint('❌ [BabyGuideService] Error marking alert as seen: $e');
     }
   }
 
-  /// 사용자가 특정 아기에 대해 어떤 알럿이라도 본 적이 있는지 확인
+  /// 사용자가 특정 아기에 대해 어떤 알럿이라도 본 적이 있는지 확인 (캐싱 적용)
   Future<bool> _hasSeenAnyAlert(
     String userId,
     String babyId,
     String countryCode,
     String languageCode,
   ) async {
+    final cacheKey = 'baby_guide_any_alert_seen_${userId}_${babyId}_${countryCode}_$languageCode';
+    
+    // 🚀 캐시에서 먼저 확인
+    final cachedResult = await _cache.get<bool>(cacheKey);
+    if (cachedResult != null) {
+      debugPrint('⚡ [BabyGuideService] Cache hit for any alert seen status');
+      return cachedResult;
+    }
+    
     try {
       final response = await _supabase
           .from('user_guide_alerts')
@@ -275,9 +364,19 @@ class BabyGuideService {
           .eq('language_code', languageCode)
           .limit(1);
 
-      return response.isNotEmpty;
+      final hasSeenAny = response.isNotEmpty;
+      
+      // 💾 결과를 캐시에 저장 (중간 캐시 - 30분)
+      await _cache.set(
+        key: cacheKey,
+        data: {'_primitive': hasSeenAny}, // boolean을 Map으로 래핑
+        strategy: CacheStrategy.medium,
+        category: 'baby_guide',
+      );
+      
+      return hasSeenAny;
     } catch (e) {
-      debugPrint('Error checking if user has seen any alert: $e');
+      debugPrint('❌ [BabyGuideService] Error checking if user has seen any alert: $e');
       return false; // 에러 시 새로운 사용자로 처리
     }
   }

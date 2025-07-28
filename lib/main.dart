@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'src/core/config/kakao_config.dart';
 import 'src/core/config/supabase_config.dart';
 import 'src/presentation/router/app_router.dart';
@@ -21,6 +22,12 @@ import 'src/services/invitation/invitation_service.dart';
 import 'src/services/update_check/update_check_service.dart';
 import 'src/services/locale/device_locale_service.dart';
 import 'src/services/auth/deep_link_handler.dart';
+import 'src/core/cache/universal_cache_service.dart';
+import 'src/core/connectivity/connectivity_service.dart';
+import 'src/core/sync/sync_service.dart';
+import 'src/core/optimization/optimization_manager.dart';
+import 'src/features/auth/presentation/screens/login_screen.dart';
+import 'src/presentation/screens/main_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter/foundation.dart';
 
@@ -30,6 +37,34 @@ void main() async {
   KakaoSdk.init(nativeAppKey: KakaoConfig.nativeAppKey);
   await SupabaseConfig.initialize();
   await FeedingAlarmService.instance.initialize();
+  
+  // Initialize universal cache service
+  try {
+    await UniversalCacheService.instance.initialize();
+    debugPrint('🚀 통합 캐싱 시스템 초기화 완료');
+  } catch (e) {
+    debugPrint('❌ 통합 캐싱 시스템 초기화 실패: $e');
+    // 캐싱 시스템 실패해도 앱은 계속 실행
+  }
+  
+  // Initialize connectivity and sync services
+  try {
+    await ConnectivityService.instance.initialize();
+    await SyncService.instance.initialize();
+    debugPrint('🌐 연결 상태 및 동기화 서비스 초기화 완료');
+  } catch (e) {
+    debugPrint('❌ 연결/동기화 서비스 초기화 실패: $e');
+    // 연결/동기화 실패해도 앱은 계속 실행
+  }
+  
+  // Initialize optimization manager (최종 단계)
+  try {
+    await OptimizationManager.instance.initialize();
+    debugPrint('🚀 통합 최적화 관리자 초기화 완료');
+  } catch (e) {
+    debugPrint('❌ 최적화 관리자 초기화 실패: $e');
+    // 최적화 실패해도 앱은 계속 실행
+  }
   
   // Initialize invitation system
   try {
@@ -182,6 +217,43 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  /// 초기 화면 빌드 (Provider와 함께)
+  Widget _buildInitialScreen() {
+    if (_initialRoute == AppRouter.loginRoute) {
+      // LoginScreen을 Provider와 함께 생성
+      return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<LocalizationProvider>.value(
+            value: widget.localizationProvider,
+          ),
+          ChangeNotifierProvider<ThemeProvider>.value(
+            value: widget.themeProvider,
+          ),
+        ],
+        child: const LoginScreen(),
+      );
+    } else if (_initialRoute == AppRouter.homeRoute) {
+      // HomeScreen을 Provider와 함께 생성
+      return MainScreen(
+        localizationProvider: widget.localizationProvider,
+        themeProvider: widget.themeProvider,
+      );
+    } else {
+      // 기본값: LoginScreen
+      return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<LocalizationProvider>.value(
+            value: widget.localizationProvider,
+          ),
+          ChangeNotifierProvider<ThemeProvider>.value(
+            value: widget.themeProvider,
+          ),
+        ],
+        child: const LoginScreen(),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_initialRoute == null) {
@@ -319,7 +391,7 @@ class _MyAppState extends State<MyApp> {
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: widget.themeProvider.themeMode,
-            initialRoute: _initialRoute,
+            home: _buildInitialScreen(),
             onGenerateRoute: (settings) {
               // Pass providers to routes that need them
               if (settings.name == AppRouter.homeRoute) {

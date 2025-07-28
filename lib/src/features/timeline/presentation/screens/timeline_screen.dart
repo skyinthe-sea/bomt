@@ -61,8 +61,10 @@ class _TimelineScreenState extends State<TimelineScreen>
     // Provider 초기화
     _timelineProvider = TimelineProvider();
     
-    // 데이터 로드
-    _initializeData();
+    // 데이터 로드 (빌드 완료 후에 실행)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeData();
+    });
   }
 
   @override

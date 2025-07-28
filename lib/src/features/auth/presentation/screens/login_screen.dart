@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // 디바이스 로케일 정보 로깅
       deviceLocale.logDeviceInfo();
       
-      // LocalizationProvider가 사용 가능한지 확인
+      // LocalizationProvider가 사용 가능한지 안전하게 확인
       try {
         final localizationProvider = Provider.of<LocalizationProvider>(context, listen: false);
         final currentLocale = localizationProvider.currentLocale;
@@ -73,9 +73,12 @@ class _LoginScreenState extends State<LoginScreen> {
           debugPrint('🌐 [LOGIN] Auto-applying locale: $deviceLanguageCode');
           await localizationProvider.changeLanguage(Locale(deviceLanguageCode));
         }
-      } catch (providerError) {
-        debugPrint('⚠️ [LOGIN] LocalizationProvider not available: $providerError');
+      } on ProviderNotFoundException {
+        debugPrint('ℹ️ [LOGIN] LocalizationProvider not found, using default locale');
         // Provider가 없어도 앱은 계속 실행 (한국어 기본값 사용)
+      } catch (providerError) {
+        debugPrint('⚠️ [LOGIN] LocalizationProvider error: $providerError');
+        // 다른 Provider 에러가 발생해도 앱은 계속 실행
       }
     } catch (e) {
       debugPrint('❌ [LOGIN] Auto locale detection failed: $e');

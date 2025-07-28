@@ -14,19 +14,38 @@ import '../medication/medication_service.dart';
 import '../milk_pumping/milk_pumping_service.dart';
 import '../solid_food/solid_food_service.dart';
 import '../health/health_service.dart';
+import '../../core/cache/universal_cache_service.dart';
 
 class TimelineService {
   static TimelineService? _instance;
   static TimelineService get instance => _instance ??= TimelineService._();
   TimelineService._();
 
-  // 특정 날짜의 모든 타임라인 아이템 가져오기
+  final _cache = UniversalCacheService.instance;
+
+  // 특정 날짜의 모든 타임라인 아이템 가져오기 (캐싱 적용)
   Future<List<TimelineItem>> getTimelineItemsForDate(
     String babyId,
     DateTime date,
   ) async {
+    final dateString = date.toIso8601String().split('T')[0]; // YYYY-MM-DD 형식
+    final cacheKey = 'timeline_items_${babyId}_$dateString';
+    
+    // 🚀 캐시에서 먼저 확인
+    final cachedItems = await _cache.get<List<TimelineItem>>(
+      cacheKey,
+      fromJson: (json) {
+        final List<dynamic> jsonList = json['_list'] ?? [];
+        return jsonList.map((item) => TimelineItem.fromJson(item)).toList();
+      },
+    );
+    if (cachedItems != null) {
+      debugPrint('⚡ [TIMELINE] Cache hit for date: $dateString (${cachedItems.length} items)');
+      return cachedItems;
+    }
+    
     try {
-      debugPrint('📅 [TIMELINE] Getting timeline items for date: ${date.toIso8601String()}');
+      debugPrint('🔍 [TIMELINE] Getting timeline items for date: ${date.toIso8601String()}');
       
       final List<TimelineItem> allItems = [];
 
@@ -50,6 +69,15 @@ class TimelineService {
       allItems.sort((a, b) => b.timestamp.compareTo(a.timestamp));
 
       debugPrint('📅 [TIMELINE] Found ${allItems.length} timeline items');
+      
+      // 💾 결과를 캐시에 저장 (짧은 캐시 - 5분, 자주 변할 수 있는 데이터)
+      await _cache.set(
+        key: cacheKey,
+        data: allItems.map((item) => item.toJson()).toList(),
+        strategy: CacheStrategy.short,
+        category: 'timeline',
+      );
+      
       return allItems;
     } catch (e) {
       debugPrint('❌ [TIMELINE] Error getting timeline items: $e');
@@ -390,14 +418,60 @@ class TimelineService {
     return items.where((item) => item.type == targetType).toList();
   }
 
-  // 진행 중인 아이템들 가져오기 (수면 등)
+  // 진행 중인 아이템들 가져오기 (수면 등) - 매우 짧은 캐시 적용
   Future<List<TimelineItem>> getOngoingItems(String babyId) async {
+    final cacheKey = 'timeline_ongoing_items_$babyId';
+    
+    // 🚀 캐시에서 먼저 확인 (매우 짧은 캐시 - 1분)
+    final cachedItems = await _cache.get<List<TimelineItem>>(
+      cacheKey,
+      fromJson: (json) {
+        final List<dynamic> jsonList = json['_list'] ?? [];
+        return jsonList.map((item) => TimelineItem.fromJson(item)).toList();
+      },
+    );
+    if (cachedItems != null) {
+      debugPrint('⚡ [TIMELINE] Cache hit for ongoing items (${cachedItems.length} items)');
+      return cachedItems;
+    }
+    
     try {
       final items = await getTimelineItemsForDate(babyId, DateTime.now());
-      return items.where((item) => item.isOngoing).toList();
+      final ongoingItems = items.where((item) => item.isOngoing).toList();
+      
+      // 💾 진행 중인 아이템들 캐시 (초단기 캐시 - 1분)
+      await _cache.set(
+        key: cacheKey,
+        data: ongoingItems.map((item) => item.toJson()).toList(),
+        strategy: CacheStrategy.ultraShort,
+        category: 'timeline',
+      );
+      
+      return ongoingItems;
     } catch (e) {
       debugPrint('❌ [TIMELINE] Error getting ongoing items: $e');
       return [];
+    }
+  }
+
+  /// 🗑️ 특정 아기의 타임라인 캐시 무효화 (새로운 데이터 추가 시 호출)
+  Future<void> invalidateTimelineCache(String babyId, {DateTime? date}) async {
+    try {
+      if (date != null) {
+        // 특정 날짜의 캐시만 무효화
+        final dateString = date.toIso8601String().split('T')[0];
+        await _cache.remove('timeline_items_${babyId}_$dateString');
+      } else {
+        // 해당 아기의 모든 타임라인 캐시 무효화
+        await _cache.removeCategory('timeline');
+      }
+      
+      // 진행 중인 아이템 캐시도 무효화
+      await _cache.remove('timeline_ongoing_items_$babyId');
+      
+      debugPrint('🗑️ [TIMELINE] Invalidated timeline caches for baby: $babyId');
+    } catch (e) {
+      debugPrint('❌ [TIMELINE] Error invalidating timeline cache: $e');
     }
   }
 }

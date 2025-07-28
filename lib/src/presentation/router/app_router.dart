@@ -21,16 +21,27 @@ class AppRouter {
       case loginRoute:
         final args = settings.arguments as Map<String, dynamic>?;
         final localizationProvider = args?['localizationProvider'] as LocalizationProvider?;
+        final themeProvider = args?['themeProvider'] as ThemeProvider?;
         
         if (localizationProvider != null) {
+          // 두 Provider 모두 제공
           return MaterialPageRoute(
-            builder: (_) => ChangeNotifierProvider<LocalizationProvider>.value(
-              value: localizationProvider,
+            builder: (_) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider<LocalizationProvider>.value(
+                  value: localizationProvider,
+                ),
+                if (themeProvider != null)
+                  ChangeNotifierProvider<ThemeProvider>.value(
+                    value: themeProvider,
+                  ),
+              ],
               child: const LoginScreen(),
             ),
           );
         } else {
-          // Fallback without provider if not available
+          // Fallback - Provider 없이도 안전하게 실행
+          debugPrint('⚠️ [APP_ROUTER] LoginScreen called without LocalizationProvider');
           return MaterialPageRoute(builder: (_) => const LoginScreen());
         }
       case homeRoute:
