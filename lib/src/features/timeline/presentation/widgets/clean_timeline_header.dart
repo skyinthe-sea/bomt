@@ -8,6 +8,7 @@ class CleanTimelineHeader extends StatelessWidget {
   final VoidCallback onPreviousDay;
   final VoidCallback onNextDay;
   final VoidCallback onDatePicker;
+  final VoidCallback onTodayTap;
   final bool isFuture;
 
   const CleanTimelineHeader({
@@ -16,6 +17,7 @@ class CleanTimelineHeader extends StatelessWidget {
     required this.onPreviousDay,
     required this.onNextDay,
     required this.onDatePicker,
+    required this.onTodayTap,
     required this.isFuture,
   }) : super(key: key);
 
@@ -55,6 +57,11 @@ class CleanTimelineHeader extends StatelessWidget {
           Expanded(
             child: _buildDateSection(context),
           ),
+          
+          // 오늘 버튼
+          _buildTodayButton(context),
+          
+          const SizedBox(width: 8),
           
           // 다음 날짜 버튼
           _buildNavigationButton(
@@ -204,6 +211,47 @@ class CleanTimelineHeader extends StatelessWidget {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTodayButton(BuildContext context) {
+    final theme = Theme.of(context);
+    final today = DateTime.now();
+    
+    // 이미 오늘 날짜인지 확인
+    final isAlreadyToday = selectedDate.year == today.year &&
+                          selectedDate.month == today.month &&
+                          selectedDate.day == today.day;
+    
+    // 이미 오늘이면 버튼을 비활성화
+    if (isAlreadyToday) {
+      return const SizedBox.shrink();
+    }
+    
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTodayTap();
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primary.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: theme.colorScheme.primary.withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        child: Text(
+          AppLocalizations.of(context)!.today,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: theme.colorScheme.primary,
+          ),
         ),
       ),
     );

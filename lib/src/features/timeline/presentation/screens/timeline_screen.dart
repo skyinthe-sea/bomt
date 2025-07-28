@@ -364,6 +364,11 @@ class _TimelineScreenState extends State<TimelineScreen>
             provider.goToNextDay();
           },
           onDatePicker: () => _showModernDatePicker(context),
+          onTodayTap: () {
+            debugPrint('🔥 [TIMELINE] Today button pressed');
+            HapticFeedback.lightImpact();
+            provider.setSelectedDate(DateTime.now());
+          },
           isFuture: provider.isFuture,
         );
       },
