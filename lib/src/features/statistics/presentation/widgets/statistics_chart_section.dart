@@ -339,7 +339,7 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
                 
                 return Expanded(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 1.0),
+                    padding: EdgeInsets.symmetric(horizontal: chartData.dataPoints.length > 15 ? 0.5 : 1.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -357,14 +357,7 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        if (index % (chartData.dataPoints.length > 7 ? 2 : 1) == 0)
-                          Text(
-                            point.label ?? '',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              fontSize: 8,
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
-                            ),
-                          ),
+                        _buildDateLabel(context, theme, chartData, index, point),
                       ],
                     ),
                   ),
@@ -375,6 +368,104 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
         ],
       ),
     );
+  }
+
+  /// 스마트한 날짜 라벨 생성
+  Widget _buildDateLabel(BuildContext context, ThemeData theme, StatisticsChartData chartData, int index, StatisticsDataPoint point) {
+    final provider = Provider.of<StatisticsProvider>(context, listen: false);
+    final dateRange = provider.dateRange;
+    final totalDays = chartData.dataPoints.length;
+    
+    // 날짜 표시 간격 결정
+    int displayInterval = _getDisplayInterval(totalDays, dateRange.type);
+    
+    // 특별한 날짜 (월 시작/중간/끝) 또는 정해진 간격에만 표시
+    bool shouldShow = _shouldShowDateLabel(index, totalDays, displayInterval, point.date);
+    
+    if (!shouldShow) {
+      return const SizedBox(height: 12); // 공간 확보를 위한 빈 공간
+    }
+    
+    // 날짜 포맷팅
+    String formattedDate = _formatDateLabel(point.date, dateRange.type, totalDays);
+    
+    return Container(
+      height: 12,
+      child: Text(
+        formattedDate,
+        style: theme.textTheme.bodySmall?.copyWith(
+          fontSize: totalDays > 15 ? 7 : 8, // 월간일 경우 더 작은 폰트
+          color: theme.colorScheme.onSurface.withOpacity(0.7),
+          fontWeight: FontWeight.w500,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  /// 날짜 표시 간격 결정
+  int _getDisplayInterval(int totalDays, StatisticsDateRangeType dateRangeType) {
+    switch (dateRangeType) {
+      case StatisticsDateRangeType.weekly:
+        return 1; // 주간: 모든 날짜 표시
+      case StatisticsDateRangeType.monthly:
+        if (totalDays > 28) {
+          return 5; // 월간: 5일 간격 (1, 6, 11, 16, 21, 26, 31일)
+        } else {
+          return 3; // 짧은 월: 3일 간격
+        }
+      case StatisticsDateRangeType.custom:
+        if (totalDays > 21) {
+          return 4; // 커스텀 장기: 4일 간격
+        } else if (totalDays > 14) {
+          return 2; // 커스텀 중기: 2일 간격
+        } else {
+          return 1; // 커스텀 단기: 모든 날짜
+        }
+    }
+  }
+
+  /// 날짜 라벨을 표시할지 결정
+  bool _shouldShowDateLabel(int index, int totalDays, int interval, DateTime date) {
+    // 첫 번째와 마지막은 항상 표시
+    if (index == 0 || index == totalDays - 1) {
+      return true;
+    }
+    
+    // 월간 차트의 경우 특별한 날짜들 (1일, 15일, 30일, 31일) 표시
+    if (totalDays > 25) {
+      final day = date.day;
+      if (day == 1 || day == 15 || day == 30 || day == 31) {
+        return true;
+      }
+    }
+    
+    // 정해진 간격으로 표시
+    return (index + 1) % interval == 0;
+  }
+
+  /// 날짜 포맷팅
+  String _formatDateLabel(DateTime date, StatisticsDateRangeType dateRangeType, int totalDays) {
+    switch (dateRangeType) {
+      case StatisticsDateRangeType.weekly:
+        // 주간: 요일 + 날짜 (예: "월1", "화2")
+        final weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+        final weekday = weekdays[date.weekday % 7];
+        return '$weekday${date.day}';
+        
+      case StatisticsDateRangeType.monthly:
+        // 월간: 날짜만 (예: "1일", "15일", "30일")
+        return '${date.day}일';
+        
+      case StatisticsDateRangeType.custom:
+        if (totalDays <= 7) {
+          // 짧은 커스텀: 월/일 (예: "7/1")
+          return '${date.month}/${date.day}';
+        } else {
+          // 긴 커스텀: 날짜만
+          return '${date.day}일';
+        }
+    }
   }
 
   void _refreshChart(BuildContext context) {
