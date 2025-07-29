@@ -4,10 +4,12 @@ import '../../domain/models/statistics.dart';
 import '../../services/statistics/statistics_service.dart';
 import '../../core/events/app_event_bus.dart';
 import '../../core/events/data_sync_events.dart';
+import '../../core/cache/universal_cache_service.dart';
 
 class StatisticsProvider extends ChangeNotifier {
   final StatisticsService _statisticsService = StatisticsService.instance;
   final AppEventBus _eventBus = AppEventBus.instance;
+  final UniversalCacheService _cache = UniversalCacheService.instance;
   
   // 현재 선택된 사용자 정보
   String? _currentUserId;
@@ -88,12 +90,37 @@ class StatisticsProvider extends ChangeNotifier {
   /// 디바운스를 위한 타이머
   Timer? _refreshTimer;
 
-  /// 디바운스된 통계 새로고침
+  /// 디바운스된 통계 새로고침 (캐시 무효화 포함)
   void _refreshStatisticsDebounced() {
     _refreshTimer?.cancel();
-    _refreshTimer = Timer(const Duration(milliseconds: 500), () {
+    _refreshTimer = Timer(const Duration(milliseconds: 500), () async {
+      await _invalidateStatisticsCache();
       refreshStatistics(showLoading: false);
     });
+  }
+
+  /// 통계 관련 캐시 무효화
+  Future<void> _invalidateStatisticsCache() async {
+    if (_currentUserId != null && _currentBabyId != null) {
+      try {
+        // 카테고리별 캐시 무효화
+        await _cache.removeCategory('statistics');
+        await _cache.removeCategory('user_settings');
+        
+        // 로컬 차트 데이터 캐시 클리어
+        _chartDataCache.clear();
+        
+        debugPrint('🗑️ [STATS_PROVIDER] All statistics and chart cache invalidated for user: $_currentUserId, baby: $_currentBabyId');
+      } catch (e) {
+        debugPrint('❌ [STATS_PROVIDER] Error invalidating statistics cache: $e');
+      }
+    }
+  }
+
+  /// 수동으로 캐시 무효화 (외부에서 호출 가능)
+  Future<void> invalidateCache() async {
+    await _invalidateStatisticsCache();
+    notifyListeners();
   }
 
   /// 현재 사용자 설정
@@ -237,11 +264,36 @@ class StatisticsProvider extends ChangeNotifier {
     debugPrint('📈 [STATS_PROVIDER] All chart data loading completed');
   }
 
-  /// 특정 카드의 차트 데이터 로드
+  /// 특정 카드의 차트 데이터 로드 (완전한 캐싱 적용)
   Future<void> _loadChartDataForCard(String cardType) async {
     if (_currentUserId == null || _currentBabyId == null) return;
 
+    // 로컬 메모리 캐시 키 생성
+    final localCacheKey = 'chart_${cardType}_${_currentUserId}_${_currentBabyId}_${_dateRange.type}_${_dateRange.startDate.millisecondsSinceEpoch}_${_selectedMetricType}';
+
     try {
+      // 1. 로컬 메모리 캐시 확인 (가장 빠름)
+      if (_chartDataCache.containsKey(cardType)) {
+        debugPrint('📈 [STATS_PROVIDER] Using local memory cache for $cardType');
+        return;
+      }
+
+      // 2. UniversalCacheService를 통한 차트 데이터 조회 시도
+      final cachedChartData = await _cache.get<StatisticsChartData>(
+        localCacheKey,
+        fromJson: StatisticsChartData.fromJson,
+      );
+
+      if (cachedChartData != null) {
+        _chartDataCache[cardType] = cachedChartData;
+        debugPrint('📈 [STATS_PROVIDER] UniversalCache hit for $cardType (${cachedChartData.dataPoints.length} points)');
+        notifyListeners();
+        return;
+      }
+
+      debugPrint('📈 [STATS_PROVIDER] Cache miss. Generating new chart data for $cardType');
+
+      // 3. 캐시 미스 시 새로 생성 (StatisticsService에서 자동으로 캐싱됨)
       final chartData = await _statisticsService.generateChartData(
         cardType: cardType,
         userId: _currentUserId!,
@@ -250,9 +302,10 @@ class StatisticsProvider extends ChangeNotifier {
         metricType: _selectedMetricType,
       );
 
+      // 4. 로컬 메모리 캐시에 저장
       _chartDataCache[cardType] = chartData;
       
-      debugPrint('📈 [STATS_PROVIDER] Chart data loaded for $cardType (${chartData.dataPoints.length} points)');
+      debugPrint('📈 [STATS_PROVIDER] Chart data loaded and cached for $cardType (${chartData.dataPoints.length} points)');
       
       // UI 업데이트를 위해 리스너들에게 알림
       notifyListeners();

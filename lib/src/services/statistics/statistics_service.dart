@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../core/config/supabase_config.dart';
+import '../../core/cache/universal_cache_service.dart';
 import '../../domain/models/statistics.dart';
 import '../../domain/models/feeding.dart';
 import '../../domain/models/sleep.dart';
@@ -19,8 +20,9 @@ class StatisticsService {
   
   final _supabase = SupabaseConfig.client;
   final _userCardSettingService = UserCardSettingService.instance;
+  final _cache = UniversalCacheService.instance;
 
-  /// 통계 데이터 생성
+  /// 통계 데이터 생성 (캐싱 + 병렬 처리 최적화)
   Future<Statistics> generateStatistics({
     required String userId,
     required String babyId,
@@ -30,32 +32,64 @@ class StatisticsService {
     debugPrint('📊 [STATISTICS] Date range: ${dateRange.label}');
 
     try {
-      // 표시 가능한 카드 설정 가져오기
+      // 1. 캐시 키 생성
+      final cacheKey = 'statistics_${userId}_${babyId}_${dateRange.type.toJson()}_${dateRange.startDate.millisecondsSinceEpoch}';
+      
+      // 2. 캐시에서 통계 데이터 조회 시도
+      final cachedStatistics = await _cache.get<Statistics>(
+        cacheKey, 
+        fromJson: Statistics.fromJson,
+      );
+      
+      if (cachedStatistics != null) {
+        debugPrint('📊 [STATISTICS] Cache hit! Using cached statistics data');
+        return cachedStatistics;
+      }
+      
+      debugPrint('📊 [STATISTICS] Cache miss. Generating new statistics data');
+
+      // 3. 표시 가능한 카드 설정 가져오기
       final visibleCardTypes = await _getVisibleCardTypes(userId);
       debugPrint('📊 [STATISTICS] Visible card types: $visibleCardTypes');
 
-      // 각 카드별 통계 생성
-      final cardStatistics = <CardStatistics>[];
-      
-      for (final cardType in visibleCardTypes) {
-        final stats = await _generateCardStatistics(
+      // 4. 병렬 처리로 각 카드별 통계 생성
+      debugPrint('⚡ [STATISTICS] Starting parallel statistics generation for ${visibleCardTypes.length} cards');
+      final cardStatisticsFutures = visibleCardTypes.map((cardType) => 
+        _generateCardStatistics(
           cardType: cardType,
           userId: userId,
           babyId: babyId,
           dateRange: dateRange,
-        );
-        if (stats != null) {
-          cardStatistics.add(stats);
-        }
-      }
+        )
+      ).toList();
+      
+      final cardStatisticsResults = await Future.wait(cardStatisticsFutures);
+      
+      // null이 아닌 결과만 필터링
+      final cardStatistics = cardStatisticsResults
+          .where((stats) => stats != null)
+          .cast<CardStatistics>()
+          .toList();
 
-      debugPrint('📊 [STATISTICS] Generated statistics for ${cardStatistics.length} cards');
+      debugPrint('📊 [STATISTICS] Generated statistics for ${cardStatistics.length} cards (parallel processing)');
 
-      return Statistics(
+      final statistics = Statistics(
         dateRange: dateRange,
         cardStatistics: cardStatistics,
         lastUpdated: DateTime.now(),
       );
+
+      // 5. 생성된 통계 데이터를 캐시에 저장
+      await _cache.set(
+        key: cacheKey,
+        data: statistics,
+        strategy: CacheStrategy.medium,
+        category: 'statistics',
+      );
+      
+      debugPrint('💾 [STATISTICS] Statistics data cached successfully');
+
+      return statistics;
     } catch (e) {
       debugPrint('❌ [STATISTICS] Error generating statistics: $e');
       debugPrint('❌ [STATISTICS] Stack trace: ${StackTrace.current}');
@@ -63,7 +97,8 @@ class StatisticsService {
     }
   }
 
-  /// 표시 가능한 카드 타입들 가져오기
+
+  /// 표시 가능한 카드 타입들 가져오기 (기존 함수 유지)
   Future<List<String>> _getVisibleCardTypes(String userId) async {
     try {
       debugPrint('🗃️ [STATISTICS] Getting visible card types for user: $userId');
@@ -497,6 +532,22 @@ class StatisticsService {
     debugPrint('📈 [CHART] Generating chart data for $cardType, metric: $metricType');
 
     try {
+      // 1. 캐시 키 생성
+      final cacheKey = 'chart_${cardType}_${userId}_${babyId}_${dateRange.type.toJson()}_${dateRange.startDate.millisecondsSinceEpoch}_$metricType';
+      
+      // 2. 캐시에서 차트 데이터 조회 시도
+      final cachedChartData = await _cache.get<StatisticsChartData>(
+        cacheKey,
+        fromJson: StatisticsChartData.fromJson,
+      );
+      
+      if (cachedChartData != null) {
+        debugPrint('📈 [CHART] Cache hit! Using cached chart data for $cardType');
+        return cachedChartData;
+      }
+      
+      debugPrint('📈 [CHART] Cache miss. Generating new chart data for $cardType');
+
       final dataPoints = <StatisticsDataPoint>[];
       
       // 날짜별로 데이터 포인트 생성
@@ -530,11 +581,23 @@ class StatisticsService {
       String title = _getChartTitle(cardType, metricType);
       String unit = _getChartUnit(cardType, metricType);
 
-      return StatisticsChartData(
+      final chartData = StatisticsChartData(
         title: title,
         dataPoints: dataPoints,
         unit: unit,
       );
+
+      // 3. 생성된 차트 데이터를 캐시에 저장
+      await _cache.set(
+        key: cacheKey,
+        data: chartData,
+        strategy: CacheStrategy.medium,
+        category: 'statistics',
+      );
+      
+      debugPrint('💾 [CHART] Chart data cached successfully for $cardType');
+
+      return chartData;
     } catch (e) {
       debugPrint('❌ [CHART] Error generating chart data: $e');
       return StatisticsChartData(

@@ -5,6 +5,33 @@ enum StatisticsDateRangeType {
   custom,
 }
 
+/// StatisticsDateRangeType 확장 메서드
+extension StatisticsDateRangeTypeExtension on StatisticsDateRangeType {
+  String toJson() {
+    switch (this) {
+      case StatisticsDateRangeType.weekly:
+        return 'weekly';
+      case StatisticsDateRangeType.monthly:
+        return 'monthly';
+      case StatisticsDateRangeType.custom:
+        return 'custom';
+    }
+  }
+
+  static StatisticsDateRangeType fromJson(String json) {
+    switch (json) {
+      case 'weekly':
+        return StatisticsDateRangeType.weekly;
+      case 'monthly':
+        return StatisticsDateRangeType.monthly;
+      case 'custom':
+        return StatisticsDateRangeType.custom;
+      default:
+        return StatisticsDateRangeType.weekly;
+    }
+  }
+}
+
 /// 통계 날짜 범위
 class StatisticsDateRange {
   final StatisticsDateRangeType type;
@@ -82,6 +109,26 @@ class StatisticsDateRange {
     return endDate.difference(startDate).inDays + 1;
   }
 
+  /// JSON으로 직렬화
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type.toJson(),
+      'startDate': startDate.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
+      'label': label,
+    };
+  }
+
+  /// JSON에서 역직렬화
+  factory StatisticsDateRange.fromJson(Map<String, dynamic> json) {
+    return StatisticsDateRange(
+      type: StatisticsDateRangeTypeExtension.fromJson(json['type']),
+      startDate: DateTime.parse(json['startDate']),
+      endDate: DateTime.parse(json['endDate']),
+      label: json['label'],
+    );
+  }
+
   @override
   String toString() {
     return 'StatisticsDateRange(type: $type, label: $label, startDate: $startDate, endDate: $endDate)';
@@ -116,6 +163,26 @@ class StatisticsMetric {
   /// 값과 단위를 결합한 문자열
   String get valueWithUnit {
     return '$formattedValue$unit';
+  }
+
+  /// JSON으로 직렬화
+  Map<String, dynamic> toJson() {
+    return {
+      'label': label,
+      'value': value,
+      'unit': unit,
+      'description': description,
+    };
+  }
+
+  /// JSON에서 역직렬화
+  factory StatisticsMetric.fromJson(Map<String, dynamic> json) {
+    return StatisticsMetric(
+      label: json['label'],
+      value: json['value']?.toDouble() ?? 0.0,
+      unit: json['unit'],
+      description: json['description'],
+    );
   }
 
   @override
@@ -157,6 +224,30 @@ class CardStatistics {
   /// 통계 데이터가 있는지 확인
   bool get hasData {
     return totalCount > 0;
+  }
+
+  /// JSON으로 직렬화
+  Map<String, dynamic> toJson() {
+    return {
+      'cardType': cardType,
+      'cardName': cardName,
+      'totalCount': totalCount,
+      'metrics': metrics.map((metric) => metric.toJson()).toList(),
+      'additionalData': additionalData,
+    };
+  }
+
+  /// JSON에서 역직렬화
+  factory CardStatistics.fromJson(Map<String, dynamic> json) {
+    return CardStatistics(
+      cardType: json['cardType'],
+      cardName: json['cardName'],
+      totalCount: json['totalCount'],
+      metrics: (json['metrics'] as List?)
+          ?.map((metric) => StatisticsMetric.fromJson(metric))
+          .toList() ?? [],
+      additionalData: Map<String, dynamic>.from(json['additionalData'] ?? {}),
+    );
   }
 
   @override
@@ -201,6 +292,26 @@ class Statistics {
     return cardStatistics.any((stats) => stats.hasData);
   }
 
+  /// JSON으로 직렬화
+  Map<String, dynamic> toJson() {
+    return {
+      'dateRange': dateRange.toJson(),
+      'cardStatistics': cardStatistics.map((card) => card.toJson()).toList(),
+      'lastUpdated': lastUpdated.toIso8601String(),
+    };
+  }
+
+  /// JSON에서 역직렬화
+  factory Statistics.fromJson(Map<String, dynamic> json) {
+    return Statistics(
+      dateRange: StatisticsDateRange.fromJson(json['dateRange']),
+      cardStatistics: (json['cardStatistics'] as List?)
+          ?.map((card) => CardStatistics.fromJson(card))
+          .toList() ?? [],
+      lastUpdated: DateTime.parse(json['lastUpdated']),
+    );
+  }
+
   @override
   String toString() {
     return 'Statistics(dateRange: ${dateRange.label}, cardsCount: ${cardStatistics.length}, totalActivities: $totalActivities)';
@@ -218,6 +329,24 @@ class StatisticsDataPoint {
     required this.value,
     this.label,
   });
+
+  /// JSON으로 직렬화
+  Map<String, dynamic> toJson() {
+    return {
+      'date': date.toIso8601String(),
+      'value': value,
+      'label': label,
+    };
+  }
+
+  /// JSON에서 역직렬화
+  factory StatisticsDataPoint.fromJson(Map<String, dynamic> json) {
+    return StatisticsDataPoint(
+      date: DateTime.parse(json['date']),
+      value: json['value']?.toDouble() ?? 0.0,
+      label: json['label'],
+    );
+  }
 
   @override
   String toString() {
@@ -262,6 +391,30 @@ class StatisticsChartData {
   /// 차트 데이터가 있는지 확인
   bool get hasData {
     return dataPoints.isNotEmpty;
+  }
+
+  /// JSON으로 직렬화
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'dataPoints': dataPoints.map((point) => point.toJson()).toList(),
+      'unit': unit,
+      'minValue': minValue,
+      'maxValue': maxValue,
+    };
+  }
+
+  /// JSON에서 역직렬화
+  factory StatisticsChartData.fromJson(Map<String, dynamic> json) {
+    return StatisticsChartData(
+      title: json['title'],
+      dataPoints: (json['dataPoints'] as List?)
+          ?.map((point) => StatisticsDataPoint.fromJson(point))
+          .toList() ?? [],
+      unit: json['unit'],
+      minValue: json['minValue']?.toDouble(),
+      maxValue: json['maxValue']?.toDouble(),
+    );
   }
 
   @override
