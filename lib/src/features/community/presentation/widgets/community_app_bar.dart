@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../screens/community_notification_screen.dart';
+import '../screens/community_search_screen.dart';
 import '../../../../presentation/providers/community_provider.dart';
 import '../../../../services/community/notification_service.dart';
 
@@ -141,15 +142,24 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
                       ),
                       child: IconButton(
                         onPressed: () {
-                          // TODO: 검색 페이지로 이동
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(l10n.searchFeatureComingSoon),
-                              backgroundColor: theme.colorScheme.surface,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
+                          // 검색 페이지로 이동
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) =>
+                                  const CommunitySearchScreen(),
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                const begin = Offset(1.0, 0.0);
+                                const end = Offset.zero;
+                                const curve = Curves.easeInOut;
+
+                                var tween = Tween(begin: begin, end: end)
+                                    .chain(CurveTween(curve: curve));
+
+                                return SlideTransition(
+                                  position: animation.drive(tween),
+                                  child: child,
+                                );
+                              },
                             ),
                           );
                         },
