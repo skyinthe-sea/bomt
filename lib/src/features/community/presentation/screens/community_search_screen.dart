@@ -230,7 +230,7 @@ class _CommunitySearchScreenState extends State<CommunitySearchScreen>
   void _showErrorSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('검색 중 오류가 발생했습니다: $message'),
+        content: Text('${l10n.searchError}: $message'),
         backgroundColor: Theme.of(context).colorScheme.error,
         behavior: SnackBarBehavior.floating,
       ),
@@ -340,7 +340,7 @@ class _CommunitySearchScreenState extends State<CommunitySearchScreen>
                     controller: _searchController,
                     focusNode: _searchFocusNode,
                     decoration: InputDecoration(
-                      hintText: '커뮤니티 게시글 검색',
+                      hintText: l10n.searchCommunityPosts,
                       hintStyle: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurface.withOpacity(0.5),
                       ),
@@ -396,21 +396,21 @@ class _CommunitySearchScreenState extends State<CommunitySearchScreen>
             // 카테고리 필터
             _buildFilterChip(
               theme: theme,
-              label: '전체',
+              label: l10n.categoryAll,
               isSelected: _selectedCategory == null,
               onTap: () => setState(() => _selectedCategory = null),
             ),
             const SizedBox(width: 8),
             _buildFilterChip(
               theme: theme,
-              label: '질문',
+              label: l10n.question,
               isSelected: _selectedCategory == 'question',
               onTap: () => setState(() => _selectedCategory = 'question'),
             ),
             const SizedBox(width: 8),
             _buildFilterChip(
               theme: theme,
-              label: '정보',
+              label: l10n.information,
               isSelected: _selectedCategory == 'info',
               onTap: () => setState(() => _selectedCategory = 'info'),
             ),
@@ -497,21 +497,21 @@ class _CommunitySearchScreenState extends State<CommunitySearchScreen>
         ),
       ),
       itemBuilder: (context) => [
-        PopupMenuItem(value: 'relevance', child: Text('관련도')),
-        PopupMenuItem(value: 'created_at', child: Text('최신순')),
-        PopupMenuItem(value: 'like_count', child: Text('좋아요순')),
-        PopupMenuItem(value: 'comment_count', child: Text('댓글순')),
+        PopupMenuItem(value: 'relevance', child: Text(l10n.relevance)),
+        PopupMenuItem(value: 'created_at', child: Text(l10n.sortByLatest)),
+        PopupMenuItem(value: 'like_count', child: Text(l10n.sortByLikes)),
+        PopupMenuItem(value: 'comment_count', child: Text(l10n.sortByComments)),
       ],
     );
   }
 
   String _getSortLabel(String sortBy) {
     switch (sortBy) {
-      case 'relevance': return '관련도';
-      case 'created_at': return '최신순';
-      case 'like_count': return '좋아요순';
-      case 'comment_count': return '댓글순';
-      default: return '관련도';
+      case 'relevance': return l10n.relevance;
+      case 'created_at': return l10n.sortByLatest;
+      case 'like_count': return l10n.sortByLikes;
+      case 'comment_count': return l10n.sortByComments;
+      default: return l10n.relevance;
     }
   }
 
@@ -540,7 +540,7 @@ class _CommunitySearchScreenState extends State<CommunitySearchScreen>
             )
           else if (_searchSuggestions.isNotEmpty) ...[
             Text(
-              '검색 제안',
+              l10n.searchSuggestions,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: theme.colorScheme.onSurface,
@@ -580,14 +580,14 @@ class _CommunitySearchScreenState extends State<CommunitySearchScreen>
             ),
             const SizedBox(height: 16),
             Text(
-              '검색 결과가 없습니다',
+              l10n.noSearchResults,
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.onSurface.withOpacity(0.6),
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              '다른 검색어를 시도해보세요',
+              l10n.tryDifferentSearchTerm,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurface.withOpacity(0.5),
               ),
@@ -620,7 +620,7 @@ class _CommunitySearchScreenState extends State<CommunitySearchScreen>
               // TODO: 좋아요 기능 구현
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('좋아요 기능 준비 중'),
+                  content: Text(l10n.likeFeatureComingSoon),
                   backgroundColor: theme.colorScheme.surfaceContainerHighest,
                   behavior: SnackBarBehavior.floating,
                 ),
@@ -641,7 +641,7 @@ class _CommunitySearchScreenState extends State<CommunitySearchScreen>
           // 인기 검색어
           if (_popularSearchTerms.isNotEmpty) ...[
             Text(
-              '인기 검색어',
+              l10n.popularSearchTerms,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: theme.colorScheme.onSurface,
@@ -686,7 +686,7 @@ class _CommunitySearchScreenState extends State<CommunitySearchScreen>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '최근 검색어',
+                  l10n.recentSearches,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: theme.colorScheme.onSurface,
@@ -695,7 +695,7 @@ class _CommunitySearchScreenState extends State<CommunitySearchScreen>
                 TextButton(
                   onPressed: () => setState(() => _recentSearches.clear()),
                   child: Text(
-                    '전체삭제',
+                    l10n.deleteAll,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurface.withOpacity(0.6),
                     ),

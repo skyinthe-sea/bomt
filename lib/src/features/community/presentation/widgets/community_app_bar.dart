@@ -111,7 +111,7 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                l10n.community ?? '커뮤니티',
+                                l10n.community,
                                 style: theme.textTheme.titleLarge?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: theme.colorScheme.onSurface,
