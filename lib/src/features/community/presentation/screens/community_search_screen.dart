@@ -19,6 +19,9 @@ class CommunitySearchScreen extends StatefulWidget {
 class _CommunitySearchScreenState extends State<CommunitySearchScreen>
     with TickerProviderStateMixin {
   
+  // 다국어 지원
+  AppLocalizations get l10n => AppLocalizations.of(context)!;
+  
   // 서비스 및 컨트롤러
   final CommunitySearchService _searchService = CommunitySearchService();
   final TextEditingController _searchController = TextEditingController();

@@ -287,7 +287,7 @@ class _FeedingSummaryCardState extends State<FeedingSummaryCard>
                         ),
                       ),
                       Text(
-                        l10n.feedingAmount(totalAmount),
+                        "${totalAmount}ml",
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
