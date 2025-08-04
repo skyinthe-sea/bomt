@@ -262,12 +262,19 @@ class BabyProvider extends ChangeNotifier {
     }
   }
 
-  /// 사용자 ID 가져오기 (실시간 카카오 API 호출)
+  /// 사용자 ID 가져오기 (Supabase + 카카오 통합)
   Future<String?> _getUserId() async {
     try {
-      debugPrint('🔍 [BABY_PROVIDER] Getting user ID from Kakao API...');
+      // 🔐 1순위: Supabase 사용자 확인
+      final supabaseUser = Supabase.instance.client.auth.currentUser;
+      if (supabaseUser != null) {
+        debugPrint('✅ [BABY_PROVIDER] Retrieved Supabase user ID: ${supabaseUser.id}');
+        return supabaseUser.id;
+      }
       
-      // 카카오 토큰 유효성 검사 및 사용자 정보 가져오기
+      debugPrint('🔍 [BABY_PROVIDER] No Supabase user, trying Kakao API...');
+      
+      // 🥇 2순위: 카카오 토큰 유효성 검사 및 사용자 정보 가져오기
       final tokenInfo = await UserApi.instance.accessTokenInfo();
       if (tokenInfo != null) {
         // 현재 로그인된 카카오 사용자 정보 가져오기
@@ -281,7 +288,7 @@ class BabyProvider extends ChangeNotifier {
         return null;
       }
     } catch (e) {
-      debugPrint('❌ [BABY_PROVIDER] Kakao API error: $e');
+      debugPrint('❌ [BABY_PROVIDER] Error getting user ID: $e');
       return null;
     }
   }

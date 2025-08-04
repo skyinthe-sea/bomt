@@ -29,16 +29,97 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  // 🛡️ MainScreen 인스턴스 중복 방지를 위한 정적 변수
+  static bool _isActive = false;
+  static int _instanceCount = 0;
   late PersistentTabController _controller;
 
   @override
   void initState() {
     super.initState();
+    
+    // 🛡️ 인스턴스 중복 검사 및 카운팅
+    _MainScreenState._instanceCount++;
+    debugPrint('🏠 [MAIN_SCREEN] Instance created. Count: ${_MainScreenState._instanceCount}');
+    
+    // 🚨 이미 활성화된 MainScreen이 있으면 이전 것을 비활성화
+    if (_MainScreenState._isActive) {
+      debugPrint('⚠️ [MAIN_SCREEN] Warning: Another MainScreen is already active! Deactivating previous one.');
+    }
+    
+    _MainScreenState._isActive = true;
     _controller = PersistentTabController(initialIndex: 0);
+    
+    // 🔄 Navigator 스택 중복 정리 (안전한 지연 실행)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (mounted) {
+          _cleanupNavigatorStack();
+        }
+      });
+    });
   }
+  
+  /// Navigator 스택에서 중복된 MainScreen 제거 (안전한 방법)
+  void _cleanupNavigatorStack() {
+    try {
+      if (!mounted) return;
+      
+      debugPrint('🔄 [MAIN_SCREEN] Checking Navigator stack...');
+      
+      // 🔄 안전한 Navigator 확인
+      final navigator = Navigator.maybeOf(context);
+      if (navigator == null) {
+        debugPrint('⚠️ [MAIN_SCREEN] No Navigator found - skipping cleanup');
+        return;
+      }
+      
+      final currentRoute = ModalRoute.of(context)?.settings.name;
+      debugPrint('🔄 [MAIN_SCREEN] Current route: $currentRoute');
+      debugPrint('🔄 [MAIN_SCREEN] Can pop: ${navigator.canPop()}');
+      
+      // 🎯 보수적인 스택 정리 (최대 3개만 제거)
+      if (navigator.canPop()) {
+        debugPrint('🔄 [MAIN_SCREEN] Detected routes in stack - conservative cleanup...');
+        
+        int popCount = 0;
+        while (navigator.canPop() && popCount < 3) { // 최대 3개만 제거
+          try {
+            navigator.pop();
+            popCount++;
+            debugPrint('🔄 [MAIN_SCREEN] Popped route $popCount');
+            
+            // 각 pop 후 잠시 대기
+            if (popCount < 3) {
+              Future.delayed(const Duration(milliseconds: 100));
+            }
+          } catch (popError) {
+            debugPrint('❌ [MAIN_SCREEN] Pop failed at $popCount: $popError');
+            break;
+          }
+        }
+        
+        if (popCount > 0) {
+          debugPrint('✅ [MAIN_SCREEN] Successfully removed $popCount routes from stack');
+        }
+      } else {
+        debugPrint('✅ [MAIN_SCREEN] Navigator stack is clean - no routes to pop');
+      }
+      
+    } catch (e) {
+      debugPrint('❌ [MAIN_SCREEN] Navigator cleanup error: $e');
+      // 에러 발생해도 앱은 계속 실행
+    }
+  }
+  
 
   @override
   void dispose() {
+    // 🛡️ 인스턴스 정리
+    _MainScreenState._instanceCount--;
+    _MainScreenState._isActive = false;
+    debugPrint('🏠 [MAIN_SCREEN] Instance disposed. Count: ${_MainScreenState._instanceCount}');
+    
     _controller.dispose();
     super.dispose();
   }
@@ -95,6 +176,18 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    
+    // 🛡️ 중복 인스턴스 알림만 (UI 차단하지 않음)
+    if (_MainScreenState._instanceCount > 1) {
+      debugPrint('⚠️ [MAIN_SCREEN] Multiple instances detected: ${_MainScreenState._instanceCount}');
+      // 🔄 3초 후 자동으로 이전 인스턴스 정리 (UI는 정상 렌더링)
+      Future.delayed(const Duration(seconds: 3), () {
+        if (mounted && _MainScreenState._instanceCount > 1) {
+          debugPrint('🧹 [MAIN_SCREEN] Auto-cleanup: Resetting instance count');
+          _MainScreenState._instanceCount = 1; // 강제 리셋
+        }
+      });
+    }
     
     return MultiProvider(
       providers: [

@@ -16,6 +16,8 @@ import '../../../../services/auth/supabase_auth_service.dart';
 import '../../../../services/auth/secure_auth_service.dart';
 import '../../../../services/locale/device_locale_service.dart';
 import '../../../../presentation/providers/localization_provider.dart';
+import '../../../../presentation/providers/theme_provider.dart';
+import '../../../../services/community/user_profile_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -33,12 +35,42 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isGoogleLoading = false;
   bool _isFacebookLoading = false;
   bool _autoLoginEnabled = false;
+  bool _isOtpPasswordResetInProgress = false; // 🔐 OTP 비밀번호 재설정 진행 중 플래그
   
   @override
   void initState() {
     super.initState();
+    _isOtpPasswordResetInProgress = false; // 🔐 플래그 초기화
     _initializeServices();
     _initializeAutoLocale();
+    _setupAuthStateListener();
+  }
+  
+  /// 🔐 Auth state 변경 리스너 설정 (비밀번호 재설정 처리)
+  void _setupAuthStateListener() {
+    _supabaseAuth.supabaseClient.auth.onAuthStateChange.listen((data) {
+      final event = data.event;
+      final session = data.session;
+      
+      if (event == AuthChangeEvent.passwordRecovery) {
+        debugPrint('🔐 [LOGIN] Password recovery detected');
+        debugPrint('🔐 [LOGIN] OTP reset in progress: $_isOtpPasswordResetInProgress');
+        debugPrint('🔐 [LOGIN] Session exists: ${session != null}');
+        
+        // 🚨 [보안 중요] OTP 비밀번호 재설정 중에는 절대로 자동 로그인하지 않음
+        if (_isOtpPasswordResetInProgress) {
+          debugPrint('🔐 [LOGIN] ⚠️  SECURITY: OTP password reset in progress - BLOCKING auto login');
+          debugPrint('🔐 [LOGIN] ⚠️  SECURITY: All auth state changes during OTP verification are IGNORED');
+          return; // 🔒 OTP 진행 중에는 모든 auth 이벤트 무시
+        }
+        
+        if (session != null) {
+          // 🔗 웹 기반 Magic Link 비밀번호 재설정에서 돌아온 경우만 자동 로그인
+          debugPrint('🔐 [LOGIN] Web-based password recovery - auto login');
+          _completeLogin();
+        }
+      }
+    });
   }
   
   Future<void> _initializeServices() async {
@@ -129,7 +161,13 @@ class _LoginScreenState extends State<LoginScreen> {
           debugPrint('⚠️ [LOGIN] Failed to save Kakao session: $e');
         }
         
-        await _completeLogin();
+        try {
+          await _completeLogin();
+        } catch (e) {
+          debugPrint('❌ [LOGIN] Kakao complete login error: $e');
+          // 에러 발생 시 안전한 네비게이션 사용
+          _safeNavigateToHome();
+        }
       } else {
         if (mounted) {
           _showError(AppLocalizations.of(context)?.loginFailed ?? 'Login failed');
@@ -213,8 +251,23 @@ class _LoginScreenState extends State<LoginScreen> {
         final response = await _supabaseAuth.signInWithEmail(email, password);
         
         if (response.user != null) {
-          Navigator.pop(context); // Close dialog
-          await _completeLogin();
+          debugPrint('✅ [EMAIL_LOGIN] Login successful, starting safe navigation...');
+          
+          // 🔄 안전한 네비게이션 직접 사용 (복잡한 _completeLogin 회피)
+          if (mounted) {
+            // 🔐 간단한 세션 저장
+            try {
+              await _authService.setAutoLogin(_autoLoginEnabled);
+              await _supabaseAuth.setAutoLogin(_autoLoginEnabled);
+              debugPrint('✅ [EMAIL_LOGIN] Session settings saved');
+            } catch (e) {
+              debugPrint('⚠️ [EMAIL_LOGIN] Session save error: $e');
+              // 세션 저장 실패해도 로그인은 진행
+            }
+            
+            // 🚪 다이얼로그 닫고 홈으로 안전하게 이동
+            _safeNavigateToHome();
+          }
         } else {
           _showError('로그인에 실패했습니다.');
         }
@@ -284,7 +337,13 @@ class _LoginScreenState extends State<LoginScreen> {
           debugPrint('⚠️ [LOGIN] Failed to save Google session: $e');
         }
         
-        await _completeLogin();
+        try {
+          await _completeLogin();
+        } catch (e) {
+          debugPrint('❌ [LOGIN] Google complete login error: $e');
+          // 에러 발생 시 안전한 네비게이션 사용
+          _safeNavigateToHome();
+        }
       } else {
         if (mounted) {
           _showError('Google 로그인에 실패했습니다.');
@@ -328,7 +387,13 @@ class _LoginScreenState extends State<LoginScreen> {
           debugPrint('⚠️ [LOGIN] Failed to save Facebook session: $e');
         }
         
-        await _completeLogin();
+        try {
+          await _completeLogin();
+        } catch (e) {
+          debugPrint('❌ [LOGIN] Facebook complete login error: $e');
+          // 에러 발생 시 안전한 네비게이션 사용
+          _safeNavigateToHome();
+        }
       } else {
         if (mounted) {
           _showError('Facebook 로그인에 실패했습니다.');
@@ -375,11 +440,28 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
       
+      // 🆔 사용자 프로필 확인 및 생성 (비밀번호 재설정 후 기존 데이터 연결)
+      try {
+        debugPrint('🔄 [LOGIN] Loading user profile...');
+        final userProfileService = UserProfileService();
+        final profile = await userProfileService.getOrCreateCurrentUserProfile();
+        if (profile != null) {
+          debugPrint('✅ [LOGIN] User profile loaded/created: ${profile.nickname}');
+        } else {
+          debugPrint('⚠️ [LOGIN] User profile is null - will create later');
+        }
+      } catch (e) {
+        debugPrint('❌ [LOGIN] User profile error (non-critical): $e');
+        // 🚫 프로필 에러는 사용자에게 표시하지 않음 (로그인 성공을 방해하지 않음)
+        // 프로필은 나중에 홈 화면에서 다시 시도할 수 있음
+      }
+      
       debugPrint('✅ [LOGIN] Auto login settings and session saved securely');
       
       // 로그인 성공 시 메인 화면으로 이동
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/home');
+        // 🔄 안전한 Navigator 스택 정리
+        _safeNavigateToHome();
       }
     } catch (e) {
       debugPrint('❌ [LOGIN] Failed to save login session: $e');
@@ -389,7 +471,8 @@ class _LoginScreenState extends State<LoginScreen> {
       await _supabaseAuth.setAutoLogin(_autoLoginEnabled);
       
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/home');
+        // 🔄 안전한 홈 화면 이동 (fallback 처리)
+        _safeNavigateToHome();
       }
     }
   }
@@ -629,7 +712,13 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  _completeLogin();
+                  try {
+                    _completeLogin();
+                  } catch (e) {
+                    debugPrint('❌ [LOGIN] Email confirmation complete login error: $e');
+                    // 에러 발생 시 안전한 네비게이션 사용
+                    _safeNavigateToHome();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
@@ -676,7 +765,13 @@ class _LoginScreenState extends State<LoginScreen> {
           existingAccount: existingAccount,
           onLinkingComplete: () {
             // 연결 완료 후 홈으로 이동
-            _completeLogin();
+            try {
+              _completeLogin();
+            } catch (e) {
+              debugPrint('❌ [LOGIN] Account linking complete login error: $e');
+              // 에러 발생 시 안전한 네비게이션 사용
+              _safeNavigateToHome();
+            }
           },
           onSkip: () {
             // 별도 계정으로 계속 진행 시 일반 회원가입 처리
@@ -693,49 +788,326 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _showForgotPasswordDialog() async {
     final emailController = TextEditingController();
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     
     await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('비밀번호 재설정'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('가입하신 이메일 주소를 입력하세요.\n비밀번호 재설정 링크를 보내드립니다.'),
-            const SizedBox(height: 16),
-            TextField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                labelText: '이메일',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-          ],
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('취소'),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: isDarkMode ? const Color(0xFF1F2937) : Colors.white,
+            borderRadius: BorderRadius.circular(20),
           ),
-          ElevatedButton(
-            onPressed: () async {
-              final email = emailController.text.trim();
-              if (email.isNotEmpty) {
-                try {
-                  await _supabaseAuth.resetPassword(email);
-                  Navigator.pop(context);
-                  _showSuccess('비밀번호 재설정 이메일을 발송했습니다.');
-                } catch (e) {
-                  _showError(_supabaseAuth.getErrorMessage(e));
-                }
-              }
-            },
-            child: const Text('전송'),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // 🎨 Header with Icon and Close Button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF6366F1).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(
+                          Icons.lock_reset_rounded,
+                          color: Color(0xFF6366F1),
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        '비밀번호 재설정',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: isDarkMode ? Colors.white : const Color(0xFF1F2937),
+                        ),
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Icon(
+                      Icons.close_rounded,
+                      color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+                    ),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+              
+              const SizedBox(height: 24),
+              
+              // 🎨 Description
+              Text(
+                '가입하신 이메일 주소를 입력하세요.\n6자리 인증번호를 보내드립니다.',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+                  height: 1.4,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              
+              const SizedBox(height: 24),
+              
+              // 🎨 Modern Email Input Field
+              Container(
+                decoration: BoxDecoration(
+                  color: isDarkMode ? const Color(0xFF374151) : const Color(0xFFF9FAFB),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: isDarkMode ? const Color(0xFF4B5563) : const Color(0xFFE5E7EB),
+                  ),
+                ),
+                child: TextField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isDarkMode ? Colors.white : const Color(0xFF1F2937),
+                  ),
+                  decoration: InputDecoration(
+                    hintText: '이메일 주소를 입력하세요',
+                    hintStyle: TextStyle(
+                      color: isDarkMode ? Colors.white.withOpacity(0.5) : const Color(0xFF9CA3AF),
+                    ),
+                    prefixIcon: Icon(
+                      Icons.email_outlined,
+                      color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+                      size: 20,
+                    ),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  ),
+                ),
+              ),
+              
+              const SizedBox(height: 32),
+              
+              // 🎨 Modern Action Buttons
+              Row(
+                children: [
+                  // Cancel Button
+                  Expanded(
+                    child: SizedBox(
+                      height: 48,
+                      child: TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: TextButton.styleFrom(
+                          backgroundColor: isDarkMode 
+                              ? Colors.white.withOpacity(0.1) 
+                              : const Color(0xFFF3F4F6),
+                          foregroundColor: isDarkMode 
+                              ? Colors.white.withOpacity(0.8) 
+                              : const Color(0xFF6B7280),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          '취소',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  
+                  const SizedBox(width: 12),
+                  
+                  // Send Button
+                  Expanded(
+                    child: SizedBox(
+                      height: 48,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final email = emailController.text.trim();
+                          if (email.isNotEmpty) {
+                            Navigator.pop(context);
+                            // OTP 방식으로 변경된 비밀번호 재설정 다이얼로그 표시
+                            _showOtpPasswordResetDialog(email);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF6366F1),
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          '전송',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
+  }
+
+  /// 🎉 비밀번호 변경 성공 다이얼로그
+  void _showPasswordChangeSuccessDialog() {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: isDarkMode ? const Color(0xFF1F2937) : Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // 🎉 성공 아이콘
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: const Icon(
+                  Icons.check_circle_rounded,
+                  size: 40,
+                  color: Colors.green,
+                ),
+              ),
+              
+              const SizedBox(height: 20),
+              
+              // 제목
+              Text(
+                '비밀번호 변경 완료!',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkMode ? Colors.white : const Color(0xFF1F2937),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              
+              const SizedBox(height: 12),
+              
+              // 메시지
+              Text(
+                '비밀번호가 성공적으로 변경되었습니다.\n새로운 비밀번호로 다시 로그인해주세요.',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+                  height: 1.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              
+              const SizedBox(height: 24),
+              
+              // 로그인하기 버튼
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    '로그인하기',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// 🔐 OTP 방식 비밀번호 재설정 다이얼로그
+  Future<void> _showOtpPasswordResetDialog(String email) async {
+    if (!mounted) return;
+    
+    // 🔐 OTP 비밀번호 재설정 시작
+    setState(() {
+      _isOtpPasswordResetInProgress = true;
+    });
+    
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => OtpPasswordResetDialog(
+        email: email,
+        supabaseAuth: _supabaseAuth,
+        onSuccess: () async {
+          // 🔐 비밀번호 변경 성공 후 플래그 해제
+          if (mounted) {
+            setState(() {
+              _isOtpPasswordResetInProgress = false;
+            });
+          }
+          
+          debugPrint('🎉 [PASSWORD_RESET] Password changed successfully');
+          
+          // 🚪 다이얼로그 닫기
+          if (mounted) {
+            Navigator.pop(context);
+          }
+          
+          // 🎉 성공 다이얼로그 표시 (자동 로그인 대신 재로그인 안내)
+          if (mounted) {
+            _showPasswordChangeSuccessDialog();
+          }
+        },
+        onError: (message) => _showError(message),
+        onCancel: () {
+          // 🔐 취소 시 플래그 해제
+          setState(() {
+            _isOtpPasswordResetInProgress = false;
+          });
+        },
+      ),
+    );
+    
+    // 🔐 다이얼로그 종료 후 플래그 해제 (안전장치)
+    if (mounted) {
+      setState(() {
+        _isOtpPasswordResetInProgress = false;
+      });
+    }
   }
 
   @override
@@ -752,20 +1124,17 @@ class _LoginScreenState extends State<LoginScreen> {
         height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
             colors: isDarkMode
                 ? [
                     const Color(0xFF1E293B),
                     const Color(0xFF0F172A),
-                    const Color(0xFF020617),
                   ]
                 : [
                     const Color(0xFFF8FAFC),
                     const Color(0xFFE2E8F0),
-                    const Color(0xFFCBD5E1),
                   ],
-            stops: const [0.0, 0.6, 1.0],
           ),
         ),
         child: SafeArea(
@@ -781,115 +1150,72 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     SizedBox(height: screenHeight * 0.08),
                     
-                    // 🎨 Modern Logo Section
-                    TweenAnimationBuilder<double>(
-                      tween: Tween<double>(begin: 0.0, end: 1.0),
-                      duration: const Duration(milliseconds: 800),
-                      curve: Curves.elasticOut,
-                      builder: (context, value, child) {
-                        return Transform.scale(
-                          scale: value,
-                          child: Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  const Color(0xFF6366F1),
-                                  const Color(0xFF8B5CF6),
-                                  const Color(0xFFA855F7),
-                                ],
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0xFF6366F1).withOpacity(0.4),
-                                  blurRadius: 30,
-                                  offset: const Offset(0, 15),
-                                ),
-                              ],
-                            ),
-                            child: const Icon(
-                              Icons.favorite_rounded,
-                              size: 50,
-                              color: Colors.white,
-                            ),
+                    // 🎨 Simple Logo Section
+                    Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color(0xFF6366F1),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF6366F1).withOpacity(0.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
                           ),
-                        );
-                      },
-                    ),
-                    
-                    const SizedBox(height: 32),
-                    
-                    // 🎨 App Title
-                    const Text(
-                      'BabyMom',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF1E293B),
-                        letterSpacing: -0.5,
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.favorite_rounded,
+                        size: 40,
+                        color: Colors.white,
                       ),
                     ),
                     
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 24),
+                    
+                    // 🎨 App Title
+                    Text(
+                      'BabyMom',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w700,
+                        color: isDarkMode ? Colors.white : const Color(0xFF1E293B),
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 8),
                     
                     // 🎨 Subtitle
                     Text(
                       '아기 성장 기록을 손쉽게 관리하세요',
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
                         color: isDarkMode 
                             ? Colors.white.withOpacity(0.7)
                             : const Color(0xFF64748B),
-                        height: 1.4,
                       ),
                       textAlign: TextAlign.center,
                     ),
                     
-                    SizedBox(height: screenHeight * 0.08),
+                    SizedBox(height: screenHeight * 0.06),
                     
-                    // 🎨 Login Methods Title
-                    Text(
-                      '로그인 방법을 선택해주세요',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: isDarkMode 
-                            ? Colors.white
-                            : const Color(0xFF1E293B),
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 32),
-                    
-                    // 🎨 Modern Auth Buttons Container
+                    // 🎨 Simple Auth Buttons Container
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(24),
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: isDarkMode 
-                            ? Colors.white.withOpacity(0.05)
-                            : Colors.white,
-                        borderRadius: BorderRadius.circular(24),
+                            ? Colors.white.withOpacity(0.03)
+                            : Colors.white.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: isDarkMode 
                               ? Colors.white.withOpacity(0.1)
-                              : Colors.black.withOpacity(0.05),
+                              : Colors.black.withOpacity(0.06),
                           width: 1,
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: isDarkMode 
-                                ? Colors.black.withOpacity(0.3)
-                                : Colors.black.withOpacity(0.04),
-                            blurRadius: 20,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
                       ),
                       child: Column(
                         children: [
@@ -903,7 +1229,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             textColor: Colors.white,
                           ),
                     
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 12),
                     
                           // 🎨 Google Login Button with Custom Google Icon 
                           _buildGoogleAuthButton(
@@ -911,21 +1237,21 @@ class _LoginScreenState extends State<LoginScreen> {
                             isLoading: _isGoogleLoading,
                           ),
                     
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 12),
                     
-                          // 🎨 Facebook Login Button
-                          _buildModernAuthButton(
-                            onPressed: _handleFacebookLogin,
-                            isLoading: _isFacebookLoading,
-                            backgroundColor: const Color(0xFF1877F2),
-                            icon: Icons.facebook_rounded,
-                            text: 'Facebook으로 계속하기',
-                            textColor: Colors.white,
-                          ),
+                          // 🎨 Facebook Login Button (Hidden)
+                          // _buildModernAuthButton(
+                          //   onPressed: _handleFacebookLogin,
+                          //   isLoading: _isFacebookLoading,
+                          //   backgroundColor: const Color(0xFF1877F2),
+                          //   icon: Icons.facebook_rounded,
+                          //   text: 'Facebook으로 계속하기',
+                          //   textColor: Colors.white,
+                          // ),
                           
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 20),
                           
-                          // 🎨 Divider
+                          // 🎨 Simple Divider
                           Row(
                             children: [
                               Expanded(
@@ -937,14 +1263,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                padding: const EdgeInsets.symmetric(horizontal: 12),
                                 child: Text(
                                   '또는',
                                   style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
                                     color: isDarkMode 
-                                        ? Colors.white.withOpacity(0.6)
+                                        ? Colors.white.withOpacity(0.5)
                                         : const Color(0xFF9CA3AF),
                                   ),
                                 ),
@@ -960,7 +1285,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                           
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 20),
                           
                           // 🎨 Kakao Login Button
                           _buildModernAuthButton(
@@ -976,16 +1301,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 24),
                     
-                    // 🎨 Auto Login Toggle
+                    // 🎨 Simple Auto Login Toggle
                     Container(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       decoration: BoxDecoration(
                         color: isDarkMode 
-                            ? Colors.white.withOpacity(0.05)
-                            : Colors.white.withOpacity(0.7),
-                        borderRadius: BorderRadius.circular(16),
+                            ? Colors.white.withOpacity(0.03)
+                            : Colors.white.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: isDarkMode 
                               ? Colors.white.withOpacity(0.1)
@@ -995,22 +1320,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Transform.scale(
-                            scale: 1.2,
-                            child: Checkbox(
-                              value: _autoLoginEnabled,
-                              onChanged: (value) {
-                                setState(() {
-                                  _autoLoginEnabled = value ?? false;
-                                });
-                              },
-                              activeColor: const Color(0xFF6366F1),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ),
+                          Checkbox(
+                            value: _autoLoginEnabled,
+                            onChanged: (value) {
+                              setState(() {
+                                _autoLoginEnabled = value ?? false;
+                              });
+                            },
+                            activeColor: const Color(0xFF6366F1),
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: 8),
                           GestureDetector(
                             onTap: () {
                               setState(() {
@@ -1020,10 +1340,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Text(
                               '자동 로그인',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
                                 color: isDarkMode 
-                                    ? Colors.white
+                                    ? Colors.white.withOpacity(0.8)
                                     : const Color(0xFF1F2937),
                               ),
                             ),
@@ -1032,26 +1352,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     
-                    SizedBox(height: screenHeight * 0.06),
+                    SizedBox(height: screenHeight * 0.04),
                     
-                    // 🎨 Terms Notice
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        '로그인 시 이용약관 및 개인정보처리방침에 동의하게 됩니다',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: isDarkMode 
-                              ? Colors.white.withOpacity(0.6)
-                              : const Color(0xFF9CA3AF),
-                          height: 1.4,
-                        ),
-                        textAlign: TextAlign.center,
+                    // 🎨 Simple Terms Notice
+                    Text(
+                      '로그인 시 이용약관 및 개인정보처리방침에 동의하게 됩니다',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isDarkMode 
+                            ? Colors.white.withOpacity(0.5)
+                            : const Color(0xFF9CA3AF),
                       ),
+                      textAlign: TextAlign.center,
                     ),
                     
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),
@@ -1075,7 +1390,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }) {
     return SizedBox(
       width: double.infinity,
-      height: 56,
+      height: 48,
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
@@ -1083,12 +1398,12 @@ class _LoginScreenState extends State<LoginScreen> {
           foregroundColor: textColor,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(12),
             side: borderColor != null 
-                ? BorderSide(color: borderColor, width: 1.5)
+                ? BorderSide(color: borderColor, width: 1)
                 : BorderSide.none,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
         ),
         child: isLoading
             ? SizedBox(
@@ -1129,7 +1444,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }) {
     return SizedBox(
       width: double.infinity,
-      height: 56,
+      height: 48,
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
@@ -1137,10 +1452,10 @@ class _LoginScreenState extends State<LoginScreen> {
           foregroundColor: const Color(0xFF1F2937),
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-            side: const BorderSide(color: Color(0xFFE5E7EB), width: 1.5),
+            borderRadius: BorderRadius.circular(12),
+            side: const BorderSide(color: Color(0xFFE5E7EB), width: 1),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
         ),
         child: isLoading
             ? const SizedBox(
@@ -1175,5 +1490,803 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  /// 🔄 안전한 홈 화면 이동
+  void _safeNavigateToHome() {
+    debugPrint('🏠 [LOGIN] Safe navigation to home starting...');
+    
+    try {
+      // 🔄 단계별 안전한 네비게이션
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (!mounted) return;
+        
+        try {
+          // 🔄 모든 다이얼로그 닫기
+          final navigator = Navigator.maybeOf(context);
+          if (navigator != null) {
+            int popCount = 0;
+            while (navigator.canPop() && popCount < 5) {
+              navigator.pop();
+              popCount++;
+            }
+            debugPrint('🔄 [LOGIN] Closed $popCount dialogs');
+          }
+          
+          // 🔄 홈 화면으로 안전한 이동 (Provider 정보 포함)
+          Future.delayed(const Duration(milliseconds: 200), () {
+            if (mounted) {
+              final rootNavigator = Navigator.of(context, rootNavigator: true);
+              
+              // 🔐 Provider 정보 가져오기 (현재 context에서 접근 가능한 Provider들)
+              LocalizationProvider? localizationProvider;
+              ThemeProvider? themeProvider;
+              
+              try {
+                localizationProvider = Provider.of<LocalizationProvider>(context, listen: false);
+              } catch (e) {
+                debugPrint('⚠️ [LOGIN] LocalizationProvider not found: $e');
+              }
+              
+              try {
+                themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+              } catch (e) {
+                debugPrint('⚠️ [LOGIN] ThemeProvider not found: $e');
+              }
+              
+              // 🏠 Provider 정보와 함께 홈으로 이동
+              rootNavigator.pushNamedAndRemoveUntil(
+                '/home',
+                (route) => false,
+                arguments: {
+                  'localizationProvider': localizationProvider,
+                  'themeProvider': themeProvider,
+                },
+              );
+              debugPrint('✅ [LOGIN] Successfully navigated to home with providers');
+            }
+          });
+          
+        } catch (navError) {
+          debugPrint('❌ [LOGIN] Navigation error: $navError');
+          // 에러 발생 시 직접 홈으로 이동
+          if (mounted) {
+            Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil('/home', (route) => false);
+          }
+        }
+      });
+      
+    } catch (e) {
+      debugPrint('❌ [LOGIN] Safe navigation error: $e');
+      // 최후의 수단: 직접 홈으로 이동
+      if (mounted) {
+        Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil('/home', (route) => false);
+      }
+    }
+  }
+}
+
+/// 🔐 OTP 방식 비밀번호 재설정 다이얼로그
+class OtpPasswordResetDialog extends StatefulWidget {
+  final String email;
+  final dynamic supabaseAuth;
+  final VoidCallback onSuccess;
+  final Function(String) onError;
+  final VoidCallback? onCancel;
+
+  const OtpPasswordResetDialog({
+    super.key,
+    required this.email,
+    required this.supabaseAuth,
+    required this.onSuccess,
+    required this.onError,
+    this.onCancel,
+  });
+
+  @override
+  State<OtpPasswordResetDialog> createState() => _OtpPasswordResetDialogState();
+}
+
+class _OtpPasswordResetDialogState extends State<OtpPasswordResetDialog> {
+  int _currentStep = 0; // 0: 이메일 전송, 1: OTP 입력, 2: 새 비밀번호 입력
+  bool _isLoading = false;
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
+  
+  final _otpController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  
+  // 🔧 포커스 노드 추가 (키보드 타입 문제 해결용)
+  final _passwordFocusNode = FocusNode();
+  final _confirmPasswordFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // 🔧 포커스 노드 리스너 설정 (키보드 타입 강제 활성화)
+    _passwordFocusNode.addListener(() {
+      if (_passwordFocusNode.hasFocus) {
+        debugPrint('🔧 [PASSWORD_RESET] Password field focused - ensuring text input mode');
+      }
+    });
+    
+    _confirmPasswordFocusNode.addListener(() {
+      if (_confirmPasswordFocusNode.hasFocus) {
+        debugPrint('🔧 [PASSWORD_RESET] Confirm password field focused');
+      }
+    });
+    
+    _sendPasswordResetOtp();
+  }
+  
+  @override
+  void dispose() {
+    // 🔧 리소스 정리
+    _otpController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
+    super.dispose();
+  }
+  
+  /// 🔧 키보드 타입 강제 새로고침 (iOS 키보드 타입 문제 해결)
+  void _forceKeyboardRefresh(FocusNode focusNode) async {
+    debugPrint('🔧 [PASSWORD_RESET] Forcing keyboard refresh for text input');
+    
+    // 포커스를 잠깐 제거했다가 다시 주는 방식으로 키보드 새로고침
+    focusNode.unfocus();
+    await Future.delayed(const Duration(milliseconds: 50));
+    
+    if (mounted) {
+      focusNode.requestFocus();
+    }
+  }
+
+  /// 1️⃣ 비밀번호 재설정 OTP 전송
+  Future<void> _sendPasswordResetOtp() async {
+    setState(() => _isLoading = true);
+    
+    try {
+      await widget.supabaseAuth.resetPassword(widget.email);
+      setState(() {
+        _currentStep = 1;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() => _isLoading = false);
+      widget.onError('OTP 전송에 실패했습니다: ${widget.supabaseAuth.getErrorMessage(e)}');
+      if (mounted) Navigator.pop(context);
+    }
+  }
+
+  /// 2️⃣ OTP 검증
+  Future<void> _verifyOtp() async {
+    final otp = _otpController.text.trim();
+    if (otp.length != 6) {
+      widget.onError('6자리 인증번호를 입력해주세요.');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      print('🔐 [OTP_VERIFY] Starting STRICT OTP verification...');
+      print('🔐 [OTP_VERIFY] Email: ${widget.email}');
+      print('🔐 [OTP_VERIFY] Token: $otp');
+      
+      // 🚨 [보안 중요] OTP 검증 과정에서 변수를 통한 성공 확인
+      bool otpVerificationSuccessful = false;
+      String successMethod = '';
+      
+      // 🔐 [보안 중요] 세션 존재 여부와 상관없이 반드시 OTP 검증을 수행해야 함
+      final currentSession = widget.supabaseAuth.supabaseClient.auth.currentSession;
+      print('🔐 [OTP_VERIFY] Current session status: ${currentSession != null ? 'EXISTS' : 'NULL'}');
+      
+      // ⚠️ 세션이 있어도 실제 OTP 토큰 검증을 반드시 수행
+      print('🔐 [OTP_VERIFY] Performing MANDATORY OTP token verification...');
+      
+      // 🎯 Method 1: Try with recovery type (supabase_flutter 2.9.0 호환)
+      print('🔐 [OTP_VERIFY] Method 1: Trying with OtpType.recovery...');
+      try {
+        final response = await widget.supabaseAuth.supabaseClient.auth.verifyOTP(
+          email: widget.email,
+          token: otp,
+          type: OtpType.recovery,
+        );
+
+        print('🔐 [OTP_VERIFY] Recovery response: ${response.toString()}');
+        print('🔐 [OTP_VERIFY] Response type: ${response.runtimeType}');
+
+        // supabase_flutter 2.9.0에서는 AuthResponse 구조가 다름
+        // 성공 시 session이 있고, 실패 시 exception이 발생
+        if (response.session != null && response.user != null) {
+          print('✅ [OTP_VERIFY] SUCCESS: Method 1 (recovery) verified OTP token');
+          print('🔐 [OTP_VERIFY] Session: ${response.session.toString()}');
+          print('🔐 [OTP_VERIFY] User: ${response.user.toString()}');
+          otpVerificationSuccessful = true;
+          successMethod = 'recovery';
+        } else {
+          print('❌ [OTP_VERIFY] Method 1 failed - no valid session/user returned');
+        }
+      } catch (recoveryError) {
+        print('❌ [OTP_VERIFY] Method 1 (recovery) failed: $recoveryError');
+      }
+
+      // 🎯 Method 2: Try with email type only if Method 1 failed
+      if (!otpVerificationSuccessful) {
+        print('🔐 [OTP_VERIFY] Method 2: Trying with OtpType.email...');
+        try {
+          final response2 = await widget.supabaseAuth.supabaseClient.auth.verifyOTP(
+            email: widget.email,
+            token: otp,
+            type: OtpType.email,
+          );
+
+          print('🔐 [OTP_VERIFY] Email response: ${response2.toString()}');
+
+          if (response2.session != null && response2.user != null) {
+            print('✅ [OTP_VERIFY] SUCCESS: Method 2 (email) verified OTP token');
+            print('🔐 [OTP_VERIFY] Session: ${response2.session.toString()}');
+            print('🔐 [OTP_VERIFY] User: ${response2.user.toString()}');
+            otpVerificationSuccessful = true;
+            successMethod = 'email';
+          } else {
+            print('❌ [OTP_VERIFY] Method 2 failed - no valid session/user returned');
+          }
+        } catch (emailError) {
+          print('❌ [OTP_VERIFY] Method 2 (email) failed: $emailError');
+        }
+      }
+
+      // 🎯 Method 3: Try token_hash approach only if previous methods failed
+      if (!otpVerificationSuccessful) {
+        print('🔐 [OTP_VERIFY] Method 3: Trying with token_hash approach...');
+        try {
+          final response3 = await widget.supabaseAuth.supabaseClient.auth.verifyOTP(
+            tokenHash: otp,
+            type: OtpType.recovery,
+          );
+
+          print('🔐 [OTP_VERIFY] TokenHash response: ${response3.toString()}');
+
+          if (response3.session != null && response3.user != null) {
+            print('✅ [OTP_VERIFY] SUCCESS: Method 3 (token_hash) verified OTP token');
+            print('🔐 [OTP_VERIFY] Session: ${response3.session.toString()}');
+            print('🔐 [OTP_VERIFY] User: ${response3.user.toString()}');
+            otpVerificationSuccessful = true;
+            successMethod = 'token_hash';
+          } else {
+            print('❌ [OTP_VERIFY] Method 3 failed - no valid session/user returned');
+          }
+        } catch (tokenHashError) {
+          print('❌ [OTP_VERIFY] Method 3 (token_hash) failed: $tokenHashError');
+        }
+      }
+
+      // 🚨 [보안 중요] 최종 검증: 실제로 OTP가 성공했는지 확인
+      if (!otpVerificationSuccessful) {
+        print('❌ [OTP_VERIFY] SECURITY: All verification methods failed for OTP: $otp');
+        throw Exception('Invalid OTP code - all verification methods failed');
+      }
+
+      // ✅ OTP 검증 성공 - 다음 단계로 진행
+      print('✅ [OTP_VERIFY] SECURITY: OTP verification successful with method: $successMethod');
+      setState(() {
+        _currentStep = 2;
+        _isLoading = false;
+      });
+      
+      // 🔧 비밀번호 입력 단계로 이동 시 지연된 포커스 (iOS 키보드 타입 문제 해결)
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (mounted) {
+          // 200ms 딜레이를 두고 포커스 - UI가 완전히 렌더링된 후
+          await Future.delayed(const Duration(milliseconds: 200));
+          if (mounted) {
+            _passwordFocusNode.requestFocus();
+            debugPrint('🔧 [PASSWORD_RESET] Delayed auto-focus for text input stability');
+          }
+        }
+      });
+      
+      return;
+
+    } catch (e) {
+      setState(() => _isLoading = false);
+      print('❌ [OTP_VERIFY] All methods failed: $e');
+      widget.onError('인증번호 검증에 실패했습니다.\n\n세부 정보:\n$e\n\n다시 시도하거나 새로운 코드를 요청해주세요.');
+    }
+  }
+
+  /// 3️⃣ 새 비밀번호 설정
+  Future<void> _updatePassword() async {
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+
+    // 🔐 비밀번호 검증 규칙
+    if (password.length < 6) {
+      widget.onError('비밀번호는 최소 6자 이상이어야 합니다.');
+      return;
+    }
+    
+    if (password.length > 128) {
+      widget.onError('비밀번호는 128자 이하여야 합니다.');
+      return;
+    }
+
+    // 영문+숫자 조합 체크 (선택사항 - 너무 엄격하면 주석 처리)
+    final hasLetter = RegExp(r'[a-zA-Z]').hasMatch(password);
+    final hasDigit = RegExp(r'[0-9]').hasMatch(password);
+    
+    if (!hasLetter || !hasDigit) {
+      widget.onError('비밀번호는 영문과 숫자를 모두 포함해야 합니다.');
+      return;
+    }
+
+    if (password != confirmPassword) {
+      widget.onError('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      print('🔐 [PASSWORD_UPDATE] Updating password...');
+      final response = await widget.supabaseAuth.supabaseClient.auth.updateUser(
+        UserAttributes(password: password),
+      );
+
+      print('🔐 [PASSWORD_UPDATE] Response: ${response.toString()}');
+      print('🔐 [PASSWORD_UPDATE] Response type: ${response.runtimeType}');
+
+      // supabase_flutter 2.9.0에서는 성공 시 user가 있고, 실패 시 exception 발생
+      if (response.user != null) {
+        print('✅ [PASSWORD_UPDATE] Password updated successfully');
+        setState(() => _isLoading = false);
+        
+        if (mounted) {
+          // 🚪 다이얼로그 닫기를 onSuccess 콜백에서 처리하도록 변경
+          widget.onSuccess();
+        }
+      } else {
+        print('❌ [PASSWORD_UPDATE] No user returned');
+        throw Exception('Password update failed - no user returned');
+      }
+    } catch (e) {
+      setState(() => _isLoading = false);
+      print('❌ [PASSWORD_UPDATE] Exception: $e');
+      
+      // 🔐 동일한 비밀번호 에러 처리
+      final errorMessage = e.toString().toLowerCase();
+      if (errorMessage.contains('same as') || 
+          errorMessage.contains('same password') ||
+          errorMessage.contains('identical') ||
+          errorMessage.contains('different from the old password') ||
+          errorMessage.contains('should be different') ||
+          errorMessage.contains('현재 비밀번호와 동일')) {
+        // 🎨 동일한 비밀번호 전용 다이얼로그 표시
+        if (mounted && context.mounted) {
+          _showSamePasswordDialog(context);
+        }
+      } else {
+        widget.onError('비밀번호 변경에 실패했습니다: ${widget.supabaseAuth.getErrorMessage(e)}');
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: isDarkMode ? const Color(0xFF1F2937) : Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // 🎨 Header
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF6366F1).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Icons.lock_reset_rounded,
+                    color: Color(0xFF6366F1),
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    _getStepTitle(),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: isDarkMode ? Colors.white : const Color(0xFF1F2937),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    widget.onCancel?.call();
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.close_rounded,
+                    color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+                  ),
+                ),
+              ],
+            ),
+            
+            const SizedBox(height: 24),
+            
+            // 🎨 Content
+            if (_currentStep == 0) _buildSendingStep(),
+            if (_currentStep == 1) _buildOtpStep(),
+            if (_currentStep == 2) _buildPasswordStep(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _getStepTitle() {
+    switch (_currentStep) {
+      case 0: return 'OTP 전송 중...';
+      case 1: return '인증번호 입력';
+      case 2: return '새 비밀번호 설정';
+      default: return '비밀번호 재설정';
+    }
+  }
+
+  Widget _buildSendingStep() {
+    return Column(
+      children: [
+        const CircularProgressIndicator(color: Color(0xFF6366F1)),
+        const SizedBox(height: 16),
+        Text(
+          '${widget.email}로\n인증번호를 전송하고 있습니다...',
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOtpStep() {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    
+    return Column(
+      children: [
+        Text(
+          '${widget.email}로 전송된\n6자리 인증번호를 입력하세요',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 14,
+            color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+          ),
+        ),
+        
+        const SizedBox(height: 24),
+        
+        // OTP 입력 필드
+        Container(
+          decoration: BoxDecoration(
+            color: isDarkMode ? const Color(0xFF374151) : const Color(0xFFF9FAFB),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isDarkMode ? const Color(0xFF4B5563) : const Color(0xFFE5E7EB),
+            ),
+          ),
+          child: TextField(
+            controller: _otpController,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 8,
+            ),
+            maxLength: 6,
+            decoration: InputDecoration(
+              hintText: '000000',
+              hintStyle: TextStyle(
+                color: isDarkMode ? Colors.white.withOpacity(0.3) : const Color(0xFF9CA3AF),
+                letterSpacing: 8,
+              ),
+              border: InputBorder.none,
+              counterText: '',
+              contentPadding: const EdgeInsets.symmetric(vertical: 16),
+            ),
+          ),
+        ),
+        
+        const SizedBox(height: 24),
+        
+        // 확인 버튼
+        SizedBox(
+          width: double.infinity,
+          height: 48,
+          child: ElevatedButton(
+            onPressed: _isLoading ? null : _verifyOtp,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF6366F1),
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+            child: _isLoading
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Text(
+                    '확인',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPasswordStep() {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    
+    return Column(
+      children: [
+        Text(
+          '새로운 비밀번호를 설정하세요',
+          style: TextStyle(
+            fontSize: 14,
+            color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+          ),
+        ),
+        
+        const SizedBox(height: 24),
+        
+        // 새 비밀번호 입력
+        Container(
+          decoration: BoxDecoration(
+            color: isDarkMode ? const Color(0xFF374151) : const Color(0xFFF9FAFB),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isDarkMode ? const Color(0xFF4B5563) : const Color(0xFFE5E7EB),
+            ),
+          ),
+          child: TextField(
+            controller: _passwordController,
+            focusNode: _passwordFocusNode,
+            obscureText: !_isPasswordVisible,
+            keyboardType: TextInputType.text, // 🔧 iOS 키보드 타입 문제 해결용
+            textInputAction: TextInputAction.next,
+            textCapitalization: TextCapitalization.none,
+            enableSuggestions: false,
+            autocorrect: false,
+            // 🔧 autofocus 제거 - 수동 포커스로 변경
+            onTap: () {
+              // 🔧 포커스 시 키보드 타입 강제 재초기화
+              _forceKeyboardRefresh(_passwordFocusNode);
+            },
+            onSubmitted: (value) {
+              // 🔧 Enter 키 시 다음 필드로 이동
+              _confirmPasswordFocusNode.requestFocus();
+            },
+            decoration: InputDecoration(
+              hintText: '새 비밀번호 (최소 6자, 영문+숫자)',
+              hintStyle: TextStyle(
+                color: isDarkMode ? Colors.white.withOpacity(0.5) : const Color(0xFF9CA3AF),
+              ),
+              prefixIcon: Icon(
+                Icons.lock_outline,
+                color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                  color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isPasswordVisible = !_isPasswordVisible;
+                  });
+                },
+              ),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            ),
+          ),
+        ),
+        
+        const SizedBox(height: 16),
+        
+        // 비밀번호 확인 입력
+        Container(
+          decoration: BoxDecoration(
+            color: isDarkMode ? const Color(0xFF374151) : const Color(0xFFF9FAFB),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isDarkMode ? const Color(0xFF4B5563) : const Color(0xFFE5E7EB),
+            ),
+          ),
+          child: TextField(
+            controller: _confirmPasswordController,
+            focusNode: _confirmPasswordFocusNode,
+            obscureText: !_isConfirmPasswordVisible,
+            keyboardType: TextInputType.text, // 🔧 iOS 키보드 타입 문제 해결용
+            textInputAction: TextInputAction.done,
+            textCapitalization: TextCapitalization.none,
+            enableSuggestions: false,
+            autocorrect: false,
+            onTap: () {
+              // 🔧 포커스 시 키보드 타입 강제 재초기화
+              _forceKeyboardRefresh(_confirmPasswordFocusNode);
+            },
+            onSubmitted: (value) {
+              // 🔧 Enter 키 시 비밀번호 변경 실행
+              _updatePassword();
+            },
+            decoration: InputDecoration(
+              hintText: '비밀번호 확인',
+              hintStyle: TextStyle(
+                color: isDarkMode ? Colors.white.withOpacity(0.5) : const Color(0xFF9CA3AF),
+              ),
+              prefixIcon: Icon(
+                Icons.lock_outline,
+                color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                  color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                  });
+                },
+              ),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            ),
+          ),
+        ),
+        
+        const SizedBox(height: 24),
+        
+        // 변경 버튼
+        SizedBox(
+          width: double.infinity,
+          height: 48,
+          child: ElevatedButton(
+            onPressed: _isLoading ? null : _updatePassword,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF6366F1),
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+            child: _isLoading
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Text(
+                    '비밀번호 변경',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+          ),
+        ),
+      ],
+    );
+  }
+  
+  /// 🎨 동일한 비밀번호 입력 시 전용 다이얼로그
+  void _showSamePasswordDialog(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: isDarkMode ? const Color(0xFF1F2937) : Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // 🚫 아이콘
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.orange.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: const Icon(
+                  Icons.warning_rounded,
+                  size: 30,
+                  color: Colors.orange,
+                ),
+              ),
+              
+              const SizedBox(height: 16),
+              
+              // 제목
+              Text(
+                '동일한 비밀번호입니다',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkMode ? Colors.white : const Color(0xFF1F2937),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              
+              const SizedBox(height: 12),
+              
+              // 메시지
+              Text(
+                '현재 사용 중인 비밀번호와 다른\n새로운 비밀번호를 입력해주세요.',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isDarkMode ? Colors.white.withOpacity(0.7) : const Color(0xFF6B7280),
+                  height: 1.4,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              
+              const SizedBox(height: 24),
+              
+              // 확인 버튼
+              SizedBox(
+                width: double.infinity,
+                height: 44,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    '확인',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 }
 

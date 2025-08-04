@@ -29,6 +29,9 @@ class SupabaseAuthService {
     print('🔧 [SUPABASE_AUTH] Initialized');
   }
 
+  /// Supabase 클라이언트 접근
+  SupabaseClient get supabaseClient => _supabase;
+
   /// 현재 사용자
   User? get currentUser => _supabase.auth.currentUser;
 
@@ -1123,11 +1126,22 @@ class SupabaseAuthService {
   }
 
   /// 비밀번호 재설정
-  Future<void> resetPassword(String email) async {
+  Future<void> resetPassword(String email, {String? redirectUrl}) async {
     try {
       print('🔐 [SUPABASE_AUTH] Sending password reset email to: $email');
       
-      await _supabase.auth.resetPasswordForEmail(email);
+      if (redirectUrl != null) {
+        print('🔗 [SUPABASE_AUTH] Using Magic Link with redirect URL: $redirectUrl');
+        // Magic Link 방식 (redirectTo 포함)
+        await _supabase.auth.resetPasswordForEmail(
+          email,
+          redirectTo: redirectUrl,
+        );
+      } else {
+        print('📧 [SUPABASE_AUTH] Using OTP method (no redirect URL)');
+        // OTP 방식 (redirectTo 없음)
+        await _supabase.auth.resetPasswordForEmail(email);
+      }
       
       print('✅ [SUPABASE_AUTH] Password reset email sent successfully');
     } catch (e) {

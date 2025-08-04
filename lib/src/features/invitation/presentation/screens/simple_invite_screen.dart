@@ -289,7 +289,17 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
         
         // 홈 화면으로 강제 이동하여 전체 앱 상태 새로고침
         if (mounted) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
+          // 🔄 먼저 모든 다이얼로그 닫기
+          try {
+            while (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+          } catch (e) {
+            debugPrint('⚠️ [SIMPLE_INVITE] Dialog cleanup warning: $e');
+          }
+          
+          // 🔄 최상위 Navigator로 홈 화면 이동
+          Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
             '/', // 홈 화면 라우트
             (Route<dynamic> route) => false, // 모든 이전 화면 제거
           );

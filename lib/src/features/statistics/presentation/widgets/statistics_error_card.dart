@@ -255,7 +255,17 @@ class StatisticsErrorCard extends StatelessWidget {
   }
 
   void _goToHome(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+    // 🔄 먼저 모든 다이얼로그 닫기
+    try {
+      while (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      debugPrint('⚠️ [STATISTICS_ERROR] Dialog cleanup warning: $e');
+    }
+    
+    // 🔄 최상위 Navigator로 홈 화면 이동
+    Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil('/home', (route) => false);
   }
 }
 

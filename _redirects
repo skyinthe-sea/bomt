@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects
+# 모든 경로를 index.html로 리다이렉트 (SPA처럼 동작)
+/password-reset /index.html 200
+/reset /index.html 200
+/* /index.html 200

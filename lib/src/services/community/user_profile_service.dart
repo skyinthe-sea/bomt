@@ -29,6 +29,7 @@ class UserProfileService {
     required String nickname,
     String? profileImageUrl,
     String? bio,
+    String? email,
   }) async {
     try {
       // 닉네임 중복 확인
@@ -49,6 +50,7 @@ class UserProfileService {
             'nickname': nickname,
             'profile_image_url': profileImageUrl,
             'bio': bio,
+            'email': email,
           })
           .select()
           .single();
@@ -163,40 +165,92 @@ class UserProfileService {
     }
   }
 
-  // 현재 사용자의 프로필 조회 또는 생성 (카카오 로그인 버전)
+  // 현재 사용자의 프로필 조회 또는 생성 (Supabase + 카카오 통합 버전)
   Future<UserProfile?> getOrCreateCurrentUserProfile({
     String? defaultNickname,
   }) async {
     print('DEBUG: getOrCreateCurrentUserProfile called');
     
     try {
-      // 카카오 로그인 사용자 정보 가져오기
-      final prefs = await SharedPreferences.getInstance();
-      final authService = AuthService(prefs);
-      final kakaoUser = await authService.getCurrentUser();
+      String? userId;
+      String? userEmail;
       
-      if (kakaoUser == null) {
-        print('DEBUG: No Kakao user found');
-        return null;
+      // 🔐 1순위: Supabase 사용자 확인
+      final supabaseUser = _supabase.auth.currentUser;
+      if (supabaseUser != null) {
+        userId = supabaseUser.id;
+        userEmail = supabaseUser.email;
+        print('DEBUG: Supabase user found: $userId (email: $userEmail)');
+      } else {
+        print('DEBUG: No Supabase user found, checking Kakao...');
+        
+        // 🥇 2순위: 카카오 로그인 사용자 정보 가져오기
+        final prefs = await SharedPreferences.getInstance();
+        final authService = AuthService(prefs);
+        final kakaoUser = await authService.getCurrentUser();
+        
+        if (kakaoUser == null) {
+          print('DEBUG: No Kakao user found either');
+          return null;
+        }
+        
+        userId = kakaoUser.id.toString();
+        print('DEBUG: Kakao user found: $userId');
       }
-      
-      final userId = kakaoUser.id.toString();
-      print('DEBUG: Kakao user found: $userId');
 
       // 기존 프로필 조회
       var profile = await getUserProfile(userId);
-      print('DEBUG: Existing profile: $profile');
+      print('DEBUG: Existing profile by user_id: $profile');
+      
+      // 🔍 Supabase 사용자의 경우 이메일로도 기존 프로필 찾기
+      if (profile == null && userEmail != null) {
+        print('DEBUG: Searching profile by email: $userEmail');
+        try {
+          final emailResponse = await _supabase
+              .from('user_profiles')
+              .select()
+              .eq('email', userEmail)
+              .maybeSingle();
+          
+          if (emailResponse != null) {
+            print('DEBUG: Found existing profile by email: $emailResponse');
+            // 🔄 user_id 업데이트 (이메일로 찾은 프로필을 현재 사용자 ID와 연결)
+            final updatedResponse = await _supabase
+                .from('user_profiles')
+                .update({'user_id': userId})
+                .eq('email', userEmail)
+                .select()
+                .single();
+            
+            profile = UserProfile.fromJson(updatedResponse);
+            print('DEBUG: Updated profile with new user_id: $profile');
+          }
+        } catch (e) {
+          print('DEBUG: Email search error: $e');
+        }
+      }
       
       if (profile == null) {
-        print('DEBUG: No existing profile, creating new one...');
+        print('DEBUG: No existing profile found, creating new one...');
         // 프로필이 없으면 기본 프로필 생성
         final nickname = defaultNickname ?? 
-            '사용자${DateTime.now().millisecondsSinceEpoch.toString().substring(8)}';
+            (userEmail?.split('@')[0] ?? 
+            '사용자${DateTime.now().millisecondsSinceEpoch.toString().substring(8)}');
         
-        profile = await createUserProfile(
-          userId: userId,
-          nickname: nickname,
-        );
+        try {
+          profile = await createUserProfile(
+            userId: userId,
+            nickname: nickname,
+            email: userEmail,
+          );
+        } catch (createError) {
+          print('DEBUG: Create profile with email failed, trying without email: $createError');
+          // 이메일 필드 에러 시 이메일 없이 재시도
+          profile = await createUserProfile(
+            userId: userId,
+            nickname: nickname,
+          );
+        }
         print('DEBUG: Created new profile: $profile');
       }
 

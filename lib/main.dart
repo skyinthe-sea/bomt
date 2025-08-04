@@ -146,7 +146,17 @@ class _MyAppState extends State<MyApp> {
       onSuccess: () {
         // 이메일 인증 성공 시 홈으로 이동
         if (mounted) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
+          // 🔄 먼저 모든 다이얼로그 닫기 (이메일 인증 시에도 다이얼로그가 열려있을 수 있음)
+          try {
+            while (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+          } catch (e) {
+            debugPrint('⚠️ [MAIN] Email confirmation dialog cleanup warning: $e');
+          }
+          
+          // 🔄 최상위 Navigator로 홈 화면 이동
+          Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
             AppRouter.homeRoute,
             (route) => false,
           );
