@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../presentation/providers/feeding_provider.dart';
 import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../../services/feeding/feeding_service.dart';

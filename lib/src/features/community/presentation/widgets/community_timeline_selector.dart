@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../core/providers/baby_provider.dart';
 import '../../../../services/timeline/timeline_service.dart';
 import '../../../../domain/models/timeline_item.dart';

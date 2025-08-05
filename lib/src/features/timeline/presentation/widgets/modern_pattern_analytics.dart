@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import 'dart:ui';
 import 'dart:math';
 import '../../../../domain/models/timeline_item.dart';

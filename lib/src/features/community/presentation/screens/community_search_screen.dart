@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/community_post.dart';
 import '../../../../services/community/search_service.dart';
 import '../widgets/community_post_card.dart';

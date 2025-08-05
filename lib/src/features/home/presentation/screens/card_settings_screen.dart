@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../presentation/providers/user_card_setting_provider.dart';
 import '../../../../domain/models/user_card_setting.dart';
 import '../../../../core/theme/app_colors.dart';
