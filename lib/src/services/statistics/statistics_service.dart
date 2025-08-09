@@ -49,7 +49,7 @@ class StatisticsService {
       debugPrint('📊 [STATISTICS] Cache miss. Generating new statistics data');
 
       // 3. 표시 가능한 카드 설정 가져오기
-      final visibleCardTypes = await _getVisibleCardTypes(userId);
+      final visibleCardTypes = await _getVisibleCardTypes(userId, babyId);
       debugPrint('📊 [STATISTICS] Visible card types: $visibleCardTypes');
 
       // 4. 병렬 처리로 각 카드별 통계 생성
@@ -99,10 +99,10 @@ class StatisticsService {
 
 
   /// 표시 가능한 카드 타입들 가져오기 (기존 함수 유지)
-  Future<List<String>> _getVisibleCardTypes(String userId) async {
+  Future<List<String>> _getVisibleCardTypes(String userId, String babyId) async {
     try {
-      debugPrint('🗃️ [STATISTICS] Getting visible card types for user: $userId');
-      final userCardSettings = await _userCardSettingService.getUserCardSettings(userId);
+      debugPrint('🗃️ [STATISTICS] Getting visible card types for user: $userId, baby: $babyId');
+      final userCardSettings = await _userCardSettingService.getUserCardSettings(userId, babyId);
       final visibleCardTypes = userCardSettings
           .where((setting) => setting.isVisible)
           .map((setting) => setting.cardType)
@@ -182,6 +182,14 @@ class StatisticsService {
           .select('user_id, baby_id, started_at')
           .limit(5);
       debugPrint('🍼 [FEEDING_STATS] Sample feeding records in database: $userCheck');
+      
+      // 빈 통계 반환
+      return CardStatistics(
+        cardType: 'feeding',
+        cardName: '수유',
+        totalCount: 0,
+        metrics: [],
+      );
     }
     
     final response = await _supabase

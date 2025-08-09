@@ -73,18 +73,25 @@ class _StatisticsScreenState extends State<StatisticsScreen>
       final statisticsProvider = Provider.of<StatisticsProvider>(context, listen: false);
       
       debugPrint('📊 [STATISTICS_SCREEN] Initializing providers...');
+      debugPrint('📊 [STATISTICS_SCREEN] BabyProvider state - Selected Baby: ${babyProvider.selectedBaby?.name}, User ID: ${babyProvider.currentUserId}');
       
       // BabyProvider 데이터 로드
       await babyProvider.loadBabyData();
+      debugPrint('📊 [STATISTICS_SCREEN] After loadBabyData - Selected Baby: ${babyProvider.selectedBaby?.name}, User ID: ${babyProvider.currentUserId}');
       
       if (babyProvider.selectedBaby != null && babyProvider.currentUserId != null) {
         debugPrint('📊 [STATISTICS_SCREEN] Setting statistics for baby: ${babyProvider.selectedBaby!.name} (${babyProvider.selectedBaby!.id})');
+        debugPrint('📊 [STATISTICS_SCREEN] User ID: ${babyProvider.currentUserId}');
+        
         statisticsProvider.setCurrentUser(
           babyProvider.currentUserId!,
           babyProvider.selectedBaby!.id,
         );
+        debugPrint('📊 [STATISTICS_SCREEN] Statistics provider setup completed');
       } else {
         debugPrint('❌ [STATISTICS_SCREEN] Cannot set statistics - missing baby selection');
+        debugPrint('❌ [STATISTICS_SCREEN] Selected Baby: ${babyProvider.selectedBaby}');
+        debugPrint('❌ [STATISTICS_SCREEN] Current User ID: ${babyProvider.currentUserId}');
       }
     });
   }

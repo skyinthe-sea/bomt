@@ -163,7 +163,7 @@ class GrowthInfoCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 2),
                     Text(
-                      '${isPositive ? '+' : '-'}${change.abs().toStringAsFixed(change < 1 ? 3 : 1)}$unit ${timePeriod ?? ''}',
+                      '${isPositive ? '+' : '-'}${change.abs().toStringAsFixed(1)}$unit ${timePeriod ?? ''}',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: isPositive ? Colors.green : Colors.red,
                         fontWeight: FontWeight.w600,

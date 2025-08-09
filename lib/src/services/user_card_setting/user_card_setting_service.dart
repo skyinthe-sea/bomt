@@ -53,13 +53,18 @@ class UserCardSettingService {
     Map<String, dynamic>? customSettings,
   }) async {
     try {
+      debugPrint('📝 [SERVICE] Adding card setting for user: $userId, cardType: $cardType');
+      debugPrint('📝 [SERVICE] Params - isVisible: $isVisible, displayOrder: $displayOrder');
+      
       // 기본값이 설정되지 않은 경우 저장된 기본값 사용
       final defaults = await getCardDefaults();
+      debugPrint('📝 [SERVICE] Using defaults: $defaults');
       
       final cardSettingData = {
         'id': _uuid.v4(),
         'user_id': userId,
-        'card_type': cardType, // baby_id 제거 (테이블에 없는 컬럼)
+        'baby_id': babyId, // baby_id 추가 (테이블에 NOT NULL 제약조건 있음)
+        'card_type': cardType,
         'is_visible': isVisible ?? defaults['isVisible'],
         'display_order': displayOrder ?? defaults['displayOrder'],
         // customSettings 필드는 현재 데이터베이스에 없으므로 임시로 제외
@@ -67,30 +72,49 @@ class UserCardSettingService {
         'updated_at': DateTime.now().toIso8601String(),
       };
       
+      debugPrint('📝 [SERVICE] Card setting data to insert: $cardSettingData');
+      
       final response = await _supabase
           .from('user_card_settings')
           .insert(cardSettingData)
           .select()
           .single();
       
+      debugPrint('✅ [SERVICE] Successfully added card setting: ${response['id']}');
       return UserCardSetting.fromJson(response);
     } catch (e) {
-      debugPrint('Error adding user card setting: $e');
+      debugPrint('❌ [SERVICE] Error adding user card setting: $e');
+      debugPrint('❌ [SERVICE] Error type: ${e.runtimeType}');
+      
+      if (e.toString().contains('duplicate key')) {
+        debugPrint('❌ [SERVICE] Duplicate key error - card setting may already exist');
+      } else if (e.toString().contains('permission')) {
+        debugPrint('❌ [SERVICE] Permission error - check RLS policies');
+      } else if (e.toString().contains('column')) {
+        debugPrint('❌ [SERVICE] Column error - check table schema');
+      }
+      
       return null;
     }
   }
   
-  /// 사용자의 모든 카드 설정 가져오기
-  Future<List<UserCardSetting>> getUserCardSettings(String userId) async {
-    debugPrint('🗃️ [SERVICE] Starting getUserCardSettings for user: $userId');
+  /// 사용자의 모든 카드 설정 가져오기 (특정 아기별로)
+  Future<List<UserCardSetting>> getUserCardSettings(String userId, [String? babyId]) async {
+    debugPrint('🗃️ [SERVICE] Starting getUserCardSettings for user: $userId, baby: $babyId');
     
     try {
       debugPrint('🗃️ [SERVICE] Executing Supabase query...');
-      final response = await _supabase
+      var query = _supabase
           .from('user_card_settings')
           .select('*')
-          .eq('user_id', userId)
-          .order('display_order', ascending: true);
+          .eq('user_id', userId);
+          
+      // babyId가 제공되면 해당 아기의 설정만 가져오기
+      if (babyId != null) {
+        query = query.eq('baby_id', babyId);
+      }
+      
+      final response = await query.order('display_order', ascending: true);
       
       debugPrint('🗃️ [SERVICE] Query completed, processing ${response.length} records');
       
@@ -106,14 +130,20 @@ class UserCardSettingService {
   }
   
   /// 특정 카드 타입의 설정 가져오기
-  Future<UserCardSetting?> getCardSettingByType(String userId, String cardType) async {
+  Future<UserCardSetting?> getCardSettingByType(String userId, String cardType, [String? babyId]) async {
     try {
-      final response = await _supabase
+      var query = _supabase
           .from('user_card_settings')
           .select('*')
           .eq('user_id', userId)
-          .eq('card_type', cardType)
-          .maybeSingle();
+          .eq('card_type', cardType);
+          
+      // babyId가 제공되면 해당 아기의 설정만 가져오기
+      if (babyId != null) {
+        query = query.eq('baby_id', babyId);
+      }
+      
+      final response = await query.maybeSingle();
       
       if (response != null) {
         return UserCardSetting.fromJson(response);
@@ -218,6 +248,9 @@ class UserCardSettingService {
     Map<String, dynamic>? customSettings,
   }) async {
     try {
+      debugPrint('📝 [SERVICE] Updating card setting ID: $cardSettingId');
+      debugPrint('📝 [SERVICE] Update params - cardType: $cardType, isVisible: $isVisible, displayOrder: $displayOrder');
+      
       final updateData = <String, dynamic>{
         'updated_at': DateTime.now().toIso8601String(),
       };
@@ -228,6 +261,8 @@ class UserCardSettingService {
       // customSettings 필드는 현재 데이터베이스에 없으므로 임시로 제외
       // if (customSettings != null) updateData['custom_settings'] = customSettings;
       
+      debugPrint('📝 [SERVICE] Update data: $updateData');
+      
       final response = await _supabase
           .from('user_card_settings')
           .update(updateData)
@@ -235,9 +270,20 @@ class UserCardSettingService {
           .select()
           .single();
       
+      debugPrint('✅ [SERVICE] Successfully updated card setting: ${response['id']}');
       return UserCardSetting.fromJson(response);
     } catch (e) {
-      debugPrint('Error updating user card setting: $e');
+      debugPrint('❌ [SERVICE] Error updating user card setting: $e');
+      debugPrint('❌ [SERVICE] Error type: ${e.runtimeType}');
+      
+      if (e.toString().contains('no rows returned')) {
+        debugPrint('❌ [SERVICE] No rows returned - card setting ID may not exist: $cardSettingId');
+      } else if (e.toString().contains('permission')) {
+        debugPrint('❌ [SERVICE] Permission error - check RLS policies');
+      } else if (e.toString().contains('column')) {
+        debugPrint('❌ [SERVICE] Column error - check table schema');
+      }
+      
       return null;
     }
   }
@@ -345,21 +391,27 @@ class UserCardSettingService {
         'milk_pumping',
       ];
       
+      debugPrint('🔧 [SERVICE] Initializing default card settings for user: $userId, baby: $babyId');
+      
       final batch = <Future>[];
       
       for (int i = 0; i < defaultCardTypes.length; i++) {
         final cardType = defaultCardTypes[i];
         
         // 기존 설정이 있는지 확인
-        final existingSetting = await getCardSettingByType(userId, cardType);
+        final existingSetting = await getCardSettingByType(userId, cardType, babyId);
         
         if (existingSetting == null) {
           // 기존 설정이 없으면 기본 설정 생성
+          // 처음 3개(feeding, sleep, diaper)만 기본으로 표시되도록 설정
+          final isVisible = i < 3;
+          debugPrint('🔧 [SERVICE] Creating setting for $cardType - visible: $isVisible, order: $i');
+          
           final future = addUserCardSetting(
             userId: userId,
             babyId: babyId,
             cardType: cardType,
-            isVisible: true,
+            isVisible: isVisible,
             displayOrder: i,
           );
           
@@ -367,10 +419,13 @@ class UserCardSettingService {
         }
       }
       
-      await Future.wait(batch);
-      return true;
+      final results = await Future.wait(batch);
+      final successCount = results.where((result) => result != null).length;
+      debugPrint('✅ [SERVICE] Created $successCount default card settings');
+      
+      return successCount > 0;
     } catch (e) {
-      debugPrint('Error initializing default card settings: $e');
+      debugPrint('❌ [SERVICE] Error initializing default card settings: $e');
       return false;
     }
   }

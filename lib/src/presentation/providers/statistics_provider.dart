@@ -208,6 +208,10 @@ class StatisticsProvider extends ChangeNotifier {
       return;
     }
 
+    // 강제 캐시 무효화
+    await _invalidateStatisticsCache();
+    debugPrint('🧹 [STATS_PROVIDER] Forced cache invalidation completed');
+
     debugPrint('📊 [STATS_PROVIDER] Starting statistics refresh (showLoading: $showLoading)');
     debugPrint('📊 [STATS_PROVIDER] User ID: $_currentUserId, Baby ID: $_currentBabyId');
     debugPrint('📊 [STATS_PROVIDER] Date range: ${_dateRange.label} (${_dateRange.startDate} to ${_dateRange.endDate})');

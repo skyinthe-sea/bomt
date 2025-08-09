@@ -82,15 +82,43 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
   Future<void> _loadUserCardSettings() async {
     try {
       debugPrint('🔄 [CARD_SETTINGS] Loading user card settings...');
-      final userCardSettings = await _userCardSettingService.getUserCardSettings(widget.userId);
+      final userCardSettings = await _userCardSettingService.getUserCardSettings(widget.userId, widget.babyId);
       debugPrint('🔄 [CARD_SETTINGS] Loaded ${userCardSettings.length} settings');
       
-      if (mounted) {
-        setState(() {
-          _originalSettings = userCardSettings;
-          _editingSettings = _createEditingSettingsFromData(userCardSettings);
-        });
-        debugPrint('✅ [CARD_SETTINGS] Settings loaded and UI updated');
+      // 카드 설정이 없으면 기본 설정 생성
+      if (userCardSettings.isEmpty) {
+        debugPrint('🔧 [CARD_SETTINGS] No settings found, creating default settings...');
+        final success = await _userCardSettingService.initializeDefaultCardSettings(widget.userId, widget.babyId);
+        
+        if (success) {
+          debugPrint('✅ [CARD_SETTINGS] Default settings created successfully');
+          // 새로 생성된 설정 다시 로드
+          final newSettings = await _userCardSettingService.getUserCardSettings(widget.userId, widget.babyId);
+          debugPrint('🔄 [CARD_SETTINGS] Reloaded ${newSettings.length} settings after initialization');
+          
+          if (mounted) {
+            setState(() {
+              _originalSettings = newSettings;
+              _editingSettings = _createEditingSettingsFromData(newSettings);
+            });
+            debugPrint('✅ [CARD_SETTINGS] Settings initialized and UI updated');
+          }
+        } else {
+          debugPrint('❌ [CARD_SETTINGS] Failed to create default settings, using fallback');
+          if (mounted) {
+            setState(() {
+              _editingSettings = _createDefaultSettings();
+            });
+          }
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            _originalSettings = userCardSettings;
+            _editingSettings = _createEditingSettingsFromData(userCardSettings);
+          });
+          debugPrint('✅ [CARD_SETTINGS] Settings loaded and UI updated');
+        }
       }
     } catch (e) {
       debugPrint('❌ [CARD_SETTINGS] Error loading user card settings: $e');
@@ -271,7 +299,12 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
   /// 실제 설정 저장 수행
   Future<void> _performSaveSettings() async {
     debugPrint('📝 [PERFORM] Starting _performSaveSettings...');
+    debugPrint('📝 [PERFORM] User ID: ${widget.userId}, Baby ID: ${widget.babyId}');
     debugPrint('📝 [PERFORM] Saving ${_editingSettings.length} card settings...');
+    debugPrint('📝 [PERFORM] Original settings count: ${_originalSettings.length}');
+    
+    final List<String> failedCards = [];
+    final List<String> successfulCards = [];
     
     try {
       // 각 편집된 설정에 대해 개별 처리
@@ -280,53 +313,74 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
         debugPrint('📝 [PERFORM] Processing card ${i + 1}/${_editingSettings.length}: ${item.cardType}');
         debugPrint('📝 [PERFORM] - visible: ${item.isVisible}, order: ${item.displayOrder}');
         
-        final existingSetting = _originalSettings.firstWhere(
-          (setting) => setting.cardType == item.cardType,
-          orElse: () => UserCardSetting(
-            id: '',
-            userId: widget.userId,
-            cardType: item.cardType,
-            isVisible: false,
-            displayOrder: i,
-            customSettings: {},
-            createdAt: DateTime.now(),
-            updatedAt: DateTime.now(),
-          ),
-        );
-        
-        if (existingSetting.id.isNotEmpty) {
-          // 기존 설정이 있으면 업데이트
-          debugPrint('📝 [PERFORM] - Updating existing setting for ${item.cardType}...');
-          final updatedSetting = await _userCardSettingService.updateUserCardSetting(
-            cardSettingId: existingSetting.id,
-            isVisible: item.isVisible,
-            displayOrder: item.displayOrder,
-            customSettings: item.customSettings,
+        try {
+          final existingSetting = _originalSettings.firstWhere(
+            (setting) => setting.cardType == item.cardType,
+            orElse: () => UserCardSetting(
+              id: '',
+              userId: widget.userId,
+              cardType: item.cardType,
+              isVisible: false,
+              displayOrder: i,
+              customSettings: {},
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+            ),
           );
           
-          if (updatedSetting == null) {
-            debugPrint('❌ [PERFORM] - Update failed for ${item.cardType}');
-            throw Exception('${item.cardType} 설정 업데이트에 실패했습니다');
-          }
-          debugPrint('✅ [PERFORM] - Successfully updated ${item.cardType}');
-        } else {
-          // 기존 설정이 없으면 생성
-          debugPrint('📝 [PERFORM] - Creating new setting for ${item.cardType}...');
-          final newSetting = await _userCardSettingService.addUserCardSetting(
-            userId: widget.userId,
-            babyId: widget.babyId,
-            cardType: item.cardType,
-            isVisible: item.isVisible,
-            displayOrder: item.displayOrder,
-            customSettings: item.customSettings,
-          );
+          debugPrint('📝 [PERFORM] - Existing setting ID: ${existingSetting.id}');
           
-          if (newSetting == null) {
-            debugPrint('❌ [PERFORM] - Creation failed for ${item.cardType}');
-            throw Exception('${item.cardType} 설정 생성에 실패했습니다');
+          if (existingSetting.id.isNotEmpty) {
+            // 기존 설정이 있으면 업데이트
+            debugPrint('📝 [PERFORM] - Updating existing setting for ${item.cardType}...');
+            final updatedSetting = await _userCardSettingService.updateUserCardSetting(
+              cardSettingId: existingSetting.id,
+              isVisible: item.isVisible,
+              displayOrder: item.displayOrder,
+              customSettings: item.customSettings,
+            );
+            
+            if (updatedSetting == null) {
+              debugPrint('❌ [PERFORM] - Update failed for ${item.cardType}');
+              failedCards.add(item.cardType);
+            } else {
+              debugPrint('✅ [PERFORM] - Successfully updated ${item.cardType}');
+              successfulCards.add(item.cardType);
+            }
+          } else {
+            // 기존 설정이 없으면 생성
+            debugPrint('📝 [PERFORM] - Creating new setting for ${item.cardType}...');
+            final newSetting = await _userCardSettingService.addUserCardSetting(
+              userId: widget.userId,
+              babyId: widget.babyId,
+              cardType: item.cardType,
+              isVisible: item.isVisible,
+              displayOrder: item.displayOrder,
+              customSettings: item.customSettings,
+            );
+            
+            if (newSetting == null) {
+              debugPrint('❌ [PERFORM] - Creation failed for ${item.cardType}');
+              failedCards.add(item.cardType);
+            } else {
+              debugPrint('✅ [PERFORM] - Successfully created ${item.cardType}');
+              successfulCards.add(item.cardType);
+            }
           }
-          debugPrint('✅ [PERFORM] - Successfully created ${item.cardType}');
+        } catch (cardError) {
+          debugPrint('❌ [PERFORM] - Exception for ${item.cardType}: $cardError');
+          failedCards.add(item.cardType);
         }
+      }
+      
+      debugPrint('📊 [PERFORM] Save results - Successful: ${successfulCards.length}, Failed: ${failedCards.length}');
+      debugPrint('✅ [PERFORM] Successful cards: $successfulCards');
+      debugPrint('❌ [PERFORM] Failed cards: $failedCards');
+      
+      // 일부라도 실패했으면 에러 발생
+      if (failedCards.isNotEmpty) {
+        final failedCardNames = failedCards.map((cardType) => _getCardNameSafe(cardType)).join(', ');
+        throw Exception('일부 카드 설정 저장에 실패했습니다: $failedCardNames');
       }
       
       debugPrint('✅ [PERFORM] All settings saved successfully');
