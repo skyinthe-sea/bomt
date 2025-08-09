@@ -602,7 +602,7 @@
   "amountMinML": "{min}ml 이상",
   "amountMaxML": "{max}ml 이하",
   
-  "insufficientFeedingRecords": "수유 기록이 부족합니다",
+  "insufficientFeedingRecords": "계속 수유를 기록해주세요",
   "@insufficientFeedingRecords": {
     "description": "Message shown when there are insufficient feeding records for pattern analysis"
   },

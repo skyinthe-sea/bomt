@@ -1782,7 +1782,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get insufficientFeedingRecords => '수유 기록이 부족합니다';
+  String get insufficientFeedingRecords => '계속 수유를 기록해주세요';
 
   @override
   String get noRecentFeeding => '최근 수유 기록이 없습니다';

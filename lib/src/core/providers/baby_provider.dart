@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../services/auth/secure_auth_service.dart';
+import '../../core/config/supabase_config.dart';
 import '../../domain/models/baby.dart';
 
 class BabyProvider extends ChangeNotifier {
@@ -183,7 +185,7 @@ class BabyProvider extends ChangeNotifier {
     }
   }
 
-  /// 아기 등록 (단순화 버전)
+  /// 아기 등록 (Edge Function 사용)
   Future<bool> registerBaby(Baby baby) async {
     debugPrint('=== BABY REGISTRATION DEBUG START ===');
     debugPrint('🔄 [BABY_PROVIDER] Starting baby registration');
@@ -203,36 +205,38 @@ class BabyProvider extends ChangeNotifier {
       }
       debugPrint('✅ [BABY_PROVIDER] User ID retrieved: $userId');
 
-      debugPrint('📝 [BABY_PROVIDER] Step 2: Inserting baby data to babies table...');
-      final babyInsertData = {
-        'id': baby.id,
-        'name': baby.name,
-        'birth_date': baby.birthDate.toIso8601String(),
-        'gender': baby.gender,
-        'profile_image_url': baby.profileImageUrl,
-        'created_at': DateTime.now().toUtc().toIso8601String(),
-        'updated_at': DateTime.now().toUtc().toIso8601String(),
-      };
-      debugPrint('📄 [BABY_PROVIDER] Baby insert data: $babyInsertData');
+      debugPrint('🔑 [BABY_PROVIDER] Step 2: Using Service Role for secure baby registration...');
       
-      final babyInsertResult = await Supabase.instance.client
+      // 🔑 Admin client bypasses RLS for secure operations
+      final adminClient = SupabaseConfig.adminClient;
+      
+      // Step 2a: Insert baby into babies table (with Service Role)
+      final babyInsertResponse = await adminClient
           .from('babies')
-          .insert(babyInsertData);
-      debugPrint('✅ [BABY_PROVIDER] Baby insert completed. Result: $babyInsertResult');
-
-      debugPrint('👨‍👩‍👧‍👦 [BABY_PROVIDER] Step 3: Inserting baby_users relation...');
-      final relationInsertData = {
-        'baby_id': baby.id,
-        'user_id': userId,
-        'role': 'owner',
-        'created_at': DateTime.now().toUtc().toIso8601String(),
-      };
-      debugPrint('📄 [BABY_PROVIDER] Relation insert data: $relationInsertData');
+          .insert({
+            'id': baby.id,
+            'name': baby.name,
+            'birth_date': baby.birthDate.toIso8601String(),
+            'gender': baby.gender,
+            'profile_image_url': baby.profileImageUrl,
+            'created_at': DateTime.now().toUtc().toIso8601String(),
+            'updated_at': DateTime.now().toUtc().toIso8601String(),
+          });
       
-      final relationInsertResult = await Supabase.instance.client
+      debugPrint('🔑 [BABY_PROVIDER] Baby insert (Service Role) result: $babyInsertResponse');
+      
+      // Step 2b: Insert user-baby relationship into baby_users table (with Service Role)
+      final relationInsertResponse = await adminClient
           .from('baby_users')
-          .insert(relationInsertData);
-      debugPrint('✅ [BABY_PROVIDER] Baby_users insert completed. Result: $relationInsertResult');
+          .insert({
+            'baby_id': baby.id,
+            'user_id': userId,
+            'role': 'owner',
+            'created_at': DateTime.now().toUtc().toIso8601String(),
+          });
+      
+      debugPrint('🔑 [BABY_PROVIDER] Baby-user relation (Service Role) result: $relationInsertResponse');
+      debugPrint('✅ [BABY_PROVIDER] Baby registered via Service Role (bypasses RLS)');
 
       debugPrint('👨‍👩‍👧‍👦 [BABY_PROVIDER] Step 3: Finding and connecting family members...');
       await _connectFamilyMembers(baby.id, userId);
@@ -262,31 +266,50 @@ class BabyProvider extends ChangeNotifier {
     }
   }
 
-  /// 사용자 ID 가져오기 (Supabase + 카카오 통합)
+  /// 사용자 ID 가져오기 (일관된 로직으로 통합)
   Future<String?> _getUserId() async {
     try {
-      // 🔐 1순위: Supabase 사용자 확인
+      // 🔍 현재 로그인 방법 확인 (SecureAuthService 사용)
+      final secureAuthService = SecureAuthService.instance;
+      await secureAuthService.initialize();
+      
+      // 저장된 토큰 정보에서 로그인 방법 확인
+      final userInfo = await secureAuthService.getCurrentUserInfo();
+      final provider = userInfo?['provider'];
+      
+      debugPrint('🔍 [BABY_PROVIDER] Current provider: $provider');
+      
+      // 🔐 이메일 로그인 (Supabase): UUID 사용
+      if (provider == 'supabase') {
+        final supabaseUser = Supabase.instance.client.auth.currentUser;
+        if (supabaseUser != null) {
+          debugPrint('✅ [BABY_PROVIDER] Email login - Supabase user ID: ${supabaseUser.id}');
+          return supabaseUser.id;
+        }
+      }
+      
+      // 🥇 카카오 로그인: 항상 카카오 숫자 ID 사용 (DB와 일치)
+      try {
+        final tokenInfo = await UserApi.instance.accessTokenInfo();
+        if (tokenInfo != null) {
+          final kakaoUser = await UserApi.instance.me();
+          final kakaoUserId = kakaoUser.id.toString();
+          debugPrint('✅ [BABY_PROVIDER] Kakao login - Kakao user ID: $kakaoUserId');
+          return kakaoUserId;
+        }
+      } catch (kakaoError) {
+        debugPrint('⚠️ [BABY_PROVIDER] Kakao API call failed: $kakaoError');
+      }
+      
+      // 🔄 Fallback: Supabase 사용자 확인
       final supabaseUser = Supabase.instance.client.auth.currentUser;
       if (supabaseUser != null) {
-        debugPrint('✅ [BABY_PROVIDER] Retrieved Supabase user ID: ${supabaseUser.id}');
+        debugPrint('✅ [BABY_PROVIDER] Fallback - Supabase user ID: ${supabaseUser.id}');
         return supabaseUser.id;
       }
       
-      debugPrint('🔍 [BABY_PROVIDER] No Supabase user, trying Kakao API...');
-      
-      // 🥇 2순위: 카카오 토큰 유효성 검사 및 사용자 정보 가져오기
-      final tokenInfo = await UserApi.instance.accessTokenInfo();
-      if (tokenInfo != null) {
-        // 현재 로그인된 카카오 사용자 정보 가져오기
-        final kakaoUser = await UserApi.instance.me();
-        final kakaoUserId = kakaoUser.id.toString();
-        
-        debugPrint('✅ [BABY_PROVIDER] Retrieved Kakao user ID: $kakaoUserId');
-        return kakaoUserId;
-      } else {
-        debugPrint('❌ [BABY_PROVIDER] Invalid Kakao token');
-        return null;
-      }
+      debugPrint('❌ [BABY_PROVIDER] No valid user found');
+      return null;
     } catch (e) {
       debugPrint('❌ [BABY_PROVIDER] Error getting user ID: $e');
       return null;
@@ -406,14 +429,17 @@ class BabyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// 가족 구성원 자동 연결
+  /// 가족 구성원 자동 연결 (Service Role 사용)
   Future<void> _connectFamilyMembers(String newBabyId, String currentUserId) async {
     try {
       debugPrint('🔍 [FAMILY_CONNECT] Finding family members for user: $currentUserId');
       debugPrint('🔍 [FAMILY_CONNECT] New baby ID: $newBabyId');
       
+      // 🔑 Admin client for family connection operations
+      final adminClient = SupabaseConfig.adminClient;
+      
       // 1. 현재 사용자의 가장 최근 아기 찾기 (새 아기 제외)
-      final recentBabyResponse = await Supabase.instance.client
+      final recentBabyResponse = await adminClient
           .from('baby_users')
           .select('baby_id, created_at')
           .eq('user_id', currentUserId)
@@ -430,7 +456,7 @@ class BabyProvider extends ChangeNotifier {
       debugPrint('🔍 [FAMILY_CONNECT] Most recent baby ID: $mostRecentBabyId');
       
       // 2. 가장 최근 아기를 기준으로 가족 구성원과 그들의 역할 찾기
-      final familyMembersResponse = await Supabase.instance.client
+      final familyMembersResponse = await adminClient
           .from('baby_users')
           .select('user_id, role')
           .eq('baby_id', mostRecentBabyId)
@@ -461,8 +487,8 @@ class BabyProvider extends ChangeNotifier {
       debugPrint('🔗 [FAMILY_CONNECT] Connecting ${insertData.length} family members to new baby');
       debugPrint('🔗 [FAMILY_CONNECT] Insert data: $insertData');
       
-      // 배치로 한번에 삽입 (최적화)
-      final batchInsertResult = await Supabase.instance.client
+      // 배치로 한번에 삽입 (Service Role로 RLS 우회)
+      final batchInsertResult = await adminClient
           .from('baby_users')
           .insert(insertData);
       

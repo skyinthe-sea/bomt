@@ -14,6 +14,7 @@ import '../../data/repositories/kakao_auth_repository.dart';
 import '../../../../services/auth/auth_service.dart';
 import '../../../../services/auth/supabase_auth_service.dart';
 import '../../../../services/auth/secure_auth_service.dart';
+import '../../../../core/config/supabase_config.dart';
 import '../../../../services/locale/device_locale_service.dart';
 import '../../../../presentation/providers/localization_provider.dart';
 import '../../../../presentation/providers/theme_provider.dart';
@@ -138,7 +139,38 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final user = await _authRepository.signInWithKakao();
       if (user != null) {
-        // 🔐 Kakao 세션 정보를 보안 저장소에 저장
+        final userId = user.id.toString();
+        debugPrint('✅ [KAKAO_LOGIN] User logged in: $userId');
+
+        // 🆔 Step 1: 카카오 사용자 프로필을 user_profiles에 바로 생성/업데이트
+        try {
+          debugPrint('👤 [KAKAO_LOGIN] Creating/updating user profile...');
+          final adminClient = SupabaseConfig.adminClient;
+          
+          // 닉네임 생성 (카카오 닉네임 또는 기본값)
+          String nickname = user.kakaoAccount?.profile?.nickname ?? '사용자${user.id.toString().substring(0, 5)}';
+          final email = user.kakaoAccount?.email;
+          final profileImageUrl = user.kakaoAccount?.profile?.profileImageUrl;
+          
+          debugPrint('👤 [KAKAO_LOGIN] Profile data: nickname=$nickname, email=$email');
+          
+          // user_profiles에 upsert (insert or update)
+          await adminClient.from('user_profiles').upsert({
+            'user_id': userId,
+            'nickname': nickname,
+            'email': email,
+            'profile_image_url': profileImageUrl,
+            'created_at': DateTime.now().toUtc().toIso8601String(),
+            'updated_at': DateTime.now().toUtc().toIso8601String(),
+          });
+          
+          debugPrint('✅ [KAKAO_LOGIN] User profile created/updated successfully');
+        } catch (profileError) {
+          debugPrint('⚠️ [KAKAO_LOGIN] Profile creation failed (non-critical): $profileError');
+          // 프로필 생성 실패해도 로그인은 계속 진행
+        }
+
+        // 🔐 Step 2: Kakao 세션 정보를 보안 저장소에 저장
         try {
           final secureAuthService = SecureAuthService.instance;
           await secureAuthService.initialize();
@@ -152,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 provider: 'kakao',
                 accessToken: token!.accessToken,
                 refreshToken: token.refreshToken,
-                userId: user.id.toString(),
+                userId: userId,
                 expiresIn: Duration(seconds: tokenInfo.expiresIn ?? 3600),
               );
             }
@@ -255,11 +287,31 @@ class _LoginScreenState extends State<LoginScreen> {
           
           // 🔄 안전한 네비게이션 직접 사용 (복잡한 _completeLogin 회피)
           if (mounted) {
-            // 🔐 간단한 세션 저장
+            // 🔐 개선된 세션 저장 (SecureAuthService 포함)
             try {
               await _authService.setAutoLogin(_autoLoginEnabled);
               await _supabaseAuth.setAutoLogin(_autoLoginEnabled);
-              debugPrint('✅ [EMAIL_LOGIN] Session settings saved');
+              
+              // 🔐 SecureAuthService에도 세션 정보 저장 (자동로그인 호환성)
+              if (_autoLoginEnabled) {
+                final secureAuthService = SecureAuthService.instance;
+                await secureAuthService.initialize();
+                await secureAuthService.setAutoLoginEnabled(_autoLoginEnabled);
+                
+                final session = response.session;
+                if (session != null) {
+                  await secureAuthService.saveLoginSession(
+                    provider: 'supabase',
+                    accessToken: session.accessToken,
+                    refreshToken: session.refreshToken,
+                    userId: response.user!.id,
+                    expiresIn: Duration(seconds: session.expiresIn ?? 3600),
+                  );
+                  debugPrint('✅ [EMAIL_LOGIN] Supabase session saved to SecureAuthService');
+                }
+              }
+              
+              debugPrint('✅ [EMAIL_LOGIN] All session settings saved');
             } catch (e) {
               debugPrint('⚠️ [EMAIL_LOGIN] Session save error: $e');
               // 세션 저장 실패해도 로그인은 진행

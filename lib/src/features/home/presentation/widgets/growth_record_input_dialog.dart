@@ -31,6 +31,8 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
   // 탭 전환 시 입력값 유지를 위한 변수들
   String? _weightValue;
   String? _heightValue;
+  String? _weightNotes;
+  String? _heightNotes;
 
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
@@ -159,18 +161,24 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
 
   void _saveCurrentValue() {
     final currentValue = _valueController.text.trim();
+    final currentNotes = _notesController.text.trim();
+    
     if (_selectedType == 'weight') {
       _weightValue = currentValue.isEmpty ? null : currentValue;
+      _weightNotes = currentNotes.isEmpty ? null : currentNotes;
     } else {
       _heightValue = currentValue.isEmpty ? null : currentValue;
+      _heightNotes = currentNotes.isEmpty ? null : currentNotes;
     }
   }
 
   void _loadCurrentValue() {
     if (_selectedType == 'weight') {
       _valueController.text = _weightValue ?? '';
+      _notesController.text = _weightNotes ?? '';
     } else {
       _valueController.text = _heightValue ?? '';
+      _notesController.text = _heightNotes ?? '';
     }
   }
 
@@ -220,21 +228,25 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
     });
 
     try {
-      final notes = _notesController.text.trim();
-      
       // 여러 값이 입력된 경우 Map으로 전달, 하나만 입력된 경우 개별 전달
       if (measurements.length > 1) {
-        // 동시 입력: Map으로 전달
+        // 동시 입력: 각각의 메모를 별도로 전달
         await widget.onSave(
-          measurements,
-          notes.isEmpty ? null : notes,
+          {
+            ...measurements,
+            'weightNotes': _weightNotes,
+            'heightNotes': _heightNotes,
+          },
+          null, // 기존 notes 필드는 null로 전달
         );
       } else {
         // 단일 입력: 개별 전달 (기존 방식과 호환)
         final entry = measurements.entries.first;
+        final typeNotes = entry.key == 'weight' ? _weightNotes : _heightNotes;
+        
         await widget.onSave(
           {'type': entry.key, 'value': entry.value},
-          notes.isEmpty ? null : notes,
+          typeNotes,
         );
       }
       
@@ -580,6 +592,24 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+          // 소수점 한자리까지만 허용
+          TextInputFormatter.withFunction((oldValue, newValue) {
+            if (newValue.text.isEmpty) return newValue;
+            
+            final parts = newValue.text.split('.');
+            if (parts.length > 2) return oldValue; // 소수점이 2개 이상이면 이전 값 유지
+            
+            if (parts.length == 2 && parts[1].length > 1) {
+              // 소수점 이하가 2자리 이상이면 1자리로 자르기
+              final trimmed = '${parts[0]}.${parts[1].substring(0, 1)}';
+              return TextEditingValue(
+                text: trimmed,
+                selection: TextSelection.collapsed(offset: trimmed.length),
+              );
+            }
+            
+            return newValue;
+          }),
         ],
         decoration: InputDecoration(
           border: InputBorder.none,
@@ -618,7 +648,7 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
         decoration: InputDecoration(
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(16),
-          hintText: '측정 상황이나 특이사항을 기록해주세요 (선택사항)',
+          hintText: '${_typeLabel} 측정 시 특이사항을 기록해주세요 (선택사항)',
           hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
           ),

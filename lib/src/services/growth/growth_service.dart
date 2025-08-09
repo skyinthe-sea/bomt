@@ -13,14 +13,16 @@ class GrowthService {
   final _supabase = SupabaseConfig.client;
   final _uuid = const Uuid();
   
-  /// 새로운 성장 기록 추가
+  /// 새로운 성장 기록 추가 (분리된 메모 지원)
   Future<GrowthRecord?> addGrowthRecord({
     required String babyId,
     required String userId,
     double? weightKg,
     double? heightCm,
     double? headCircumferenceCm,
-    String? notes,
+    String? notes, // 호환성을 위해 유지
+    String? weightNotes, // 체중 전용 메모
+    String? heightNotes, // 키 전용 메모
     DateTime? recordedAt,
   }) async {
     try {
@@ -32,6 +34,8 @@ class GrowthService {
         'height_cm': heightCm,
         'head_circumference_cm': headCircumferenceCm,
         'notes': notes,
+        'weight_notes': weightNotes,
+        'height_notes': heightNotes,
         'recorded_at': (recordedAt ?? DateTime.now()).toUtc().toIso8601String(),
         'created_at': DateTime.now().toUtc().toIso8601String(),
         'updated_at': DateTime.now().toUtc().toIso8601String(),
@@ -224,6 +228,8 @@ class GrowthService {
     double? heightCm,
     double? headCircumferenceCm,
     String? notes,
+    String? weightNotes,
+    String? heightNotes,
     DateTime? recordedAt,
   }) async {
     try {
@@ -235,6 +241,8 @@ class GrowthService {
       if (heightCm != null) updateData['height_cm'] = heightCm;
       if (headCircumferenceCm != null) updateData['head_circumference_cm'] = headCircumferenceCm;
       if (notes != null) updateData['notes'] = notes;
+      if (weightNotes != null) updateData['weight_notes'] = weightNotes;
+      if (heightNotes != null) updateData['height_notes'] = heightNotes;
       if (recordedAt != null) updateData['recorded_at'] = recordedAt.toUtc().toIso8601String();
       
       final response = await _supabase
@@ -279,7 +287,9 @@ class GrowthService {
         userId: userId,
         weightKg: weightKg,
         heightCm: heightCm,
-        notes: notes,
+        notes: notes, // 호환성을 위해 유지
+        weightNotes: weightKg != null ? notes : null, // 체중이 있을 때만 체중 메모
+        heightNotes: heightCm != null ? notes : null, // 키가 있을 때만 키 메모
         recordedAt: recordedAt,
       );
     } catch (e) {
@@ -332,7 +342,8 @@ class GrowthService {
             weightKg: value,
             heightCm: existingHeight, // 기존 키 값 유지 (null이면 null)
             headCircumferenceCm: existingHeadCircumference, // 기존 머리둘레 값 유지 (null이면 null)
-            notes: notes,
+            notes: notes, // 호환성을 위해 유지
+            weightNotes: notes, // 🎯 체중 메모를 별도 필드에 저장
             recordedAt: recordedAt,
           );
         case 'height':
@@ -343,7 +354,8 @@ class GrowthService {
             weightKg: existingWeight, // 기존 체중 값 유지 (null이면 null)
             heightCm: value,
             headCircumferenceCm: existingHeadCircumference, // 기존 머리둘레 값 유지 (null이면 null)
-            notes: notes,
+            notes: notes, // 호환성을 위해 유지
+            heightNotes: notes, // 🎯 키 메모를 별도 필드에 저장
             recordedAt: recordedAt,
           );
         default:

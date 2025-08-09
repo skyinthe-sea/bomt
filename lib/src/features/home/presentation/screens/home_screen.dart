@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import '../../../../services/auth/secure_auth_service.dart';
 import 'package:provider/provider.dart';
 import '../../../../presentation/providers/localization_provider.dart';
 import '../../../../presentation/providers/theme_provider.dart';
@@ -198,8 +199,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // Provider들이 데이터를 로드할 때까지 잠시 대기
     await Future.delayed(const Duration(milliseconds: 100));
     
-    // 성장 데이터 로드
-    final growthSummary = await _homeRepository.getGrowthSummary(_currentBaby!.id);
+    // 성장 데이터 로드 - GrowthService를 직접 사용
+    final growthSummary = await _growthService.getGrowthSummary(_currentBaby!.id);
     
     if (mounted) {
       setState(() {
@@ -397,8 +398,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         _milkPumpingProvider.refreshData(),
       ]);
       
-      // 성장 데이터 새로고침
-      final growthSummary = await _homeRepository.getGrowthSummary(_currentBaby!.id);
+      // 성장 데이터 새로고침 - GrowthService를 직접 사용
+      final growthSummary = await _growthService.getGrowthSummary(_currentBaby!.id);
       
       if (mounted) {
         setState(() {
@@ -516,7 +517,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       
       // 성장 데이터는 아직 Provider로 이동하지 않음 (추후 개발 예정)
       debugPrint('🏠 [HOME] Getting growth summary...');
-      final growthSummary = await _homeRepository.getGrowthSummary(baby.id);
+      final growthSummary = await _growthService.getGrowthSummary(baby.id);
       
       debugPrint('🏠 [HOME] Setting final state (_isLoading = false)...');
       setState(() {
@@ -750,9 +751,48 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     try {
       dynamic result;
       
-      if (data is Map<String, double>) {
-        // 동시 입력 (체중과 키 모두)
+      if (data is Map<String, dynamic> && 
+          (data.containsKey('weight') || data.containsKey('height'))) {
+        // 동시 입력 또는 개별 메모와 함께
         debugPrint('동시 입력 감지: $data');
+        
+        // measurements와 메모 분리
+        final measurements = <String, double>{};
+        if (data.containsKey('weight') && data['weight'] is double) {
+          measurements['weight'] = data['weight'] as double;
+        }
+        if (data.containsKey('height') && data['height'] is double) {
+          measurements['height'] = data['height'] as double;
+        }
+        
+        final weightNotes = data['weightNotes'] as String?;
+        final heightNotes = data['heightNotes'] as String?;
+        
+        if (measurements.length > 1) {
+          // 동시 입력: addGrowthRecord를 직접 호출하여 각각의 메모 처리
+          result = await _growthService.addGrowthRecord(
+            babyId: _currentBaby!.id,
+            userId: _currentUserId!,
+            weightKg: measurements['weight'],
+            heightCm: measurements['height'],
+            notes: notes, // 호환성용
+            weightNotes: weightNotes,
+            heightNotes: heightNotes,
+          );
+        } else {
+          // 단일 입력을 동시 입력 형태로 받은 경우
+          final entry = measurements.entries.first;
+          result = await _growthService.addSingleMeasurement(
+            babyId: _currentBaby!.id,
+            userId: _currentUserId!,
+            type: entry.key,
+            value: entry.value,
+            notes: entry.key == 'weight' ? weightNotes : heightNotes,
+          );
+        }
+      } else if (data is Map<String, double>) {
+        // 기존 동시 입력 (메모 없음)
+        debugPrint('기존 동시 입력 감지: $data');
         result = await _growthService.addMultipleMeasurements(
           babyId: _currentBaby!.id,
           userId: _currentUserId!,
@@ -776,8 +816,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
       
       if (result != null) {
-        // 성장 데이터 새로고침
-        final growthSummary = await _homeRepository.getGrowthSummary(_currentBaby!.id);
+        // 성장 데이터 새로고침 - GrowthService를 직접 사용
+        final growthSummary = await _growthService.getGrowthSummary(_currentBaby!.id);
         
         if (mounted) {
           setState(() {
@@ -891,11 +931,49 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Future<String?> _getUserId() async {
     try {
-      // 카카오 로그인된 사용자 정보 가져오기
-      final user = await UserApi.instance.me();
-      return user.id.toString();
+      // 🔍 현재 로그인 방법 확인 (SecureAuthService 사용)
+      final secureAuthService = SecureAuthService.instance;
+      await secureAuthService.initialize();
+      
+      // 저장된 토큰 정보에서 로그인 방법 확인
+      final userInfo = await secureAuthService.getCurrentUserInfo();
+      final provider = userInfo?['provider'];
+      
+      debugPrint('🔍 [HOME] Current provider: $provider');
+      
+      // 🔐 이메일 로그인 (Supabase): UUID 사용
+      if (provider == 'supabase') {
+        final supabaseUser = Supabase.instance.client.auth.currentUser;
+        if (supabaseUser != null) {
+          debugPrint('✅ [HOME] Email login - Supabase user ID: ${supabaseUser.id}');
+          return supabaseUser.id;
+        }
+      }
+      
+      // 🥇 카카오 로그인: 항상 카카오 숫자 ID 사용 (DB와 일치)
+      try {
+        final tokenInfo = await UserApi.instance.accessTokenInfo();
+        if (tokenInfo != null) {
+          final kakaoUser = await UserApi.instance.me();
+          final kakaoUserId = kakaoUser.id.toString();
+          debugPrint('✅ [HOME] Kakao login - Kakao user ID: $kakaoUserId');
+          return kakaoUserId;
+        }
+      } catch (kakaoError) {
+        debugPrint('⚠️ [HOME] Kakao API call failed: $kakaoError');
+      }
+      
+      // 🔄 Fallback: Supabase 사용자 확인
+      final supabaseUser = Supabase.instance.client.auth.currentUser;
+      if (supabaseUser != null) {
+        debugPrint('✅ [HOME] Fallback - Supabase user ID: ${supabaseUser.id}');
+        return supabaseUser.id;
+      }
+      
+      debugPrint('❌ [HOME] No valid user found');
+      return null;
     } catch (e) {
-      debugPrint('Error getting user ID: $e');
+      debugPrint('❌ [HOME] Error getting user ID: $e');
       return null;
     }
   }

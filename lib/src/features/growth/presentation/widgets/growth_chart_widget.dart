@@ -98,12 +98,25 @@ class GrowthChartWidget extends StatelessWidget {
                   dotData: FlDotData(
                     show: true,
                     getDotPainter: (spot, percent, barData, index) {
-                      return FlDotCirclePainter(
-                        radius: 4,
-                        color: showWeight ? colorScheme.primary : colorScheme.secondary,
-                        strokeWidth: 2,
-                        strokeColor: colorScheme.surface,
-                      );
+                      final hasNotes = index < chartData.length && chartData[index].hasNotes;
+                      final baseColor = showWeight ? colorScheme.primary : colorScheme.secondary;
+                      
+                      if (hasNotes) {
+                        // 🎯 2025 트렌드: 메모가 있는 포인트는 글로우 효과와 더 큰 사이즈
+                        return FlDotCirclePainter(
+                          radius: 6,
+                          color: baseColor,
+                          strokeWidth: 3,
+                          strokeColor: colorScheme.surface,
+                        );
+                      } else {
+                        return FlDotCirclePainter(
+                          radius: 4,
+                          color: baseColor,
+                          strokeWidth: 2,
+                          strokeColor: colorScheme.surface,
+                        );
+                      }
                     },
                   ),
                   belowBarData: BarAreaData(
@@ -124,19 +137,28 @@ class GrowthChartWidget extends StatelessWidget {
               lineTouchData: LineTouchData(
                 enabled: true,
                 touchTooltipData: LineTouchTooltipData(
-                  getTooltipColor: (touchedSpot) => colorScheme.inverseSurface,
+                  getTooltipColor: (touchedSpot) => colorScheme.inverseSurface.withOpacity(0.9),
+                  maxContentWidth: 200,
                   getTooltipItems: (touchedSpots) {
                     return touchedSpots.map((touchedSpot) {
                       final dataPoint = chartData[touchedSpot.spotIndex];
                       final unit = showWeight ? 'kg' : 'cm';
                       final date = '${dataPoint.date.month}/${dataPoint.date.day}';
                       
+                      // 🎨 2025 트렌드: 더 풍부한 토올팁 정보
+                      String tooltipText = '$date\n${dataPoint.value.toStringAsFixed(1)}$unit';
+                      
+                      if (dataPoint.hasNotes) {
+                        tooltipText += '\n\n💭 ${dataPoint.notes}';
+                      }
+                      
                       return LineTooltipItem(
-                        '$date\n${dataPoint.value.toStringAsFixed(1)}$unit',
+                        tooltipText,
                         TextStyle(
                           color: colorScheme.onInverseSurface,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           fontSize: 12,
+                          height: 1.4,
                         ),
                       );
                     }).toList();
@@ -150,6 +172,9 @@ class GrowthChartWidget extends StatelessWidget {
         // 범례 및 통계
         const SizedBox(height: 16),
         _buildStatistics(chartData, context),
+        
+        // 🎨 2025 트렌드: 메모 섹션
+        _buildNotesSection(chartData, context),
       ],
     );
   }
@@ -178,9 +203,16 @@ class GrowthChartWidget extends StatelessWidget {
 
     return sortedRecords.map((record) {
       final value = showWeight ? record.weightKg! : record.heightCm!;
+      // 🎯 2025 최적화: 체중/키에 맞는 메모만 가져오기
+      final effectiveNotes = showWeight 
+          ? record.effectiveWeightNotes 
+          : record.effectiveHeightNotes;
+      
       return ChartDataPoint(
         date: record.recordedAt,
         value: value,
+        notes: effectiveNotes,
+        record: record,
       );
     }).toList();
   }
@@ -331,14 +363,266 @@ class GrowthChartWidget extends StatelessWidget {
       ],
     );
   }
+
+  /// 🎨 2025 최신 트렌드 메모 섹션
+  Widget _buildNotesSection(List<ChartDataPoint> data, BuildContext context) {
+    final notesData = data.where((point) => point.hasNotes).toList();
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final measurementType = showWeight ? '체중' : '키';
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 24),
+        
+        // 📝 섹션 헤더 (2025 트렌드)
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: colorScheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(
+                Icons.note_alt_outlined,
+                size: 20,
+                color: colorScheme.primary,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              '$measurementType 메모',
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: colorScheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                '${notesData.length}',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.primary,
+                ),
+              ),
+            ),
+          ],
+        ),
+        
+        const SizedBox(height: 16),
+        
+        // 📋 메모 내용 또는 빈 상태
+        if (notesData.isEmpty)
+          _buildEmptyNotesState(context)
+        else
+          ...notesData.map((notePoint) => _buildNoteCard(notePoint, context)),
+      ],
+    );
+  }
+
+  /// 🎨 메모가 없을 때의 빈 상태 UI (2025 트렌드)
+  Widget _buildEmptyNotesState(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final measurementType = showWeight ? '체중' : '키';
+    
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceVariant.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: colorScheme.outline.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // 🎨 2025 트렌드: 부드러운 아이콘
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: colorScheme.primary.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.edit_note_outlined,
+              size: 32,
+              color: colorScheme.primary.withOpacity(0.6),
+            ),
+          ),
+          
+          const SizedBox(height: 16),
+          
+          // 메인 메시지
+          Text(
+            '아직 $measurementType 메모가 없어요',
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: colorScheme.onSurface.withOpacity(0.7),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          
+          const SizedBox(height: 8),
+          
+          // 설명 텍스트
+          Text(
+            '$measurementType 입력할 때 특별한 순간을\n메모로 남겨보세요!',
+            textAlign: TextAlign.center,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurface.withOpacity(0.5),
+              height: 1.4,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 🎨 2025 글래스모피즘 메모 카드
+  Widget _buildNoteCard(ChartDataPoint dataPoint, BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final unit = showWeight ? 'kg' : 'cm';
+    
+    // 📅 날짜 포맷팅
+    final date = dataPoint.date;
+    final formattedDate = '${date.year}.${date.month.toString().padLeft(2, '0')}.${date.day.toString().padLeft(2, '0')}';
+    final weekday = ['월', '화', '수', '목', '금', '토', '일'][date.weekday - 1];
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        // 🎨 2025 글래스모피즘 효과
+        color: colorScheme.surface.withOpacity(0.7),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: colorScheme.outline.withOpacity(0.2),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: colorScheme.shadow.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 🏷️ 헤더: 날짜 + 값
+            Row(
+              children: [
+                // 📊 값 배지
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: (showWeight ? colorScheme.primary : colorScheme.secondary).withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        showWeight ? Icons.monitor_weight_outlined : Icons.height,
+                        size: 16,
+                        color: showWeight ? colorScheme.primary : colorScheme.secondary,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${dataPoint.value.toStringAsFixed(1)}$unit',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: showWeight ? colorScheme.primary : colorScheme.secondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                
+                const Spacer(),
+                
+                // 📅 날짜 정보
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      formattedDate,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: colorScheme.onSurface.withOpacity(0.8),
+                      ),
+                    ),
+                    Text(
+                      '($weekday)',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: colorScheme.onSurface.withOpacity(0.5),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            
+            const SizedBox(height: 12),
+            
+            // 💭 메모 내용
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: colorScheme.surfaceVariant.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: colorScheme.outline.withOpacity(0.1),
+                  width: 1,
+                ),
+              ),
+              child: Text(
+                dataPoint.notes!,
+                style: TextStyle(
+                  fontSize: 14,
+                  height: 1.4,
+                  color: colorScheme.onSurface.withOpacity(0.8),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class ChartDataPoint {
   final DateTime date;
   final double value;
+  final String? notes;
+  final GrowthRecord record;
 
   ChartDataPoint({
     required this.date,
     required this.value,
+    this.notes,
+    required this.record,
   });
+
+  bool get hasNotes => notes != null && notes!.isNotEmpty;
 }
