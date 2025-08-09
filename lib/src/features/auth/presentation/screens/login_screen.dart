@@ -265,10 +265,26 @@ class _LoginScreenState extends State<LoginScreen> {
             }
           }
           // 이메일 인증 미완료 사용자인지 확인
-          else if (response.user!.appMetadata?['email_sent'] == true) {
-            final message = response.user!.userMetadata?['message'] ?? '이메일 인증이 완료되지 않았습니다. 새로운 인증 메일을 발송했습니다.';
-            _showSuccess(message);
-            _showEmailConfirmationDialog(email);
+          else if (response.user!.appMetadata?['email_sent'] == true || response.user!.userMetadata?['email_sent'] == true) {
+            // 비밀번호 재설정 방식으로 이메일이 전송된 경우
+            if (response.user!.userMetadata?['email_type'] == 'password_reset_for_signup') {
+              final specialMessage = response.user!.userMetadata?['special_message'] ?? 
+                  '📧 회원가입 완료! 비밀번호 재설정 이메일을 확인하여 계정을 활성화해주세요.';
+              _showSuccess(specialMessage);
+              _showPasswordResetEmailDialog(email);
+            }
+            // 일반 인증 이메일이 전송된 경우
+            else {
+              final message = response.user!.userMetadata?['message'] ?? '이메일 인증이 완료되지 않았습니다. 새로운 인증 메일을 발송했습니다.';
+              _showSuccess(message);
+              _showEmailConfirmationDialog(email);
+            }
+          }
+          // 이메일 전송 실패 케이스
+          else if (response.user!.userMetadata?['email_sent'] == false) {
+            final fallbackMessage = response.user!.userMetadata?['fallback_message'] ?? 
+                '회원가입은 완료되었으나 이메일 전송에 실패했습니다.\n잠시 후 다시 시도하거나 로그인을 시도해보세요.';
+            _showError(fallbackMessage);
           }
           // 일반 신규 가입
           else {
@@ -599,6 +615,138 @@ class _LoginScreenState extends State<LoginScreen> {
                 _showError(_supabaseAuth.getErrorMessage(e));
               }
             },
+            child: const Text('메일 재전송'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 비밀번호 재설정 이메일 다이얼로그 (회원가입 시 fallback으로 사용)
+  Future<void> _showPasswordResetEmailDialog(String email) async {
+    if (!mounted) return;
+    
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Icons.lock_reset,
+                color: Colors.blue,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Expanded(
+              child: Text(
+                '비밀번호 재설정 이메일',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                children: [
+                  const Icon(
+                    Icons.email_outlined,
+                    size: 48,
+                    color: Colors.blue,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    '$email 주소로 비밀번호 재설정 이메일을 발송했습니다.',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.amber.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Colors.amber.withOpacity(0.3),
+                ),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.info_outline,
+                    color: Colors.amber,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      '회원가입이 완료되었습니다!\n이메일의 링크를 클릭하여 새 비밀번호를 설정하면 계정을 사용하실 수 있습니다.',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.amber[800],
+                        height: 1.3,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              '이메일이 도착하지 않았다면 스팸 폴더를 확인해보세요.',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('확인'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              try {
+                await _supabaseAuth.resetPassword(email);
+                _showSuccess('비밀번호 재설정 이메일을 다시 발송했습니다.');
+              } catch (e) {
+                _showError(_supabaseAuth.getErrorMessage(e));
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+            ),
             child: const Text('메일 재전송'),
           ),
         ],
@@ -1271,7 +1419,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: Column(
                         children: [
-                          // 🎨 Email Login Button
+                          // 🎨 Email Login Button (최상단으로 이동)
                           _buildModernAuthButton(
                             onPressed: _handleEmailAuth,
                             isLoading: _isEmailLoading,
@@ -1281,26 +1429,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             textColor: Colors.white,
                           ),
                     
-                          const SizedBox(height: 12),
-                    
-                          // 🎨 Google Login Button with Custom Google Icon 
-                          _buildGoogleAuthButton(
-                            onPressed: _handleGoogleLogin,
-                            isLoading: _isGoogleLoading,
-                          ),
-                    
-                          const SizedBox(height: 12),
-                    
-                          // 🎨 Facebook Login Button (Hidden)
-                          // _buildModernAuthButton(
-                          //   onPressed: _handleFacebookLogin,
-                          //   isLoading: _isFacebookLoading,
-                          //   backgroundColor: const Color(0xFF1877F2),
-                          //   icon: Icons.facebook_rounded,
-                          //   text: 'Facebook으로 계속하기',
-                          //   textColor: Colors.white,
-                          // ),
-                          
                           const SizedBox(height: 20),
                           
                           // 🎨 Simple Divider
@@ -1348,6 +1476,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             text: '카카오로 계속하기',
                             textColor: const Color(0xFF1F2937),
                             iconColor: const Color(0xFF1F2937),
+                          ),
+                    
+                          const SizedBox(height: 12),
+                    
+                          // 🎨 Google Login Button with Custom Google Icon (카카오 아래로 이동)
+                          _buildGoogleAuthButton(
+                            onPressed: _handleGoogleLogin,
+                            isLoading: _isGoogleLoading,
                           ),
                         ],
                       ),
