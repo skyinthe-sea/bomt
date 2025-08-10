@@ -9,6 +9,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import '../../../../presentation/common_widgets/buttons/auth_button.dart';
 import '../../../../presentation/common_widgets/dialogs/email_auth_dialog.dart';
 import '../../../../presentation/common_widgets/dialogs/account_linking_dialog.dart';
+import '../../../../presentation/common_widgets/dialogs/otp_verification_dialog.dart';
 import '../../../../services/auth/account_linking_service.dart';
 import '../../data/repositories/kakao_auth_repository.dart';
 import '../../../../services/auth/auth_service.dart';
@@ -239,11 +240,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       if (mode == EmailAuthMode.signUp) {
-        // 회원가입 처리
+        // 🚀 OTP 기반 회원가입 처리
         final response = await _supabaseAuth.signUpWithEmail(email, password);
         
         if (response.user != null) {
-          Navigator.pop(context); // Close dialog
+          Navigator.pop(context); // Close email dialog
           
           // 재활성화된 사용자인지 확인
           if (response.user!.appMetadata?['reactivated'] == true) {
@@ -252,41 +253,28 @@ class _LoginScreenState extends State<LoginScreen> {
             
             // 🎉 바로 로그인 완료된 경우
             if (response.user!.appMetadata?['logged_in'] == true) {
-              // 환영 다이얼로그를 보여주고 확인 버튼 누르면 바로 홈으로
               await _showWelcomeBackDialogWithLogin(message, action);
-            }
-            // 비밀번호 재설정이 필요한 경우
-            else if (response.user!.appMetadata?['password_reset_needed'] == true) {
-              _showWelcomeBackDialog(message, action);
             }
             // 기타 재활성화 경우
             else {
               _showWelcomeBackDialog(message, action);
             }
           }
-          // 이메일 인증 미완료 사용자인지 확인
-          else if (response.user!.appMetadata?['email_sent'] == true || response.user!.userMetadata?['email_sent'] == true) {
-            // 비밀번호 재설정 방식으로 이메일이 전송된 경우
-            if (response.user!.userMetadata?['email_type'] == 'password_reset_for_signup') {
-              final specialMessage = response.user!.userMetadata?['special_message'] ?? 
-                  '📧 회원가입 완료! 비밀번호 재설정 이메일을 확인하여 계정을 활성화해주세요.';
-              _showSuccess(specialMessage);
-              _showPasswordResetEmailDialog(email);
-            }
-            // 일반 인증 이메일이 전송된 경우
-            else {
-              final message = response.user!.userMetadata?['message'] ?? '이메일 인증이 완료되지 않았습니다. 새로운 인증 메일을 발송했습니다.';
-              _showSuccess(message);
-              _showEmailConfirmationDialog(email);
-            }
+          // 🔐 OTP 전송되었을 때
+          else if (response.user!.appMetadata?['signup_otp_sent'] == true) {
+            final message = response.user!.userMetadata?['message'] ?? '인증 코드가 이메일로 전송되었습니다!';
+            _showSuccess(message);
+            
+            // OTP 검증 다이얼로그 표시
+            _showOtpVerificationDialog(email, password);
           }
-          // 이메일 전송 실패 케이스
-          else if (response.user!.userMetadata?['email_sent'] == false) {
-            final fallbackMessage = response.user!.userMetadata?['fallback_message'] ?? 
-                '회원가입은 완료되었으나 이메일 전송에 실패했습니다.\n잠시 후 다시 시도하거나 로그인을 시도해보세요.';
-            _showError(fallbackMessage);
+          // 기존 호환성을 위한 fallback
+          else if (response.user!.userMetadata?['email_sent'] == true) {
+            final message = response.user!.userMetadata?['message'] ?? '이메일 인증이 완료되지 않았습니다. 새로운 인증 메일을 발송했습니다.';
+            _showSuccess(message);
+            _showEmailConfirmationDialog(email);
           }
-          // 일반 신규 가입
+          // 기본값
           else {
             _showSuccess('회원가입이 완료되었습니다.\n이메일을 확인하여 계정을 인증해주세요.');
             _showEmailConfirmationDialog(email);
@@ -620,6 +608,100 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
+  }
+  
+  /// 🔐 OTP 검증 다이얼로그 표시
+  Future<void> _showOtpVerificationDialog(String email, String password) async {
+    if (!mounted) return;
+    
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => OtpVerificationDialog(
+        email: email,
+        password: password,
+        isLoading: _isEmailLoading,
+        onVerify: _verifyOtpAndCompleteSignup,
+        onResendOtp: _resendOtp,
+        onCancel: () {
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+  
+  /// 🔐 OTP 검증 및 회원가입 완료
+  Future<void> _verifyOtpAndCompleteSignup(String email, String otpCode, String password) async {
+    setState(() {
+      _isEmailLoading = true;
+    });
+
+    try {
+      debugPrint('🔐 [OTP_VERIFY] Starting OTP verification for: $email');
+      
+      final response = await _supabaseAuth.verifySignUpOTP(email, otpCode, password);
+      
+      if (response.user != null && response.session != null) {
+        Navigator.pop(context); // Close OTP dialog
+        
+        debugPrint('🎉 [OTP_VERIFY] OTP verification successful!');
+        
+        // 회원가입 완료 성공 메시지
+        final message = response.user!.userMetadata?['message'] ?? '🎉 회원가입이 완료되었습니다!';
+        _showSuccess(message);
+        
+        // 자동 로그인 처리
+        try {
+          await _authService.setAutoLogin(_autoLoginEnabled);
+          await _supabaseAuth.setAutoLogin(_autoLoginEnabled);
+          
+          if (_autoLoginEnabled) {
+            final secureAuthService = SecureAuthService.instance;
+            await secureAuthService.initialize();
+            await secureAuthService.setAutoLoginEnabled(_autoLoginEnabled);
+          }
+          
+          debugPrint('✅ [OTP_VERIFY] Auto login settings saved');
+        } catch (settingsError) {
+          debugPrint('⚠️ [OTP_VERIFY] Auto login settings error: $settingsError');
+        }
+        
+        // 홈으로 이동
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (mounted) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            '/home',
+            (route) => false,
+          );
+        }
+      } else {
+        _showError('인증에 실패했습니다. 다시 시도해주세요.');
+      }
+    } catch (e) {
+      debugPrint('❌ [OTP_VERIFY] OTP verification failed: $e');
+      final errorMessage = _supabaseAuth.getErrorMessage(e);
+      _showError(errorMessage);
+    } finally {
+      setState(() {
+        _isEmailLoading = false;
+      });
+    }
+  }
+  
+  /// 🔐 OTP 재전송
+  Future<void> _resendOtp(String email) async {
+    try {
+      debugPrint('📧 [OTP_RESEND] Resending OTP for: $email');
+      
+      await _supabaseAuth.resendSignUpOTP(email);
+      
+      _showSuccess('인증 코드를 다시 전송했습니다.');
+      debugPrint('✅ [OTP_RESEND] OTP resent successfully');
+    } catch (e) {
+      debugPrint('❌ [OTP_RESEND] Failed to resend OTP: $e');
+      final errorMessage = _supabaseAuth.getErrorMessage(e);
+      _showError(errorMessage.isNotEmpty ? errorMessage : '인증 코드 재전송에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
   }
 
   /// 비밀번호 재설정 이메일 다이얼로그 (회원가입 시 fallback으로 사용)

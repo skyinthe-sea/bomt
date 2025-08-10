@@ -122,542 +122,173 @@ class SupabaseAuthService {
     }
   }
 
-  /// 이메일 회원가입 (단순화)
-  Future<AuthResponse> signUpWithEmail(String email, String password) async {
+  /// OTP 기반 이메일 회원가입 (1단계: OTP 전송)
+  Future<AuthResponse> signUpWithEmailOTP(String email, String password) async {
     try {
-      print('📧 [SUPABASE_AUTH] ======= SIMPLE EMAIL SIGNUP START =======');
+      print('📧 [SUPABASE_AUTH] ======= OTP SIGNUP START =======');
       print('📧 [SUPABASE_AUTH] Email: $email');
       
-      // 🔍 탈퇴한 사용자인지 이메일로 확인 및 재활성화 처리  
+      // 🔍 탈퇴한 사용자인지 이메일로 확인
       print('🔍 [SUPABASE_AUTH] Step 1: Checking for deleted users in user_profiles...');
       final reactivationResponse = await _checkDeletedUserByEmail(email);
       if (reactivationResponse != null) {
-        // 탈퇴한 사용자 발견 - 재활성화 처리
-        final userId = reactivationResponse.user!.id;
-        print('🔄 [SUPABASE_AUTH] Reactivating deleted user: $userId');
-        
-        // 프로필 재활성화 (deleted_at을 null로 설정)
-        await _supabase.from('user_profiles').update({
-          'deleted_at': null,
-          'nickname': email.split('@')[0],
-          'updated_at': DateTime.now().toIso8601String(),
-        }).eq('user_id', userId);
-        
-        print('✅ [SUPABASE_AUTH] User profile reactivated successfully');
-        
-        // 🎉 탈퇴한 사용자는 바로 로그인 처리
-        try {
-          print('🔑 [SUPABASE_AUTH] Creating session for returning user...');
-          
-          // 실제 로그인 시도 (패스워드가 맞으면 바로 로그인)
-          final loginResponse = await _supabase.auth.signInWithPassword(
-            email: email,
-            password: password,
-          );
-          
-          if (loginResponse.user != null) {
-            print('🎉 [SUPABASE_AUTH] Returning user login successful!');
-            
-            // 프로필 확인 및 업데이트
-            await _ensureUserProfile(loginResponse.user!);
-            
-            // 환영 메시지와 함께 로그인 완료 상태 반환
-            return AuthResponse(
-              user: User(
-                id: userId,
-                appMetadata: {
-                  'reactivated': true,
-                  'welcome_back': true,
-                  'logged_in': true,
-                },
-                userMetadata: {
-                  'message': '🎉 다시 돌아오신 것을 환영합니다!',
-                  'action': '바로 BabyMom을 이용하실 수 있습니다.',
-                  'celebration_emoji': '🥳',
-                },
-                aud: loginResponse.user!.aud,
-                createdAt: loginResponse.user!.createdAt,
-                email: email,
-              ),
-              session: loginResponse.session,
-            );
-          }
-        } catch (loginError) {
-          print('⚠️ [SUPABASE_AUTH] Login failed for returning user, falling back to password reset flow: $loginError');
-          
-          // 로그인 실패 시 비밀번호 재설정 안내
-          return AuthResponse(
-            user: User(
-              id: userId,
-              appMetadata: {
-                'reactivated': true,
-                'password_reset_needed': true,
-              },
-              userMetadata: {
-                'message': '🎉 다시 돌아오신 것을 환영합니다!',
-                'action': '비밀번호가 변경되었을 수 있습니다. 비밀번호 재설정을 통해 로그인해주세요.',
-                'celebration_emoji': '🥳',
-              },
-              aud: '',
-              createdAt: DateTime.now().toIso8601String(),
-              email: email,
-            ),
-          );
-        }
-        
-        print('📧 [SUPABASE_AUTH] ======= REACTIVATION COMPLETE =======');
         return reactivationResponse;
       }
       
       print('✅ [SUPABASE_AUTH] Step 1 Result: No deleted user found in user_profiles');
       
-      // 🚀 실제 Supabase signup 시도 (강화된 이메일 전송 확인)
-      print('🚀 [SUPABASE_AUTH] Step 2: Attempting actual Supabase signup...');
+      // 🚀 OTP 방식으로 회원가입 + 인증코드 전송
+      print('🚀 [SUPABASE_AUTH] Step 2: Sending OTP for signup...');
       
-      AuthResponse? signupResponse;
-      bool emailSent = false;
-      String emailMethod = '';
+      await _supabase.auth.signInWithOtp(
+        email: email,
+        shouldCreateUser: true, // 새 사용자 생성 허용
+        data: {
+          'nickname': email.split('@')[0],
+          'temp_password': password, // 임시로 저장 (나중에 설정)
+        },
+        emailRedirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
+      );
       
-      // 1차 시도: 표준 signup
-      try {
-        signupResponse = await _supabase.auth.signUp(
-          email: email,
-          password: password,
-          data: {
-            'nickname': email.split('@')[0],
+      print('✅ [SUPABASE_AUTH] OTP 전송 완료');
+      print('📧 [SUPABASE_AUTH] 회원가입용 인증 코드가 이메일로 전송되었습니다');
+      
+      return AuthResponse(
+        user: User(
+          id: 'temp_user_id', // 임시 ID (OTP 검증 후 실제 ID 획득)
+          appMetadata: {
+            'signup_otp_sent': true,
+            'signup_step': 'otp_verification',
           },
-          emailRedirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
-        );
-        
-        print('📧 [SUPABASE_AUTH] SignUp response received');
-        print('📧 [SUPABASE_AUTH] Response user: ${signupResponse?.user?.id}');
-        
-        if (signupResponse?.user != null) {
-          emailSent = true;
-          emailMethod = 'standard_signup';
-          print('✅ [SUPABASE_AUTH] 1차 시도 성공: Standard signup with email');
-        }
-      } catch (signupError) {
-        print('⚠️ [SUPABASE_AUTH] 1차 시도 실패: $signupError');
-        
-        // 2차 시도: redirect URL 없이 signup
-        await Future.delayed(const Duration(milliseconds: 1000));
-        try {
-          signupResponse = await _supabase.auth.signUp(
-            email: email,
-            password: password,
-            data: {
-              'nickname': email.split('@')[0],
-            },
-          );
-          
-          if (signupResponse?.user != null) {
-            emailSent = true;
-            emailMethod = 'simple_signup';
-            print('✅ [SUPABASE_AUTH] 2차 시도 성공: Simple signup without redirect');
-          }
-        } catch (simpleSignupError) {
-          print('⚠️ [SUPABASE_AUTH] 2차 시도 실패: $simpleSignupError');
-          
-          // 3차 시도: 잠시 대기 후 resend 방식
-          await Future.delayed(const Duration(milliseconds: 1500));
-          try {
-            // 먼저 기본 signup 시도 (이메일 없이)
-            signupResponse = await _supabase.auth.signUp(
-              email: email,
-              password: password,
-              data: {'nickname': email.split('@')[0]},
-            );
-            
-            if (signupResponse?.user != null) {
-              // 그 다음 resend로 이메일 전송
-              await Future.delayed(const Duration(milliseconds: 500));
-              await _supabase.auth.resend(
-                type: OtpType.signup,
-                email: email,
-                emailRedirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
-              );
-              emailSent = true;
-              emailMethod = 'signup_then_resend';
-              print('✅ [SUPABASE_AUTH] 3차 시도 성공: Signup then manual resend');
-            }
-          } catch (resendSignupError) {
-            print('❌ [SUPABASE_AUTH] 3차 시도 실패: $resendSignupError');
-            throw signupError; // 원본 에러 전달
-          }
-        }
-      }
-      
-      if (signupResponse?.user != null) {
-        print('✅ [SUPABASE_AUTH] Email sign up successful');
-        
-        if (!emailSent) {
-          // 🔧 Fallback: 비밀번호 찾기 방식으로 이메일 재전송 시도
-          print('🔧 [SUPABASE_AUTH] Signup email failed, trying password reset method as fallback...');
-          
-          // 세션 로그아웃 먼저 (중요)
-          await _supabase.auth.signOut();
-          await Future.delayed(const Duration(milliseconds: 1000));
-          
-          try {
-            // 비밀번호 찾기와 동일한 방식으로 이메일 전송
-            await _supabase.auth.resetPasswordForEmail(
-              email,
-              redirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
-            );
-            emailSent = true;
-            emailMethod = 'password_reset_fallback';
-            print('✅ [SUPABASE_AUTH] Fallback email sent successfully using password reset method');
-          } catch (resetError) {
-            print('⚠️ [SUPABASE_AUTH] Password reset fallback also failed: $resetError');
-            
-            // 더 간단한 방식으로 시도
-            try {
-              await _supabase.auth.resetPasswordForEmail(email);
-              emailSent = true;
-              emailMethod = 'simple_password_reset_fallback';
-              print('✅ [SUPABASE_AUTH] Simple password reset fallback succeeded');
-            } catch (simpleResetError) {
-              print('❌ [SUPABASE_AUTH] All email sending methods failed: $simpleResetError');
-            }
-          }
-        } else {
-          // 이메일 인증 전까지 세션 제거
-          await _supabase.auth.signOut();
-          print('🚪 [SUPABASE_AUTH] Session signed out for new user');
-        }
-        
-        if (emailSent) {
-          print('📧 [SUPABASE_AUTH] 이메일 전송 확인됨! 방법: $emailMethod');
-          
-          // 성공한 방법에 따른 메시지 설정
-          final metadata = Map<String, dynamic>.from(signupResponse!.user!.userMetadata ?? {});
-          
-          if (emailMethod.contains('password_reset')) {
-            metadata.addAll({
-              'email_sent': true,
-              'email_method': emailMethod,
-              'signup_completed': true,
-              'special_message': '📧 회원가입 완료! 비밀번호 재설정 이메일을 확인하여 계정을 활성화해주세요.',
-              'email_type': 'password_reset_for_signup',
-            });
-          } else {
-            metadata.addAll({
-              'email_sent': true,
-              'email_method': emailMethod,
-              'signup_completed': true,
-            });
-          }
-          
-          // 업데이트된 User 객체 생성
-          final updatedUser = User(
-            id: signupResponse!.user!.id,
-            appMetadata: signupResponse!.user!.appMetadata,
-            userMetadata: metadata,
-            aud: signupResponse!.user!.aud,
-            createdAt: signupResponse!.user!.createdAt,
-            email: signupResponse!.user!.email,
-            emailConfirmedAt: signupResponse!.user!.emailConfirmedAt,
-          );
-          
-          signupResponse = AuthResponse(
-            user: updatedUser,
-            session: signupResponse!.session,
-          );
-        } else {
-          print('⚠️ [SUPABASE_AUTH] 가입은 성공했지만 모든 이메일 전송 방법이 실패');
-          
-          // 이메일 전송 실패해도 세션은 로그아웃
-          await _supabase.auth.signOut();
-          
-          // 실패 정보 포함한 응답 생성
-          final metadata = Map<String, dynamic>.from(signupResponse!.user!.userMetadata ?? {});
-          metadata.addAll({
-            'email_sent': false,
-            'signup_completed': true,
-            'fallback_message': '회원가입은 완료되었으나 이메일 전송에 실패했습니다.\n잠시 후 다시 시도하거나 로그인을 시도해보세요.',
-          });
-          
-          final updatedUser = User(
-            id: signupResponse!.user!.id,
-            appMetadata: signupResponse!.user!.appMetadata,
-            userMetadata: metadata,
-            aud: signupResponse!.user!.aud,
-            createdAt: signupResponse!.user!.createdAt,
-            email: signupResponse!.user!.email,
-            emailConfirmedAt: signupResponse!.user!.emailConfirmedAt,
-          );
-          
-          signupResponse = AuthResponse(
-            user: updatedUser,
-            session: signupResponse!.session,
-          );
-        }
-      }
-      
-      print('📧 [SUPABASE_AUTH] ======= ENHANCED EMAIL SIGNUP END =======');
-      return signupResponse ?? AuthResponse(user: null, session: null);
+          userMetadata: {
+            'email_sent': true,
+            'signup_method': 'otp',
+            'message': '인증 코드가 이메일로 전송되었습니다!\n6자리 코드를 입력해주세요.',
+            'temp_password': password, // 임시 저장
+          },
+          aud: '',
+          createdAt: DateTime.now().toIso8601String(),
+          email: email,
+        ),
+        session: null, // OTP 검증 전이므로 세션 없음
+      );
     } catch (e) {
-      print('💥 [SUPABASE_AUTH] ======= EMAIL SIGNUP ERROR =======');
+      print('💥 [SUPABASE_AUTH] ======= OTP SIGNUP ERROR =======');
       print('💥 [SUPABASE_AUTH] Error: $e');
       print('💥 [SUPABASE_AUTH] Error type: ${e.runtimeType}');
       
       final errorString = e.toString();
       
-      // 🔍 사용자가 이미 존재하는 경우 상세 분석
-      if (errorString.contains('User already registered')) {
-        print('👤 [SUPABASE_AUTH] User already exists in Supabase auth');
-        print('🔍 [SUPABASE_AUTH] Step 3: Checking if this is a deleted user without email in profile...');
-        
-        // user_profiles에서 이 사용자가 탈퇴했는지 확인
-        // 실제 로그인을 시도해서 사용자 ID를 얻어보자
-        try {
-          print('🔑 [SUPABASE_AUTH] Attempting login to get user info...');
-          final loginResponse = await _supabase.auth.signInWithPassword(
-            email: email,
-            password: password,
-          );
-          
-          if (loginResponse.user != null) {
-            final userId = loginResponse.user!.id;
-            print('🔍 [SUPABASE_AUTH] Successfully logged in, user ID: $userId');
-            
-            // 프로필 확인
-            final profile = await _supabase
-                .from('user_profiles')
-                .select('deleted_at, email, nickname')
-                .eq('user_id', userId)
-                .maybeSingle();
-            
-            print('🔍 [SUPABASE_AUTH] Profile check result: $profile');
-            
-            if (profile != null && profile['deleted_at'] != null) {
-              print('🔄 [SUPABASE_AUTH] FOUND DELETED USER! Reactivating...');
-              
-              // 탈퇴한 사용자 재활성화
-              await _supabase.from('user_profiles').update({
-                'deleted_at': null,
-                'email': email, // 이메일도 업데이트
-                'nickname': email.split('@')[0],
-                'updated_at': DateTime.now().toIso8601String(),
-              }).eq('user_id', userId);
-              
-              print('✅ [SUPABASE_AUTH] User profile reactivated successfully');
-              
-              // 🚨 핵심 수정: 재활성화된 사용자 처리 개선
-              print('📧 [SUPABASE_AUTH] Handling reactivated user email confirmation...');
-              
-              // 먼저 로그인 세션 완전히 종료
-              await _supabase.auth.signOut();
-              
-              // 세션 정리 대기 (중요: 이메일 재전송 전에 세션이 완전히 정리되도록)
-              await Future.delayed(const Duration(milliseconds: 800));
-              
-              try {
-                print('📧 [SUPABASE_AUTH] Attempting email resend for reactivated user...');
-                print('📧 [SUPABASE_AUTH] Email: $email');
-                print('📧 [SUPABASE_AUTH] User ID: $userId');
-                
-                // 🔧 다중 시도 이메일 전송 (더 강화된 방식)
-                bool emailSent = false;
-                String emailMethod = '';
-                
-                // 1차 시도: 표준 resend
-                try {
-                  await _supabase.auth.resend(
-                    type: OtpType.signup,
-                    email: email,
-                    emailRedirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
-                  );
-                  emailSent = true;
-                  emailMethod = 'standard_resend';
-                  print('✅ [SUPABASE_AUTH] 1차 시도 성공: Standard resend');
-                } catch (resendError1) {
-                  print('⚠️ [SUPABASE_AUTH] 1차 시도 실패: $resendError1');
-                  
-                  // 2차 시도: 더 긴 대기 후 재시도
-                  await Future.delayed(const Duration(milliseconds: 1500));
-                  try {
-                    await _supabase.auth.resend(
-                      type: OtpType.signup,
-                      email: email,
-                      emailRedirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
-                    );
-                    emailSent = true;
-                    emailMethod = 'delayed_resend';
-                    print('✅ [SUPABASE_AUTH] 2차 시도 성공: Delayed resend');
-                  } catch (resendError2) {
-                    print('⚠️ [SUPABASE_AUTH] 2차 시도 실패: $resendError2');
-                    
-                    // 3차 시도: 비밀번호 리셋 방식
-                    await Future.delayed(const Duration(milliseconds: 1000));
-                    try {
-                      await _supabase.auth.resetPasswordForEmail(
-                        email,
-                        redirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
-                      );
-                      emailSent = true;
-                      emailMethod = 'password_reset_fallback';
-                      print('✅ [SUPABASE_AUTH] 3차 시도 성공: Password reset email');
-                    } catch (resetError) {
-                      print('⚠️ [SUPABASE_AUTH] 3차 시도 실패: $resetError');
-                      
-                      // 4차 시도: 다른 redirect URL로 시도
-                      try {
-                        await _supabase.auth.resend(
-                          type: OtpType.signup,
-                          email: email,
-                          // redirect URL 없이 시도
-                        );
-                        emailSent = true;
-                        emailMethod = 'simple_resend';
-                        print('✅ [SUPABASE_AUTH] 4차 시도 성공: Simple resend without redirect');
-                      } catch (finalError) {
-                        print('❌ [SUPABASE_AUTH] 모든 이메일 전송 시도 실패: $finalError');
-                        emailSent = false;
-                      }
-                    }
-                  }
-                }
-                
-                if (emailSent) {
-                  print('🎉 [SUPABASE_AUTH] 이메일 전송 성공! 방법: $emailMethod');
-                  
-                  // 성공한 방법에 따라 다른 메시지 제공
-                  String successMessage = '';
-                  String actionMessage = '';
-                  
-                  if (emailMethod == 'password_reset_fallback') {
-                    successMessage = '🎉 계정이 재활성화되었습니다!';
-                    actionMessage = '비밀번호 재설정 이메일이 전송되었습니다.\n이메일을 확인하여 새 비밀번호를 설정해주세요.';
-                  } else {
-                    successMessage = '🎉 환영합니다! 계정이 재활성화되었습니다.';
-                    actionMessage = '인증 이메일이 전송되었습니다.\n이메일을 확인하여 인증을 완료해주세요.';
-                  }
-                  
-                  return AuthResponse(
-                    user: User(
-                      id: userId,
-                      appMetadata: {
-                        'reactivated': true,
-                        'welcome_back': true,
-                        'email_sent': true,
-                        'method': emailMethod,
-                        'email_confirmed': true,
-                      },
-                      userMetadata: {
-                        'message': successMessage,
-                        'action': actionMessage,
-                        'email_sent': true,
-                        'email_type': emailMethod == 'password_reset_fallback' ? 'password_reset' : 'confirmation',
-                      },
-                      aud: '',
-                      createdAt: DateTime.now().toIso8601String(),
-                      email: email,
-                    ),
-                  );
-                } else {
-                  print('❌ [SUPABASE_AUTH] 모든 이메일 전송 방법 실패');
-                  
-                  // 모든 이메일 전송 시도 실패 - 더 명확한 안내와 대안 제시
-                  return AuthResponse(
-                    user: User(
-                      id: userId,
-                      appMetadata: {
-                        'reactivated': true,
-                        'welcome_back': true,
-                        'email_sent': false,
-                        'email_failed': true,
-                        'show_manual_login_option': true,
-                        'show_password_reset_option': true,
-                      },
-                      userMetadata: {
-                        'message': '🎉 계정이 재활성화되었습니다!',
-                        'action': '''이메일 전송에 실패했습니다. 다음 방법을 시도해보세요:
-
-1️⃣ 기존 비밀번호로 바로 로그인 시도
-2️⃣ "비밀번호 찾기"로 새 비밀번호 설정
-3️⃣ 잠시 후 다시 가입 시도
-
-이메일이 늦게 도착할 수도 있으니 스팸 폴더도 확인해보세요.''',
-                        'email_sent': false,
-                        'suggestion': '로그인 시도 또는 비밀번호 찾기',
-                        'troubleshooting': true,
-                      },
-                      aud: '',
-                      createdAt: DateTime.now().toIso8601String(),
-                      email: email,
-                    ),
-                  );
-                }
-              } catch (criticalError) {
-                print('💥 [SUPABASE_AUTH] 치명적 오류 발생: $criticalError');
-                
-                return AuthResponse(
-                  user: User(
-                    id: userId,
-                    appMetadata: {
-                      'reactivated': true,
-                      'welcome_back': true,
-                      'email_sent': false,
-                      'critical_error': true,
-                    },
-                    userMetadata: {
-                      'message': '🎉 계정이 재활성화되었습니다!',
-                      'action': '이메일 전송 중 오류가 발생했습니다.\n비밀번호 찾기를 이용하거나 잠시 후 다시 시도해주세요.',
-                      'email_sent': false,
-                      'error': true,
-                    },
-                    aud: '',
-                    createdAt: DateTime.now().toIso8601String(),
-                    email: email,
-                  ),
-                );
-              }
-            } else {
-              // 활성 사용자 - 로그인 성공했으므로 로그아웃하고 안내
-              await _supabase.auth.signOut();
-              print('👤 [SUPABASE_AUTH] Active user detected');
-              
-              // 프로필에 이메일이 없으면 업데이트
-              if (profile != null && profile['email'] == null) {
-                print('📝 [SUPABASE_AUTH] Updating missing email in profile');
-                await _supabase.from('user_profiles').update({
-                  'email': email,
-                  'updated_at': DateTime.now().toIso8601String(),
-                }).eq('user_id', userId);
-              }
-              
-              throw AuthException('이미 가입된 이메일입니다.\n\n로그인을 시도해주세요.');
-            }
-          }
-        } catch (loginError) {
-          print('❌ [SUPABASE_AUTH] Login attempt failed: $loginError');
-          
-          if (loginError.toString().contains('Invalid login credentials')) {
-            throw AuthException('이미 가입된 이메일이지만 비밀번호가 다릅니다.\n\n비밀번호를 확인하거나 비밀번호 재설정을 이용해주세요.');
-          } else if (loginError.toString().contains('Email not confirmed')) {
-            // 이메일 인증 미완료 - resend 시도
-            try {
-              await _supabase.auth.resend(
-                type: OtpType.signup,
-                email: email,
-                emailRedirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
-              );
-              throw AuthException('이미 가입된 이메일입니다.\n\n이메일 인증이 완료되지 않아 새로운 인증 메일을 발송했습니다.');
-            } catch (resendError) {
-              throw AuthException('이미 가입된 이메일입니다.\n\n이메일 인증을 완료하거나 로그인을 시도해주세요.');
-            }
-          } else {
-            rethrow;
-          }
-        }
-      } else {
-        // 기타 에러는 그대로 전달
-        print('💥 [SUPABASE_AUTH] Other signup error: $errorString');
+      // 🔍 이미 가입된 사용자인 경우
+      if (errorString.contains('User already registered') ||
+          errorString.contains('email_address_not_authorized')) {
+        print('👤 [SUPABASE_AUTH] User already exists - try login instead');
+        throw AuthException('이미 가입된 이메일입니다.\n\n로그인을 시도하거나 비밀번호를 잊으셨다면 비밀번호 재설정을 이용해주세요.');
       }
       
-      print('💥 [SUPABASE_AUTH] ======= EMAIL SIGNUP ERROR END =======');
+      print('💥 [SUPABASE_AUTH] ======= OTP SIGNUP ERROR END =======');
+      rethrow;
+    }
+  }
+  
+  /// OTP 검증 및 회원가입 완료 (2단계: OTP 검증 후 비밀번호 설정)
+  Future<AuthResponse> verifySignUpOTP(String email, String token, String password) async {
+    try {
+      print('🔐 [SUPABASE_AUTH] ======= OTP VERIFICATION START =======');
+      print('📧 [SUPABASE_AUTH] Email: $email');
+      print('🔑 [SUPABASE_AUTH] Token: ${token.substring(0, 3)}***');
+      
+      // OTP 검증
+      final response = await _supabase.auth.verifyOTP(
+        email: email,
+        token: token,
+        type: OtpType.email,
+      );
+      
+      print('📧 [SUPABASE_AUTH] OTP verification response received');
+      print('📧 [SUPABASE_AUTH] Response user: ${response.user?.id}');
+      print('📧 [SUPABASE_AUTH] Response session: ${response.session != null}');
+      
+      if (response.user != null) {
+        print('✅ [SUPABASE_AUTH] OTP 검증 성공!');
+        
+        // 비밀번호 설정
+        try {
+          await _supabase.auth.updateUser(
+            UserAttributes(password: password),
+          );
+          print('✅ [SUPABASE_AUTH] 비밀번호 설정 완료');
+        } catch (passwordError) {
+          print('⚠️ [SUPABASE_AUTH] 비밀번호 설정 실패: $passwordError');
+          // 비밀번호 설정 실패해도 가입은 성공한 것으로 처리
+        }
+        
+        // 프로필 생성
+        await _ensureUserProfile(response.user!);
+        
+        print('🎉 [SUPABASE_AUTH] 회원가입 완료!');
+        
+        return AuthResponse(
+          user: User(
+            id: response.user!.id,
+            appMetadata: {
+              ...response.user!.appMetadata ?? {},
+              'signup_completed': true,
+              'signup_method': 'otp',
+              'email_verified': true,
+            },
+            userMetadata: {
+              'message': '🎉 회원가입이 완료되었습니다!',
+              'action': 'BabyMom을 이용해보세요.',
+              'signup_method': 'otp',
+            },
+            aud: response.user!.aud,
+            createdAt: response.user!.createdAt,
+            email: response.user!.email,
+            emailConfirmedAt: response.user!.emailConfirmedAt,
+          ),
+          session: response.session,
+        );
+      }
+      
+      print('❌ [SUPABASE_AUTH] OTP 검증 실패 - 사용자 없음');
+      throw AuthException('인증 코드가 올바르지 않습니다. 다시 시도해주세요.');
+      
+    } catch (e) {
+      print('💥 [SUPABASE_AUTH] ======= OTP VERIFICATION ERROR =======');
+      print('💥 [SUPABASE_AUTH] Error: $e');
+      
+      if (e.toString().contains('invalid_otp') || 
+          e.toString().contains('expired') ||
+          e.toString().contains('otp_expired')) {
+        throw AuthException('인증 코드가 올바르지 않거나 만료되었습니다.\n새로운 인증 코드를 요청해주세요.');
+      }
+      
+      rethrow;
+    }
+  }
+
+  /// 기존 호환성을 위한 래퍼 함수
+  Future<AuthResponse> signUpWithEmail(String email, String password) async {
+    return signUpWithEmailOTP(email, password);
+  }
+  
+  /// OTP 재전송 (회원가입용)
+  Future<void> resendSignUpOTP(String email) async {
+    try {
+      print('📧 [SUPABASE_AUTH] ===== OTP RESEND START =====');
+      print('📧 [SUPABASE_AUTH] Email: $email');
+      
+      await _supabase.auth.signInWithOtp(
+        email: email,
+        shouldCreateUser: false, // 이미 사용자 존재
+        emailRedirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
+      );
+      
+      print('✅ [SUPABASE_AUTH] OTP 재전송 완료');
+      print('📧 [SUPABASE_AUTH] ===== OTP RESEND END =====');
+    } catch (e) {
+      print('❌ [SUPABASE_AUTH] OTP 재전송 실패: $e');
       rethrow;
     }
   }
@@ -1396,114 +1027,28 @@ class SupabaseAuthService {
     return false; // 기존 KakaoAuthRepository 사용
   }
 
-  /// 이메일 인증 재전송 (강화된 다중 시도 방식)
+  /// 이메일 인증 재전송 (단순화)
   Future<void> resendEmailConfirmation(String email) async {
     try {
-      print('📧 [SUPABASE_AUTH] ===== ENHANCED EMAIL RESEND START =====');
+      print('📧 [SUPABASE_AUTH] ===== EMAIL RESEND START =====');
       print('📧 [SUPABASE_AUTH] Email: $email');
       
-      bool emailSent = false;
-      String method = '';
+      await _supabase.auth.resend(
+        type: OtpType.signup,
+        email: email,
+        emailRedirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
+      );
       
-      // 1차 시도: 표준 resend
-      try {
-        await _supabase.auth.resend(
-          type: OtpType.signup,
-          email: email,
-          emailRedirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
-        );
-        emailSent = true;
-        method = 'standard_resend';
-        print('✅ [SUPABASE_AUTH] 1차 시도 성공: Standard resend');
-      } catch (resendError1) {
-        print('⚠️ [SUPABASE_AUTH] 1차 시도 실패: $resendError1');
-        
-        // Rate limit이나 repeated signup은 성공으로 처리
-        if (resendError1.toString().contains('Email rate limit exceeded') || 
-            resendError1.toString().contains('Too many requests') ||
-            resendError1.toString().contains('user_repeated_signup')) {
-          print('⚠️ [SUPABASE_AUTH] Rate limit 또는 중복 가입 - 성공으로 처리');
-          emailSent = true;
-          method = 'rate_limited_success';
-        } else {
-          // 2차 시도: 더 긴 대기 후 재시도
-          await Future.delayed(const Duration(milliseconds: 2000));
-          try {
-            await _supabase.auth.resend(
-              type: OtpType.signup,
-              email: email,
-              emailRedirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
-            );
-            emailSent = true;
-            method = 'delayed_resend';
-            print('✅ [SUPABASE_AUTH] 2차 시도 성공: Delayed resend');
-          } catch (resendError2) {
-            print('⚠️ [SUPABASE_AUTH] 2차 시도 실패: $resendError2');
-            
-            // 3차 시도: redirect URL 없이
-            await Future.delayed(const Duration(milliseconds: 1000));
-            try {
-              await _supabase.auth.resend(
-                type: OtpType.signup,
-                email: email,
-              );
-              emailSent = true;
-              method = 'simple_resend';
-              print('✅ [SUPABASE_AUTH] 3차 시도 성공: Simple resend without redirect');
-            } catch (resendError3) {
-              print('⚠️ [SUPABASE_AUTH] 3차 시도 실패: $resendError3');
-              
-              // 4차 시도: 비밀번호 재설정 이메일로 대체
-              await Future.delayed(const Duration(milliseconds: 1000));
-              try {
-                await _supabase.auth.resetPasswordForEmail(
-                  email,
-                  redirectTo: 'https://gowkatetjgcawxemuabm.supabase.co/auth/v1/callback?redirect_to=babymom://auth',
-                );
-                emailSent = true;
-                method = 'password_reset_alternative';
-                print('✅ [SUPABASE_AUTH] 4차 시도 성공: Password reset as alternative');
-              } catch (resetError) {
-                print('❌ [SUPABASE_AUTH] 모든 이메일 전송 시도 실패: $resetError');
-                
-                // Rate limit 계열 에러는 성공으로 처리
-                if (resendError1.toString().contains('Email rate limit exceeded') || 
-                    resendError1.toString().contains('Too many requests') ||
-                    resendError1.toString().contains('user_repeated_signup')) {
-                  print('⚠️ [SUPABASE_AUTH] Original error was rate limit - treating as success');
-                  emailSent = true;
-                  method = 'rate_limited_fallback';
-                } else {
-                  emailSent = false;
-                  throw resendError1; // 원본 에러 전달
-                }
-              }
-            }
-          }
-        }
-      }
-      
-      if (emailSent) {
-        print('🎉 [SUPABASE_AUTH] 이메일 재전송 성공! 방법: $method');
-        
-        if (method == 'password_reset_alternative') {
-          print('📧 [SUPABASE_AUTH] 주의: 비밀번호 재설정 이메일로 대체됨');
-        } else if (method.contains('rate_limited')) {
-          print('📧 [SUPABASE_AUTH] 주의: Rate limit으로 인해 이전 이메일이 여전히 유효할 수 있음');
-        }
-      } else {
-        print('❌ [SUPABASE_AUTH] 모든 이메일 전송 시도 실패');
-      }
-      
-      print('📧 [SUPABASE_AUTH] ===== ENHANCED EMAIL RESEND END =====');
+      print('✅ [SUPABASE_AUTH] 이메일 재전송 요청 완료');
+      print('📧 [SUPABASE_AUTH] ===== EMAIL RESEND END =====');
     } catch (e) {
-      print('❌ [SUPABASE_AUTH] Critical error in enhanced resend: $e');
+      print('❌ [SUPABASE_AUTH] 이메일 재전송 실패: $e');
       
-      // Rate limit 관련 에러는 무시하고 성공으로 처리
+      // Rate limit 관련 에러는 무시 (이미 이메일이 전송되었을 가능성)
       if (e.toString().contains('Email rate limit exceeded') || 
           e.toString().contains('Too many requests') ||
           e.toString().contains('user_repeated_signup')) {
-        print('⚠️ [SUPABASE_AUTH] Rate limit or repeated signup, but treating as success');
+        print('⚠️ [SUPABASE_AUTH] Rate limit - 이전에 전송된 이메일을 확인해보세요');
         return; // 에러를 던지지 않고 성공으로 처리
       }
       
