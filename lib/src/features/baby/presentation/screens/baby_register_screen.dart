@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../data/repositories/supabase_baby_repository.dart';
+import '../../../../core/config/supabase_config.dart';
 
 class BabyRegisterScreen extends StatefulWidget {
   const BabyRegisterScreen({super.key});
@@ -49,8 +49,15 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
   }
 
   Future<void> _registerBaby() async {
-    if (!_formKey.currentState!.validate()) return;
+    print('🍼 [BABY_REGISTER] ======= 아기 등록 시작 =======');
+    
+    if (!_formKey.currentState!.validate()) {
+      print('🍼 [BABY_REGISTER] 폼 유효성 검사 실패');
+      return;
+    }
+    
     if (_selectedBirthDate == null) {
+      print('🍼 [BABY_REGISTER] 생년월일이 선택되지 않음');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(AppLocalizations.of(context)!.pleasSelectBirthDate)),
       );
@@ -62,11 +69,25 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
     });
 
     try {
-      // 현재 로그인한 카카오 사용자 정보 가져오기
-      final user = await UserApi.instance.me();
-      final userId = user.id.toString();
+      // 현재 로그인한 Supabase 사용자 정보 가져오기
+      print('🍼 [BABY_REGISTER] Supabase 사용자 정보 가져오는 중...');
+      final supabase = SupabaseConfig.client;
+      final session = supabase.auth.currentSession;
+      
+      if (session == null || session.user == null) {
+        throw Exception('로그인 세션이 없습니다. 다시 로그인해주세요.');
+      }
+      
+      final userId = session.user!.id;
+      print('🍼 [BABY_REGISTER] 사용자 ID: $userId');
+      print('🍼 [BABY_REGISTER] 사용자 이메일: ${session.user!.email}');
 
-      // 아기 등록
+      // 아기 등록 시도
+      print('🍼 [BABY_REGISTER] 아기 정보 등록 시도...');
+      print('🍼 [BABY_REGISTER] 아기 이름: ${_nameController.text.trim()}');
+      print('🍼 [BABY_REGISTER] 생년월일: $_selectedBirthDate');
+      print('🍼 [BABY_REGISTER] 성별: $_selectedGender');
+      
       final baby = await _repository.createBaby(
         name: _nameController.text.trim(),
         birthDate: _selectedBirthDate!,
@@ -74,21 +95,41 @@ class _BabyRegisterScreenState extends State<BabyRegisterScreen> {
         userId: userId,
       );
 
+      print('🍼 [BABY_REGISTER] 아기 등록 성공! 아기 ID: ${baby.id}');
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(AppLocalizations.of(context)!.babyRegistered(baby.name))),
         );
 
+        print('🍼 [BABY_REGISTER] 홈 화면으로 이동 중...');
         // 홈 화면으로 이동
         Navigator.of(context).pushReplacementNamed('/home');
       }
     } catch (e) {
+      print('🍼 [BABY_REGISTER] ❌ 오류 발생: $e');
+      print('🍼 [BABY_REGISTER] 오류 타입: ${e.runtimeType}');
+      
+      // 더 구체적인 에러 정보 확인
+      if (e.toString().contains('Invalid API key') || e.toString().contains('authentication')) {
+        print('🍼 [BABY_REGISTER] 인증 관련 오류 감지');
+      } else if (e.toString().contains('permission') || e.toString().contains('RLS') || e.toString().contains('policy')) {
+        print('🍼 [BABY_REGISTER] 데이터베이스 권한 오류 감지');
+      } else if (e.toString().contains('violates') || e.toString().contains('constraint')) {
+        print('🍼 [BABY_REGISTER] 데이터베이스 제약 조건 오류 감지');
+      }
+      
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.registrationError(e.toString()))),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.registrationError(e.toString())),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 5),
+          ),
         );
       }
     } finally {
+      print('🍼 [BABY_REGISTER] 아기 등록 프로세스 완료');
       if (mounted) {
         setState(() {
           _isLoading = false;

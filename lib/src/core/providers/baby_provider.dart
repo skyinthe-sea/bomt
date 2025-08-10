@@ -6,12 +6,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../services/auth/secure_auth_service.dart';
 import '../../core/config/supabase_config.dart';
 import '../../domain/models/baby.dart';
+import '../../features/baby/data/repositories/supabase_baby_repository.dart';
+import '../../features/baby/domain/entities/baby.dart' as BabyEntity;
 
 class BabyProvider extends ChangeNotifier {
   List<Baby> _babies = [];
   Baby? _selectedBaby;
   String? _currentUserId;
   bool _isLoading = false;
+  
+  // Repository 인스턴스 추가
+  final SupabaseBabyRepository _babyRepository = SupabaseBabyRepository();
 
   static const String _selectedBabyIdKey = 'selected_baby_id';
 
@@ -185,10 +190,10 @@ class BabyProvider extends ChangeNotifier {
     }
   }
 
-  /// 아기 등록 (Edge Function 사용)
+  /// 아기 등록 (Repository 사용)
   Future<bool> registerBaby(Baby baby) async {
     debugPrint('=== BABY REGISTRATION DEBUG START ===');
-    debugPrint('🔄 [BABY_PROVIDER] Starting baby registration');
+    debugPrint('🔄 [BABY_PROVIDER] Starting baby registration using repository');
     debugPrint('📋 [BABY_PROVIDER] Baby details:');
     debugPrint('   - ID: ${baby.id}');
     debugPrint('   - Name: ${baby.name}');
@@ -205,54 +210,43 @@ class BabyProvider extends ChangeNotifier {
       }
       debugPrint('✅ [BABY_PROVIDER] User ID retrieved: $userId');
 
-      debugPrint('🔑 [BABY_PROVIDER] Step 2: Using Service Role for secure baby registration...');
+      debugPrint('🏗️ [BABY_PROVIDER] Step 2: Using SupabaseBabyRepository for registration...');
       
-      // 🔑 Admin client bypasses RLS for secure operations
-      final adminClient = SupabaseConfig.adminClient;
+      // Repository를 사용해서 아기 등록 (이미 구현된 로직 재사용)
+      final registeredBabyEntity = await _babyRepository.createBaby(
+        name: baby.name,
+        birthDate: baby.birthDate,
+        gender: baby.gender,
+        userId: userId,
+      );
       
-      // Step 2a: Insert baby into babies table (with Service Role)
-      final babyInsertResponse = await adminClient
-          .from('babies')
-          .insert({
-            'id': baby.id,
-            'name': baby.name,
-            'birth_date': baby.birthDate.toIso8601String(),
-            'gender': baby.gender,
-            'profile_image_url': baby.profileImageUrl,
-            'created_at': DateTime.now().toUtc().toIso8601String(),
-            'updated_at': DateTime.now().toUtc().toIso8601String(),
-          });
-      
-      debugPrint('🔑 [BABY_PROVIDER] Baby insert (Service Role) result: $babyInsertResponse');
-      
-      // Step 2b: Insert user-baby relationship into baby_users table (with Service Role)
-      final relationInsertResponse = await adminClient
-          .from('baby_users')
-          .insert({
-            'baby_id': baby.id,
-            'user_id': userId,
-            'role': 'owner',
-            'created_at': DateTime.now().toUtc().toIso8601String(),
-          });
-      
-      debugPrint('🔑 [BABY_PROVIDER] Baby-user relation (Service Role) result: $relationInsertResponse');
-      debugPrint('✅ [BABY_PROVIDER] Baby registered via Service Role (bypasses RLS)');
+      debugPrint('✅ [BABY_PROVIDER] Baby registered successfully through repository');
+      debugPrint('✅ [BABY_PROVIDER] Registered baby ID: ${registeredBabyEntity.id}');
 
-      debugPrint('👨‍👩‍👧‍👦 [BABY_PROVIDER] Step 3: Finding and connecting family members...');
-      await _connectFamilyMembers(baby.id, userId);
+      debugPrint('🔄 [BABY_PROVIDER] Step 3: Converting entity to domain model...');
+      // Repository에서 반환된 Entity를 도메인 모델로 변환
+      final registeredBaby = Baby(
+        id: registeredBabyEntity.id,
+        name: registeredBabyEntity.name,
+        birthDate: registeredBabyEntity.birthDate,
+        gender: registeredBabyEntity.gender,
+        profileImageUrl: registeredBabyEntity.profileImageUrl,
+        createdAt: registeredBabyEntity.createdAt,
+        updatedAt: registeredBabyEntity.updatedAt,
+      );
 
       debugPrint('📦 [BABY_PROVIDER] Step 4: Updating local state...');
-      _babies.add(baby);
+      _babies.add(registeredBaby);
       if (_babies.length == 1 || _selectedBaby == null) {
-        _selectedBaby = baby;
+        _selectedBaby = registeredBaby;
         // SharedPreferences 저장을 비동기로 분리 (블로킹 방지)
-        _saveSelectedBabyId(baby.id).catchError((e) {
+        _saveSelectedBabyId(registeredBaby.id).catchError((e) {
           debugPrint('Error saving selected baby ID: $e');
         });
       }
       notifyListeners();
 
-      debugPrint('🎉 [BABY_PROVIDER] Baby registered successfully: ${baby.name}');
+      debugPrint('🎉 [BABY_PROVIDER] Baby registered successfully: ${registeredBaby.name}');
       debugPrint('=== BABY REGISTRATION DEBUG END (SUCCESS) ===');
       return true;
       
@@ -435,11 +429,11 @@ class BabyProvider extends ChangeNotifier {
       debugPrint('🔍 [FAMILY_CONNECT] Finding family members for user: $currentUserId');
       debugPrint('🔍 [FAMILY_CONNECT] New baby ID: $newBabyId');
       
-      // 🔑 Admin client for family connection operations
-      final adminClient = SupabaseConfig.adminClient;
+      // 🔐 인증된 클라이언트 사용 (RLS 정책 적용)
+      final client = SupabaseConfig.client;
       
       // 1. 현재 사용자의 가장 최근 아기 찾기 (새 아기 제외)
-      final recentBabyResponse = await adminClient
+      final recentBabyResponse = await client
           .from('baby_users')
           .select('baby_id, created_at')
           .eq('user_id', currentUserId)
@@ -456,7 +450,7 @@ class BabyProvider extends ChangeNotifier {
       debugPrint('🔍 [FAMILY_CONNECT] Most recent baby ID: $mostRecentBabyId');
       
       // 2. 가장 최근 아기를 기준으로 가족 구성원과 그들의 역할 찾기
-      final familyMembersResponse = await adminClient
+      final familyMembersResponse = await client
           .from('baby_users')
           .select('user_id, role')
           .eq('baby_id', mostRecentBabyId)
@@ -487,8 +481,8 @@ class BabyProvider extends ChangeNotifier {
       debugPrint('🔗 [FAMILY_CONNECT] Connecting ${insertData.length} family members to new baby');
       debugPrint('🔗 [FAMILY_CONNECT] Insert data: $insertData');
       
-      // 배치로 한번에 삽입 (Service Role로 RLS 우회)
-      final batchInsertResult = await adminClient
+      // 배치로 한번에 삽입 (인증된 사용자로 RLS 정책 적용)
+      final batchInsertResult = await client
           .from('baby_users')
           .insert(insertData);
       
