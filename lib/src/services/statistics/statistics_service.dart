@@ -22,31 +22,61 @@ class StatisticsService {
   final _userCardSettingService = UserCardSettingService.instance;
   final _cache = UniversalCacheService.instance;
 
+  /// 시간대 문제 해결을 위한 날짜 범위 변환 helper
+  Map<String, String> _getDateRangeForQuery(StatisticsDateRange dateRange) {
+    // 날짜만 사용하여 시간대 문제 해결
+    final startDateStr = '${dateRange.startDate.year}-${dateRange.startDate.month.toString().padLeft(2, '0')}-${dateRange.startDate.day.toString().padLeft(2, '0')}';
+    final endDateStr = '${dateRange.endDate.year}-${dateRange.endDate.month.toString().padLeft(2, '0')}-${dateRange.endDate.day.toString().padLeft(2, '0')}';
+    
+    debugPrint('📅 [DATE_HELPER] Converting date range: ${dateRange.label}');
+    debugPrint('📅 [DATE_HELPER] Start: ${dateRange.startDate} -> $startDateStr');
+    debugPrint('📅 [DATE_HELPER] End: ${dateRange.endDate} -> $endDateStr');
+    
+    return {
+      'start': '${startDateStr}T00:00:00Z',
+      'end': '${endDateStr}T23:59:59Z',
+      'startDate': startDateStr,
+      'endDate': endDateStr,
+    };
+  }
+
   /// 통계 데이터 생성 (캐싱 + 병렬 처리 최적화)
   Future<Statistics> generateStatistics({
     required String userId,
     required String babyId,
     required StatisticsDateRange dateRange,
+    bool bypassCache = false, // 캐시 우회 옵션 추가
   }) async {
     debugPrint('📊 [STATISTICS] Starting statistics generation for user: $userId, baby: $babyId');
     debugPrint('📊 [STATISTICS] Date range: ${dateRange.label}');
+    debugPrint('📊 [STATISTICS] Bypass cache: $bypassCache');
 
     try {
-      // 1. 캐시 키 생성
-      final cacheKey = 'statistics_${userId}_${babyId}_${dateRange.type.toJson()}_${dateRange.startDate.millisecondsSinceEpoch}';
+      // 1. 안정적인 캐시 키 생성 (날짜 기반)
+      final startDateStr = '${dateRange.startDate.year}${dateRange.startDate.month.toString().padLeft(2, '0')}${dateRange.startDate.day.toString().padLeft(2, '0')}';
+      final cacheKey = 'statistics_${userId}_${babyId}_${dateRange.type.toJson()}_$startDateStr';
+      debugPrint('🔑 [STATISTICS] Cache key: $cacheKey');
       
-      // 2. 캐시에서 통계 데이터 조회 시도
-      final cachedStatistics = await _cache.get<Statistics>(
-        cacheKey, 
-        fromJson: Statistics.fromJson,
-      );
-      
-      if (cachedStatistics != null) {
-        debugPrint('📊 [STATISTICS] Cache hit! Using cached statistics data');
-        return cachedStatistics;
+      // 2. 캐시 우회 옵션 확인
+      if (bypassCache) {
+        debugPrint('🔄 [STATISTICS] Bypassing cache as requested');
+        // 캐시된 데이터 강제 삭제
+        await _cache.remove(cacheKey);
+      } else {
+        // 캐시에서 통계 데이터 조회 시도
+        final cachedStatistics = await _cache.get<Statistics>(
+          cacheKey, 
+          fromJson: Statistics.fromJson,
+        );
+        
+        if (cachedStatistics != null) {
+          debugPrint('📊 [STATISTICS] Cache hit! Using cached statistics data');
+          debugPrint('📊 [STATISTICS] Cached data has ${cachedStatistics.cardsWithData.length} cards with data');
+          return cachedStatistics;
+        }
       }
       
-      debugPrint('📊 [STATISTICS] Cache miss. Generating new statistics data');
+      debugPrint('📊 [STATISTICS] Cache miss or bypass. Generating new statistics data');
 
       // 3. 표시 가능한 카드 설정 가져오기
       final visibleCardTypes = await _getVisibleCardTypes(userId, babyId);
@@ -72,12 +102,28 @@ class StatisticsService {
           .toList();
 
       debugPrint('📊 [STATISTICS] Generated statistics for ${cardStatistics.length} cards (parallel processing)');
+      
+      // 각 카드별 상세 정보 로그
+      for (final cardStat in cardStatistics) {
+        debugPrint('📋 [STATISTICS] ${cardStat.cardType}: ${cardStat.totalCount} records');
+        if (cardStat.hasData) {
+          debugPrint('  ✅ Has ${cardStat.metrics.length} metrics');
+        } else {
+          debugPrint('  ❌ No data');
+        }
+      }
 
       final statistics = Statistics(
         dateRange: dateRange,
         cardStatistics: cardStatistics,
         lastUpdated: DateTime.now(),
       );
+      
+      debugPrint('📊 [STATISTICS] Final statistics summary:');
+      debugPrint('📊 [STATISTICS] - Total cards: ${statistics.cardStatistics.length}');
+      debugPrint('📊 [STATISTICS] - Cards with data: ${statistics.cardsWithData.length}');
+      debugPrint('📊 [STATISTICS] - Total activities: ${statistics.totalActivities}');
+      debugPrint('📊 [STATISTICS] - Has data: ${statistics.hasData}');
 
       // 5. 생성된 통계 데이터를 캐시에 저장
       await _cache.set(
@@ -107,13 +153,22 @@ class StatisticsService {
           .where((setting) => setting.isVisible)
           .map((setting) => setting.cardType)
           .toList();
+      debugPrint('🗃️ [STATISTICS] User card settings count: ${userCardSettings.length}');
       debugPrint('🗃️ [STATISTICS] Visible card types: $visibleCardTypes');
+      
+      // 설정이 없거나 보이는 카드가 없으면 기본 카드들 반환
+      if (visibleCardTypes.isEmpty) {
+        final defaultCardTypes = ['feeding', 'sleep', 'diaper', 'medication', 'milk_pumping', 'solid_food'];
+        debugPrint('🗃️ [STATISTICS] No visible cards configured, using default card types: $defaultCardTypes');
+        return defaultCardTypes;
+      }
+      
       return visibleCardTypes;
     } catch (e) {
       debugPrint('❌ [STATISTICS] Error getting visible card types: $e');
       // 기본 카드 타입들 반환
       final defaultCardTypes = ['feeding', 'sleep', 'diaper', 'medication', 'milk_pumping', 'solid_food'];
-      debugPrint('🗃️ [STATISTICS] Using default card types: $defaultCardTypes');
+      debugPrint('🗃️ [STATISTICS] Using default card types due to error: $defaultCardTypes');
       return defaultCardTypes;
     }
   }
@@ -158,8 +213,10 @@ class StatisticsService {
     StatisticsDateRange dateRange,
   ) async {
     debugPrint('🍼 [FEEDING_STATS] Querying feedings for user: $userId, baby: $babyId');
-    debugPrint('🍼 [FEEDING_STATS] Date range: ${dateRange.startDate} to ${dateRange.endDate}');
-    debugPrint('🍼 [FEEDING_STATS] UTC Date range: ${dateRange.startDate.toUtc()} to ${dateRange.endDate.toUtc()}');
+    debugPrint('🍼 [FEEDING_STATS] Date range: ${dateRange.label}');
+    
+    // 시간대 문제 해결을 위한 날짜 범위 변환
+    final dateQuery = _getDateRangeForQuery(dateRange);
     
     // 먼저 모든 수유 데이터를 가져와서 확인
     final allResponse = await _supabase
@@ -176,13 +233,6 @@ class StatisticsService {
     if (allResponse.isEmpty) {
       debugPrint('🍼 [FEEDING_STATS] No feeding records found for user_id: $userId, baby_id: $babyId');
       
-      // 사용자 ID와 베이비 ID가 실제로 존재하는지 확인
-      final userCheck = await _supabase
-          .from('feedings')
-          .select('user_id, baby_id, started_at')
-          .limit(5);
-      debugPrint('🍼 [FEEDING_STATS] Sample feeding records in database: $userCheck');
-      
       // 빈 통계 반환
       return CardStatistics(
         cardType: 'feeding',
@@ -192,13 +242,14 @@ class StatisticsService {
       );
     }
     
+    // 수정된 날짜 범위 쿼리 사용 (시간대 문제 해결)
     final response = await _supabase
         .from('feedings')
         .select('*')
         .eq('user_id', userId)
         .eq('baby_id', babyId)
-        .gte('started_at', dateRange.startDate.toUtc().toIso8601String())
-        .lte('started_at', dateRange.endDate.toUtc().toIso8601String());
+        .gte('started_at', dateQuery['start']!)
+        .lte('started_at', dateQuery['end']!);
 
     debugPrint('🍼 [FEEDING_STATS] Found ${response.length} feeding records in date range');
     
@@ -267,14 +318,18 @@ class StatisticsService {
     StatisticsDateRange dateRange,
   ) async {
     debugPrint('😴 [SLEEP_STATS] Querying sleeps for user: $userId, baby: $babyId');
+    debugPrint('😴 [SLEEP_STATS] Date range: ${dateRange.label}');
+    
+    // 시간대 문제 해결을 위한 날짜 범위 변환
+    final dateQuery = _getDateRangeForQuery(dateRange);
     
     final response = await _supabase
         .from('sleeps')
         .select('*')
         .eq('user_id', userId)
         .eq('baby_id', babyId)
-        .gte('started_at', dateRange.startDate.toUtc().toIso8601String())
-        .lte('started_at', dateRange.endDate.toUtc().toIso8601String());
+        .gte('started_at', dateQuery['start']!)
+        .lte('started_at', dateQuery['end']!);
 
     debugPrint('😴 [SLEEP_STATS] Found ${response.length} sleep records');
     
@@ -335,14 +390,18 @@ class StatisticsService {
     StatisticsDateRange dateRange,
   ) async {
     debugPrint('👶 [DIAPER_STATS] Querying diapers for user: $userId, baby: $babyId');
+    debugPrint('👶 [DIAPER_STATS] Date range: ${dateRange.label}');
+    
+    // 시간대 문제 해결을 위한 날짜 범위 변환
+    final dateQuery = _getDateRangeForQuery(dateRange);
     
     final response = await _supabase
         .from('diapers')
         .select('*')
         .eq('user_id', userId)
         .eq('baby_id', babyId)
-        .gte('changed_at', dateRange.startDate.toUtc().toIso8601String())
-        .lte('changed_at', dateRange.endDate.toUtc().toIso8601String());
+        .gte('changed_at', dateQuery['start']!)
+        .lte('changed_at', dateQuery['end']!);
 
     debugPrint('👶 [DIAPER_STATS] Found ${response.length} diaper records');
     
@@ -387,13 +446,19 @@ class StatisticsService {
     String babyId,
     StatisticsDateRange dateRange,
   ) async {
+    debugPrint('💊 [MEDICATION_STATS] Querying medications for user: $userId, baby: $babyId');
+    debugPrint('💊 [MEDICATION_STATS] Date range: ${dateRange.label}');
+    
+    // 시간대 문제 해결을 위한 날짜 범위 변환
+    final dateQuery = _getDateRangeForQuery(dateRange);
+    
     final response = await _supabase
         .from('medications')
         .select('*')
         .eq('user_id', userId)
         .eq('baby_id', babyId)
-        .gte('administered_at', dateRange.startDate.toUtc().toIso8601String())
-        .lte('administered_at', dateRange.endDate.toUtc().toIso8601String());
+        .gte('administered_at', dateQuery['start']!)
+        .lte('administered_at', dateQuery['end']!);
 
     final medications = response.map((json) => Medication.fromJson(json)).toList();
     
@@ -432,13 +497,19 @@ class StatisticsService {
     String babyId,
     StatisticsDateRange dateRange,
   ) async {
+    debugPrint('🍼 [MILK_PUMPING_STATS] Querying milk pumpings for user: $userId, baby: $babyId');
+    debugPrint('🍼 [MILK_PUMPING_STATS] Date range: ${dateRange.label}');
+    
+    // 시간대 문제 해결을 위한 날짜 범위 변환
+    final dateQuery = _getDateRangeForQuery(dateRange);
+    
     final response = await _supabase
-        .from('milk_pumpings')
+        .from('milk_pumping')
         .select('*')
         .eq('user_id', userId)
         .eq('baby_id', babyId)
-        .gte('started_at', dateRange.startDate.toUtc().toIso8601String())
-        .lte('started_at', dateRange.endDate.toUtc().toIso8601String());
+        .gte('started_at', dateQuery['start']!)
+        .lte('started_at', dateQuery['end']!);
 
     final milkPumpings = response.map((json) => MilkPumping.fromJson(json)).toList();
     
@@ -486,13 +557,19 @@ class StatisticsService {
     String babyId,
     StatisticsDateRange dateRange,
   ) async {
+    debugPrint('🥄 [SOLID_FOOD_STATS] Querying solid foods for user: $userId, baby: $babyId');
+    debugPrint('🥄 [SOLID_FOOD_STATS] Date range: ${dateRange.label}');
+    
+    // 시간대 문제 해결을 위한 날짜 범위 변환
+    final dateQuery = _getDateRangeForQuery(dateRange);
+    
     final response = await _supabase
         .from('solid_foods')
         .select('*')
         .eq('user_id', userId)
         .eq('baby_id', babyId)
-        .gte('started_at', dateRange.startDate.toUtc().toIso8601String())
-        .lte('started_at', dateRange.endDate.toUtc().toIso8601String());
+        .gte('started_at', dateQuery['start']!)
+        .lte('started_at', dateQuery['end']!);
 
     final solidFoods = response.map((json) => SolidFood.fromJson(json)).toList();
     
@@ -618,13 +695,17 @@ class StatisticsService {
 
   /// 일별 수유 메트릭 계산
   Future<double> _getDailyFeedingMetric(String userId, String babyId, DateTime startDate, DateTime endDate, String metricType) async {
+    // 시간대 문제 해결을 위한 날짜 범위 변환
+    final startDateStr = '${startDate.year}-${startDate.month.toString().padLeft(2, '0')}-${startDate.day.toString().padLeft(2, '0')}';
+    final endDateStr = '${endDate.year}-${endDate.month.toString().padLeft(2, '0')}-${endDate.day.toString().padLeft(2, '0')}';
+    
     final response = await _supabase
         .from('feedings')
         .select('*')
         .eq('user_id', userId)
         .eq('baby_id', babyId)
-        .gte('started_at', startDate.toUtc().toIso8601String())
-        .lte('started_at', endDate.toUtc().toIso8601String());
+        .gte('started_at', '${startDateStr}T00:00:00Z')
+        .lte('started_at', '${endDateStr}T23:59:59Z');
 
     final feedings = response.map((json) => Feeding.fromJson(json)).toList();
 
@@ -646,13 +727,17 @@ class StatisticsService {
 
   /// 일별 수면 메트릭 계산
   Future<double> _getDailySleepMetric(String userId, String babyId, DateTime startDate, DateTime endDate, String metricType) async {
+    // 시간대 문제 해결을 위한 날짜 범위 변환
+    final startDateStr = '${startDate.year}-${startDate.month.toString().padLeft(2, '0')}-${startDate.day.toString().padLeft(2, '0')}';
+    final endDateStr = '${endDate.year}-${endDate.month.toString().padLeft(2, '0')}-${endDate.day.toString().padLeft(2, '0')}';
+    
     final response = await _supabase
         .from('sleeps')
         .select('*')
         .eq('user_id', userId)
         .eq('baby_id', babyId)
-        .gte('started_at', startDate.toUtc().toIso8601String())
-        .lte('started_at', endDate.toUtc().toIso8601String());
+        .gte('started_at', '${startDateStr}T00:00:00Z')
+        .lte('started_at', '${endDateStr}T23:59:59Z');
 
     final sleeps = response.map((json) => Sleep.fromJson(json)).toList();
 
@@ -670,13 +755,17 @@ class StatisticsService {
 
   /// 일별 기저귀 메트릭 계산
   Future<double> _getDailyDiaperMetric(String userId, String babyId, DateTime startDate, DateTime endDate, String metricType) async {
+    // 시간대 문제 해결을 위한 날짜 범위 변환
+    final startDateStr = '${startDate.year}-${startDate.month.toString().padLeft(2, '0')}-${startDate.day.toString().padLeft(2, '0')}';
+    final endDateStr = '${endDate.year}-${endDate.month.toString().padLeft(2, '0')}-${endDate.day.toString().padLeft(2, '0')}';
+    
     final response = await _supabase
         .from('diapers')
         .select('*')
         .eq('user_id', userId)
         .eq('baby_id', babyId)
-        .gte('changed_at', startDate.toUtc().toIso8601String())
-        .lte('changed_at', endDate.toUtc().toIso8601String());
+        .gte('changed_at', '${startDateStr}T00:00:00Z')
+        .lte('changed_at', '${endDateStr}T23:59:59Z');
 
     final diapers = response.map((json) => Diaper.fromJson(json)).toList();
 

@@ -90,29 +90,85 @@ class StatisticsProvider extends ChangeNotifier {
   /// 디바운스를 위한 타이머
   Timer? _refreshTimer;
 
-  /// 디바운스된 통계 새로고침 (캐시 무효화 포함)
+  /// 디바운스된 통계 새로고침 (스마트 캐시 무효화)
   void _refreshStatisticsDebounced() {
     _refreshTimer?.cancel();
     _refreshTimer = Timer(const Duration(milliseconds: 500), () async {
-      await _invalidateStatisticsCache();
+      // 데이터 변경 시 해당 날짜 범위의 캐시만 무효화
+      await _invalidateSpecificDateRangeCache();
       refreshStatistics(showLoading: false);
     });
   }
 
-  /// 통계 관련 캐시 무효화
+  /// 특정 날짜 범위의 캐시만 무효화 (백엔드 호출 최소화)
+  Future<void> _invalidateSpecificDateRangeCache() async {
+    if (_currentUserId != null && _currentBabyId != null) {
+      try {
+        final cacheKeyPrefix = 'statistics_${_currentUserId}_${_currentBabyId}';
+        final startDateStr = '${_dateRange.startDate.year}${_dateRange.startDate.month.toString().padLeft(2, '0')}${_dateRange.startDate.day.toString().padLeft(2, '0')}';
+        final currentCacheKey = '${cacheKeyPrefix}_${_dateRange.type.toJson()}_$startDateStr';
+        
+        await _cache.remove(currentCacheKey);
+        debugPrint('🎯 [STATS_PROVIDER] Invalidated specific cache key: $currentCacheKey');
+        
+        // 차트 캐시도 해당 날짜 범위만 클리어
+        _chartDataCache.clear();
+        
+      } catch (e) {
+        debugPrint('❌ [STATS_PROVIDER] Error invalidating specific cache: $e');
+      }
+    }
+  }
+
+  /// 통계 관련 캐시 무효화 (강화된 버전)
   Future<void> _invalidateStatisticsCache() async {
     if (_currentUserId != null && _currentBabyId != null) {
       try {
-        // 카테고리별 캐시 무효화
+        // 1. 특정 통계 캐시 키들 직접 삭제 (새로운 날짜 기반 형식)
+        final cacheKeyPrefix = 'statistics_${_currentUserId}_${_currentBabyId}';
+        debugPrint('🗑️ [STATS_PROVIDER] Removing specific statistics cache keys with prefix: $cacheKeyPrefix');
+        
+        // 현재 날짜 범위의 캐시 키 생성하여 삭제
+        try {
+          final startDateStr = '${_dateRange.startDate.year}${_dateRange.startDate.month.toString().padLeft(2, '0')}${_dateRange.startDate.day.toString().padLeft(2, '0')}';
+          final currentCacheKey = '${cacheKeyPrefix}_${_dateRange.type.toJson()}_$startDateStr';
+          await _cache.remove(currentCacheKey);
+          debugPrint('🗑️ [STATS_PROVIDER] Removed current cache key: $currentCacheKey');
+          
+          // 추가로 최근 몇 일간의 캐시도 정리 (날짜가 바뀌었을 수 있으므로)
+          for (int i = 0; i < 7; i++) {
+            final date = DateTime.now().subtract(Duration(days: i));
+            final dateStr = '${date.year}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}';
+            final weeklyKey = '${cacheKeyPrefix}_weekly_$dateStr';
+            final monthlyKey = '${cacheKeyPrefix}_monthly_$dateStr';
+            final customKey = '${cacheKeyPrefix}_custom_$dateStr';
+            
+            await _cache.remove(weeklyKey);
+            await _cache.remove(monthlyKey);
+            await _cache.remove(customKey);
+          }
+          
+          debugPrint('🗑️ [STATS_PROVIDER] Cleaned up recent cache keys');
+        } catch (e) {
+          debugPrint('⚠️ [STATS_PROVIDER] Failed to remove specific cache keys: $e');
+        }
+        
+        // 2. 카테고리별 캐시 무효화
         await _cache.removeCategory('statistics');
         await _cache.removeCategory('user_settings');
         
-        // 로컬 차트 데이터 캐시 클리어
+        // 3. 로컬 차트 데이터 캐시 클리어
         _chartDataCache.clear();
         
+        // 4. 통계 데이터 로컬 변수도 클리어
+        _statistics = null;
+        _errorMessage = null;
+        
         debugPrint('🗑️ [STATS_PROVIDER] All statistics and chart cache invalidated for user: $_currentUserId, baby: $_currentBabyId');
+        debugPrint('🔄 [STATS_PROVIDER] Local statistics data also cleared');
       } catch (e) {
         debugPrint('❌ [STATS_PROVIDER] Error invalidating statistics cache: $e');
+        debugPrint('❌ [STATS_PROVIDER] Stack trace: ${StackTrace.current}');
       }
     }
   }
@@ -227,10 +283,12 @@ class StatisticsProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      // 안정적인 캐시 키로 정상적인 캐시 동작
       final statistics = await _statisticsService.generateStatistics(
         userId: _currentUserId!,
         babyId: _currentBabyId!,
         dateRange: _dateRange,
+        bypassCache: false, // 백엔드 호출 최소화를 위해 캐시 활용
       );
 
       _statistics = statistics;
