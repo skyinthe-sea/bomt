@@ -163,7 +163,7 @@ class GrowthInfoCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 2),
                     Text(
-                      '${isPositive ? '+' : '-'}${change.abs().toStringAsFixed(1)}$unit ${timePeriod?.toString() ?? ''}',
+                      '${isPositive ? '+' : '-'}${change.abs().toStringAsFixed(1)}$unit',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: isPositive ? Colors.green : Colors.red,
                         fontWeight: FontWeight.w600,
@@ -176,13 +176,14 @@ class GrowthInfoCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.onSurface.withOpacity(0.1),
+                  color: color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  AppLocalizations.of(context)!.noChange,
+                  AppLocalizations.of(context)!.firstRecord,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.7),
+                    color: color,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               )

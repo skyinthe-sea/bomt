@@ -490,7 +490,10 @@ class SleepService with DataSyncMixin {
           .limit(1);
       
       if (response.isNotEmpty) {
-        return Sleep.fromJson(response.first);
+        final sleepData = Map<String, dynamic>.from(response.first);
+        // 활성 수면의 경우 duration_minutes는 항상 null로 설정 (실시간 계산을 위해)
+        sleepData['duration_minutes'] = null;
+        return Sleep.fromJson(sleepData);
       }
       return null;
     } catch (e) {

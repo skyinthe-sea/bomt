@@ -300,15 +300,24 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
                                 color: theme.colorScheme.onSurface.withOpacity(0.7),
                               ),
                             ),
-                          if (wetCount > 0 || dirtyCount > 0)
+                          if (wetCount > 0 || dirtyCount > 0) ...[
                             Text(
-                              '${l10n.wetCount(wetCount)}, ${l10n.dirtyCount(dirtyCount)}',
+                              l10n.wetCount(wetCount),
                               style: theme.textTheme.titleLarge?.copyWith(
-                                fontSize: 11,
+                                fontSize: 10,
                                 fontWeight: FontWeight.w500,
                                 color: theme.colorScheme.onSurface.withOpacity(0.6),
                               ),
                             ),
+                            Text(
+                              l10n.dirtyCount(dirtyCount),
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     ],
