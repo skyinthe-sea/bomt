@@ -1,3 +1,5 @@
+import 'dart:math' show cos, sin;
+import 'dart:ui' show lerpDouble;
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../domain/models/growth_record.dart';
@@ -102,14 +104,15 @@ class GrowthChartWidget extends StatelessWidget {
                       final baseColor = showWeight ? colorScheme.primary : colorScheme.secondary;
                       
                       if (hasNotes) {
-                        // 🎯 2025 트렌드: 메모가 있는 포인트는 글로우 효과와 더 큰 사이즈
-                        return FlDotCirclePainter(
-                          radius: 6,
-                          color: baseColor,
-                          strokeWidth: 3,
+                        // 🎯 메모가 있는 포인트: 별표 모양으로 표시
+                        return _StarDotPainter(
+                          radius: 8,
+                          starColor: baseColor,
                           strokeColor: colorScheme.surface,
+                          strokeWidth: 2,
                         );
                       } else {
+                        // 일반 점은 작은 원으로 표시
                         return FlDotCirclePainter(
                           radius: 4,
                           color: baseColor,
@@ -137,33 +140,23 @@ class GrowthChartWidget extends StatelessWidget {
               lineTouchData: LineTouchData(
                 enabled: true,
                 touchTooltipData: LineTouchTooltipData(
-                  getTooltipColor: (touchedSpot) => colorScheme.inverseSurface.withOpacity(0.9),
-                  maxContentWidth: 200,
+                  // 에러 방지를 위해 올바른 수의 null 아이템 반환
                   getTooltipItems: (touchedSpots) {
-                    return touchedSpots.map((touchedSpot) {
-                      final dataPoint = chartData[touchedSpot.spotIndex];
-                      final unit = showWeight ? 'kg' : 'cm';
-                      final date = '${dataPoint.date.month}/${dataPoint.date.day}';
-                      
-                      // 🎨 2025 트렌드: 더 풍부한 토올팁 정보
-                      String tooltipText = '$date\n${dataPoint.value.toStringAsFixed(1)}$unit';
-                      
-                      if (dataPoint.hasNotes) {
-                        tooltipText += '\n\n💭 ${dataPoint.notes}';
-                      }
-                      
-                      return LineTooltipItem(
-                        tooltipText,
-                        TextStyle(
-                          color: colorScheme.onInverseSurface,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                          height: 1.4,
-                        ),
-                      );
-                    }).toList();
+                    return touchedSpots.map((spot) => null).toList();
                   },
                 ),
+                touchCallback: (FlTouchEvent event, LineTouchResponse? touchResponse) {
+                  if (event is FlTapUpEvent && touchResponse != null && touchResponse.lineBarSpots != null) {
+                    for (final spot in touchResponse.lineBarSpots!) {
+                      final dataPoint = chartData[spot.spotIndex];
+                      if (dataPoint.hasNotes) {
+                        _showMemoPopup(context, dataPoint);
+                        break; // 첫 번째 메모가 있는 점만 처리
+                      }
+                    }
+                  }
+                },
+                touchSpotThreshold: 20, // 터치 영역을 넓게 설정
               ),
             ),
           ),
@@ -172,9 +165,6 @@ class GrowthChartWidget extends StatelessWidget {
         // 범례 및 통계
         const SizedBox(height: 16),
         _buildStatistics(chartData, context),
-        
-        // 🎨 2025 트렌드: 메모 섹션
-        _buildNotesSection(chartData, context),
       ],
     );
   }
@@ -364,251 +354,153 @@ class GrowthChartWidget extends StatelessWidget {
     );
   }
 
-  /// 🎨 2025 최신 트렌드 메모 섹션
-  Widget _buildNotesSection(List<ChartDataPoint> data, BuildContext context) {
-    final notesData = data.where((point) => point.hasNotes).toList();
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final measurementType = showWeight ? '체중' : '키';
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 24),
-        
-        // 📝 섹션 헤더 (2025 트렌드)
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(
-                Icons.note_alt_outlined,
-                size: 20,
-                color: colorScheme.primary,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              '$measurementType 메모',
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: colorScheme.onSurface,
-              ),
-            ),
-            const SizedBox(width: 8),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                '${notesData.length}',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: colorScheme.primary,
-                ),
-              ),
-            ),
-          ],
-        ),
-        
-        const SizedBox(height: 16),
-        
-        // 📋 메모 내용 또는 빈 상태
-        if (notesData.isEmpty)
-          _buildEmptyNotesState(context)
-        else
-          ...notesData.map((notePoint) => _buildNoteCard(notePoint, context)),
-      ],
-    );
-  }
-
-  /// 🎨 메모가 없을 때의 빈 상태 UI (2025 트렌드)
-  Widget _buildEmptyNotesState(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final measurementType = showWeight ? '체중' : '키';
-    
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: colorScheme.surfaceVariant.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: colorScheme.outline.withOpacity(0.2),
-          width: 1,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // 🎨 2025 트렌드: 부드러운 아이콘
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: colorScheme.primary.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.edit_note_outlined,
-              size: 32,
-              color: colorScheme.primary.withOpacity(0.6),
-            ),
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // 메인 메시지
-          Text(
-            '아직 $measurementType 메모가 없어요',
-            style: theme.textTheme.titleSmall?.copyWith(
-              color: colorScheme.onSurface.withOpacity(0.7),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          
-          const SizedBox(height: 8),
-          
-          // 설명 텍스트
-          Text(
-            '$measurementType 입력할 때 특별한 순간을\n메모로 남겨보세요!',
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurface.withOpacity(0.5),
-              height: 1.4,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// 🎨 2025 글래스모피즘 메모 카드
-  Widget _buildNoteCard(ChartDataPoint dataPoint, BuildContext context) {
+  /// 🎯 메모 팝업 표시
+  void _showMemoPopup(BuildContext context, ChartDataPoint dataPoint) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final unit = showWeight ? 'kg' : 'cm';
     
-    // 📅 날짜 포맷팅
-    final date = dataPoint.date;
-    final formattedDate = '${date.year}.${date.month.toString().padLeft(2, '0')}.${date.day.toString().padLeft(2, '0')}';
-    final weekday = ['월', '화', '수', '목', '금', '토', '일'][date.weekday - 1];
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        // 🎨 2025 글래스모피즘 효과
-        color: colorScheme.surface.withOpacity(0.7),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: colorScheme.outline.withOpacity(0.2),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 🏷️ 헤더: 날짜 + 값
-            Row(
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.3),
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: colorScheme.surface,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: colorScheme.shadow.withOpacity(0.3),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 📊 값 배지
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: (showWeight ? colorScheme.primary : colorScheme.secondary).withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
+                // 헤더
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: (showWeight ? colorScheme.primary : colorScheme.secondary).withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
                         showWeight ? Icons.monitor_weight_outlined : Icons.height,
-                        size: 16,
+                        size: 20,
                         color: showWeight ? colorScheme.primary : colorScheme.secondary,
                       ),
-                      const SizedBox(width: 4),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${showWeight ? '체중' : '키'} 기록',
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: colorScheme.onSurface,
+                            ),
+                          ),
+                          Text(
+                            '${dataPoint.date.year}.${dataPoint.date.month.toString().padLeft(2, '0')}.${dataPoint.date.day.toString().padLeft(2, '0')}',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurface.withOpacity(0.6),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: Icon(
+                        Icons.close,
+                        color: colorScheme.onSurface.withOpacity(0.6),
+                      ),
+                    ),
+                  ],
+                ),
+                
+                const SizedBox(height: 20),
+                
+                // 값 표시
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surfaceVariant.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
                       Text(
                         '${dataPoint.value.toStringAsFixed(1)}$unit',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
                           color: showWeight ? colorScheme.primary : colorScheme.secondary,
                         ),
+                      ),
+                      const Spacer(),
+                      Icon(
+                        Icons.star,
+                        color: showWeight ? colorScheme.primary : colorScheme.secondary,
+                        size: 24,
                       ),
                     ],
                   ),
                 ),
                 
-                const Spacer(),
+                const SizedBox(height: 16),
                 
-                // 📅 날짜 정보
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      formattedDate,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: colorScheme.onSurface.withOpacity(0.8),
-                      ),
+                // 메모 내용
+                Text(
+                  '메모',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+                
+                const SizedBox(height: 8),
+                
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: colorScheme.outline.withOpacity(0.2),
+                      width: 1,
                     ),
-                    Text(
-                      '($weekday)',
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: colorScheme.onSurface.withOpacity(0.5),
-                      ),
+                  ),
+                  child: Text(
+                    dataPoint.notes!,
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.5,
+                      color: colorScheme.onSurface.withOpacity(0.8),
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
-            
-            const SizedBox(height: 12),
-            
-            // 💭 메모 내용
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: colorScheme.surfaceVariant.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: colorScheme.outline.withOpacity(0.1),
-                  width: 1,
-                ),
-              ),
-              child: Text(
-                dataPoint.notes!,
-                style: TextStyle(
-                  fontSize: 14,
-                  height: 1.4,
-                  color: colorScheme.onSurface.withOpacity(0.8),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
+
 }
 
 class ChartDataPoint {
@@ -625,4 +517,82 @@ class ChartDataPoint {
   });
 
   bool get hasNotes => notes != null && notes!.isNotEmpty;
+}
+
+/// 🎯 커스텀 별표 dot 페인터 - 메모가 있는 포인트를 별표로 표시
+class _StarDotPainter extends FlDotPainter {
+  final double radius;
+  final Color starColor;
+  final Color strokeColor;
+  final double strokeWidth;
+
+  _StarDotPainter({
+    required this.radius,
+    required this.starColor,
+    required this.strokeColor,
+    required this.strokeWidth,
+  });
+
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    final paint = Paint()
+      ..color = starColor
+      ..style = PaintingStyle.fill;
+
+    final strokePaint = Paint()
+      ..color = strokeColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth;
+
+    // 별표 모양 그리기 (5각별)
+    final starPath = Path();
+    final center = offsetInCanvas;
+    final outerRadius = radius;
+    final innerRadius = radius * 0.4;
+
+    // 5각별을 그리기 위한 각도 계산
+    for (int i = 0; i < 10; i++) {
+      final angle = (i * 36 - 90) * 3.14159 / 180; // -90도에서 시작 (위쪽 꼭지점)
+      final isOuter = i % 2 == 0;
+      final currentRadius = isOuter ? outerRadius : innerRadius;
+      
+      final x = center.dx + currentRadius * cos(angle);
+      final y = center.dy + currentRadius * sin(angle);
+      
+      if (i == 0) {
+        starPath.moveTo(x, y);
+      } else {
+        starPath.lineTo(x, y);
+      }
+    }
+    starPath.close();
+
+    // 별표 그리기
+    canvas.drawPath(starPath, paint);
+    canvas.drawPath(starPath, strokePaint);
+  }
+
+  @override
+  Size getSize(FlSpot spot) {
+    return Size(radius * 2.2, radius * 2.2);
+  }
+
+  @override
+  Color get mainColor => starColor;
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is _StarDotPainter && b is _StarDotPainter) {
+      return _StarDotPainter(
+        radius: lerpDouble(a.radius, b.radius, t) ?? radius,
+        starColor: Color.lerp(a.starColor, b.starColor, t) ?? starColor,
+        strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t) ?? strokeColor,
+        strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t) ?? strokeWidth,
+      );
+    }
+    return this;
+  }
+
+  @override
+  List<Object?> get props => [radius, starColor, strokeColor, strokeWidth];
 }
