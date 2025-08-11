@@ -150,20 +150,8 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
   Future<void> _handleQuickMilkPumping() async {
     if (widget.milkPumpingProvider == null) return;
 
-    // 수면 중단 확인 로직
-    if (widget.sleepProvider?.hasActiveSleep == true) {
-      final shouldProceed = await SleepInterruptionService.instance.showSleepInterruptionDialog(
-        context: context,
-        sleepProvider: widget.sleepProvider!,
-        activityName: AppLocalizations.of(context)!.milkPumping,
-        onProceed: () => _addQuickMilkPumping(),
-      );
-      
-      if (!shouldProceed) return;
-    } else {
-      // 진행 중인 수면이 없으면 바로 유축 추가
-      await _addQuickMilkPumping();
-    }
+    // 유축은 수면 중에도 가능한 활동이므로 수면 상태와 관계없이 바로 기록
+    await _addQuickMilkPumping();
   }
 
   Future<void> _addQuickMilkPumping() async {

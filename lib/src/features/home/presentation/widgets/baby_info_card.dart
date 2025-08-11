@@ -1,37 +1,87 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/baby.dart';
+import '../../../../presentation/providers/sleep_provider.dart';
 import '../../../health/presentation/screens/temperature_input_screen.dart';
 
-class BabyInfoCard extends StatelessWidget {
+class BabyInfoCard extends StatefulWidget {
   final Baby baby;
   final Map<String, dynamic> feedingSummary;
+  final SleepProvider? sleepProvider;
   final VoidCallback? onProfileImageTap;
   
   const BabyInfoCard({
     super.key,
     required this.baby,
     required this.feedingSummary,
+    this.sleepProvider,
     this.onProfileImageTap,
   });
+
+  @override
+  State<BabyInfoCard> createState() => _BabyInfoCardState();
+}
+
+class _BabyInfoCardState extends State<BabyInfoCard> {
+  Timer? _timer;
+  int _elapsedMinutes = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _updateElapsedTime();
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      if (mounted) {
+        _updateElapsedTime();
+      }
+    });
+  }
+
+  void _updateElapsedTime() {
+    if (widget.sleepProvider?.hasActiveSleep == true) {
+      final activeSleep = widget.sleepProvider?.currentActiveSleep;
+      if (activeSleep?.startedAt != null) {
+        final now = DateTime.now();
+        // UTC 시간을 로컬 시간으로 변환하여 계산
+        final startedAtLocal = activeSleep!.startedAt.toLocal();
+        final elapsed = now.difference(startedAtLocal);
+        setState(() {
+          _elapsedMinutes = elapsed.inMinutes.abs(); // 음수 방지
+        });
+        debugPrint('Sleep elapsed: ${elapsed.inMinutes} minutes (started: $startedAtLocal, now: $now)');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     
-    // Calculate last feeding time
-    final lastFeedingMinutes = feedingSummary['lastFeedingMinutesAgo'] ?? 0;
-    final hours = lastFeedingMinutes ~/ 60;
-    final minutes = lastFeedingMinutes % 60;
-    final lastFeedingText = hours > 0 
-        ? l10n.hoursAndMinutesAgo(hours, minutes)
-        : l10n.minutesAgo(minutes);
+    // Calculate last feeding time or sleep elapsed time - display in minutes only
+    final lastFeedingMinutes = widget.feedingSummary['lastFeedingMinutesAgo'] ?? 0;
+    final isActiveSleep = widget.sleepProvider?.hasActiveSleep ?? false;
+    
+    // Show sleep elapsed time if sleep is active, otherwise show last feeding time
+    final displayText = isActiveSleep 
+        ? '${_elapsedMinutes}분 진행 중'
+        : l10n.minutesAgo(lastFeedingMinutes);
     
     // 다음 수유까지 남은 시간 (알람 서비스에서 제공)
-    final minutesUntilNextFeeding = feedingSummary['minutesUntilNextFeeding'];
-    final nextFeedingTime = feedingSummary['nextFeedingTime'];
+    final minutesUntilNextFeeding = widget.feedingSummary['minutesUntilNextFeeding'];
+    final nextFeedingTime = widget.feedingSummary['nextFeedingTime'];
     
     // 기본 수유 간격 (3시간)
     final defaultFeedingInterval = 180; // 3시간 = 180분
@@ -87,7 +137,7 @@ class BabyInfoCard extends StatelessWidget {
                   children: [
                     // 아기 아바타
                     GestureDetector(
-                      onTap: onProfileImageTap,
+                      onTap: widget.onProfileImageTap,
                       child: Stack(
                         children: [
                           Container(
@@ -98,16 +148,16 @@ class BabyInfoCard extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: ClipOval(
-                              child: baby.profileImageUrl != null && baby.profileImageUrl!.isNotEmpty
+                              child: widget.baby.profileImageUrl != null && widget.baby.profileImageUrl!.isNotEmpty
                                   ? Image.network(
-                                      baby.profileImageUrl!,
+                                      widget.baby.profileImageUrl!,
                                       width: 50,
                                       height: 50,
                                       fit: BoxFit.cover,
                                       errorBuilder: (context, error, stackTrace) {
                                         return Center(
                                           child: Text(
-                                            baby.name.isNotEmpty ? baby.name[0] : '👶',
+                                            widget.baby.name.isNotEmpty ? widget.baby.name[0] : '👶',
                                             style: theme.textTheme.headlineSmall?.copyWith(
                                               color: theme.colorScheme.primary,
                                             ),
@@ -132,7 +182,7 @@ class BabyInfoCard extends StatelessWidget {
                                     )
                                   : Center(
                                       child: Text(
-                                        baby.name.isNotEmpty ? baby.name[0] : '👶',
+                                        widget.baby.name.isNotEmpty ? widget.baby.name[0] : '👶',
                                         style: theme.textTheme.headlineSmall?.copyWith(
                                           color: theme.colorScheme.primary,
                                         ),
@@ -141,7 +191,7 @@ class BabyInfoCard extends StatelessWidget {
                             ),
                           ),
                           // 편집 아이콘
-                          if (onProfileImageTap != null)
+                          if (widget.onProfileImageTap != null)
                             Positioned(
                               right: -2,
                               bottom: -2,
@@ -173,7 +223,7 @@ class BabyInfoCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            baby.name,
+                            widget.baby.name,
                             style: theme.textTheme.headlineSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: theme.colorScheme.onSurface,
@@ -184,7 +234,7 @@ class BabyInfoCard extends StatelessWidget {
                             children: [
                               Builder(
                                 builder: (context) {
-                                  final age = baby.ageMonthsAndDays;
+                                  final age = widget.baby.ageMonthsAndDays;
                                   return Text(
                                     l10n.ageMonthsAndDays(age['days']!, age['months']!),
                                     style: theme.textTheme.bodyMedium?.copyWith(
@@ -222,7 +272,7 @@ class BabyInfoCard extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => TemperatureInputScreen(baby: baby),
+                                builder: (context) => TemperatureInputScreen(baby: widget.baby),
                               ),
                             );
                           },
@@ -252,8 +302,8 @@ class BabyInfoCard extends StatelessWidget {
                 
                 const SizedBox(height: 16),
                 
-                // 마지막 수유 시간 섹션
-                if (feedingSummary['lastFeedingTime'] != null) ...[
+                // 마지막 수유 시간 또는 수면 진행 시간 섹션
+                if (widget.feedingSummary['lastFeedingTime'] != null || isActiveSleep) ...[
                   Row(
                     children: [
                       // 원형 진행 인디케이터
@@ -291,8 +341,8 @@ class BabyInfoCard extends StatelessWidget {
                             ),
                             // 중앙 아이콘
                             Icon(
-                              Icons.local_drink,
-                              color: theme.colorScheme.primary,
+                              isActiveSleep ? Icons.bedtime : Icons.local_drink,
+                              color: isActiveSleep ? Colors.purple : theme.colorScheme.primary,
                               size: 22,
                             ),
                           ],
@@ -305,14 +355,14 @@ class BabyInfoCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              l10n.lastFeedingTime,
+                              isActiveSleep ? '수면 진행 시간' : l10n.lastFeedingTime,
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: theme.colorScheme.onSurface.withOpacity(0.6),
                               ),
                             ),
                             const SizedBox(height: 3),
                             Text(
-                              lastFeedingText,
+                              displayText,
                               style: theme.textTheme.headlineSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: theme.colorScheme.onSurface,
@@ -366,7 +416,7 @@ class BabyInfoCard extends StatelessWidget {
   
   String _buildNextFeedingText(AppLocalizations l10n, int? minutesUntilNextFeeding, int nextFeedingMinutes, int nextHours, int nextMinutes) {
     // 패턴 기반 메시지 확인
-    final nextFeedingMessage = feedingSummary['nextFeedingMessage'] as String?;
+    final nextFeedingMessage = widget.feedingSummary['nextFeedingMessage'] as String?;
     
     if (nextFeedingMessage != null) {
       switch (nextFeedingMessage) {

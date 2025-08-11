@@ -66,12 +66,21 @@ class SleepService with DataSyncMixin {
     final sleepStartTime = startedAt ?? DateTime.now();
     final isActiveSleep = endedAt == null;
     
+    debugPrint('=== SLEEP START TIME PROCESSING ===');
+    debugPrint('startedAt parameter: $startedAt');
+    debugPrint('Calculated sleepStartTime: $sleepStartTime (isUtc: ${sleepStartTime.isUtc})');
+    debugPrint('sleepStartTime as ISO: ${sleepStartTime.toIso8601String()}');
+    debugPrint('Is active sleep: $isActiveSleep');
+    debugPrint('===================================');
+    
     return await withDataSyncEvent(
       operation: () async {
         // 기본값이 설정되지 않은 경우 저장된 기본값 사용
         final defaults = await getSleepDefaults();
         
         final now = DateTime.now();
+        debugPrint('Current time for metadata: $now (isUtc: ${now.isUtc})');
+        debugPrint('Current time as ISO: ${now.toIso8601String()}');
         
         Map<String, dynamic> sleepData;
         
@@ -85,10 +94,10 @@ class SleepService with DataSyncMixin {
             'quality': quality ?? defaults['quality'],
             'location': location ?? defaults['location'],
             'notes': notes,
-            'started_at': sleepStartTime.toIso8601String(),
+            'started_at': sleepStartTime.toUtc().toIso8601String(),
             'ended_at': null,
-            'created_at': now.toIso8601String(),
-            'updated_at': now.toIso8601String(),
+            'created_at': now.toUtc().toIso8601String(),
+            'updated_at': now.toUtc().toIso8601String(),
           };
         } else {
           // 완료된 수면: duration 계산 또는 기본값 사용
@@ -104,10 +113,10 @@ class SleepService with DataSyncMixin {
             'quality': quality ?? defaults['quality'],
             'location': location ?? defaults['location'],
             'notes': notes,
-            'started_at': sleepStartTime.toIso8601String(),
-            'ended_at': sleepEndTime.toIso8601String(),
-            'created_at': now.toIso8601String(),
-            'updated_at': now.toIso8601String(),
+            'started_at': sleepStartTime.toUtc().toIso8601String(),
+            'ended_at': sleepEndTime.toUtc().toIso8601String(),
+            'created_at': now.toUtc().toIso8601String(),
+            'updated_at': now.toUtc().toIso8601String(),
           };
         }
         
@@ -142,18 +151,94 @@ class SleepService with DataSyncMixin {
   Future<Map<String, dynamic>> getTodaySleepSummary(String babyId) async {
     try {
       final now = DateTime.now();
-      final today = DateTime(now.year, now.month, now.day);
-      final tomorrow = today.add(const Duration(days: 1));
       
+      // 한국 시간대 (UTC+9) 명시적 처리
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
+      
+      debugPrint('=== DETAILED TIME ANALYSIS ===');
+      debugPrint('Sleep summary query for baby_id: $babyId');
+      debugPrint('Raw DateTime.now(): $now (isUtc: ${now.isUtc})');
+      debugPrint('System timezone offset: ${now.timeZoneOffset}');
+      debugPrint('Current UTC time: ${DateTime.now().toUtc()}');
+      debugPrint('Calculated KST time: $nowKst');
+      debugPrint('');
+      debugPrint('Range calculation:');
+      debugPrint('  KST today start: $todayStartKst');
+      debugPrint('  KST tomorrow start: $tomorrowStartKst');
+      debugPrint('  UTC today start: $todayStartUtc');
+      debugPrint('  UTC tomorrow start: $tomorrowStartUtc');
+      debugPrint('  Query range: ${todayStartUtc.toIso8601String()} to ${tomorrowStartUtc.toIso8601String()}');
+      debugPrint('===============================');
+      
+      // Check current user authentication
+      final user = _supabase.auth.currentUser;
+      debugPrint('Current authenticated user: ${user?.id}');
+      
+      // Check if user has access to this baby
+      if (user != null) {
+        try {
+          final babyUserCheck = await _supabase
+              .from('baby_users')
+              .select('role')
+              .eq('baby_id', babyId)
+              .eq('user_id', user.id)
+              .limit(1);
+          debugPrint('Baby access check: ${babyUserCheck.length > 0 ? "ALLOWED" : "DENIED"}');
+          if (babyUserCheck.isNotEmpty) {
+            debugPrint('User role: ${babyUserCheck.first['role']}');
+          }
+        } catch (e) {
+          debugPrint('Baby access check error: $e');
+        }
+      }
+      
+      // 먼저 모든 데이터를 조회해서 비교해보자
+      final allDataResponse = await _supabase
+          .from('sleeps')
+          .select('started_at, ended_at, duration_minutes, quality')
+          .eq('baby_id', babyId)
+          .order('started_at', ascending: false)
+          .limit(10);
+      
+      debugPrint('=== ALL RECENT SLEEP DATA (last 10) ===');
+      for (int i = 0; i < allDataResponse.length; i++) {
+        final record = allDataResponse[i];
+        final startedAtStr = record['started_at'] as String;
+        final startedAtUtc = DateTime.parse(startedAtStr);
+        final startedAtKst = startedAtUtc.add(kstOffset);
+        debugPrint('[$i] UTC: $startedAtUtc | KST: $startedAtKst | Raw: $startedAtStr');
+      }
+      debugPrint('========================================');
+
       final response = await _supabase
           .from('sleeps')
           .select('started_at, ended_at, duration_minutes, quality')
           .eq('baby_id', babyId)
-          .gte('started_at', today.toUtc().toIso8601String())
-          .lt('started_at', tomorrow.toUtc().toIso8601String())
+          .gte('started_at', todayStartUtc.toIso8601String())
+          .lt('started_at', tomorrowStartUtc.toIso8601String())
           .order('started_at', ascending: false);
       
-      int count = response.length;
+      debugPrint('Sleep records found in range: ${response.length}');
+      debugPrint('=== FILTERED SLEEP DATA ===');
+      for (int i = 0; i < response.length; i++) {
+        final record = response[i];
+        final startedAtStr = record['started_at'] as String;
+        final startedAtUtc = DateTime.parse(startedAtStr);
+        final startedAtKst = startedAtUtc.add(kstOffset);
+        debugPrint('[$i] UTC: $startedAtUtc | KST: $startedAtKst');
+      }
+      debugPrint('============================');
+      
+      int count = 0; // 완료된 수면의 개수
       int totalMinutes = 0;
       DateTime? lastSleepTime;
       int? lastSleepMinutesAgo;
@@ -164,13 +249,20 @@ class SleepService with DataSyncMixin {
       };
       
       if (response.isNotEmpty) {
+        debugPrint('Processing ${response.length} sleep records:');
         // 총 수면 시간 및 품질별 계산 (완료된 수면만 포함)
         for (var sleep in response) {
           // 완료된 수면만 총 시간에 포함 (ended_at이 있는 경우)
           final startedAtStr = sleep['started_at'] as String?;
           final endedAtStr = sleep['ended_at'] as String?;
           
+          debugPrint('Sleep record: started_at=$startedAtStr, ended_at=$endedAtStr');
+          
           if (startedAtStr != null && endedAtStr != null) {
+            // 완료된 수면이므로 카운트 증가
+            count++;
+            debugPrint('Completed sleep found. Count is now: $count');
+            
             try {
               final startedAt = DateTime.parse(startedAtStr);
               final endedAt = DateTime.parse(endedAtStr);
@@ -179,6 +271,8 @@ class SleepService with DataSyncMixin {
               final durationSeconds = endedAt.difference(startedAt).inSeconds;
               final actualDurationMinutes = (durationSeconds / 60.0).round();
               
+              debugPrint('Sleep duration: ${actualDurationMinutes} minutes');
+              
               // 실제 수면 시간이 0분 이상인 경우만 포함
               if (actualDurationMinutes > 0) {
                 totalMinutes += actualDurationMinutes;
@@ -186,11 +280,16 @@ class SleepService with DataSyncMixin {
             } catch (e) {
               debugPrint('Error parsing sleep times: $e');
             }
+          } else if (startedAtStr != null && endedAtStr == null) {
+            debugPrint('Active sleep found (not counted in completed sleeps)');
           }
           
-          final quality = sleep['quality'] as String?;
-          if (quality != null && qualityCount.containsKey(quality)) {
-            qualityCount[quality] = qualityCount[quality]! + 1;
+          // 품질별 카운트는 완료된 수면만 포함 (ended_at이 있는 경우만)
+          if (endedAtStr != null) {
+            final quality = sleep['quality'] as String?;
+            if (quality != null && qualityCount.containsKey(quality)) {
+              qualityCount[quality] = qualityCount[quality]! + 1;
+            }
           }
         }
         
@@ -202,7 +301,7 @@ class SleepService with DataSyncMixin {
         }
       }
       
-      return {
+      final result = {
         'count': count,
         'totalMinutes': totalMinutes,
         'totalHours': totalMinutes ~/ 60,
@@ -212,6 +311,9 @@ class SleepService with DataSyncMixin {
         'qualityCount': qualityCount,
         'averageDuration': count > 0 ? (totalMinutes / count).round() : 0,
       };
+      
+      debugPrint('Final sleep summary: $result');
+      return result;
     } catch (e) {
       debugPrint('Error getting today sleep summary: $e');
       return {
@@ -235,15 +337,27 @@ class SleepService with DataSyncMixin {
   Future<List<Sleep>> getTodaySleeps(String babyId) async {
     try {
       final now = DateTime.now();
-      final today = DateTime(now.year, now.month, now.day);
-      final tomorrow = today.add(const Duration(days: 1));
+      
+      // 한국 시간대 (UTC+9) 명시적 처리
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
+      
+      debugPrint('Sleep list query range: ${todayStartUtc.toIso8601String()} to ${tomorrowStartUtc.toIso8601String()}');
       
       final response = await _supabase
           .from('sleeps')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('started_at', today.toUtc().toIso8601String())
-          .lt('started_at', tomorrow.toUtc().toIso8601String())
+          .gte('started_at', todayStartUtc.toIso8601String())
+          .lt('started_at', tomorrowStartUtc.toIso8601String())
           .order('started_at', ascending: false);
       
       return response.map((json) => Sleep.fromJson(json)).toList();
@@ -406,15 +520,30 @@ class SleepService with DataSyncMixin {
           final startedAtUtc = startedAt.toUtc();
           final endDateTimeUtc = endDateTime.toUtc();
           final calculatedDuration = endDateTimeUtc.difference(startedAtUtc).inMinutes;
+          
+          debugPrint('Sleep duration calculation:');
+          debugPrint('  Started at: $startedAtUtc');
+          debugPrint('  Ended at: $endDateTimeUtc');
+          debugPrint('  Calculated duration (minutes): $calculatedDuration');
+          
           // 최소 1분으로 설정 (너무 짧은 수면 기록 방지)
           final actualDuration = calculatedDuration < 1 ? 1 : calculatedDuration;
+          
+          debugPrint('  Actual duration saved: $actualDuration');
+          
+          debugPrint('=== SLEEP END TIME PROCESSING ===');
+          debugPrint('End time parameter: $endDateTime (isUtc: ${endDateTime.isUtc})');
+          debugPrint('End time as ISO: ${endDateTime.toIso8601String()}');
+          debugPrint('Current time: ${DateTime.now()} (isUtc: ${DateTime.now().isUtc})');
+          debugPrint('Current time as ISO: ${DateTime.now().toIso8601String()}');
+          debugPrint('==================================');
           
           final response = await _supabase
               .from('sleeps')
               .update({
-                'ended_at': endDateTime.toIso8601String(),
+                'ended_at': endDateTime.toUtc().toIso8601String(),
                 'duration_minutes': actualDuration,
-                'updated_at': DateTime.now().toIso8601String(),
+                'updated_at': DateTime.now().toUtc().toIso8601String(),
               })
               .eq('id', sleepId)
               .select()

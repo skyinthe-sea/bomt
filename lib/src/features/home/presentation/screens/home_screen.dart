@@ -815,77 +815,135 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         throw Exception('잘못된 데이터 형식입니다');
       }
       
-      if (result != null) {
-        // 성장 데이터 새로고침 - GrowthService를 직접 사용
-        final growthSummary = await _growthService.getGrowthSummary(_currentBaby!.id);
+      // 성장 데이터 새로고침 - GrowthService를 직접 사용
+      final growthSummary = await _growthService.getGrowthSummary(_currentBaby!.id);
+      
+      if (mounted) {
+        setState(() {
+          _growthSummary = growthSummary;
+        });
         
-        if (mounted) {
-          setState(() {
-            _growthSummary = growthSummary;
-          });
-          
-          // 성공 메시지 표시
-          String message;
-          Color backgroundColor;
-          IconData icon;
-          
-          if (data is Map<String, double>) {
-            // 동시 입력
-            List<String> types = [];
-            if (data.containsKey('weight')) types.add('체중');
-            if (data.containsKey('height')) types.add('키');
-            message = '${types.join('과 ')} 정보가 기록되었습니다';
-            backgroundColor = Colors.indigo;
-            icon = Icons.dashboard;
-          } else {
-            // 단일 입력
-            final type = data['type'] as String;
-            message = '${type == 'weight' ? '체중' : '키'} 정보가 기록되었습니다';
-            backgroundColor = type == 'weight' ? Colors.purple : Colors.green;
-            icon = type == 'weight' ? Icons.monitor_weight : Icons.height;
-          }
-          
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Row(
-                children: [
-                  Icon(
-                    icon,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(message),
-                ],
-              ),
-              backgroundColor: backgroundColor,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          );
+        // 성공 메시지 표시
+        String message;
+        Color backgroundColor;
+        IconData icon;
+        
+        if (data is Map<String, dynamic> && 
+            (data.containsKey('weight') || data.containsKey('height')) &&
+            !data.containsKey('type')) {
+          // 동시 입력 (weightNotes, heightNotes 포함)
+          List<String> types = [];
+          if (data.containsKey('weight')) types.add('체중');
+          if (data.containsKey('height')) types.add('키');
+          message = '${types.join('과 ')} 정보가 기록되었습니다';
+          backgroundColor = Colors.indigo;
+          icon = Icons.dashboard;
+        } else if (data is Map<String, double>) {
+          // 기존 동시 입력 (메모 없음)
+          List<String> types = [];
+          if (data.containsKey('weight')) types.add('체중');
+          if (data.containsKey('height')) types.add('키');
+          message = '${types.join('과 ')} 정보가 기록되었습니다';
+          backgroundColor = Colors.indigo;
+          icon = Icons.dashboard;
+        } else if (data is Map<String, dynamic> && data.containsKey('type')) {
+          // 단일 입력
+          final type = data['type'] as String;
+          message = '${type == 'weight' ? '체중' : '키'} 정보가 기록되었습니다';
+          backgroundColor = type == 'weight' ? Colors.purple : Colors.green;
+          icon = type == 'weight' ? Icons.monitor_weight : Icons.height;
+        } else {
+          // 기본값
+          message = '성장 정보가 기록되었습니다';
+          backgroundColor = Colors.indigo;
+          icon = Icons.dashboard;
         }
-      } else {
-        throw Exception('성장 기록 저장에 실패했습니다');
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text(message),
+              ],
+            ),
+            backgroundColor: backgroundColor,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
       }
     } catch (e) {
       debugPrint('Error adding growth record: $e');
       
+      // 데이터가 저장되었을 가능성이 있으므로 성장 데이터 새로고침 시도
+      try {
+        final growthSummary = await _growthService.getGrowthSummary(_currentBaby!.id);
+        if (mounted) {
+          setState(() {
+            _growthSummary = growthSummary;
+          });
+        }
+      } catch (refreshError) {
+        debugPrint('Failed to refresh growth summary after error: $refreshError');
+      }
+      
       if (mounted) {
+        // 타입 캐스팅 에러는 보통 데이터가 저장되었지만 응답 처리에 실패한 경우
+        bool isDataSavedButResponseFailed = e.toString().contains('type') && 
+                                           e.toString().contains('is not a subtype');
+        
+        String errorMessage;
+        Color backgroundColor;
+        
+        if (isDataSavedButResponseFailed) {
+          errorMessage = '데이터는 저장되었지만 응답 처리에 문제가 있습니다. 새로고침해주세요';
+          backgroundColor = Colors.orange[600]!;
+        } else if (e.toString().contains('insert') || e.toString().contains('database')) {
+          errorMessage = '데이터베이스 저장에 실패했습니다. 다시 시도해주세요';
+          backgroundColor = Colors.red[600]!;
+        } else if (e.toString().contains('network') || e.toString().contains('timeout')) {
+          errorMessage = '네트워크 오류가 발생했습니다. 연결 상태를 확인해주세요';
+          backgroundColor = Colors.red[600]!;
+        } else if (e.toString().contains('permission') || e.toString().contains('unauthorized')) {
+          errorMessage = '권한이 없습니다. 로그인 상태를 확인해주세요';
+          backgroundColor = Colors.red[600]!;
+        } else {
+          errorMessage = '성장 기록 처리 중 오류가 발생했습니다';
+          backgroundColor = Colors.orange[600]!;
+        }
+        
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('성장 기록 저장 중 오류가 발생했습니다'),
+                Icon(
+                  isDataSavedButResponseFailed ? Icons.warning : Icons.error, 
+                  color: Colors.white, 
+                  size: 20
+                ),
+                const SizedBox(width: 8),
+                Expanded(child: Text(errorMessage)),
               ],
             ),
-            backgroundColor: Colors.red[600],
+            backgroundColor: backgroundColor,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
+            ),
+            action: SnackBarAction(
+              label: isDataSavedButResponseFailed ? '새로고침' : '확인',
+              textColor: Colors.white,
+              onPressed: isDataSavedButResponseFailed ? () {
+                _refreshData();
+              } : () {},
             ),
           ),
         );
@@ -1401,6 +1459,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           child: BabyInfoCard(
                             baby: _currentBaby!,
                             feedingSummary: _feedingSummary,
+                            sleepProvider: _sleepProvider,
                             onProfileImageTap: _updateProfileImage,
                           ),
                         ),

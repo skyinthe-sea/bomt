@@ -49,10 +49,14 @@ class GrowthService {
           .select()
           .single();
       
+      debugPrint('성장 기록 저장 성공: ${response['id']}');
+      debugPrint('서버 응답 전체 데이터: $response');
+      
       return GrowthRecord.fromJson(response);
     } catch (e) {
       debugPrint('Error adding growth record: $e');
-      return null;
+      // 데이터가 저장되었지만 응답 처리에 실패한 경우를 대비해 예외를 다시 던짐
+      rethrow;
     }
   }
   
@@ -85,11 +89,17 @@ class GrowthService {
   /// 성장 기록 요약 정보 가져오기 (최근 기록들로 변화량 계산)
   Future<Map<String, dynamic>> getGrowthSummary(String babyId) async {
     try {
+      debugPrint('🔍 [GrowthSummary] 시작 (babyId: $babyId)');
       final response = await _supabase
           .from('growth_records')
           .select('*')
           .eq('baby_id', babyId)
           .order('recorded_at', ascending: false);
+      
+      debugPrint('🔍 [GrowthSummary] 응답: ${response.length}개 레코드');
+      if (response.isNotEmpty) {
+        debugPrint('🔍 [GrowthSummary] 첫 번째 레코드: ${response.first}');
+      }
       
       if (response.isEmpty) {
         return {
@@ -108,10 +118,20 @@ class GrowthService {
       }
       
       final latest = response.first;
+      debugPrint('🔍 [GrowthSummary] latest 레코드 처리 시작');
+      debugPrint('🔍 [GrowthSummary] latest: $latest');
+      
+      debugPrint('🔍 [GrowthSummary] weight_kg 처리: ${latest['weight_kg']} (type: ${latest['weight_kg'].runtimeType})');
       final latestWeight = (latest['weight_kg'] as num?)?.toDouble();
+      
+      debugPrint('🔍 [GrowthSummary] height_cm 처리: ${latest['height_cm']} (type: ${latest['height_cm'].runtimeType})');
       final latestHeight = (latest['height_cm'] as num?)?.toDouble();
+      
+      debugPrint('🔍 [GrowthSummary] head_circumference_cm 처리: ${latest['head_circumference_cm']} (type: ${latest['head_circumference_cm'].runtimeType})');
       final latestHeadCircumference = (latest['head_circumference_cm'] as num?)?.toDouble();
-      final latestRecordedAt = DateTime.parse(latest['recorded_at'] as String);
+      
+      debugPrint('🔍 [GrowthSummary] recorded_at 처리: ${latest['recorded_at']} (type: ${latest['recorded_at'].runtimeType})');
+      final latestRecordedAt = DateTime.parse(latest['recorded_at'].toString());
       
       double weightChange = 0.0;
       double heightChange = 0.0;
@@ -121,12 +141,15 @@ class GrowthService {
       String? headCircumferenceTimePeriod;
       
       // 체중 변화량 계산 (유효한 이전 기록 찾기)
+      debugPrint('🔍 [GrowthSummary] 체중 변화량 계산 시작');
       if (latestWeight != null) {
         for (int i = 1; i < response.length; i++) {
+          debugPrint('🔍 [GrowthSummary] 체중 변화 계산 - 레코드 $i: ${response[i]}');
           final previousWeight = (response[i]['weight_kg'] as num?)?.toDouble();
           if (previousWeight != null) {
             weightChange = latestWeight - previousWeight;
-            final previousRecordedAt = DateTime.parse(response[i]['recorded_at'] as String);
+            debugPrint('🔍 [GrowthSummary] recorded_at 파싱: ${response[i]['recorded_at']} (type: ${response[i]['recorded_at'].runtimeType})');
+            final previousRecordedAt = DateTime.parse(response[i]['recorded_at'].toString());
             weightTimePeriod = _formatTimePeriod(previousRecordedAt, latestRecordedAt);
             break;
           }
@@ -134,12 +157,15 @@ class GrowthService {
       }
       
       // 키 변화량 계산 (유효한 이전 기록 찾기)
+      debugPrint('🔍 [GrowthSummary] 키 변화량 계산 시작');
       if (latestHeight != null) {
         for (int i = 1; i < response.length; i++) {
+          debugPrint('🔍 [GrowthSummary] 키 변화 계산 - 레코드 $i: ${response[i]}');
           final previousHeight = (response[i]['height_cm'] as num?)?.toDouble();
           if (previousHeight != null) {
             heightChange = latestHeight - previousHeight;
-            final previousRecordedAt = DateTime.parse(response[i]['recorded_at'] as String);
+            debugPrint('🔍 [GrowthSummary] recorded_at 파싱: ${response[i]['recorded_at']} (type: ${response[i]['recorded_at'].runtimeType})');
+            final previousRecordedAt = DateTime.parse(response[i]['recorded_at'].toString());
             heightTimePeriod = _formatTimePeriod(previousRecordedAt, latestRecordedAt);
             break;
           }
@@ -147,17 +173,22 @@ class GrowthService {
       }
       
       // 머리둘레 변화량 계산 (유효한 이전 기록 찾기)
+      debugPrint('🔍 [GrowthSummary] 머리둘레 변화량 계산 시작');
       if (latestHeadCircumference != null) {
         for (int i = 1; i < response.length; i++) {
+          debugPrint('🔍 [GrowthSummary] 머리둘레 변화 계산 - 레코드 $i: ${response[i]}');
           final previousHeadCircumference = (response[i]['head_circumference_cm'] as num?)?.toDouble();
           if (previousHeadCircumference != null) {
             headCircumferenceChange = latestHeadCircumference - previousHeadCircumference;
-            final previousRecordedAt = DateTime.parse(response[i]['recorded_at'] as String);
+            debugPrint('🔍 [GrowthSummary] recorded_at 파싱: ${response[i]['recorded_at']} (type: ${response[i]['recorded_at'].runtimeType})');
+            final previousRecordedAt = DateTime.parse(response[i]['recorded_at'].toString());
             headCircumferenceTimePeriod = _formatTimePeriod(previousRecordedAt, latestRecordedAt);
             break;
           }
         }
       }
+      
+      debugPrint('🔍 [GrowthSummary] 계산 완료 - weightChange: $weightChange, heightChange: $heightChange');
       
       return {
         'hasData': true,
@@ -193,13 +224,23 @@ class GrowthService {
   /// 모든 성장 기록 가져오기
   Future<List<GrowthRecord>> getAllGrowthRecords(String babyId) async {
     try {
+      debugPrint('🔍 [GrowthService] getAllGrowthRecords 시작 (babyId: $babyId)');
       final response = await _supabase
           .from('growth_records')
           .select('*')
           .eq('baby_id', babyId)
           .order('recorded_at', ascending: false);
       
-      return response.map((json) => GrowthRecord.fromJson(json)).toList();
+      debugPrint('🔍 [GrowthService] getAllGrowthRecords 응답: ${response.length}개 레코드');
+      debugPrint('🔍 [GrowthService] 첫 번째 레코드 (있다면): ${response.isNotEmpty ? response.first : "없음"}');
+      
+      final result = response.map((json) {
+        debugPrint('🔍 [GrowthService] 변환 중인 레코드: $json');
+        return GrowthRecord.fromJson(json);
+      }).toList();
+      
+      debugPrint('🔍 [GrowthService] getAllGrowthRecords 완료: ${result.length}개 변환됨');
+      return result;
     } catch (e) {
       debugPrint('Error getting growth records: $e');
       return [];
@@ -267,35 +308,30 @@ class GrowthService {
     String? notes,
     DateTime? recordedAt,
   }) async {
-    try {
-      double? weightKg;
-      double? heightCm;
-      
-      // measurements 맵에서 값 추출
-      if (measurements.containsKey('weight')) {
-        weightKg = measurements['weight'];
-      }
-      if (measurements.containsKey('height')) {
-        heightCm = measurements['height'];
-      }
-      
-      debugPrint('동시 저장: 체중=$weightKg, 키=$heightCm');
-      
-      // 하나의 레코드로 저장
-      return addGrowthRecord(
-        babyId: babyId,
-        userId: userId,
-        weightKg: weightKg,
-        heightCm: heightCm,
-        notes: notes, // 호환성을 위해 유지
-        weightNotes: weightKg != null ? notes : null, // 체중이 있을 때만 체중 메모
-        heightNotes: heightCm != null ? notes : null, // 키가 있을 때만 키 메모
-        recordedAt: recordedAt,
-      );
-    } catch (e) {
-      debugPrint('Error adding multiple measurements: $e');
-      return null;
+    double? weightKg;
+    double? heightCm;
+    
+    // measurements 맵에서 값 추출
+    if (measurements.containsKey('weight')) {
+      weightKg = measurements['weight'];
     }
+    if (measurements.containsKey('height')) {
+      heightCm = measurements['height'];
+    }
+    
+    debugPrint('동시 저장: 체중=$weightKg, 키=$heightCm');
+    
+    // 하나의 레코드로 저장 (예외는 상위로 전파)
+    return addGrowthRecord(
+      babyId: babyId,
+      userId: userId,
+      weightKg: weightKg,
+      heightCm: heightCm,
+      notes: notes, // 호환성을 위해 유지
+      weightNotes: weightKg != null ? notes : null, // 체중이 있을 때만 체중 메모
+      heightNotes: heightCm != null ? notes : null, // 키가 있을 때만 키 메모
+      recordedAt: recordedAt,
+    );
   }
 
   /// 특정 타입(체중 또는 키)의 성장 기록만 추가하는 편의 메서드
@@ -307,63 +343,58 @@ class GrowthService {
     String? notes,
     DateTime? recordedAt,
   }) async {
-    try {
-      // 최신 성장 기록 가져오기 (기존 값 유지를 위해)
-      final latestRecords = await _supabase
-          .from('growth_records')
-          .select('*')
-          .eq('baby_id', babyId)
-          .order('recorded_at', ascending: false)
-          .limit(1);
+    // 최신 성장 기록 가져오기 (기존 값 유지를 위해)
+    final latestRecords = await _supabase
+        .from('growth_records')
+        .select('*')
+        .eq('baby_id', babyId)
+        .order('recorded_at', ascending: false)
+        .limit(1);
+    
+    double? existingWeight;
+    double? existingHeight;
+    double? existingHeadCircumference;
+    
+    // 기존 기록이 있으면 값들을 가져옴
+    if (latestRecords.isNotEmpty) {
+      final latest = latestRecords.first;
+      existingWeight = (latest['weight_kg'] as num?)?.toDouble();
+      existingHeight = (latest['height_cm'] as num?)?.toDouble();
+      existingHeadCircumference = (latest['head_circumference_cm'] as num?)?.toDouble();
       
-      double? existingWeight;
-      double? existingHeight;
-      double? existingHeadCircumference;
-      
-      // 기존 기록이 있으면 값들을 가져옴
-      if (latestRecords.isNotEmpty) {
-        final latest = latestRecords.first;
-        existingWeight = (latest['weight_kg'] as num?)?.toDouble();
-        existingHeight = (latest['height_cm'] as num?)?.toDouble();
-        existingHeadCircumference = (latest['head_circumference_cm'] as num?)?.toDouble();
-        
-        debugPrint('기존 기록 - 체중: $existingWeight, 키: $existingHeight, 머리둘레: $existingHeadCircumference');
-      } else {
-        debugPrint('기존 기록 없음 - 첫 번째 기록');
-      }
-      
-      // 입력한 타입에 따라 해당 값만 업데이트하고 나머지는 기존 값 유지 (null이면 null 유지)
-      switch (type) {
-        case 'weight':
-          debugPrint('체중 입력: $value, 기존 키 유지: $existingHeight');
-          return addGrowthRecord(
-            babyId: babyId,
-            userId: userId,
-            weightKg: value,
-            heightCm: existingHeight, // 기존 키 값 유지 (null이면 null)
-            headCircumferenceCm: existingHeadCircumference, // 기존 머리둘레 값 유지 (null이면 null)
-            notes: notes, // 호환성을 위해 유지
-            weightNotes: notes, // 🎯 체중 메모를 별도 필드에 저장
-            recordedAt: recordedAt,
-          );
-        case 'height':
-          debugPrint('키 입력: $value, 기존 체중 유지: $existingWeight');
-          return addGrowthRecord(
-            babyId: babyId,
-            userId: userId,
-            weightKg: existingWeight, // 기존 체중 값 유지 (null이면 null)
-            heightCm: value,
-            headCircumferenceCm: existingHeadCircumference, // 기존 머리둘레 값 유지 (null이면 null)
-            notes: notes, // 호환성을 위해 유지
-            heightNotes: notes, // 🎯 키 메모를 별도 필드에 저장
-            recordedAt: recordedAt,
-          );
-        default:
-          throw ArgumentError('Invalid measurement type: $type');
-      }
-    } catch (e) {
-      debugPrint('Error adding single measurement: $e');
-      return null;
+      debugPrint('기존 기록 - 체중: $existingWeight, 키: $existingHeight, 머리둘레: $existingHeadCircumference');
+    } else {
+      debugPrint('기존 기록 없음 - 첫 번째 기록');
+    }
+    
+    // 입력한 타입에 따라 해당 값만 업데이트하고 나머지는 기존 값 유지 (null이면 null 유지)
+    switch (type) {
+      case 'weight':
+        debugPrint('체중 입력: $value, 기존 키 유지: $existingHeight');
+        return addGrowthRecord(
+          babyId: babyId,
+          userId: userId,
+          weightKg: value,
+          heightCm: existingHeight, // 기존 키 값 유지 (null이면 null)
+          headCircumferenceCm: existingHeadCircumference, // 기존 머리둘레 값 유지 (null이면 null)
+          notes: notes, // 호환성을 위해 유지
+          weightNotes: notes, // 🎯 체중 메모를 별도 필드에 저장
+          recordedAt: recordedAt,
+        );
+      case 'height':
+        debugPrint('키 입력: $value, 기존 체중 유지: $existingWeight');
+        return addGrowthRecord(
+          babyId: babyId,
+          userId: userId,
+          weightKg: existingWeight, // 기존 체중 값 유지 (null이면 null)
+          heightCm: value,
+          headCircumferenceCm: existingHeadCircumference, // 기존 머리둘레 값 유지 (null이면 null)
+          notes: notes, // 호환성을 위해 유지
+          heightNotes: notes, // 🎯 키 메모를 별도 필드에 저장
+          recordedAt: recordedAt,
+        );
+      default:
+        throw ArgumentError('Invalid measurement type: $type');
     }
   }
 }

@@ -111,6 +111,10 @@ class SleepProvider extends ChangeNotifier {
     
     try {
       _currentActiveSleep = await _sleepService.getCurrentActiveSleep(_currentBabyId!);
+      debugPrint('Current active sleep loaded: ${_currentActiveSleep?.id} (${_currentActiveSleep != null ? "ACTIVE" : "NONE"})');
+      if (_currentActiveSleep != null) {
+        debugPrint('Active sleep started at: ${_currentActiveSleep!.startedAt}');
+      }
     } catch (e) {
       debugPrint('Error loading current active sleep: $e');
     }
