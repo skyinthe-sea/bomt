@@ -7,7 +7,7 @@ import '../../../../domain/models/community_category.dart';
 import '../../../../presentation/providers/community_provider.dart';
 import '../../../../services/image/image_service.dart';
 import '../widgets/community_write_app_bar.dart';
-import '../widgets/community_category_selector.dart';
+import '../widgets/community_write_category_dropdown.dart';
 import '../widgets/community_image_picker.dart';
 import '../widgets/community_timeline_selector.dart';
 
@@ -324,7 +324,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
             child: Column(
               children: [
                 // 카테고리 선택
-                CommunityCategorySelector(
+                CommunityWriteCategoryDropdown(
                   selectedCategory: _selectedCategory,
                   onCategorySelected: (category) {
                     setState(() {

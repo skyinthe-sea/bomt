@@ -6,8 +6,7 @@ import 'package:bomt/src/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../../../presentation/providers/community_provider.dart';
 import '../widgets/community_app_bar.dart';
-import '../widgets/community_banner.dart';
-import '../widgets/community_category_tabs.dart';
+import '../widgets/community_category_dropdown.dart';
 import '../widgets/community_post_list.dart';
 import '../widgets/community_fab.dart';
 import '../widgets/community_loading_shimmer.dart';
@@ -121,14 +120,9 @@ class _CommunityScreenState extends State<CommunityScreen>
                       child: SizedBox(height: 8),
                     ),
                     
-                    // 상단 배너
+                    // 카테고리 드롭다운
                     const SliverToBoxAdapter(
-                      child: CommunityBanner(),
-                    ),
-                    
-                    // 카테고리 탭
-                    const SliverToBoxAdapter(
-                      child: CommunityCategoryTabs(),
+                      child: CommunityCategoryDropdown(),
                     ),
                     
                     // 정렬 버튼

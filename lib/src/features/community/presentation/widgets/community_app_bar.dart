@@ -58,8 +58,9 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            theme.colorScheme.surface.withOpacity(0.95),
-            theme.colorScheme.surface.withOpacity(0.9),
+            theme.colorScheme.primary.withOpacity(0.9),
+            theme.colorScheme.primary.withOpacity(0.7),
+            theme.colorScheme.secondary.withOpacity(0.6),
           ],
         ),
       ),
@@ -111,17 +112,11 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                l10n.community,
-                                style: theme.textTheme.titleLarge?.copyWith(
+                                '함께 나누는 육아 이야기',
+                                style: theme.textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: theme.colorScheme.onSurface,
-                                ),
-                              ),
-                              Text(
-                                l10n.communitySubtitle,
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: theme.colorScheme.onSurface.withOpacity(0.6),
-                                  fontSize: 11,
+                                  color: Colors.white,
+                                  fontSize: 17,
                                 ),
                               ),
                             ],
@@ -134,10 +129,10 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
                     Container(
                       margin: const EdgeInsets.only(right: 8),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.surface.withOpacity(0.5),
+                        color: Colors.white.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: theme.colorScheme.outline.withOpacity(0.1),
+                          color: Colors.white.withOpacity(0.2),
                         ),
                       ),
                       child: IconButton(
@@ -165,7 +160,7 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
                         },
                         icon: Icon(
                           Icons.search,
-                          color: theme.colorScheme.onSurface.withOpacity(0.7),
+                          color: Colors.white.withOpacity(0.9),
                           size: 20,
                         ),
                         tooltip: l10n.search,
@@ -175,10 +170,10 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
                     // 알림 버튼
                     Container(
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.surface.withOpacity(0.5),
+                        color: Colors.white.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: theme.colorScheme.outline.withOpacity(0.1),
+                          color: Colors.white.withOpacity(0.2),
                         ),
                       ),
                       child: IconButton(
@@ -196,7 +191,7 @@ class _CommunityAppBarState extends State<CommunityAppBar> {
                           children: [
                             Icon(
                               Icons.notifications_outlined,
-                              color: theme.colorScheme.onSurface.withOpacity(0.7),
+                              color: Colors.white.withOpacity(0.9),
                               size: 20,
                             ),
                             // 읽지 않은 알림 뱃지
