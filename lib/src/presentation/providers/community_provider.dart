@@ -190,7 +190,7 @@ class CommunityProvider with ChangeNotifier {
           postAuthorId: post.authorId,
           likerUserId: currentUserId!,
           likerNickname: _currentUserProfile!.nickname,
-          postTitle: post.title,
+          postTitle: post.title ?? post.content.substring(0, post.content.length > 50 ? 50 : post.content.length),
         );
       }
     } catch (e) {
@@ -202,7 +202,7 @@ class CommunityProvider with ChangeNotifier {
   // 게시글 작성
   Future<CommunityPost?> createPost({
     required String categoryId,
-    required String title,
+    String? title, // X 스타일: nullable
     required String content,
     List<String>? images,
     List<String>? mosaicImages,
@@ -246,7 +246,7 @@ class CommunityProvider with ChangeNotifier {
   Future<CommunityPost?> updatePost({
     required String postId,
     required String categoryId,
-    required String title,
+    String? title, // X 스타일: nullable
     required String content,
     List<String>? images,
     List<String>? mosaicImages,

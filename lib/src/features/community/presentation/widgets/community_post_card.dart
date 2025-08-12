@@ -58,6 +58,113 @@ class CommunityPostCard extends StatelessWidget {
     }
   }
 
+  // X 스타일: 내용 섹션 구현 (반응형 높이 + fade out 효과)
+  Widget _buildContentSection(BuildContext context, ThemeData theme) {
+    const int maxLines = 6; // 최대 표시 줄 수
+    const double fadeHeight = 40.0; // fade out 영역 높이
+    
+    // 내용이 비어있거나 null인 경우 처리
+    final content = post.content?.trim() ?? '';
+    if (content.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final textSpan = TextSpan(
+          text: content,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            height: 1.4,
+            color: theme.colorScheme.onSurface.withOpacity(0.8),
+          ),
+        );
+        
+        final textPainter = TextPainter(
+          text: textSpan,
+          textDirection: TextDirection.ltr,
+          maxLines: null,
+        )..layout(maxWidth: constraints.maxWidth);
+        
+        // 실제 필요한 줄 수 계산
+        final actualLines = textPainter.computeLineMetrics().length;
+        final needsFadeOut = actualLines > maxLines;
+        
+        if (!needsFadeOut) {
+          // 짧은 글: 그대로 표시
+          return Text(
+            content,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              height: 1.4,
+              color: theme.colorScheme.onSurface.withOpacity(0.8),
+            ),
+          );
+        }
+        
+        // 긴 글: fade out 효과와 함께 표시
+        return Stack(
+          children: [
+            Text(
+              content,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                height: 1.4,
+                color: theme.colorScheme.onSurface.withOpacity(0.8),
+              ),
+              maxLines: maxLines,
+              overflow: TextOverflow.clip,
+            ),
+            
+            // Fade out 효과
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: fadeHeight,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      theme.colorScheme.surface.withOpacity(0.8),
+                      theme.colorScheme.surface.withOpacity(0.95),
+                    ],
+                    stops: const [0.0, 0.7, 1.0],
+                  ),
+                ),
+              ),
+            ),
+            
+            // "더 보기" 표시 (선택적)
+            Positioned(
+              bottom: 4,
+              right: 8,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: theme.colorScheme.primary.withOpacity(0.3),
+                    width: 0.5,
+                  ),
+                ),
+                child: Text(
+                  '더 보기',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 10,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -246,17 +353,8 @@ class CommunityPostCard extends StatelessWidget {
                   
                   const SizedBox(height: 12),
                   
-                  // 게시글 제목
-                  Text(
-                    post.title,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.onSurface,
-                      height: 1.3,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  // X 스타일: 게시글 내용 직접 표시 (fade out 효과 포함)
+                  _buildContentSection(context, theme),
                   
                   const SizedBox(height: 12),
                   

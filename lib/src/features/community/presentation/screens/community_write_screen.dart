@@ -19,9 +19,8 @@ class CommunityWriteScreen extends StatefulWidget {
 }
 
 class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
-  final TextEditingController _titleController = TextEditingController();
+  // X 스타일: 제목 없이 내용만 사용
   final TextEditingController _contentController = TextEditingController();
-  final FocusNode _titleFocus = FocusNode();
   final FocusNode _contentFocus = FocusNode();
   
   CommunityCategory? _selectedCategory;
@@ -56,16 +55,13 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
 
   @override
   void dispose() {
-    _titleController.dispose();
     _contentController.dispose();
-    _titleFocus.dispose();
     _contentFocus.dispose();
     super.dispose();
   }
 
   bool get _canPost {
-    return _titleController.text.trim().isNotEmpty &&
-           _contentController.text.trim().isNotEmpty &&
+    return _contentController.text.trim().isNotEmpty &&
            _selectedCategory != null &&
            !_isPosting;
   }
@@ -148,10 +144,9 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
   }
 
   Future<void> _handlePost() async {
-    print('DEBUG: _handlePost called');
+    print('DEBUG: _handlePost called (X style - no title)');
     print('DEBUG: _canPost = $_canPost');
-    print('DEBUG: title = "${_titleController.text.trim()}"');
-    print('DEBUG: content = "${_contentController.text.trim()}"');
+    print('DEBUG: content = "${_contentController.text.trim()}" (${_contentController.text.length}/280)');
     print('DEBUG: selectedCategory = $_selectedCategory');
     print('DEBUG: isPosting = $_isPosting');
     
@@ -238,7 +233,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
       }
       final post = await provider.createPost(
         categoryId: _selectedCategory!.id,
-        title: _titleController.text.trim(),
+        title: null, // X 스타일: 제목 없이 내용만 사용
         content: _contentController.text.trim(),
         images: imageUrls,
         mosaicImages: mosaicImageUrls,
@@ -293,10 +288,9 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     
-    // 디버그: 현재 상태 출력
+    // 디버그: 현재 상태 출력 (X 스타일)
     print('DEBUG: Build - _canPost = $_canPost');
-    print('DEBUG: Build - title: "${_titleController.text.trim()}"');
-    print('DEBUG: Build - content: "${_contentController.text.trim()}"');
+    print('DEBUG: Build - content: "${_contentController.text.trim()}" (${_contentController.text.length}/280)');
     print('DEBUG: Build - selectedCategory: $_selectedCategory');
     print('DEBUG: Build - isPosting: $_isPosting');
 
@@ -333,53 +327,10 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                   },
                 ),
                 
-                // 제목 입력
-                Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surface.withOpacity(0.9),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: _titleFocus.hasFocus 
-                        ? theme.colorScheme.primary.withOpacity(0.5)
-                        : theme.colorScheme.outline.withOpacity(0.1),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: theme.colorScheme.shadow.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: TextField(
-                      controller: _titleController,
-                      focusNode: _titleFocus,
-                      decoration: InputDecoration(
-                        hintText: l10n.titlePlaceholder,
-                        hintStyle: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.5),
-                        ),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.all(20),
-                      ),
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                      maxLength: 200,
-                      onChanged: (_) => setState(() {}),
-                    ),
-                  ),
-                ),
-              ),
               
-              // 내용 입력
+              // 내용 입력 (X 스타일)
               Container(
-                height: 300, // 고정 높이 설정
+                constraints: const BoxConstraints(minHeight: 120), // 최소 높이만 설정
                 margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surface.withOpacity(0.9),
@@ -405,21 +356,24 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                       controller: _contentController,
                       focusNode: _contentFocus,
                       decoration: InputDecoration(
-                        hintText: l10n.contentPlaceholder,
+                        hintText: '무슨 일이 일어나고 있나요?', // X 스타일 placeholder
                         hintStyle: theme.textTheme.bodyLarge?.copyWith(
                           color: theme.colorScheme.onSurface.withOpacity(0.5),
                           height: 1.5,
                         ),
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.all(20),
+                        counterStyle: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurface.withOpacity(0.6),
+                        ),
                       ),
                       style: theme.textTheme.bodyLarge?.copyWith(
                         height: 1.6,
                       ),
                       maxLines: null,
-                      expands: true,
+                      expands: false, // X 스타일: 자연스럽게 확장
                       textAlignVertical: TextAlignVertical.top,
-                      maxLength: 10000,
+                      maxLength: 280, // X 스타일 글자 제한
                       onChanged: (_) => setState(() {}),
                     ),
                   ),
@@ -499,22 +453,23 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                     
                     const SizedBox(width: 12),
                     
-                    // 글자 수 카운터
+                    // 글자 수 카운터 (X 스타일)
                     Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            l10n.titleCharacterCount(_titleController.text.length),
+                            '${_contentController.text.length}/280',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
-                            ),
-                          ),
-                          Text(
-                            l10n.contentCharacterCount(_contentController.text.length),
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              color: _contentController.text.length > 260 
+                                  ? theme.colorScheme.error 
+                                  : _contentController.text.length > 240
+                                      ? Colors.orange
+                                      : theme.colorScheme.onSurface.withOpacity(0.6),
+                              fontWeight: _contentController.text.length > 240 
+                                  ? FontWeight.w600 
+                                  : FontWeight.normal,
                             ),
                           ),
                           if (_selectedImages.isNotEmpty)

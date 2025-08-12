@@ -5,7 +5,7 @@ class CommunityPost {
   final String id;
   final String authorId;
   final String categoryId;
-  final String title;
+  final String? title; // X 스타일: 제목 optional
   final String content;
   final List<String> images;
   final List<String> mosaicImages; // 모자이크 처리된 이미지 URL들
@@ -32,7 +32,7 @@ class CommunityPost {
     required this.id,
     required this.authorId,
     required this.categoryId,
-    required this.title,
+    this.title, // X 스타일: 제목 optional
     required this.content,
     required this.images,
     required this.mosaicImages,
@@ -69,7 +69,7 @@ class CommunityPost {
         id: json['id'] as String,
         authorId: json['author_id'] as String,
         categoryId: json['category_id']?.toString() ?? '', // 빈 문자열로 처리
-        title: json['title'] as String? ?? '',
+        title: json['title'] as String?, // X 스타일: null 허용
         content: json['content'] as String? ?? '',
         images: images,
         mosaicImages: mosaicImages,
@@ -113,7 +113,7 @@ class CommunityPost {
       'id': id,
       'author_id': authorId,
       'category_id': categoryId,
-      'title': title,
+      if (title != null) 'title': title,
       'content': content,
       'images': images,
       'mosaic_images': mosaicImages,
@@ -166,7 +166,7 @@ class CommunityPost {
     String? id,
     String? authorId,
     String? categoryId,
-    String? title,
+    String? title, // X 스타일: nullable
     String? content,
     List<String>? images,
     List<String>? mosaicImages,

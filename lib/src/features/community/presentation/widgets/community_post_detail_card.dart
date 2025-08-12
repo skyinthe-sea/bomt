@@ -369,17 +369,7 @@ class CommunityPostDetailCard extends StatelessWidget {
                 
                 const SizedBox(height: 20),
                 
-                // 게시글 제목
-                Text(
-                  post.title,
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onSurface,
-                    height: 1.3,
-                  ),
-                ),
-                
-                const SizedBox(height: 16),
+                // X 스타일: 제목 없이 바로 내용 표시
                 
                 // 게시글 내용
                 Text(

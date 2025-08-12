@@ -269,7 +269,7 @@ class CommunityService {
   Future<CommunityPost> createPost({
     required String authorId,
     required String categoryId,
-    required String title,
+    String? title, // X 스타일: nullable
     required String content,
     List<String>? images,
     List<String>? mosaicImages,
@@ -285,7 +285,7 @@ class CommunityService {
       final insertData = {
         'author_id': authorId,
         'category_id': categoryId,
-        'title': title,
+        if (title != null) 'title': title, // X 스타일: null일 때만 제외
         'content': content,
         'images': images ?? [],
         'mosaic_images': mosaicImages ?? [],
@@ -348,7 +348,7 @@ class CommunityService {
     required String postId,
     required String authorId,
     required String categoryId,
-    required String title,
+    String? title, // X 스타일: nullable
     required String content,
     List<String>? images,
     List<String>? mosaicImages,
@@ -371,7 +371,7 @@ class CommunityService {
           .from('community_posts')
           .update({
             'category_id': categoryId,
-            'title': title,
+            if (title != null) 'title': title, // X 스타일: null일 때만 제외
             'content': content,
             'images': images ?? [],
             'mosaic_images': mosaicImages ?? [],

@@ -42,7 +42,7 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
   }
 
   void _initializeData() {
-    _titleController.text = widget.post.title;
+    _titleController.text = widget.post.title ?? ''; // X 스타일: nullable 처리
     _contentController.text = widget.post.content;
     _existingImageUrls = List.from(widget.post.images);
     
@@ -76,8 +76,7 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
   }
 
   bool get _canUpdate {
-    return _titleController.text.trim().isNotEmpty &&
-           _contentController.text.trim().isNotEmpty &&
+    return _contentController.text.trim().isNotEmpty &&
            _selectedCategory != null &&
            !_isUpdating;
   }
@@ -183,7 +182,7 @@ class _CommunityEditScreenState extends State<CommunityEditScreen> {
       final updatedPost = await provider.updatePost(
         postId: widget.post.id,
         categoryId: _selectedCategory!.id,
-        title: _titleController.text.trim(),
+        title: _titleController.text.trim().isEmpty ? null : _titleController.text.trim(),
         content: _contentController.text.trim(),
         images: allImageUrls,
         mosaicImages: allMosaicImageUrls,

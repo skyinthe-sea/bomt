@@ -6,7 +6,7 @@ import 'package:bomt/src/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../../../presentation/providers/community_provider.dart';
 import '../widgets/community_app_bar.dart';
-import '../widgets/community_category_dropdown.dart';
+import '../widgets/community_category_button.dart';
 import '../widgets/community_post_list.dart';
 import '../widgets/community_fab.dart';
 import '../widgets/community_loading_shimmer.dart';
@@ -120,138 +120,119 @@ class _CommunityScreenState extends State<CommunityScreen>
                       child: SizedBox(height: 8),
                     ),
                     
-                    // 카테고리 드롭다운
-                    const SliverToBoxAdapter(
-                      child: CommunityCategoryDropdown(),
-                    ),
-                    
-                    // 정렬 버튼
+                    // 카테고리 및 정렬 컨트롤 (한 줄에 배치)
                     SliverToBoxAdapter(
                       child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                         child: Row(
                           children: [
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: theme.colorScheme.surface.withOpacity(0.5),
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: theme.colorScheme.outline.withOpacity(0.1),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: theme.colorScheme.shadow.withOpacity(0.05),
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 2),
+                            // 카테고리 버튼 (왼쪽)
+                            const CommunityCategoryButton(),
+                            
+                            const Spacer(),
+                            
+                            // 정렬 버튼들 (오른쪽에 작게)
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // 좋아요순 버튼
+                                GestureDetector(
+                                  onTap: () {
+                                    HapticFeedback.lightImpact();
+                                    provider.changePostSortOrder('like_count');
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                    decoration: BoxDecoration(
+                                      color: provider.postSortOrder == 'like_count'
+                                          ? theme.colorScheme.primary
+                                          : theme.colorScheme.surface.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(16),
+                                      border: Border.all(
+                                        color: provider.postSortOrder == 'like_count'
+                                            ? theme.colorScheme.primary.withOpacity(0.3)
+                                            : theme.colorScheme.outline.withOpacity(0.2),
+                                      ),
                                     ),
-                                  ],
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: BackdropFilter(
-                                    filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.03),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          // 좋아요순 버튼
-                                          Expanded(
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                HapticFeedback.lightImpact();
-                                                provider.changePostSortOrder('like_count');
-                                              },
-                                              child: AnimatedContainer(
-                                                duration: const Duration(milliseconds: 200),
-                                                curve: Curves.easeInOut,
-                                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                                decoration: BoxDecoration(
-                                                  color: provider.postSortOrder == 'like_count'
-                                                      ? theme.colorScheme.primary
-                                                      : Colors.transparent,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.favorite,
-                                                      size: 16,
-                                                      color: provider.postSortOrder == 'like_count'
-                                                          ? Colors.white
-                                                          : theme.colorScheme.onSurface.withOpacity(0.6),
-                                                    ),
-                                                    const SizedBox(width: 6),
-                                                    Text(
-                                                      l10n.sortByLikes,
-                                                      style: theme.textTheme.bodySmall?.copyWith(
-                                                        color: provider.postSortOrder == 'like_count'
-                                                            ? Colors.white
-                                                            : theme.colorScheme.onSurface.withOpacity(0.6),
-                                                        fontWeight: provider.postSortOrder == 'like_count'
-                                                            ? FontWeight.w600
-                                                            : FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.favorite,
+                                          size: 14,
+                                          color: provider.postSortOrder == 'like_count'
+                                              ? Colors.white
+                                              : theme.colorScheme.onSurface.withOpacity(0.6),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          l10n.sortByLikes,
+                                          style: theme.textTheme.bodySmall?.copyWith(
+                                            color: provider.postSortOrder == 'like_count'
+                                                ? Colors.white
+                                                : theme.colorScheme.onSurface.withOpacity(0.6),
+                                            fontWeight: provider.postSortOrder == 'like_count'
+                                                ? FontWeight.w600
+                                                : FontWeight.w500,
+                                            fontSize: 11,
                                           ),
-                                          
-                                          // 최신순 버튼
-                                          Expanded(
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                HapticFeedback.lightImpact();
-                                                provider.changePostSortOrder('created_at');
-                                              },
-                                              child: AnimatedContainer(
-                                                duration: const Duration(milliseconds: 200),
-                                                curve: Curves.easeInOut,
-                                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                                decoration: BoxDecoration(
-                                                  color: provider.postSortOrder == 'created_at'
-                                                      ? theme.colorScheme.primary
-                                                      : Colors.transparent,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.schedule,
-                                                      size: 16,
-                                                      color: provider.postSortOrder == 'created_at'
-                                                          ? Colors.white
-                                                          : theme.colorScheme.onSurface.withOpacity(0.6),
-                                                    ),
-                                                    const SizedBox(width: 6),
-                                                    Text(
-                                                      l10n.sortByLatest,
-                                                      style: theme.textTheme.bodySmall?.copyWith(
-                                                        color: provider.postSortOrder == 'created_at'
-                                                            ? Colors.white
-                                                            : theme.colorScheme.onSurface.withOpacity(0.6),
-                                                        fontWeight: provider.postSortOrder == 'created_at'
-                                                            ? FontWeight.w600
-                                                            : FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                              ),
+                                
+                                const SizedBox(width: 8),
+                                
+                                // 최신순 버튼
+                                GestureDetector(
+                                  onTap: () {
+                                    HapticFeedback.lightImpact();
+                                    provider.changePostSortOrder('created_at');
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                    decoration: BoxDecoration(
+                                      color: provider.postSortOrder == 'created_at'
+                                          ? theme.colorScheme.primary
+                                          : theme.colorScheme.surface.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(16),
+                                      border: Border.all(
+                                        color: provider.postSortOrder == 'created_at'
+                                            ? theme.colorScheme.primary.withOpacity(0.3)
+                                            : theme.colorScheme.outline.withOpacity(0.2),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.schedule,
+                                          size: 14,
+                                          color: provider.postSortOrder == 'created_at'
+                                              ? Colors.white
+                                              : theme.colorScheme.onSurface.withOpacity(0.6),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          l10n.sortByLatest,
+                                          style: theme.textTheme.bodySmall?.copyWith(
+                                            color: provider.postSortOrder == 'created_at'
+                                                ? Colors.white
+                                                : theme.colorScheme.onSurface.withOpacity(0.6),
+                                            fontWeight: provider.postSortOrder == 'created_at'
+                                                ? FontWeight.w600
+                                                : FontWeight.w500,
+                                            fontSize: 11,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

@@ -204,7 +204,7 @@ class CommunityPostProvider with ChangeNotifier {
           postAuthorId: _post!.authorId,
           likerUserId: currentUserId!,
           likerNickname: _currentUserProfile!.nickname,
-          postTitle: _post!.title,
+          postTitle: _post!.title ?? _post!.content.substring(0, _post!.content.length > 50 ? 50 : _post!.content.length),
         );
       }
     } catch (e) {
@@ -280,7 +280,7 @@ class CommunityPostProvider with ChangeNotifier {
           postAuthorId: _post!.authorId,
           commenterUserId: currentUserId!,
           commenterNickname: _currentUserProfile!.nickname,
-          postTitle: _post!.title,
+          postTitle: _post!.title ?? _post!.content.substring(0, _post!.content.length > 50 ? 50 : _post!.content.length),
         );
       }
 
