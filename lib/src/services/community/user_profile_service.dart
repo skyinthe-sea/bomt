@@ -231,27 +231,32 @@ class UserProfileService {
       }
       
       if (profile == null) {
-        print('DEBUG: No existing profile found, creating new one...');
-        // 프로필이 없으면 기본 프로필 생성
-        final nickname = defaultNickname ?? 
-            (userEmail?.split('@')[0] ?? 
-            '사용자${DateTime.now().millisecondsSinceEpoch.toString().substring(8)}');
+        print('DEBUG: No existing profile found');
+        // 🎯 프로필이 없으면 자동 생성하지 않고 null 반환
+        // 사용자가 직접 닉네임 설정 화면에서 프로필을 생성하도록 함
         
-        try {
-          profile = await createUserProfile(
-            userId: userId,
-            nickname: nickname,
-            email: userEmail,
-          );
-        } catch (createError) {
-          print('DEBUG: Create profile with email failed, trying without email: $createError');
-          // 이메일 필드 에러 시 이메일 없이 재시도
-          profile = await createUserProfile(
-            userId: userId,
-            nickname: nickname,
-          );
+        // defaultNickname이 명시적으로 제공된 경우에만 프로필 생성 (닉네임 설정 화면에서 호출)
+        if (defaultNickname != null) {
+          print('DEBUG: Creating profile with provided nickname: $defaultNickname');
+          try {
+            profile = await createUserProfile(
+              userId: userId,
+              nickname: defaultNickname,
+              email: userEmail,
+            );
+          } catch (createError) {
+            print('DEBUG: Create profile with email failed, trying without email: $createError');
+            // 이메일 필드 에러 시 이메일 없이 재시도
+            profile = await createUserProfile(
+              userId: userId,
+              nickname: defaultNickname,
+            );
+          }
+          print('DEBUG: Created new profile: $profile');
+        } else {
+          print('DEBUG: No defaultNickname provided, returning null to prompt nickname setup');
+          return null;
         }
-        print('DEBUG: Created new profile: $profile');
       }
 
       return profile;

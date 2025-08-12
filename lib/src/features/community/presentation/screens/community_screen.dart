@@ -11,6 +11,7 @@ import '../widgets/community_category_tabs.dart';
 import '../widgets/community_post_list.dart';
 import '../widgets/community_fab.dart';
 import '../widgets/community_loading_shimmer.dart';
+import 'community_nickname_setup_screen.dart';
 
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});
@@ -90,6 +91,21 @@ class _CommunityScreenState extends State<CommunityScreen>
             builder: (context, provider, child) {
               if (provider.isLoading && provider.posts.isEmpty) {
                 return const CommunityLoadingShimmer();
+              }
+
+              // 🎯 프로필이 없으면 닉네임 설정 화면 표시
+              if (provider.currentUserId != null && provider.currentUserProfile == null && !provider.isLoading) {
+                debugPrint('DEBUG: currentUserId는 있지만 프로필이 없음 - 닉네임 설정 화면으로 이동');
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const CommunityNicknameSetupScreen(isFirstTime: true),
+                    ),
+                  ).then((_) {
+                    // 닉네임 설정 후 돌아왔을 때 다시 초기화
+                    provider.initialize();
+                  });
+                });
               }
 
               return RefreshIndicator(

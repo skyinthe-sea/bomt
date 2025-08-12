@@ -7,6 +7,7 @@ import '../../services/community/community_service.dart';
 import '../../services/community/user_profile_service.dart';
 import '../../services/community/notification_service.dart';
 import '../../services/auth/auth_service.dart';
+import '../../core/config/supabase_config.dart';
 
 class CommunityPostProvider with ChangeNotifier {
   final CommunityService _communityService = CommunityService();
@@ -217,9 +218,24 @@ class CommunityPostProvider with ChangeNotifier {
     required String content,
     String? parentCommentId,
   }) async {
-    if (_post == null || currentUserId == null) return null;
+    debugPrint('DEBUG: createComment 시작');
+    debugPrint('DEBUG: _post = ${_post?.id}');
+    debugPrint('DEBUG: currentUserId = $currentUserId');
+    debugPrint('DEBUG: content = $content');
+    debugPrint('DEBUG: parentCommentId = $parentCommentId');
+    
+    if (_post == null) {
+      debugPrint('DEBUG: ❌ _post가 null이어서 댓글 작성 불가');
+      return null;
+    }
+    
+    if (currentUserId == null) {
+      debugPrint('DEBUG: ❌ currentUserId가 null이어서 댓글 작성 불가');
+      return null;
+    }
 
     try {
+      debugPrint('DEBUG: _communityService.createComment 호출 중...');
       // 새 댓글 작성
       final newComment = await _communityService.createComment(
         postId: _post!.id,
@@ -227,25 +243,32 @@ class CommunityPostProvider with ChangeNotifier {
         content: content,
         parentCommentId: parentCommentId,
       );
+      debugPrint('DEBUG: ✅ 댓글 작성 성공: ${newComment.id}');
 
       // 실시간 UI 업데이트
       if (parentCommentId == null) {
         // 일반 댓글인 경우 최상단에 추가
+        debugPrint('DEBUG: 일반 댓글 - 최상단에 추가');
         _comments.insert(0, newComment);
         _totalCommentsCount++;
       } else {
         // 답글인 경우 부모 댓글의 하단에 추가 (기존 방식)
+        debugPrint('DEBUG: 답글 - 부모 댓글에 추가');
         final parentIndex = _comments.indexWhere((c) => c.id == parentCommentId);
         if (parentIndex != -1) {
+          debugPrint('DEBUG: 부모 댓글 찾음: $parentIndex');
           final parentComment = _comments[parentIndex];
           final updatedReplies = List<CommunityComment>.from(parentComment.replies ?? []);
           // 답글은 하단에 추가 (기존 방식 유지)
           updatedReplies.add(newComment);
           _comments[parentIndex] = parentComment.copyWith(replies: updatedReplies);
+        } else {
+          debugPrint('DEBUG: ❌ 부모 댓글을 찾을 수 없음: $parentCommentId');
         }
         _totalCommentsCount++;
       }
       
+      debugPrint('DEBUG: UI 업데이트 완료, 총 댓글 수: $_totalCommentsCount');
       // 게시글의 댓글 수 업데이트
       _post = _post!.copyWith(commentCount: _post!.commentCount + 1);
       notifyListeners();
@@ -283,8 +306,10 @@ class CommunityPostProvider with ChangeNotifier {
         }
       }
       
+      debugPrint('DEBUG: 댓글 작성 프로세스 완료');
       return newComment;
     } catch (e) {
+      debugPrint('DEBUG: ❌ 댓글 작성 실패: $e');
       _error = e.toString();
       notifyListeners();
       return null;
@@ -324,21 +349,37 @@ class CommunityPostProvider with ChangeNotifier {
     }
   }
 
-  // 카카오 사용자 ID 로드
+  // 현재 사용자 ID 로드 (Supabase + 카카오 통합)
   Future<void> _loadCurrentUserId() async {
+    debugPrint('DEBUG: CommunityPostProvider _loadCurrentUserId 시작');
     try {
+      // 🔐 1순위: Supabase 사용자 확인 (이메일 계정)
+      final supabaseUser = SupabaseConfig.client.auth.currentUser;
+      if (supabaseUser != null) {
+        _currentUserId = supabaseUser.id;
+        debugPrint('DEBUG: ✅ CommunityPostProvider Supabase 사용자 발견: $_currentUserId (이메일: ${supabaseUser.email})');
+        return;
+      } else {
+        debugPrint('DEBUG: CommunityPostProvider Supabase 사용자 없음, 카카오 확인 중...');
+      }
+      
+      // 🥇 2순위: 카카오 로그인 사용자 확인
       final prefs = await SharedPreferences.getInstance();
       final authService = AuthService(prefs);
       final kakaoUser = await authService.getCurrentUser();
       
       if (kakaoUser != null) {
         _currentUserId = kakaoUser.id.toString();
+        debugPrint('DEBUG: ✅ CommunityPostProvider 카카오 사용자 발견: $_currentUserId');
       } else {
         _currentUserId = null;
+        debugPrint('DEBUG: ❌ CommunityPostProvider 카카오 사용자도 없음, _currentUserId = null');
       }
     } catch (e) {
+      debugPrint('DEBUG: CommunityPostProvider _loadCurrentUserId 예외 발생: $e');
       _currentUserId = null;
     }
+    debugPrint('DEBUG: CommunityPostProvider _loadCurrentUserId 완료, 최종 _currentUserId = $_currentUserId');
   }
 
   // 사용자 프로필 로드

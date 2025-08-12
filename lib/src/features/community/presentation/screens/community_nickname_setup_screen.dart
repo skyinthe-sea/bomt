@@ -283,11 +283,11 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
                 
                 Text(
                   widget.isFirstTime 
-                      ? '커뮤니티에서 사용할 닉네임을 만들어보세요.\n다른 사용자들에게 표시됩니다.'
-                      : '새로운 닉네임으로 변경할 수 있습니다.',
+                      ? '커뮤니티에서 사용할 닉네임을 설정해주세요.\n게시글과 댓글에서 다른 사용자들에게 표시됩니다.\n\n⚠️ 닉네임은 신중하게 선택해주세요.\n변경이 제한될 수 있습니다.'
+                      : '새로운 닉네임으로 변경할 수 있습니다.\n변경 후에는 일정 기간 재변경이 제한됩니다.',
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.onSurface.withOpacity(0.7),
-                    height: 1.5,
+                    height: 1.4,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -434,9 +434,10 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            '한글, 영문, 숫자, 언더바(_) 사용 가능 (2-20자)',
+                            '한글, 영문, 숫자, 언더바(_) 사용 가능 (2-20자)\n💡 다른 사용자가 기억하기 쉬운 닉네임을 추천해요',
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.primary,
+                              height: 1.3,
                             ),
                           ),
                         ),
@@ -495,12 +496,13 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
                                 ),
                               )
                             : Text(
-                                widget.isFirstTime ? '시작하기' : '변경하기',
+                                widget.isFirstTime ? '닉네임 설정하고 시작하기' : '닉네임 변경하기',
                                 style: theme.textTheme.titleMedium?.copyWith(
                                   color: _isAvailable == true
                                       ? Colors.white
                                       : theme.colorScheme.onSurface.withOpacity(0.5),
                                   fontWeight: FontWeight.bold,
+                                  fontSize: widget.isFirstTime ? 15 : 16,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
