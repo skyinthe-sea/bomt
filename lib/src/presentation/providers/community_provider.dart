@@ -7,6 +7,7 @@ import '../../services/community/community_service.dart';
 import '../../services/community/user_profile_service.dart';
 import '../../services/community/notification_service.dart';
 import '../../services/auth/auth_service.dart';
+import '../../core/config/supabase_config.dart';
 
 class CommunityProvider with ChangeNotifier {
   final CommunityService _communityService = CommunityService();
@@ -322,20 +323,32 @@ class CommunityProvider with ChangeNotifier {
     String? profileImageUrl,
     String? bio,
   }) async {
+    debugPrint('DEBUG: updateUserProfile 시작');
+    debugPrint('DEBUG: currentUserId = $currentUserId');
+    debugPrint('DEBUG: nickname = $nickname');
+    debugPrint('DEBUG: profileImageUrl = $profileImageUrl');
+    debugPrint('DEBUG: bio = $bio');
+    
     if (currentUserId == null) {
+      debugPrint('DEBUG: currentUserId가 null이어서 false 반환');
       return false;
     }
 
     try {
+      debugPrint('DEBUG: _userProfileService.updateUserProfile 호출 시작');
       _currentUserProfile = await _userProfileService.updateUserProfile(
         userId: currentUserId!,
         nickname: nickname,
         profileImageUrl: profileImageUrl,
         bio: bio,
       );
+      debugPrint('DEBUG: _userProfileService.updateUserProfile 성공');
+      debugPrint('DEBUG: 업데이트된 프로필: $_currentUserProfile');
       notifyListeners();
+      debugPrint('DEBUG: updateUserProfile 완료, true 반환');
       return true;
     } catch (e) {
+      debugPrint('DEBUG: updateUserProfile 예외 발생: $e');
       _error = e.toString();
       notifyListeners();
       return false;
@@ -348,45 +361,85 @@ class CommunityProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // 카카오 사용자 ID 로드
+  // 현재 사용자 ID 로드 (Supabase + 카카오 통합)
   Future<void> _loadCurrentUserId() async {
+    debugPrint('DEBUG: _loadCurrentUserId 시작');
     try {
+      // 🔐 1순위: Supabase 사용자 확인 (이메일 계정)
+      final supabaseUser = SupabaseConfig.client.auth.currentUser;
+      if (supabaseUser != null) {
+        _currentUserId = supabaseUser.id;
+        debugPrint('DEBUG: ✅ Supabase 사용자 발견: $_currentUserId (이메일: ${supabaseUser.email})');
+        return;
+      } else {
+        debugPrint('DEBUG: Supabase 사용자 없음, 카카오 확인 중...');
+      }
+      
+      // 🥇 2순위: 카카오 로그인 사용자 확인
       final prefs = await SharedPreferences.getInstance();
+      debugPrint('DEBUG: SharedPreferences 로드 완료');
+      
       final authService = AuthService(prefs);
+      debugPrint('DEBUG: AuthService 생성 완료');
+      
       final kakaoUser = await authService.getCurrentUser();
+      debugPrint('DEBUG: kakaoUser = $kakaoUser');
       
       if (kakaoUser != null) {
         _currentUserId = kakaoUser.id.toString();
+        debugPrint('DEBUG: ✅ 카카오 사용자 발견: $_currentUserId');
       } else {
         _currentUserId = null;
+        debugPrint('DEBUG: ❌ 카카오 사용자도 없음, _currentUserId = null');
       }
     } catch (e) {
+      debugPrint('DEBUG: _loadCurrentUserId 예외 발생: $e');
       _currentUserId = null;
     }
+    debugPrint('DEBUG: _loadCurrentUserId 완료, 최종 _currentUserId = $_currentUserId');
   }
 
   // 초기화
   Future<void> initialize() async {
     try {
-      print('DEBUG: CommunityProvider 초기화 시작');
+      debugPrint('DEBUG: CommunityProvider 초기화 시작');
       
+      debugPrint('DEBUG: _loadCurrentUserId 호출 중...');
       await _loadCurrentUserId();
-      print('DEBUG: 사용자 ID 로드 완료: $_currentUserId');
+      debugPrint('DEBUG: 사용자 ID 로드 완료: $_currentUserId');
       
+      if (_currentUserId == null) {
+        debugPrint('DEBUG: ❌ currentUserId가 여전히 null입니다!');
+        debugPrint('DEBUG: 이 상황에서 가능한 원인:');
+        debugPrint('DEBUG: 1. 이메일 또는 카카오톡 로그인이 되지 않은 상태');
+        debugPrint('DEBUG: 2. 토큰이 만료된 상태');
+        debugPrint('DEBUG: 3. 인증 서비스에서 예외가 발생한 상태');
+        // 더 이상 진행하지 않고 에러 상태로 설정
+        _error = '로그인이 필요합니다. 이메일 또는 카카오톡 계정으로 다시 로그인해주세요.';
+        notifyListeners();
+        return;
+      } else {
+        debugPrint('DEBUG: ✅ currentUserId 설정 성공: $_currentUserId');
+      }
+      
+      debugPrint('DEBUG: 카테고리 및 프로필 로드 시작...');
       await Future.wait([
         loadCategories(),
         loadCurrentUserProfile(),
       ]);
-      print('DEBUG: 카테고리 로드 완료: ${_categories.length}개');
-      print('DEBUG: 사용자 프로필 로드 완료: $_currentUserProfile');
+      debugPrint('DEBUG: 카테고리 로드 완료: ${_categories.length}개');
+      debugPrint('DEBUG: 사용자 프로필 로드 완료: $_currentUserProfile');
       
+      debugPrint('DEBUG: 게시글 로드 시작...');
       await loadPosts(refresh: true);
-      print('DEBUG: 게시글 로드 완료: ${_posts.length}개');
+      debugPrint('DEBUG: 게시글 로드 완료: ${_posts.length}개');
+      
+      debugPrint('DEBUG: ✅ CommunityProvider 초기화 완료');
       
     } catch (e, stackTrace) {
-      print('ERROR: CommunityProvider 초기화 실패');
-      print('ERROR 상세: $e');
-      print('스택 트레이스: $stackTrace');
+      debugPrint('ERROR: ❌ CommunityProvider 초기화 실패');
+      debugPrint('ERROR 상세: $e');
+      debugPrint('스택 트레이스: $stackTrace');
       _error = e.toString();
       notifyListeners();
     }

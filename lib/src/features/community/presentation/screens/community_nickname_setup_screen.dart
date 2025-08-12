@@ -29,11 +29,44 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
     super.initState();
     _nicknameController.addListener(_onNicknameChanged);
     
-    // 기존 닉네임이 있다면 미리 설정
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    // CommunityProvider 초기화 및 기존 닉네임 설정
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      print('DEBUG: CommunityNicknameSetupScreen initState - initializing provider');
       final provider = context.read<CommunityProvider>();
+      
+      // Provider 초기화
+      await provider.initialize();
+      print('DEBUG: Provider initialized, currentUserId = ${provider.currentUserId}');
+      
+      // 로그인 상태 확인
+      if (provider.currentUserId == null && mounted) {
+        print('DEBUG: currentUserId is null - login required');
+        // 로그인이 필요하다는 안내 메시지 표시
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(provider.error ?? '로그인이 필요합니다. 이메일 또는 카카오톡 계정으로 로그인해주세요.'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+        
+        // 3초 후 이전 화면으로 돌아가기
+        Future.delayed(const Duration(seconds: 3), () {
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
+        });
+        return;
+      }
+      
+      // 기존 닉네임이 있다면 미리 설정
       if (provider.currentUserProfile?.nickname != null) {
         _nicknameController.text = provider.currentUserProfile!.nickname;
+        print('DEBUG: Existing nickname set: ${provider.currentUserProfile!.nickname}');
       }
     });
   }
