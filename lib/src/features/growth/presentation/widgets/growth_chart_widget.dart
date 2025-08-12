@@ -1,4 +1,3 @@
-import 'dart:math' show cos, sin;
 import 'dart:ui' show lerpDouble;
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -104,17 +103,18 @@ class GrowthChartWidget extends StatelessWidget {
                       final baseColor = showWeight ? colorScheme.primary : colorScheme.secondary;
                       
                       if (hasNotes) {
-                        // 🎯 메모가 있는 포인트: 별표 모양으로 표시
-                        return _StarDotPainter(
-                          radius: 8,
-                          starColor: baseColor,
+                        // 🎯 메모가 있는 포인트: 기본 원 + 위에 작은 인디케이터
+                        return _DotWithIndicatorPainter(
+                          radius: 4.5,
+                          dotColor: baseColor,
                           strokeColor: colorScheme.surface,
                           strokeWidth: 2,
+                          indicatorColor: baseColor,
                         );
                       } else {
-                        // 일반 점은 작은 원으로 표시
+                        // 일반 점은 기본 원으로 표시
                         return FlDotCirclePainter(
-                          radius: 4,
+                          radius: 4.5,
                           color: baseColor,
                           strokeWidth: 2,
                           strokeColor: colorScheme.surface,
@@ -451,10 +451,23 @@ class GrowthChartWidget extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      Icon(
-                        Icons.star,
-                        color: showWeight ? colorScheme.primary : colorScheme.secondary,
-                        size: 24,
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(
+                            (showWeight ? colorScheme.primary : colorScheme.secondary).red,
+                            (showWeight ? colorScheme.primary : colorScheme.secondary).green,
+                            (showWeight ? colorScheme.primary : colorScheme.secondary).blue,
+                            0.1,
+                          ),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.sticky_note_2,
+                          color: showWeight ? colorScheme.primary : colorScheme.secondary,
+                          size: 14,
+                        ),
                       ),
                     ],
                   ),
@@ -519,24 +532,26 @@ class ChartDataPoint {
   bool get hasNotes => notes != null && notes!.isNotEmpty;
 }
 
-/// 🎯 커스텀 별표 dot 페인터 - 메모가 있는 포인트를 별표로 표시
-class _StarDotPainter extends FlDotPainter {
+/// 🎯 기본 원점 + 인디케이터가 있는 커스텀 dot 페인터
+class _DotWithIndicatorPainter extends FlDotPainter {
   final double radius;
-  final Color starColor;
+  final Color dotColor;
   final Color strokeColor;
   final double strokeWidth;
+  final Color indicatorColor;
 
-  _StarDotPainter({
+  _DotWithIndicatorPainter({
     required this.radius,
-    required this.starColor,
+    required this.dotColor,
     required this.strokeColor,
     required this.strokeWidth,
+    required this.indicatorColor,
   });
 
   @override
   void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
-    final paint = Paint()
-      ..color = starColor
+    final dotPaint = Paint()
+      ..color = dotColor
       ..style = PaintingStyle.fill;
 
     final strokePaint = Paint()
@@ -544,55 +559,68 @@ class _StarDotPainter extends FlDotPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
 
-    // 별표 모양 그리기 (5각별)
-    final starPath = Path();
-    final center = offsetInCanvas;
-    final outerRadius = radius;
-    final innerRadius = radius * 0.4;
 
-    // 5각별을 그리기 위한 각도 계산
-    for (int i = 0; i < 10; i++) {
-      final angle = (i * 36 - 90) * 3.14159 / 180; // -90도에서 시작 (위쪽 꼭지점)
-      final isOuter = i % 2 == 0;
-      final currentRadius = isOuter ? outerRadius : innerRadius;
-      
-      final x = center.dx + currentRadius * cos(angle);
-      final y = center.dy + currentRadius * sin(angle);
-      
-      if (i == 0) {
-        starPath.moveTo(x, y);
-      } else {
-        starPath.lineTo(x, y);
-      }
-    }
-    starPath.close();
+    // 1. 기본 원점 그리기
+    canvas.drawCircle(offsetInCanvas, radius, dotPaint);
+    canvas.drawCircle(offsetInCanvas, radius, strokePaint);
 
-    // 별표 그리기
-    canvas.drawPath(starPath, paint);
-    canvas.drawPath(starPath, strokePaint);
+    // 2. 작은 인디케이터 (원형 배지) 그리기 - 점 우상단에 위치
+    final indicatorCenter = Offset(
+      offsetInCanvas.dx + radius * 0.7, // 우상단으로 위치
+      offsetInCanvas.dy - radius * 0.7,
+    );
+    
+    final indicatorRadius = radius * 0.35; // 작은 크기
+    
+    // 인디케이터 배경 (더 밝은 색상)
+    final indicatorBgPaint = Paint()
+      ..color = Color.fromRGBO(
+        indicatorColor.red,
+        indicatorColor.green,
+        indicatorColor.blue,
+        0.9,
+      )
+      ..style = PaintingStyle.fill;
+
+    // 작은 원형 배지 그리기
+    canvas.drawCircle(indicatorCenter, indicatorRadius, indicatorBgPaint);
+    
+    // 인디케이터 테두리 (얇게)
+    final indicatorStrokePaint = Paint()
+      ..color = strokeColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    canvas.drawCircle(indicatorCenter, indicatorRadius, indicatorStrokePaint);
+    
+    // 중심에 작은 점 추가 (더 명확하게)
+    final centerDotPaint = Paint()
+      ..color = strokeColor
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(indicatorCenter, indicatorRadius * 0.4, centerDotPaint);
   }
 
   @override
   Size getSize(FlSpot spot) {
-    return Size(radius * 2.2, radius * 2.2);
+    return Size(radius * 2.4, radius * 2.4); // 인디케이터까지 고려한 크기
   }
 
   @override
-  Color get mainColor => starColor;
+  Color get mainColor => dotColor;
 
   @override
   FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
-    if (a is _StarDotPainter && b is _StarDotPainter) {
-      return _StarDotPainter(
+    if (a is _DotWithIndicatorPainter && b is _DotWithIndicatorPainter) {
+      return _DotWithIndicatorPainter(
         radius: lerpDouble(a.radius, b.radius, t) ?? radius,
-        starColor: Color.lerp(a.starColor, b.starColor, t) ?? starColor,
+        dotColor: Color.lerp(a.dotColor, b.dotColor, t) ?? dotColor,
         strokeColor: Color.lerp(a.strokeColor, b.strokeColor, t) ?? strokeColor,
         strokeWidth: lerpDouble(a.strokeWidth, b.strokeWidth, t) ?? strokeWidth,
+        indicatorColor: Color.lerp(a.indicatorColor, b.indicatorColor, t) ?? indicatorColor,
       );
     }
     return this;
   }
 
   @override
-  List<Object?> get props => [radius, starColor, strokeColor, strokeWidth];
+  List<Object?> get props => [radius, dotColor, strokeColor, strokeWidth, indicatorColor];
 }
