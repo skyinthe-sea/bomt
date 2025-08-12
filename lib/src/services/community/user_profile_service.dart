@@ -10,15 +10,30 @@ class UserProfileService {
   // 사용자 프로필 조회
   Future<UserProfile?> getUserProfile(String userId) async {
     try {
+      print('DEBUG: getUserProfile called with userId: $userId');
+      print('DEBUG: Executing Supabase query: user_profiles.select().eq("user_id", "$userId").maybeSingle()');
+      
       final response = await _supabase
           .from('user_profiles')
           .select()
           .eq('user_id', userId)
           .maybeSingle();
 
-      if (response == null) return null;
-      return UserProfile.fromJson(response);
+      print('DEBUG: Supabase response: $response');
+      print('DEBUG: Response type: ${response.runtimeType}');
+      print('DEBUG: Response is null: ${response == null}');
+
+      if (response == null) {
+        print('DEBUG: No profile found for user_id: $userId');
+        return null;
+      }
+      
+      final profile = UserProfile.fromJson(response);
+      print('DEBUG: Successfully created UserProfile: $profile');
+      return profile;
     } catch (e) {
+      print('DEBUG: getUserProfile error: $e');
+      print('DEBUG: Error type: ${e.runtimeType}');
       throw Exception('사용자 프로필 조회 실패: $e');
     }
   }
@@ -201,6 +216,8 @@ class UserProfileService {
       // 기존 프로필 조회
       var profile = await getUserProfile(userId);
       print('DEBUG: Existing profile by user_id: $profile');
+      print('DEBUG: Profile found: ${profile != null}');
+      print('DEBUG: Profile details: ${profile?.toJson()}');
       
       // 🔍 Supabase 사용자의 경우 이메일로도 기존 프로필 찾기
       if (profile == null && userEmail != null) {
@@ -232,8 +249,6 @@ class UserProfileService {
       
       if (profile == null) {
         print('DEBUG: No existing profile found');
-        // 🎯 프로필이 없으면 자동 생성하지 않고 null 반환
-        // 사용자가 직접 닉네임 설정 화면에서 프로필을 생성하도록 함
         
         // defaultNickname이 명시적으로 제공된 경우에만 프로필 생성 (닉네임 설정 화면에서 호출)
         if (defaultNickname != null) {
@@ -244,21 +259,31 @@ class UserProfileService {
               nickname: defaultNickname,
               email: userEmail,
             );
+            print('DEBUG: Created new profile: $profile');
           } catch (createError) {
             print('DEBUG: Create profile with email failed, trying without email: $createError');
             // 이메일 필드 에러 시 이메일 없이 재시도
-            profile = await createUserProfile(
-              userId: userId,
-              nickname: defaultNickname,
-            );
+            try {
+              profile = await createUserProfile(
+                userId: userId,
+                nickname: defaultNickname,
+              );
+              print('DEBUG: Created new profile without email: $profile');
+            } catch (retryError) {
+              print('DEBUG: Failed to create profile even without email: $retryError');
+              throw Exception('프로필 생성에 실패했습니다: $retryError');
+            }
           }
-          print('DEBUG: Created new profile: $profile');
         } else {
           print('DEBUG: No defaultNickname provided, returning null to prompt nickname setup');
+          print('DEBUG: This will cause the nickname setup screen to appear');
           return null;
         }
+      } else {
+        print('DEBUG: Found existing profile, returning it');
       }
 
+      print('DEBUG: Final profile to return: $profile');
       return profile;
     } catch (e) {
       print('DEBUG: getOrCreateCurrentUserProfile error: $e');

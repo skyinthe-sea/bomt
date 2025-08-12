@@ -283,8 +283,8 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
                 
                 Text(
                   widget.isFirstTime 
-                      ? '커뮤니티에서 사용할 닉네임을 설정해주세요.\n게시글과 댓글에서 다른 사용자들에게 표시됩니다.\n\n⚠️ 닉네임은 신중하게 선택해주세요.\n변경이 제한될 수 있습니다.'
-                      : '새로운 닉네임으로 변경할 수 있습니다.\n변경 후에는 일정 기간 재변경이 제한됩니다.',
+                      ? '커뮤니티에서 사용할 닉네임을 설정해주세요.\n게시글과 댓글에서 다른 사용자들에게 표시됩니다.\n\n🚨 중요: 닉네임은 한 번 설정하면 변경할 수 없습니다.\n신중하게 선택해주세요!'
+                      : '🚨 죄송합니다. 닉네임은 한 번 설정하면\n변경할 수 없는 정책입니다.\n\n보안과 사용자 식별을 위해 닉네임 변경을 제한하고 있습니다.',
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.onSurface.withOpacity(0.7),
                     height: 1.4,
@@ -297,25 +297,27 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
                 // 닉네임 입력 필드
                 Container(
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surface.withOpacity(0.9),
+                    color: theme.colorScheme.surface.withOpacity(widget.isFirstTime ? 0.9 : 0.3),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: _nicknameFocus.hasFocus 
-                          ? theme.colorScheme.primary.withOpacity(0.5)
-                          : _isAvailable == false
-                              ? theme.colorScheme.error.withOpacity(0.5)
-                              : _isAvailable == true
-                                  ? theme.colorScheme.tertiary.withOpacity(0.5)
-                                  : theme.colorScheme.outline.withOpacity(0.2),
+                      color: !widget.isFirstTime
+                          ? theme.colorScheme.outline.withOpacity(0.1)
+                          : _nicknameFocus.hasFocus 
+                              ? theme.colorScheme.primary.withOpacity(0.5)
+                              : _isAvailable == false
+                                  ? theme.colorScheme.error.withOpacity(0.5)
+                                  : _isAvailable == true
+                                      ? theme.colorScheme.tertiary.withOpacity(0.5)
+                                      : theme.colorScheme.outline.withOpacity(0.2),
                       width: 2,
                     ),
-                    boxShadow: [
+                    boxShadow: widget.isFirstTime ? [
                       BoxShadow(
                         color: theme.colorScheme.shadow.withOpacity(0.1),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
-                    ],
+                    ] : [],
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -324,6 +326,7 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
                       child: TextField(
                         controller: _nicknameController,
                         focusNode: _nicknameFocus,
+                        enabled: widget.isFirstTime, // 첫 설정일 때만 활성화
                         decoration: InputDecoration(
                           hintText: '닉네임을 입력하세요',
                           hintStyle: theme.textTheme.titleMedium?.copyWith(
@@ -453,16 +456,28 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: _isAvailable == true && !_isSaving ? () {
+                      onTap: widget.isFirstTime && _isAvailable == true && !_isSaving ? () {
                         print('DEBUG: Button tapped! Calling _handleSave');
                         _handleSave();
-                      } : null,
+                      } : widget.isFirstTime ? null : () {
+                        // 닉네임 변경 시도 시 안내 메시지
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('닉네임은 변경할 수 없습니다. 보안과 사용자 식별을 위한 정책입니다.'),
+                            backgroundColor: theme.colorScheme.error,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        );
+                      },
                       borderRadius: BorderRadius.circular(16),
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         decoration: BoxDecoration(
-                          gradient: _isAvailable == true
+                          gradient: widget.isFirstTime && _isAvailable == true
                               ? LinearGradient(
                                   colors: [
                                     theme.colorScheme.primary,
@@ -470,11 +485,14 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
                                   ],
                                 )
                               : null,
-                          color: _isAvailable == true 
-                              ? null 
-                              : theme.colorScheme.outline.withOpacity(0.2),
+                          color: widget.isFirstTime 
+                              ? (_isAvailable == true ? null : theme.colorScheme.outline.withOpacity(0.2))
+                              : theme.colorScheme.error.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(16),
-                          boxShadow: _isAvailable == true
+                          border: !widget.isFirstTime ? Border.all(
+                            color: theme.colorScheme.error.withOpacity(0.3),
+                          ) : null,
+                          boxShadow: widget.isFirstTime && _isAvailable == true
                               ? [
                                   BoxShadow(
                                     color: theme.colorScheme.primary.withOpacity(0.3),
@@ -484,7 +502,7 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
                                 ]
                               : null,
                         ),
-                        child: _isSaving
+                        child: _isSaving && widget.isFirstTime
                             ? Center(
                                 child: SizedBox(
                                   width: 24,
@@ -496,11 +514,13 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
                                 ),
                               )
                             : Text(
-                                widget.isFirstTime ? '닉네임 설정하고 시작하기' : '닉네임 변경하기',
+                                widget.isFirstTime 
+                                    ? '닉네임 설정하고 시작하기' 
+                                    : '🚫 닉네임 변경 불가',
                                 style: theme.textTheme.titleMedium?.copyWith(
-                                  color: _isAvailable == true
-                                      ? Colors.white
-                                      : theme.colorScheme.onSurface.withOpacity(0.5),
+                                  color: widget.isFirstTime
+                                      ? (_isAvailable == true ? Colors.white : theme.colorScheme.onSurface.withOpacity(0.5))
+                                      : theme.colorScheme.error,
                                   fontWeight: FontWeight.bold,
                                   fontSize: widget.isFirstTime ? 15 : 16,
                                 ),

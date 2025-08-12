@@ -124,7 +124,8 @@ class CommunityProvider with ChangeNotifier {
       notifyListeners();
 
       print('게시글 로드 - 카테고리: $_selectedCategorySlug, 정렬: $_postSortOrder');
-      final newPosts = await _communityService.getPosts(
+      final stopwatch = Stopwatch()..start();
+      final newPosts = await _communityService.getPostsOptimized(
         categorySlug: _selectedCategorySlug,
         orderBy: _postSortOrder,
         ascending: false,
@@ -132,6 +133,8 @@ class CommunityProvider with ChangeNotifier {
         offset: refresh ? 0 : _posts.length,
         currentUserId: currentUserId,
       );
+      stopwatch.stop();
+      print('🚀 최적화 API 성능: ${stopwatch.elapsedMilliseconds}ms (${newPosts.length}개 게시글)');
 
       if (refresh) {
         _posts = newPosts;
@@ -422,12 +425,12 @@ class CommunityProvider with ChangeNotifier {
         debugPrint('DEBUG: ✅ currentUserId 설정 성공: $_currentUserId');
       }
       
-      debugPrint('DEBUG: 카테고리 및 프로필 로드 시작...');
-      await Future.wait([
-        loadCategories(),
-        loadCurrentUserProfile(),
-      ]);
+      debugPrint('DEBUG: 카테고리 로드 시작...');
+      await loadCategories();
       debugPrint('DEBUG: 카테고리 로드 완료: ${_categories.length}개');
+      
+      debugPrint('DEBUG: 사용자 프로필 로드 시작...');
+      await loadCurrentUserProfile();
       debugPrint('DEBUG: 사용자 프로필 로드 완료: $_currentUserProfile');
       
       debugPrint('DEBUG: 게시글 로드 시작...');

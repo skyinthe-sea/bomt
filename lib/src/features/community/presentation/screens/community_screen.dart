@@ -23,6 +23,7 @@ class _CommunityScreenState extends State<CommunityScreen>
     with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
   Timer? _scrollDebounceTimer;
+  bool _hasNavigatedToNicknameSetup = false; // 닉네임 설정 화면 이동 방지 플래그
 
   @override
   bool get wantKeepAlive => true;
@@ -92,16 +93,21 @@ class _CommunityScreenState extends State<CommunityScreen>
                 return const CommunityLoadingShimmer();
               }
 
-              // 🎯 프로필이 없으면 닉네임 설정 화면 표시
-              if (provider.currentUserId != null && provider.currentUserProfile == null && !provider.isLoading) {
+              // 🎯 프로필이 없으면 닉네임 설정 화면 표시 (한 번만)
+              if (provider.currentUserId != null && 
+                  provider.currentUserProfile == null && 
+                  !provider.isLoading && 
+                  !_hasNavigatedToNicknameSetup) {
                 debugPrint('DEBUG: currentUserId는 있지만 프로필이 없음 - 닉네임 설정 화면으로 이동');
+                _hasNavigatedToNicknameSetup = true; // 플래그 설정으로 중복 이동 방지
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const CommunityNicknameSetupScreen(isFirstTime: true),
                     ),
                   ).then((_) {
-                    // 닉네임 설정 후 돌아왔을 때 다시 초기화
+                    // 닉네임 설정 후 돌아왔을 때 다시 초기화하고 플래그 리셋
+                    _hasNavigatedToNicknameSetup = false;
                     provider.initialize();
                   });
                 });

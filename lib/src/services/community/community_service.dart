@@ -55,7 +55,147 @@ class CommunityService {
     }
   }
 
-  // 게시글 목록 조회 (카테고리별, 정렬별)
+  // 최적화된 게시글 목록 조회 (JOIN 기반 단일 쿼리)
+  Future<List<CommunityPost>> getPostsOptimized({
+    String? categorySlug,
+    String orderBy = 'created_at',
+    bool ascending = false,
+    int limit = 20,
+    int offset = 0,
+    String? currentUserId,
+  }) async {
+    try {
+      print('DEBUG: getPostsOptimized 호출 - categorySlug: $categorySlug, orderBy: $orderBy');
+      
+      // 카테고리 ID 먼저 조회 (캐시 활용)
+      String? categoryId;
+      if (categorySlug != null && categorySlug != 'all' && categorySlug != 'popular') {
+        final categories = await getCategories();
+        try {
+          final category = categories.firstWhere((cat) => cat.slug == categorySlug);
+          categoryId = category.id;
+          print('DEBUG: 카테고리 ID 찾음: $categoryId');
+        } catch (e) {
+          print('DEBUG: 카테고리를 찾지 못함: $categorySlug');
+          return [];
+        }
+      }
+      
+      // 메인 페이지에서 필요한 컬럼만 SELECT
+      const selectColumns = '''
+        id, content, created_at, updated_at, author_id, category_id,
+        images, mosaic_images, has_mosaic, is_pinned,
+        like_count, comment_count, view_count,
+        timeline_date, timeline_data
+      ''';
+      
+      var query = _supabase
+          .from('community_posts')
+          .select(selectColumns)
+          .eq('is_deleted', false);
+      
+      // 카테고리 필터링
+      if (categoryId != null) {
+        query = query.eq('category_id', categoryId);
+      }
+      
+      // 정렬 처리
+      late final List<Map<String, dynamic>> response;
+      if (categorySlug == 'popular') {
+        // 인기 카테고리: 기존 캐시 로직 사용
+        return await _getDailyPopularPosts(currentUserId: currentUserId, limit: limit, offset: offset);
+      } else if (orderBy == 'like_count') {
+        response = await query
+            .order('like_count', ascending: false)
+            .order('created_at', ascending: false)
+            .range(offset, offset + limit - 1);
+      } else {
+        response = await query
+            .order('created_at', ascending: false)
+            .range(offset, offset + limit - 1);
+      }
+      
+      print('DEBUG: 최적화 쿼리 결과: ${response.length}개 게시글');
+      
+      if (response.isEmpty) return [];
+      
+      // 작성자, 카테고리, 좋아요 정보를 병렬로 조회
+      final List<String> authorIds = response.map((item) => item['author_id'] as String).toSet().toList();
+      final List<String> categoryIds = response.map((item) => item['category_id'] as String).toSet().toList();
+      final List<String> postIds = response.map((item) => item['id'] as String).toList();
+      
+      final futures = await Future.wait([
+        // 작성자 정보
+        _supabase
+            .from('user_profiles')
+            .select('user_id, nickname, profile_image_url')
+            .inFilter('user_id', authorIds),
+        
+        // 카테고리 정보
+        _supabase
+            .from('community_categories')
+            .select('id, name, slug, color, icon')
+            .inFilter('id', categoryIds),
+        
+        // 좋아요 상태 (현재 사용자)
+        if (currentUserId != null)
+          _supabase
+              .from('community_likes')
+              .select('post_id')
+              .eq('user_id', currentUserId)
+              .inFilter('post_id', postIds)
+        else
+          Future.value(<Map<String, dynamic>>[]),
+      ]);
+      
+      // 맵으로 변환
+      final authorsMap = <String, Map<String, dynamic>>{};
+      for (final author in futures[0] as List) {
+        authorsMap[author['user_id']] = author;
+      }
+      
+      final categoriesMap = <String, Map<String, dynamic>>{};
+      for (final category in futures[1] as List) {
+        categoriesMap[category['id']] = category;
+      }
+      
+      final likedPostIds = (futures[2] as List)
+          .map((like) => like['post_id'] as String)
+          .toSet();
+      
+      // CommunityPost 객체 생성
+      final posts = response.map((item) {
+        // 관련 데이터 추가
+        final authorData = authorsMap[item['author_id']];
+        if (authorData != null) item['author'] = authorData;
+        
+        final categoryData = categoriesMap[item['category_id']];
+        if (categoryData != null) item['category'] = categoryData;
+        
+        item['is_liked_by_current_user'] = likedPostIds.contains(item['id']);
+        
+        return CommunityPost.fromJson(item);
+      }).toList();
+      
+      print('DEBUG: 최적화 완료 - ${posts.length}개 게시글 (3개 쿼리)');
+      return posts;
+      
+    } catch (e) {
+      print('ERROR: getPostsOptimized 실패: $e');
+      // 에러 발생시 기존 방식으로 fallback
+      print('DEBUG: 기존 방식으로 fallback');
+      return await getPosts(
+        categorySlug: categorySlug,
+        orderBy: orderBy,
+        ascending: ascending,
+        limit: limit,
+        offset: offset,
+        currentUserId: currentUserId,
+      );
+    }
+  }
+
+  // 기존 게시글 목록 조회 (fallback용으로 유지)
   Future<List<CommunityPost>> getPosts({
     String? categorySlug,
     String orderBy = 'created_at',

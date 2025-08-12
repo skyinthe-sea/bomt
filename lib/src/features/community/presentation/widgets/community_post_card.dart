@@ -58,6 +58,261 @@ class CommunityPostCard extends StatelessWidget {
     }
   }
 
+  // 이미지 섹션 (1-5장 대응, 모자이크 처리 포함)
+  Widget _buildImageSection(BuildContext context, ThemeData theme) {
+    if (post.images.isEmpty) return const SizedBox.shrink();
+    
+    const double imageHeight = 200.0;
+    const double spacing = 4.0;
+    const double borderRadius = 12.0;
+    
+    // 모자이크 상태 확인 함수
+    bool shouldBlur(int index) {
+      if (!post.hasMosaic || post.mosaicImages.isEmpty) return false;
+      if (index >= post.mosaicImages.length) return false;
+      return post.mosaicImages[index] == "blur";
+    }
+    
+    Widget buildImageWidget(String imageUrl, int index, {double? width, double? height}) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: Container(
+          width: width,
+          height: height ?? imageHeight,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceContainerHighest,
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // 이미지
+              Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(
+                    color: theme.colorScheme.surfaceContainerHighest,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: theme.colorScheme.surfaceContainerHighest,
+                  child: Icon(
+                    Icons.broken_image_outlined,
+                    color: theme.colorScheme.onSurface.withOpacity(0.5),
+                  ),
+                ),
+              ),
+              
+              // 모자이크 처리 (블러 효과)
+              if (shouldBlur(index))
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(borderRadius),
+                  ),
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.visibility_off,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '블러 처리됨',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // 이미지 개수에 따른 레이아웃
+    switch (post.images.length) {
+      case 1:
+        // 1장: 전체 너비
+        return buildImageWidget(post.images[0], 0);
+        
+      case 2:
+        // 2장: 1:1 분할
+        return Row(
+          children: [
+            Expanded(child: buildImageWidget(post.images[0], 0)),
+            const SizedBox(width: spacing),
+            Expanded(child: buildImageWidget(post.images[1], 1)),
+          ],
+        );
+        
+      case 3:
+        // 3장: 큰 이미지 + 2개 작은 이미지
+        return Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: buildImageWidget(post.images[0], 0),
+            ),
+            const SizedBox(width: spacing),
+            Expanded(
+              child: Column(
+                children: [
+                  buildImageWidget(post.images[1], 1, height: (imageHeight - spacing) / 2),
+                  const SizedBox(height: spacing),
+                  buildImageWidget(post.images[2], 2, height: (imageHeight - spacing) / 2),
+                ],
+              ),
+            ),
+          ],
+        );
+        
+      case 4:
+        // 4장: 2x2 그리드
+        return Column(
+          children: [
+            Row(
+              children: [
+                Expanded(child: buildImageWidget(post.images[0], 0, height: (imageHeight - spacing) / 2)),
+                const SizedBox(width: spacing),
+                Expanded(child: buildImageWidget(post.images[1], 1, height: (imageHeight - spacing) / 2)),
+              ],
+            ),
+            const SizedBox(height: spacing),
+            Row(
+              children: [
+                Expanded(child: buildImageWidget(post.images[2], 2, height: (imageHeight - spacing) / 2)),
+                const SizedBox(width: spacing),
+                Expanded(child: buildImageWidget(post.images[3], 3, height: (imageHeight - spacing) / 2)),
+              ],
+            ),
+          ],
+        );
+        
+      default: // 5장 이상
+        // 5장: 첫 번째 큰 이미지 + 2x2 작은 이미지들
+        return Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: buildImageWidget(post.images[0], 0),
+            ),
+            const SizedBox(width: spacing),
+            Expanded(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(child: buildImageWidget(post.images[1], 1, height: (imageHeight - spacing) / 2)),
+                      const SizedBox(width: spacing / 2),
+                      Expanded(child: buildImageWidget(post.images[2], 2, height: (imageHeight - spacing) / 2)),
+                    ],
+                  ),
+                  const SizedBox(height: spacing),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: buildImageWidget(post.images[3], 3, height: (imageHeight - spacing) / 2),
+                      ),
+                      const SizedBox(width: spacing / 2),
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            buildImageWidget(post.images[4], 4, height: (imageHeight - spacing) / 2),
+                            if (post.images.length > 5)
+                              Container(
+                                height: (imageHeight - spacing) / 2,
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.6),
+                                  borderRadius: BorderRadius.circular(borderRadius),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '+${post.images.length - 4}',
+                                    style: theme.textTheme.titleMedium?.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+    }
+  }
+  
+  // 타임라인 뱃지
+  Widget _buildTimelineBadge(BuildContext context, ThemeData theme) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            theme.colorScheme.primary.withOpacity(0.1),
+            theme.colorScheme.primary.withOpacity(0.05),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: theme.colorScheme.primary.withOpacity(0.3),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.timeline,
+            size: 16,
+            color: theme.colorScheme.primary,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            '24시간 활동 패턴',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.primary,
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   // X 스타일: 내용 섹션 구현 (반응형 높이 + fade out 효과)
   Widget _buildContentSection(BuildContext context, ThemeData theme) {
     const int maxLines = 6; // 최대 표시 줄 수
@@ -227,50 +482,7 @@ class CommunityPostCard extends StatelessWidget {
                           ),
                         ),
                       
-                      // 이미지 배지 (딤 처리 여부에 따라 다른 표시)
-                      if (post.images.isNotEmpty) ...[
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: post.hasMosaic 
-                                ? theme.colorScheme.error.withOpacity(0.15)
-                                : theme.colorScheme.secondary.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: post.hasMosaic 
-                                  ? theme.colorScheme.error.withOpacity(0.3)
-                                  : theme.colorScheme.secondary.withOpacity(0.3),
-                              width: 0.5,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                post.hasMosaic ? Icons.visibility_off : Icons.image,
-                                size: 12,
-                                color: post.hasMosaic 
-                                    ? theme.colorScheme.error
-                                    : theme.colorScheme.secondary,
-                              ),
-                              if (post.images.length > 1) ...[
-                                const SizedBox(width: 2),
-                                Text(
-                                  post.images.length.toString(),
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: post.hasMosaic 
-                                        ? theme.colorScheme.error
-                                        : theme.colorScheme.secondary,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                      ],
+                      // 이미지 배지는 제거 (실제 이미지로 대체)
                       
                       const SizedBox(width: 12),
                       
@@ -355,6 +567,18 @@ class CommunityPostCard extends StatelessWidget {
                   
                   // X 스타일: 게시글 내용 직접 표시 (fade out 효과 포함)
                   _buildContentSection(context, theme),
+                  
+                  // 이미지 섹션 (1-5장 대응)
+                  if (post.images.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    _buildImageSection(context, theme),
+                  ],
+                  
+                  // 타임라인 뱃지
+                  if (post.timelineData != null) ...[
+                    const SizedBox(height: 8),
+                    _buildTimelineBadge(context, theme),
+                  ],
                   
                   const SizedBox(height: 12),
                   
