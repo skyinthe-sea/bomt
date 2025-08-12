@@ -307,14 +307,23 @@ class CommunityProvider with ChangeNotifier {
 
   // 사용자 프로필 로드
   Future<void> loadCurrentUserProfile() async {
+    debugPrint('🔍 DEBUG: loadCurrentUserProfile 시작');
+    debugPrint('🔍 DEBUG: currentUserId = $currentUserId');
+    
     if (currentUserId == null) {
+      debugPrint('❌ DEBUG: currentUserId가 null이므로 프로필 로드 중단');
       return;
     }
 
     try {
+      debugPrint('🔍 DEBUG: getOrCreateCurrentUserProfile 호출 중...');
       _currentUserProfile = await _userProfileService.getOrCreateCurrentUserProfile();
+      debugPrint('✅ DEBUG: 프로필 로드 결과: $_currentUserProfile');
+      debugPrint('🔍 DEBUG: 프로필이 null인가? ${_currentUserProfile == null}');
+      debugPrint('🔍 DEBUG: 닉네임: ${_currentUserProfile?.nickname}');
       notifyListeners();
     } catch (e) {
+      debugPrint('❌ DEBUG: loadCurrentUserProfile 예외 발생: $e');
       _error = e.toString();
       notifyListeners();
     }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/community_post.dart';
 
-class CommunityPostCard extends StatelessWidget {
+class CommunityPostCard extends StatefulWidget {
   final CommunityPost post;
   final VoidCallback? onTap;
   final VoidCallback? onLike;
@@ -16,6 +16,21 @@ class CommunityPostCard extends StatelessWidget {
     this.onLike,
     this.selectedCategorySlug,
   });
+
+  @override
+  State<CommunityPostCard> createState() => _CommunityPostCardState();
+}
+
+class _CommunityPostCardState extends State<CommunityPostCard> {
+  // 각 이미지별 모자이크 해제 상태 관리
+  final Map<int, bool> _imageRevealState = {};
+
+  // 특정 이미지의 모자이크 해제 상태 토글
+  void _toggleImageReveal(int index) {
+    setState(() {
+      _imageRevealState[index] = !(_imageRevealState[index] ?? false);
+    });
+  }
 
   Color _getCategoryColor(String? colorString) {
     try {
@@ -60,114 +75,137 @@ class CommunityPostCard extends StatelessWidget {
 
   // 이미지 섹션 (1-5장 대응, 모자이크 처리 포함)
   Widget _buildImageSection(BuildContext context, ThemeData theme) {
-    if (post.images.isEmpty) return const SizedBox.shrink();
+    if (widget.post.images.isEmpty) return const SizedBox.shrink();
     
     const double imageHeight = 200.0;
     const double spacing = 4.0;
     const double borderRadius = 12.0;
     
-    // 모자이크 상태 확인 함수
-    bool shouldBlur(int index) {
-      if (!post.hasMosaic || post.mosaicImages.isEmpty) return false;
-      if (index >= post.mosaicImages.length) return false;
-      return post.mosaicImages[index] == "blur";
+    // 모자이크 상태 확인 함수 (해제 상태도 고려)
+    bool shouldShowMosaic(int index) {
+      print('🔍 MOSAIC DEBUG: 포스트 "${widget.post.title ?? (widget.post.content.length > 20 ? widget.post.content.substring(0, 20) : widget.post.content)}" 이미지 $index 모자이크 확인');
+      print('🔍 MOSAIC DEBUG: hasMosaic = ${widget.post.hasMosaic}');
+      print('🔍 MOSAIC DEBUG: mosaicImages = ${widget.post.mosaicImages}');
+      print('🔍 MOSAIC DEBUG: mosaicImages.length = ${widget.post.mosaicImages.length}');
+      
+      if (!widget.post.hasMosaic || widget.post.mosaicImages.isEmpty) {
+        print('🔍 MOSAIC DEBUG: 조건1 실패 - hasMosaic=${widget.post.hasMosaic}, mosaicImages.isEmpty=${widget.post.mosaicImages.isEmpty}');
+        return false;
+      }
+      
+      if (index >= widget.post.mosaicImages.length) {
+        print('🔍 MOSAIC DEBUG: 조건2 실패 - index=$index >= length=${widget.post.mosaicImages.length}');
+        return false;
+      }
+      
+      bool isBlurImage = widget.post.mosaicImages[index] == "blur";
+      bool isRevealed = _imageRevealState[index] ?? false;
+      print('🔍 MOSAIC DEBUG: isBlurImage = $isBlurImage, isRevealed = $isRevealed');
+      
+      bool result = isBlurImage && !isRevealed;
+      print('🔍 MOSAIC DEBUG: shouldShowMosaic 최종 결과 = $result');
+      return result; // 블러 이미지이면서 해제되지 않은 경우
     }
     
     Widget buildImageWidget(String imageUrl, int index, {double? width, double? height}) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
-        child: Container(
-          width: width,
-          height: height ?? imageHeight,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              // 이미지
-              Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Container(
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                        strokeWidth: 2,
+        child: GestureDetector(
+          onTap: shouldShowMosaic(index) ? () => _toggleImageReveal(index) : null,
+          child: Container(
+            width: width,
+            height: height ?? imageHeight,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(borderRadius),
+            ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // 이미지
+                Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      color: theme.colorScheme.surfaceContainerHighest,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                          strokeWidth: 2,
+                        ),
                       ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    color: theme.colorScheme.surfaceContainerHighest,
+                    child: Icon(
+                      Icons.broken_image_outlined,
+                      color: theme.colorScheme.onSurface.withOpacity(0.5),
                     ),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) => Container(
-                  color: theme.colorScheme.surfaceContainerHighest,
-                  child: Icon(
-                    Icons.broken_image_outlined,
-                    color: theme.colorScheme.onSurface.withOpacity(0.5),
                   ),
                 ),
-              ),
-              
-              // 모자이크 처리 (블러 효과)
-              if (shouldBlur(index))
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(borderRadius),
-                  ),
-                  child: Center(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.7),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
+                
+                // 🚨 모자이크 처리 - 완전한 검정색 + 탭 기능
+                if (shouldShowMosaic(index))
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black, // 완전한 검정색으로 변경
+                      borderRadius: BorderRadius.circular(borderRadius),
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
                             Icons.visibility_off,
                             color: Colors.white,
-                            size: 16,
+                            size: 24,
                           ),
-                          const SizedBox(width: 4),
+                          const SizedBox(height: 8),
                           Text(
-                            '블러 처리됨',
-                            style: theme.textTheme.bodySmall?.copyWith(
+                            '민감한 이미지',
+                            style: theme.textTheme.titleSmall?.copyWith(
                               color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '탭하여 보기',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: Colors.white.withOpacity(0.8),
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       );
     }
 
     // 이미지 개수에 따른 레이아웃
-    switch (post.images.length) {
+    switch (widget.post.images.length) {
       case 1:
         // 1장: 전체 너비
-        return buildImageWidget(post.images[0], 0);
+        return buildImageWidget(widget.post.images[0], 0);
         
       case 2:
         // 2장: 1:1 분할
         return Row(
           children: [
-            Expanded(child: buildImageWidget(post.images[0], 0)),
+            Expanded(child: buildImageWidget(widget.post.images[0], 0)),
             const SizedBox(width: spacing),
-            Expanded(child: buildImageWidget(post.images[1], 1)),
+            Expanded(child: buildImageWidget(widget.post.images[1], 1)),
           ],
         );
         
@@ -177,15 +215,15 @@ class CommunityPostCard extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-              child: buildImageWidget(post.images[0], 0),
+              child: buildImageWidget(widget.post.images[0], 0),
             ),
             const SizedBox(width: spacing),
             Expanded(
               child: Column(
                 children: [
-                  buildImageWidget(post.images[1], 1, height: (imageHeight - spacing) / 2),
+                  buildImageWidget(widget.post.images[1], 1, height: (imageHeight - spacing) / 2),
                   const SizedBox(height: spacing),
-                  buildImageWidget(post.images[2], 2, height: (imageHeight - spacing) / 2),
+                  buildImageWidget(widget.post.images[2], 2, height: (imageHeight - spacing) / 2),
                 ],
               ),
             ),
@@ -198,17 +236,17 @@ class CommunityPostCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(child: buildImageWidget(post.images[0], 0, height: (imageHeight - spacing) / 2)),
+                Expanded(child: buildImageWidget(widget.post.images[0], 0, height: (imageHeight - spacing) / 2)),
                 const SizedBox(width: spacing),
-                Expanded(child: buildImageWidget(post.images[1], 1, height: (imageHeight - spacing) / 2)),
+                Expanded(child: buildImageWidget(widget.post.images[1], 1, height: (imageHeight - spacing) / 2)),
               ],
             ),
             const SizedBox(height: spacing),
             Row(
               children: [
-                Expanded(child: buildImageWidget(post.images[2], 2, height: (imageHeight - spacing) / 2)),
+                Expanded(child: buildImageWidget(widget.post.images[2], 2, height: (imageHeight - spacing) / 2)),
                 const SizedBox(width: spacing),
-                Expanded(child: buildImageWidget(post.images[3], 3, height: (imageHeight - spacing) / 2)),
+                Expanded(child: buildImageWidget(widget.post.images[3], 3, height: (imageHeight - spacing) / 2)),
               ],
             ),
           ],
@@ -220,7 +258,7 @@ class CommunityPostCard extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-              child: buildImageWidget(post.images[0], 0),
+              child: buildImageWidget(widget.post.images[0], 0),
             ),
             const SizedBox(width: spacing),
             Expanded(
@@ -228,23 +266,23 @@ class CommunityPostCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Expanded(child: buildImageWidget(post.images[1], 1, height: (imageHeight - spacing) / 2)),
+                      Expanded(child: buildImageWidget(widget.post.images[1], 1, height: (imageHeight - spacing) / 2)),
                       const SizedBox(width: spacing / 2),
-                      Expanded(child: buildImageWidget(post.images[2], 2, height: (imageHeight - spacing) / 2)),
+                      Expanded(child: buildImageWidget(widget.post.images[2], 2, height: (imageHeight - spacing) / 2)),
                     ],
                   ),
                   const SizedBox(height: spacing),
                   Row(
                     children: [
                       Expanded(
-                        child: buildImageWidget(post.images[3], 3, height: (imageHeight - spacing) / 2),
+                        child: buildImageWidget(widget.post.images[3], 3, height: (imageHeight - spacing) / 2),
                       ),
                       const SizedBox(width: spacing / 2),
                       Expanded(
                         child: Stack(
                           children: [
-                            buildImageWidget(post.images[4], 4, height: (imageHeight - spacing) / 2),
-                            if (post.images.length > 5)
+                            buildImageWidget(widget.post.images[4], 4, height: (imageHeight - spacing) / 2),
+                            if (widget.post.images.length > 5)
                               Container(
                                 height: (imageHeight - spacing) / 2,
                                 decoration: BoxDecoration(
@@ -253,7 +291,7 @@ class CommunityPostCard extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '+${post.images.length - 4}',
+                                    '+${widget.post.images.length - 4}',
                                     style: theme.textTheme.titleMedium?.copyWith(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -319,7 +357,7 @@ class CommunityPostCard extends StatelessWidget {
     const double fadeHeight = 40.0; // fade out 영역 높이
     
     // 내용이 비어있거나 null인 경우 처리
-    final content = post.content?.trim() ?? '';
+    final content = widget.post.content?.trim() ?? '';
     if (content.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -424,10 +462,10 @@ class CommunityPostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-    final categoryColor = _getCategoryColor(post.category?.color);
+    final categoryColor = _getCategoryColor(widget.post.category?.color);
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         decoration: BoxDecoration(
           color: theme.colorScheme.surface.withOpacity(0.9),
@@ -461,7 +499,7 @@ class CommunityPostCard extends StatelessWidget {
                   Row(
                     children: [
                       // 카테고리 태그 (항상 표시)
-                      if (post.category != null)
+                      if (widget.post.category != null)
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                           decoration: BoxDecoration(
@@ -473,7 +511,7 @@ class CommunityPostCard extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            _getLocalizedCategoryName(l10n, post.category!.name, post.category!.slug),
+                            _getLocalizedCategoryName(l10n, widget.post.category!.name, widget.post.category!.slug),
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: categoryColor,
                               fontWeight: FontWeight.w600,
@@ -493,10 +531,10 @@ class CommunityPostCard extends StatelessWidget {
                             CircleAvatar(
                               radius: 12,
                               backgroundColor: categoryColor.withOpacity(0.2),
-                              backgroundImage: post.author?.profileImageUrl != null
-                                  ? NetworkImage(post.author!.profileImageUrl!)
+                              backgroundImage: widget.post.author?.profileImageUrl != null
+                                  ? NetworkImage(widget.post.author!.profileImageUrl!)
                                   : null,
-                              child: post.author?.profileImageUrl == null
+                              child: widget.post.author?.profileImageUrl == null
                                   ? Icon(
                                       Icons.person,
                                       size: 14,
@@ -510,7 +548,7 @@ class CommunityPostCard extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    post.author?.nickname ?? '익명',
+                                    widget.post.author?.nickname ?? '익명',
                                     style: theme.textTheme.bodySmall?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: theme.colorScheme.onSurface.withOpacity(0.8),
@@ -520,13 +558,13 @@ class CommunityPostCard extends StatelessWidget {
                                   Row(
                                     children: [
                                       Text(
-                                        post.timeAgo,
+                                        widget.post.timeAgo,
                                         style: theme.textTheme.bodySmall?.copyWith(
                                           color: theme.colorScheme.onSurface.withOpacity(0.5),
                                           fontSize: 10,
                                         ),
                                       ),
-                                      if (post.isEdited) ...[
+                                      if (widget.post.isEdited) ...[
                                         const SizedBox(width: 4),
                                         Text(
                                           l10n.edited,
@@ -547,7 +585,7 @@ class CommunityPostCard extends StatelessWidget {
                       ),
                       
                       // 핀 아이콘
-                      if (post.isPinned)
+                      if (widget.post.isPinned)
                         Container(
                           padding: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
@@ -569,13 +607,13 @@ class CommunityPostCard extends StatelessWidget {
                   _buildContentSection(context, theme),
                   
                   // 이미지 섹션 (1-5장 대응)
-                  if (post.images.isNotEmpty) ...[
+                  if (widget.post.images.isNotEmpty) ...[
                     const SizedBox(height: 12),
                     _buildImageSection(context, theme),
                   ],
                   
                   // 타임라인 뱃지
-                  if (post.timelineData != null) ...[
+                  if (widget.post.timelineData != null) ...[
                     const SizedBox(height: 8),
                     _buildTimelineBadge(context, theme),
                   ],
@@ -587,16 +625,16 @@ class CommunityPostCard extends StatelessWidget {
                     children: [
                       // 좋아요 버튼
                       GestureDetector(
-                        onTap: onLike,
+                        onTap: widget.onLike,
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                            color: post.isLikedByCurrentUser == true
+                            color: widget.post.isLikedByCurrentUser == true
                                 ? theme.colorScheme.error.withOpacity(0.1)
                                 : theme.colorScheme.surface.withOpacity(0.5),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: post.isLikedByCurrentUser == true
+                              color: widget.post.isLikedByCurrentUser == true
                                   ? theme.colorScheme.error.withOpacity(0.3)
                                   : theme.colorScheme.outline.withOpacity(0.2),
                             ),
@@ -605,19 +643,19 @@ class CommunityPostCard extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
-                                post.isLikedByCurrentUser == true
+                                widget.post.isLikedByCurrentUser == true
                                     ? Icons.favorite
                                     : Icons.favorite_border,
                                 size: 14,
-                                color: post.isLikedByCurrentUser == true
+                                color: widget.post.isLikedByCurrentUser == true
                                     ? theme.colorScheme.error
                                     : theme.colorScheme.onSurface.withOpacity(0.6),
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                post.likeCount.toString(),
+                                widget.post.likeCount.toString(),
                                 style: theme.textTheme.bodySmall?.copyWith(
-                                  color: post.isLikedByCurrentUser == true
+                                  color: widget.post.isLikedByCurrentUser == true
                                       ? theme.colorScheme.error
                                       : theme.colorScheme.onSurface.withOpacity(0.6),
                                   fontWeight: FontWeight.w600,
@@ -650,7 +688,7 @@ class CommunityPostCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              post.commentCount.toString(),
+                              widget.post.commentCount.toString(),
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: theme.colorScheme.onSurface.withOpacity(0.6),
                                 fontWeight: FontWeight.w600,
@@ -673,7 +711,7 @@ class CommunityPostCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            post.viewCount.toString(),
+                            widget.post.viewCount.toString(),
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurface.withOpacity(0.4),
                             ),

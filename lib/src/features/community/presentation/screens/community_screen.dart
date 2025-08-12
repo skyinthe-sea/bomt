@@ -106,9 +106,9 @@ class _CommunityScreenState extends State<CommunityScreen>
                       builder: (context) => const CommunityNicknameSetupScreen(isFirstTime: true),
                     ),
                   ).then((_) {
-                    // 닉네임 설정 후 돌아왔을 때 다시 초기화하고 플래그 리셋
+                    // 닉네임 설정 후 돌아왔을 때 프로필만 다시 로드하고 플래그 리셋
                     _hasNavigatedToNicknameSetup = false;
-                    provider.initialize();
+                    provider.loadCurrentUserProfile(); // initialize 대신 프로필만 다시 로드
                   });
                 });
               }

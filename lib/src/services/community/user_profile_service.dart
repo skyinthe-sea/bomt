@@ -275,12 +275,14 @@ class UserProfileService {
             }
           }
         } else {
-          print('DEBUG: No defaultNickname provided, returning null to prompt nickname setup');
+          print('DEBUG: No defaultNickname provided and no existing profile found');
           print('DEBUG: This will cause the nickname setup screen to appear');
           return null;
         }
       } else {
-        print('DEBUG: Found existing profile, returning it');
+        print('DEBUG: Found existing profile, returning it directly');
+        print('DEBUG: Profile nickname: ${profile.nickname}');
+        // ✅ 기존 프로필이 있으면 defaultNickname과 관계없이 바로 반환
       }
 
       print('DEBUG: Final profile to return: $profile');

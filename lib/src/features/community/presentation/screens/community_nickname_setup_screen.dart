@@ -29,16 +29,15 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
     super.initState();
     _nicknameController.addListener(_onNicknameChanged);
     
-    // CommunityProvider 초기화 및 기존 닉네임 설정
+    // 기존 프로필 정보 확인 및 설정 (중복 초기화 방지)
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      print('DEBUG: CommunityNicknameSetupScreen initState - initializing provider');
+      print('DEBUG: CommunityNicknameSetupScreen initState - checking existing profile');
       final provider = context.read<CommunityProvider>();
       
-      // Provider 초기화
-      await provider.initialize();
-      print('DEBUG: Provider initialized, currentUserId = ${provider.currentUserId}');
+      // 이미 초기화된 provider 상태 확인 (중복 initialize 방지)
+      print('DEBUG: Current provider state - currentUserId: ${provider.currentUserId}, currentUserProfile: ${provider.currentUserProfile}');
       
-      // 로그인 상태 확인
+      // 로그인 상태만 확인 (initialize는 CommunityScreen에서 이미 완료)
       if (provider.currentUserId == null && mounted) {
         print('DEBUG: currentUserId is null - login required');
         // 로그인이 필요하다는 안내 메시지 표시
@@ -63,10 +62,13 @@ class _CommunityNicknameSetupScreenState extends State<CommunityNicknameSetupScr
         return;
       }
       
-      // 기존 닉네임이 있다면 미리 설정
+      // 프로필이 있다면 닉네임 표시 (읽기 전용으로 설정)
       if (provider.currentUserProfile?.nickname != null) {
         _nicknameController.text = provider.currentUserProfile!.nickname;
-        print('DEBUG: Existing nickname set: ${provider.currentUserProfile!.nickname}');
+        print('DEBUG: Existing nickname found: ${provider.currentUserProfile!.nickname}');
+        print('DEBUG: This should be read-only since nickname cannot be changed');
+      } else {
+        print('DEBUG: No existing profile found, user can set new nickname');
       }
     });
   }
