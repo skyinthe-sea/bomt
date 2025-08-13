@@ -24,6 +24,7 @@ class CommunityProvider with ChangeNotifier {
   String? _error;
   UserProfile? _currentUserProfile;
   String? _currentUserId;
+  bool _isInitialized = false; // 초기화 완료 상태 추가
 
   // Getters
   List<CommunityCategory> get categories => _categories;
@@ -35,6 +36,7 @@ class CommunityProvider with ChangeNotifier {
   String? get error => _error;
   UserProfile? get currentUserProfile => _currentUserProfile;
   String? get currentUserId => _currentUserId;
+  bool get isInitialized => _isInitialized; // 초기화 완료 상태 getter 추가
 
   // 카테고리 로드
   Future<void> loadCategories() async {
@@ -307,23 +309,46 @@ class CommunityProvider with ChangeNotifier {
 
   // 사용자 프로필 로드
   Future<void> loadCurrentUserProfile() async {
+    debugPrint('*' * 80);
     debugPrint('🔍 DEBUG: loadCurrentUserProfile 시작');
     debugPrint('🔍 DEBUG: currentUserId = $currentUserId');
+    debugPrint('*' * 80);
     
     if (currentUserId == null) {
       debugPrint('❌ DEBUG: currentUserId가 null이므로 프로필 로드 중단');
+      debugPrint('*' * 80);
       return;
     }
 
     try {
-      debugPrint('🔍 DEBUG: getOrCreateCurrentUserProfile 호출 중...');
+      debugPrint('🔍 DEBUG: _userProfileService.getOrCreateCurrentUserProfile() 호출 중...');
+      final stopwatch = Stopwatch()..start();
+      
       _currentUserProfile = await _userProfileService.getOrCreateCurrentUserProfile();
-      debugPrint('✅ DEBUG: 프로필 로드 결과: $_currentUserProfile');
+      
+      stopwatch.stop();
+      debugPrint('✅ DEBUG: getOrCreateCurrentUserProfile 완료 (${stopwatch.elapsedMilliseconds}ms)');
+      debugPrint('🔍 DEBUG: 프로필 로드 결과: $_currentUserProfile');
       debugPrint('🔍 DEBUG: 프로필이 null인가? ${_currentUserProfile == null}');
-      debugPrint('🔍 DEBUG: 닉네임: ${_currentUserProfile?.nickname}');
+      
+      if (_currentUserProfile != null) {
+        debugPrint('✅ DEBUG: 프로필 정보:');
+        debugPrint('    - id: ${_currentUserProfile!.id}');
+        debugPrint('    - userId: ${_currentUserProfile!.userId}');
+        debugPrint('    - nickname: ${_currentUserProfile!.nickname}');
+      } else {
+        debugPrint('❌ DEBUG: 프로필이 null로 반환됨!');
+        debugPrint('❌ DEBUG: 이는 닉네임 설정 화면이 나타나는 원인입니다!');
+      }
+      
+      debugPrint('*' * 80);
       notifyListeners();
-    } catch (e) {
-      debugPrint('❌ DEBUG: loadCurrentUserProfile 예외 발생: $e');
+    } catch (e, stackTrace) {
+      debugPrint('❌ DEBUG: loadCurrentUserProfile 예외 발생:');
+      debugPrint('    Error: $e');
+      debugPrint('    Type: ${e.runtimeType}');
+      debugPrint('    StackTrace: $stackTrace');
+      debugPrint('*' * 80);
       _error = e.toString();
       notifyListeners();
     }
@@ -375,40 +400,68 @@ class CommunityProvider with ChangeNotifier {
 
   // 현재 사용자 ID 로드 (Supabase + 카카오 통합)
   Future<void> _loadCurrentUserId() async {
+    debugPrint('=' * 80);
     debugPrint('DEBUG: _loadCurrentUserId 시작');
+    debugPrint('=' * 80);
+    
     try {
       // 🔐 1순위: Supabase 사용자 확인 (이메일 계정)
+      debugPrint('DEBUG: Checking Supabase authentication...');
       final supabaseUser = SupabaseConfig.client.auth.currentUser;
+      debugPrint('DEBUG: SupabaseConfig.client.auth.currentUser = $supabaseUser');
+      
       if (supabaseUser != null) {
         _currentUserId = supabaseUser.id;
-        debugPrint('DEBUG: ✅ Supabase 사용자 발견: $_currentUserId (이메일: ${supabaseUser.email})');
+        debugPrint('DEBUG: ✅ Supabase 사용자 발견!');
+        debugPrint('    - User ID: $_currentUserId');
+        debugPrint('    - Email: ${supabaseUser.email}');
+        debugPrint('    - Email Confirmed: ${supabaseUser.emailConfirmedAt}');
+        debugPrint('    - Last Sign In: ${supabaseUser.lastSignInAt}');
+        debugPrint('    - Created At: ${supabaseUser.createdAt}');
+        debugPrint('=' * 80);
         return;
       } else {
-        debugPrint('DEBUG: Supabase 사용자 없음, 카카오 확인 중...');
+        debugPrint('DEBUG: ❌ Supabase 사용자 없음, 카카오 확인 중...');
       }
       
       // 🥇 2순위: 카카오 로그인 사용자 확인
+      debugPrint('DEBUG: Loading SharedPreferences...');
       final prefs = await SharedPreferences.getInstance();
-      debugPrint('DEBUG: SharedPreferences 로드 완료');
+      debugPrint('DEBUG: ✅ SharedPreferences 로드 완료');
       
+      debugPrint('DEBUG: Creating AuthService...');
       final authService = AuthService(prefs);
-      debugPrint('DEBUG: AuthService 생성 완료');
+      debugPrint('DEBUG: ✅ AuthService 생성 완료');
       
+      debugPrint('DEBUG: Calling authService.getCurrentUser()...');
       final kakaoUser = await authService.getCurrentUser();
-      debugPrint('DEBUG: kakaoUser = $kakaoUser');
+      debugPrint('DEBUG: authService.getCurrentUser() result = $kakaoUser');
+      debugPrint('DEBUG: kakaoUser type = ${kakaoUser.runtimeType}');
       
       if (kakaoUser != null) {
         _currentUserId = kakaoUser.id.toString();
-        debugPrint('DEBUG: ✅ 카카오 사용자 발견: $_currentUserId');
+        debugPrint('DEBUG: ✅ 카카오 사용자 발견!');
+        debugPrint('    - Kakao User ID: ${kakaoUser.id}');
+        debugPrint('    - String User ID: $_currentUserId');
+        if (kakaoUser.kakaoAccount?.email != null) {
+          debugPrint('    - Kakao Email: ${kakaoUser.kakaoAccount!.email}');
+        }
       } else {
         _currentUserId = null;
-        debugPrint('DEBUG: ❌ 카카오 사용자도 없음, _currentUserId = null');
+        debugPrint('DEBUG: ❌ 카카오 사용자도 없음');
       }
-    } catch (e) {
-      debugPrint('DEBUG: _loadCurrentUserId 예외 발생: $e');
+    } catch (e, stackTrace) {
+      debugPrint('DEBUG: ❌ _loadCurrentUserId 예외 발생:');
+      debugPrint('    Error: $e');
+      debugPrint('    Type: ${e.runtimeType}');
+      debugPrint('    StackTrace: $stackTrace');
       _currentUserId = null;
     }
-    debugPrint('DEBUG: _loadCurrentUserId 완료, 최종 _currentUserId = $_currentUserId');
+    
+    debugPrint('=' * 80);
+    debugPrint('DEBUG: _loadCurrentUserId 완료');
+    debugPrint('DEBUG: 최종 _currentUserId = $_currentUserId');
+    debugPrint('=' * 80);
   }
 
   // 초기화
@@ -446,13 +499,16 @@ class CommunityProvider with ChangeNotifier {
       await loadPosts(refresh: true);
       debugPrint('DEBUG: 게시글 로드 완료: ${_posts.length}개');
       
-      debugPrint('DEBUG: ✅ CommunityProvider 초기화 완료');
+      _isInitialized = true; // 초기화 완료 플래그 설정
+      debugPrint('DEBUG: ✅ CommunityProvider 초기화 완료 (_isInitialized = true)');
+      notifyListeners(); // 초기화 완료 알림
       
     } catch (e, stackTrace) {
       debugPrint('ERROR: ❌ CommunityProvider 초기화 실패');
       debugPrint('ERROR 상세: $e');
       debugPrint('스택 트레이스: $stackTrace');
       _error = e.toString();
+      _isInitialized = true; // 에러가 발생해도 초기화 시도는 완료로 처리
       notifyListeners();
     }
   }

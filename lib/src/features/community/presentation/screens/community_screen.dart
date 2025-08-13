@@ -93,23 +93,43 @@ class _CommunityScreenState extends State<CommunityScreen>
                 return const CommunityLoadingShimmer();
               }
 
-              // 🎯 프로필이 없으면 닉네임 설정 화면 표시 (한 번만)
+              // 🎯 프로필이 없으면 닉네임 설정 화면 표시 (한 번만, 더 엄격한 조건)
               if (provider.currentUserId != null && 
                   provider.currentUserProfile == null && 
                   !provider.isLoading && 
-                  !_hasNavigatedToNicknameSetup) {
-                debugPrint('DEBUG: currentUserId는 있지만 프로필이 없음 - 닉네임 설정 화면으로 이동');
+                  !_hasNavigatedToNicknameSetup &&
+                  provider.isInitialized) { // 초기화 완료 여부 체크 (categories 대신 isInitialized 사용)
+                debugPrint('DEBUG: 🚨 닉네임 설정 화면으로 이동 조건 충족:');
+                debugPrint('  - currentUserId: ${provider.currentUserId}');
+                debugPrint('  - currentUserProfile: ${provider.currentUserProfile}');
+                debugPrint('  - isLoading: ${provider.isLoading}');
+                debugPrint('  - isInitialized: ${provider.isInitialized}');
+                debugPrint('  - categories loaded: ${provider.categories.length}');
+                debugPrint('  - hasNavigatedToNicknameSetup: $_hasNavigatedToNicknameSetup');
+                
                 _hasNavigatedToNicknameSetup = true; // 플래그 설정으로 중복 이동 방지
+                
+                // 다음 프레임에서 실행하여 프로필 로드 완료 후 조건 재확인
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const CommunityNicknameSetupScreen(isFirstTime: true),
-                    ),
-                  ).then((_) {
-                    // 닉네임 설정 후 돌아왔을 때 프로필만 다시 로드하고 플래그 리셋
-                    _hasNavigatedToNicknameSetup = false;
-                    provider.loadCurrentUserProfile(); // initialize 대신 프로필만 다시 로드
-                  });
+                  debugPrint('DEBUG: PostFrameCallback - 닉네임 설정 화면 이동 전 최종 확인');
+                  debugPrint('  - currentUserProfile at navigation: ${provider.currentUserProfile}');
+                  debugPrint('  - currentUserProfile == null: ${provider.currentUserProfile == null}');
+                  
+                  if (provider.currentUserProfile == null && mounted) {
+                    debugPrint('DEBUG: ✅ 최종 확인 후 닉네임 설정 화면으로 이돔');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const CommunityNicknameSetupScreen(isFirstTime: true),
+                      ),
+                    ).then((_) {
+                      // 닉네임 설정 후 돌아왔을 때 프로필만 다시 로드하고 플래그 리셋
+                      _hasNavigatedToNicknameSetup = false;
+                      provider.loadCurrentUserProfile(); // initialize 대신 프로필만 다시 로드
+                    });
+                  } else {
+                    debugPrint('DEBUG: ❌ 최종 확인 결과 프로필이 있음, 닉네임 설정 화면으로 이동하지 않음');
+                    _hasNavigatedToNicknameSetup = false; // 플래그 리셋
+                  }
                 });
               }
 

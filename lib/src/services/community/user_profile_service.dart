@@ -11,6 +11,10 @@ class UserProfileService {
   Future<UserProfile?> getUserProfile(String userId) async {
     try {
       print('DEBUG: getUserProfile called with userId: $userId');
+      print('DEBUG: Current Supabase auth state:');
+      print('  - auth.currentUser: ${_supabase.auth.currentUser}');
+      print('  - auth.currentUser?.id: ${_supabase.auth.currentUser?.id}');
+      print('  - auth.currentUser?.email: ${_supabase.auth.currentUser?.email}');
       print('DEBUG: Executing Supabase query: user_profiles.select().eq("user_id", "$userId").maybeSingle()');
       
       final response = await _supabase
@@ -25,6 +29,27 @@ class UserProfileService {
 
       if (response == null) {
         print('DEBUG: No profile found for user_id: $userId');
+        print('DEBUG: Trying alternative query by email...');
+        
+        // 이메일로 다시 시도
+        final currentUser = _supabase.auth.currentUser;
+        if (currentUser?.email != null) {
+          print('DEBUG: Trying to find profile by email: ${currentUser!.email}');
+          final emailResponse = await _supabase
+              .from('user_profiles')
+              .select()
+              .eq('email', currentUser.email!)
+              .maybeSingle();
+          
+          print('DEBUG: Email query response: $emailResponse');
+          
+          if (emailResponse != null) {
+            final profile = UserProfile.fromJson(emailResponse);
+            print('DEBUG: Found profile by email: $profile');
+            return profile;
+          }
+        }
+        
         return null;
       }
       
@@ -34,6 +59,14 @@ class UserProfileService {
     } catch (e) {
       print('DEBUG: getUserProfile error: $e');
       print('DEBUG: Error type: ${e.runtimeType}');
+      print('DEBUG: Error details: ${e.toString()}');
+      if (e is PostgrestException) {
+        print('DEBUG: PostgrestException details:');
+        print('  - code: ${e.code}');
+        print('  - message: ${e.message}');
+        print('  - details: ${e.details}');
+        print('  - hint: ${e.hint}');
+      }
       throw Exception('사용자 프로필 조회 실패: $e');
     }
   }
@@ -184,7 +217,10 @@ class UserProfileService {
   Future<UserProfile?> getOrCreateCurrentUserProfile({
     String? defaultNickname,
   }) async {
+    print('DEBUG: =======================================================');
     print('DEBUG: getOrCreateCurrentUserProfile called');
+    print('DEBUG: defaultNickname parameter: $defaultNickname');
+    print('DEBUG: =======================================================');
     
     try {
       String? userId;
@@ -192,12 +228,19 @@ class UserProfileService {
       
       // 🔐 1순위: Supabase 사용자 확인
       final supabaseUser = _supabase.auth.currentUser;
+      print('DEBUG: Checking Supabase auth state...');
+      print('DEBUG: _supabase.auth.currentUser: $supabaseUser');
+      
       if (supabaseUser != null) {
         userId = supabaseUser.id;
         userEmail = supabaseUser.email;
-        print('DEBUG: Supabase user found: $userId (email: $userEmail)');
+        print('DEBUG: ✅ Supabase user found!');
+        print('DEBUG:   - userId: $userId');
+        print('DEBUG:   - userEmail: $userEmail');
+        print('DEBUG:   - emailConfirmedAt: ${supabaseUser.emailConfirmedAt}');
+        print('DEBUG:   - lastSignInAt: ${supabaseUser.lastSignInAt}');
       } else {
-        print('DEBUG: No Supabase user found, checking Kakao...');
+        print('DEBUG: ❌ No Supabase user found, checking Kakao...');
         
         // 🥇 2순위: 카카오 로그인 사용자 정보 가져오기
         final prefs = await SharedPreferences.getInstance();
@@ -205,46 +248,30 @@ class UserProfileService {
         final kakaoUser = await authService.getCurrentUser();
         
         if (kakaoUser == null) {
-          print('DEBUG: No Kakao user found either');
+          print('DEBUG: ❌ No Kakao user found either');
+          print('DEBUG: Returning null - no authenticated user');
           return null;
         }
         
         userId = kakaoUser.id.toString();
-        print('DEBUG: Kakao user found: $userId');
+        print('DEBUG: ✅ Kakao user found: $userId');
       }
 
+      print('DEBUG: =======================================================');
+      print('DEBUG: Attempting to load existing profile...');
+      print('DEBUG: userId to search: $userId');
+      print('DEBUG: userEmail to search: $userEmail');
+      print('DEBUG: =======================================================');
+
       // 기존 프로필 조회
-      var profile = await getUserProfile(userId);
-      print('DEBUG: Existing profile by user_id: $profile');
+      var profile = await getUserProfile(userId!);
+      print('DEBUG: getUserProfile result: $profile');
       print('DEBUG: Profile found: ${profile != null}');
-      print('DEBUG: Profile details: ${profile?.toJson()}');
-      
-      // 🔍 Supabase 사용자의 경우 이메일로도 기존 프로필 찾기
-      if (profile == null && userEmail != null) {
-        print('DEBUG: Searching profile by email: $userEmail');
-        try {
-          final emailResponse = await _supabase
-              .from('user_profiles')
-              .select()
-              .eq('email', userEmail)
-              .maybeSingle();
-          
-          if (emailResponse != null) {
-            print('DEBUG: Found existing profile by email: $emailResponse');
-            // 🔄 user_id 업데이트 (이메일로 찾은 프로필을 현재 사용자 ID와 연결)
-            final updatedResponse = await _supabase
-                .from('user_profiles')
-                .update({'user_id': userId})
-                .eq('email', userEmail)
-                .select()
-                .single();
-            
-            profile = UserProfile.fromJson(updatedResponse);
-            print('DEBUG: Updated profile with new user_id: $profile');
-          }
-        } catch (e) {
-          print('DEBUG: Email search error: $e');
-        }
+      if (profile != null) {
+        print('DEBUG: Profile details:');
+        print('DEBUG:   - id: ${profile.id}');
+        print('DEBUG:   - userId: ${profile.userId}');
+        print('DEBUG:   - nickname: ${profile.nickname}');
       }
       
       if (profile == null) {
@@ -252,14 +279,14 @@ class UserProfileService {
         
         // defaultNickname이 명시적으로 제공된 경우에만 프로필 생성 (닉네임 설정 화면에서 호출)
         if (defaultNickname != null) {
-          print('DEBUG: Creating profile with provided nickname: $defaultNickname');
+          print('DEBUG: Creating new profile with nickname: $defaultNickname');
           try {
             profile = await createUserProfile(
               userId: userId,
               nickname: defaultNickname,
               email: userEmail,
             );
-            print('DEBUG: Created new profile: $profile');
+            print('DEBUG: ✅ Created new profile: $profile');
           } catch (createError) {
             print('DEBUG: Create profile with email failed, trying without email: $createError');
             // 이메일 필드 에러 시 이메일 없이 재시도
@@ -268,27 +295,38 @@ class UserProfileService {
                 userId: userId,
                 nickname: defaultNickname,
               );
-              print('DEBUG: Created new profile without email: $profile');
+              print('DEBUG: ✅ Created new profile without email: $profile');
             } catch (retryError) {
-              print('DEBUG: Failed to create profile even without email: $retryError');
+              print('DEBUG: ❌ Failed to create profile even without email: $retryError');
               throw Exception('프로필 생성에 실패했습니다: $retryError');
             }
           }
         } else {
-          print('DEBUG: No defaultNickname provided and no existing profile found');
+          print('DEBUG: ⚠️ No defaultNickname provided and no existing profile found');
           print('DEBUG: This will cause the nickname setup screen to appear');
+          print('DEBUG: Returning null');
           return null;
         }
       } else {
-        print('DEBUG: Found existing profile, returning it directly');
+        print('DEBUG: ✅ Found existing profile, returning it directly');
         print('DEBUG: Profile nickname: ${profile.nickname}');
         // ✅ 기존 프로필이 있으면 defaultNickname과 관계없이 바로 반환
       }
 
+      print('DEBUG: =======================================================');
       print('DEBUG: Final profile to return: $profile');
+      if (profile != null) {
+        print('DEBUG: Final profile details:');
+        print('DEBUG:   - id: ${profile.id}');
+        print('DEBUG:   - userId: ${profile.userId}');
+        print('DEBUG:   - nickname: ${profile.nickname}');
+      }
+      print('DEBUG: =======================================================');
       return profile;
-    } catch (e) {
-      print('DEBUG: getOrCreateCurrentUserProfile error: $e');
+    } catch (e, stackTrace) {
+      print('DEBUG: ❌ getOrCreateCurrentUserProfile error: $e');
+      print('DEBUG: Error type: ${e.runtimeType}');
+      print('DEBUG: Stack trace: $stackTrace');
       // 에러가 발생해도 null 반환 (앱이 크래시되지 않도록)
       return null;
     }
