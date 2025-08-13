@@ -53,7 +53,7 @@ class GrowthChartWidget extends StatelessWidget {
               gridData: FlGridData(
                 show: true,
                 drawVerticalLine: false,
-                horizontalInterval: showWeight ? 0.5 : 2,
+                horizontalInterval: showWeight ? 0.2 : 1, // 체중 0.2kg, 키 1cm 간격으로 더 세밀하게
                 getDrawingHorizontalLine: (value) => FlLine(
                   color: colorScheme.outline.withOpacity(0.3),
                   strokeWidth: 1,
@@ -237,7 +237,7 @@ class GrowthChartWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final unit = showWeight ? 'kg' : 'cm';
     return Text(
-      '${value.toStringAsFixed(0)}$unit',
+      '${value.toStringAsFixed(1)}$unit',
       style: TextStyle(
         color: colorScheme.onSurface.withOpacity(0.6),
         fontSize: 11,
