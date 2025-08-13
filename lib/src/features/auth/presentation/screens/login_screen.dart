@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +40,9 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _autoLoginEnabled = false;
   bool _isOtpPasswordResetInProgress = false; // 🔐 OTP 비밀번호 재설정 진행 중 플래그
   
+  // 🔧 StreamSubscription 추가하여 dispose에서 정리
+  StreamSubscription? _authStateSubscription;
+  
   @override
   void initState() {
     super.initState();
@@ -50,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
   
   /// 🔐 Auth state 변경 리스너 설정 (비밀번호 재설정 처리)
   void _setupAuthStateListener() {
-    _supabaseAuth.supabaseClient.auth.onAuthStateChange.listen((data) {
+    _authStateSubscription = _supabaseAuth.supabaseClient.auth.onAuthStateChange.listen((data) {
       final event = data.event;
       final session = data.session;
       
@@ -73,6 +77,13 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
     });
+  }
+  
+  @override
+  void dispose() {
+    // 🔧 StreamSubscription 정리
+    _authStateSubscription?.cancel();
+    super.dispose();
   }
   
   Future<void> _initializeServices() async {
@@ -682,9 +693,11 @@ class _LoginScreenState extends State<LoginScreen> {
       final errorMessage = _supabaseAuth.getErrorMessage(e);
       _showError(errorMessage);
     } finally {
-      setState(() {
-        _isEmailLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isEmailLoading = false;
+        });
+      }
     }
   }
   
@@ -1916,7 +1929,9 @@ class _OtpPasswordResetDialogState extends State<OtpPasswordResetDialog> {
 
   /// 1️⃣ 비밀번호 재설정 OTP 전송
   Future<void> _sendPasswordResetOtp() async {
-    setState(() => _isLoading = true);
+    if (mounted) {
+      setState(() => _isLoading = true);
+    }
     
     try {
       await widget.supabaseAuth.resetPassword(widget.email);
@@ -1925,7 +1940,11 @@ class _OtpPasswordResetDialogState extends State<OtpPasswordResetDialog> {
         _isLoading = false;
       });
     } catch (e) {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
       widget.onError('OTP 전송에 실패했습니다: ${widget.supabaseAuth.getErrorMessage(e)}');
       if (mounted) Navigator.pop(context);
     }
@@ -1939,7 +1958,9 @@ class _OtpPasswordResetDialogState extends State<OtpPasswordResetDialog> {
       return;
     }
 
-    setState(() => _isLoading = true);
+    if (mounted) {
+      setState(() => _isLoading = true);
+    }
 
     try {
       print('🔐 [OTP_VERIFY] Starting STRICT OTP verification...');
@@ -2063,7 +2084,9 @@ class _OtpPasswordResetDialogState extends State<OtpPasswordResetDialog> {
       return;
 
     } catch (e) {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
       print('❌ [OTP_VERIFY] All methods failed: $e');
       widget.onError('인증번호 검증에 실패했습니다.\n\n세부 정보:\n$e\n\n다시 시도하거나 새로운 코드를 요청해주세요.');
     }
@@ -2099,7 +2122,9 @@ class _OtpPasswordResetDialogState extends State<OtpPasswordResetDialog> {
       return;
     }
 
-    setState(() => _isLoading = true);
+    if (mounted) {
+      setState(() => _isLoading = true);
+    }
 
     try {
       print('🔐 [PASSWORD_UPDATE] Updating password...');
@@ -2124,7 +2149,9 @@ class _OtpPasswordResetDialogState extends State<OtpPasswordResetDialog> {
         throw Exception('Password update failed - no user returned');
       }
     } catch (e) {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
       print('❌ [PASSWORD_UPDATE] Exception: $e');
       
       // 🔐 동일한 비밀번호 에러 처리
