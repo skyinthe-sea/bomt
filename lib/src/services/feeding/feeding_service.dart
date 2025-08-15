@@ -71,7 +71,13 @@ class FeedingService with DataSyncMixin {
     DateTime? startedAt,
     DateTime? endedAt,
   }) async {
+    // 현재 로컬 시간 사용 (시스템이 한국시간대로 설정되어 있음)
     final feedingStartTime = startedAt ?? DateTime.now();
+    
+    debugPrint('=== FEEDING TIME PROCESSING ===');
+    debugPrint('Local time: $feedingStartTime (isUtc: ${feedingStartTime.isUtc})');
+    debugPrint('Will save to DB as Korean time: ${feedingStartTime.toIso8601String()}');
+    debugPrint('===============================');
     
     return await withDataSyncEvent(
       operation: () async {
@@ -89,8 +95,8 @@ class FeedingService with DataSyncMixin {
           'notes': notes,
           'started_at': feedingStartTime.toIso8601String(),
           'ended_at': endedAt?.toIso8601String(),
-          'created_at': DateTime.now().toIso8601String(),
-          'updated_at': DateTime.now().toIso8601String(),
+          'created_at': DateTime.now().toUtc().toIso8601String(),
+          'updated_at': DateTime.now().toUtc().toIso8601String(),
         };
         
         final response = await _supabase
@@ -125,14 +131,30 @@ class FeedingService with DataSyncMixin {
   /// 오늘의 수유 요약 정보 가져오기
   Future<Map<String, dynamic>> getTodayFeedingSummary(String babyId) async {
     try {
+      // 한국 시간대 (UTC+9) 명시적 처리
       final now = DateTime.now();
-      final startOfDay = DateTime(now.year, now.month, now.day);
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
+      
+      debugPrint('=== FEEDING SUMMARY TIME ANALYSIS ===');
+      debugPrint('Feeding summary query for baby_id: $babyId');
+      debugPrint('Query range: ${todayStartUtc.toIso8601String()} to ${tomorrowStartUtc.toIso8601String()}');
+      debugPrint('=====================================');
       
       final response = await _supabase
           .from('feedings')
           .select('started_at, amount_ml, type')
           .eq('baby_id', babyId)
-          .gte('started_at', startOfDay.toIso8601String())
+          .gte('started_at', todayStartUtc.toIso8601String())
+          .lt('started_at', tomorrowStartUtc.toIso8601String())
           .order('started_at', ascending: false);
       
       int count = response.length;
@@ -286,14 +308,25 @@ class FeedingService with DataSyncMixin {
   /// 오늘의 수유 기록 목록 가져오기
   Future<List<Feeding>> getTodayFeedings(String babyId) async {
     try {
+      // 한국 시간대 (UTC+9) 명시적 처리
       final now = DateTime.now();
-      final startOfDay = DateTime(now.year, now.month, now.day);
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('feedings')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('started_at', startOfDay.toIso8601String())
+          .gte('started_at', todayStartUtc.toIso8601String())
+          .lt('started_at', tomorrowStartUtc.toIso8601String())
           .order('started_at', ascending: false);
       
       return response.map((json) => Feeding.fromJson(json)).toList();

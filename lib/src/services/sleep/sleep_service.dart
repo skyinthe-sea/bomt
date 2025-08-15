@@ -63,15 +63,19 @@ class SleepService with DataSyncMixin {
     DateTime? startedAt,
     DateTime? endedAt,
   }) async {
+    // 현재 로컬 시간 사용 (시스템이 한국시간대로 설정되어 있음)
     final sleepStartTime = startedAt ?? DateTime.now();
+    
     final isActiveSleep = endedAt == null;
     
-    debugPrint('=== SLEEP START TIME PROCESSING ===');
+    debugPrint('=== SLEEP START TIME PROCESSING (FIXED) ===');
     debugPrint('startedAt parameter: $startedAt');
-    debugPrint('Calculated sleepStartTime: $sleepStartTime (isUtc: ${sleepStartTime.isUtc})');
-    debugPrint('sleepStartTime as ISO: ${sleepStartTime.toIso8601String()}');
+    debugPrint('DateTime.now(): ${DateTime.now()} (isUtc: ${DateTime.now().isUtc})');
+    debugPrint('Final sleepStartTime (local): $sleepStartTime (isUtc: ${sleepStartTime.isUtc})');
+    debugPrint('sleepStartTime.timeZoneOffset: ${sleepStartTime.timeZoneOffset}');
+    debugPrint('Will save to DB as Korean time: ${sleepStartTime.toIso8601String()}');
     debugPrint('Is active sleep: $isActiveSleep');
-    debugPrint('===================================');
+    debugPrint('==========================================');
     
     return await withDataSyncEvent(
       operation: () async {
@@ -94,10 +98,10 @@ class SleepService with DataSyncMixin {
             'quality': quality ?? defaults['quality'],
             'location': location ?? defaults['location'],
             'notes': notes,
-            'started_at': sleepStartTime.toUtc().toIso8601String(),
+            'started_at': sleepStartTime.toIso8601String(),
             'ended_at': null,
-            'created_at': now.toUtc().toIso8601String(),
-            'updated_at': now.toUtc().toIso8601String(),
+            'created_at': DateTime.now().toUtc().toIso8601String(),
+            'updated_at': DateTime.now().toUtc().toIso8601String(),
           };
         } else {
           // 완료된 수면: duration 계산 또는 기본값 사용
@@ -113,10 +117,10 @@ class SleepService with DataSyncMixin {
             'quality': quality ?? defaults['quality'],
             'location': location ?? defaults['location'],
             'notes': notes,
-            'started_at': sleepStartTime.toUtc().toIso8601String(),
-            'ended_at': sleepEndTime.toUtc().toIso8601String(),
-            'created_at': now.toUtc().toIso8601String(),
-            'updated_at': now.toUtc().toIso8601String(),
+            'started_at': sleepStartTime.toIso8601String(),
+            'ended_at': sleepEndTime.toIso8601String(),
+            'created_at': DateTime.now().toUtc().toIso8601String(),
+            'updated_at': DateTime.now().toUtc().toIso8601String(),
           };
         }
         
@@ -505,6 +509,7 @@ class SleepService with DataSyncMixin {
   /// 진행 중인 수면 종료
   Future<Sleep?> endCurrentSleep(String sleepId, DateTime? endTime) async {
     try {
+      // 현재 로컬 시간 사용 (시스템이 한국시간대로 설정되어 있음)
       final endDateTime = endTime ?? DateTime.now();
       
       // 먼저 현재 수면 기록을 가져와서 시작 시간과 babyId 확인
@@ -534,17 +539,16 @@ class SleepService with DataSyncMixin {
           
           debugPrint('  Actual duration saved: $actualDuration');
           
-          debugPrint('=== SLEEP END TIME PROCESSING ===');
-          debugPrint('End time parameter: $endDateTime (isUtc: ${endDateTime.isUtc})');
-          debugPrint('End time as ISO: ${endDateTime.toIso8601String()}');
-          debugPrint('Current time: ${DateTime.now()} (isUtc: ${DateTime.now().isUtc})');
-          debugPrint('Current time as ISO: ${DateTime.now().toIso8601String()}');
-          debugPrint('==================================');
+          debugPrint('=== SLEEP END TIME PROCESSING (FIXED) ===');
+          debugPrint('End time parameter: $endTime');
+          debugPrint('Final endDateTime (local): $endDateTime (isUtc: ${endDateTime.isUtc})');
+          debugPrint('Will save to DB as Korean time: ${endDateTime.toIso8601String()}');
+          debugPrint('========================================');
           
           final response = await _supabase
               .from('sleeps')
               .update({
-                'ended_at': endDateTime.toUtc().toIso8601String(),
+                'ended_at': endDateTime.toIso8601String(),
                 'duration_minutes': actualDuration,
                 'updated_at': DateTime.now().toUtc().toIso8601String(),
               })

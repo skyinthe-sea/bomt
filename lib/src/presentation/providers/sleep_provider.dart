@@ -150,10 +150,10 @@ class SleepProvider extends ChangeNotifier {
     
     try {
       if (_currentActiveSleep != null) {
-        // 진행 중인 수면이 있으면 종료
+        // 진행 중인 수면이 있으면 종료 (현재 로컬 시간 전달)
         final endedSleep = await _sleepService.endCurrentSleep(
           _currentActiveSleep!.id,
-          DateTime.now(),
+          null, // null로 전달하여 서비스에서 처리하도록 함
         );
         
         if (endedSleep != null) {
@@ -166,11 +166,11 @@ class SleepProvider extends ChangeNotifier {
           return true;
         }
       } else {
-        // 진행 중인 수면이 없으면 새로 시작
+        // 진행 중인 수면이 없으면 새로 시작 (현재 로컬 시간 전달)
         final sleep = await _sleepService.addSleep(
           babyId: _currentBabyId!,
           userId: _currentUserId!,
-          startedAt: DateTime.now(),
+          startedAt: null, // null로 전달하여 서비스에서 처리하도록 함
           endedAt: null, // 진행 중이므로 종료 시간은 null
         );
         

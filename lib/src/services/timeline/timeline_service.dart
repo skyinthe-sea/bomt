@@ -98,13 +98,16 @@ class TimelineService {
     }
   }
 
-  // 수면 아이템 변환
+  // 수면 아이템 변환 (종료된 수면만)
   Future<List<TimelineItem>> _getSleepItems(String babyId, DateTime date) async {
     try {
       debugPrint('📅 [TIMELINE] Getting sleeps for baby: $babyId, date: ${date.toIso8601String()}');
       final sleeps = await SleepService.instance.getSleepsForDate(babyId, date);
       debugPrint('📅 [TIMELINE] Found ${sleeps.length} sleeps');
-      return sleeps.map((sleep) => _convertSleepToTimelineItem(sleep)).toList();
+      // 진행 중인 수면(ended_at이 null)은 타임라인에서 제외
+      final completedSleeps = sleeps.where((sleep) => sleep.endedAt != null).toList();
+      debugPrint('📅 [TIMELINE] Completed sleeps: ${completedSleeps.length} (excluding ongoing)');
+      return completedSleeps.map((sleep) => _convertSleepToTimelineItem(sleep)).toList();
     } catch (e) {
       debugPrint('❌ [TIMELINE] Error getting sleep items: $e');
       return [];
@@ -193,13 +196,30 @@ class TimelineService {
       }
     }
 
+    // 타임라인 차트용 추가 데이터 생성
+    final feedingData = feeding.toJson();
+    
+    // ended_at이 없으면 20분 기본값으로 계산
+    DateTime effectiveEndedAt;
+    if (feeding.endedAt != null) {
+      effectiveEndedAt = feeding.endedAt!;
+    } else {
+      // ended_at이 null이면 20분 후로 설정
+      effectiveEndedAt = feeding.startedAt.add(const Duration(minutes: 20));
+    }
+    
+    // 타임라인 렌더링용 추가 정보
+    feedingData['timeline_started_at'] = feeding.startedAt.toIso8601String();
+    feedingData['timeline_ended_at'] = effectiveEndedAt.toIso8601String();
+    feedingData['timeline_duration_minutes'] = effectiveEndedAt.difference(feeding.startedAt).inMinutes;
+
     return TimelineItem(
       id: feeding.id,
       type: TimelineItemType.feeding,
       timestamp: feeding.startedAt,
       title: '수유',
       subtitle: subtitle,
-      data: feeding.toJson(),
+      data: feedingData,
       colorCode: '#2196F3', // 파란색
     );
   }
@@ -231,13 +251,28 @@ class TimelineService {
       }
     }
 
+    // 타임라인 차트용 추가 데이터 생성
+    final sleepData = sleep.toJson();
+    
+    DateTime effectiveEndedAt;
+    if (sleep.endedAt != null) {
+      effectiveEndedAt = sleep.endedAt!;
+    } else {
+      // 진행 중인 수면: 현재 시간을 종료 시간으로 사용
+      effectiveEndedAt = DateTime.now();
+    }
+    
+    sleepData['timeline_started_at'] = sleep.startedAt.toIso8601String();
+    sleepData['timeline_ended_at'] = effectiveEndedAt.toIso8601String();
+    sleepData['timeline_duration_minutes'] = effectiveEndedAt.difference(sleep.startedAt).inMinutes;
+
     return TimelineItem(
       id: sleep.id,
       type: TimelineItemType.sleep,
       timestamp: sleep.startedAt,
       title: isOngoing ? '수면 중' : '수면',
       subtitle: subtitle,
-      data: sleep.toJson(),
+      data: sleepData,
       isOngoing: isOngoing,
       colorCode: '#9C27B0', // 보라색
     );
@@ -263,13 +298,23 @@ class TimelineService {
       }
     }
 
+    // 타임라인 차트용 추가 데이터 생성
+    final diaperData = diaper.toJson();
+    
+    // 기저귀 교체는 순간적인 이벤트이므로 5분 지속시간 설정
+    final effectiveEndedAt = diaper.changedAt.add(const Duration(minutes: 5));
+    
+    diaperData['timeline_started_at'] = diaper.changedAt.toIso8601String();
+    diaperData['timeline_ended_at'] = effectiveEndedAt.toIso8601String();
+    diaperData['timeline_duration_minutes'] = 5;
+
     return TimelineItem(
       id: diaper.id,
       type: TimelineItemType.diaper,
       timestamp: diaper.changedAt,
       title: '기저귀 교체',
       subtitle: subtitle,
-      data: diaper.toJson(),
+      data: diaperData,
       colorCode: '#FF9800', // 주황색
     );
   }

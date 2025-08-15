@@ -24,13 +24,10 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
     with TickerProviderStateMixin {
   late AnimationController _rotationController;
   late AnimationController _pulseController;
-  late AnimationController _rippleController;
   late Animation<double> _rotationAnimation;
   late Animation<double> _pulseAnimation;
-  late Animation<double> _rippleAnimation;
 
-  int? _selectedHour;
-  Offset? _lastPanPosition;
+  // 터치 관련 변수 제거
 
   @override
   void initState() {
@@ -46,10 +43,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
       vsync: this,
     );
     
-    _rippleController = AnimationController(
-      duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
+    // ripple 컨트롤러 제거
 
     _rotationAnimation = Tween<double>(
       begin: 0,
@@ -67,13 +61,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
       curve: Curves.easeInOut,
     ));
 
-    _rippleAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _rippleController,
-      curve: Curves.easeOut,
-    ));
+    // ripple 애니메이션 제거
 
     _rotationController.repeat();
     _pulseController.repeat(reverse: true);
@@ -83,7 +71,6 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
   void dispose() {
     _rotationController.dispose();
     _pulseController.dispose();
-    _rippleController.dispose();
     super.dispose();
   }
 
@@ -121,10 +108,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
             const SizedBox(height: 24),
           ],
           _buildCircularChart(),
-          if (!widget.hideLabels) ...[
-            const SizedBox(height: 20),
-            if (_selectedHour != null) _buildSelectedHourInfo(),
-          ],
+          // 하단 정보 영역 제거
         ],
       ),
     );
@@ -174,53 +158,11 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
                   color: isDark ? Colors.white : const Color(0xFF1A202C),
                 ),
               ),
-              const SizedBox(height: 4),
-              Text(
-                l10n.touchClockInstruction,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: isDark ? Colors.white70 : const Color(0xFF4A5568),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              // 터치 안내 텍스트 제거
             ],
           ),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                const Color(0xFF10B981).withOpacity(0.2),
-                const Color(0xFF34D399).withOpacity(0.1),
-              ],
-            ),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: const Color(0xFF10B981).withOpacity(0.3),
-              width: 1,
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.touch_app_rounded,
-                color: Color(0xFF059669),
-                size: 16,
-              ),
-              const SizedBox(width: 6),
-              Text(
-                l10n.touch,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF059669),
-                ),
-              ),
-            ],
-          ),
-        ),
+        // 터치 뱃지 제거
       ],
     );
   }
@@ -230,27 +172,19 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
       animation: Listenable.merge([
         _rotationAnimation,
         _pulseAnimation,
-        _rippleAnimation,
       ]),
       builder: (context, child) {
         final isDark = Theme.of(context).brightness == Brightness.dark;
         
-        return GestureDetector(
-          onPanUpdate: _handlePanUpdate,
-          onTapUp: _handleTapUp,
-          child: SizedBox(
-            width: 280,
-            height: 280,
-            child: CustomPaint(
-              painter: CircularTimelinePainter(
-                timelineItems: widget.timelineItems,
-                selectedHour: _selectedHour,
-                rotationValue: _rotationAnimation.value,
-                pulseValue: _pulseAnimation.value,
-                rippleValue: _rippleAnimation.value,
-                rippleCenter: _lastPanPosition,
-                isDark: isDark,
-              ),
+        return SizedBox(
+          width: 340, // 더 크게 변경
+          height: 340,
+          child: CustomPaint(
+            painter: CircularTimelinePainter(
+              timelineItems: widget.timelineItems,
+              rotationValue: _rotationAnimation.value,
+              pulseValue: _pulseAnimation.value,
+              isDark: isDark,
             ),
           ),
         );
@@ -258,231 +192,23 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
     );
   }
 
-  Widget _buildSelectedHourInfo() {
-    final hourlyActivities = _getActivitiesForHour(_selectedHour!);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final l10n = AppLocalizations.of(context)!;
-    
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOutCubic,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: isDark ? [
-            Colors.white.withOpacity(0.2),
-            Colors.white.withOpacity(0.1),
-          ] : [
-            Colors.black.withOpacity(0.08),
-            Colors.black.withOpacity(0.04),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark 
-            ? Colors.white.withOpacity(0.3)
-            : Colors.black.withOpacity(0.15),
-          width: 1,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                Icons.access_time_rounded,
-                color: _getHourColor(_selectedHour!),
-                size: 20,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                '${_selectedHour!.toString().padLeft(2, '0')}:00 ${AppLocalizations.of(context)!.timeSlot}',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: isDark ? Colors.white : const Color(0xFF1A202C),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          if (hourlyActivities.isEmpty)
-            Text(
-              l10n.noActivitiesInTimeframe,
-              style: TextStyle(
-                fontSize: 14,
-                color: isDark ? Colors.white60 : const Color(0xFF6B7280),
-              ),
-            )
-          else
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: hourlyActivities.map((activity) {
-                final colors = _getActivityColors(activity.type);
-                return Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        colors['primary']!.withOpacity(0.2),
-                        colors['secondary']!.withOpacity(0.1),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: colors['primary']!.withOpacity(0.3),
-                      width: 1,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        _getActivityIcon(activity.type),
-                        color: colors['primary'],
-                        size: 16,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        activity.title,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: colors['primary'],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
-        ],
-      ),
-    );
-  }
+// _buildSelectedHourInfo 함수 제거
 
-  void _handlePanUpdate(DragUpdateDetails details) {
-    final center = Offset(140, 140); // 차트 중심
-    final position = details.localPosition - center;
-    final angle = atan2(position.dy, position.dx);
-    final normalizedAngle = (angle + pi/2) % (2 * pi);
-    final hour = ((normalizedAngle / (2 * pi)) * 24).floor();
-    
-    if (_selectedHour != hour) {
-      setState(() {
-        _selectedHour = hour;
-        _lastPanPosition = details.localPosition;
-      });
-      
-      HapticFeedback.lightImpact();
-      _rippleController.forward(from: 0);
-    }
-  }
+  // 터치 핸들러 함수들 제거
 
-  void _handleTapUp(TapUpDetails details) {
-    final center = Offset(140, 140);
-    final position = details.localPosition - center;
-    final distance = sqrt(position.dx * position.dx + position.dy * position.dy);
-    
-    // 차트 영역 내부인지 확인
-    if (distance >= 60 && distance <= 120) {
-      final angle = atan2(position.dy, position.dx);
-      final normalizedAngle = (angle + pi/2) % (2 * pi);
-      final hour = ((normalizedAngle / (2 * pi)) * 24).floor();
-      
-      setState(() {
-        _selectedHour = hour;
-        _lastPanPosition = details.localPosition;
-      });
-      
-      HapticFeedback.mediumImpact();
-      _rippleController.forward(from: 0);
-    }
-  }
-
-  List<TimelineItem> _getActivitiesForHour(int hour) {
-    return widget.timelineItems.where((item) {
-      return item.timestamp.hour == hour;
-    }).toList();
-  }
-
-  Color _getHourColor(int hour) {
-    // 시간대별 색상 (하루의 리듬을 반영)
-    if (hour >= 6 && hour < 12) {
-      return const Color(0xFFFBBF24); // 아침 - 노란색
-    } else if (hour >= 12 && hour < 18) {
-      return const Color(0xFF10B981); // 낮 - 초록색
-    } else if (hour >= 18 && hour < 22) {
-      return const Color(0xFFEF4444); // 저녁 - 빨간색
-    } else {
-      return const Color(0xFF8B5FBF); // 밤 - 보라색
-    }
-  }
-
-  Map<String, Color> _getActivityColors(TimelineItemType type) {
-    switch (type) {
-      case TimelineItemType.sleep:
-        return {'primary': const Color(0xFF8B5FBF), 'secondary': const Color(0xFFB794F6)};
-      case TimelineItemType.feeding:
-        return {'primary': const Color(0xFF38A169), 'secondary': const Color(0xFF68D391)};
-      case TimelineItemType.diaper:
-        return {'primary': const Color(0xFFED8936), 'secondary': const Color(0xFFFBD38D)};
-      case TimelineItemType.medication:
-        return {'primary': const Color(0xFFE53E3E), 'secondary': const Color(0xFFFC8181)};
-      case TimelineItemType.milkPumping:
-        return {'primary': const Color(0xFF319795), 'secondary': const Color(0xFF81E6D9)};
-      case TimelineItemType.solidFood:
-        return {'primary': const Color(0xFF3182CE), 'secondary': const Color(0xFF90CDF4)};
-      case TimelineItemType.temperature:
-        return {'primary': const Color(0xFFD69E2E), 'secondary': const Color(0xFFF6E05E)};
-      default:
-        return {'primary': const Color(0xFF718096), 'secondary': const Color(0xFFA0AEC0)};
-    }
-  }
-
-  IconData _getActivityIcon(TimelineItemType type) {
-    switch (type) {
-      case TimelineItemType.sleep:
-        return Icons.bedtime_rounded;
-      case TimelineItemType.feeding:
-        return Icons.water_drop_rounded;
-      case TimelineItemType.diaper:
-        return Icons.child_care_rounded;
-      case TimelineItemType.medication:
-        return Icons.medication_rounded;
-      case TimelineItemType.milkPumping:
-        return Icons.opacity_rounded;
-      case TimelineItemType.solidFood:
-        return Icons.restaurant_rounded;
-      case TimelineItemType.temperature:
-        return Icons.thermostat_rounded;
-      default:
-        return Icons.circle;
-    }
-  }
+  // 터치 관련 함수들 제거
 }
 
 class CircularTimelinePainter extends CustomPainter {
   final List<TimelineItem> timelineItems;
-  final int? selectedHour;
   final double rotationValue;
   final double pulseValue;
-  final double rippleValue;
-  final Offset? rippleCenter;
   final bool isDark;
 
   CircularTimelinePainter({
     required this.timelineItems,
-    this.selectedHour,
     required this.rotationValue,
     required this.pulseValue,
-    required this.rippleValue,
-    this.rippleCenter,
     required this.isDark,
   });
 
@@ -500,15 +226,7 @@ class CircularTimelinePainter extends CustomPainter {
     // 활동 링 그리기
     _drawActivityRings(canvas, center, radius);
     
-    // 선택된 시간 하이라이트
-    if (selectedHour != null) {
-      _drawSelectedHourHighlight(canvas, center, radius);
-    }
-    
-    // 리플 효과
-    if (rippleCenter != null) {
-      _drawRippleEffect(canvas);
-    }
+    // 터치 관련 효과 제거
     
     // 중앙 시계 아이콘
     _drawCenterClock(canvas, center);
@@ -547,6 +265,11 @@ class CircularTimelinePainter extends CustomPainter {
     final paint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
+
+    // 분 마커도 그리기 (세밀한 마커)
+    final minutePaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.5;
 
     for (int hour = 0; hour < 24; hour++) {
       final angle = (hour * 15 - 90) * pi / 180; // 15도씩 (360/24)
@@ -600,91 +323,256 @@ class CircularTimelinePainter extends CustomPainter {
         
         textPainter.paint(canvas, textOffset);
       }
+      
+      // 분 마커 그리기 (15분마다)
+      for (int minute = 15; minute < 60; minute += 15) {
+        final minuteAngle = ((hour * 60 + minute) * 0.25 - 90) * pi / 180; // 0.25도 per minute
+        
+        if (isDark) {
+          minutePaint.color = Colors.white.withOpacity(0.1);
+        } else {
+          minutePaint.color = Colors.black.withOpacity(0.08);
+        }
+        
+        final minuteStartPoint = Offset(
+          center.dx + cos(minuteAngle) * (radius - 4),
+          center.dy + sin(minuteAngle) * (radius - 4),
+        );
+        
+        final minuteEndPoint = Offset(
+          center.dx + cos(minuteAngle) * radius,
+          center.dy + sin(minuteAngle) * radius,
+        );
+        
+        canvas.drawLine(minuteStartPoint, minuteEndPoint, minutePaint);
+      }
     }
   }
 
   void _drawActivityRings(Canvas canvas, Offset center, double radius) {
-    final hourlyActivities = <int, List<TimelineItem>>{};
-    
-    // 시간대별로 활동 그룹화
+    // 분 단위로 정밀하게 각진 세그먼트 그리기
     for (final item in timelineItems) {
-      final hour = item.timestamp.hour;
-      hourlyActivities.putIfAbsent(hour, () => []).add(item);
-    }
-
-    // 각 시간대의 활동 링 그리기
-    hourlyActivities.forEach((hour, activities) {
-      _drawHourActivityRing(canvas, center, radius, hour, activities);
-    });
-  }
-
-  void _drawHourActivityRing(Canvas canvas, Offset center, double radius, 
-                            int hour, List<TimelineItem> activities) {
-    final startAngle = (hour * 15 - 90) * pi / 180;
-    final sweepAngle = 15 * pi / 180; // 15도
-    
-    final ringRadius = radius - 15;
-    final ringWidth = 20.0;
-
-    // 활동별로 레이어링
-    for (int i = 0; i < activities.length; i++) {
-      final activity = activities[i];
-      final colors = _getActivityColors(activity.type);
-      final layerRadius = ringRadius - (i * 6); // 레이어별로 반지름 감소
-      
-      final paint = Paint()
-        ..shader = LinearGradient(
-          colors: [
-            colors['primary']!.withOpacity(0.8),
-            colors['secondary']!.withOpacity(0.6),
-          ],
-        ).createShader(Rect.fromCircle(center: center, radius: layerRadius))
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = ringWidth - (i * 3) // 레이어별로 두께 감소
-        ..strokeCap = StrokeCap.round;
-
-      // 진행 중인 활동은 펄스 효과
-      if (activity.isOngoing) {
-        paint.strokeWidth *= pulseValue;
-      }
-
-      final rect = Rect.fromCircle(center: center, radius: layerRadius);
-      canvas.drawArc(rect, startAngle, sweepAngle, false, paint);
+      _drawRectangularActivitySegment(canvas, center, radius, item);
     }
   }
 
-  void _drawSelectedHourHighlight(Canvas canvas, Offset center, double radius) {
-    final angle = (selectedHour! * 15 - 90) * pi / 180;
-    final sweepAngle = 15 * pi / 180;
+  void _drawRectangularActivitySegment(Canvas canvas, Offset center, double radius, TimelineItem activity) {
+    // 타임라인 데이터에서 시작/종료 시간 추출
+    final data = activity.data;
     
-    final highlightPaint = Paint()
-      ..color = isDark 
-        ? Colors.white.withOpacity(0.3)
-        : Colors.black.withOpacity(0.1)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 25
-      ..strokeCap = StrokeCap.round;
-
-    final rect = Rect.fromCircle(center: center, radius: radius - 15);
-    canvas.drawArc(rect, angle, sweepAngle, false, highlightPaint);
+    // timeline_started_at과 timeline_ended_at 사용 (없으면 기본값 사용)
+    DateTime startTime;
+    DateTime endTime;
+    
+    if (data['timeline_started_at'] != null && data['timeline_ended_at'] != null) {
+      startTime = DateTime.parse(data['timeline_started_at']);
+      endTime = DateTime.parse(data['timeline_ended_at']);
+    } else {
+      // 기본값: timestamp에서 20분 간 지속
+      startTime = activity.timestamp;
+      endTime = activity.timestamp.add(const Duration(minutes: 20));
+    }
+    
+    // 시작 및 종료 각도 계산 (분 단위로)
+    final startMinuteOfDay = startTime.hour * 60 + startTime.minute;
+    final endMinuteOfDay = endTime.hour * 60 + endTime.minute;
+    
+    // 24시간 = 1440분 = 360도, 따라서 1분 = 0.25도
+    final minuteToDegree = 360.0 / 1440.0; // 0.25도 per minute
+    
+    final startAngle = (startMinuteOfDay * minuteToDegree - 90) * pi / 180;
+    final endAngle = (endMinuteOfDay * minuteToDegree - 90) * pi / 180;
+    
+    double sweepAngle;
+    if (endMinuteOfDay > startMinuteOfDay) {
+      sweepAngle = (endMinuteOfDay - startMinuteOfDay) * minuteToDegree * pi / 180;
+    } else {
+      sweepAngle = ((1440 - startMinuteOfDay) + endMinuteOfDay) * minuteToDegree * pi / 180;
+    }
+    
+    // 최소/최대 지속시간 제한 (1분 ~ 6시간)
+    final minSweep = 1 * minuteToDegree * pi / 180;
+    final maxSweep = 360 * minuteToDegree * pi / 180;
+    sweepAngle = sweepAngle.clamp(minSweep, maxSweep);
+    
+    final ringRadius = radius - 20;
+    final ringWidth = 30.0;
+    
+    final colors = _getActivityColors(activity.type);
+    
+    // 각진 세그먼트를 위한 Path 생성
+    _drawAngularSegmentPath(canvas, center, ringRadius, ringWidth, startAngle, sweepAngle, colors, activity.isOngoing);
   }
-
-  void _drawRippleEffect(Canvas canvas) {
-    if (rippleCenter == null) return;
-
-    final ripplePaint = Paint()
-      ..color = isDark 
-        ? Colors.white.withOpacity(0.3 * (1 - rippleValue))
-        : Colors.black.withOpacity(0.12 * (1 - rippleValue))
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
-
-    canvas.drawCircle(
-      rippleCenter!,
-      30 * rippleValue,
-      ripplePaint,
+  
+  void _drawAngularSegmentPath(Canvas canvas, Offset center, double radius, double width, 
+                              double startAngle, double sweepAngle, Map<String, Color> colors, bool isOngoing) {
+    final innerRadius = radius - width / 2;
+    final outerRadius = radius + width / 2;
+    
+    // 세그먼트의 4개 코너 점 계산
+    final startInner = Offset(
+      center.dx + cos(startAngle) * innerRadius,
+      center.dy + sin(startAngle) * innerRadius,
     );
+    final startOuter = Offset(
+      center.dx + cos(startAngle) * outerRadius,
+      center.dy + sin(startAngle) * outerRadius,
+    );
+    
+    final endAngle = startAngle + sweepAngle;
+    final endInner = Offset(
+      center.dx + cos(endAngle) * innerRadius,
+      center.dy + sin(endAngle) * innerRadius,
+    );
+    final endOuter = Offset(
+      center.dx + cos(endAngle) * outerRadius,
+      center.dy + sin(endAngle) * outerRadius,
+    );
+    
+    // 각진 세그먼트 Path 생성
+    final path = Path();
+    
+    // 시작점에서 시작 (내부 원)
+    path.moveTo(startInner.dx, startInner.dy);
+    
+    // 내부 원을 따라 호 그리기
+    path.arcTo(
+      Rect.fromCircle(center: center, radius: innerRadius),
+      startAngle,
+      sweepAngle,
+      false,
+    );
+    
+    // 종료점에서 직선으로 외부로
+    path.lineTo(endOuter.dx, endOuter.dy);
+    
+    // 외부 원을 따라 역방향 호 그리기
+    path.arcTo(
+      Rect.fromCircle(center: center, radius: outerRadius),
+      endAngle,
+      -sweepAngle,
+      false,
+    );
+    
+    // 시작점으로 닫기
+    path.close();
+    
+    // 그림자 효과 제거 (색상 번짐 방지)
+    
+    // 메인 세그먼트
+    final paint = Paint()
+      ..shader = LinearGradient(
+        colors: [
+          colors['primary']!.withOpacity(0.9),
+          colors['secondary']!.withOpacity(0.7),
+        ],
+      ).createShader(Rect.fromCircle(center: center, radius: radius))
+      ..style = PaintingStyle.fill;
+    
+    // 진행 중인 활동은 펄스 효과 (크기 조정)
+    if (isOngoing) {
+      final scale = pulseValue;
+      final matrix = Matrix4.identity()
+        ..translate(center.dx, center.dy)
+        ..scale(scale)
+        ..translate(-center.dx, -center.dy);
+      path.transform(matrix.storage);
+    }
+    
+    canvas.drawPath(path, paint);
+    
+    // 윤곽선 (세밀하고 정확한 경계선)
+    final outlinePaint = Paint()
+      ..color = isDark ? Colors.white.withOpacity(0.15) : Colors.black.withOpacity(0.1)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.8;
+    
+    canvas.drawPath(path, outlinePaint);
+    
+    // 시작/종료 경계선 (세로 선)
+    _drawBoundaryLines(canvas, center, innerRadius, outerRadius, startAngle, endAngle, colors);
+    
+    // 마커 제거 (사용자 요청)
   }
+  
+  void _drawBoundaryLines(Canvas canvas, Offset center, double innerRadius, double outerRadius,
+                         double startAngle, double endAngle, Map<String, Color> colors) {
+    final boundaryPaint = Paint()
+      ..color = isDark ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.15)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.8 // 더 세밀하게
+      ..strokeCap = StrokeCap.butt;
+    
+    // 경계선을 세그먼트 영역 내에만 그리기
+    final adjustedInnerRadius = innerRadius + 1.5; // 안쪽으로 더 들여가기
+    final adjustedOuterRadius = outerRadius - 1.5; // 바깥쪽으로 더 들여가기
+    
+    // 시작 경계선
+    final startInner = Offset(
+      center.dx + cos(startAngle) * adjustedInnerRadius,
+      center.dy + sin(startAngle) * adjustedInnerRadius,
+    );
+    final startOuter = Offset(
+      center.dx + cos(startAngle) * adjustedOuterRadius,
+      center.dy + sin(startAngle) * adjustedOuterRadius,
+    );
+    
+    canvas.drawLine(startInner, startOuter, boundaryPaint);
+    
+    // 종료 경계선 (충분히 큰 세그먼트인 경우만)
+    final angleDiff = (endAngle - startAngle).abs();
+    if (angleDiff > pi / 24) { // 7.5도 이상 (30분 이상)
+      final endInner = Offset(
+        center.dx + cos(endAngle) * adjustedInnerRadius,
+        center.dy + sin(endAngle) * adjustedInnerRadius,
+      );
+      final endOuter = Offset(
+        center.dx + cos(endAngle) * adjustedOuterRadius,
+        center.dy + sin(endAngle) * adjustedOuterRadius,
+      );
+      
+      canvas.drawLine(endInner, endOuter, boundaryPaint);
+    }
+  }
+  
+  void _drawAngularMarkers(Canvas canvas, Offset center, double radius, double width,
+                          double startAngle, double endAngle, Map<String, Color> colors) {
+    // 마커 크기를 세그먼트 두께에 비례하게 조정
+    final markerSize = (width * 0.15).clamp(2.0, 3.5);
+    
+    // 시작 마커 (더 세밀하고 영역 내에)
+    final startMarkerPaint = Paint()
+      ..color = colors['primary']!.withOpacity(0.9)
+      ..style = PaintingStyle.fill;
+    
+    final startPosition = Offset(
+      center.dx + cos(startAngle) * radius,
+      center.dy + sin(startAngle) * radius,
+    );
+    
+    canvas.drawCircle(startPosition, markerSize, startMarkerPaint);
+    
+    // 종료 마커 (세그먼트가 충분히 큰 경우만)
+    final angleDiff = (endAngle - startAngle).abs();
+    if (angleDiff > pi / 18) { // 10도 이상 (40분 이상)으로 조건 엄격화
+      final endMarkerPaint = Paint()
+        ..color = colors['secondary']!.withOpacity(0.7)
+        ..style = PaintingStyle.fill;
+      
+      final endPosition = Offset(
+        center.dx + cos(endAngle) * radius,
+        center.dy + sin(endAngle) * radius,
+      );
+      
+      canvas.drawCircle(endPosition, markerSize * 0.8, endMarkerPaint);
+    }
+  }
+
+  // 사용되지 않는 함수들 제거
+
+// _drawSelectedHourHighlight 함수 제거
+
+// _drawRippleEffect 함수 제거
 
   void _drawCenterClock(Canvas canvas, Offset center) {
     // 중앙 원
