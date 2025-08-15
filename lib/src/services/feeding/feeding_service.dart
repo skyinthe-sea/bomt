@@ -76,7 +76,7 @@ class FeedingService with DataSyncMixin {
     
     debugPrint('=== FEEDING TIME PROCESSING ===');
     debugPrint('Local time: $feedingStartTime (isUtc: ${feedingStartTime.isUtc})');
-    debugPrint('Will save to DB as Korean time: ${feedingStartTime.toIso8601String()}');
+    debugPrint('Will save to DB as UTC: ${feedingStartTime.toUtc().toIso8601String()}');
     debugPrint('===============================');
     
     return await withDataSyncEvent(
@@ -93,8 +93,8 @@ class FeedingService with DataSyncMixin {
           'duration_minutes': durationMinutes ?? defaults['durationMinutes'],
           'side': side ?? defaults['side'],
           'notes': notes,
-          'started_at': feedingStartTime.toIso8601String(),
-          'ended_at': endedAt?.toIso8601String(),
+          'started_at': feedingStartTime.toUtc().toIso8601String(),
+          'ended_at': endedAt?.toUtc().toIso8601String(),
           'created_at': DateTime.now().toUtc().toIso8601String(),
           'updated_at': DateTime.now().toUtc().toIso8601String(),
         };
@@ -183,9 +183,9 @@ class FeedingService with DataSyncMixin {
         
         // 최근 수유 시간 계산 (오늘 수유가 있는 경우)
         final lastFeeding = response.first;
-        // 모든 데이터를 동일한 방식으로 처리: 9시간 보정
+        // UTC 데이터를 로컬 시간으로 변환
         final parsedTime = DateTime.parse(lastFeeding['started_at']);
-        lastFeedingTime = parsedTime.subtract(const Duration(hours: 9));
+        lastFeedingTime = parsedTime.isUtc ? parsedTime.toLocal() : parsedTime;
         lastFeedingMinutesAgo = now.difference(lastFeedingTime).inMinutes;
         
         debugPrint('=== 오늘 수유 시간 계산 디버그 ===');
@@ -210,9 +210,9 @@ class FeedingService with DataSyncMixin {
         if (allFeedingsResponse.isNotEmpty) {
           final lastFeeding = allFeedingsResponse.first;
           final dbTime = lastFeeding['started_at'] as String;
-          // 기존 데이터는 한국시간이 UTC로 잘못 저장되어 있어서 9시간 빼서 보정
+          // UTC 데이터를 로컬 시간으로 변환
           final parsedTime = DateTime.parse(dbTime);
-          lastFeedingTime = parsedTime.subtract(const Duration(hours: 9));
+          lastFeedingTime = parsedTime.isUtc ? parsedTime.toLocal() : parsedTime;
           lastFeedingMinutesAgo = now.difference(lastFeedingTime).inMinutes;
           
           debugPrint('=== 과거 수유 시간 계산 디버그 ===');
@@ -339,15 +339,24 @@ class FeedingService with DataSyncMixin {
   /// 특정 날짜의 수유 기록 목록 가져오기
   Future<List<Feeding>> getFeedingsForDate(String babyId, DateTime date) async {
     try {
-      final startOfDay = DateTime(date.year, date.month, date.day);
-      final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      // 한국 시간대 (UTC+9) 명시적 처리
+      final kstOffset = const Duration(hours: 9);
+      final dateKst = date.isUtc ? date.add(kstOffset) : date;
+      
+      // 한국 시간 기준 해당 날짜 범위
+      final startOfDayKst = DateTime(dateKst.year, dateKst.month, dateKst.day);
+      final endOfDayKst = DateTime(dateKst.year, dateKst.month, dateKst.day, 23, 59, 59);
+      
+      // UTC로 변환
+      final startOfDayUtc = startOfDayKst.subtract(kstOffset);
+      final endOfDayUtc = endOfDayKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('feedings')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('started_at', startOfDay.toIso8601String())
-          .lte('started_at', endOfDay.toIso8601String())
+          .gte('started_at', startOfDayUtc.toIso8601String())
+          .lte('started_at', endOfDayUtc.toIso8601String())
           .order('started_at', ascending: false);
       
       return response.map((json) => Feeding.fromJson(json)).toList();

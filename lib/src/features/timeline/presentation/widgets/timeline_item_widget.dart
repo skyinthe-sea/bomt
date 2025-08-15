@@ -114,10 +114,10 @@ class _TimelineItemWidgetState extends State<TimelineItemWidget>
 
   String _formatTime(DateTime dateTime, BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    // 기존 데이터는 한국시간이 UTC로 잘못 저장되어 있어서 9시간 빼서 보정
-    final correctedDateTime = dateTime.subtract(const Duration(hours: 9));
-    final hour = correctedDateTime.hour;
-    final minute = correctedDateTime.minute.toString().padLeft(2, '0');
+    // UTC 데이터를 로컬 시간으로 변환
+    final localDateTime = dateTime.isUtc ? dateTime.toLocal() : dateTime;
+    final hour = localDateTime.hour;
+    final minute = localDateTime.minute.toString().padLeft(2, '0');
     
     if (hour == 0) {
       return '${l10n.am} 12:$minute';

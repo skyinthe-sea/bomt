@@ -78,8 +78,8 @@ class SolidFoodService with DataSyncMixin {
           'amount': amountGrams ?? defaults['amountGrams'],
           'reaction': allergicReaction ?? defaults['allergicReaction'],
           'notes': notes,
-          'started_at': solidFoodStartTime.toIso8601String(),
-          'ended_at': endedAt?.toIso8601String(),
+          'started_at': solidFoodStartTime.toUtc().toIso8601String(),
+          'ended_at': endedAt?.toUtc().toIso8601String(),
           'created_at': DateTime.now().toIso8601String(),
           'updated_at': DateTime.now().toIso8601String(),
         };
@@ -102,14 +102,25 @@ class SolidFoodService with DataSyncMixin {
   /// 오늘의 이유식 요약 정보 가져오기
   Future<Map<String, dynamic>> getTodaySolidFoodSummary(String babyId) async {
     try {
+      // 한국 시간대 (UTC+9) 명시적 처리
       final now = DateTime.now();
-      final startOfDay = DateTime(now.year, now.month, now.day);
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('solid_foods')
           .select('started_at, food_name, amount, reaction')
           .eq('baby_id', babyId)
-          .gte('started_at', startOfDay.toIso8601String())
+          .gte('started_at', todayStartUtc.toIso8601String())
+          .lt('started_at', tomorrowStartUtc.toIso8601String())
           .order('started_at', ascending: false);
       
       int count = response.length;
@@ -179,14 +190,25 @@ class SolidFoodService with DataSyncMixin {
   /// 오늘의 이유식 기록 목록 가져오기
   Future<List<SolidFood>> getTodaySolidFoods(String babyId) async {
     try {
+      // 한국 시간대 (UTC+9) 명시적 처리
       final now = DateTime.now();
-      final startOfDay = DateTime(now.year, now.month, now.day);
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('solid_foods')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('started_at', startOfDay.toIso8601String())
+          .gte('started_at', todayStartUtc.toIso8601String())
+          .lt('started_at', tomorrowStartUtc.toIso8601String())
           .order('started_at', ascending: false);
       
       return response.map((json) => SolidFood.fromJson(json)).toList();
@@ -199,15 +221,24 @@ class SolidFoodService with DataSyncMixin {
   /// 특정 날짜의 이유식 기록 목록 가져오기
   Future<List<SolidFood>> getSolidFoodsForDate(String babyId, DateTime date) async {
     try {
-      final startOfDay = DateTime(date.year, date.month, date.day);
-      final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      // 한국 시간대 (UTC+9) 명시적 처리
+      final kstOffset = const Duration(hours: 9);
+      final dateKst = date.isUtc ? date.add(kstOffset) : date;
+      
+      // 한국 시간 기준 해당 날짜 범위
+      final startOfDayKst = DateTime(dateKst.year, dateKst.month, dateKst.day);
+      final endOfDayKst = DateTime(dateKst.year, dateKst.month, dateKst.day, 23, 59, 59);
+      
+      // UTC로 변환
+      final startOfDayUtc = startOfDayKst.subtract(kstOffset);
+      final endOfDayUtc = endOfDayKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('solid_foods')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('started_at', startOfDay.toIso8601String())
-          .lte('started_at', endOfDay.toIso8601String())
+          .gte('started_at', startOfDayUtc.toIso8601String())
+          .lte('started_at', endOfDayUtc.toIso8601String())
           .order('started_at', ascending: false);
       
       return response.map((json) => SolidFood.fromJson(json)).toList();

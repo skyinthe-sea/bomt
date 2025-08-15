@@ -73,7 +73,7 @@ class SleepService with DataSyncMixin {
     debugPrint('DateTime.now(): ${DateTime.now()} (isUtc: ${DateTime.now().isUtc})');
     debugPrint('Final sleepStartTime (local): $sleepStartTime (isUtc: ${sleepStartTime.isUtc})');
     debugPrint('sleepStartTime.timeZoneOffset: ${sleepStartTime.timeZoneOffset}');
-    debugPrint('Will save to DB as Korean time: ${sleepStartTime.toIso8601String()}');
+    debugPrint('Will save to DB as UTC: ${sleepStartTime.toUtc().toIso8601String()}');
     debugPrint('Is active sleep: $isActiveSleep');
     debugPrint('==========================================');
     
@@ -98,7 +98,7 @@ class SleepService with DataSyncMixin {
             'quality': quality ?? defaults['quality'],
             'location': location ?? defaults['location'],
             'notes': notes,
-            'started_at': sleepStartTime.toIso8601String(),
+            'started_at': sleepStartTime.toUtc().toIso8601String(),
             'ended_at': null,
             'created_at': DateTime.now().toUtc().toIso8601String(),
             'updated_at': DateTime.now().toUtc().toIso8601String(),
@@ -117,8 +117,8 @@ class SleepService with DataSyncMixin {
             'quality': quality ?? defaults['quality'],
             'location': location ?? defaults['location'],
             'notes': notes,
-            'started_at': sleepStartTime.toIso8601String(),
-            'ended_at': sleepEndTime.toIso8601String(),
+            'started_at': sleepStartTime.toUtc().toIso8601String(),
+            'ended_at': sleepEndTime.toUtc().toIso8601String(),
             'created_at': DateTime.now().toUtc().toIso8601String(),
             'updated_at': DateTime.now().toUtc().toIso8601String(),
           };
@@ -374,15 +374,24 @@ class SleepService with DataSyncMixin {
   /// 특정 날짜의 수면 기록 목록 가져오기
   Future<List<Sleep>> getSleepsForDate(String babyId, DateTime date) async {
     try {
-      final startOfDay = DateTime(date.year, date.month, date.day);
-      final endOfDay = startOfDay.add(const Duration(days: 1));
+      // 한국 시간대 (UTC+9) 명시적 처리
+      final kstOffset = const Duration(hours: 9);
+      final dateKst = date.isUtc ? date.add(kstOffset) : date;
+      
+      // 한국 시간 기준 해당 날짜 범위
+      final startOfDayKst = DateTime(dateKst.year, dateKst.month, dateKst.day);
+      final endOfDayKst = startOfDayKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final startOfDayUtc = startOfDayKst.subtract(kstOffset);
+      final endOfDayUtc = endOfDayKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('sleeps')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('started_at', startOfDay.toUtc().toIso8601String())
-          .lt('started_at', endOfDay.toUtc().toIso8601String())
+          .gte('started_at', startOfDayUtc.toIso8601String())
+          .lt('started_at', endOfDayUtc.toIso8601String())
           .order('started_at', ascending: false);
       
       return response.map((json) => Sleep.fromJson(json)).toList();
@@ -542,13 +551,13 @@ class SleepService with DataSyncMixin {
           debugPrint('=== SLEEP END TIME PROCESSING (FIXED) ===');
           debugPrint('End time parameter: $endTime');
           debugPrint('Final endDateTime (local): $endDateTime (isUtc: ${endDateTime.isUtc})');
-          debugPrint('Will save to DB as Korean time: ${endDateTime.toIso8601String()}');
+          debugPrint('Will save to DB as UTC: ${endDateTime.toUtc().toIso8601String()}');
           debugPrint('========================================');
           
           final response = await _supabase
               .from('sleeps')
               .update({
-                'ended_at': endDateTime.toIso8601String(),
+                'ended_at': endDateTime.toUtc().toIso8601String(),
                 'duration_minutes': actualDuration,
                 'updated_at': DateTime.now().toUtc().toIso8601String(),
               })

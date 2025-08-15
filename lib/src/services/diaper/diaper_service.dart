@@ -77,7 +77,7 @@ class DiaperService with DataSyncMixin {
           'color': color ?? defaults['color'],
           'consistency': consistency ?? defaults['consistency'],
           'notes': notes,
-          'changed_at': diaperChangeTime.toIso8601String(),
+          'changed_at': diaperChangeTime.toUtc().toIso8601String(),
           'created_at': DateTime.now().toIso8601String(),
           'updated_at': DateTime.now().toIso8601String(),
         };
@@ -100,14 +100,25 @@ class DiaperService with DataSyncMixin {
   /// 오늘의 기저귀 요약 정보 가져오기
   Future<Map<String, dynamic>> getTodayDiaperSummary(String babyId) async {
     try {
+      // 한국 시간대 (UTC+9) 명시적 처리
       final now = DateTime.now();
-      final startOfDay = DateTime(now.year, now.month, now.day);
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('diapers')
           .select('changed_at, type, color, consistency')
           .eq('baby_id', babyId)
-          .gte('changed_at', startOfDay.toIso8601String())
+          .gte('changed_at', todayStartUtc.toIso8601String())
+          .lt('changed_at', tomorrowStartUtc.toIso8601String())
           .order('changed_at', ascending: false);
       
       int totalCount = response.length;
@@ -186,14 +197,25 @@ class DiaperService with DataSyncMixin {
   /// 오늘의 기저귀 교체 기록 목록 가져오기
   Future<List<Diaper>> getTodayDiapers(String babyId) async {
     try {
+      // 한국 시간대 (UTC+9) 명시적 처리
       final now = DateTime.now();
-      final startOfDay = DateTime(now.year, now.month, now.day);
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('diapers')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('changed_at', startOfDay.toIso8601String())
+          .gte('changed_at', todayStartUtc.toIso8601String())
+          .lt('changed_at', tomorrowStartUtc.toIso8601String())
           .order('changed_at', ascending: false);
       
       return response.map((json) => Diaper.fromJson(json)).toList();
@@ -206,15 +228,24 @@ class DiaperService with DataSyncMixin {
   /// 특정 날짜의 기저귀 교체 기록 목록 가져오기
   Future<List<Diaper>> getDiapersForDate(String babyId, DateTime date) async {
     try {
-      final startOfDay = DateTime(date.year, date.month, date.day);
-      final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      // 한국 시간대 (UTC+9) 명시적 처리
+      final kstOffset = const Duration(hours: 9);
+      final dateKst = date.isUtc ? date.add(kstOffset) : date;
+      
+      // 한국 시간 기준 해당 날짜 범위
+      final startOfDayKst = DateTime(dateKst.year, dateKst.month, dateKst.day);
+      final endOfDayKst = DateTime(dateKst.year, dateKst.month, dateKst.day, 23, 59, 59);
+      
+      // UTC로 변환
+      final startOfDayUtc = startOfDayKst.subtract(kstOffset);
+      final endOfDayUtc = endOfDayKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('diapers')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('changed_at', startOfDay.toIso8601String())
-          .lte('changed_at', endOfDay.toIso8601String())
+          .gte('changed_at', startOfDayUtc.toIso8601String())
+          .lte('changed_at', endOfDayUtc.toIso8601String())
           .order('changed_at', ascending: false);
       
       return response.map((json) => Diaper.fromJson(json)).toList();

@@ -85,7 +85,7 @@ class MedicationService with DataSyncMixin {
           'unit': unit ?? defaults['unit'],
           'medication_type': route ?? defaults['route'],
           'notes': notes,
-          'administered_at': medicationTime.toIso8601String(),
+          'administered_at': medicationTime.toUtc().toIso8601String(),
           'created_at': DateTime.now().toIso8601String(),
           'updated_at': DateTime.now().toIso8601String(),
         };
@@ -108,14 +108,25 @@ class MedicationService with DataSyncMixin {
   /// 오늘의 약물 투여 요약 정보 가져오기
   Future<Map<String, dynamic>> getTodayMedicationSummary(String babyId) async {
     try {
+      // 한국 시간대 (UTC+9) 명시적 처리
       final now = DateTime.now();
-      final startOfDay = DateTime(now.year, now.month, now.day);
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('medications')
           .select('administered_at, medication_name, dose, unit, medication_type')
           .eq('baby_id', babyId)
-          .gte('administered_at', startOfDay.toIso8601String())
+          .gte('administered_at', todayStartUtc.toIso8601String())
+          .lt('administered_at', tomorrowStartUtc.toIso8601String())
           .order('administered_at', ascending: false);
       
       int count = response.length;
@@ -186,14 +197,25 @@ class MedicationService with DataSyncMixin {
   /// 오늘의 약물 투여 기록 목록 가져오기
   Future<List<Medication>> getTodayMedications(String babyId) async {
     try {
+      // 한국 시간대 (UTC+9) 명시적 처리
       final now = DateTime.now();
-      final startOfDay = DateTime(now.year, now.month, now.day);
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('medications')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('administered_at', startOfDay.toIso8601String())
+          .gte('administered_at', todayStartUtc.toIso8601String())
+          .lt('administered_at', tomorrowStartUtc.toIso8601String())
           .order('administered_at', ascending: false);
       
       return response.map((json) => Medication.fromJson(json)).toList();
@@ -206,15 +228,24 @@ class MedicationService with DataSyncMixin {
   /// 특정 날짜의 약물 투여 기록 목록 가져오기
   Future<List<Medication>> getMedicationsForDate(String babyId, DateTime date) async {
     try {
-      final startOfDay = DateTime(date.year, date.month, date.day);
-      final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+      // 한국 시간대 (UTC+9) 명시적 처리
+      final kstOffset = const Duration(hours: 9);
+      final dateKst = date.isUtc ? date.add(kstOffset) : date;
+      
+      // 한국 시간 기준 해당 날짜 범위
+      final startOfDayKst = DateTime(dateKst.year, dateKst.month, dateKst.day);
+      final endOfDayKst = DateTime(dateKst.year, dateKst.month, dateKst.day, 23, 59, 59);
+      
+      // UTC로 변환
+      final startOfDayUtc = startOfDayKst.subtract(kstOffset);
+      final endOfDayUtc = endOfDayKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('medications')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('administered_at', startOfDay.toIso8601String())
-          .lte('administered_at', endOfDay.toIso8601String())
+          .gte('administered_at', startOfDayUtc.toIso8601String())
+          .lte('administered_at', endOfDayUtc.toIso8601String())
           .order('administered_at', ascending: false);
       
       return response.map((json) => Medication.fromJson(json)).toList();

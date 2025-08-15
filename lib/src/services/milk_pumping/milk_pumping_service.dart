@@ -93,7 +93,7 @@ class MilkPumpingService with DataSyncMixin {
             'side': side ?? defaults['side'],
             'storage_method': storageLocation ?? defaults['storageLocation'],
             'notes': notes,
-            'started_at': pumpingStartTime.toIso8601String(),
+            'started_at': pumpingStartTime.toUtc().toIso8601String(),
             'ended_at': null,
             'created_at': now.toIso8601String(),
             'updated_at': now.toIso8601String(),
@@ -113,8 +113,8 @@ class MilkPumpingService with DataSyncMixin {
             'side': side ?? defaults['side'],
             'storage_method': storageLocation ?? defaults['storageLocation'],
             'notes': notes,
-            'started_at': pumpingStartTime.toIso8601String(),
-            'ended_at': pumpingEndTime.toIso8601String(),
+            'started_at': pumpingStartTime.toUtc().toIso8601String(),
+            'ended_at': pumpingEndTime.toUtc().toIso8601String(),
             'created_at': now.toIso8601String(),
             'updated_at': now.toIso8601String(),
           };
@@ -150,16 +150,25 @@ class MilkPumpingService with DataSyncMixin {
   /// 오늘의 유축 요약 정보 가져오기
   Future<Map<String, dynamic>> getTodayMilkPumpingSummary(String babyId) async {
     try {
+      // 한국 시간대 (UTC+9) 명시적 처리
       final now = DateTime.now();
-      final today = DateTime(now.year, now.month, now.day);
-      final tomorrow = today.add(const Duration(days: 1));
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('milk_pumping')
           .select('started_at, ended_at, amount_ml, duration_minutes, side, storage_method')
           .eq('baby_id', babyId)
-          .gte('started_at', today.toIso8601String())
-          .lt('started_at', tomorrow.toIso8601String())
+          .gte('started_at', todayStartUtc.toIso8601String())
+          .lt('started_at', tomorrowStartUtc.toIso8601String())
           .order('started_at', ascending: false);
       
       int count = response.length;
@@ -254,16 +263,25 @@ class MilkPumpingService with DataSyncMixin {
   /// 오늘의 유축 기록 목록 가져오기
   Future<List<MilkPumping>> getTodayMilkPumpings(String babyId) async {
     try {
+      // 한국 시간대 (UTC+9) 명시적 처리
       final now = DateTime.now();
-      final today = DateTime(now.year, now.month, now.day);
-      final tomorrow = today.add(const Duration(days: 1));
+      final kstOffset = const Duration(hours: 9);
+      final nowKst = now.isUtc ? now.add(kstOffset) : now;
+      
+      // 한국 시간 기준 오늘 자정
+      final todayStartKst = DateTime(nowKst.year, nowKst.month, nowKst.day);
+      final tomorrowStartKst = todayStartKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final todayStartUtc = todayStartKst.subtract(kstOffset);
+      final tomorrowStartUtc = tomorrowStartKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('milk_pumping')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('started_at', today.toIso8601String())
-          .lt('started_at', tomorrow.toIso8601String())
+          .gte('started_at', todayStartUtc.toIso8601String())
+          .lt('started_at', tomorrowStartUtc.toIso8601String())
           .order('started_at', ascending: false);
       
       return response.map((json) => MilkPumping.fromJson(json)).toList();
@@ -276,15 +294,24 @@ class MilkPumpingService with DataSyncMixin {
   /// 특정 날짜의 유축 기록 목록 가져오기
   Future<List<MilkPumping>> getMilkPumpingsForDate(String babyId, DateTime date) async {
     try {
-      final startOfDay = DateTime(date.year, date.month, date.day);
-      final endOfDay = startOfDay.add(const Duration(days: 1));
+      // 한국 시간대 (UTC+9) 명시적 처리
+      final kstOffset = const Duration(hours: 9);
+      final dateKst = date.isUtc ? date.add(kstOffset) : date;
+      
+      // 한국 시간 기준 해당 날짜 범위
+      final startOfDayKst = DateTime(dateKst.year, dateKst.month, dateKst.day);
+      final endOfDayKst = startOfDayKst.add(const Duration(days: 1));
+      
+      // UTC로 변환
+      final startOfDayUtc = startOfDayKst.subtract(kstOffset);
+      final endOfDayUtc = endOfDayKst.subtract(kstOffset);
       
       final response = await _supabase
           .from('milk_pumping')
           .select('*')
           .eq('baby_id', babyId)
-          .gte('started_at', startOfDay.toIso8601String())
-          .lt('started_at', endOfDay.toIso8601String())
+          .gte('started_at', startOfDayUtc.toIso8601String())
+          .lt('started_at', endOfDayUtc.toIso8601String())
           .order('started_at', ascending: false);
       
       return response.map((json) => MilkPumping.fromJson(json)).toList();
@@ -435,7 +462,7 @@ class MilkPumpingService with DataSyncMixin {
           final actualDuration = calculatedDuration < 1 ? 1 : calculatedDuration;
           
           final updateData = {
-            'ended_at': endDateTime.toIso8601String(),
+            'ended_at': endDateTime.toUtc().toIso8601String(),
             'duration_minutes': actualDuration,
             'updated_at': DateTime.now().toIso8601String(),
           };
