@@ -63,9 +63,9 @@ class SupabaseAuthService {
   /// 로그인 상태 확인
   bool get isLoggedIn => currentUser != null;
 
-  /// 자동 로그인 설정 가져오기
+  /// 자동 로그인 설정 가져오기 (기본값 true)
   bool getAutoLogin() {
-    return _prefs?.getBool(_autoLoginKey) ?? false;
+    return _prefs?.getBool(_autoLoginKey) ?? true; // 🔧 기본값 true로 변경
   }
 
   /// 자동 로그인 설정

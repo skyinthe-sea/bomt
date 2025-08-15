@@ -6,17 +6,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../services/auth/secure_auth_service.dart';
 import '../../core/config/supabase_config.dart';
 import '../../domain/models/baby.dart';
+import '../../domain/models/family_group.dart';
 import '../../features/baby/data/repositories/supabase_baby_repository.dart';
 import '../../features/baby/domain/entities/baby.dart' as BabyEntity;
+import '../../services/family/family_group_service.dart';
 
 class BabyProvider extends ChangeNotifier {
   List<Baby> _babies = [];
   Baby? _selectedBaby;
   String? _currentUserId;
+  FamilyGroup? _currentFamilyGroup;
   bool _isLoading = false;
   
-  // Repository 인스턴스 추가
+  // Repository 및 서비스 인스턴스 추가
   final SupabaseBabyRepository _babyRepository = SupabaseBabyRepository();
+  final FamilyGroupService _familyGroupService = FamilyGroupService.instance;
 
   static const String _selectedBabyIdKey = 'selected_baby_id';
 
@@ -24,14 +28,16 @@ class BabyProvider extends ChangeNotifier {
   Baby? get currentBaby => _selectedBaby;
   Baby? get selectedBaby => _selectedBaby;
   String? get currentUserId => _currentUserId;
+  FamilyGroup? get currentFamilyGroup => _currentFamilyGroup;
   bool get isLoading => _isLoading;
   bool get hasBaby => _selectedBaby != null;
   bool get hasMultipleBabies => _babies.length > 1;
+  bool get hasFamilyGroup => _currentFamilyGroup != null;
 
-  /// 아기 정보 로드
+  /// 아기 정보 로드 (가족 그룹 기반)
   Future<void> loadBabyData() async {
     try {
-      debugPrint('👶 [BABY_PROVIDER] Starting loadBabyData...');
+      debugPrint('👶 [BABY_PROVIDER] Starting loadBabyData with family group support...');
       _setLoading(true);
       
       // 카카오 로그인에서 받은 user_id 가져오기
@@ -44,13 +50,32 @@ class BabyProvider extends ChangeNotifier {
         return;
       }
       
-      // 해당 user_id와 연결된 모든 아기 정보 조회
-      debugPrint('👶 [BABY_PROVIDER] Querying baby_users table...');
+      // 🚀 가족 그룹 정보 먼저 로드
+      debugPrint('👶 [BABY_PROVIDER] Loading family group...');
+      _currentFamilyGroup = await _familyGroupService.getUserFamilyGroup(userId);
+      
+      if (_currentFamilyGroup == null) {
+        // 가족 그룹이 없으면 마이그레이션 시도
+        debugPrint('👶 [BABY_PROVIDER] No family group found, attempting migration...');
+        _currentFamilyGroup = await _familyGroupService.migrateUserToFamilyGroup(userId);
+      }
+      
+      if (_currentFamilyGroup == null) {
+        debugPrint('❌ [BABY_PROVIDER] No family group available');
+        _clearBabyData();
+        return;
+      }
+      
+      debugPrint('✅ [BABY_PROVIDER] Family group loaded: ${_currentFamilyGroup!.name}');
+      
+      // 해당 user_id와 연결된 모든 아기 정보 조회 (가족 그룹 기반)
+      debugPrint('👶 [BABY_PROVIDER] Querying baby_users table with family group...');
       final response = await Supabase.instance.client
           .from('baby_users')
           .select('''
             baby_id,
             role,
+            family_group_id,
             babies (
               id,
               name,
@@ -61,14 +86,15 @@ class BabyProvider extends ChangeNotifier {
               updated_at
             )
           ''')
-          .eq('user_id', userId);
+          .eq('user_id', userId)
+          .eq('family_group_id', _currentFamilyGroup!.id);
       
       debugPrint('👶 [BABY_PROVIDER] Query response: $response');
       debugPrint('👶 [BABY_PROVIDER] Response length: ${response.length}');
       
       if (response.isEmpty) {
         // 등록된 아기가 없는 경우
-        debugPrint('❌ [BABY_PROVIDER] No babies found for user_id: $userId');
+        debugPrint('❌ [BABY_PROVIDER] No babies found for user_id: $userId in family group: ${_currentFamilyGroup!.id}');
         _clearBabyData();
         return;
       }
@@ -88,6 +114,28 @@ class BabyProvider extends ChangeNotifier {
             'updated_at': babyData['updated_at'],
           });
           babies.add(baby);
+        } else {
+          // 🔧 JOIN 실패 시 baby_id로 직접 조회
+          final babyId = item['baby_id'] as String;
+          debugPrint('⚠️ [BABY_PROVIDER] JOIN failed for baby_id: $babyId, querying directly...');
+          
+          try {
+            final babyResponse = await Supabase.instance.client
+                .from('babies')
+                .select('*')
+                .eq('id', babyId)
+                .maybeSingle();
+                
+            if (babyResponse != null) {
+              final baby = Baby.fromJson(babyResponse);
+              babies.add(baby);
+              debugPrint('✅ [BABY_PROVIDER] Baby loaded directly: ${baby.name}');
+            } else {
+              debugPrint('❌ [BABY_PROVIDER] Baby not found in direct query: $babyId');
+            }
+          } catch (e) {
+            debugPrint('❌ [BABY_PROVIDER] Error in direct baby query: $e');
+          }
         }
       }
       
@@ -260,29 +308,21 @@ class BabyProvider extends ChangeNotifier {
     }
   }
 
-  /// 사용자 ID 가져오기 (일관된 로직으로 통합)
+  /// 사용자 ID 가져오기 (개선된 로직 - 이메일 로그인 우선)
   Future<String?> _getUserId() async {
     try {
-      // 🔍 현재 로그인 방법 확인 (SecureAuthService 사용)
-      final secureAuthService = SecureAuthService.instance;
-      await secureAuthService.initialize();
+      debugPrint('🔍 [BABY_PROVIDER] Starting _getUserId...');
       
-      // 저장된 토큰 정보에서 로그인 방법 확인
-      final userInfo = await secureAuthService.getCurrentUserInfo();
-      final provider = userInfo?['provider'];
-      
-      debugPrint('🔍 [BABY_PROVIDER] Current provider: $provider');
-      
-      // 🔐 이메일 로그인 (Supabase): UUID 사용
-      if (provider == 'supabase') {
-        final supabaseUser = Supabase.instance.client.auth.currentUser;
-        if (supabaseUser != null) {
-          debugPrint('✅ [BABY_PROVIDER] Email login - Supabase user ID: ${supabaseUser.id}');
-          return supabaseUser.id;
-        }
+      // 🔐 1순위: Supabase 사용자 확인 (이메일 로그인)
+      final supabaseUser = Supabase.instance.client.auth.currentUser;
+      if (supabaseUser != null) {
+        debugPrint('✅ [BABY_PROVIDER] Email login - Supabase user ID: ${supabaseUser.id}');
+        return supabaseUser.id;
       }
       
-      // 🥇 카카오 로그인: 항상 카카오 숫자 ID 사용 (DB와 일치)
+      debugPrint('🔍 [BABY_PROVIDER] No Supabase user, checking Kakao...');
+      
+      // 🥇 2순위: 카카오 로그인 (Fallback)
       try {
         final tokenInfo = await UserApi.instance.accessTokenInfo();
         if (tokenInfo != null) {
@@ -293,16 +333,10 @@ class BabyProvider extends ChangeNotifier {
         }
       } catch (kakaoError) {
         debugPrint('⚠️ [BABY_PROVIDER] Kakao API call failed: $kakaoError');
+        // 카카오 에러는 무시하고 계속
       }
       
-      // 🔄 Fallback: Supabase 사용자 확인
-      final supabaseUser = Supabase.instance.client.auth.currentUser;
-      if (supabaseUser != null) {
-        debugPrint('✅ [BABY_PROVIDER] Fallback - Supabase user ID: ${supabaseUser.id}');
-        return supabaseUser.id;
-      }
-      
-      debugPrint('❌ [BABY_PROVIDER] No valid user found');
+      debugPrint('❌ [BABY_PROVIDER] No valid user found (neither Supabase nor Kakao)');
       return null;
     } catch (e) {
       debugPrint('❌ [BABY_PROVIDER] Error getting user ID: $e');
@@ -401,11 +435,12 @@ class BabyProvider extends ChangeNotifier {
     }
   }
 
-  /// 아기 데이터 초기화
+  /// 아기 데이터 초기화 (가족 그룹 포함)
   void _clearBabyData() {
     _babies.clear();
     _selectedBaby = null;
     _currentUserId = null;
+    _currentFamilyGroup = null;
     notifyListeners();
   }
 
@@ -414,11 +449,12 @@ class BabyProvider extends ChangeNotifier {
     await loadBabyData();
   }
 
-  /// Provider 초기화
+  /// Provider 초기화 (가족 그룹 포함)
   void clear() {
     _babies.clear();
     _selectedBaby = null;
     _currentUserId = null;
+    _currentFamilyGroup = null;
     _isLoading = false;
     notifyListeners();
   }

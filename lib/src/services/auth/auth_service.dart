@@ -14,9 +14,9 @@ class AuthService {
     await _prefs.setBool(_autoLoginKey, enabled);
   }
   
-  // 자동로그인 설정 가져오기
+  // 자동로그인 설정 가져오기 (기본값 true)
   bool getAutoLogin() {
-    return _prefs.getBool(_autoLoginKey) ?? false;
+    return _prefs.getBool(_autoLoginKey) ?? true; // 🔧 기본값 true로 변경
   }
   
   // 카카오 토큰 유효성 검사

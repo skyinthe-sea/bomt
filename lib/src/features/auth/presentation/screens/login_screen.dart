@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isEmailLoading = false;
   bool _isGoogleLoading = false;
   bool _isFacebookLoading = false;
-  bool _autoLoginEnabled = false;
+  bool _autoLoginEnabled = true; // 🔧 자동 로그인 디폴트 활성화
   bool _isOtpPasswordResetInProgress = false; // 🔐 OTP 비밀번호 재설정 진행 중 플래그
   
   // 🔧 StreamSubscription 추가하여 dispose에서 정리
@@ -90,8 +90,20 @@ class _LoginScreenState extends State<LoginScreen> {
     final prefs = await SharedPreferences.getInstance();
     _authService = AuthService(prefs);
     await _supabaseAuth.initialize();
+    
+    // 🔧 저장된 값 확인 및 디버깅
+    final savedAutoLogin = prefs.getBool('auto_login');
+    debugPrint('🔍 [LOGIN_SCREEN] Saved auto login value: $savedAutoLogin');
+    
+    // 🔧 🚨 개발 단계: 자동로그인을 강제로 true로 설정 (완전히 확실하게)
+    debugPrint('🔧 [LOGIN_SCREEN] Development mode - forcing auto login to true');
+    await _authService.setAutoLogin(true);
+    await _supabaseAuth.setAutoLogin(true);
+    
     setState(() {
-      _autoLoginEnabled = _authService.getAutoLogin();
+      // 🔧 개발 단계에서는 무조건 true
+      _autoLoginEnabled = true;
+      debugPrint('🔍 [LOGIN_SCREEN] Forced auto login enabled: $_autoLoginEnabled');
     });
   }
 

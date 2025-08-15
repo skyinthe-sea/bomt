@@ -50,11 +50,11 @@ class SecureAuthService {
   Future<bool> getAutoLoginEnabled() async {
     try {
       final value = await _secureStorage.read(key: _autoLoginKey);
-      return value == 'true';
+      return value == 'true' || value == null; // 🔧 null일 때 true 반환 (기본값)
     } catch (e) {
       print('⚠️ [SECURE_AUTH] Failed to read auto login setting: $e');
-      // 폴백: SharedPreferences에서 읽기
-      return _prefs?.getBool(_autoLoginKey) ?? false;
+      // 폴백: SharedPreferences에서 읽기 (기본값 true)
+      return _prefs?.getBool(_autoLoginKey) ?? true; // 🔧 기본값 true로 변경
     }
   }
 

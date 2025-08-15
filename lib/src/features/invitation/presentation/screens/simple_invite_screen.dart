@@ -9,7 +9,6 @@ import 'package:uuid/uuid.dart';
 import '../../../../core/providers/baby_provider.dart';
 import '../../../../domain/models/baby.dart';
 import '../../../../services/invitation/simple_invite_service.dart';
-import 'debug_info_screen.dart';
 
 class SimpleInviteScreen extends StatefulWidget {
   const SimpleInviteScreen({Key? key}) : super(key: key);
@@ -120,9 +119,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
     
     final userId = babyProvider.currentUserId;
     final babyId = babyProvider.currentBaby?.id;
-    final babyName = babyProvider.currentBaby?.name ?? '우리 아기';
     
-    debugPrint('🔍 초대 코드 생성 시도 - userId: $userId, babyId: $babyId, babyName: $babyName');
     
     if (userId == null || babyId == null) {
       // 개발/테스트용: 임시 아기 생성 제안
@@ -156,7 +153,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
 
     try {
       // 기존 활성 초대 코드가 있는지 확인
-      final existingCode = await _inviteService.getActiveInviteCode(userId, babyId);
+      final existingCode = await _inviteService.getActiveInviteCode(userId);
       
       setState(() => _isLoading = false);
       
@@ -188,8 +185,8 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
       
       setState(() => _isLoading = true);
 
-      // 실제 초대 코드 생성
-      final code = await _inviteService.createInviteCode(userId, babyId);
+      // 실제 초대 코드 생성 (가족 그룹 기반)
+      final code = await _inviteService.createInviteCode(userId);
       final createdAt = DateTime.now();
       
       setState(() {
@@ -208,7 +205,6 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
       }
       
     } catch (e) {
-      debugPrint('❌ 초대 코드 생성 실패: $e');
       _showErrorSnackBar('초대 코드 생성 실패: $e');
     } finally {
       setState(() => _isLoading = false);
@@ -223,9 +219,16 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
     
     // 사용자 정보 새로고침 (실시간 카카오 API 호출)
     await babyProvider.loadBabyData();
-    final userId = babyProvider.currentUserId;
+    var userId = babyProvider.currentUserId;
     
-    debugPrint('🔍 초대 코드 참여 시도 - code: $code, userId: $userId');
+    // 🔧 추가 안전장치: BabyProvider에서 userId가 null이면 직접 Supabase 확인
+    if (userId == null) {
+      final supabaseUser = Supabase.instance.client.auth.currentUser;
+      if (supabaseUser != null) {
+        userId = supabaseUser.id;
+      }
+    }
+    
     
     if (code.isEmpty) {
       _showErrorSnackBar(l10n.pleaseEnterInviteCode);
@@ -256,7 +259,9 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
         builder: (context) => AlertDialog(
           title: Text(l10n.acceptInvitation),
           content: Text(
-            l10n.acceptInvitationWarning(inviteInfo['babyName'] ?? '')
+            inviteInfo.containsKey('familyName')
+                ? '${inviteInfo['familyName']} 가족에 참여하시겠습니까?\n\n기존 아기 데이터는 새로운 가족 그룹으로 이동됩니다.'
+                : l10n.acceptInvitationWarning(inviteInfo['babyName'] ?? '')
           ),
           actions: [
             TextButton(
@@ -282,7 +287,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
       final success = await _inviteService.joinWithInviteCode(code, userId);
       
       if (success) {
-        _showSuccessSnackBar('초대를 수락했습니다! 새로운 아기와 함께 육아를 시작해보세요.');
+        _showSuccessSnackBar('가족 초대를 수락했습니다! 이제 함께 육아 기록을 관리할 수 있습니다.');
         
         // BabyProvider 완전 새로고침
         await babyProvider.refresh();
@@ -295,7 +300,6 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
               Navigator.of(context).pop();
             }
           } catch (e) {
-            debugPrint('⚠️ [SIMPLE_INVITE] Dialog cleanup warning: $e');
           }
           
           // 🔄 최상위 Navigator로 홈 화면 이동
@@ -387,19 +391,6 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
       appBar: AppBar(
         title: Text(l10n.familyInvitation),
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.bug_report),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DebugInfoScreen(),
-                ),
-              );
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -426,7 +417,9 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    l10n.careTogetherWith(babyName),
+                    babyProvider.hasFamilyGroup 
+                        ? '${babyProvider.currentFamilyGroup!.name}과 함께 육아해요'
+                        : l10n.careTogetherWith(babyName),
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -434,7 +427,9 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    l10n.inviteFamilyDescription,
+                    babyProvider.hasFamilyGroup
+                        ? '가족 구성원을 초대하여\n함께 아기 기록을 관리하세요'
+                        : l10n.inviteFamilyDescription,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
