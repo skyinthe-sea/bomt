@@ -265,13 +265,11 @@ class TimelineService {
       effectiveEndedAt = DateTime.now();
     }
     
-    // UTC 시간으로 명시적 변환 후 타임라인 렌더링용 추가 정보
-    final startedAtUtc = sleep.startedAt.isUtc ? sleep.startedAt : sleep.startedAt.toUtc();
-    final endedAtUtc = effectiveEndedAt.isUtc ? effectiveEndedAt : effectiveEndedAt.toUtc();
     
-    sleepData['timeline_started_at'] = startedAtUtc.toIso8601String();
-    sleepData['timeline_ended_at'] = endedAtUtc.toIso8601String();
-    sleepData['timeline_duration_minutes'] = endedAtUtc.difference(startedAtUtc).inMinutes;
+    // 🔧 FIX: 수면 데이터는 원본 시간을 그대로 사용 (차트에서 UTC 처리)
+    sleepData['timeline_started_at'] = sleep.startedAt.toIso8601String();
+    sleepData['timeline_ended_at'] = effectiveEndedAt.toIso8601String();
+    sleepData['timeline_duration_minutes'] = effectiveEndedAt.difference(sleep.startedAt).inMinutes;
 
     return TimelineItem(
       id: sleep.id,

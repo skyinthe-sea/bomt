@@ -443,7 +443,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
 
           return Scaffold(
             backgroundColor: theme.scaffoldBackgroundColor,
-            extendBodyBehindAppBar: true,
+            extendBodyBehindAppBar: false,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -555,10 +555,10 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    theme.colorScheme.primary.withOpacity(0.05),
+                    theme.colorScheme.primary.withOpacity(0.02),
                     theme.scaffoldBackgroundColor,
                   ],
-                  stops: const [0.0, 0.3],
+                  stops: const [0.0, 0.2],
                 ),
               ),
               child: Column(
@@ -569,9 +569,9 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                       controller: _scrollController,
                       slivers: [
                         // 상단 여백
-                        SliverToBoxAdapter(
+                        const SliverToBoxAdapter(
                           child: SizedBox(
-                            height: MediaQuery.of(context).padding.top + kToolbarHeight + 16,
+                            height: 16,
                           ),
                         ),
                         

@@ -34,12 +34,12 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
     super.initState();
     
     _rotationController = AnimationController(
-      duration: const Duration(seconds: 60), // 1분에 한 바퀴
+      duration: const Duration(seconds: 120), // 2분에 한 바퀄 (느리게)
       vsync: this,
     );
     
     _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 3000), // 3초로 느리게
       vsync: this,
     );
     
@@ -177,14 +177,16 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
         final isDark = Theme.of(context).brightness == Brightness.dark;
         
         return SizedBox(
-          width: 340, // 더 크게 변경
+          width: 340,
           height: 340,
-          child: CustomPaint(
-            painter: CircularTimelinePainter(
-              timelineItems: widget.timelineItems,
-              rotationValue: _rotationAnimation.value,
-              pulseValue: _pulseAnimation.value,
-              isDark: isDark,
+          child: RepaintBoundary( // 성능 최적화를 위한 RepaintBoundary 추가
+            child: CustomPaint(
+              painter: CircularTimelinePainter(
+                timelineItems: widget.timelineItems,
+                rotationValue: _rotationAnimation.value,
+                pulseValue: _pulseAnimation.value,
+                isDark: isDark,
+              ),
             ),
           ),
         );
@@ -300,18 +302,34 @@ class CircularTimelinePainter extends CustomPainter {
 
       canvas.drawLine(startPoint, endPoint, paint);
 
-      // 주요 시간 텍스트 (0, 6, 12, 18시)
+      // 주요 시간 텍스트 (0, 6, 12, 18시) - 더 직관적인 표시
       if (isMainHour) {
+        // 24시간 표기를 더 명확하게
+        String hourText;
+        if (hour == 0) {
+          hourText = '0\n자정'; // 0시 자정
+        } else if (hour == 6) {
+          hourText = '6\n오전'; // 6시 오전
+        } else if (hour == 12) {
+          hourText = '12\n정오'; // 12시 정오
+        } else if (hour == 18) {
+          hourText = '18\n오후'; // 18시 오후
+        } else {
+          hourText = hour.toString();
+        }
+        
         final textPainter = TextPainter(
           text: TextSpan(
-            text: hour.toString(),
+            text: hourText,
             style: TextStyle(
               color: isDark ? Colors.white : Colors.black.withOpacity(0.5),
-              fontSize: 12,
+              fontSize: 10, // 좀 더 작게
               fontWeight: FontWeight.w600,
+              height: 1.2, // 줄 간격
             ),
           ),
           textDirection: TextDirection.ltr,
+          textAlign: TextAlign.center, // 중앙 정렬
         );
         
         textPainter.layout();
@@ -367,18 +385,47 @@ class CircularTimelinePainter extends CustomPainter {
     if (data['timeline_started_at'] != null && data['timeline_ended_at'] != null) {
       startTime = DateTime.parse(data['timeline_started_at']);
       endTime = DateTime.parse(data['timeline_ended_at']);
+      
     } else {
       // 기본값: timestamp에서 20분 간 지속
       startTime = activity.timestamp;
       endTime = activity.timestamp.add(const Duration(minutes: 20));
     }
     
-    // UTC 시간을 로컬 시간으로 변환 (원형 차트는 로컬 시간 기준으로 표시)
-    if (startTime.isUtc) {
-      startTime = startTime.toLocal();
-    }
-    if (endTime.isUtc) {
-      endTime = endTime.toLocal();
+    // 🔧 FIX: 수면 데이터의 올바른 UTC 로컬 변환
+    final originalStartTime = startTime;
+    final originalEndTime = endTime;
+    
+    // 수면 데이터는 보통 UTC로 저장되므로 로컬 시간으로 변환 필요
+    if (activity.type == TimelineItemType.sleep) {
+      // 수면 데이터는 항상 UTC로 가정하고 로컬 시간으로 변환
+      if (startTime.isUtc) {
+        startTime = startTime.toLocal();
+      } else {
+        // UTC가 아니라면 UTC로 가정하고 로컬 시간으로 변환
+        startTime = DateTime.utc(
+          startTime.year, startTime.month, startTime.day,
+          startTime.hour, startTime.minute, startTime.second, startTime.millisecond
+        ).toLocal();
+      }
+      
+      if (endTime.isUtc) {
+        endTime = endTime.toLocal();
+      } else {
+        // UTC가 아니라면 UTC로 가정하고 로컬 시간으로 변환
+        endTime = DateTime.utc(
+          endTime.year, endTime.month, endTime.day,
+          endTime.hour, endTime.minute, endTime.second, endTime.millisecond
+        ).toLocal();
+      }
+    } else {
+      // 다른 활동은 기존 로직 사용
+      if (startTime.isUtc) {
+        startTime = startTime.toLocal();
+      }
+      if (endTime.isUtc) {
+        endTime = endTime.toLocal();
+      }
     }
     
     // 시작 및 종료 각도 계산 (분 단위로)
@@ -391,6 +438,7 @@ class CircularTimelinePainter extends CustomPainter {
     final startAngle = (startMinuteOfDay * minuteToDegree - 90) * pi / 180;
     final endAngle = (endMinuteOfDay * minuteToDegree - 90) * pi / 180;
     
+    
     double sweepAngle;
     if (endMinuteOfDay > startMinuteOfDay) {
       sweepAngle = (endMinuteOfDay - startMinuteOfDay) * minuteToDegree * pi / 180;
@@ -398,9 +446,9 @@ class CircularTimelinePainter extends CustomPainter {
       sweepAngle = ((1440 - startMinuteOfDay) + endMinuteOfDay) * minuteToDegree * pi / 180;
     }
     
-    // 최소/최대 지속시간 제한 (1분 ~ 6시간)
-    final minSweep = 1 * minuteToDegree * pi / 180;
-    final maxSweep = 360 * minuteToDegree * pi / 180;
+    // 최소/최대 지속시간 제한 (1분 ~ 24시간)
+    final minSweep = 1 * minuteToDegree * pi / 180; // 1분
+    final maxSweep = 1440 * minuteToDegree * pi / 180; // 24시간 (360도)
     sweepAngle = sweepAngle.clamp(minSweep, maxSweep);
     
     final ringRadius = radius - 20;
@@ -645,5 +693,16 @@ class CircularTimelinePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CircularTimelinePainter oldDelegate) {
+    // 타임라인 데이터가 변경되었을 때만 다시 그리기
+    if (timelineItems.length != oldDelegate.timelineItems.length) return true;
+    
+    // 애니메이션은 전체 재그리기보다는 제한적으로
+    if ((rotationValue - oldDelegate.rotationValue).abs() > 0.1 || 
+        (pulseValue - oldDelegate.pulseValue).abs() > 0.1) {
+      return true;
+    }
+    
+    return false;
+  }
 }

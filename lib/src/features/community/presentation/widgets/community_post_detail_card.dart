@@ -213,16 +213,13 @@ class CommunityPostDetailCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withOpacity(0.9),
+        color: theme.colorScheme.surface.withOpacity(0.7),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.1),
-        ),
         boxShadow: [
           BoxShadow(
-            color: theme.colorScheme.shadow.withOpacity(0.08),
-            blurRadius: 20,
-            offset: const Offset(0, 4),
+            color: theme.colorScheme.shadow.withOpacity(0.05),
+            blurRadius: 15,
+            offset: const Offset(0, 3),
             spreadRadius: 0,
           ),
         ],
@@ -439,14 +436,7 @@ class CommunityPostDetailCard extends StatelessWidget {
                 if (post.timelineData != null && post.timelineDate != null) ...[
                   const SizedBox(height: 16),
                   Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primaryContainer.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: theme.colorScheme.primary.withOpacity(0.2),
-                      ),
-                    ),
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -482,43 +472,32 @@ class CommunityPostDetailCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 4),
                         Container(
-                          height: 350,
+                          height: MediaQuery.of(context).size.height * 0.45,
+                          margin: const EdgeInsets.symmetric(horizontal: 8),
                           child: FutureBuilder<List<TimelineItem>>(
                             future: _loadTimelineDataFromDatabase(context, post.timelineDate!),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState == ConnectionState.waiting) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: const Center(
-                                    child: SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(strokeWidth: 2),
-                                    ),
+                                return const Center(
+                                  child: SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(strokeWidth: 2),
                                   ),
                                 );
                               }
                               
                               if (snapshot.hasError) {
                                 print('DEBUG: Error loading timeline data: ${snapshot.error}');
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '타임라인 데이터 로드 오류',
-                                      style: theme.textTheme.bodySmall?.copyWith(
-                                        color: theme.colorScheme.error.withOpacity(0.8),
-                                      ),
-                                      textAlign: TextAlign.center,
+                                return Center(
+                                  child: Text(
+                                    '타임라인 데이터 로드 오류',
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.error.withOpacity(0.8),
                                     ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 );
                               }
@@ -527,26 +506,20 @@ class CommunityPostDetailCard extends StatelessWidget {
                               print('DEBUG: Loaded ${timelineItems.length} timeline items from database');
                               
                               if (timelineItems.isEmpty) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '표시할 활동 데이터가 없습니다',
-                                      style: theme.textTheme.bodySmall?.copyWith(
-                                        color: theme.colorScheme.onSurface.withOpacity(0.6),
-                                      ),
-                                      textAlign: TextAlign.center,
+                                return Center(
+                                  child: Text(
+                                    '표시할 활동 데이터가 없습니다',
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.onSurface.withOpacity(0.6),
                                     ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 );
                               }
                               
                               return Center(
                                 child: Transform.scale(
-                                  scale: 0.8, // 80% 크기로 축소하여 더 많은 여유 공간 확보
+                                  scale: MediaQuery.of(context).size.width > 400 ? 1.7 : 1.6,
                                   child: CircularTimelineChart(
                                     timelineItems: timelineItems,
                                     selectedDate: post.timelineDate!,
