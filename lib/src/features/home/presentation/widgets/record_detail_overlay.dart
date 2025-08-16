@@ -602,21 +602,28 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
 
               // Simple message for empty state
               Center(
-                child: Opacity(
-                  opacity: _overlayAnimation.value.clamp(0.0, 1.0),
-                  child: GestureDetector(
+                child: GestureDetector(
                     onTap: () {}, // Prevent close when tapping on message box
                     child: Container(
                       margin: const EdgeInsets.all(40),
                       padding: const EdgeInsets.all(30),
                       decoration: BoxDecoration(
-                        color: isDark ? Colors.grey[900] : Colors.white,
+                        color: isDark ? Colors.grey[800] : Colors.white,
                         borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: widget.primaryColor.withOpacity(0.3),
+                          width: 1.5,
+                        ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
+                            color: widget.primaryColor.withOpacity(0.2),
                             blurRadius: 20,
-                            offset: const Offset(0, 10),
+                            offset: const Offset(0, 8),
+                          ),
+                          BoxShadow(
+                            color: Colors.black.withOpacity(isDark ? 0.4 : 0.1),
+                            blurRadius: 25,
+                            offset: const Offset(0, 12),
                           ),
                         ],
                       ),
@@ -641,7 +648,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                           Text(
                             '탭으로 기록을 추가해보세요',
                             style: theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              color: theme.colorScheme.onSurface.withOpacity(0.8),
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -659,7 +666,6 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                         ],
                       ),
                     ),
-                  ),
                 ),
               ),
             ],

@@ -208,10 +208,13 @@ class TimelineService {
       effectiveEndedAt = feeding.startedAt.add(const Duration(minutes: 20));
     }
     
-    // 타임라인 렌더링용 추가 정보
-    feedingData['timeline_started_at'] = feeding.startedAt.toIso8601String();
-    feedingData['timeline_ended_at'] = effectiveEndedAt.toIso8601String();
-    feedingData['timeline_duration_minutes'] = effectiveEndedAt.difference(feeding.startedAt).inMinutes;
+    // UTC 시간으로 명시적 변환 후 타임라인 렌더링용 추가 정보
+    final startedAtUtc = feeding.startedAt.isUtc ? feeding.startedAt : feeding.startedAt.toUtc();
+    final endedAtUtc = effectiveEndedAt.isUtc ? effectiveEndedAt : effectiveEndedAt.toUtc();
+    
+    feedingData['timeline_started_at'] = startedAtUtc.toIso8601String();
+    feedingData['timeline_ended_at'] = endedAtUtc.toIso8601String();
+    feedingData['timeline_duration_minutes'] = endedAtUtc.difference(startedAtUtc).inMinutes;
 
     return TimelineItem(
       id: feeding.id,
@@ -262,9 +265,13 @@ class TimelineService {
       effectiveEndedAt = DateTime.now();
     }
     
-    sleepData['timeline_started_at'] = sleep.startedAt.toIso8601String();
-    sleepData['timeline_ended_at'] = effectiveEndedAt.toIso8601String();
-    sleepData['timeline_duration_minutes'] = effectiveEndedAt.difference(sleep.startedAt).inMinutes;
+    // UTC 시간으로 명시적 변환 후 타임라인 렌더링용 추가 정보
+    final startedAtUtc = sleep.startedAt.isUtc ? sleep.startedAt : sleep.startedAt.toUtc();
+    final endedAtUtc = effectiveEndedAt.isUtc ? effectiveEndedAt : effectiveEndedAt.toUtc();
+    
+    sleepData['timeline_started_at'] = startedAtUtc.toIso8601String();
+    sleepData['timeline_ended_at'] = endedAtUtc.toIso8601String();
+    sleepData['timeline_duration_minutes'] = endedAtUtc.difference(startedAtUtc).inMinutes;
 
     return TimelineItem(
       id: sleep.id,
@@ -304,8 +311,12 @@ class TimelineService {
     // 기저귀 교체는 순간적인 이벤트이므로 5분 지속시간 설정
     final effectiveEndedAt = diaper.changedAt.add(const Duration(minutes: 5));
     
-    diaperData['timeline_started_at'] = diaper.changedAt.toIso8601String();
-    diaperData['timeline_ended_at'] = effectiveEndedAt.toIso8601String();
+    // UTC 시간으로 명시적 변환 후 타임라인 렌더링용 추가 정보
+    final startedAtUtc = diaper.changedAt.isUtc ? diaper.changedAt : diaper.changedAt.toUtc();
+    final endedAtUtc = effectiveEndedAt.isUtc ? effectiveEndedAt : effectiveEndedAt.toUtc();
+    
+    diaperData['timeline_started_at'] = startedAtUtc.toIso8601String();
+    diaperData['timeline_ended_at'] = endedAtUtc.toIso8601String();
     diaperData['timeline_duration_minutes'] = 5;
 
     return TimelineItem(
@@ -342,13 +353,27 @@ class TimelineService {
       }
     }
 
+    // 타임라인 차트용 추가 데이터 생성
+    final medicationData = medication.toJson();
+    
+    // 투약은 순간적인 이벤트이므로 3분 지속시간 설정
+    final effectiveEndedAt = medication.administeredAt.add(const Duration(minutes: 3));
+    
+    // UTC 시간으로 명시적 변환 후 타임라인 렌더링용 추가 정보
+    final startedAtUtc = medication.administeredAt.isUtc ? medication.administeredAt : medication.administeredAt.toUtc();
+    final endedAtUtc = effectiveEndedAt.isUtc ? effectiveEndedAt : effectiveEndedAt.toUtc();
+    
+    medicationData['timeline_started_at'] = startedAtUtc.toIso8601String();
+    medicationData['timeline_ended_at'] = endedAtUtc.toIso8601String();
+    medicationData['timeline_duration_minutes'] = 3;
+
     return TimelineItem(
       id: medication.id,
       type: TimelineItemType.medication,
       timestamp: medication.administeredAt,
       title: '투약',
       subtitle: subtitle,
-      data: medication.toJson(),
+      data: medicationData,
       colorCode: '#E91E63', // 핑크색
     );
   }
@@ -382,13 +407,32 @@ class TimelineService {
       }
     }
 
+    // 타임라인 차트용 추가 데이터 생성
+    final milkPumpingData = milkPumping.toJson();
+    
+    DateTime effectiveEndedAt;
+    if (milkPumping.endedAt != null) {
+      effectiveEndedAt = milkPumping.endedAt!;
+    } else {
+      // 진행 중인 유축: 현재 시간을 종료 시간으로 사용
+      effectiveEndedAt = DateTime.now();
+    }
+    
+    // UTC 시간으로 명시적 변환 후 타임라인 렌더링용 추가 정보
+    final startedAtUtc = milkPumping.startedAt.isUtc ? milkPumping.startedAt : milkPumping.startedAt.toUtc();
+    final endedAtUtc = effectiveEndedAt.isUtc ? effectiveEndedAt : effectiveEndedAt.toUtc();
+    
+    milkPumpingData['timeline_started_at'] = startedAtUtc.toIso8601String();
+    milkPumpingData['timeline_ended_at'] = endedAtUtc.toIso8601String();
+    milkPumpingData['timeline_duration_minutes'] = endedAtUtc.difference(startedAtUtc).inMinutes;
+
     return TimelineItem(
       id: milkPumping.id,
       type: TimelineItemType.milkPumping,
       timestamp: milkPumping.startedAt,
       title: isOngoing ? '유축 중' : '유축',
       subtitle: subtitle,
-      data: milkPumping.toJson(),
+      data: milkPumpingData,
       isOngoing: isOngoing,
       colorCode: '#009688', // 청록색
     );
@@ -404,13 +448,27 @@ class TimelineService {
       subtitle += '${solidFood.amountGrams}g';
     }
 
+    // 타임라인 차트용 추가 데이터 생성
+    final solidFoodData = solidFood.toJson();
+    
+    // 이유식은 15분 정도의 지속시간 설정
+    final effectiveEndedAt = solidFood.startedAt.add(const Duration(minutes: 15));
+    
+    // UTC 시간으로 명시적 변환 후 타임라인 렌더링용 추가 정보
+    final startedAtUtc = solidFood.startedAt.isUtc ? solidFood.startedAt : solidFood.startedAt.toUtc();
+    final endedAtUtc = effectiveEndedAt.isUtc ? effectiveEndedAt : effectiveEndedAt.toUtc();
+    
+    solidFoodData['timeline_started_at'] = startedAtUtc.toIso8601String();
+    solidFoodData['timeline_ended_at'] = endedAtUtc.toIso8601String();
+    solidFoodData['timeline_duration_minutes'] = 15;
+
     return TimelineItem(
       id: solidFood.id,
       type: TimelineItemType.solidFood,
       timestamp: solidFood.startedAt,
       title: '이유식',
       subtitle: subtitle,
-      data: solidFood.toJson(),
+      data: solidFoodData,
       colorCode: '#4CAF50', // 녹색
     );
   }
@@ -437,13 +495,27 @@ class TimelineService {
       subtitle = health.type;
     }
 
+    // 타임라인 차트용 추가 데이터 생성
+    final healthData = health.toJson();
+    
+    // 체온 측정은 순간적인 이벤트이므로 2분 지속시간 설정
+    final effectiveEndedAt = health.recordedAt.add(const Duration(minutes: 2));
+    
+    // UTC 시간으로 명시적 변환 후 타임라인 렌더링용 추가 정보
+    final startedAtUtc = health.recordedAt.isUtc ? health.recordedAt : health.recordedAt.toUtc();
+    final endedAtUtc = effectiveEndedAt.isUtc ? effectiveEndedAt : effectiveEndedAt.toUtc();
+    
+    healthData['timeline_started_at'] = startedAtUtc.toIso8601String();
+    healthData['timeline_ended_at'] = endedAtUtc.toIso8601String();
+    healthData['timeline_duration_minutes'] = 2;
+
     return TimelineItem(
       id: health.id,
       type: TimelineItemType.temperature,
       timestamp: health.recordedAt,
       title: '체온 측정',
       subtitle: subtitle,
-      data: health.toJson(),
+      data: healthData,
       colorCode: '#FF5722', // 주황-빨강색
     );
   }

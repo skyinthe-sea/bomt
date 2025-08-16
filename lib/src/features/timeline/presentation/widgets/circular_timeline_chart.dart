@@ -317,8 +317,8 @@ class CircularTimelinePainter extends CustomPainter {
         textPainter.layout();
         
         final textOffset = Offset(
-          center.dx + cos(angle) * (radius - 30) - textPainter.width / 2,
-          center.dy + sin(angle) * (radius - 30) - textPainter.height / 2,
+          center.dx + cos(angle) * (radius - 45) - textPainter.width / 2,
+          center.dy + sin(angle) * (radius - 45) - textPainter.height / 2,
         );
         
         textPainter.paint(canvas, textOffset);
@@ -371,6 +371,14 @@ class CircularTimelinePainter extends CustomPainter {
       // 기본값: timestamp에서 20분 간 지속
       startTime = activity.timestamp;
       endTime = activity.timestamp.add(const Duration(minutes: 20));
+    }
+    
+    // UTC 시간을 로컬 시간으로 변환 (원형 차트는 로컬 시간 기준으로 표시)
+    if (startTime.isUtc) {
+      startTime = startTime.toLocal();
+    }
+    if (endTime.isUtc) {
+      endTime = endTime.toLocal();
     }
     
     // 시작 및 종료 각도 계산 (분 단위로)
