@@ -204,7 +204,7 @@ class CommunityPostList extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              l10n.allPostsChecked,
+              _getCategoryCompletionMessage(provider.selectedCategorySlug, l10n),
               style: theme.textTheme.titleSmall?.copyWith(
                 color: theme.colorScheme.onSurface.withOpacity(0.8),
                 fontWeight: FontWeight.w600,
@@ -212,7 +212,7 @@ class CommunityPostList extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              l10n.waitForNewPosts,
+              _getCategoryCompletionSubMessage(provider.selectedCategorySlug, l10n),
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurface.withOpacity(0.5),
               ),
@@ -228,5 +228,49 @@ class CommunityPostList extends StatelessWidget {
     
     // 기본적으로 빈 컨테이너 (아무 상태도 해당하지 않을 때)
     return const SizedBox(height: 20);
+  }
+
+  // 카테고리별 완료 메시지
+  String _getCategoryCompletionMessage(String categorySlug, AppLocalizations l10n) {
+    switch (categorySlug) {
+      case 'all':
+        return '모든 게시글을 확인했어요! 👍';
+      case '일상':
+        return '일상 이야기를 모두 확인했어요! 💬';
+      case '정보공유':
+        return '모든 정보 게시글을 확인했어요! 📚';
+      case '수면문제':
+        return '수면 관련 게시글을 모두 보셨어요! 😴';
+      case '이유식':
+        return '이유식 정보를 모두 확인했어요! 🍼';
+      case '예방접종':
+        return '예방접종 정보를 모두 보셨어요! 💉';
+      case '산후회복':
+        return '산후회복 게시글을 모두 확인했어요! 🤱';
+      default:
+        return l10n.allPostsChecked;
+    }
+  }
+
+  // 카테고리별 완료 부제목 메시지  
+  String _getCategoryCompletionSubMessage(String categorySlug, AppLocalizations l10n) {
+    switch (categorySlug) {
+      case 'all':
+        return '새로운 게시글을 올라올 때까지 잠시 기다려주세요';
+      case '일상':
+        return '다른 엄마들의 일상 이야기도 들려주세요';
+      case '정보공유':
+        return '유용한 정보가 있다면 공유해주세요';
+      case '수면문제':
+        return '수면과 관련된 경험을 나눠주세요';
+      case '이유식':
+        return '이유식 레시피나 노하우를 공유해보세요';
+      case '예방접종':
+        return '예방접종 경험담을 나눠주세요';
+      case '산후회복':
+        return '산후회복 팁을 공유해주세요';
+      default:
+        return l10n.waitForNewPosts;
+    }
   }
 }

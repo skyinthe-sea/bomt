@@ -71,8 +71,6 @@ class _CommunityAppBarState extends State<CommunityAppBar>
     switch (category.slug) {
       case 'all':
         return l10n.categoryAll;
-      case 'popular':
-        return l10n.categoryPopular;
       default:
         switch (category.name) {
           case '임상':

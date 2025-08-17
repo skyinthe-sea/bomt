@@ -41,11 +41,13 @@ class CommunityProvider with ChangeNotifier {
   // 카테고리 로드
   Future<void> loadCategories() async {
     try {
-      final categories = await _communityService.getCategories();
+      final rawCategories = await _communityService.getCategories();
+      
+      // 인기 카테고리 제외 - DB에서 가져온 카테고리 중 'popular' slug 제거
+      final categories = rawCategories.where((cat) => cat.slug != 'popular').toList();
       
       // 데이터베이스에서 가져온 카테고리 중 'all' slug가 있는지 확인
       final hasAllCategory = categories.any((cat) => cat.slug == 'all');
-      final hasPopularCategory = categories.any((cat) => cat.slug == 'popular');
       
       final systemCategories = <CommunityCategory>[];
       
@@ -67,39 +69,25 @@ class CommunityProvider with ChangeNotifier {
         );
       }
       
-      // "인기" 카테고리가 DB에 없는 경우에만 추가
-      if (!hasPopularCategory) {
-        systemCategories.add(
-          CommunityCategory(
-            id: 'popular',
-            name: '인기',
-            slug: 'popular',
-            description: '오늘 가장 인기 있는 게시글 TOP50을 볼 수 있습니다',
-            color: '#EF4444',
-            icon: 'fire',
-            displayOrder: 1,
-            isActive: true,
-            createdAt: DateTime.now(),
-            updatedAt: DateTime.now(),
-          ),
-        );
-      }
-      
-      
       // 시스템 카테고리를 앞에, DB 카테고리를 뒤에 배치
-      // 카테고리 순서: "전체" → "인기" → 기타
+      // 카테고리 순서: "전체" → 기타
       final allCategories = [...systemCategories, ...categories];
       
       // 순서대로 정렬
       allCategories.sort((a, b) {
         if (a.slug == 'all') return -1;
         if (b.slug == 'all') return 1;
-        if (a.slug == 'popular') return -1;
-        if (b.slug == 'popular') return 1;
         return a.displayOrder.compareTo(b.displayOrder);
       });
       
       _categories = allCategories;
+      
+      // 현재 선택된 카테고리가 'popular'인 경우 'all'로 변경
+      if (_selectedCategorySlug == 'popular') {
+        _selectedCategorySlug = 'all';
+        // 게시글도 다시 로드
+        loadPosts(refresh: true);
+      }
       
       notifyListeners();
     } catch (e) {
@@ -125,7 +113,7 @@ class CommunityProvider with ChangeNotifier {
       _error = null;
       notifyListeners();
 
-      print('게시글 로드 - 카테고리: $_selectedCategorySlug, 정렬: $_postSortOrder');
+      print('📱 게시글 로드 시작 - 카테고리: $_selectedCategorySlug, 정렬: $_postSortOrder, offset: ${refresh ? 0 : _posts.length}');
       final stopwatch = Stopwatch()..start();
       final newPosts = await _communityService.getPostsOptimized(
         categorySlug: _selectedCategorySlug,
@@ -136,7 +124,7 @@ class CommunityProvider with ChangeNotifier {
         currentUserId: currentUserId,
       );
       stopwatch.stop();
-      print('🚀 최적화 API 성능: ${stopwatch.elapsedMilliseconds}ms (${newPosts.length}개 게시글)');
+      print('🚀 카테고리 [$_selectedCategorySlug] 로딩 완료: ${stopwatch.elapsedMilliseconds}ms (${newPosts.length}개 게시글, 전체: ${refresh ? newPosts.length : _posts.length + newPosts.length}개)');
 
       if (refresh) {
         _posts = newPosts;
@@ -146,6 +134,11 @@ class CommunityProvider with ChangeNotifier {
 
       // 가져온 데이터가 20개 미만이면 더 이상 데이터가 없음
       _hasMorePosts = newPosts.length >= 20;
+      
+      // 디버깅 로그
+      if (!_hasMorePosts) {
+        print('📋 카테고리 [$_selectedCategorySlug] 모든 게시글 로드 완료 (총 ${refresh ? newPosts.length : _posts.length + newPosts.length}개)');
+      }
     } catch (e) {
       _error = e.toString();
     } finally {

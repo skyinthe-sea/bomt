@@ -69,7 +69,7 @@ class CommunityService {
       
       // 카테고리 ID 먼저 조회 (캐시 활용)
       String? categoryId;
-      if (categorySlug != null && categorySlug != 'all' && categorySlug != 'popular') {
+      if (categorySlug != null && categorySlug != 'all') {
         final categories = await getCategories();
         try {
           final category = categories.firstWhere((cat) => cat.slug == categorySlug);
@@ -101,10 +101,7 @@ class CommunityService {
       
       // 정렬 처리
       late final List<Map<String, dynamic>> response;
-      if (categorySlug == 'popular') {
-        // 인기 카테고리: 기존 캐시 로직 사용
-        return await _getDailyPopularPosts(currentUserId: currentUserId, limit: limit, offset: offset);
-      } else if (orderBy == 'like_count') {
+      if (orderBy == 'like_count') {
         response = await query
             .order('like_count', ascending: false)
             .order('created_at', ascending: false)
