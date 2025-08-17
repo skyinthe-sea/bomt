@@ -52,7 +52,7 @@ class CommunityAdCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
-                        Icons.campaign_outlined,
+                        Icons.schedule_outlined,
                         color: theme.colorScheme.primary,
                         size: 24,
                       ),
@@ -67,7 +67,7 @@ class CommunityAdCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '📢 추천 육아용품',
+                            '💝 준비 중인 서비스',
                             style: theme.textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: theme.colorScheme.onSurface,
@@ -75,7 +75,7 @@ class CommunityAdCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '엄마들이 추천하는 믿을 수 있는 육아용품을 만나보세요',
+                            '곧 유용한 육아 정보와 제품을 소개해드릴 예정입니다',
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurface.withOpacity(0.7),
                               height: 1.3,
