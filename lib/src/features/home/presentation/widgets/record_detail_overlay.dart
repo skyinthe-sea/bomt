@@ -469,14 +469,16 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
   }
 
   String _formatRecordTime(DateTime dateTime) {
+    // UTC → 로컬 시간 변환
+    final localDateTime = dateTime.toLocal();
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    final recordDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
+    final recordDate = DateTime(localDateTime.year, localDateTime.month, localDateTime.day);
     
     if (recordDate == today) {
-      return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+      return '${localDateTime.hour.toString().padLeft(2, '0')}:${localDateTime.minute.toString().padLeft(2, '0')}';
     } else {
-      return '${dateTime.month}/${dateTime.day} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+      return '${localDateTime.month}/${localDateTime.day} ${localDateTime.hour.toString().padLeft(2, '0')}:${localDateTime.minute.toString().padLeft(2, '0')}';
     }
   }
 
@@ -1137,7 +1139,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
               Row(
                 children: [
                   Text(
-                    '${startedAt.hour.toString().padLeft(2, '0')}:${startedAt.minute.toString().padLeft(2, '0')}',
+                    _formatRecordTime(startedAt),
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -1212,7 +1214,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
               Row(
                 children: [
                   Text(
-                    '${startedAt.hour.toString().padLeft(2, '0')}:${startedAt.minute.toString().padLeft(2, '0')}',
+                    _formatRecordTime(startedAt),
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -1290,7 +1292,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
               Row(
                 children: [
                   Text(
-                    '${administeredAt.hour.toString().padLeft(2, '0')}:${administeredAt.minute.toString().padLeft(2, '0')}',
+                    _formatRecordTime(administeredAt),
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
