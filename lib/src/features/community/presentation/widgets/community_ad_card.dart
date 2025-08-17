@@ -86,25 +86,6 @@ class CommunityAdCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    
-                    // 닫기 버튼
-                    GestureDetector(
-                      onTap: () {
-                        // TODO: 광고 닫기 로직
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.surface.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Icon(
-                          Icons.close,
-                          size: 16,
-                          color: theme.colorScheme.onSurface.withOpacity(0.6),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
