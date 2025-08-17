@@ -106,7 +106,7 @@ class CommunityPostProvider with ChangeNotifier {
       }
       
       if (refresh) {
-        _comments = newComments;
+        _comments = _sortCommentsWithPriority(newComments);
         _commentReplyCount.clear();
         _commentHasMoreReplies.clear();
         // 새로운 메타데이터로 다시 채우기
@@ -119,7 +119,8 @@ class CommunityPostProvider with ChangeNotifier {
           _commentHasMoreReplies[comment.id] = hasMoreReplies;
         }
       } else {
-        _comments.addAll(newComments);
+        final allComments = [..._comments, ...newComments];
+        _comments = _sortCommentsWithPriority(allComments);
       }
       
       _commentOffset += newComments.length;
@@ -166,7 +167,8 @@ class CommunityPostProvider with ChangeNotifier {
       final existingIds = _comments.map((c) => c.id).toSet();
       final filteredComments = newComments.where((comment) => !existingIds.contains(comment.id)).toList();
       
-      _comments.addAll(filteredComments);
+      final allComments = [..._comments, ...filteredComments];
+      _comments = _sortCommentsWithPriority(allComments);
       _commentOffset += newComments.length;
     } catch (e) {
       _error = e.toString();
@@ -188,12 +190,30 @@ class CommunityPostProvider with ChangeNotifier {
   Future<void> togglePostLike() async {
     if (_post == null || currentUserId == null) return;
 
+    // 본인 게시글 체크 (클라이언트 사이드)
+    if (_post!.authorId == currentUserId) {
+      return; // 아무것도 하지 않고 조용히 리턴
+    }
+
+    // 기존 상태 백업 (롤백용) - null-safe 처리
+    final originalPost = _post!;
+    final originalIsLiked = _post!.isLikedByCurrentUser ?? false;
+    final originalLikeCount = _post!.likeCount;
+
     try {
+      // 서버 호출 전에 UI 먼저 업데이트 (Optimistic Update)
+      _post = _post!.copyWith(
+        isLikedByCurrentUser: !originalIsLiked,
+        likeCount: !originalIsLiked ? originalLikeCount + 1 : originalLikeCount - 1,
+      );
+      notifyListeners();
+      
       final isLiked = await _communityService.togglePostLike(_post!.id, currentUserId!);
       
-      _post = _post!.copyWith(
+      // 서버 응답을 바탕으로 정확한 상태로 업데이트
+      _post = originalPost.copyWith(
         isLikedByCurrentUser: isLiked,
-        likeCount: isLiked ? _post!.likeCount + 1 : _post!.likeCount - 1,
+        likeCount: isLiked ? originalLikeCount + 1 : originalLikeCount,
       );
       notifyListeners();
 
@@ -208,6 +228,8 @@ class CommunityPostProvider with ChangeNotifier {
         );
       }
     } catch (e) {
+      // 에러 발생 시 원래 상태로 롤백
+      _post = originalPost;
       _error = e.toString();
       notifyListeners();
     }
@@ -247,9 +269,10 @@ class CommunityPostProvider with ChangeNotifier {
 
       // 실시간 UI 업데이트
       if (parentCommentId == null) {
-        // 일반 댓글인 경우 최상단에 추가
-        debugPrint('DEBUG: 일반 댓글 - 최상단에 추가');
-        _comments.insert(0, newComment);
+        // 일반 댓글인 경우 추가 후 우선순위 정렬
+        debugPrint('DEBUG: 일반 댓글 - 추가 후 우선순위 정렬');
+        _comments.add(newComment);
+        _comments = _sortCommentsWithPriority(_comments);
         _totalCommentsCount++;
       } else {
         // 답글인 경우 부모 댓글의 하단에 추가 (기존 방식)
@@ -320,16 +343,34 @@ class CommunityPostProvider with ChangeNotifier {
   Future<void> toggleCommentLike(String commentId) async {
     if (currentUserId == null) return;
 
-    try {
-      final commentIndex = _comments.indexWhere((comment) => comment.id == commentId);
-      if (commentIndex == -1) return;
+    final commentIndex = _comments.indexWhere((comment) => comment.id == commentId);
+    if (commentIndex == -1) return;
 
-      final comment = _comments[commentIndex];
+    final comment = _comments[commentIndex];
+    
+    // 본인 댓글 체크 (클라이언트 사이드)
+    if (comment.authorId == currentUserId) {
+      return; // 아무것도 하지 않고 조용히 리턴
+    }
+
+    // 기존 상태 백업 (롤백용) - null-safe 처리
+    final originalIsLiked = comment.isLikedByCurrentUser ?? false;
+    final originalLikeCount = comment.likeCount;
+
+    try {
+      // 서버 호출 전에 UI 먼저 업데이트 (Optimistic Update)
+      _comments[commentIndex] = comment.copyWith(
+        isLikedByCurrentUser: !originalIsLiked,
+        likeCount: !originalIsLiked ? originalLikeCount + 1 : originalLikeCount - 1,
+      );
+      notifyListeners();
+      
       final isLiked = await _communityService.toggleCommentLike(commentId, currentUserId!);
       
+      // 서버 응답을 바탕으로 정확한 상태로 업데이트
       _comments[commentIndex] = comment.copyWith(
         isLikedByCurrentUser: isLiked,
-        likeCount: isLiked ? comment.likeCount + 1 : comment.likeCount - 1,
+        likeCount: isLiked ? originalLikeCount + 1 : originalLikeCount,
       );
       notifyListeners();
 
@@ -344,6 +385,11 @@ class CommunityPostProvider with ChangeNotifier {
         );
       }
     } catch (e) {
+      // 에러 발생 시 원래 상태로 롤백
+      _comments[commentIndex] = comment.copyWith(
+        isLikedByCurrentUser: originalIsLiked,
+        likeCount: originalLikeCount,
+      );
       _error = e.toString();
       notifyListeners();
     }
@@ -514,6 +560,47 @@ class CommunityPostProvider with ChangeNotifier {
   // 댓글 작성자 확인
   bool isCommentAuthor(String commentAuthorId) {
     return currentUserId != null && currentUserId == commentAuthorId;
+  }
+
+  // 트위터 방식의 댓글 우선순위 정렬
+  List<CommunityComment> _sortCommentsWithPriority(List<CommunityComment> comments) {
+    if (comments.isEmpty || currentUserId == null) {
+      return comments;
+    }
+
+    final postAuthorId = _post?.authorId;
+    final myComments = <CommunityComment>[];
+    final authorComments = <CommunityComment>[];
+    final otherComments = <CommunityComment>[];
+
+    // 댓글을 카테고리별로 분류
+    for (final comment in comments) {
+      if (comment.authorId == currentUserId) {
+        myComments.add(comment);
+      } else if (postAuthorId != null && comment.authorId == postAuthorId) {
+        authorComments.add(comment);
+      } else {
+        otherComments.add(comment);
+      }
+    }
+
+    // 각 그룹 내에서 선택된 정렬 순서 적용
+    void sortByOrder(List<CommunityComment> commentsToSort) {
+      if (_commentSortOrder == 'like_count') {
+        // 좋아요순 (내림차순)
+        commentsToSort.sort((a, b) => b.likeCount.compareTo(a.likeCount));
+      } else {
+        // 최신순 (내림차순)
+        commentsToSort.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      }
+    }
+
+    sortByOrder(myComments);
+    sortByOrder(authorComments);
+    sortByOrder(otherComments);
+
+    // 트위터 방식 순서: 작성자 댓글 → 본인 댓글 → 나머지 댓글
+    return [...authorComments, ...myComments, ...otherComments];
   }
 
   // 데이터 클리어

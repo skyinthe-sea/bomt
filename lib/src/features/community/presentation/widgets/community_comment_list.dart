@@ -13,6 +13,7 @@ class CommunityCommentList extends StatelessWidget {
   final bool isLoading;
   final String? highlightedCommentId; // 하이라이트된 댓글 ID
   final String? postAuthorId; // 게시글 작성자 ID (OP 표시용)
+  final String? currentUserId; // 현재 사용자 ID
 
   const CommunityCommentList({
     super.key,
@@ -26,6 +27,7 @@ class CommunityCommentList extends StatelessWidget {
     required this.isLoading,
     this.highlightedCommentId,
     this.postAuthorId,
+    this.currentUserId,
   });
 
   @override
@@ -116,6 +118,7 @@ class CommunityCommentList extends StatelessWidget {
                     : null,
                 isHighlighted: highlightedCommentId == comment.id,
                 postAuthorId: postAuthorId,
+                currentUserId: currentUserId,
               ),
             ),
           );

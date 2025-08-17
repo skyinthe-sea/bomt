@@ -13,12 +13,14 @@ class CommunityPostDetailCard extends StatelessWidget {
   final CommunityPost post;
   final VoidCallback? onLike;
   final Function(String)? onAuthorNameTap;
+  final String? currentUserId; // 현재 사용자 ID
 
   const CommunityPostDetailCard({
     super.key,
     required this.post,
     this.onLike,
     this.onAuthorNameTap,
+    this.currentUserId,
   });
 
   Color _getCategoryColor(String? colorString) {
@@ -541,63 +543,81 @@ class CommunityPostDetailCard extends StatelessWidget {
                 Row(
                   children: [
                     // 좋아요 버튼
-                    GestureDetector(
-                      onTap: onLike,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                        decoration: BoxDecoration(
-                          color: post.isLikedByCurrentUser == true
-                              ? theme.colorScheme.error.withOpacity(0.15)
-                              : theme.colorScheme.surface.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(24),
-                          border: Border.all(
-                            color: post.isLikedByCurrentUser == true
-                                ? theme.colorScheme.error.withOpacity(0.3)
-                                : theme.colorScheme.outline.withOpacity(0.2),
+                    Builder(
+                      builder: (context) {
+                        // 본인 게시글인지 확인
+                        final isOwnPost = currentUserId != null && 
+                            currentUserId == post.authorId;
+                        
+                        return GestureDetector(
+                          onTap: isOwnPost ? null : onLike,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: isOwnPost
+                                  ? theme.colorScheme.outline.withOpacity(0.1)
+                                  : post.isLikedByCurrentUser == true
+                                      ? theme.colorScheme.error.withOpacity(0.15)
+                                      : theme.colorScheme.surface.withOpacity(0.8),
+                              borderRadius: BorderRadius.circular(24),
+                              border: Border.all(
+                                color: isOwnPost
+                                    ? theme.colorScheme.outline.withOpacity(0.2)
+                                    : post.isLikedByCurrentUser == true
+                                        ? theme.colorScheme.error.withOpacity(0.3)
+                                        : theme.colorScheme.outline.withOpacity(0.2),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: theme.colorScheme.shadow.withOpacity(0.05),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  post.isLikedByCurrentUser == true
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  size: 18,
+                                  color: isOwnPost
+                                      ? theme.colorScheme.outline.withOpacity(0.5)
+                                      : post.isLikedByCurrentUser == true
+                                          ? theme.colorScheme.error
+                                          : theme.colorScheme.onSurface.withOpacity(0.6),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  post.likeCount.toString(),
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: isOwnPost
+                                        ? theme.colorScheme.outline.withOpacity(0.5)
+                                        : post.isLikedByCurrentUser == true
+                                            ? theme.colorScheme.error
+                                            : theme.colorScheme.onSurface.withOpacity(0.6),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  '좋아요',
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: isOwnPost
+                                        ? theme.colorScheme.outline.withOpacity(0.5)
+                                        : post.isLikedByCurrentUser == true
+                                            ? theme.colorScheme.error
+                                            : theme.colorScheme.onSurface.withOpacity(0.6),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: theme.colorScheme.shadow.withOpacity(0.05),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              post.isLikedByCurrentUser == true
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              size: 18,
-                              color: post.isLikedByCurrentUser == true
-                                  ? theme.colorScheme.error
-                                  : theme.colorScheme.onSurface.withOpacity(0.6),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              post.likeCount.toString(),
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: post.isLikedByCurrentUser == true
-                                    ? theme.colorScheme.error
-                                    : theme.colorScheme.onSurface.withOpacity(0.6),
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              '좋아요',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: post.isLikedByCurrentUser == true
-                                    ? theme.colorScheme.error
-                                    : theme.colorScheme.onSurface.withOpacity(0.6),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                        );
+                      },
                     ),
                     
                     const SizedBox(width: 16),

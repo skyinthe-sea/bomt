@@ -80,6 +80,7 @@ class CommunityPostList extends StatelessWidget {
                 child: CommunityPostCard(
                   post: post,
                   selectedCategorySlug: provider.selectedCategorySlug, // 현재 선택된 카테고리 전달
+                  currentUserId: provider.currentUserId, // 현재 사용자 ID 전달
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(

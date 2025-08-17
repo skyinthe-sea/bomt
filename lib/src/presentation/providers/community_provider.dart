@@ -168,16 +168,34 @@ class CommunityProvider with ChangeNotifier {
   Future<void> togglePostLike(String postId) async {
     if (currentUserId == null) return;
 
-    try {
-      final postIndex = _posts.indexWhere((post) => post.id == postId);
-      if (postIndex == -1) return;
+    final postIndex = _posts.indexWhere((post) => post.id == postId);
+    if (postIndex == -1) return;
 
-      final post = _posts[postIndex];
+    final post = _posts[postIndex];
+    
+    // 본인 게시글 체크 (클라이언트 사이드)
+    if (post.authorId == currentUserId) {
+      return; // 아무것도 하지 않고 조용히 리턴
+    }
+
+    // 기존 상태 백업 (롤백용) - null-safe 처리
+    final originalIsLiked = post.isLikedByCurrentUser ?? false;
+    final originalLikeCount = post.likeCount;
+
+    try {
+      // 서버 호출 전에 UI 먼저 업데이트 (Optimistic Update)
+      _posts[postIndex] = post.copyWith(
+        isLikedByCurrentUser: !originalIsLiked,
+        likeCount: !originalIsLiked ? originalLikeCount + 1 : originalLikeCount - 1,
+      );
+      notifyListeners();
+      
       final isLiked = await _communityService.togglePostLike(postId, currentUserId!);
       
+      // 서버 응답을 바탕으로 정확한 상태로 업데이트
       _posts[postIndex] = post.copyWith(
         isLikedByCurrentUser: isLiked,
-        likeCount: isLiked ? post.likeCount + 1 : post.likeCount - 1,
+        likeCount: isLiked ? originalLikeCount + 1 : originalLikeCount,
       );
       notifyListeners();
 
@@ -192,6 +210,11 @@ class CommunityProvider with ChangeNotifier {
         );
       }
     } catch (e) {
+      // 에러 발생 시 원래 상태로 롤백
+      _posts[postIndex] = post.copyWith(
+        isLikedByCurrentUser: originalIsLiked,
+        likeCount: originalLikeCount,
+      );
       _error = e.toString();
       notifyListeners();
     }

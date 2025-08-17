@@ -8,6 +8,7 @@ class CommunityPostCard extends StatefulWidget {
   final VoidCallback? onTap;
   final VoidCallback? onLike;
   final String? selectedCategorySlug; // 현재 선택된 카테고리
+  final String? currentUserId; // 현재 사용자 ID
 
   const CommunityPostCard({
     super.key,
@@ -15,6 +16,7 @@ class CommunityPostCard extends StatefulWidget {
     this.onTap,
     this.onLike,
     this.selectedCategorySlug,
+    this.currentUserId,
   });
 
   @override
@@ -624,46 +626,62 @@ class _CommunityPostCardState extends State<CommunityPostCard> {
                   Row(
                     children: [
                       // 좋아요 버튼
-                      GestureDetector(
-                        onTap: widget.onLike,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: widget.post.isLikedByCurrentUser == true
-                                ? theme.colorScheme.error.withOpacity(0.1)
-                                : theme.colorScheme.surface.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: widget.post.isLikedByCurrentUser == true
-                                  ? theme.colorScheme.error.withOpacity(0.3)
-                                  : theme.colorScheme.outline.withOpacity(0.2),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                widget.post.isLikedByCurrentUser == true
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                size: 14,
-                                color: widget.post.isLikedByCurrentUser == true
-                                    ? theme.colorScheme.error
-                                    : theme.colorScheme.onSurface.withOpacity(0.6),
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                widget.post.likeCount.toString(),
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: widget.post.isLikedByCurrentUser == true
-                                      ? theme.colorScheme.error
-                                      : theme.colorScheme.onSurface.withOpacity(0.6),
-                                  fontWeight: FontWeight.w600,
+                      Builder(
+                        builder: (context) {
+                          // 본인 게시글인지 확인
+                          final isOwnPost = widget.currentUserId != null && 
+                              widget.currentUserId == widget.post.authorId;
+                          
+                          return GestureDetector(
+                            onTap: isOwnPost ? null : widget.onLike,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: isOwnPost
+                                    ? theme.colorScheme.outline.withOpacity(0.1)
+                                    : widget.post.isLikedByCurrentUser == true
+                                        ? theme.colorScheme.error.withOpacity(0.1)
+                                        : theme.colorScheme.surface.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: isOwnPost
+                                      ? theme.colorScheme.outline.withOpacity(0.2)
+                                      : widget.post.isLikedByCurrentUser == true
+                                          ? theme.colorScheme.error.withOpacity(0.3)
+                                          : theme.colorScheme.outline.withOpacity(0.2),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    widget.post.isLikedByCurrentUser == true
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    size: 14,
+                                    color: isOwnPost
+                                        ? theme.colorScheme.outline.withOpacity(0.5)
+                                        : widget.post.isLikedByCurrentUser == true
+                                            ? theme.colorScheme.error
+                                            : theme.colorScheme.onSurface.withOpacity(0.6),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    widget.post.likeCount.toString(),
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: isOwnPost
+                                          ? theme.colorScheme.outline.withOpacity(0.5)
+                                          : widget.post.isLikedByCurrentUser == true
+                                              ? theme.colorScheme.error
+                                              : theme.colorScheme.onSurface.withOpacity(0.6),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
                       
                       const SizedBox(width: 12),

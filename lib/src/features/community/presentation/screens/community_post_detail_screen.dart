@@ -141,7 +141,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
     _commentFocus.unfocus();
   }
 
-  // 새 댓글 위치로 스크롤 및 하이라이트 (최상단)
+  // 새 댓글 위치로 스크롤 및 하이라이트 (댓글 목록 섹션)
   Future<void> _scrollToNewComment(String commentId, {bool isReply = false}) async {
     // 하이라이트 설정
     setState(() {
@@ -153,22 +153,41 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
       // UI 업데이트 대기
       await Future.delayed(const Duration(milliseconds: 300));
       
-      // 최상단으로 스크롤 (새 댓글이 최상단에 생성되므로)
+      // 댓글 목록 섹션으로 스크롤 (새 댓글이 댓글 목록 최상단에 생성되므로)
       if (mounted && _scrollController.hasClients) {
         try {
+          // 댓글 목록 섹션의 대략적인 위치 계산
+          // 상단 여백(16) + 게시글 카드(~400) + 댓글 구분선 섹션(~100) = 약 520px
+          double targetPosition = 520.0;
+          
+          // 스크롤 가능한 최대 위치 확인
+          final maxScrollExtent = _scrollController.position.maxScrollExtent;
+          if (targetPosition > maxScrollExtent) {
+            targetPosition = maxScrollExtent;
+          }
+          
           await _scrollController.animateTo(
-            0, // 최상단으로 이동
+            targetPosition,
             duration: const Duration(milliseconds: 800),
             curve: Curves.easeOutCubic,
           );
         } catch (e) {
-          // 스크롤 실패 시 대체 방법 없음
+          // 스크롤 실패 시 최상단으로 대체
+          try {
+            await _scrollController.animateTo(
+              0,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeOut,
+            );
+          } catch (e2) {
+            // 완전 실패 시 아무것도 하지 않음
+          }
         }
       }
     });
 
-    // 하이라이트 효과 지연 후 제거 (1초로 단축)
-    Future.delayed(const Duration(milliseconds: 1000), () {
+    // 하이라이트 효과 지연 후 제거 (2초로 연장하여 더 잘 보이게)
+    Future.delayed(const Duration(milliseconds: 2000), () {
       if (mounted) {
         setState(() {
           _highlightedCommentId = null;
@@ -581,6 +600,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                             post: provider.post!,
                             onLike: provider.togglePostLike,
                             onAuthorNameTap: _handlePostAuthorNameTap,
+                            currentUserId: provider.currentUserId,
                           ),
                         ),
                         
@@ -752,6 +772,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                           isLoading: provider.isCommentsLoading,
                           highlightedCommentId: _highlightedCommentId,
                           postAuthorId: provider.post?.authorId,
+                          currentUserId: provider.currentUserId,
                         ),
                         
                         // 더 많은 댓글 로딩 인디케이터

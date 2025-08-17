@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../domain/models/community_comment.dart';
 import '../../../../presentation/providers/community_post_provider.dart';
 
-class CommunityCommentItem extends StatelessWidget {
+class CommunityCommentItem extends StatefulWidget {
   final CommunityComment comment;
   final VoidCallback? onLike;
   final VoidCallback? onReply;
@@ -17,6 +17,7 @@ class CommunityCommentItem extends StatelessWidget {
   final Function(String)? isCommentAuthor; // authorId -> bool
   final bool isHighlighted; // 하이라이트 여부
   final String? postAuthorId; // 게시글 작성자 ID (OP 표시용)
+  final String? currentUserId; // 현재 사용자 ID
 
   const CommunityCommentItem({
     super.key,
@@ -31,7 +32,100 @@ class CommunityCommentItem extends StatelessWidget {
     this.isCommentAuthor,
     this.isHighlighted = false,
     this.postAuthorId,
+    this.currentUserId,
   });
+
+  @override
+  State<CommunityCommentItem> createState() => _CommunityCommentItemState();
+}
+
+class _CommunityCommentItemState extends State<CommunityCommentItem>
+    with TickerProviderStateMixin {
+  late AnimationController _blinkController;
+  late Animation<double> _blinkAnimation;
+  late AnimationController _pulseController;
+  late Animation<double> _pulseAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // 깜빡임 애니메이션 컨트롤러
+    _blinkController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    
+    _blinkAnimation = Tween<double>(
+      begin: 0.3,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _blinkController,
+      curve: Curves.easeInOut,
+    ));
+    
+    // 펄스 애니메이션 컨트롤러
+    _pulseController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    
+    _pulseAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.05,
+    ).animate(CurvedAnimation(
+      parent: _pulseController,
+      curve: Curves.easeInOut,
+    ));
+    
+    // 초기 하이라이트 상태일 때 애니메이션 시작
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.isHighlighted) {
+        _startBlinkAnimation();
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(CommunityCommentItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    
+    // 하이라이트 상태가 변경되었을 때 애니메이션 시작/중지
+    if (widget.isHighlighted != oldWidget.isHighlighted) {
+      if (widget.isHighlighted) {
+        _startBlinkAnimation();
+      } else {
+        _stopBlinkAnimation();
+      }
+    }
+  }
+
+  void _startBlinkAnimation() {
+    // 깜빡임 애니메이션 3번 반복
+    _blinkController.repeat(reverse: true);
+    _pulseController.repeat(reverse: true);
+    
+    // 2초 후 애니메이션 중지
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      if (mounted) {
+        _stopBlinkAnimation();
+      }
+    });
+  }
+
+  void _stopBlinkAnimation() {
+    _blinkController.stop();
+    _pulseController.stop();
+    _blinkController.reset();
+    _pulseController.reset();
+  }
+
+  @override
+  void dispose() {
+    _blinkController.dispose();
+    _pulseController.dispose();
+    super.dispose();
+  }
 
   // 삭제된 댓글 내용 표시
   Widget _buildDeletedContent(BuildContext context) {
@@ -54,7 +148,7 @@ class CommunityCommentItem extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            comment.content, // "(작성자에 의해 삭제되었습니다)"
+            widget.comment.content, // "(작성자에 의해 삭제되었습니다)"
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.outline.withOpacity(0.7),
               fontStyle: FontStyle.italic,
@@ -132,44 +226,57 @@ class CommunityCommentItem extends StatelessWidget {
 
     return Column(
       children: [
-        AnimatedScale(
-          scale: isHighlighted ? 1.02 : 1.0,
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeOutBack,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            margin: EdgeInsets.only(
-              left: isReply ? 32 : 0, // 답글일 때 들여쓰기
-              top: 8,
-              right: 0,
-              bottom: 8,
-            ),
-          decoration: BoxDecoration(
-            color: isHighlighted
-                ? theme.colorScheme.primary.withOpacity(0.15) // 하이라이트 색상
-                : isReply 
-                    ? theme.colorScheme.surface.withOpacity(0.5)
-                    : theme.colorScheme.surface.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: isHighlighted
-                  ? theme.colorScheme.primary.withOpacity(0.3) // 하이라이트 테두리
-                  : isReply 
-                      ? theme.colorScheme.primary.withOpacity(0.1)
-                      : theme.colorScheme.outline.withOpacity(0.1),
-              width: isHighlighted ? 2.0 : 1.0, // 하이라이트 시 두껴 테두리
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: isHighlighted
-                    ? theme.colorScheme.primary.withOpacity(0.2)
-                    : theme.colorScheme.shadow.withOpacity(0.05),
-                blurRadius: isHighlighted ? 12 : 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
+        AnimatedBuilder(
+          animation: Listenable.merge([_blinkController, _pulseController]),
+          builder: (context, child) {
+            return AnimatedScale(
+              scale: widget.isHighlighted 
+                  ? (1.02 * _pulseAnimation.value) 
+                  : 1.0,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOutBack,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                margin: EdgeInsets.only(
+                  left: widget.isReply ? 32 : 0, // 답글일 때 들여쓰기
+                  top: 8,
+                  right: 0,
+                  bottom: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: widget.isHighlighted
+                      ? theme.colorScheme.primary.withOpacity(
+                          0.15 * _blinkAnimation.value) // 깜빡이는 하이라이트 색상
+                      : widget.isReply 
+                          ? theme.colorScheme.surface.withOpacity(0.5)
+                          : theme.colorScheme.surface.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: widget.isHighlighted
+                        ? theme.colorScheme.primary.withOpacity(
+                            0.3 * _blinkAnimation.value) // 깜빡이는 하이라이트 테두리
+                        : widget.isReply 
+                            ? theme.colorScheme.primary.withOpacity(0.1)
+                            : theme.colorScheme.outline.withOpacity(0.1),
+                    width: widget.isHighlighted ? 2.0 : 1.0,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: widget.isHighlighted
+                          ? theme.colorScheme.primary.withOpacity(
+                              0.3 * _blinkAnimation.value) // 깜빡이는 그림자
+                          : theme.colorScheme.shadow.withOpacity(0.05),
+                      blurRadius: widget.isHighlighted 
+                          ? (12 + (8 * _pulseAnimation.value - 8)) 
+                          : 8,
+                      offset: const Offset(0, 2),
+                      spreadRadius: widget.isHighlighted 
+                          ? (2 * _pulseAnimation.value - 2) 
+                          : 0,
+                    ),
+                  ],
+                ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: BackdropFilter(
@@ -190,10 +297,10 @@ class CommunityCommentItem extends StatelessWidget {
                     CircleAvatar(
                       radius: 16,
                       backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
-                      backgroundImage: comment.author?.profileImageUrl != null
-                          ? NetworkImage(comment.author!.profileImageUrl!)
+                      backgroundImage: widget.comment.author?.profileImageUrl != null
+                          ? NetworkImage(widget.comment.author!.profileImageUrl!)
                           : null,
-                      child: comment.author?.profileImageUrl == null
+                      child: widget.comment.author?.profileImageUrl == null
                           ? Icon(
                               Icons.person,
                               size: 16,
@@ -210,21 +317,21 @@ class CommunityCommentItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           GestureDetector(
-                            onTap: onAuthorNameTap != null 
-                                ? () => onAuthorNameTap!(comment.id, comment.author?.nickname ?? '익명')
+                            onTap: widget.onAuthorNameTap != null 
+                                ? () => widget.onAuthorNameTap!(widget.comment.id, widget.comment.author?.nickname ?? '익명')
                                 : null,
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Flexible(
                                   child: Text(
-                                    comment.author?.nickname ?? '익명',
+                                    widget.comment.author?.nickname ?? '익명',
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: onAuthorNameTap != null 
+                                      color: widget.onAuthorNameTap != null 
                                           ? theme.colorScheme.primary
                                           : theme.colorScheme.onSurface,
-                                      decoration: onAuthorNameTap != null 
+                                      decoration: widget.onAuthorNameTap != null 
                                           ? TextDecoration.underline
                                           : null,
                                       decorationColor: theme.colorScheme.primary.withOpacity(0.6),
@@ -233,7 +340,7 @@ class CommunityCommentItem extends StatelessWidget {
                                   ),
                                 ),
                                 // OP (게시글 작성자) 배지
-                                if (postAuthorId != null && comment.authorId == postAuthorId) ...[
+                                if (widget.postAuthorId != null && widget.comment.authorId == widget.postAuthorId) ...[
                                   const SizedBox(width: 6),
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -261,12 +368,12 @@ class CommunityCommentItem extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                comment.timeAgo,
+                                widget.comment.timeAgo,
                                 style: theme.textTheme.bodySmall?.copyWith(
                                   color: theme.colorScheme.onSurface.withOpacity(0.5),
                                 ),
                               ),
-                              if (comment.isEdited) ...[
+                              if (widget.comment.isEdited) ...[
                                 const SizedBox(width: 4),
                                 Text(
                                   '(수정됨)',
@@ -284,7 +391,7 @@ class CommunityCommentItem extends StatelessWidget {
                     ),
                     
                     // 더보기 버튼 (삭제되지 않은 댓글만)
-                    if (!comment.isDeleted)
+                    if (!widget.comment.isDeleted)
                       PopupMenuButton<String>(
                       onSelected: (value) {
                         switch (value) {
@@ -292,7 +399,7 @@ class CommunityCommentItem extends StatelessWidget {
                             _copyComment(context);
                             break;
                           case 'edit':
-                            onEdit?.call();
+                            widget.onEdit?.call();
                             break;
                           case 'delete':
                             _showDeleteDialog(context);
@@ -318,7 +425,7 @@ class CommunityCommentItem extends StatelessWidget {
                             ],
                           ),
                         ),
-                        if (isAuthor) ...[
+                        if (widget.isAuthor) ...[
                           PopupMenuItem<String>(
                             value: 'edit',
                             child: Row(
@@ -348,7 +455,7 @@ class CommunityCommentItem extends StatelessWidget {
                             ),
                           ),
                         ],
-                        if (!isAuthor)
+                        if (!widget.isAuthor)
                           PopupMenuItem<String>(
                             value: 'report',
                             child: Row(
@@ -378,68 +485,84 @@ class CommunityCommentItem extends StatelessWidget {
                 const SizedBox(height: 12),
                 
                 // 댓글 내용 (@태그 하이라이트 포함)
-                comment.isDeleted 
+                widget.comment.isDeleted 
                     ? _buildDeletedContent(context)
-                    : _buildContentWithTags(context, comment.content),
+                    : _buildContentWithTags(context, widget.comment.content),
                 
                 const SizedBox(height: 16),
                 
                 // 하단 액션 버튼들 (삭제된 댓글은 제한된 액션만)
-                if (!comment.isDeleted)
+                if (!widget.comment.isDeleted)
                   Row(
                     children: [
                       // 좋아요 버튼
-                      GestureDetector(
-                        onTap: onLike,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: comment.isLikedByCurrentUser == true
-                                ? theme.colorScheme.error.withOpacity(0.1)
-                                : theme.colorScheme.surface.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              color: comment.isLikedByCurrentUser == true
-                                  ? theme.colorScheme.error.withOpacity(0.3)
-                                  : theme.colorScheme.outline.withOpacity(0.2),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                comment.isLikedByCurrentUser == true
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                size: 14,
-                                color: comment.isLikedByCurrentUser == true
-                                    ? theme.colorScheme.error
-                                    : theme.colorScheme.onSurface.withOpacity(0.6),
-                              ),
-                              // 좋아요 수 표시 (5개 이상일 때만 표시)
-                            if (comment.likeCount >= 5) ...[
-                                const SizedBox(width: 4),
-                                Text(
-                                  comment.likeCount.toString(),
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: comment.isLikedByCurrentUser == true
-                                        ? theme.colorScheme.error
-                                        : theme.colorScheme.onSurface.withOpacity(0.6),
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                      Builder(
+                        builder: (context) {
+                          // 본인 댓글인지 확인
+                          final isOwnComment = widget.currentUserId != null && 
+                              widget.currentUserId == widget.comment.authorId;
+                          
+                          return GestureDetector(
+                            onTap: isOwnComment ? null : widget.onLike,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: isOwnComment
+                                    ? theme.colorScheme.outline.withOpacity(0.1)
+                                    : widget.comment.isLikedByCurrentUser == true
+                                        ? theme.colorScheme.error.withOpacity(0.1)
+                                        : theme.colorScheme.surface.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: isOwnComment
+                                      ? theme.colorScheme.outline.withOpacity(0.2)
+                                      : widget.comment.isLikedByCurrentUser == true
+                                          ? theme.colorScheme.error.withOpacity(0.3)
+                                          : theme.colorScheme.outline.withOpacity(0.2),
                                 ),
-                              ],
-                            ],
-                          ),
-                        ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    widget.comment.isLikedByCurrentUser == true
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    size: 14,
+                                    color: isOwnComment
+                                        ? theme.colorScheme.outline.withOpacity(0.5)
+                                        : widget.comment.isLikedByCurrentUser == true
+                                            ? theme.colorScheme.error
+                                            : theme.colorScheme.onSurface.withOpacity(0.6),
+                                  ),
+                                  // 좋아요 수 표시 (5개 이상일 때만 표시)
+                                if (widget.comment.likeCount >= 5) ...[
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      widget.comment.likeCount.toString(),
+                                      style: theme.textTheme.bodySmall?.copyWith(
+                                        color: isOwnComment
+                                            ? theme.colorScheme.outline.withOpacity(0.5)
+                                            : widget.comment.isLikedByCurrentUser == true
+                                                ? theme.colorScheme.error
+                                                : theme.colorScheme.onSurface.withOpacity(0.6),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
                       
                       const SizedBox(width: 12),
                       
                       // 답글 버튼 (최상위 댓글에만 표시)
-                      if (!isReply)
+                      if (!widget.isReply)
                         GestureDetector(
-                          onTap: onReply,
+                          onTap: widget.onReply,
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
@@ -474,8 +597,8 @@ class CommunityCommentItem extends StatelessWidget {
                 else
                   // 삭제된 댓글의 경우 삭제 시간 표시
                   Text(
-                    comment.deletedAt != null 
-                        ? '${_formatDeletedTime(comment.deletedAt!)}에 삭제됨'
+                    widget.comment.deletedAt != null 
+                        ? '${_formatDeletedTime(widget.comment.deletedAt!)}에 삭제됨'
                         : '삭제됨',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.outline.withOpacity(0.6),
@@ -489,11 +612,13 @@ class CommunityCommentItem extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      );
+          },
+        ),
     
       // 답글 목록 표시 (최상위 댓글에만)
-      if (!isReply && comment.replies != null && comment.replies!.isNotEmpty)
-        ...comment.replies!.asMap().entries.map((entry) {
+      if (!widget.isReply && widget.comment.replies != null && widget.comment.replies!.isNotEmpty)
+        ...widget.comment.replies!.asMap().entries.map((entry) {
           final replyIndex = entry.key;
           final reply = entry.value;
           
@@ -502,26 +627,27 @@ class CommunityCommentItem extends StatelessWidget {
             index: replyIndex,
             child: CommunityCommentItem(
               comment: reply,
-              onLike: onLike,
+              onLike: widget.onLike,
               isReply: true,
-              isAuthor: isCommentAuthor != null ? isCommentAuthor!(reply.authorId) : false,
-              isCommentAuthor: isCommentAuthor,
-              onEdit: onEdit,
-              onDelete: onDelete,
-              onAuthorNameTap: onAuthorNameTap,
+              isAuthor: widget.isCommentAuthor != null ? widget.isCommentAuthor!(reply.authorId) : false,
+              isCommentAuthor: widget.isCommentAuthor,
+              onEdit: widget.onEdit,
+              onDelete: widget.onDelete,
+              onAuthorNameTap: widget.onAuthorNameTap,
               isHighlighted: false, // 답글은 하이라이트하지 않음
-              postAuthorId: postAuthorId,
+              postAuthorId: widget.postAuthorId,
+              currentUserId: widget.currentUserId,
             ),
           );
         }),
       
       // 답글 더 보기 버튼 (최상위 댓글에서 더 많은 답글이 있을 때)
-      if (!isReply)
+      if (!widget.isReply)
         Consumer<CommunityPostProvider>(
           builder: (context, provider, child) {
-            final hasMoreReplies = provider.hasMoreReplies(comment.id);
-            final totalReplyCount = provider.getReplyCount(comment.id);
-            final currentReplyCount = comment.replies?.length ?? 0;
+            final hasMoreReplies = provider.hasMoreReplies(widget.comment.id);
+            final totalReplyCount = provider.getReplyCount(widget.comment.id);
+            final currentReplyCount = widget.comment.replies?.length ?? 0;
             final remainingReplyCount = totalReplyCount - currentReplyCount;
             
             if (!hasMoreReplies || remainingReplyCount <= 0) {
@@ -533,7 +659,7 @@ class CommunityCommentItem extends StatelessWidget {
             return Container(
               margin: const EdgeInsets.only(left: 32, top: 8),
               child: GestureDetector(
-                onTap: () => provider.loadAllReplies(comment.id),
+                onTap: () => provider.loadAllReplies(widget.comment.id),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
@@ -575,9 +701,9 @@ class CommunityCommentItem extends StatelessWidget {
   // 댓글 복사
   void _copyComment(BuildContext context) {
     // 삭제된 댓글은 복사하지 않음
-    if (comment.isDeleted) return;
+    if (widget.comment.isDeleted) return;
     
-    Clipboard.setData(ClipboardData(text: comment.content));
+    Clipboard.setData(ClipboardData(text: widget.comment.content));
     HapticFeedback.lightImpact();
     
     ScaffoldMessenger.of(context).showSnackBar(
@@ -637,7 +763,7 @@ class CommunityCommentItem extends StatelessWidget {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              onDelete?.call();
+              widget.onDelete?.call();
             },
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,

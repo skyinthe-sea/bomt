@@ -371,11 +371,18 @@ class CommunityService {
       }
       post = CommunityPost.fromJson(postJson);
 
-      // 조회수 증가
-      await _supabase
-          .from('community_posts')
-          .update({'view_count': post.viewCount + 1})
-          .eq('id', postId);
+      // 조회수 증가 (본인 게시글 제외)
+      bool shouldIncrementViewCount = true;
+      if (currentUserId != null && currentUserId == post.authorId) {
+        shouldIncrementViewCount = false;
+      }
+      
+      if (shouldIncrementViewCount) {
+        await _supabase
+            .from('community_posts')
+            .update({'view_count': post.viewCount + 1})
+            .eq('id', postId);
+      }
 
       // 현재 사용자의 좋아요 여부 확인
       bool isLiked = false;
@@ -391,7 +398,7 @@ class CommunityService {
       }
 
       return post.copyWith(
-        viewCount: post.viewCount + 1,
+        viewCount: shouldIncrementViewCount ? post.viewCount + 1 : post.viewCount,
         isLikedByCurrentUser: isLiked,
       );
     } catch (e) {
@@ -582,6 +589,18 @@ class CommunityService {
   // 게시글 좋아요/좋아요 취소
   Future<bool> togglePostLike(String postId, String userId) async {
     try {
+      // 본인 게시글인지 확인
+      final postResponse = await _supabase
+          .from('community_posts')
+          .select('author_id')
+          .eq('id', postId)
+          .eq('is_deleted', false)
+          .maybeSingle();
+      
+      if (postResponse != null && postResponse['author_id'] == userId) {
+        return false; // 본인 게시글이면 아무것도 하지 않고 false 반환
+      }
+      
       // 기존 좋아요 확인
       final existingLike = await _supabase
           .from('community_likes')
@@ -971,6 +990,18 @@ class CommunityService {
   // 댓글 좋아요/좋아요 취소
   Future<bool> toggleCommentLike(String commentId, String userId) async {
     try {
+      // 본인 댓글인지 확인
+      final commentResponse = await _supabase
+          .from('community_comments')
+          .select('author_id')
+          .eq('id', commentId)
+          .eq('is_deleted', false)
+          .maybeSingle();
+      
+      if (commentResponse != null && commentResponse['author_id'] == userId) {
+        return false; // 본인 댓글이면 아무것도 하지 않고 false 반환
+      }
+      
       final existingLike = await _supabase
           .from('community_likes')
           .select('id')
