@@ -60,6 +60,7 @@ dependencies:
   url_launcher: ^6.3.1
   share_plus: ^10.1.1
   upgrader: ^11.3.1
+  screenshot: ^3.0.0
   
   # Database & Caching
   sqflite: ^2.4.1

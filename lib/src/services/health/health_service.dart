@@ -336,7 +336,7 @@ class HealthService {
       
       final response = await _supabase
           .from('health_records')
-          .select('recorded_at, temperature')
+          .select('recorded_at, temperature, notes')
           .eq('baby_id', babyId)
           .eq('type', 'temperature')
           .gte('recorded_at', startDate.toIso8601String())
@@ -350,6 +350,7 @@ class HealthService {
           temperatureData.add({
             'time': DateTime.parse(record['recorded_at']).toLocal(),
             'temperature': temp,
+            'notes': record['notes'] as String?,
           });
         }
       }

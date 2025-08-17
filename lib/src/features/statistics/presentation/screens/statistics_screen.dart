@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../presentation/providers/statistics_provider.dart';
-import '../../../../presentation/providers/user_card_setting_provider.dart';
 import '../../../../core/providers/baby_provider.dart';
-import '../../../../domain/models/statistics.dart';
+import '../../../../core/utils/statistics_share_utils.dart';
 import '../widgets/statistics_header.dart';
 import '../widgets/statistics_date_selector.dart';
 import '../widgets/statistics_overview_card.dart';
@@ -27,12 +27,16 @@ class _StatisticsScreenState extends State<StatisticsScreen>
   late AnimationController _slideController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
+  final GlobalKey _repaintBoundaryKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     _initializeAnimations();
     _initializeProviders();
+    
+    // RepaintBoundary 키 설정
+    StatisticsShareUtils.setRepaintBoundaryKey(_repaintBoundaryKey);
   }
 
   void _initializeAnimations() {

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../presentation/providers/statistics_provider.dart';
+import '../../../../core/providers/baby_provider.dart';
+import '../../../../core/utils/statistics_share_utils.dart';
 import '../utils/date_range_localizer.dart';
 
 class StatisticsHeader extends StatelessWidget {
@@ -248,9 +250,9 @@ class StatisticsHeader extends StatelessWidget {
               ),
               title: Text(l10n.saveAsImage),
               subtitle: Text(l10n.saveAsImageDescription),
-              onTap: () {
+              onTap: () async {
                 Navigator.pop(context);
-                // TODO: 이미지 저장 구현
+                await _shareAsImage(context);
               },
             ),
             ListTile(
@@ -260,9 +262,9 @@ class StatisticsHeader extends StatelessWidget {
               ),
               title: Text(l10n.shareAsText),
               subtitle: Text(l10n.shareAsTextDescription),
-              onTap: () {
+              onTap: () async {
                 Navigator.pop(context);
-                // TODO: 텍스트 공유 구현
+                await _shareAsText(context);
               },
             ),
             const SizedBox(height: 20),
@@ -286,5 +288,79 @@ class StatisticsHeader extends StatelessWidget {
     } else {
       return '${dateTime.month}/${dateTime.day} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
     }
+  }
+
+  /// 텍스트로 공유
+  Future<void> _shareAsText(BuildContext context) async {
+    final statisticsProvider = Provider.of<StatisticsProvider>(context, listen: false);
+    final babyProvider = Provider.of<BabyProvider>(context, listen: false);
+    
+    if (statisticsProvider.statistics == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('공유할 통계 데이터가 없습니다'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    if (babyProvider.selectedBaby == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('선택된 아기 정보가 없습니다'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    await StatisticsShareUtils.shareAsText(
+      context: context,
+      statistics: statisticsProvider.statistics!,
+      baby: babyProvider.selectedBaby!,
+    );
+  }
+
+  /// 이미지로 공유
+  Future<void> _shareAsImage(BuildContext context) async {
+    // 임시로 비활성화
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('이미지 공유 기능은 현재 개발 중입니다. 텍스트 공유를 이용해주세요.'),
+        backgroundColor: Colors.blue,
+        duration: Duration(seconds: 3),
+      ),
+    );
+    return;
+    
+    final statisticsProvider = Provider.of<StatisticsProvider>(context, listen: false);
+    final babyProvider = Provider.of<BabyProvider>(context, listen: false);
+    
+    if (statisticsProvider.statistics == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('공유할 통계 데이터가 없습니다'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    if (babyProvider.selectedBaby == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('선택된 아기 정보가 없습니다'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    await StatisticsShareUtils.shareAsImage(
+      context: context,
+      baby: babyProvider.selectedBaby!,
+      statistics: statisticsProvider.statistics!,
+    );
   }
 }

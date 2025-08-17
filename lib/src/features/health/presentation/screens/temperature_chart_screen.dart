@@ -16,15 +16,56 @@ class TemperatureChartScreen extends StatefulWidget {
   State<TemperatureChartScreen> createState() => _TemperatureChartScreenState();
 }
 
-class _TemperatureChartScreenState extends State<TemperatureChartScreen> {
+class _TemperatureChartScreenState extends State<TemperatureChartScreen> 
+    with TickerProviderStateMixin {
   int _selectedDays = 7;
   bool _isLoading = false;
   Map<String, dynamic> _temperatureData = {};
+  
+  // 메모 팝업 관련 상태
+  bool _isNotePopupVisible = false;
+  String? _selectedNote;
+  DateTime? _selectedTime;
+  double? _selectedTemp;
+  Offset _popupPosition = Offset.zero;
+  
+  late AnimationController _popupAnimationController;
+  late Animation<double> _popupScaleAnimation;
+  late Animation<double> _popupOpacityAnimation;
 
   @override
   void initState() {
     super.initState();
+    
+    // 애니메이션 컨트롤러 초기화
+    _popupAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    
+    _popupScaleAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _popupAnimationController,
+      curve: Curves.elasticOut,
+    ));
+    
+    _popupOpacityAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _popupAnimationController,
+      curve: Curves.easeInOut,
+    ));
+    
     _loadTemperatureData();
+  }
+  
+  @override
+  void dispose() {
+    _popupAnimationController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadTemperatureData() async {
@@ -49,6 +90,38 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen> {
       });
     }
   }
+  
+  // 메모 팝업을 보여주는 메서드
+  void _showNotePopup({
+    required String note,
+    required DateTime time,
+    required double temperature,
+    required Offset position,
+  }) {
+    setState(() {
+      _selectedNote = note;
+      _selectedTime = time;
+      _selectedTemp = temperature;
+      _popupPosition = position;
+      _isNotePopupVisible = true;
+    });
+    
+    _popupAnimationController.forward();
+  }
+  
+  // 메모 팝업을 숨기는 메서드
+  void _hideNotePopup() {
+    _popupAnimationController.reverse().then((_) {
+      if (mounted) {
+        setState(() {
+          _isNotePopupVisible = false;
+          _selectedNote = null;
+          _selectedTime = null;
+          _selectedTemp = null;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,35 +141,42 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen> {
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 아기 정보 카드
-                  _buildBabyInfoCard(theme),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // 기간 선택 버튼
-                  _buildPeriodSelector(theme),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // 체온 그래프
-                  _buildTemperatureChart(theme),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // 통계 카드들
-                  _buildStatsCards(theme),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // 추세 분석
-                  _buildTrendAnalysis(theme),
-                ],
-              ),
+          : Stack(
+              children: [
+                SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 아기 정보 카드
+                      _buildBabyInfoCard(theme),
+                      
+                      const SizedBox(height: 24),
+                      
+                      // 기간 선택 버튼
+                      _buildPeriodSelector(theme),
+                      
+                      const SizedBox(height: 24),
+                      
+                      // 체온 그래프
+                      _buildTemperatureChart(theme),
+                      
+                      const SizedBox(height: 24),
+                      
+                      // 통계 카드들
+                      _buildStatsCards(theme),
+                      
+                      const SizedBox(height: 24),
+                      
+                      // 추세 분석
+                      _buildTrendAnalysis(theme),
+                    ],
+                  ),
+                ),
+                
+                // 메모 팝업 오버레이
+                if (_isNotePopupVisible) _buildNotePopup(theme),
+              ],
             ),
     );
   }
@@ -330,7 +410,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen> {
           const SizedBox(height: 20),
           Expanded(
             child: LineChart(
-              LineChartData(
+                  LineChartData(
                 gridData: FlGridData(
                   show: true,
                   drawHorizontalLine: true,
@@ -406,6 +486,10 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen> {
                       show: true,
                       getDotPainter: (spot, percent, barData, index) {
                         final temp = spot.y;
+                        final dataPoint = data[index];
+                        final hasNote = dataPoint['notes'] != null && 
+                                       (dataPoint['notes'] as String).isNotEmpty;
+                        
                         Color dotColor;
                         if (temp < 36.0) {
                           dotColor = Colors.blue;
@@ -416,12 +500,23 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen> {
                         } else {
                           dotColor = Colors.red;
                         }
-                        return FlDotCirclePainter(
-                          radius: 4,
-                          color: dotColor,
-                          strokeWidth: 2,
-                          strokeColor: Colors.white,
-                        );
+                        
+                        // 메모가 있는 경우 더 크고 특별한 표시
+                        if (hasNote) {
+                          return FlDotCirclePainter(
+                            radius: 6,
+                            color: dotColor,
+                            strokeWidth: 3,
+                            strokeColor: Colors.white,
+                          );
+                        } else {
+                          return FlDotCirclePainter(
+                            radius: 4,
+                            color: dotColor,
+                            strokeWidth: 2,
+                            strokeColor: Colors.white,
+                          );
+                        }
                       },
                     ),
                     belowBarData: BarAreaData(
@@ -439,6 +534,25 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen> {
                 ],
                 lineTouchData: LineTouchData(
                   enabled: true,
+                  touchCallback: (FlTouchEvent event, LineTouchResponse? touchResponse) {
+                    if (event is FlTapUpEvent && touchResponse?.lineBarSpots != null) {
+                      final spot = touchResponse!.lineBarSpots!.first;
+                      final dataPoint = data[spot.x.toInt()];
+                      final note = dataPoint['notes'] as String?;
+                      
+                      if (note != null && note.isNotEmpty) {
+                        final RenderBox renderBox = context.findRenderObject() as RenderBox;
+                        final localPosition = renderBox.globalToLocal(event.localPosition);
+                        
+                        _showNotePopup(
+                          note: note,
+                          time: dataPoint['time'] as DateTime,
+                          temperature: dataPoint['temperature'] as double,
+                          position: localPosition,
+                        );
+                      }
+                    }
+                  },
                   touchTooltipData: LineTouchTooltipData(
                     getTooltipColor: (touchedSpot) => theme.colorScheme.inverseSurface,
                     getTooltipItems: (touchedSpots) {
@@ -446,8 +560,15 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen> {
                         final dataPoint = data[spot.x.toInt()];
                         final temp = dataPoint['temperature'] as double;
                         final time = dataPoint['time'] as DateTime;
+                        final note = dataPoint['notes'] as String?;
+                        
+                        String tooltipText = '${DateFormat('MM/dd HH:mm').format(time)}\n${temp.toStringAsFixed(1)}°C';
+                        if (note != null && note.isNotEmpty) {
+                          tooltipText += '\n📝 메모 있음 (탭하여 보기)';
+                        }
+                        
                         return LineTooltipItem(
-                          '${DateFormat('MM/dd HH:mm').format(time)}\n${temp.toStringAsFixed(1)}°C',
+                          tooltipText,
                           TextStyle(
                             color: theme.colorScheme.onInverseSurface,
                             fontWeight: FontWeight.bold,
@@ -666,5 +787,213 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen> {
         ],
       ),
     );
+  }
+  
+  // 멋진 애니메이션과 함께 메모 팝업을 그리는 메서드
+  Widget _buildNotePopup(ThemeData theme) {
+    return GestureDetector(
+      onTap: _hideNotePopup,
+      child: Container(
+        color: Colors.black.withOpacity(0.3),
+        child: Stack(
+          children: [
+            Positioned(
+              left: _popupPosition.dx.clamp(20.0, MediaQuery.of(context).size.width - 300),
+              top: (_popupPosition.dy - 100).clamp(100.0, MediaQuery.of(context).size.height - 200),
+              child: AnimatedBuilder(
+                animation: _popupAnimationController,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: _popupScaleAnimation.value,
+                    child: Opacity(
+                      opacity: _popupOpacityAnimation.value,
+                      child: Material(
+                        elevation: 20,
+                        borderRadius: BorderRadius.circular(20),
+                        shadowColor: theme.colorScheme.primary.withOpacity(0.5),
+                        child: Container(
+                          width: 280,
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                theme.colorScheme.surface,
+                                theme.colorScheme.surface.withOpacity(0.9),
+                              ],
+                            ),
+                            border: Border.all(
+                              color: theme.colorScheme.primary.withOpacity(0.3),
+                              width: 1,
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // 헤더
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.primary.withOpacity(0.1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.note_alt_rounded,
+                                      color: theme.colorScheme.primary,
+                                      size: 20,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '체온 기록 메모',
+                                          style: theme.textTheme.titleMedium?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: theme.colorScheme.onSurface,
+                                          ),
+                                        ),
+                                        Text(
+                                          DateFormat('MM월 dd일 HH:mm').format(_selectedTime!),
+                                          style: theme.textTheme.bodySmall?.copyWith(
+                                            color: theme.colorScheme.onSurface.withOpacity(0.6),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: _hideNotePopup,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: theme.colorScheme.outline.withOpacity(0.1),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.close,
+                                        size: 16,
+                                        color: theme.colorScheme.outline,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              
+                              const SizedBox(height: 16),
+                              
+                              // 체온 정보
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: _getTemperatureColor(_selectedTemp!).withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: _getTemperatureColor(_selectedTemp!).withOpacity(0.3),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.thermostat,
+                                      color: _getTemperatureColor(_selectedTemp!),
+                                      size: 20,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      '${_selectedTemp!.toStringAsFixed(1)}°C',
+                                      style: theme.textTheme.titleMedium?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: _getTemperatureColor(_selectedTemp!),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: _getTemperatureColor(_selectedTemp!),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        _getTemperatureStatus(_selectedTemp!),
+                                        style: theme.textTheme.bodySmall?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              
+                              const SizedBox(height: 16),
+                              
+                              // 메모 내용
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: theme.colorScheme.outline.withOpacity(0.2),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Text(
+                                  _selectedNote!,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: theme.colorScheme.onSurface,
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  
+  // 체온에 따른 색상 반환
+  Color _getTemperatureColor(double temperature) {
+    if (temperature < 36.0) {
+      return Colors.blue;
+    } else if (temperature <= 37.5) {
+      return Colors.green;
+    } else if (temperature <= 38.5) {
+      return Colors.orange;
+    } else {
+      return Colors.red;
+    }
+  }
+  
+  // 체온 상태 텍스트 반환
+  String _getTemperatureStatus(double temperature) {
+    if (temperature < 36.0) {
+      return '저체온';
+    } else if (temperature <= 37.5) {
+      return '정상';
+    } else if (temperature <= 38.5) {
+      return '미열';
+    } else {
+      return '발열';
+    }
   }
 }
