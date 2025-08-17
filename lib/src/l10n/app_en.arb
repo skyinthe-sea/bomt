@@ -1246,5 +1246,62 @@
   "popularSearchTerms": "Popular search terms",
   "recentSearches": "Recent searches",
   "deleteAll": "Delete All",
-  "sortByComments": "Sort by comments"
+  "sortByComments": "Sort by comments",
+  
+  "detailInformation": "Detail Information",
+  "quickActions": "Quick Actions",
+  "recordAgain": "Record Again",
+  "share": "Share",
+  "deleteRecord": "Delete Record",
+  "deleteRecordConfirmation": "Are you sure you want to delete this record?",
+  "delete": "Delete",
+  "recordDeleted": "Record deleted",
+  "deleteFailed": "Delete failed",
+  "featureComingSoon": "Feature coming soon",
+  
+  "editRecord": "Edit Record",
+  "dateTime": "Date & Time",
+  "date": "Date",
+  "time": "Time",
+  "amount": "Amount",
+  "duration": "Duration",
+  "medicationName": "Medication Name",
+  "dosage": "Dosage",
+  "unit": "Unit",
+  "side": "Side",
+  "left": "Left",
+  "right": "Right",
+  "both": "Both",
+  "good": "Good",
+  "fair": "Fair",
+  "poor": "Poor",
+  "wet": "Wet",
+  "dirty": "Dirty",
+  "color": "Color",
+  "consistency": "Consistency",
+  "location": "Location",
+  "diaperType": "Diaper Type",
+  "breastMilk": "Breast Milk",
+  "bottle": "Bottle",
+  "formula": "Formula",
+  "notes": "Notes",
+  "notesHint": "Enter additional notes...",
+  "saveChanges": "Save Changes",
+  "changesSaved": "Changes saved",
+  "saveFailed": "Save failed",
+  
+  "smartInsights": "Smart Insights",
+  "analyzingPatterns": "Analyzing patterns...",
+  "insightsFound": "{count} insights found",
+  "@insightsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noInsightsYet": "Not enough data to analyze patterns yet",
+  "confidence": "Confidence",
+  
+  "confirm": "Confirm"
 }

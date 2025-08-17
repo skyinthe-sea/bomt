@@ -751,5 +751,62 @@
   "popularSearchTerms": "인기 검색어",
   "recentSearches": "최근 검색어",
   "deleteAll": "전체삭제",
-  "sortByComments": "댓글순"
+  "sortByComments": "댓글순",
+  
+  "detailInformation": "상세 정보",
+  "quickActions": "빠른 작업",
+  "recordAgain": "다시 기록",
+  "share": "공유",
+  "deleteRecord": "기록 삭제",
+  "deleteRecordConfirmation": "이 기록을 정말 삭제하시겠습니까?",
+  "delete": "삭제",
+  "recordDeleted": "기록이 삭제되었습니다",
+  "deleteFailed": "삭제에 실패했습니다",
+  "featureComingSoon": "곧 출시될 기능입니다",
+  
+  "editRecord": "기록 편집",
+  "dateTime": "날짜 및 시간",
+  "date": "날짜",
+  "time": "시간",
+  "amount": "양",
+  "duration": "시간",
+  "medicationName": "약품명",
+  "dosage": "용량",
+  "unit": "단위",
+  "side": "쪽",
+  "left": "왼쪽",
+  "right": "오른쪽",
+  "both": "양쪽",
+  "good": "좋음",
+  "fair": "보통",
+  "poor": "나쁨",
+  "wet": "젖음",
+  "dirty": "더러움",
+  "color": "색깔",
+  "consistency": "농도",
+  "location": "위치",
+  "diaperType": "기저귀 종류",
+  "breastMilk": "모유",
+  "bottle": "젖병",
+  "formula": "분유",
+  "notes": "메모",
+  "notesHint": "추가 메모를 입력하세요...",
+  "saveChanges": "변경사항 저장",
+  "changesSaved": "변경사항이 저장되었습니다",
+  "saveFailed": "저장에 실패했습니다",
+  
+  "smartInsights": "스마트 인사이트",
+  "analyzingPatterns": "패턴 분석 중...",
+  "insightsFound": "{count}개의 인사이트 발견",
+  "@insightsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noInsightsYet": "아직 분석할 패턴이 충분하지 않습니다",
+  "confidence": "신뢰도",
+  
+  "confirm": "확인"
 }

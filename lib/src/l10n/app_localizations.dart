@@ -3863,6 +3863,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sort by comments'**
   String get sortByComments;
+
+  /// No description provided for @detailInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Detail Information'**
+  String get detailInformation;
+
+  /// No description provided for @quickActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Actions'**
+  String get quickActions;
+
+  /// No description provided for @recordAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Record Again'**
+  String get recordAgain;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
+  /// No description provided for @deleteRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Record'**
+  String get deleteRecord;
+
+  /// No description provided for @deleteRecordConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this record?'**
+  String get deleteRecordConfirmation;
+
+  /// No description provided for @recordDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Record deleted'**
+  String get recordDeleted;
+
+  /// No description provided for @featureComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature coming soon'**
+  String get featureComingSoon;
+
+  /// No description provided for @editRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Record'**
+  String get editRecord;
+
+  /// No description provided for @dateTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Date & Time'**
+  String get dateTime;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get time;
+
+  /// No description provided for @amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get amount;
+
+  /// No description provided for @duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// No description provided for @dosage.
+  ///
+  /// In en, this message translates to:
+  /// **'Dosage'**
+  String get dosage;
+
+  /// No description provided for @unit.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get unit;
+
+  /// No description provided for @side.
+  ///
+  /// In en, this message translates to:
+  /// **'Side'**
+  String get side;
+
+  /// No description provided for @fair.
+  ///
+  /// In en, this message translates to:
+  /// **'Fair'**
+  String get fair;
+
+  /// No description provided for @wet.
+  ///
+  /// In en, this message translates to:
+  /// **'Wet'**
+  String get wet;
+
+  /// No description provided for @dirty.
+  ///
+  /// In en, this message translates to:
+  /// **'Dirty'**
+  String get dirty;
+
+  /// No description provided for @location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
+  /// No description provided for @notesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter additional notes...'**
+  String get notesHint;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @changesSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes saved'**
+  String get changesSaved;
+
+  /// No description provided for @smartInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Insights'**
+  String get smartInsights;
+
+  /// No description provided for @analyzingPatterns.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyzing patterns...'**
+  String get analyzingPatterns;
+
+  /// No description provided for @insightsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} insights found'**
+  String insightsFound(int count);
+
+  /// No description provided for @noInsightsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data to analyze patterns yet'**
+  String get noInsightsYet;
+
+  /// No description provided for @confidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence'**
+  String get confidence;
 }
 
 class _AppLocalizationsDelegate

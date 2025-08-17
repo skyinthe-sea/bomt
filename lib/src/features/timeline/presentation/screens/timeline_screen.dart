@@ -9,6 +9,7 @@ import '../widgets/glassmorphic_timeline_card.dart';
 import '../widgets/clean_background.dart';
 import '../widgets/clean_timeline_header.dart';
 import '../widgets/circular_timeline_chart.dart';
+import 'timeline_item_detail_screen.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen({super.key});
@@ -439,6 +440,8 @@ class _TimelineScreenState extends State<TimelineScreen>
                     final item = provider.filteredItems[index];
                     final isLast = index == provider.filteredItems.length - 1;
                     
+                    final heroTag = 'timeline_item_${item.id}_${item.timestamp.millisecondsSinceEpoch}';
+                    
                     return Padding(
                       padding: EdgeInsets.fromLTRB(
                         16, 
@@ -446,10 +449,13 @@ class _TimelineScreenState extends State<TimelineScreen>
                         16, 
                         isLast ? 32 : 8
                       ),
-                      child: GlassmorphicTimelineCard(
-                        item: item,
-                        isLast: isLast,
-                        onTap: () => _handleItemTap(context, item),
+                      child: Hero(
+                        tag: heroTag,
+                        child: GlassmorphicTimelineCard(
+                          item: item,
+                          isLast: isLast,
+                          onTap: () => _handleItemTap(context, item),
+                        ),
                       ),
                     );
                   },
@@ -676,20 +682,52 @@ class _TimelineScreenState extends State<TimelineScreen>
   }
 
   void _handleItemTap(BuildContext context, TimelineItem item) {
-    HapticFeedback.lightImpact();
-    // TODO: 상세보기 화면으로 이동
+    HapticFeedback.mediumImpact();
     debugPrint('🎯 타임라인 아이템 선택: ${item.title}');
     
-    // 간단한 피드백 표시
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AppLocalizations.of(context)!.detailViewComingSoon(item.title)),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: const Color(0xFF8B5FBF),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        duration: const Duration(seconds: 2),
+    // Hero 애니메이션을 위한 유니크 태그 생성
+    final heroTag = 'timeline_item_${item.id}_${item.timestamp.millisecondsSinceEpoch}';
+    
+    // 상세보기 화면으로 이동
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return TimelineItemDetailScreen(
+            item: item,
+            heroTag: heroTag,
+          );
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          // 커스텀 전환 애니메이션
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.easeOutCubic;
+          
+          var tween = Tween(begin: begin, end: end).chain(
+            CurveTween(curve: curve),
+          );
+          
+          var offsetAnimation = animation.drive(tween);
+          
+          // 페이드 애니메이션도 추가
+          var fadeAnimation = Tween<double>(
+            begin: 0.0,
+            end: 1.0,
+          ).animate(CurvedAnimation(
+            parent: animation,
+            curve: const Interval(0.0, 0.8, curve: Curves.easeOut),
+          ));
+          
+          return SlideTransition(
+            position: offsetAnimation,
+            child: FadeTransition(
+              opacity: fadeAnimation,
+              child: child,
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 600),
+        reverseTransitionDuration: const Duration(milliseconds: 400),
       ),
     );
   }

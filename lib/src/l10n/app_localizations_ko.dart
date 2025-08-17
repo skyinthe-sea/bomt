@@ -1182,7 +1182,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get urineAndStool => '소변 + 대변';
 
   @override
-  String get color => '색상';
+  String get color => '색깔';
 
   @override
   String get consistency => '농도';
@@ -2052,4 +2052,93 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get sortByComments => '댓글순';
+
+  @override
+  String get detailInformation => '상세 정보';
+
+  @override
+  String get quickActions => '빠른 작업';
+
+  @override
+  String get recordAgain => '다시 기록';
+
+  @override
+  String get share => '공유';
+
+  @override
+  String get deleteRecord => '기록 삭제';
+
+  @override
+  String get deleteRecordConfirmation => '이 기록을 정말 삭제하시겠습니까?';
+
+  @override
+  String get recordDeleted => '기록이 삭제되었습니다';
+
+  @override
+  String get featureComingSoon => '곧 출시될 기능입니다';
+
+  @override
+  String get editRecord => '기록 편집';
+
+  @override
+  String get dateTime => '날짜 및 시간';
+
+  @override
+  String get date => '날짜';
+
+  @override
+  String get time => '시간';
+
+  @override
+  String get amount => '양';
+
+  @override
+  String get duration => '시간';
+
+  @override
+  String get dosage => '용량';
+
+  @override
+  String get unit => '단위';
+
+  @override
+  String get side => '쪽';
+
+  @override
+  String get fair => '보통';
+
+  @override
+  String get wet => '젖음';
+
+  @override
+  String get dirty => '더러움';
+
+  @override
+  String get location => '위치';
+
+  @override
+  String get notesHint => '추가 메모를 입력하세요...';
+
+  @override
+  String get saveChanges => '변경사항 저장';
+
+  @override
+  String get changesSaved => '변경사항이 저장되었습니다';
+
+  @override
+  String get smartInsights => '스마트 인사이트';
+
+  @override
+  String get analyzingPatterns => '패턴 분석 중...';
+
+  @override
+  String insightsFound(int count) {
+    return '$count개의 인사이트 발견';
+  }
+
+  @override
+  String get noInsightsYet => '아직 분석할 패턴이 충분하지 않습니다';
+
+  @override
+  String get confidence => '신뢰도';
 }

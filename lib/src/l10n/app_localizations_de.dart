@@ -2096,4 +2096,94 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get sortByComments => 'Nach Kommentaren sortieren';
+
+  @override
+  String get detailInformation => 'Detail Information';
+
+  @override
+  String get quickActions => 'Quick Actions';
+
+  @override
+  String get recordAgain => 'Record Again';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get deleteRecord => 'Delete Record';
+
+  @override
+  String get deleteRecordConfirmation =>
+      'Are you sure you want to delete this record?';
+
+  @override
+  String get recordDeleted => 'Record deleted';
+
+  @override
+  String get featureComingSoon => 'Feature coming soon';
+
+  @override
+  String get editRecord => 'Edit Record';
+
+  @override
+  String get dateTime => 'Date & Time';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get time => 'Time';
+
+  @override
+  String get amount => 'Amount';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get dosage => 'Dosage';
+
+  @override
+  String get unit => 'Unit';
+
+  @override
+  String get side => 'Side';
+
+  @override
+  String get fair => 'Fair';
+
+  @override
+  String get wet => 'Wet';
+
+  @override
+  String get dirty => 'Dirty';
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get notesHint => 'Enter additional notes...';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get changesSaved => 'Changes saved';
+
+  @override
+  String get smartInsights => 'Smart Insights';
+
+  @override
+  String get analyzingPatterns => 'Analyzing patterns...';
+
+  @override
+  String insightsFound(int count) {
+    return '$count insights found';
+  }
+
+  @override
+  String get noInsightsYet => 'Not enough data to analyze patterns yet';
+
+  @override
+  String get confidence => 'Confidence';
 }
