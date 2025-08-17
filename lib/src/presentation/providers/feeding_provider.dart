@@ -8,6 +8,7 @@ class FeedingProvider extends ChangeNotifier {
   // 현재 선택된 아기 ID
   String? _currentBabyId;
   String? _currentUserId;
+  int? _currentBabyAgeInDays;
   
   // 오늘의 수유 요약 데이터
   Map<String, dynamic> _todaySummary = {};
@@ -38,10 +39,11 @@ class FeedingProvider extends ChangeNotifier {
   bool get hasRecentRecord => (_todaySummary['count'] ?? 0) > 0;
   
   /// 현재 아기 설정
-  void setCurrentBaby(String babyId, String userId) {
-    if (_currentBabyId != babyId || _currentUserId != userId) {
+  void setCurrentBaby(String babyId, String userId, {int? babyAgeInDays}) {
+    if (_currentBabyId != babyId || _currentUserId != userId || _currentBabyAgeInDays != babyAgeInDays) {
       _currentBabyId = babyId;
       _currentUserId = userId;
+      _currentBabyAgeInDays = babyAgeInDays;
       // 아기가 변경되면 데이터 새로고침
       refreshData();
     }
@@ -73,7 +75,7 @@ class FeedingProvider extends ChangeNotifier {
     if (_currentBabyId == null) return;
     
     try {
-      _todaySummary = await _feedingService.getTodayFeedingSummary(_currentBabyId!);
+      _todaySummary = await _feedingService.getTodayFeedingSummary(_currentBabyId!, babyAgeInDays: _currentBabyAgeInDays);
     } catch (e) {
       debugPrint('Error loading today summary: $e');
     }

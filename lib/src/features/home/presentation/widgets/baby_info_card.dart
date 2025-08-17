@@ -83,8 +83,13 @@ class _BabyInfoCardState extends State<BabyInfoCard> {
     final minutesUntilNextFeeding = widget.feedingSummary['minutesUntilNextFeeding'];
     final nextFeedingTime = widget.feedingSummary['nextFeedingTime'];
     
-    // 기본 수유 간격 (3시간)
-    final defaultFeedingInterval = 180; // 3시간 = 180분
+    // 아기 나이별 표준 수유 간격 (의학 가이드라인)
+    final babyAgeInDays = widget.baby.ageInDays; 
+    final standardFeedingInterval = babyAgeInDays <= 30 
+        ? 150  // 신생아: 2.5시간
+        : babyAgeInDays <= 180 
+            ? 180  // 영아: 3시간
+            : 240; // 6개월 이상: 4시간
     
     int nextFeedingMinutes;
     int nextHours;
@@ -103,13 +108,13 @@ class _BabyInfoCardState extends State<BabyInfoCard> {
           ? (lastFeedingMinutes / totalIntervalMinutes).clamp(0.0, 1.0)
           : 0.0;
     } else {
-      // 알람이 설정되지 않은 경우 기본 로직 사용
-      nextFeedingMinutes = lastFeedingMinutes >= defaultFeedingInterval 
+      // 표준 가이드라인 기반 기본 로직 사용
+      nextFeedingMinutes = lastFeedingMinutes >= standardFeedingInterval 
           ? 0  // 이미 수유 시간이 지났으면 지금 수유 필요
-          : (defaultFeedingInterval - lastFeedingMinutes).round();
+          : (standardFeedingInterval - lastFeedingMinutes).round();
       nextHours = nextFeedingMinutes ~/ 60;
       nextMinutes = nextFeedingMinutes % 60;
-      progressValue = (lastFeedingMinutes / defaultFeedingInterval).clamp(0.0, 1.0);
+      progressValue = (lastFeedingMinutes / standardFeedingInterval).clamp(0.0, 1.0);
     }
     
     return Container(
@@ -392,16 +397,24 @@ class _BabyInfoCardState extends State<BabyInfoCard> {
                               ),
                             ),
                             const SizedBox(height: 3),
-                            Text(
-                              _buildNextFeedingText(l10n, minutesUntilNextFeeding, nextFeedingMinutes, nextHours, nextMinutes),
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: nextFeedingMinutes == 0 
-                                    ? Colors.orange
-                                    : nextFeedingMinutes < 30 
-                                        ? Colors.orange[700]
-                                        : theme.colorScheme.primary,
-                                fontWeight: nextFeedingMinutes <= 30 ? FontWeight.w600 : FontWeight.normal,
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // 표준 가이드라인 기반 메시지
+                                Text(
+                                  _buildNextFeedingText(l10n, minutesUntilNextFeeding, nextFeedingMinutes, nextHours, nextMinutes),
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: nextFeedingMinutes == 0 
+                                        ? Colors.orange
+                                        : nextFeedingMinutes < 30 
+                                            ? Colors.orange[700]
+                                            : theme.colorScheme.primary,
+                                    fontWeight: nextFeedingMinutes <= 30 ? FontWeight.w600 : FontWeight.normal,
+                                  ),
+                                ),
+                                // 개인 패턴 정보 및 경고 (있는 경우)
+                                ..._buildPersonalPatternInfo(theme, l10n),
+                              ],
                             ),
                           ],
                         ),
@@ -414,45 +427,133 @@ class _BabyInfoCardState extends State<BabyInfoCard> {
           );
   }
   
+  List<Widget> _buildPersonalPatternInfo(ThemeData theme, AppLocalizations l10n) {
+    final personalPattern = widget.feedingSummary['personalPattern'] as Map<String, dynamic>?;
+    
+    if (personalPattern == null) {
+      return [];
+    }
+    
+    final List<Widget> widgets = [];
+    
+    // 개인 패턴 정보 표시 (참고용)
+    final intervalMinutes = personalPattern['intervalMinutes'] as int?;
+    if (intervalMinutes != null) {
+      final hours = intervalMinutes ~/ 60;
+      final minutes = intervalMinutes % 60;
+      final intervalText = hours > 0 
+          ? '${hours}시간 ${minutes}분'
+          : '${minutes}분';
+      
+      widgets.add(
+        const SizedBox(height: 2),
+      );
+      widgets.add(
+        Text(
+          '개인 패턴: ${intervalText} 간격 (참고용)',
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurface.withOpacity(0.5),
+            fontSize: 10,
+          ),
+        ),
+      );
+    }
+    
+    // 경고 메시지 표시
+    final status = personalPattern['status'] as String?;
+    final warning = personalPattern['warning'] as String?;
+    
+    if (status != 'normal' && warning != null) {
+      widgets.add(
+        const SizedBox(height: 3),
+      );
+      widgets.add(
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+          decoration: BoxDecoration(
+            color: status == 'too_frequent' 
+                ? Colors.orange.withOpacity(0.1)
+                : Colors.blue.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(
+              color: status == 'too_frequent' 
+                  ? Colors.orange.withOpacity(0.3)
+                  : Colors.blue.withOpacity(0.3),
+              width: 0.5,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                status == 'too_frequent' 
+                    ? Icons.warning_amber_rounded
+                    : Icons.info_outline,
+                size: 10,
+                color: status == 'too_frequent' 
+                    ? Colors.orange[700]
+                    : Colors.blue[700],
+              ),
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  warning,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: status == 'too_frequent' 
+                        ? Colors.orange[700]
+                        : Colors.blue[700],
+                    fontSize: 9,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    
+    return widgets;
+  }
+  
   String _buildNextFeedingText(AppLocalizations l10n, int? minutesUntilNextFeeding, int nextFeedingMinutes, int nextHours, int nextMinutes) {
-    // 패턴 기반 메시지 확인
+    // 표준 가이드라인 기반 메시지 우선
     final nextFeedingMessage = widget.feedingSummary['nextFeedingMessage'] as String?;
     
     if (nextFeedingMessage != null) {
       switch (nextFeedingMessage) {
+        case 'feeding_time_now':
+          return '표준 수유 시간입니다';
+        case 'feeding_time_soon':
+          return '곧 표준 수유 시간입니다 (${nextMinutes}분 후)';
+        case 'standard_schedule':
+          return nextHours > 0 
+              ? '표준 수유까지 ${nextHours}시간 ${nextMinutes}분'
+              : '표준 수유까지 ${nextMinutes}분';
         case 'insufficient_feeding_records':
-          return l10n.insufficientFeedingRecords;
+          return '수유 기록이 부족합니다 (표준 간격 적용)';
         case 'feeding_overdue':
-          return l10n.feedingTimeOverdue;
+          return '표준 수유 시간이 지났습니다';
         case 'no_recent_feeding':
-          return l10n.noRecentFeeding;
+          return '최근 수유 기록이 없습니다';
         default:
           break;
       }
     }
     
+    // 기본 표준 가이드라인 메시지
     if (minutesUntilNextFeeding != null) {
-      // Alarm is set or pattern-based calculation
-      if (nextFeedingMinutes == 0) {
-        return l10n.feedingTimeNow;
+      if (nextFeedingMinutes <= 0) {
+        return '표준 수유 시간입니다';
       } else if (nextFeedingMinutes < 30) {
-        return l10n.feedingTimeSoon(nextMinutes);
+        return '곧 표준 수유 시간입니다 (${nextMinutes}분 후)';
       } else {
         return nextHours > 0 
-            ? l10n.feedingAlarm(nextHours, nextMinutes)
-            : l10n.feedingAlarmMinutes(nextMinutes);
+            ? '표준 수유까지 ${nextHours}시간 ${nextMinutes}분'
+            : '표준 수유까지 ${nextMinutes}분';
       }
     } else {
-      // Default logic when no alarm is set
-      if (nextFeedingMinutes == 0) {
-        return l10n.feedingTimeOverdue;
-      } else if (nextFeedingMinutes < 30) {
-        return l10n.feedingTimeSoon(nextMinutes);
-      } else {
-        return nextHours > 0 
-            ? l10n.nextFeedingSchedule(nextHours, nextMinutes)
-            : l10n.nextFeedingScheduleMinutes(nextMinutes);
-      }
+      return '표준 수유 간격을 확인하세요';
     }
   }
 }

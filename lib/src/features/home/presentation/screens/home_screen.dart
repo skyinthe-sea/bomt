@@ -188,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     await _loadCardSettings(_currentUserId!);
     
     // 모든 Provider들에 현재 아기 정보 설정
-    _feedingProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!);
+    _feedingProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!, babyAgeInDays: _currentBaby!.ageInDays);
     _sleepProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!);
     _diaperProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!);
     _healthProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!);
@@ -498,7 +498,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       });
       
       // 모든 Provider 설정
-      _feedingProvider.setCurrentBaby(baby.id, userId);
+      _feedingProvider.setCurrentBaby(baby.id, userId, babyAgeInDays: baby.ageInDays);
       _sleepProvider.setCurrentBaby(baby.id, userId);
       _diaperProvider.setCurrentBaby(baby.id, userId);
       _healthProvider.setCurrentBaby(baby.id, userId);

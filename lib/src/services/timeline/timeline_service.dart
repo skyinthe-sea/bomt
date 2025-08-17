@@ -499,9 +499,9 @@ class TimelineService {
     // 체온 측정은 순간적인 이벤트이므로 2분 지속시간 설정
     final effectiveEndedAt = health.recordedAt.add(const Duration(minutes: 2));
     
-    // UTC 시간으로 명시적 변환 후 타임라인 렌더링용 추가 정보
-    final startedAtUtc = health.recordedAt.isUtc ? health.recordedAt : health.recordedAt.toUtc();
-    final endedAtUtc = effectiveEndedAt.isUtc ? effectiveEndedAt : effectiveEndedAt.toUtc();
+    // 🔧 FIX: health.recordedAt은 이미 UTC로 저장되어 있으므로 그대로 사용
+    final startedAtUtc = health.recordedAt;
+    final endedAtUtc = effectiveEndedAt;
     
     healthData['timeline_started_at'] = startedAtUtc.toIso8601String();
     healthData['timeline_ended_at'] = endedAtUtc.toIso8601String();

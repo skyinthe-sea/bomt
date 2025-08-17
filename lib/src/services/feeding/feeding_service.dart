@@ -129,7 +129,7 @@ class FeedingService with DataSyncMixin {
   }
   
   /// 오늘의 수유 요약 정보 가져오기
-  Future<Map<String, dynamic>> getTodayFeedingSummary(String babyId) async {
+  Future<Map<String, dynamic>> getTodayFeedingSummary(String babyId, {int? babyAgeInDays}) async {
     try {
       // 한국 시간대 (UTC+9) 명시적 처리
       final now = DateTime.now();
@@ -231,44 +231,73 @@ class FeedingService with DataSyncMixin {
         }
       }
       
-      // 다음 수유까지 남은 시간 계산 (패턴 기반)
+      // 다음 수유까지 남은 시간 계산 (의학 가이드라인 기반)
       int? minutesUntilNextFeeding;
       DateTime? nextFeedingTime;
       String? nextFeedingMessage;
       bool isPatternBased = false;
+      Map<String, dynamic>? personalPattern;
       
+      // 아기 나이별 표준 수유 간격 계산 (복지부/소아과학회 가이드라인)
+      final ageInDays = babyAgeInDays ?? 7; // 기본값: 신생아 (7일)
+      int standardIntervalMinutes;
+      
+      if (ageInDays <= 30) {
+        standardIntervalMinutes = 150; // 신생아: 2.5시간
+      } else if (ageInDays <= 180) {
+        standardIntervalMinutes = 180; // 영아: 3시간  
+      } else {
+        standardIntervalMinutes = 240; // 6개월 이상: 4시간
+      }
+      
+      // 1. 의학 가이드라인 기반 기본 계산
+      if (lastFeedingTime != null) {
+        
+        final standardNextFeedingTime = lastFeedingTime.add(Duration(minutes: standardIntervalMinutes));
+        final timeUntilStandard = standardNextFeedingTime.difference(nowKst);
+        
+        minutesUntilNextFeeding = timeUntilStandard.inMinutes;
+        nextFeedingTime = standardNextFeedingTime;
+        
+        if (minutesUntilNextFeeding <= 0) {
+          nextFeedingMessage = 'feeding_time_now';
+        } else if (minutesUntilNextFeeding <= 30) {
+          nextFeedingMessage = 'feeding_time_soon';
+        } else {
+          nextFeedingMessage = 'standard_schedule';
+        }
+        
+        debugPrint('표준 가이드라인 기반: ${standardIntervalMinutes}분 간격, ${minutesUntilNextFeeding}분 후 (${ageInDays}일된 아기)');
+      }
+      
+      // 2. 개인 패턴 분석 (참고용)
       try {
         final patternResult = await getPatternBasedNextFeeding(babyId);
         
         if (patternResult['status'] == 'scheduled') {
-          minutesUntilNextFeeding = patternResult['totalMinutesUntilNext'] as int;
-          nextFeedingTime = patternResult['nextFeedingTime'] as DateTime;
-          nextFeedingMessage = patternResult['message'] as String;
-          isPatternBased = true;
-          debugPrint('패턴 기반 다음 수유 시간 사용: ${patternResult['hoursUntilNext']}시간 ${patternResult['minutesUntilNext']}분');
-        } else if (patternResult['status'] == 'insufficient_data') {
-          nextFeedingMessage = 'insufficient_feeding_records';
-          debugPrint('수유 기록 부족: ${patternResult['reason']}');
-        } else if (patternResult['status'] == 'overdue') {
-          nextFeedingMessage = 'feeding_overdue';
-          debugPrint('수유 시간 지남');
-        } else {
-          // 패턴 분석 실패 시 기존 알람 시스템 사용
-          final alarmService = FeedingAlarmService.instance;
-          minutesUntilNextFeeding = await alarmService.getMinutesUntilNextFeeding();
-          nextFeedingTime = await alarmService.getNextFeedingTime();
-          debugPrint('알람 기반 다음 수유 시간 사용 (패턴 분석 실패)');
+          final patternMinutes = patternResult['totalMinutesUntilNext'] as int;
+          final patternInterval = ((patternResult['analysis']['averageIntervalHours'] as double) * 60).round();
+          
+          personalPattern = {
+            'intervalMinutes': patternInterval,
+            'nextFeedingMinutes': patternMinutes,
+            'status': 'normal',
+          };
+          
+          // 개인 패턴이 가이드라인과 크게 다를 때 경고
+          
+          if (patternInterval < standardIntervalMinutes * 0.6) {
+            personalPattern!['status'] = 'too_frequent';
+            personalPattern!['warning'] = '수유 간격이 너무 짧을 수 있습니다. 소아과 상담을 권장합니다.';
+          } else if (patternInterval > standardIntervalMinutes * 1.4) {
+            personalPattern!['status'] = 'too_infrequent'; 
+            personalPattern!['warning'] = '수유 간격이 길 수 있습니다. 아기 상태를 확인해주세요.';
+          }
+          
+          debugPrint('개인 패턴 (참고용): ${patternInterval}분 간격, 상태: ${personalPattern!['status']}');
         }
       } catch (e) {
-        debugPrint('다음 수유 시간 확인 중 오류: $e');
-        // 오류 시 기존 알람 시스템 사용
-        try {
-          final alarmService = FeedingAlarmService.instance;
-          minutesUntilNextFeeding = await alarmService.getMinutesUntilNextFeeding();
-          nextFeedingTime = await alarmService.getNextFeedingTime();
-        } catch (alarmError) {
-          debugPrint('알람 기반 다음 수유 시간도 실패: $alarmError');
-        }
+        debugPrint('개인 패턴 분석 실패 (무시됨): $e');
       }
       
       return {
@@ -281,7 +310,8 @@ class FeedingService with DataSyncMixin {
         'minutesUntilNextFeeding': minutesUntilNextFeeding,
         'nextFeedingTime': nextFeedingTime,
         'nextFeedingMessage': nextFeedingMessage,
-        'isPatternBased': isPatternBased,
+        'isPatternBased': false, // 이제 가이드라인 기반이므로 false
+        'personalPattern': personalPattern,
       };
     } catch (e) {
       debugPrint('Error getting today feeding summary: $e');

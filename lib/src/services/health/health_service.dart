@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../domain/models/health_record.dart';
 import '../../core/config/supabase_config.dart';
+import '../timeline/timeline_service.dart';
 
 class HealthService {
   static HealthService? _instance;
@@ -73,9 +74,9 @@ class HealthService {
         'medication_name': medicationName,
         'medication_dose': medicationDose,
         'notes': notes,
-        'recorded_at': (recordedAt ?? DateTime.now()).toIso8601String(),
-        'created_at': DateTime.now().toIso8601String(),
-        'updated_at': DateTime.now().toIso8601String(),
+        'recorded_at': (recordedAt ?? DateTime.now()).toUtc().toIso8601String(),
+        'created_at': DateTime.now().toUtc().toIso8601String(),
+        'updated_at': DateTime.now().toUtc().toIso8601String(),
       };
       
       final response = await _supabase
@@ -84,7 +85,12 @@ class HealthService {
           .select()
           .single();
       
-      return HealthRecord.fromJson(response);
+      final newRecord = HealthRecord.fromJson(response);
+      
+      // 타임라인 캐시 무효화
+      await TimelineService.instance.invalidateTimelineCache(babyId);
+      
+      return newRecord;
     } catch (e) {
       debugPrint('Error adding health record: $e');
       return null;
@@ -257,10 +263,22 @@ class HealthService {
   /// 건강 기록 삭제
   Future<bool> deleteHealthRecord(String recordId) async {
     try {
+      // 삭제 전에 babyId를 조회하여 캐시 무효화에 사용
+      final existingRecord = await _supabase
+          .from('health_records')
+          .select('baby_id')
+          .eq('id', recordId)
+          .single();
+      
+      final babyId = existingRecord['baby_id'] as String;
+      
       await _supabase
           .from('health_records')
           .delete()
           .eq('id', recordId);
+      
+      // 타임라인 캐시 무효화
+      await TimelineService.instance.invalidateTimelineCache(babyId);
       
       return true;
     } catch (e) {
@@ -281,7 +299,7 @@ class HealthService {
   }) async {
     try {
       final updateData = <String, dynamic>{
-        'updated_at': DateTime.now().toIso8601String(),
+        'updated_at': DateTime.now().toUtc().toIso8601String(),
       };
       
       if (type != null) updateData['type'] = type;
@@ -289,7 +307,7 @@ class HealthService {
       if (medicationName != null) updateData['medication_name'] = medicationName;
       if (medicationDose != null) updateData['medication_dose'] = medicationDose;
       if (notes != null) updateData['notes'] = notes;
-      if (recordedAt != null) updateData['recorded_at'] = recordedAt.toIso8601String();
+      if (recordedAt != null) updateData['recorded_at'] = recordedAt.toUtc().toIso8601String();
       
       final response = await _supabase
           .from('health_records')
@@ -298,7 +316,12 @@ class HealthService {
           .select()
           .single();
       
-      return HealthRecord.fromJson(response);
+      final updatedRecord = HealthRecord.fromJson(response);
+      
+      // 타임라인 캐시 무효화
+      await TimelineService.instance.invalidateTimelineCache(updatedRecord.babyId);
+      
+      return updatedRecord;
     } catch (e) {
       debugPrint('Error updating health record: $e');
       return null;
