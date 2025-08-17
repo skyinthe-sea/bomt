@@ -29,6 +29,10 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   bool _isPressed = false;
+  
+  // 중복 입력 방지를 위한 상태
+  DateTime? _lastSleepTapTime;
+  static const Duration _duplicateCheckDuration = Duration(minutes: 1);
 
   @override
   void initState() {
@@ -72,7 +76,7 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
     if (widget.onTap != null) {
       widget.onTap!();
     } else if (widget.sleepProvider != null) {
-      _handleSleepToggle();
+      _handleSleepTapWithDuplicateCheck();
     }
   }
 
@@ -137,6 +141,45 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
         );
       }
     }
+  }
+
+  /// 중복 입력 체크와 함께 수면 탭 처리
+  Future<void> _handleSleepTapWithDuplicateCheck() async {
+    final now = DateTime.now();
+    
+    // 마지막 탭 시간과 현재 시간의 차이 확인
+    if (_lastSleepTapTime != null) {
+      final timeDifference = now.difference(_lastSleepTapTime!);
+      
+      if (timeDifference <= _duplicateCheckDuration) {
+        // 1분 이내에 다시 탭한 경우 확인 다이얼로그 표시
+        final shouldProceed = await _showDuplicateConfirmationDialog();
+        if (!shouldProceed) {
+          return; // 사용자가 취소한 경우
+        }
+      }
+    }
+    
+    // 현재 시간을 마지막 탭 시간으로 저장
+    _lastSleepTapTime = now;
+    
+    // 수면 토글 진행
+    await _handleSleepToggle();
+  }
+  
+  /// 중복 입력 확인 다이얼로그 표시
+  Future<bool> _showDuplicateConfirmationDialog() async {
+    final hasActiveSleep = widget.sleepProvider?.hasActiveSleep ?? false;
+    
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) => _SleepDuplicateConfirmationDialog(
+        isEnding: hasActiveSleep,
+      ),
+    );
+    
+    return result ?? false;
   }
 
   Future<void> _handleSleepToggle() async {
@@ -308,6 +351,206 @@ class _SleepSummaryCardState extends State<SleepSummaryCard>
           );
         },
       ),
+    );
+  }
+}
+
+/// 수면 중복 입력 확인 다이얼로그
+class _SleepDuplicateConfirmationDialog extends StatefulWidget {
+  final bool isEnding;
+
+  const _SleepDuplicateConfirmationDialog({
+    required this.isEnding,
+  });
+
+  @override
+  _SleepDuplicateConfirmationDialogState createState() => _SleepDuplicateConfirmationDialogState();
+}
+
+class _SleepDuplicateConfirmationDialogState extends State<_SleepDuplicateConfirmationDialog>
+    with TickerProviderStateMixin {
+  late AnimationController _scaleController;
+  late AnimationController _fadeController;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _scaleController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    
+    _scaleAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _scaleController,
+      curve: Curves.elasticOut,
+    ));
+    
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _fadeController,
+      curve: Curves.easeOut,
+    ));
+    
+    // 애니메이션 시작
+    _fadeController.forward();
+    _scaleController.forward();
+  }
+
+  @override
+  void dispose() {
+    _scaleController.dispose();
+    _fadeController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleClose(bool result) async {
+    // 닫을 때 애니메이션
+    await Future.wait([
+      _scaleController.reverse(),
+      _fadeController.reverse(),
+    ]);
+    
+    if (mounted) {
+      Navigator.of(context).pop(result);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    
+    return AnimatedBuilder(
+      animation: Listenable.merge([_scaleAnimation, _fadeAnimation]),
+      builder: (context, child) {
+        return Material(
+          color: Colors.black.withOpacity(0.5 * _fadeAnimation.value),
+          child: Center(
+            child: Transform.scale(
+              scale: _scaleAnimation.value,
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // 아이콘
+                    Container(
+                      width: 64,
+                      height: 64,
+                      decoration: BoxDecoration(
+                        color: Colors.purple.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        widget.isEnding ? Icons.alarm_off : Icons.bedtime,
+                        color: Colors.purple,
+                        size: 32,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    
+                    // 제목
+                    Text(
+                      '중복 입력 감지',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    
+                    // 내용
+                    Text(
+                      widget.isEnding
+                          ? '방금 전에 수면을 조작하셨습니다.\n정말로 수면을 종료하시겠습니까?'
+                          : '방금 전에 수면을 조작하셨습니다.\n정말로 수면을 시작하시겠습니까?',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface.withOpacity(0.8),
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    // 버튼
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () => _handleClose(false),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                side: BorderSide(
+                                  color: theme.colorScheme.outline.withOpacity(0.3),
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              '취소',
+                              style: TextStyle(
+                                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () => _handleClose(true),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.purple,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Text(
+                              widget.isEnding ? '종료하기' : '시작하기',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

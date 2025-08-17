@@ -17,12 +17,20 @@ class DiaperService with DataSyncMixin {
   final _supabase = SupabaseConfig.client;
   final _uuid = const Uuid();
   
-  // SharedPreferences 키
-  static const String _diaperTypeKey = 'diaper_default_type';
-  static const String _diaperColorKey = 'diaper_default_color';
-  static const String _diaperConsistencyKey = 'diaper_default_consistency';
+  // SharedPreferences 키 - 타입별 기본값
+  static const String _diaperWetColorKey = 'diaper_wet_default_color';
+  static const String _diaperWetConsistencyKey = 'diaper_wet_default_consistency';
+  static const String _diaperDirtyColorKey = 'diaper_dirty_default_color';
+  static const String _diaperDirtyConsistencyKey = 'diaper_dirty_default_consistency';
+  static const String _diaperBothColorKey = 'diaper_both_default_color';
+  static const String _diaperBothConsistencyKey = 'diaper_both_default_consistency';
   
-  /// 기본 기저귀 설정 저장
+  // 호환성을 위한 기존 키 (마이그레이션용)
+  static const String _legacyDiaperTypeKey = 'diaper_default_type';
+  static const String _legacyDiaperColorKey = 'diaper_default_color';
+  static const String _legacyDiaperConsistencyKey = 'diaper_default_consistency';
+  
+  /// 타입별 기본 기저귀 설정 저장
   Future<void> saveDiaperDefaults({
     String? type,
     String? color,
@@ -30,26 +38,91 @@ class DiaperService with DataSyncMixin {
   }) async {
     final prefs = await SharedPreferences.getInstance();
     
-    if (type != null) {
-      await prefs.setString(_diaperTypeKey, type);
-    }
-    if (color != null) {
-      await prefs.setString(_diaperColorKey, color);
-    }
-    if (consistency != null) {
-      await prefs.setString(_diaperConsistencyKey, consistency);
+    if (type != null && color != null && consistency != null) {
+      switch (type) {
+        case 'wet':
+          await prefs.setString(_diaperWetColorKey, color);
+          await prefs.setString(_diaperWetConsistencyKey, consistency);
+          break;
+        case 'dirty':
+          await prefs.setString(_diaperDirtyColorKey, color);
+          await prefs.setString(_diaperDirtyConsistencyKey, consistency);
+          break;
+        case 'both':
+          await prefs.setString(_diaperBothColorKey, color);
+          await prefs.setString(_diaperBothConsistencyKey, consistency);
+          break;
+      }
     }
   }
   
-  /// 기본 기저귀 설정 불러오기
+  /// 타입별 기본 기저귀 설정 백업 저장 (새로운 API)
+  Future<void> saveDiaperDefaultsForType({
+    required String type,
+    required String color,
+    required String consistency,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    
+    switch (type) {
+      case 'wet':
+        await prefs.setString(_diaperWetColorKey, color);
+        await prefs.setString(_diaperWetConsistencyKey, consistency);
+        break;
+      case 'dirty':
+        await prefs.setString(_diaperDirtyColorKey, color);
+        await prefs.setString(_diaperDirtyConsistencyKey, consistency);
+        break;
+      case 'both':
+        await prefs.setString(_diaperBothColorKey, color);
+        await prefs.setString(_diaperBothConsistencyKey, consistency);
+        break;
+    }
+  }
+  
+  /// 기본 기저귀 설정 불러오기 (레거시 호환성)
   Future<Map<String, dynamic>> getDiaperDefaults() async {
     final prefs = await SharedPreferences.getInstance();
     
+    // 레거시 지원: 기존 데이터가 있는 경우 마이그레이션
+    final legacyType = prefs.getString(_legacyDiaperTypeKey);
+    final legacyColor = prefs.getString(_legacyDiaperColorKey);
+    final legacyConsistency = prefs.getString(_legacyDiaperConsistencyKey);
+    
+    if (legacyType != null && legacyColor != null && legacyConsistency != null) {
+      // 레거시 데이터를 새로운 형식으로 마이그레이션
+      await saveDiaperDefaultsForType(
+        type: legacyType,
+        color: legacyColor,
+        consistency: legacyConsistency,
+      );
+      
+      // 레거시 키 삭제
+      await prefs.remove(_legacyDiaperTypeKey);
+      await prefs.remove(_legacyDiaperColorKey);
+      await prefs.remove(_legacyDiaperConsistencyKey);
+    }
+    
     return {
-      'type': prefs.getString(_diaperTypeKey) ?? 'wet',
-      'color': prefs.getString(_diaperColorKey) ?? '노란색',
-      'consistency': prefs.getString(_diaperConsistencyKey) ?? '보통',
+      'wet': {
+        'color': prefs.getString(_diaperWetColorKey) ?? '투명',
+        'consistency': prefs.getString(_diaperWetConsistencyKey) ?? '액체',
+      },
+      'dirty': {
+        'color': prefs.getString(_diaperDirtyColorKey) ?? '노란색',
+        'consistency': prefs.getString(_diaperDirtyConsistencyKey) ?? '보통',
+      },
+      'both': {
+        'color': prefs.getString(_diaperBothColorKey) ?? '노란색',
+        'consistency': prefs.getString(_diaperBothConsistencyKey) ?? '보통',
+      },
     };
+  }
+  
+  /// 특정 타입의 기본값 가져오기
+  Future<Map<String, dynamic>> getDiaperDefaultsForType(String type) async {
+    final allDefaults = await getDiaperDefaults();
+    return allDefaults[type] ?? allDefaults['wet'];
   }
   
   /// 새로운 기저귀 교체 기록 추가
@@ -66,16 +139,17 @@ class DiaperService with DataSyncMixin {
     
     return await withDataSyncEvent(
       operation: () async {
-        // 기본값이 설정되지 않은 경우 저장된 기본값 사용
-        final defaults = await getDiaperDefaults();
+        // 기본값이 설정되지 않은 경우 타입에 맞는 기본값 사용
+        final diaperType = type ?? 'wet'; // 기본은 소변
+        final typeDefaults = await getDiaperDefaultsForType(diaperType);
         
         final diaperData = {
           'id': _uuid.v4(),
           'baby_id': babyId,
           'user_id': userId,
-          'type': type ?? defaults['type'],
-          'color': color ?? defaults['color'],
-          'consistency': consistency ?? defaults['consistency'],
+          'type': diaperType,
+          'color': color ?? typeDefaults['color'],
+          'consistency': consistency ?? typeDefaults['consistency'],
           'notes': notes,
           'changed_at': diaperChangeTime.toUtc().toIso8601String(),
           'created_at': DateTime.now().toIso8601String(),

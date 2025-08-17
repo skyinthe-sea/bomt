@@ -34,6 +34,10 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   bool _isPressed = false;
+  
+  // 중복 입력 방지를 위한 상태
+  DateTime? _lastDiaperTapTime;
+  static const Duration _duplicateCheckDuration = Duration(minutes: 1);
 
   @override
   void initState() {
@@ -77,7 +81,7 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
     if (widget.onTap != null) {
       widget.onTap!();
     } else if (widget.diaperProvider != null) {
-      _handleQuickDiaper();
+      _handleDiaperTapWithDuplicateCheck();
     }
   }
 
@@ -144,7 +148,55 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
     }
   }
 
-  Future<void> _handleQuickDiaper() async {
+  /// 중복 입력 체크와 함께 기저귀 탭 처리
+  Future<void> _handleDiaperTapWithDuplicateCheck() async {
+    final now = DateTime.now();
+    
+    // 마지막 탭 시간과 현재 시간의 차이 확인
+    if (_lastDiaperTapTime != null) {
+      final timeDifference = now.difference(_lastDiaperTapTime!);
+      
+      if (timeDifference <= _duplicateCheckDuration) {
+        // 1분 이내에 다시 탭한 경우 확인 다이얼로그 표시
+        final shouldProceed = await _showDuplicateConfirmationDialog();
+        if (!shouldProceed) {
+          return; // 사용자가 취소한 경우
+        }
+      }
+    }
+    
+    // 현재 시간을 마지막 탭 시간으로 저장
+    _lastDiaperTapTime = now;
+    
+    // 기저귀 타입 선택 다이얼로그 표시
+    await _showDiaperTypeSelectionDialog();
+  }
+  
+  /// 중복 입력 확인 다이얼로그 표시
+  Future<bool> _showDuplicateConfirmationDialog() async {
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) => _DiaperDuplicateConfirmationDialog(),
+    );
+    
+    return result ?? false;
+  }
+  
+  /// 기저귀 타입 선택 다이얼로그 표시
+  Future<void> _showDiaperTypeSelectionDialog() async {
+    final selectedType = await showDialog<String>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) => _DiaperTypeSelectionDialog(),
+    );
+    
+    if (selectedType != null) {
+      await _handleQuickDiaper(selectedType);
+    }
+  }
+
+  Future<void> _handleQuickDiaper([String? selectedType]) async {
     if (widget.diaperProvider == null) return;
 
     if (widget.sleepProvider?.hasActiveSleep == true) {
@@ -157,12 +209,12 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
       
       if (!shouldProceed) return;
     } else {
-      await _addQuickDiaper();
+      await _addQuickDiaper(selectedType);
     }
   }
 
-  Future<void> _addQuickDiaper() async {
-    final success = await widget.diaperProvider!.addQuickDiaper();
+  Future<void> _addQuickDiaper([String? diaperType]) async {
+    final success = await widget.diaperProvider!.addQuickDiaper(type: diaperType);
     
     if (mounted) {
       if (success) {
@@ -328,6 +380,463 @@ class _DiaperSummaryCardState extends State<DiaperSummaryCard>
           );
         },
       ),
+    );
+  }
+}
+
+/// 기저귀 중복 입력 확인 다이얼로그
+class _DiaperDuplicateConfirmationDialog extends StatefulWidget {
+  @override
+  _DiaperDuplicateConfirmationDialogState createState() => _DiaperDuplicateConfirmationDialogState();
+}
+
+class _DiaperDuplicateConfirmationDialogState extends State<_DiaperDuplicateConfirmationDialog>
+    with TickerProviderStateMixin {
+  late AnimationController _scaleController;
+  late AnimationController _fadeController;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _scaleController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    
+    _scaleAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _scaleController,
+      curve: Curves.elasticOut,
+    ));
+    
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _fadeController,
+      curve: Curves.easeOut,
+    ));
+    
+    // 애니메이션 시작
+    _fadeController.forward();
+    _scaleController.forward();
+  }
+
+  @override
+  void dispose() {
+    _scaleController.dispose();
+    _fadeController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleClose(bool result) async {
+    // 닫을 때 애니메이션
+    await Future.wait([
+      _scaleController.reverse(),
+      _fadeController.reverse(),
+    ]);
+    
+    if (mounted) {
+      Navigator.of(context).pop(result);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    
+    return AnimatedBuilder(
+      animation: Listenable.merge([_scaleAnimation, _fadeAnimation]),
+      builder: (context, child) {
+        return Material(
+          color: Colors.black.withOpacity(0.5 * _fadeAnimation.value),
+          child: Center(
+            child: Transform.scale(
+              scale: _scaleAnimation.value,
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // 아이콘
+                    Container(
+                      width: 64,
+                      height: 64,
+                      decoration: BoxDecoration(
+                        color: Colors.amber.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.child_care,
+                        color: Colors.amber,
+                        size: 32,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    
+                    // 제목
+                    Text(
+                      '중복 입력 감지',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    
+                    // 내용
+                    Text(
+                      '방금 전에 기저귀 교체를 기록하셨습니다.\n정말로 다시 기록하시겠습니까?',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface.withOpacity(0.8),
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    // 버튼
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () => _handleClose(false),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                side: BorderSide(
+                                  color: theme.colorScheme.outline.withOpacity(0.3),
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              '취소',
+                              style: TextStyle(
+                                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () => _handleClose(true),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.amber,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Text(
+                              '기록하기',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// 기저귀 타입 선택 다이얼로그
+class _DiaperTypeSelectionDialog extends StatefulWidget {
+  @override
+  _DiaperTypeSelectionDialogState createState() => _DiaperTypeSelectionDialogState();
+}
+
+class _DiaperTypeSelectionDialogState extends State<_DiaperTypeSelectionDialog>
+    with TickerProviderStateMixin {
+  late AnimationController _scaleController;
+  late AnimationController _fadeController;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _scaleController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    
+    _scaleAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _scaleController,
+      curve: Curves.elasticOut,
+    ));
+    
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _fadeController,
+      curve: Curves.easeOut,
+    ));
+    
+    // 애니메이션 시작
+    _fadeController.forward();
+    _scaleController.forward();
+  }
+
+  @override
+  void dispose() {
+    _scaleController.dispose();
+    _fadeController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleSelection(String type) async {
+    // 닫을 때 애니메이션
+    await Future.wait([
+      _scaleController.reverse(),
+      _fadeController.reverse(),
+    ]);
+    
+    if (mounted) {
+      Navigator.of(context).pop(type);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    
+    return AnimatedBuilder(
+      animation: Listenable.merge([_scaleAnimation, _fadeAnimation]),
+      builder: (context, child) {
+        return Material(
+          color: Colors.black.withOpacity(0.5 * _fadeAnimation.value),
+          child: Center(
+            child: Transform.scale(
+              scale: _scaleAnimation.value,
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // 아이콘
+                    Container(
+                      width: 64,
+                      height: 64,
+                      decoration: BoxDecoration(
+                        color: Colors.amber.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.child_care,
+                        color: Colors.amber,
+                        size: 32,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    
+                    // 제목
+                    Text(
+                      '기저귀 교체',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    
+                    // 내용
+                    Text(
+                      '어떤 종류로 교체하셨나요?',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface.withOpacity(0.8),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    // 선택 버튼들
+                    Column(
+                      children: [
+                        // 소변 버튼
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () => _handleSelection('wet'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.opacity, size: 20),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '소변',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        
+                        // 대변 버튼
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () => _handleSelection('dirty'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.brown,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.eco, size: 20),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '대변',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        
+                        // 소변+대변 버튼
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () => _handleSelection('both'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.purple,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.child_care, size: 20),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '소변+대변',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        
+                        // 취소 버튼
+                        SizedBox(
+                          width: double.infinity,
+                          child: TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                side: BorderSide(
+                                  color: theme.colorScheme.outline.withOpacity(0.3),
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              '취소',
+                              style: TextStyle(
+                                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

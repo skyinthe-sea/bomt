@@ -28,10 +28,14 @@ class MilkPumpingSummaryCard extends StatefulWidget {
 }
 
 class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   bool _isPressed = false;
+  
+  // Duplicate prevention
+  DateTime? _lastMilkPumpingTapTime;
+  static const Duration _duplicateCheckDuration = Duration(minutes: 1);
 
   @override
   void initState() {
@@ -75,8 +79,39 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
     if (widget.onTap != null) {
       widget.onTap!();
     } else if (widget.milkPumpingProvider != null) {
+      _handleMilkPumpingTapWithDuplicateCheck();
+    }
+  }
+
+  void _handleMilkPumpingTapWithDuplicateCheck() {
+    final now = DateTime.now();
+    
+    if (_lastMilkPumpingTapTime != null &&
+        now.difference(_lastMilkPumpingTapTime!) < _duplicateCheckDuration) {
+      // Show duplicate confirmation dialog
+      _showDuplicateConfirmationDialog();
+    } else {
+      // Proceed with normal milk pumping
+      _lastMilkPumpingTapTime = now;
       _handleQuickMilkPumping();
     }
+  }
+
+  void _showDuplicateConfirmationDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => _MilkPumpingDuplicateConfirmationDialog(
+        onConfirm: () {
+          Navigator.of(context).pop();
+          _lastMilkPumpingTapTime = DateTime.now();
+          _handleQuickMilkPumping();
+        },
+        onCancel: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    );
   }
 
   void _handleLongPress() {
@@ -302,6 +337,183 @@ class _MilkPumpingSummaryCardState extends State<MilkPumpingSummaryCard>
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _MilkPumpingDuplicateConfirmationDialog extends StatefulWidget {
+  final VoidCallback onConfirm;
+  final VoidCallback onCancel;
+
+  const _MilkPumpingDuplicateConfirmationDialog({
+    required this.onConfirm,
+    required this.onCancel,
+  });
+
+  @override
+  State<_MilkPumpingDuplicateConfirmationDialog> createState() => 
+      _MilkPumpingDuplicateConfirmationDialogState();
+}
+
+class _MilkPumpingDuplicateConfirmationDialogState 
+    extends State<_MilkPumpingDuplicateConfirmationDialog>
+    with TickerProviderStateMixin {
+  late AnimationController _slideController;
+  late AnimationController _fadeController;
+  late Animation<Offset> _slideAnimation;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _slideController = AnimationController(
+      duration: const Duration(milliseconds: 400),
+      vsync: this,
+    );
+    
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _slideController,
+      curve: Curves.elasticOut,
+    ));
+    
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _fadeController,
+      curve: Curves.easeInOut,
+    ));
+
+    _fadeController.forward();
+    _slideController.forward();
+  }
+
+  @override
+  void dispose() {
+    _slideController.dispose();
+    _fadeController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+
+    return Material(
+      type: MaterialType.transparency,
+      child: FadeTransition(
+        opacity: _fadeAnimation,
+        child: Container(
+          color: Colors.black.withOpacity(0.5),
+          child: Center(
+            child: SlideTransition(
+              position: _slideAnimation,
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.teal.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.baby_changing_station,
+                        size: 40,
+                        color: Colors.teal[700],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    
+                    Text(
+                      '중복 입력 감지',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
+                    
+                    Text(
+                      '방금 전에 유축 기록을 추가하셨습니다.\n정말로 다시 기록하시겠습니까?',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface.withOpacity(0.7),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: widget.onCancel,
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(
+                                color: theme.colorScheme.outline.withOpacity(0.3),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            child: Text(
+                              '취소',
+                              style: TextStyle(
+                                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: widget.onConfirm,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.teal[600],
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              elevation: 0,
+                            ),
+                            child: Text('기록하기'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -99,18 +99,18 @@ class DiaperProvider extends ChangeNotifier {
     }
   }
   
-  /// 기본 기저귀 설정 저장
-  Future<void> saveDiaperDefaults({
-    String? type,
-    String? color,
-    String? consistency,
-  }) async {
+  /// 기본 기저귀 설정 저장 (타입별)
+  Future<void> saveDiaperDefaults(Map<String, dynamic> typeSettings) async {
     try {
-      await _diaperService.saveDiaperDefaults(
-        type: type,
-        color: color,
-        consistency: consistency,
-      );
+      // 각 타입별로 저장
+      for (String type in typeSettings.keys) {
+        final settings = typeSettings[type] as Map<String, String>;
+        await _diaperService.saveDiaperDefaultsForType(
+          type: type,
+          color: settings['color']!,
+          consistency: settings['consistency']!,
+        );
+      }
       
       // 설정 저장 후 기본값 새로고침
       await _loadDiaperDefaults();
@@ -121,7 +121,7 @@ class DiaperProvider extends ChangeNotifier {
   }
   
   /// 퀵 기저귀 교체 기록 추가 (기본 설정 사용)
-  Future<bool> addQuickDiaper() async {
+  Future<bool> addQuickDiaper({String? type}) async {
     if (_currentBabyId == null || _currentUserId == null) return false;
     
     _isUpdating = true;
@@ -131,7 +131,8 @@ class DiaperProvider extends ChangeNotifier {
       final diaper = await _diaperService.addDiaper(
         babyId: _currentBabyId!,
         userId: _currentUserId!,
-        // 기본 설정값들이 자동으로 사용됨
+        type: type, // 사용자가 선택한 타입 전달
+        // 나머지 기본 설정값들은 서비스에서 타입에 따라 결정됨
       );
       
       if (diaper != null) {

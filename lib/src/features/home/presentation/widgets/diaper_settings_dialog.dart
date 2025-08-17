@@ -16,9 +16,9 @@ class DiaperSettingsDialog extends StatefulWidget {
 
 class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
     with TickerProviderStateMixin {
-  late String _selectedType;
-  late String _selectedColor;
-  late String _selectedConsistency;
+  // 타입별 설정
+  late Map<String, Map<String, String>> _typeSettings;
+  String _selectedTab = 'dirty'; // 기본적으로 대변 탭을 보여줌 (소변은 설정할 게 없음)
 
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
@@ -28,10 +28,21 @@ class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
   void initState() {
     super.initState();
     
-    // 현재 기본값으로 초기화
-    _selectedType = widget.currentDefaults['type'] ?? 'wet';
-    _selectedColor = widget.currentDefaults['color'] ?? '노란색';
-    _selectedConsistency = widget.currentDefaults['consistency'] ?? '보통';
+    // 타입별 기본값으로 초기화
+    _typeSettings = {
+      'wet': {
+        'color': widget.currentDefaults['wet']?['color'] ?? '투명',
+        'consistency': widget.currentDefaults['wet']?['consistency'] ?? '액체',
+      },
+      'dirty': {
+        'color': widget.currentDefaults['dirty']?['color'] ?? '노란색',
+        'consistency': widget.currentDefaults['dirty']?['consistency'] ?? '보통',
+      },
+      'both': {
+        'color': widget.currentDefaults['both']?['color'] ?? '노란색',
+        'consistency': widget.currentDefaults['both']?['consistency'] ?? '보통',
+      },
+    };
 
     // 애니메이션 설정
     _animationController = AnimationController(
@@ -65,13 +76,7 @@ class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
   }
 
   void _handleSave() {
-    final settings = {
-      'type': _selectedType,
-      'color': _selectedColor,
-      'consistency': _selectedConsistency,
-    };
-
-    widget.onSave(settings);
+    widget.onSave(_typeSettings);
     Navigator.of(context).pop();
   }
 
@@ -89,7 +94,7 @@ class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
             child: ScaleTransition(
               scale: _scaleAnimation,
               child: Container(
-                constraints: const BoxConstraints(maxWidth: 400),
+                constraints: const BoxConstraints(maxWidth: 450),
                 margin: const EdgeInsets.all(16),
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
@@ -128,14 +133,14 @@ class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '기저귀 기본 설정',
+                                '기저귀 기본값 설정',
                                 style: theme.textTheme.titleLarge?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                '버튼을 눌렀을 때 기록될 기본값을 설정해주세요',
+                                '빠른 기록을 위한 기본값을 설정하세요',
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   color: theme.colorScheme.onSurfaceVariant,
                                 ),
@@ -148,30 +153,15 @@ class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
                     
                     const SizedBox(height: 32),
                     
-                    // 기저귀 타입 선택
-                    _buildSectionTitle('기저귀 타입'),
-                    const SizedBox(height: 12),
-                    _buildTypeSelector(),
+                    // 타입별 설정 탭
+                    _buildTypeTabs(),
                     
                     const SizedBox(height: 24),
                     
-                    // 색상 선택 (대변인 경우에만)
-                    if (_selectedType == 'dirty' || _selectedType == 'both') ...[
-                      _buildSectionTitle('색상'),
-                      const SizedBox(height: 12),
-                      _buildColorSelector(),
-                      const SizedBox(height: 24),
-                    ],
+                    // 선택된 타입의 설정
+                    _buildTypeSettings(),
                     
-                    // 농도 선택 (대변인 경우에만)
-                    if (_selectedType == 'dirty' || _selectedType == 'both') ...[
-                      _buildSectionTitle('농도/상태'),
-                      const SizedBox(height: 12),
-                      _buildConsistencySelector(),
-                      const SizedBox(height: 24),
-                    ],
-                    
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 24),
                     
                     // 버튼들
                     Row(
@@ -220,6 +210,88 @@ class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
     );
   }
 
+  Widget _buildTypeTabs() {
+    final types = [
+      {'value': 'dirty', 'label': '대변', 'icon': Icons.eco, 'color': Colors.brown},
+      {'value': 'both', 'label': '소변+대변', 'icon': Icons.child_care, 'color': Colors.purple},
+    ];
+
+    return Row(
+      children: types.map((type) {
+        final isSelected = _selectedTab == type['value'];
+        final color = type['color'] as Color;
+        
+        return Expanded(
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedTab = type['value'] as String;
+              });
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              margin: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? color
+                    : Theme.of(context).colorScheme.surfaceVariant,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: isSelected
+                      ? color
+                      : Colors.transparent,
+                  width: 2,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    type['icon'] as IconData,
+                    size: 20,
+                    color: isSelected
+                        ? Colors.white
+                        : color,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    type['label'] as String,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: isSelected
+                          ? Colors.white
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildTypeSettings() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // 색상 설정
+        _buildSectionTitle('색상 (대변 시)'),
+        const SizedBox(height: 12),
+        _buildColorSelector(),
+        
+        const SizedBox(height: 24),
+        
+        // 농도 설정
+        _buildSectionTitle('농도/상태'),
+        const SizedBox(height: 12),
+        _buildConsistencySelector(),
+      ],
+    );
+  }
+
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
@@ -227,69 +299,6 @@ class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
         fontWeight: FontWeight.w600,
         color: Theme.of(context).colorScheme.onSurface,
       ),
-    );
-  }
-
-  Widget _buildTypeSelector() {
-    final types = [
-      {'value': 'wet', 'label': '소변', 'icon': Icons.opacity, 'color': Colors.blue},
-      {'value': 'dirty', 'label': '대변', 'icon': Icons.eco, 'color': Colors.brown},
-      {'value': 'both', 'label': '소변+대변', 'icon': Icons.child_care, 'color': Colors.purple},
-    ];
-
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: types.map((type) {
-        final isSelected = _selectedType == type['value'];
-        final color = type['color'] as Color;
-        
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              _selectedType = type['value'] as String;
-            });
-          },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? color
-                  : Theme.of(context).colorScheme.surfaceVariant,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: isSelected
-                    ? color
-                    : Colors.transparent,
-                width: 2,
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  type['icon'] as IconData,
-                  size: 20,
-                  color: isSelected
-                      ? Colors.white
-                      : color,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  type['label'] as String,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: isSelected
-                        ? Colors.white
-                        : Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      }).toList(),
     );
   }
 
@@ -307,13 +316,13 @@ class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
       spacing: 8,
       runSpacing: 8,
       children: colors.map((colorItem) {
-        final isSelected = _selectedColor == colorItem['value'];
+        final isSelected = _typeSettings[_selectedTab]!['color'] == colorItem['value'];
         final color = colorItem['color'] as Color;
         
         return GestureDetector(
           onTap: () {
             setState(() {
-              _selectedColor = colorItem['value'] as String;
+              _typeSettings[_selectedTab]!['color'] = colorItem['value'] as String;
             });
           },
           child: AnimatedContainer(
@@ -379,13 +388,13 @@ class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
       spacing: 8,
       runSpacing: 8,
       children: consistencies.map((consistency) {
-        final isSelected = _selectedConsistency == consistency['value'];
+        final isSelected = _typeSettings[_selectedTab]!['consistency'] == consistency['value'];
         final color = consistency['color'] as Color;
         
         return GestureDetector(
           onTap: () {
             setState(() {
-              _selectedConsistency = consistency['value'] as String;
+              _typeSettings[_selectedTab]!['consistency'] = consistency['value'] as String;
             });
           },
           child: AnimatedContainer(
