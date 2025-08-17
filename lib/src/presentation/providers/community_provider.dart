@@ -18,7 +18,7 @@ class CommunityProvider with ChangeNotifier {
   List<CommunityCategory> _categories = [];
   List<CommunityPost> _posts = [];
   String _selectedCategorySlug = 'all';
-  String _postSortOrder = 'like_count'; // 'like_count' | 'created_at'
+  String _postSortOrder = 'created_at'; // 'like_count' | 'created_at' - 기본값을 최신순으로 설정
   bool _isLoading = false;
   bool _hasMorePosts = true;
   String? _error;

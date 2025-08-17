@@ -6,7 +6,6 @@ import 'package:bomt/src/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../../../presentation/providers/community_provider.dart';
 import '../widgets/community_app_bar.dart';
-import '../widgets/community_category_button.dart';
 import '../widgets/community_post_list.dart';
 import '../widgets/community_fab.dart';
 import '../widgets/community_loading_shimmer.dart';
@@ -146,6 +145,8 @@ class _CommunityScreenState extends State<CommunityScreen>
                       child: SizedBox(height: 8),
                     ),
                     
+                    // TODO: 카테고리 버튼을 AppBar로 이동했으므로 이 섹션 제거
+                    /* 
                     // 카테고리 및 정렬 컨트롤 (한 줄에 배치)
                     SliverToBoxAdapter(
                       child: Container(
@@ -155,115 +156,13 @@ class _CommunityScreenState extends State<CommunityScreen>
                             // 카테고리 버튼 (왼쪽)
                             const CommunityCategoryButton(),
                             
-                            const Spacer(),
-                            
-                            // 정렬 버튼들 (오른쪽에 작게)
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                // 좋아요순 버튼
-                                GestureDetector(
-                                  onTap: () {
-                                    HapticFeedback.lightImpact();
-                                    provider.changePostSortOrder('like_count');
-                                  },
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: provider.postSortOrder == 'like_count'
-                                          ? theme.colorScheme.primary
-                                          : theme.colorScheme.surface.withOpacity(0.5),
-                                      borderRadius: BorderRadius.circular(16),
-                                      border: Border.all(
-                                        color: provider.postSortOrder == 'like_count'
-                                            ? theme.colorScheme.primary.withOpacity(0.3)
-                                            : theme.colorScheme.outline.withOpacity(0.2),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.favorite,
-                                          size: 14,
-                                          color: provider.postSortOrder == 'like_count'
-                                              ? Colors.white
-                                              : theme.colorScheme.onSurface.withOpacity(0.6),
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          l10n.sortByLikes,
-                                          style: theme.textTheme.bodySmall?.copyWith(
-                                            color: provider.postSortOrder == 'like_count'
-                                                ? Colors.white
-                                                : theme.colorScheme.onSurface.withOpacity(0.6),
-                                            fontWeight: provider.postSortOrder == 'like_count'
-                                                ? FontWeight.w600
-                                                : FontWeight.w500,
-                                            fontSize: 11,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                
-                                const SizedBox(width: 8),
-                                
-                                // 최신순 버튼
-                                GestureDetector(
-                                  onTap: () {
-                                    HapticFeedback.lightImpact();
-                                    provider.changePostSortOrder('created_at');
-                                  },
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: provider.postSortOrder == 'created_at'
-                                          ? theme.colorScheme.primary
-                                          : theme.colorScheme.surface.withOpacity(0.5),
-                                      borderRadius: BorderRadius.circular(16),
-                                      border: Border.all(
-                                        color: provider.postSortOrder == 'created_at'
-                                            ? theme.colorScheme.primary.withOpacity(0.3)
-                                            : theme.colorScheme.outline.withOpacity(0.2),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.schedule,
-                                          size: 14,
-                                          color: provider.postSortOrder == 'created_at'
-                                              ? Colors.white
-                                              : theme.colorScheme.onSurface.withOpacity(0.6),
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          l10n.sortByLatest,
-                                          style: theme.textTheme.bodySmall?.copyWith(
-                                            color: provider.postSortOrder == 'created_at'
-                                                ? Colors.white
-                                                : theme.colorScheme.onSurface.withOpacity(0.6),
-                                            fontWeight: provider.postSortOrder == 'created_at'
-                                                ? FontWeight.w600
-                                                : FontWeight.w500,
-                                            fontSize: 11,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            // TODO: 정렬 기능 숨김 처리 - 기본값은 최신순으로 설정됨
+                            // 정렬 버튼들도 제거됨
                           ],
                         ),
                       ),
                     ),
+                    */
                     
                     // 게시글 목록
                     const CommunityPostList(),

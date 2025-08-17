@@ -36,7 +36,12 @@ class _CommunityCategoryButtonState extends State<CommunityCategoryButton>
 
   @override
   void dispose() {
-    _closeDropdown();
+    // 먼저 오버레이 제거 (애니메이션 없이)
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    _isExpanded = false;
+    
+    // 그 다음 AnimationController dispose
     _animationController.dispose();
     super.dispose();
   }
@@ -93,6 +98,8 @@ class _CommunityCategoryButtonState extends State<CommunityCategoryButton>
   }
 
   void _toggleDropdown() {
+    if (!mounted) return;
+    
     if (_isExpanded) {
       _closeDropdown();
     } else {
@@ -102,6 +109,8 @@ class _CommunityCategoryButtonState extends State<CommunityCategoryButton>
   }
 
   void _openDropdown() {
+    if (!mounted) return;
+    
     _isExpanded = true;
     _animationController.forward();
     
@@ -110,7 +119,7 @@ class _CommunityCategoryButtonState extends State<CommunityCategoryButton>
     final size = renderBox.size;
     
     _overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
+      builder: (overlayContext) => Positioned(
         width: 200, // 드롭다운 너비
         child: CompositedTransformFollower(
           link: _layerLink,
@@ -123,12 +132,16 @@ class _CommunityCategoryButtonState extends State<CommunityCategoryButton>
             child: AnimatedBuilder(
               animation: _expandAnimation,
               builder: (context, child) {
+                // mounted 체크 추가
+                if (!mounted) {
+                  return const SizedBox.shrink();
+                }
                 return Transform.scale(
                   scale: 0.8 + (0.2 * _expandAnimation.value),
                   alignment: Alignment.topLeft,
                   child: Opacity(
                     opacity: _expandAnimation.value,
-                    child: _buildDropdownContent(),
+                    child: _buildDropdownContentWithContext(overlayContext),
                   ),
                 );
               },
@@ -145,15 +158,76 @@ class _CommunityCategoryButtonState extends State<CommunityCategoryButton>
     if (!_isExpanded) return;
     
     _isExpanded = false;
-    _animationController.reverse().then((_) {
+    
+    // AnimationController가 사용 가능한 상태이고 mounted인 경우에만 애니메이션 실행
+    if (mounted && !_animationController.isAnimating) {
+      try {
+        _animationController.reverse().then((_) {
+          if (mounted) {
+            _overlayEntry?.remove();
+            _overlayEntry = null;
+          }
+        });
+      } catch (e) {
+        // 애니메이션 실행 중 오류 발생 시 즉시 오버레이 제거
+        _overlayEntry?.remove();
+        _overlayEntry = null;
+      }
+    } else {
+      // 즉시 오버레이 제거
       _overlayEntry?.remove();
       _overlayEntry = null;
-    });
+    }
   }
 
   Widget _buildDropdownContent() {
+    if (!mounted) return const SizedBox.shrink();
+    
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
+    
+    return Consumer<CommunityProvider>(
+      builder: (context, provider, child) {
+        if (provider.categories.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return Container(
+          constraints: const BoxConstraints(maxHeight: 300),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: theme.colorScheme.outline.withOpacity(0.2),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.shadow.withOpacity(0.15),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: SingleChildScrollView(
+              child: Column(
+                children: provider.categories
+                    .map((category) => _buildDropdownItem(category, provider, theme, l10n))
+                    .toList(),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDropdownContentWithContext(BuildContext overlayContext) {
+    if (!mounted) return const SizedBox.shrink();
+    
+    final theme = Theme.of(overlayContext);
+    final l10n = AppLocalizations.of(overlayContext)!;
     
     return Consumer<CommunityProvider>(
       builder: (context, provider, child) {
@@ -205,6 +279,7 @@ class _CommunityCategoryButtonState extends State<CommunityCategoryButton>
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
+          if (!mounted) return;
           provider.selectCategory(category.slug);
           _closeDropdown();
           HapticFeedback.lightImpact();
