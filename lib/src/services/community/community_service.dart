@@ -589,44 +589,30 @@ class CommunityService {
   // 게시글 좋아요/좋아요 취소
   Future<bool> togglePostLike(String postId, String userId) async {
     try {
-      // 본인 게시글인지 확인
-      final postResponse = await _supabase
-          .from('community_posts')
-          .select('author_id')
-          .eq('id', postId)
-          .eq('is_deleted', false)
-          .maybeSingle();
+      print('🔥 DEBUG: togglePostLike 시작 - postId: $postId, userId: $userId');
       
-      if (postResponse != null && postResponse['author_id'] == userId) {
-        return false; // 본인 게시글이면 아무것도 하지 않고 false 반환
-      }
+      // 🚀 NEW: RPC 함수를 사용하여 원자적으로 좋아요 토글 및 카운트 업데이트
+      final result = await _supabase.rpc('toggle_post_like', params: {
+        'p_post_id': postId,
+        'p_user_id': userId,
+      });
       
-      // 기존 좋아요 확인
-      final existingLike = await _supabase
-          .from('community_likes')
-          .select('id')
-          .eq('user_id', userId)
-          .eq('post_id', postId)
-          .maybeSingle();
-
-      if (existingLike != null) {
-        // 좋아요 취소
-        await _supabase
-            .from('community_likes')
-            .delete()
-            .eq('id', existingLike['id']);
-        return false;
-      } else {
-        // 좋아요 추가
-        await _supabase
-            .from('community_likes')
-            .insert({
-              'user_id': userId,
-              'post_id': postId,
-            });
-        return true;
-      }
+      print('🔥 DEBUG: RPC 결과: $result');
+      
+      final isLiked = result['is_liked'] as bool;
+      final likeCount = result['like_count'] as int;
+      
+      print('🔥 DEBUG: ✅ 좋아요 토글 완료 - isLiked: $isLiked, likeCount: $likeCount');
+      return isLiked;
     } catch (e) {
+      print('🔥 DEBUG: togglePostLike 오류 - $e');
+      
+      // 본인 게시글 오류는 조용히 처리
+      if (e.toString().contains('Cannot like your own post')) {
+        print('🔥 DEBUG: 본인 게시글이므로 좋아요 불가');
+        return false;
+      }
+      
       throw Exception('좋아요 처리 실패: $e');
     }
   }
@@ -832,6 +818,16 @@ class CommunityService {
     String? parentCommentId,
   }) async {
     try {
+      print('🔥 DEBUG: createComment 시작 - postId: $postId, authorId: $authorId, parentCommentId: $parentCommentId');
+      
+      // 게시글의 현재 comment_count 확인
+      final postBefore = await _supabase
+          .from('community_posts')
+          .select('comment_count')
+          .eq('id', postId)
+          .single();
+      print('🔥 DEBUG: 댓글 작성 전 게시글 comment_count: ${postBefore['comment_count']}');
+      
       // 태그된 사용자 추출
       final taggedNicknames = _extractTaggedUsers(content);
       
@@ -845,6 +841,16 @@ class CommunityService {
           })
           .select('*')
           .single();
+
+      print('🔥 DEBUG: 댓글 삽입 완료 - commentId: ${response['id']}');
+      
+      // 게시글의 변경된 comment_count 확인
+      final postAfter = await _supabase
+          .from('community_posts')
+          .select('comment_count')
+          .eq('id', postId)
+          .single();
+      print('🔥 DEBUG: 댓글 작성 후 게시글 comment_count: ${postAfter['comment_count']} (${postAfter['comment_count'] - postBefore['comment_count']} 증가)');
 
       var comment = CommunityComment.fromJson(response);
 
@@ -990,41 +996,30 @@ class CommunityService {
   // 댓글 좋아요/좋아요 취소
   Future<bool> toggleCommentLike(String commentId, String userId) async {
     try {
-      // 본인 댓글인지 확인
-      final commentResponse = await _supabase
-          .from('community_comments')
-          .select('author_id')
-          .eq('id', commentId)
-          .eq('is_deleted', false)
-          .maybeSingle();
+      print('🔥 DEBUG: toggleCommentLike 시작 - commentId: $commentId, userId: $userId');
       
-      if (commentResponse != null && commentResponse['author_id'] == userId) {
-        return false; // 본인 댓글이면 아무것도 하지 않고 false 반환
-      }
+      // 🚀 NEW: RPC 함수를 사용하여 원자적으로 댓글 좋아요 토글 및 카운트 업데이트
+      final result = await _supabase.rpc('toggle_comment_like', params: {
+        'p_comment_id': commentId,
+        'p_user_id': userId,
+      });
       
-      final existingLike = await _supabase
-          .from('community_likes')
-          .select('id')
-          .eq('user_id', userId)
-          .eq('comment_id', commentId)
-          .maybeSingle();
-
-      if (existingLike != null) {
-        await _supabase
-            .from('community_likes')
-            .delete()
-            .eq('id', existingLike['id']);
-        return false;
-      } else {
-        await _supabase
-            .from('community_likes')
-            .insert({
-              'user_id': userId,
-              'comment_id': commentId,
-            });
-        return true;
-      }
+      print('🔥 DEBUG: RPC 결과: $result');
+      
+      final isLiked = result['is_liked'] as bool;
+      final likeCount = result['like_count'] as int;
+      
+      print('🔥 DEBUG: ✅ 댓글 좋아요 토글 완료 - isLiked: $isLiked, likeCount: $likeCount');
+      return isLiked;
     } catch (e) {
+      print('🔥 DEBUG: toggleCommentLike 오류 - $e');
+      
+      // 본인 댓글 오류는 조용히 처리
+      if (e.toString().contains('Cannot like your own comment')) {
+        print('🔥 DEBUG: 본인 댓글이므로 좋아요 불가');
+        return false;
+      }
+      
       throw Exception('댓글 좋아요 처리 실패: $e');
     }
   }

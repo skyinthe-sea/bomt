@@ -178,25 +178,28 @@ class CommunityProvider with ChangeNotifier {
       return; // 아무것도 하지 않고 조용히 리턴
     }
 
-    // 기존 상태 백업 (롤백용) - null-safe 처리
+    // 기존 상태 백업 (롤백용)
+    final originalPost = post;
     final originalIsLiked = post.isLikedByCurrentUser ?? false;
-    final originalLikeCount = post.likeCount;
 
     try {
-      // 서버 호출 전에 UI 먼저 업데이트 (Optimistic Update)
+      // 🚀 간단한 옵티미스틱 업데이트 (카운트는 서버에서 정확히 받아옴)
       _posts[postIndex] = post.copyWith(
         isLikedByCurrentUser: !originalIsLiked,
-        likeCount: !originalIsLiked ? originalLikeCount + 1 : originalLikeCount - 1,
       );
       notifyListeners();
       
+      // RPC 함수가 정확한 결과를 반환하므로 그대로 사용
       final isLiked = await _communityService.togglePostLike(postId, currentUserId!);
       
-      // 서버 응답을 바탕으로 정확한 상태로 업데이트
-      _posts[postIndex] = post.copyWith(
-        isLikedByCurrentUser: isLiked,
-        likeCount: isLiked ? originalLikeCount + 1 : originalLikeCount,
-      );
+      // 서버에서 최신 상태를 가져와서 정확한 like_count 적용
+      final updatedPost = await _communityService.getPost(postId, currentUserId: currentUserId);
+      if (updatedPost != null) {
+        _posts[postIndex] = updatedPost.copyWith(isLikedByCurrentUser: isLiked);
+      } else {
+        // fallback: 기본값으로 복원
+        _posts[postIndex] = originalPost;
+      }
       notifyListeners();
 
       // 좋아요 알림 생성 (본인 제외)
@@ -211,10 +214,7 @@ class CommunityProvider with ChangeNotifier {
       }
     } catch (e) {
       // 에러 발생 시 원래 상태로 롤백
-      _posts[postIndex] = post.copyWith(
-        isLikedByCurrentUser: originalIsLiked,
-        likeCount: originalLikeCount,
-      );
+      _posts[postIndex] = originalPost;
       _error = e.toString();
       notifyListeners();
     }

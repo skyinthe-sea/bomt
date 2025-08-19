@@ -697,6 +697,30 @@ class CircularTimelinePainter extends CustomPainter {
     // 타임라인 데이터가 변경되었을 때만 다시 그리기
     if (timelineItems.length != oldDelegate.timelineItems.length) return true;
     
+    // 🔧 FIX: 개수가 같아도 내용이 다르면 다시 그리기
+    for (int i = 0; i < timelineItems.length; i++) {
+      final current = timelineItems[i];
+      final old = oldDelegate.timelineItems[i];
+      
+      // 핵심 속성들 비교 - 더 포괄적인 변경 감지
+      if (current.id != old.id ||
+          current.timestamp != old.timestamp ||
+          current.type != old.type ||
+          current.isOngoing != old.isOngoing) {
+        return true;
+      }
+      
+      // 타임라인 시작/종료 시간 데이터 비교
+      final currentStartTime = current.data['timeline_started_at'];
+      final oldStartTime = old.data['timeline_started_at'];
+      final currentEndTime = current.data['timeline_ended_at'];
+      final oldEndTime = old.data['timeline_ended_at'];
+      
+      if (currentStartTime != oldStartTime || currentEndTime != oldEndTime) {
+        return true;
+      }
+    }
+    
     // 애니메이션은 전체 재그리기보다는 제한적으로
     if ((rotationValue - oldDelegate.rotationValue).abs() > 0.1 || 
         (pulseValue - oldDelegate.pulseValue).abs() > 0.1) {
