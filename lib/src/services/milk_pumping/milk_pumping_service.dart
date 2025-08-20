@@ -104,17 +104,34 @@ class MilkPumpingService with DataSyncMixin {
           final pumpingEndTime = endedAt ?? pumpingStartTime.add(Duration(minutes: duration));
           final actualDuration = durationMinutes ?? pumpingEndTime.difference(pumpingStartTime).inMinutes;
           
+          // 🔧 FIX: endedAt이 현재 시간과 같으면 적절한 시작 시간 계산
+          DateTime finalStartTime;
+          DateTime finalEndTime;
+          int finalDuration;
+          
+          if (endedAt != null && startedAt == null) {
+            // Quick milk pumping case: endedAt만 제공되고 startedAt은 없음
+            finalDuration = duration; // 기본 duration 사용 (20분)
+            finalEndTime = endedAt;
+            finalStartTime = endedAt.subtract(Duration(minutes: finalDuration));
+          } else {
+            // Normal case
+            finalStartTime = pumpingStartTime;
+            finalEndTime = pumpingEndTime;
+            finalDuration = actualDuration;
+          }
+          
           pumpingData = {
             'id': _uuid.v4(),
             'baby_id': babyId,
             'user_id': userId,
             'amount_ml': amountMl ?? defaults['amountMl'],
-            'duration_minutes': actualDuration,
+            'duration_minutes': finalDuration,
             'side': side ?? defaults['side'],
             'storage_method': storageLocation ?? defaults['storageLocation'],
             'notes': notes,
-            'started_at': pumpingStartTime.toUtc().toIso8601String(),
-            'ended_at': pumpingEndTime.toUtc().toIso8601String(),
+            'started_at': finalStartTime.toUtc().toIso8601String(),
+            'ended_at': finalEndTime.toUtc().toIso8601String(),
             'created_at': now.toIso8601String(),
             'updated_at': now.toIso8601String(),
           };

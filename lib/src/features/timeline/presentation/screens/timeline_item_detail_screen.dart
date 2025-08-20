@@ -1,17 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/timeline_item.dart';
-import '../../../../domain/models/feeding.dart';
-import '../../../../domain/models/sleep.dart';
-import '../../../../domain/models/diaper.dart';
-import '../../../../domain/models/medication.dart';
-import '../../../../domain/models/milk_pumping.dart';
-import '../../../../domain/models/solid_food.dart';
-import '../../../../domain/models/health_record.dart';
-import '../../../../core/providers/baby_provider.dart';
-import '../../../../presentation/providers/timeline_provider.dart';
 import '../widgets/timeline_item_pattern_analysis.dart';
 import '../widgets/timeline_item_edit_dialog.dart';
 
@@ -52,17 +42,17 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
 
   void _initializeAnimations() {
     _fadeController = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
     _slideController = AnimationController(
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 250),
       vsync: this,
     );
 
     _scaleController = AnimationController(
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 200),
       vsync: this,
     );
 
@@ -530,18 +520,128 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         }
         break;
 
-      default:
-        // 기본 데이터 표시
-        for (final entry in data.entries) {
-          if (entry.value != null) {
+      case TimelineItemType.milkPumping:
+        if (data.containsKey('amount_ml')) {
+          widgets.add(_buildDetailRow(
+            localizations.amount,
+            '${data['amount_ml']} ml',
+            Icons.local_drink_rounded,
+            theme,
+          ));
+        }
+        if (data.containsKey('duration_minutes')) {
+          widgets.add(_buildDetailRow(
+            localizations.duration,
+            _formatDuration(data['duration_minutes']),
+            Icons.timer_rounded,
+            theme,
+          ));
+        }
+        if (data.containsKey('side')) {
+          widgets.add(_buildDetailRow(
+            localizations.side,
+            _getSideDisplayName(data['side'], localizations),
+            Icons.baby_changing_station_rounded,
+            theme,
+          ));
+        }
+        if (data.containsKey('storage_method')) {
+          widgets.add(_buildDetailRow(
+            '저장 방법',
+            _getStorageMethodDisplayName(data['storage_method'], localizations),
+            Icons.storage_rounded,
+            theme,
+          ));
+        }
+        if (data.containsKey('pumping_type')) {
+          widgets.add(_buildDetailRow(
+            '유축 타입',
+            data['pumping_type'].toString(),
+            Icons.category_rounded,
+            theme,
+          ));
+        }
+        if (data.containsKey('quality')) {
+          widgets.add(_buildDetailRow(
+            '품질',
+            _getQualityDisplayName(data['quality'], localizations),
+            Icons.sentiment_satisfied_rounded,
+            theme,
+          ));
+        }
+        break;
+
+      case TimelineItemType.solidFood:
+        if (data.containsKey('food_name')) {
+          widgets.add(_buildDetailRow(
+            '음식명',
+            data['food_name'].toString(),
+            Icons.restaurant_rounded,
+            theme,
+          ));
+        }
+        if (data.containsKey('amount')) {
+          widgets.add(_buildDetailRow(
+            localizations.amount,
+            data['amount'].toString(),
+            Icons.local_drink_rounded,
+            theme,
+          ));
+        }
+        if (data.containsKey('meal_type')) {
+          widgets.add(_buildDetailRow(
+            '식사 유형',
+            _getMealTypeDisplayName(data['meal_type'], localizations),
+            Icons.category_rounded,
+            theme,
+          ));
+        }
+        if (data.containsKey('texture')) {
+          widgets.add(_buildDetailRow(
+            '식감',
+            data['texture'].toString(),
+            Icons.texture_rounded,
+            theme,
+          ));
+        }
+        if (data.containsKey('reaction')) {
+          widgets.add(_buildDetailRow(
+            '반응',
+            data['reaction'].toString(),
+            Icons.sentiment_satisfied_rounded,
+            theme,
+          ));
+        }
+        break;
+
+      case TimelineItemType.temperature:
+        if (data.containsKey('temperature')) {
+          widgets.add(_buildDetailRow(
+            localizations.temperature,
+            '${data['temperature']}°C',
+            Icons.thermostat_rounded,
+            theme,
+          ));
+        }
+        if (data.containsKey('measurement_location')) {
+          widgets.add(_buildDetailRow(
+            '측정 위치',
+            data['measurement_location'].toString(),
+            Icons.location_on_rounded,
+            theme,
+          ));
+        }
+        if (data.containsKey('fever_reducer_given')) {
+          if (data['fever_reducer_given'] == true) {
             widgets.add(_buildDetailRow(
-              entry.key,
-              entry.value.toString(),
-              Icons.info_rounded,
+              '해열제 투여',
+              '투여함',
+              Icons.medication_rounded,
               theme,
             ));
           }
         }
+        break;
     }
 
     // 메모 추가
@@ -961,4 +1061,35 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         return type;
     }
   }
+
+  String _getStorageMethodDisplayName(String method, AppLocalizations localizations) {
+    switch (method) {
+      case 'refrigerator':
+        return '냉장고';
+      case 'freezer':
+        return '냉동실';
+      case 'room_temp':
+        return '실온';
+      case 'fed_immediately':
+        return '즉시 사용';
+      default:
+        return method;
+    }
+  }
+
+  String _getMealTypeDisplayName(String type, AppLocalizations localizations) {
+    switch (type) {
+      case 'breakfast':
+        return '아침식사';
+      case 'lunch':
+        return '점심식사';
+      case 'dinner':
+        return '저녁식사';
+      case 'snack':
+        return '간식';
+      default:
+        return type;
+    }
+  }
+
 }

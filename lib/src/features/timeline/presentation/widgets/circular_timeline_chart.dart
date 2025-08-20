@@ -385,7 +385,6 @@ class CircularTimelinePainter extends CustomPainter {
     if (data['timeline_started_at'] != null && data['timeline_ended_at'] != null) {
       startTime = DateTime.parse(data['timeline_started_at']);
       endTime = DateTime.parse(data['timeline_ended_at']);
-      
     } else {
       // 기본값: timestamp에서 20분 간 지속
       startTime = activity.timestamp;

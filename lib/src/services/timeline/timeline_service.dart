@@ -380,8 +380,12 @@ class TimelineService {
     String subtitle = '';
     bool isOngoing = false;
     
+    // endedAt 유효성 검증: null이거나 startedAt보다 이전이면 무효한 데이터로 처리
+    final hasValidEndedAt = milkPumping.endedAt != null && 
+                           milkPumping.endedAt!.isAfter(milkPumping.startedAt);
+    
     // 진행 중인 유축인지 확인
-    if (milkPumping.endedAt == null) {
+    if (!hasValidEndedAt) {
       final now = DateTime.now();
       final duration = now.difference(milkPumping.startedAt);
       subtitle = '유축 중 - ${duration.inMinutes}분 경과';
@@ -409,10 +413,10 @@ class TimelineService {
     final milkPumpingData = milkPumping.toJson();
     
     DateTime effectiveEndedAt;
-    if (milkPumping.endedAt != null) {
+    if (hasValidEndedAt) {
       effectiveEndedAt = milkPumping.endedAt!;
     } else {
-      // 진행 중인 유축: 현재 시간을 종료 시간으로 사용
+      // 진행 중인 유축이거나 잘못된 데이터: 현재 시간을 종료 시간으로 사용
       effectiveEndedAt = DateTime.now();
     }
     
