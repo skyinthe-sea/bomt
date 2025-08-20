@@ -972,21 +972,22 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
   }
 
   Color _getItemTypeColor(TimelineItemType type) {
+    // 이모티콘 색상과 일치하는 색상 사용
     switch (type) {
       case TimelineItemType.feeding:
-        return const Color(0xFF10B981);
+        return const Color(0xFF3B82F6); // Blue 500 - 수유 🍼
       case TimelineItemType.sleep:
-        return const Color(0xFF8B5FBF);
+        return const Color(0xFF8B5FBF); // Purple - 수면 🌙
       case TimelineItemType.diaper:
-        return const Color(0xFFFFB020);
+        return const Color(0xFFFFB020); // Orange - 기저귀
       case TimelineItemType.medication:
-        return const Color(0xFFEF4444);
+        return const Color(0xFFEF4444); // Red 500 - 투약 💊
       case TimelineItemType.milkPumping:
-        return const Color(0xFF06B6D4);
+        return const Color(0xFF06B6D4); // Cyan 500 - 유축 🥛
       case TimelineItemType.solidFood:
-        return const Color(0xFFF59E0B);
+        return const Color(0xFF10B981); // Emerald 500 - 이유식 🍽️
       case TimelineItemType.temperature:
-        return const Color(0xFFEC4899);
+        return const Color(0xFFEC4899); // Pink 500 - 체온
     }
   }
 

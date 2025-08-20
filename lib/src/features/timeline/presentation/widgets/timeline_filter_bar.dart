@@ -41,21 +41,22 @@ class _TimelineFilterBarState extends State<TimelineFilterBar> {
     final itemType = filter.itemType;
     if (itemType == null) return Colors.grey;
     
+    // 이모티콘 색상과 일치하는 색상 사용
     switch (itemType) {
       case TimelineItemType.feeding:
-        return Colors.blue;
+        return const Color(0xFF3B82F6); // Blue 500 - 수유 🍼
       case TimelineItemType.sleep:
-        return Colors.purple;
+        return const Color(0xFF8B5FBF); // Purple - 수면 🌙
       case TimelineItemType.diaper:
-        return Colors.orange;
+        return const Color(0xFFFFB020); // Orange - 기저귀
       case TimelineItemType.medication:
-        return Colors.pink;
+        return const Color(0xFFEF4444); // Red 500 - 투약 💊
       case TimelineItemType.milkPumping:
-        return Colors.teal;
+        return const Color(0xFF06B6D4); // Cyan 500 - 유축 🥛
       case TimelineItemType.solidFood:
-        return Colors.green;
+        return const Color(0xFF10B981); // Emerald 500 - 이유식 🍽️
       case TimelineItemType.temperature:
-        return Colors.red;
+        return const Color(0xFFEC4899); // Pink 500 - 체온
     }
   }
 

@@ -673,19 +673,19 @@ class CircularTimelinePainter extends CustomPainter {
   Map<String, Color> _getActivityColors(TimelineItemType type) {
     switch (type) {
       case TimelineItemType.sleep:
-        return {'primary': const Color(0xFF8B5FBF), 'secondary': const Color(0xFFB794F6)};
+        return {'primary': const Color(0xFF8B5FBF), 'secondary': const Color(0xFFB794F6)}; // Purple - 수면 🌙
       case TimelineItemType.feeding:
-        return {'primary': const Color(0xFF38A169), 'secondary': const Color(0xFF68D391)};
+        return {'primary': const Color(0xFF3B82F6), 'secondary': const Color(0xFF93C5FD)}; // Blue - 수유 🍼
       case TimelineItemType.diaper:
-        return {'primary': const Color(0xFFED8936), 'secondary': const Color(0xFFFBD38D)};
+        return {'primary': const Color(0xFFFFB020), 'secondary': const Color(0xFFFCD34D)}; // Orange - 기저귀
       case TimelineItemType.medication:
-        return {'primary': const Color(0xFFE53E3E), 'secondary': const Color(0xFFFC8181)};
+        return {'primary': const Color(0xFFEF4444), 'secondary': const Color(0xFFFC8181)}; // Red - 투약 💊
       case TimelineItemType.milkPumping:
-        return {'primary': const Color(0xFF319795), 'secondary': const Color(0xFF81E6D9)};
+        return {'primary': const Color(0xFF06B6D4), 'secondary': const Color(0xFF67E8F9)}; // Cyan - 유축 🥛
       case TimelineItemType.solidFood:
-        return {'primary': const Color(0xFF3182CE), 'secondary': const Color(0xFF90CDF4)};
+        return {'primary': const Color(0xFF10B981), 'secondary': const Color(0xFF6EE7B7)}; // Emerald - 이유식 🍽️
       case TimelineItemType.temperature:
-        return {'primary': const Color(0xFFD69E2E), 'secondary': const Color(0xFFF6E05E)};
+        return {'primary': const Color(0xFFEC4899), 'secondary': const Color(0xFFF472B6)}; // Pink - 체온
       default:
         return {'primary': const Color(0xFF718096), 'secondary': const Color(0xFFA0AEC0)};
     }

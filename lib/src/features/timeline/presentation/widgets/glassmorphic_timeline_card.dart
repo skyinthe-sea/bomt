@@ -380,38 +380,38 @@ class _GlassmorphicTimelineCardState extends State<GlassmorphicTimelineCard>
     switch (widget.item.type) {
       case TimelineItemType.sleep:
         return {
-          'primary': const Color(0xFF8B5FBF),
+          'primary': const Color(0xFF8B5FBF), // Purple - 수면 🌙
           'secondary': const Color(0xFFB794F6),
         };
       case TimelineItemType.feeding:
         return {
-          'primary': const Color(0xFF38A169),
-          'secondary': const Color(0xFF68D391),
+          'primary': const Color(0xFF3B82F6), // Blue - 수유 🍼
+          'secondary': const Color(0xFF93C5FD),
         };
       case TimelineItemType.diaper:
         return {
-          'primary': const Color(0xFFED8936),
-          'secondary': const Color(0xFFFBD38D),
+          'primary': const Color(0xFFFFB020), // Orange - 기저귀
+          'secondary': const Color(0xFFFCD34D),
         };
       case TimelineItemType.medication:
         return {
-          'primary': const Color(0xFFE53E3E),
+          'primary': const Color(0xFFEF4444), // Red - 투약 💊
           'secondary': const Color(0xFFFC8181),
         };
       case TimelineItemType.milkPumping:
         return {
-          'primary': const Color(0xFF319795),
-          'secondary': const Color(0xFF81E6D9),
+          'primary': const Color(0xFF06B6D4), // Cyan - 유축 🥛
+          'secondary': const Color(0xFF67E8F9),
         };
       case TimelineItemType.solidFood:
         return {
-          'primary': const Color(0xFF3182CE),
-          'secondary': const Color(0xFF90CDF4),
+          'primary': const Color(0xFF10B981), // Emerald - 이유식 🍽️
+          'secondary': const Color(0xFF6EE7B7),
         };
       case TimelineItemType.temperature:
         return {
-          'primary': const Color(0xFFD69E2E),
-          'secondary': const Color(0xFFF6E05E),
+          'primary': const Color(0xFFEC4899), // Pink - 체온
+          'secondary': const Color(0xFFF472B6),
         };
       default:
         return {
