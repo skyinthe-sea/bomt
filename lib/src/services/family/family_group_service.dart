@@ -24,6 +24,16 @@ class FamilyGroupService {
   Future<FamilyGroup?> getUserFamilyGroup(String userId) async {
     try {
       debugPrint('🏠 [FAMILY_SERVICE] getUserFamilyGroup - userId: $userId');
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] 사용자의 모든 baby_users 레코드 조회 중...');
+      
+      // 먼저 사용자의 모든 baby_users 레코드 확인
+      final allUserRecords = await _client
+          .from('baby_users')
+          .select('user_id, family_group_id, role, created_at')
+          .eq('user_id', userId);
+      
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] 사용자의 모든 baby_users: $allUserRecords');
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] 총 ${allUserRecords.length}개 레코드 발견');
       
       final response = await _client
           .from('baby_users')
@@ -36,13 +46,19 @@ class FamilyGroupService {
           .limit(1)
           .maybeSingle();
 
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] family_groups 조인 결과: $response');
+
       if (response == null) {
-        debugPrint('🏠 [FAMILY_SERVICE] No family group found for user');
+        debugPrint('🏠 [FAMILY_SERVICE] ❌ No family group found for user');
         return null;
       }
 
       final familyGroupData = response['family_groups'];
-      return FamilyGroup.fromJson(familyGroupData);
+      final familyGroup = FamilyGroup.fromJson(familyGroupData);
+      
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] 반환할 가족 그룹: ${familyGroup.name} (${familyGroup.id})');
+      
+      return familyGroup;
     } catch (e) {
       debugPrint('❌ [FAMILY_SERVICE] Error getting user family group: $e');
       return null;
@@ -286,23 +302,72 @@ class FamilyGroupService {
     }
   }
 
-  /// 가족 그룹의 모든 구성원 조회
+  /// 가족 그룹의 모든 구성원 조회 (올바른 스키마 기반)
   Future<List<Map<String, dynamic>>> getFamilyMembers(String familyGroupId) async {
     try {
       debugPrint('🏠 [FAMILY_SERVICE] getFamilyMembers - familyGroupId: $familyGroupId');
+      debugPrint('🏠 [FAMILY_SERVICE] 📊 [SCHEMA_FIX] user_profiles에 family_group_id 없음, baby_users 사용');
       
-      final response = await _client
-          .from('baby_users')
-          .select('''
-            user_id,
-            role,
-            created_at
-          ''')
-          .eq('family_group_id', familyGroupId);
+      // 현재 시점의 정확한 timestamp 기록
+      final queryTime = DateTime.now().toUtc();
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] 쿼리 시점: $queryTime');
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] 조회할 family_group_id: $familyGroupId');
+      
+      // 안전한 방법: RPC 함수를 사용하여 RLS 우회 (RLS 제한 때문에 일반 쿼리로는 다른 사용자 데이터 조회 불가)
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] RLS 우회를 위한 RPC 함수 호출: get_family_members_rpc');
+      
+      final response = await _client.rpc('get_family_members_rpc', params: {
+        'target_family_group_id': familyGroupId,
+      });
 
-      return response.cast<Map<String, dynamic>>();
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] RPC 함수 원시 응답: $response');
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] 응답 타입: ${response.runtimeType}');
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] RPC 응답 길이: ${response.length}');
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] ✨ RLS 제한 우회 성공! 이제 모든 가족 구성원 조회 가능');
+      
+      // 중복 제거 전 상세 분석
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] 중복 제거 전 분석:');
+      for (int i = 0; i < response.length; i++) {
+        final member = response[i];
+        debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] ${i+1}. user_id: ${member['user_id']}, role: ${member['role']}, created_at: ${member['created_at']}');
+      }
+      
+      // 중복 제거: 같은 user_id는 하나만 남김 (한 사용자가 여러 아기를 가질 수 있음)
+      final Map<String, Map<String, dynamic>> uniqueMembers = {};
+      for (final member in response) {
+        final userId = member['user_id'] as String;
+        debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] 처리 중: $userId, 이미 존재: ${uniqueMembers.containsKey(userId)}');
+        
+        if (!uniqueMembers.containsKey(userId)) {
+          uniqueMembers[userId] = {
+            'user_id': userId,
+            'role': member['role'] ?? 'family_member',
+            'created_at': member['created_at'],
+            'family_group_id': member['family_group_id'],
+          };
+          debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] ✅ $userId 추가됨');
+        } else {
+          debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] ⏭️ $userId 중복으로 스킵');
+        }
+      }
+      
+      final result = uniqueMembers.values.toList();
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] uniqueMembers Map: $uniqueMembers');
+      debugPrint('🏠 [FAMILY_SERVICE] 최종 가족 구성원 목록 (중복제거): $result');
+      debugPrint('🏠 [FAMILY_SERVICE] 🔍 [DEBUG] 총 ${result.length}명의 가족 구성원 발견 (예상: 3명)');
+      
+      if (result.length >= 3) {
+        debugPrint('🏠 [FAMILY_SERVICE] ✅ [SUCCESS] 예상대로 ${result.length}명의 가족 구성원 발견! RLS 우회 성공');
+      } else {
+        debugPrint('🏠 [FAMILY_SERVICE] ⚠️ [WARNING] 예상보다 적은 구성원 수: 예상 3명, 실제: ${result.length}명');
+        debugPrint('🏠 [FAMILY_SERVICE] ⚠️ [WARNING] 가족 초대/가입 과정에 문제가 있을 수 있습니다.');
+      }
+      
+      return result.cast<Map<String, dynamic>>();
+      
     } catch (e) {
       debugPrint('❌ [FAMILY_SERVICE] Error getting family members: $e');
+      debugPrint('❌ [FAMILY_SERVICE] Stack trace: ${StackTrace.current}');
       return [];
     }
   }

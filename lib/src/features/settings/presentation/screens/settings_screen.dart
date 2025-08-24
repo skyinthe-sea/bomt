@@ -14,7 +14,7 @@ import '../../../../domain/models/baby.dart';
 import 'language_selection_screen.dart';
 import '../../../../services/auth/supabase_auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart' hide User;
 
 class SettingsScreen extends StatefulWidget {
   final LocalizationProvider localizationProvider;
@@ -52,6 +52,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         children: [
           _buildInvitationSection(context, l10n),
+          const SizedBox(height: 16),
+          _buildUserInfoSection(context, l10n),
           const SizedBox(height: 16),
           _buildBabyManagementSection(context, l10n),
           const SizedBox(height: 16),
@@ -113,6 +115,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ],
                 ),
+                // 도움말 코멘트 추가
+                if (babyProvider.babies.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.info_outline, 
+                        size: 14, 
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          '아기를 길게 누르면 정보를 재설정할 수 있습니다',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context).colorScheme.outline,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
                 const SizedBox(height: 16),
                 if (babyProvider.isLoading)
                   const Center(
@@ -159,6 +184,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               );
                             }
                           },
+                          onLongPress: () => _showDeleteBabyDialog(context, baby, babyProvider),
                           child: Container(
                             padding: const EdgeInsets.all(16.0),
                             decoration: BoxDecoration(
@@ -1071,6 +1097,408 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (dialogContext) => _AddBabyDialog(babyProvider: babyProvider),
     );
   }
+
+  void _showDeleteBabyDialog(BuildContext context, Baby baby, BabyProvider babyProvider) {
+    final l10n = AppLocalizations.of(context)!;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.7),
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        elevation: 16,
+        backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // 아이콘과 제목
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.blue[50]?.withOpacity(isDarkMode ? 0.2 : 1.0),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.edit_outlined,
+                  size: 32,
+                  color: Colors.blue[600],
+                ),
+              ),
+              const SizedBox(height: 16),
+              
+              Text(
+                '아기 정보 재설정',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: isDarkMode ? Colors.white : Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 8),
+              
+              Text(
+                '${baby.name} 정보를 처음부터 다시 설정하시겠습니까?',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: isDarkMode ? Colors.grey[300] : Colors.grey[600],
+                ),
+              ),
+              
+              const SizedBox(height: 20),
+              
+              // 정보 박스
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: isDarkMode 
+                      ? Colors.blue[900]?.withOpacity(0.3)
+                      : Colors.blue[50],
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: isDarkMode 
+                        ? Colors.blue[700]!.withOpacity(0.5)
+                        : Colors.blue[200]!,
+                    width: 1,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          size: 18,
+                          color: Colors.blue[600],
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          '다음 기록들이 초기화됩니다',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: isDarkMode ? Colors.blue[300] : Colors.blue[800],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    _buildInfoItem('🍼', '수유, 수면, 기저귀 기록', isDarkMode),
+                    _buildInfoItem('📊', '성장 정보 및 사진', isDarkMode),
+                    _buildInfoItem('👶', '아기와 관련된 모든 데이터', isDarkMode, isEmphasis: true),
+                    const SizedBox(height: 4),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: isDarkMode 
+                            ? Colors.red[900]?.withOpacity(0.3)
+                            : Colors.red[50],
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: isDarkMode 
+                              ? Colors.red[700]!.withOpacity(0.5)
+                              : Colors.red[200]!,
+                          width: 1,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.delete_forever_outlined,
+                            size: 16,
+                            color: Colors.red[600],
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              '${baby.name}의 모든 기록이 완전히 제거됩니다',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: isDarkMode ? Colors.red[300] : Colors.red[700],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: isDarkMode 
+                            ? Colors.amber[900]?.withOpacity(0.3)
+                            : Colors.amber[50],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.warning_amber_outlined,
+                            size: 16,
+                            color: Colors.amber[700],
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              '이 작업은 되돌릴 수 없습니다',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: isDarkMode ? Colors.amber[300] : Colors.amber[800],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              const SizedBox(height: 28),
+              
+              // 버튼들
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        '취소',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: isDarkMode ? Colors.grey[300] : Colors.grey[600],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => _deleteBaby(context, baby, babyProvider),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue[600],
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 2,
+                      ),
+                      child: const Text(
+                        '재설정',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoItem(String emoji, String text, bool isDarkMode, {bool isEmphasis = false}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        children: [
+          Text(emoji, style: const TextStyle(fontSize: 14)),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: isEmphasis ? FontWeight.w600 : FontWeight.normal,
+                color: isEmphasis 
+                    ? (isDarkMode ? Colors.white : Colors.black87)
+                    : (isDarkMode ? Colors.grey[300] : Colors.grey[700]),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _deleteBaby(BuildContext context, Baby baby, BabyProvider babyProvider) async {
+    debugPrint('🗑️ [SETTINGS] Starting baby deletion process for: ${baby.name}');
+    
+    // 로딩 다이얼로그 표시
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            Text('${baby.name} 정보 재설정 중...'),
+          ],
+        ),
+      ),
+    );
+    
+    try {
+      // BabyProvider를 통해 아기 삭제
+      final success = await babyProvider.deleteBaby(baby.id);
+      
+      // 로딩 다이얼로그 닫기
+      if (context.mounted) {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop(); // 삭제 확인 다이얼로그도 닫기
+        
+        if (success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${baby.name} 정보가 성공적으로 재설정되었습니다.'),
+              backgroundColor: Colors.blue,
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${baby.name} 정보 재설정에 실패했습니다. 다시 시도해주세요.'),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('❌ [SETTINGS] Error deleting baby: $e');
+      
+      // 로딩 다이얼로그 닫기
+      if (context.mounted) {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop(); // 삭제 확인 다이얼로그도 닫기
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('정보 재설정 중 오류가 발생했습니다: ${e.toString()}'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
+
+  Widget _buildUserInfoSection(BuildContext context, AppLocalizations l10n) {
+    final currentUser = Supabase.instance.client.auth.currentUser;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
+    return Card(
+      margin: const EdgeInsets.all(16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.account_circle, color: Colors.blue, size: 24),
+                const SizedBox(width: 12),
+                Text(
+                  '계정 정보',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkMode ? Colors.white : Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            if (currentUser != null) ...[
+              _buildInfoRow('👤', '사용자 ID', currentUser.id, isDarkMode),
+              const SizedBox(height: 8),
+              _buildInfoRow('📧', '이메일', currentUser.email ?? '이메일 없음', isDarkMode),
+              const SizedBox(height: 8),
+              _buildInfoRow('📱', '로그인 방법', _getAuthProvider(currentUser), isDarkMode),
+            ] else ...[
+              Text(
+                '로그인되지 않음',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String icon, String label, String value, bool isDarkMode) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(icon, style: const TextStyle(fontSize: 16)),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 2),
+              SelectableText(
+                value,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isDarkMode ? Colors.white : Colors.black87,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _getAuthProvider(User user) {
+    final provider = user.appMetadata['provider'];
+    switch (provider) {
+      case 'kakao':
+        return '카카오톡';
+      case 'google':
+        return '구글';
+      case 'apple':
+        return '애플';
+      case 'email':
+        return '이메일';
+      default:
+        return provider?.toString() ?? '알 수 없음';
+    }
+  }
+
 }
 
 class _AddBabyDialog extends StatefulWidget {

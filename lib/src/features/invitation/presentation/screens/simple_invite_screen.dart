@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../core/providers/baby_provider.dart';
 import '../../../../domain/models/baby.dart';
 import '../../../../services/invitation/simple_invite_service.dart';
+import '../../../../services/family/family_group_service.dart';
 
 class SimpleInviteScreen extends StatefulWidget {
   const SimpleInviteScreen({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class SimpleInviteScreen extends StatefulWidget {
 
 class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
   final SimpleInviteService _inviteService = SimpleInviteService.instance;
+  final FamilyGroupService _familyService = FamilyGroupService.instance;
   final TextEditingController _inviteCodeController = TextEditingController();
   
   bool _isLoading = false;
@@ -26,11 +28,16 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
   DateTime? _codeCreatedAt;
   Timer? _timer;
   Duration? _remainingTime;
+  
+  // 가족 구성원 관련 상태
+  List<Map<String, dynamic>> _familyMembers = [];
+  bool _isLoadingFamilyMembers = false;
 
   @override
   void initState() {
     super.initState();
     _loadSavedInviteCode();
+    _loadFamilyMembers();
   }
 
   @override
@@ -78,6 +85,70 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('current_invite_code');
     await prefs.remove('invite_code_created_at');
+  }
+
+  // 가족 구성원 로드
+  Future<void> _loadFamilyMembers() async {
+    final babyProvider = Provider.of<BabyProvider>(context, listen: false);
+    if (!babyProvider.hasFamilyGroup) return;
+    
+    setState(() => _isLoadingFamilyMembers = true);
+    
+    try {
+      final familyGroupId = babyProvider.currentFamilyGroup!.id;
+      final members = await _familyService.getFamilyMembers(familyGroupId);
+      
+      // 사용자 ID를 이메일 주소로 변환 (디스플레이용)
+      final detailedMembers = <Map<String, dynamic>>[];
+      
+      for (final member in members) {
+        final userId = member['user_id'] as String;
+        final role = member['role'] as String;
+        final createdAt = member['created_at'] as String;
+        
+        // Supabase에서 사용자 정보 가져오기 (이메일 등)
+        String displayName = '데이터 없음';
+        try {
+          final userInfo = await Supabase.instance.client
+              .from('user_profiles')
+              .select('email, name')
+              .eq('user_id', userId)
+              .maybeSingle();
+          
+          if (userInfo != null) {
+            displayName = userInfo['name'] ?? userInfo['email'] ?? '사용자';
+          } else {
+            // user_profiles에 데이터가 없으면 auth.users에서 가져오기 시도
+            displayName = userId.substring(0, 8) + '...';
+          }
+        } catch (e) {
+          displayName = userId.substring(0, 8) + '...';
+        }
+        
+        detailedMembers.add({
+          'userId': userId,
+          'displayName': displayName,
+          'role': role,
+          'createdAt': DateTime.parse(createdAt),
+        });
+      }
+      
+      // 역할에 따라 정렬 (owner 먼저)
+      detailedMembers.sort((a, b) {
+        if (a['role'] == 'owner' && b['role'] != 'owner') return -1;
+        if (a['role'] != 'owner' && b['role'] == 'owner') return 1;
+        return (a['createdAt'] as DateTime).compareTo(b['createdAt'] as DateTime);
+      });
+      
+      setState(() {
+        _familyMembers = detailedMembers;
+      });
+      
+    } catch (e) {
+      print('가족 구성원 로드 오류: $e');
+    } finally {
+      setState(() => _isLoadingFamilyMembers = false);
+    }
   }
 
   // 타이머 시작
@@ -292,6 +363,9 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
         // BabyProvider 완전 새로고침
         await babyProvider.refresh();
         
+        // 가족 구성원 목록 새로고침
+        await _loadFamilyMembers();
+        
         // 홈 화면으로 강제 이동하여 전체 앱 상태 새로고침
         if (mounted) {
           // 🔄 먼저 모든 다이얼로그 닫기
@@ -381,6 +455,183 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
     );
   }
 
+  // 가족 구성원 섹션 빌드
+  Widget _buildFamilyMembersSection(BuildContext context, AppLocalizations l10n) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(
+              Icons.people,
+              size: 20,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white.withValues(alpha: 0.9)
+                  : Colors.grey[700],
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '가족 구성원',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Spacer(),
+            if (_isLoadingFamilyMembers)
+              const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.blueGrey[600]!.withValues(alpha: 0.5)
+                  : Colors.grey[300]!,
+            ),
+            borderRadius: BorderRadius.circular(12),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.blueGrey[800]?.withValues(alpha: 0.3)
+                : Colors.grey[50],
+          ),
+          child: _isLoadingFamilyMembers
+              ? const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : _familyMembers.isEmpty
+                  ? Center(
+                      child: Text(
+                        '가족 구성원 정보를 불러올 수 없습니다',
+                        style: TextStyle(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.blueGrey[300]
+                              : Colors.grey[600],
+                        ),
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        for (int i = 0; i < _familyMembers.length; i++) ...[
+                          _buildFamilyMemberTile(_familyMembers[i]),
+                          if (i < _familyMembers.length - 1)
+                            const Divider(height: 16),
+                        ],
+                      ],
+                    ),
+        ),
+      ],
+    );
+  }
+
+  // 가족 구성원 타일
+  Widget _buildFamilyMemberTile(Map<String, dynamic> member) {
+    final role = member['role'] as String;
+    final displayName = member['displayName'] as String;
+    final createdAt = member['createdAt'] as DateTime;
+    final isOwner = role == 'owner';
+    
+    return Row(
+      children: [
+        // 아바타
+        CircleAvatar(
+          radius: 20,
+          backgroundColor: isOwner
+              ? (Theme.of(context).brightness == Brightness.dark
+                  ? Colors.orange[700]
+                  : Colors.orange[100])
+              : (Theme.of(context).brightness == Brightness.dark
+                  ? Colors.blue[700]
+                  : Colors.blue[100]),
+          child: Icon(
+            isOwner ? Icons.star : Icons.person,
+            size: 20,
+            color: isOwner
+                ? (Theme.of(context).brightness == Brightness.dark
+                    ? Colors.orange[300]
+                    : Colors.orange[800])
+                : (Theme.of(context).brightness == Brightness.dark
+                    ? Colors.blue[300]
+                    : Colors.blue[800]),
+          ),
+        ),
+        
+        const SizedBox(width: 12),
+        
+        // 사용자 정보
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    displayName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isOwner
+                          ? (Theme.of(context).brightness == Brightness.dark
+                              ? Colors.orange[800]?.withValues(alpha: 0.3)
+                              : Colors.orange[100])
+                          : (Theme.of(context).brightness == Brightness.dark
+                              ? Colors.blue[800]?.withValues(alpha: 0.3)
+                              : Colors.blue[100]),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      isOwner ? '관리자' : '구성원',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: isOwner
+                            ? (Theme.of(context).brightness == Brightness.dark
+                                ? Colors.orange[300]
+                                : Colors.orange[800])
+                            : (Theme.of(context).brightness == Brightness.dark
+                                ? Colors.blue[300]
+                                : Colors.blue[800]),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '참여일: ${createdAt.year}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.blueGrey[300]
+                      : Colors.grey[600],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -442,7 +693,13 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
               ),
             ),
             
-            const SizedBox(height: 32),
+            const SizedBox(height: 24),
+            
+            // 가족 구성원 섹션 (가족 그룹이 있을 때만 표시)
+            if (babyProvider.hasFamilyGroup) ...[
+              _buildFamilyMembersSection(context, l10n),
+              const SizedBox(height: 24),
+            ],
             
             // 초대 코드 생성 섹션
             Text(
