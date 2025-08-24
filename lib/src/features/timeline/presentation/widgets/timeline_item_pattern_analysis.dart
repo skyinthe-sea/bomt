@@ -88,82 +88,272 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
 
   List<PatternInsight> _generateMockInsights() {
     final insights = <PatternInsight>[];
+    final now = DateTime.now();
+    final itemData = widget.item.data;
 
     switch (widget.item.type) {
       case TimelineItemType.feeding:
-        insights.addAll([
-          PatternInsight(
+        // 수유: 실제 FeedingPatternAnalyzer를 사용하는 것이 이상적이지만, 여기서는 참고용 인사이트 제공
+        if (itemData.containsKey('amount_ml')) {
+          final amount = itemData['amount_ml'] as int?;
+          if (amount != null) {
+            if (amount >= 150) {
+              insights.add(PatternInsight(
+                type: InsightType.correlation,
+                title: '충분한 양의 수유를 했어요',
+                description: '이 양은 아기에게 충분한 포만감을 줄 것으로 예상돼요.',
+                confidence: 0.88,
+                icon: Icons.sentiment_satisfied_rounded,
+                color: const Color(0xFF10B981),
+              ));
+            }
+          }
+        }
+        
+        // 시간별 인사이트
+        final hour = widget.item.timestamp.hour;
+        if (hour >= 22 || hour < 6) {
+          insights.add(PatternInsight(
             type: InsightType.timing,
-            title: '평소보다 30분 일찍 수유했어요',
-            description: '일반적으로 이 시간대보다 늦게 수유하시는 편이에요.',
-            confidence: 0.85,
-            icon: Icons.schedule_rounded,
-            color: const Color(0xFF10B981),
-          ),
-          PatternInsight(
-            type: InsightType.correlation,
-            title: '이 수유 후 평균 2시간 잘 잤어요',
-            description: '지난 7일간 이 시간대 수유 후 수면 패턴을 분석했어요.',
-            confidence: 0.78,
-            icon: Icons.bedtime_rounded,
+            title: '새벽 수유 시간이에요',
+            description: '새벽 수유는 아기의 성장에 도움이 되지만, 부모의 수면 패턴에 영향을 줄 수 있어요.',
+            confidence: 0.82,
+            icon: Icons.nights_stay_rounded,
             color: const Color(0xFF8B5FBF),
-          ),
-          PatternInsight(
-            type: InsightType.suggestion,
-            title: '다음 수유는 3시간 후 예상돼요',
-            description: '평균 수유 간격을 기준으로 한 예측이에요.',
-            confidence: 0.72,
-            icon: Icons.alarm_rounded,
-            color: const Color(0xFF06B6D4),
-          ),
-        ]);
+          ));
+        }
+        
+        insights.add(PatternInsight(
+          type: InsightType.suggestion,
+          title: '다음 수유 예상 시간',
+          description: '일반적으로 2-3시간 후에 다음 수유가 필요할 수 있어요.',
+          confidence: 0.75,
+          icon: Icons.schedule_rounded,
+          color: const Color(0xFF06B6D4),
+        ));
         break;
 
       case TimelineItemType.sleep:
-        insights.addAll([
-          PatternInsight(
-            type: InsightType.duration,
-            title: '평소보다 40분 더 오래 잤어요',
-            description: '지난 주 평균 수면 시간보다 길었어요.',
-            confidence: 0.89,
-            icon: Icons.timer_rounded,
-            color: const Color(0xFF8B5FBF),
-          ),
-          PatternInsight(
-            type: InsightType.quality,
-            title: '밤 수면 품질이 개선되고 있어요',
-            description: '지난 3일간 야간 깨는 횟수가 줄어들었어요.',
-            confidence: 0.82,
-            icon: Icons.trending_up_rounded,
-            color: const Color(0xFF10B981),
-          ),
-        ]);
+        if (itemData.containsKey('duration_minutes')) {
+          final duration = itemData['duration_minutes'] as int?;
+          if (duration != null) {
+            if (duration >= 180) { // 3시간 이상
+              insights.add(PatternInsight(
+                type: InsightType.duration,
+                title: '긴 시간 잔 수면이었어요',
+                description: '${(duration / 60).toStringAsFixed(1)}시간 동안 잤어요. 이는 아기의 성장과 발달에 좋은 신호에요.',
+                confidence: 0.92,
+                icon: Icons.bedtime_rounded,
+                color: const Color(0xFF10B981),
+              ));
+            } else if (duration < 60) { // 1시간 미만
+              insights.add(PatternInsight(
+                type: InsightType.quality,
+                title: '짧은 수면이었어요',
+                description: '짧은 낮잠이나 깨지 않을 수 있도록 환경을 체크해보세요.',
+                confidence: 0.78,
+                icon: Icons.timer_rounded,
+                color: const Color(0xFFFFB020),
+              ));
+            }
+          }
+        }
+        
+        // 수면 품질 인사이트
+        if (itemData.containsKey('quality')) {
+          final quality = itemData['quality'] as String?;
+          if (quality == 'good') {
+            insights.add(PatternInsight(
+              type: InsightType.quality,
+              title: '좋은 수면 품질이었어요',
+              description: '좋은 수면은 아기의 뇌 발달과 면역력 향상에 도움이 돼요.',
+              confidence: 0.85,
+              icon: Icons.sentiment_very_satisfied_rounded,
+              color: const Color(0xFF10B981),
+            ));
+          }
+        }
         break;
 
       case TimelineItemType.diaper:
-        insights.addAll([
-          PatternInsight(
-            type: InsightType.frequency,
-            title: '기저귀 교체 주기가 규칙적이에요',
-            description: '최근 3일간 2-3시간 간격으로 교체하고 있어요.',
-            confidence: 0.91,
+        final diaperType = itemData['type'] as String?;
+        final timeSinceChange = now.difference(widget.item.timestamp);
+        
+        if (diaperType == 'dirty') {
+          insights.add(PatternInsight(
+            type: InsightType.general,
+            title: '배변 기저귀 교체',
+            description: '아기의 소화 기능이 정상적으로 작동하고 있는 좋은 신호에요.',
+            confidence: 0.87,
             icon: Icons.check_circle_rounded,
             color: const Color(0xFF10B981),
-          ),
-        ]);
+          ));
+        }
+        
+        if (timeSinceChange.inHours >= 2) {
+          insights.add(PatternInsight(
+            type: InsightType.frequency,
+            title: '기저귀 교체 주기',
+            description: '마지막 교체 후 ${timeSinceChange.inHours}시간이 지났어요. 좋은 교체 주기를 유지하고 있어요.',
+            confidence: 0.80,
+            icon: Icons.timer_rounded,
+            color: const Color(0xFF06B6D4),
+          ));
+        }
         break;
 
       case TimelineItemType.medication:
-        insights.addAll([
-          PatternInsight(
+        final medicationName = itemData['medication_name'] as String?;
+        final dosage = itemData['dosage'] as String?;
+        
+        insights.add(PatternInsight(
+          type: InsightType.timing,
+          title: '투약 기록 완료',
+          description: medicationName != null 
+              ? '$medicationName 투약이 기록되었어요. 정확한 기록은 치료 효과를 높이는 데 도움이 돼요.'
+              : '투약 기록이 완료되었어요.',
+          confidence: 0.95,
+          icon: Icons.medication_rounded,
+          color: const Color(0xFFEF4444),
+        ));
+        
+        // 시간별 인사이트
+        final medicationHour = widget.item.timestamp.hour;
+        if (medicationHour >= 8 && medicationHour <= 10) {
+          insights.add(PatternInsight(
+            type: InsightType.suggestion,
+            title: '아침 투약 시간',
+            description: '아침 시간대의 투약은 하루 종일 약물 효과를 유지하는 데 도움이 돼요.',
+            confidence: 0.82,
+            icon: Icons.wb_sunny_rounded,
+            color: const Color(0xFF06B6D4),
+          ));
+        }
+        break;
+
+      case TimelineItemType.milkPumping:
+        if (itemData.containsKey('amount_ml')) {
+          final amount = itemData['amount_ml'] as int?;
+          if (amount != null) {
+            if (amount >= 100) {
+              insights.add(PatternInsight(
+                type: InsightType.correlation,
+                title: '효과적인 유축이었어요',
+                description: '${amount}ml를 유축했어요. 이는 좋은 양으로 모유 저장에 도움이 돼요.',
+                confidence: 0.88,
+                icon: Icons.local_drink_rounded,
+                color: const Color(0xFF06B6D4),
+              ));
+            } else if (amount < 50) {
+              insights.add(PatternInsight(
+                type: InsightType.suggestion,
+                title: '유축량 개선 팁',
+                description: '유축량이 적어요. 충분한 수분 섭취와 스트레스 관리가 도움이 될 수 있어요.',
+                confidence: 0.75,
+                icon: Icons.tips_and_updates_rounded,
+                color: const Color(0xFFFFB020),
+              ));
+            }
+          }
+        }
+        
+        // 유축 시간대 분석
+        final pumpingHour = widget.item.timestamp.hour;
+        if (pumpingHour >= 6 && pumpingHour <= 10) {
+          insights.add(PatternInsight(
             type: InsightType.timing,
-            title: '약 복용 시간이 일정해요',
-            description: '매일 비슷한 시간에 복용하고 있어요.',
-            confidence: 0.94,
-            icon: Icons.medication_rounded,
-            color: const Color(0xFFEF4444),
-          ),
-        ]);
+            title: '아침 유축 시간',
+            description: '아침 시간대는 프롬랙틴 수치가 높아 유축에 가장 좋은 시간이에요.',
+            confidence: 0.90,
+            icon: Icons.wb_sunny_rounded,
+            color: const Color(0xFF10B981),
+          ));
+        }
+        break;
+
+      case TimelineItemType.solidFood:
+        final foodName = itemData['food_name'] as String?;
+        final reaction = itemData['reaction'] as String?;
+        
+        if (reaction == 'good' || reaction == '좋음') {
+          insights.add(PatternInsight(
+            type: InsightType.quality,
+            title: '아기가 음식을 좋아해요',
+            description: foodName != null 
+                ? '$foodName에 대한 반응이 좋았어요. 이 음식을 식단에 추가해보세요.'
+                : '음식에 대한 반응이 좋았어요.',
+            confidence: 0.85,
+            icon: Icons.sentiment_very_satisfied_rounded,
+            color: const Color(0xFF10B981),
+          ));
+        }
+        
+        // 이유식 시간대 분석
+        final foodHour = widget.item.timestamp.hour;
+        if (foodHour >= 12 && foodHour <= 13) {
+          insights.add(PatternInsight(
+            type: InsightType.timing,
+            title: '점심 시간 이유식',
+            description: '점심 시간대 이유식은 아기의 식습관 형성에 도움이 돼요.',
+            confidence: 0.80,
+            icon: Icons.restaurant_rounded,
+            color: const Color(0xFF10B981),
+          ));
+        }
+        
+        insights.add(PatternInsight(
+          type: InsightType.suggestion,
+          title: '영양 균형 관리',
+          description: '다양한 재료로 만든 이유식을 번갈아 주면 영양 균형에 도움이 돼요.',
+          confidence: 0.75,
+          icon: Icons.balance_rounded,
+          color: const Color(0xFF06B6D4),
+        ));
+        break;
+
+      case TimelineItemType.temperature:
+        if (itemData.containsKey('temperature')) {
+          final temperature = itemData['temperature'] as double?;
+          if (temperature != null) {
+            if (temperature >= 37.5) {
+              insights.add(PatternInsight(
+                type: InsightType.general,
+                title: '체온이 높아요',
+                description: '체온이 ${temperature}°C로 비교적 높습니다. 지속적인 관찰이 필요해요.',
+                confidence: 0.92,
+                icon: Icons.thermostat_rounded,
+                color: const Color(0xFFEF4444),
+              ));
+            } else if (temperature <= 36.0) {
+              insights.add(PatternInsight(
+                type: InsightType.general,
+                title: '체온이 낮아요',
+                description: '체온이 ${temperature}°C로 비교적 낮습니다. 보온에 주의해주세요.',
+                confidence: 0.88,
+                icon: Icons.ac_unit_rounded,
+                color: const Color(0xFF06B6D4),
+              ));
+            } else {
+              insights.add(PatternInsight(
+                type: InsightType.quality,
+                title: '정상 인 체온입니다',
+                description: '체온이 ${temperature}°C로 정상 범위내에 있어요.',
+                confidence: 0.95,
+                icon: Icons.check_circle_rounded,
+                color: const Color(0xFF10B981),
+              ));
+            }
+          }
+        }
+        
+        insights.add(PatternInsight(
+          type: InsightType.suggestion,
+          title: '정기적인 체온 체크',
+          description: '아기의 건강 상태를 파악하기 위해 정기적인 체온 체크를 권장해요.',
+          confidence: 0.80,
+          icon: Icons.health_and_safety_rounded,
+          color: const Color(0xFF10B981),
+        ));
         break;
 
       default:

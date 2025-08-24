@@ -274,11 +274,6 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
             item: _currentItem!,
           ),
           
-          const SizedBox(height: 20),
-          
-          // 빠른 액션들
-          _buildQuickActions(theme, localizations),
-          
           const SizedBox(height: 32),
         ],
       ),
@@ -740,106 +735,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
     );
   }
 
-  Widget _buildQuickActions(ThemeData theme, AppLocalizations localizations) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: theme.shadowColor.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            localizations.quickActions,
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: theme.colorScheme.onSurface,
-            ),
-          ),
-          
-          const SizedBox(height: 16),
-          
-          Row(
-            children: [
-              Expanded(
-                child: _buildActionButton(
-                  localizations.recordAgain,
-                  Icons.repeat_rounded,
-                  theme.colorScheme.primary,
-                  () => _recordAgain(),
-                  theme,
-                ),
-              ),
-              
-              const SizedBox(width: 12),
-              
-              Expanded(
-                child: _buildActionButton(
-                  localizations.share,
-                  Icons.share_rounded,
-                  theme.colorScheme.secondary,
-                  () => _shareRecord(),
-                  theme,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildActionButton(
-    String label,
-    IconData icon,
-    Color color,
-    VoidCallback onPressed,
-    ThemeData theme,
-  ) {
-    return InkWell(
-      onTap: () {
-        HapticFeedback.lightImpact();
-        onPressed();
-      },
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: color.withOpacity(0.2),
-          ),
-        ),
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              color: color,
-              size: 24,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: color,
-                fontWeight: FontWeight.w600,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   void _showEditDialog() {
     HapticFeedback.lightImpact();
@@ -914,23 +810,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
     }
   }
 
-  void _recordAgain() {
-    // TODO: 같은 내용으로 새 기록 추가 로직
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AppLocalizations.of(context)!.featureComingSoon),
-      ),
-    );
-  }
 
-  void _shareRecord() {
-    // TODO: 기록 공유 로직
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AppLocalizations.of(context)!.featureComingSoon),
-      ),
-    );
-  }
 
   // 헬퍼 메서드들
   String _getItemTypeDisplayName(TimelineItemType type, AppLocalizations localizations) {
