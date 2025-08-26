@@ -55,18 +55,23 @@ class StatisticsDateRange {
     final startDate = DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
     final endDate = DateTime(endOfWeek.year, endOfWeek.month, endOfWeek.day, 23, 59, 59);
     
-    print('📅 [DATE_RANGE] Weekly range creation:');
-    print('📅 [DATE_RANGE] Input date: $now');
-    print('📅 [DATE_RANGE] Start of week: $startOfWeek');
-    print('📅 [DATE_RANGE] End of week: $endOfWeek');
-    print('📅 [DATE_RANGE] Final start date: $startDate');
-    print('📅 [DATE_RANGE] Final end date: $endDate');
+    print('📅 [DATE_RANGE_DEBUG] ========== WEEKLY RANGE CREATION ==========');
+    print('📅 [DATE_RANGE_DEBUG] Input date (now): $now');
+    print('📅 [DATE_RANGE_DEBUG] Weekday number: ${now.weekday} (1=Mon, 7=Sun)');
+    print('📅 [DATE_RANGE_DEBUG] Days to subtract for Monday: ${now.weekday - 1}');
+    print('📅 [DATE_RANGE_DEBUG] Start of week (calculated): $startOfWeek');
+    print('📅 [DATE_RANGE_DEBUG] End of week (calculated): $endOfWeek');
+    print('📅 [DATE_RANGE_DEBUG] Final start date (00:00:00): $startDate');
+    print('📅 [DATE_RANGE_DEBUG] Final end date (23:59:59): $endDate');
+    print('📅 [DATE_RANGE_DEBUG] Week range: ${startDate.day}/${startDate.month} ~ ${endDate.day}/${endDate.month}');
+    print('📅 [DATE_RANGE_DEBUG] Total days in range: ${endDate.difference(startDate).inDays + 1}');
+    print('📅 [DATE_RANGE_DEBUG] =============================================');
     
     return StatisticsDateRange(
       type: StatisticsDateRangeType.weekly,
       startDate: startDate,
       endDate: endDate,
-      label: label ?? '${startOfWeek.month}/${startOfWeek.day} - ${endOfWeek.month}/${endOfWeek.day}',
+      label: label ?? '${startOfWeek.month}월 ${startOfWeek.day}일 - ${endOfWeek.month}월 ${endOfWeek.day}일',
     );
   }
 

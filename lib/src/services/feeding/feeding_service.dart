@@ -125,6 +125,7 @@ class FeedingService with DataSyncMixin {
       babyId: babyId,
       timestamp: feedingStartTime,
       action: DataSyncAction.created,
+      recordId: null, // 생성 시에는 recordId가 없음
     );
   }
   

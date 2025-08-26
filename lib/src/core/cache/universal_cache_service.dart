@@ -128,6 +128,41 @@ class UniversalCacheService {
     }
   }
 
+  /// 🔍 패턴 기반 캐시 삭제
+  Future<void> removeByPattern(String pattern) async {
+    try {
+      // 패턴을 정규표현식으로 변환
+      final regex = RegExp(pattern.replaceAll('*', '.*'));
+      
+      // 메모리 캐시에서 패턴 매칭 삭제
+      final keysToRemove = _memoryCache.keys
+          .where((key) => regex.hasMatch(key))
+          .toList();
+      
+      for (final key in keysToRemove) {
+        _memoryCache.remove(key);
+      }
+      
+      // 디스크 캐시에서 패턴 매칭 삭제
+      if (_prefs != null) {
+        final diskKeys = _prefs!.getKeys()
+            .where((key) => key.startsWith('cache_') && regex.hasMatch(key.substring(6)))
+            .toList();
+        
+        for (final key in diskKeys) {
+          await _prefs!.remove(key);
+        }
+      }
+      
+      // 데이터베이스에서 패턴 매칭 삭제
+      await _database?.deleteCacheByPattern(pattern);
+      
+      debugPrint('🗺️ [UNIVERSAL_CACHE] Removed by pattern: $pattern (${keysToRemove.length} keys)');
+    } catch (e) {
+      debugPrint('❌ [UNIVERSAL_CACHE] Remove by pattern failed for $pattern: $e');
+    }
+  }
+
   /// 🧹 카테고리별 캐시 삭제
   Future<void> removeCategory(String category) async {
     try {

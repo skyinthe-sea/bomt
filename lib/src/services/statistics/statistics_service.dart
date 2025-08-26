@@ -11,6 +11,7 @@ import '../../domain/models/milk_pumping.dart';
 import '../../domain/models/solid_food.dart';
 import '../../domain/models/user_card_setting.dart';
 import '../user_card_setting/user_card_setting_service.dart';
+import 'statistics_cache_service.dart';
 
 /// ✅ CHART DATA PROCESSING ISSUE - RESOLVED:
 /// 
@@ -40,6 +41,7 @@ class StatisticsService {
   final _supabase = SupabaseConfig.client;
   final _userCardSettingService = UserCardSettingService.instance;
   final _cache = UniversalCacheService.instance;
+  final _statisticsCache = StatisticsCacheService.instance;
 
   /// 시간대 문제 해결을 위한 날짜 범위 변환 helper
   Map<String, String> _getDateRangeForQuery(StatisticsDateRange dateRange) {
@@ -71,26 +73,25 @@ class StatisticsService {
     debugPrint('📊 [STATISTICS] Bypass cache: $bypassCache');
 
     try {
-      // 1. 안정적인 캐시 키 생성 (날짜 기반)
-      final startDateStr = '${dateRange.startDate.year}${dateRange.startDate.month.toString().padLeft(2, '0')}${dateRange.startDate.day.toString().padLeft(2, '0')}';
-      final cacheKey = 'statistics_${userId}_${babyId}_${dateRange.type.toJson()}_$startDateStr';
-      debugPrint('🔑 [STATISTICS] Cache key: $cacheKey');
+      // 1. 새로운 캐시 서비스 사용
+      debugPrint('🗄️ [STATISTICS] Using enhanced StatisticsCacheService');
       
       // 2. 캐시 우회 옵션 확인
       if (bypassCache) {
         debugPrint('🔄 [STATISTICS] Bypassing cache as requested');
-        // 캐시된 데이터 강제 삭제
-        await _cache.remove(cacheKey);
+        await _statisticsCache.clearCacheForBaby(userId, babyId);
       } else {
         // 캐시에서 통계 데이터 조회 시도
-        final cachedStatistics = await _cache.get<Statistics>(
-          cacheKey, 
-          fromJson: Statistics.fromJson,
+        final cachedStatistics = await _statisticsCache.getStatistics(
+          userId: userId,
+          babyId: babyId,
+          dateRange: dateRange,
         );
         
         if (cachedStatistics != null) {
-          debugPrint('📊 [STATISTICS] Cache hit! Using cached statistics data');
+          debugPrint('📊 [STATISTICS] ⚡ Enhanced cache hit! Using cached statistics data');
           debugPrint('📊 [STATISTICS] Cached data has ${cachedStatistics.cardsWithData.length} cards with data');
+          debugPrint('📊 [STATISTICS] Cache stats: ${_statisticsCache.getCacheStats()}');
           return cachedStatistics;
         }
       }
@@ -144,15 +145,16 @@ class StatisticsService {
       debugPrint('📊 [STATISTICS] - Total activities: ${statistics.totalActivities}');
       debugPrint('📊 [STATISTICS] - Has data: ${statistics.hasData}');
 
-      // 5. 생성된 통계 데이터를 캐시에 저장
-      await _cache.set(
-        key: cacheKey,
-        data: statistics,
-        strategy: CacheStrategy.medium,
-        category: 'statistics',
+      // 5. 생성된 통계 데이터를 새로운 캐시 서비스에 저장
+      await _statisticsCache.setStatistics(
+        userId: userId,
+        babyId: babyId,
+        dateRange: dateRange,
+        statistics: statistics,
       );
       
-      debugPrint('💾 [STATISTICS] Statistics data cached successfully');
+      debugPrint('💾 [STATISTICS] ⚡ Statistics data cached with enhanced service');
+      debugPrint('💾 [STATISTICS] Updated cache stats: ${_statisticsCache.getCacheStats()}');
 
       return statistics;
     } catch (e) {
@@ -237,36 +239,13 @@ class StatisticsService {
     // 시간대 문제 해결을 위한 날짜 범위 변환
     final dateQuery = _getDateRangeForQuery(dateRange);
     
-    // 먼저 모든 수유 데이터를 가져와서 확인
-    final allResponse = await _supabase
-        .from('feedings')
-        .select('started_at, user_id, baby_id')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
-        .order('started_at', ascending: false)
-        .limit(10);
-    
-    debugPrint('🍼 [FEEDING_STATS] Total feeding records found: ${allResponse.length}');
-    debugPrint('🍼 [FEEDING_STATS] Recent feeding dates: ${allResponse.map((r) => r['started_at']).toList()}');
-    
-    if (allResponse.isEmpty) {
-      debugPrint('🍼 [FEEDING_STATS] No feeding records found for user_id: $userId, baby_id: $babyId');
-      
-      // 빈 통계 반환
-      return CardStatistics(
-        cardType: 'feeding',
-        cardName: '수유',
-        totalCount: 0,
-        metrics: [],
-      );
-    }
+    // 🚀 성능 최적화: 중복 쿼리 제거 (디버깅 쿼리 삭제)
     
     // 수정된 날짜 범위 쿼리 사용 (시간대 문제 해결)
     final response = await _supabase
         .from('feedings')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회
         .gte('started_at', dateQuery['start']!)
         .lte('started_at', dateQuery['end']!);
 
@@ -336,25 +315,44 @@ class StatisticsService {
     String babyId,
     StatisticsDateRange dateRange,
   ) async {
-    debugPrint('😴 [SLEEP_STATS] Querying sleeps for user: $userId, baby: $babyId');
-    debugPrint('😴 [SLEEP_STATS] Date range: ${dateRange.label}');
+    debugPrint('😴 [SLEEP_STATS_DEBUG] ========== SLEEP STATISTICS GENERATION ==========');
+    debugPrint('😴 [SLEEP_STATS_DEBUG] Querying sleeps for user: $userId, baby: $babyId');
+    debugPrint('😴 [SLEEP_STATS_DEBUG] Date range: ${dateRange.label}');
+    debugPrint('😴 [SLEEP_STATS_DEBUG] Date range raw: ${dateRange.startDate} to ${dateRange.endDate}');
     
     // 시간대 문제 해결을 위한 날짜 범위 변환
     final dateQuery = _getDateRangeForQuery(dateRange);
+    debugPrint('😴 [SLEEP_STATS_DEBUG] Query range: ${dateQuery['start']} to ${dateQuery['end']}');
+    
+    // 🚀 성능 최적화: 중복 쿼리 제거 (디버깅 쿼리 삭제)
     
     final response = await _supabase
         .from('sleeps')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회  
         .gte('started_at', dateQuery['start']!)
         .lte('started_at', dateQuery['end']!);
 
-    debugPrint('😴 [SLEEP_STATS] Found ${response.length} sleep records');
+    debugPrint('😴 [SLEEP_STATS_DEBUG] Query result: ${response.length} sleep records in date range');
+    if (response.isEmpty) {
+      debugPrint('😴 [SLEEP_STATS_DEBUG] ❌ No sleep records found in range: ${dateQuery['start']} to ${dateQuery['end']}');
+      debugPrint('😴 [SLEEP_STATS_DEBUG] This could be due to:');
+      debugPrint('😴 [SLEEP_STATS_DEBUG] 1. Timezone mismatch');
+      debugPrint('😴 [SLEEP_STATS_DEBUG] 2. Date range calculation error');
+      debugPrint('😴 [SLEEP_STATS_DEBUG] 3. No sleep records for this baby in this time period');
+    } else {
+      debugPrint('😴 [SLEEP_STATS_DEBUG] ✅ Found sleep records in range:');
+      for (int i = 0; i < response.length; i++) {
+        final record = response[i];
+        debugPrint('😴 [SLEEP_STATS_DEBUG] ${i+1}. ${record['started_at']} (duration: ${record['duration_minutes']})');
+      }
+    }
     
     final sleeps = response.map((json) => Sleep.fromJson(json)).toList();
+    debugPrint('😴 [SLEEP_STATS_DEBUG] Parsed ${sleeps.length} sleep objects');
     
     if (sleeps.isEmpty) {
+      debugPrint('😴 [SLEEP_STATS_DEBUG] ❌ Returning empty sleep statistics');
       return CardStatistics(
         cardType: 'sleep',
         cardName: '수면',
@@ -362,6 +360,9 @@ class StatisticsService {
         metrics: [],
       );
     }
+    
+    debugPrint('😴 [SLEEP_STATS_DEBUG] ✅ Processing ${sleeps.length} sleep records');
+    debugPrint('😴 [SLEEP_STATS_DEBUG] ===================================================');
 
     // 총 수면 시간 (분 단위)
     final totalDuration = sleeps
@@ -417,8 +418,7 @@ class StatisticsService {
     final response = await _supabase
         .from('diapers')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회
         .gte('changed_at', dateQuery['start']!)
         .lte('changed_at', dateQuery['end']!);
 
@@ -473,32 +473,12 @@ class StatisticsService {
     final dateQuery = _getDateRangeForQuery(dateRange);
     debugPrint('💊 [MEDICATION_STATS] Query dates: ${dateQuery['start']} to ${dateQuery['end']}');
     
-    // 먼저 전체 medication 데이터가 있는지 확인
-    try {
-      final allResponse = await _supabase
-          .from('medications')
-          .select('administered_at, user_id, baby_id, medication_name')
-          .eq('user_id', userId)
-          .eq('baby_id', babyId)
-          .order('administered_at', ascending: false)
-          .limit(10);
-      
-      debugPrint('💊 [MEDICATION_STATS] Total medication records found for this baby: ${allResponse.length}');
-      debugPrint('💊 [MEDICATION_STATS] Recent medication dates: ${allResponse.map((r) => r['administered_at']).toList()}');
-      
-      if (allResponse.isEmpty) {
-        debugPrint('💊 [MEDICATION_STATS] ❌ NO MEDICATION RECORDS FOUND for user_id: $userId, baby_id: $babyId');
-        debugPrint('💊 [MEDICATION_STATS] This explains why the chart is empty!');
-      }
-    } catch (e) {
-      debugPrint('💊 [MEDICATION_STATS] ❌ Error checking total medications: $e');
-    }
+    // 🚀 성능 최적화: 중복 쿼리 제거 (디버깅 쿼리 삭제)
     
     final response = await _supabase
         .from('medications')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회
         .gte('administered_at', dateQuery['start']!)
         .lte('administered_at', dateQuery['end']!);
 
@@ -562,8 +542,7 @@ class StatisticsService {
     final response = await _supabase
         .from('milk_pumping')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회
         .gte('started_at', dateQuery['start']!)
         .lte('started_at', dateQuery['end']!);
 
@@ -622,8 +601,7 @@ class StatisticsService {
     final response = await _supabase
         .from('solid_foods')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회
         .gte('started_at', dateQuery['start']!)
         .lte('started_at', dateQuery['end']!);
 
@@ -687,17 +665,21 @@ class StatisticsService {
     }
 
     try {
-      // 1. 캐시 키 생성
-      final cacheKey = 'chart_${cardType}_${userId}_${babyId}_${dateRange.type.toJson()}_${dateRange.startDate.millisecondsSinceEpoch}_$metricType';
+      // 1. 새로운 차트 캐시 서비스 사용
+      debugPrint('📈 [CHART] Using enhanced chart caching service');
       
       // 2. 캐시에서 차트 데이터 조회 시도
-      final cachedChartData = await _cache.get<StatisticsChartData>(
-        cacheKey,
-        fromJson: StatisticsChartData.fromJson,
+      final cachedChartData = await _statisticsCache.getChartData(
+        cardType: cardType,
+        userId: userId,
+        babyId: babyId,
+        dateRange: dateRange,
+        metricType: metricType,
       );
       
       if (cachedChartData != null) {
-        debugPrint('📈 [CHART] Cache hit! Using cached chart data for $cardType');
+        debugPrint('📈 [CHART] ⚡ Enhanced chart cache hit! Using cached data for $cardType');
+        debugPrint('📈 [CHART] Cache stats: ${_statisticsCache.getCacheStats()}');
         return cachedChartData;
       }
       
@@ -773,15 +755,18 @@ class StatisticsService {
         debugPrint('📈 [CHART] ✅ Chart has data! Non-zero values found.');
       }
 
-      // 3. 생성된 차트 데이터를 캐시에 저장
-      await _cache.set(
-        key: cacheKey,
-        data: chartData,
-        strategy: CacheStrategy.medium,
-        category: 'statistics',
+      // 3. 생성된 차트 데이터를 새로운 캐시 서비스에 저장
+      await _statisticsCache.setChartData(
+        cardType: cardType,
+        userId: userId,
+        babyId: babyId,
+        dateRange: dateRange,
+        metricType: metricType,
+        chartData: chartData,
       );
       
-      debugPrint('💾 [CHART] Chart data cached successfully for $cardType');
+      debugPrint('💾 [CHART] ⚡ Chart data cached with enhanced service for $cardType');
+      debugPrint('💾 [CHART] Updated cache stats: ${_statisticsCache.getCacheStats()}');
       debugPrint('📈 [CHART] ==================== END CHART GENERATION ====================');
 
       return chartData;
@@ -804,8 +789,7 @@ class StatisticsService {
     final response = await _supabase
         .from('feedings')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회
         .gte('started_at', '${startDateStr}T00:00:00Z')
         .lte('started_at', '${endDateStr}T23:59:59Z');
 
@@ -836,8 +820,7 @@ class StatisticsService {
     final response = await _supabase
         .from('sleeps')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회
         .gte('started_at', '${startDateStr}T00:00:00Z')
         .lte('started_at', '${endDateStr}T23:59:59Z');
 
@@ -864,8 +847,7 @@ class StatisticsService {
     final response = await _supabase
         .from('diapers')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회
         .gte('changed_at', '${startDateStr}T00:00:00Z')
         .lte('changed_at', '${endDateStr}T23:59:59Z');
 
@@ -885,8 +867,7 @@ class StatisticsService {
     final response = await _supabase
         .from('medications')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회
         .gte('administered_at', '${startDateStr}T00:00:00Z')
         .lte('administered_at', '${endDateStr}T23:59:59Z');
 
@@ -913,8 +894,7 @@ class StatisticsService {
     final response = await _supabase
         .from('milk_pumping')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회
         .gte('started_at', '${startDateStr}T00:00:00Z')
         .lte('started_at', '${endDateStr}T23:59:59Z');
 
@@ -945,8 +925,7 @@ class StatisticsService {
     final response = await _supabase
         .from('solid_foods')
         .select('*')
-        .eq('user_id', userId)
-        .eq('baby_id', babyId)
+        .eq('baby_id', babyId)  // 🏠 가족 공유: 아기 기준으로 모든 구성원 데이터 조회
         .gte('started_at', '${startDateStr}T00:00:00Z')
         .lte('started_at', '${endDateStr}T23:59:59Z');
 

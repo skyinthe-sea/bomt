@@ -131,6 +131,29 @@ class OfflineDatabase {
     }
   }
 
+  /// 🔍 패턴 기반 캐시 삭제
+  Future<void> deleteCacheByPattern(String pattern) async {
+    if (_database == null) {
+      debugPrint('❌ [OFFLINE_DB] Database not initialized');
+      return;
+    }
+
+    try {
+      // SQLite LIKE 연산자를 위해 * 를 %로 변환
+      final likePattern = pattern.replaceAll('*', '%');
+      
+      final deletedCount = await _database!.delete(
+        _tableName,
+        where: 'cache_key LIKE ?',
+        whereArgs: [likePattern],
+      );
+
+      debugPrint('🗺️ [OFFLINE_DB] Deleted by pattern: $pattern ($deletedCount entries)');
+    } catch (e) {
+      debugPrint('❌ [OFFLINE_DB] Delete by pattern failed for $pattern: $e');
+    }
+  }
+
   /// 🗑️ 캐시 삭제
   Future<void> deleteCache(String key) async {
     if (_database == null) return;

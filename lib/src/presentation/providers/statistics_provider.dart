@@ -2,14 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../domain/models/statistics.dart';
 import '../../services/statistics/statistics_service.dart';
+import '../../services/statistics/statistics_cache_service.dart';
 import '../../core/events/app_event_bus.dart';
 import '../../core/events/data_sync_events.dart';
-import '../../core/cache/universal_cache_service.dart';
 
 class StatisticsProvider extends ChangeNotifier {
   final StatisticsService _statisticsService = StatisticsService.instance;
+  final StatisticsCacheService _statisticsCache = StatisticsCacheService.instance;
   final AppEventBus _eventBus = AppEventBus.instance;
-  final UniversalCacheService _cache = UniversalCacheService.instance;
   
   // 현재 선택된 사용자 정보
   String? _currentUserId;
@@ -100,72 +100,41 @@ class StatisticsProvider extends ChangeNotifier {
     });
   }
 
-  /// 특정 날짜 범위의 캐시만 무효화 (백엔드 호출 최소화)
+  /// 특정 날짜 범위의 캐시만 무효화 (백엔드 호출 최소화) - 개선된 버전
   Future<void> _invalidateSpecificDateRangeCache() async {
     if (_currentUserId != null && _currentBabyId != null) {
       try {
-        final cacheKeyPrefix = 'statistics_${_currentUserId}_${_currentBabyId}';
-        final startDateStr = '${_dateRange.startDate.year}${_dateRange.startDate.month.toString().padLeft(2, '0')}${_dateRange.startDate.day.toString().padLeft(2, '0')}';
-        final currentCacheKey = '${cacheKeyPrefix}_${_dateRange.type.toJson()}_$startDateStr';
+        debugPrint('🎯 [STATS_PROVIDER] ⚡ Using enhanced cache invalidation');
         
-        await _cache.remove(currentCacheKey);
-        debugPrint('🎯 [STATS_PROVIDER] Invalidated specific cache key: $currentCacheKey');
+        // 새로운 캐시 서비스는 자동으로 스마트 무효화를 처리하므로 별도 작업 불필요
+        // CRUD 이벤트가 발생하면 StatisticsCacheService가 자동으로 처리
         
-        // 차트 캐시도 해당 날짜 범위만 클리어
+        // 로컬 메모리 차트 캐시만 클리어
         _chartDataCache.clear();
         
+        debugPrint('🎯 [STATS_PROVIDER] Enhanced cache invalidation completed');
       } catch (e) {
-        debugPrint('❌ [STATS_PROVIDER] Error invalidating specific cache: $e');
+        debugPrint('❌ [STATS_PROVIDER] Error in enhanced cache invalidation: $e');
       }
     }
   }
 
-  /// 통계 관련 캐시 무효화 (강화된 버전)
+  /// 통계 관련 캐시 무효화 (새로운 캐시 서비스 사용)
   Future<void> _invalidateStatisticsCache() async {
     if (_currentUserId != null && _currentBabyId != null) {
       try {
-        // 1. 특정 통계 캐시 키들 직접 삭제 (새로운 날짜 기반 형식)
-        final cacheKeyPrefix = 'statistics_${_currentUserId}_${_currentBabyId}';
-        debugPrint('🗑️ [STATS_PROVIDER] Removing specific statistics cache keys with prefix: $cacheKeyPrefix');
+        debugPrint('🗑️ [STATS_PROVIDER] ⚡ Using enhanced cache service for invalidation');
         
-        // 현재 날짜 범위의 캐시 키 생성하여 삭제
-        try {
-          final startDateStr = '${_dateRange.startDate.year}${_dateRange.startDate.month.toString().padLeft(2, '0')}${_dateRange.startDate.day.toString().padLeft(2, '0')}';
-          final currentCacheKey = '${cacheKeyPrefix}_${_dateRange.type.toJson()}_$startDateStr';
-          await _cache.remove(currentCacheKey);
-          debugPrint('🗑️ [STATS_PROVIDER] Removed current cache key: $currentCacheKey');
-          
-          // 추가로 최근 몇 일간의 캐시도 정리 (날짜가 바뀌었을 수 있으므로)
-          for (int i = 0; i < 7; i++) {
-            final date = DateTime.now().subtract(Duration(days: i));
-            final dateStr = '${date.year}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}';
-            final weeklyKey = '${cacheKeyPrefix}_weekly_$dateStr';
-            final monthlyKey = '${cacheKeyPrefix}_monthly_$dateStr';
-            final customKey = '${cacheKeyPrefix}_custom_$dateStr';
-            
-            await _cache.remove(weeklyKey);
-            await _cache.remove(monthlyKey);
-            await _cache.remove(customKey);
-          }
-          
-          debugPrint('🗑️ [STATS_PROVIDER] Cleaned up recent cache keys');
-        } catch (e) {
-          debugPrint('⚠️ [STATS_PROVIDER] Failed to remove specific cache keys: $e');
-        }
+        // 새로운 캐시 서비스를 사용한 간소화된 캐시 무효화
+        await _statisticsCache.clearCacheForBaby(_currentUserId!, _currentBabyId!);
         
-        // 2. 카테고리별 캐시 무효화
-        await _cache.removeCategory('statistics');
-        await _cache.removeCategory('user_settings');
-        
-        // 3. 로컬 차트 데이터 캐시 클리어
+        // 로컬 메모리 캐시 클리어
         _chartDataCache.clear();
-        
-        // 4. 통계 데이터 로컬 변수도 클리어
         _statistics = null;
         _errorMessage = null;
         
-        debugPrint('🗑️ [STATS_PROVIDER] All statistics and chart cache invalidated for user: $_currentUserId, baby: $_currentBabyId');
-        debugPrint('🔄 [STATS_PROVIDER] Local statistics data also cleared');
+        debugPrint('🗑️ [STATS_PROVIDER] ⚡ Enhanced cache invalidation completed');
+        debugPrint('🗑️ [STATS_PROVIDER] Cache stats: ${_statisticsCache.getCacheStats()}');
       } catch (e) {
         debugPrint('❌ [STATS_PROVIDER] Error invalidating statistics cache: $e');
         debugPrint('❌ [STATS_PROVIDER] Stack trace: ${StackTrace.current}');
@@ -173,9 +142,23 @@ class StatisticsProvider extends ChangeNotifier {
     }
   }
 
-  /// 수동으로 캐시 무효화 (외부에서 호출 가능)
+  /// 수동으로 캐시 무효화 (외부에서 호출 가능) - 개선된 버전
   Future<void> invalidateCache() async {
-    await _invalidateStatisticsCache();
+    debugPrint('🗑️ [STATS_PROVIDER] ⚡ Manual cache invalidation requested');
+    
+    if (_currentUserId != null && _currentBabyId != null) {
+      // 새로운 캐시 서비스 사용
+      await _statisticsCache.clearCacheForBaby(_currentUserId!, _currentBabyId!);
+      
+      // 로컬 메모리 캐시 클리어
+      _chartDataCache.clear();
+      _statistics = null;
+      _errorMessage = null;
+      
+      debugPrint('🗑️ [STATS_PROVIDER] ⚡ Enhanced manual cache invalidation completed');
+      debugPrint('🗑️ [STATS_PROVIDER] Cache stats: ${_statisticsCache.getCacheStats()}');
+    }
+    
     notifyListeners();
   }
 
@@ -264,9 +247,7 @@ class StatisticsProvider extends ChangeNotifier {
       return;
     }
 
-    // 강제 캐시 무효화
-    await _invalidateStatisticsCache();
-    debugPrint('🧹 [STATS_PROVIDER] Forced cache invalidation completed');
+    // 캐시 활용: CRUD 이벤트 발생 시에만 자동 무효화됨
 
     debugPrint('📊 [STATS_PROVIDER] Starting statistics refresh (showLoading: $showLoading)');
     debugPrint('📊 [STATS_PROVIDER] User ID: $_currentUserId, Baby ID: $_currentBabyId');
@@ -326,12 +307,9 @@ class StatisticsProvider extends ChangeNotifier {
     debugPrint('📈 [STATS_PROVIDER] All chart data loading completed');
   }
 
-  /// 특정 카드의 차트 데이터 로드 (완전한 캐싱 적용)
+  /// 특정 카드의 차트 데이터 로드 (새로운 캐시 서비스 사용)
   Future<void> _loadChartDataForCard(String cardType) async {
     if (_currentUserId == null || _currentBabyId == null) return;
-
-    // 로컬 메모리 캐시 키 생성
-    final localCacheKey = 'chart_${cardType}_${_currentUserId}_${_currentBabyId}_${_dateRange.type}_${_dateRange.startDate.millisecondsSinceEpoch}_${_selectedMetricType}';
 
     try {
       // 1. 로컬 메모리 캐시 확인 (가장 빠름)
@@ -340,22 +318,25 @@ class StatisticsProvider extends ChangeNotifier {
         return;
       }
 
-      // 2. UniversalCacheService를 통한 차트 데이터 조회 시도
-      final cachedChartData = await _cache.get<StatisticsChartData>(
-        localCacheKey,
-        fromJson: StatisticsChartData.fromJson,
+      // 2. StatisticsCacheService를 통한 차트 데이터 조회 시도
+      final cachedChartData = await _statisticsCache.getChartData(
+        userId: _currentUserId!,
+        babyId: _currentBabyId!,
+        dateRange: _dateRange,
+        cardType: cardType,
+        metricType: _selectedMetricType,
       );
 
       if (cachedChartData != null) {
         _chartDataCache[cardType] = cachedChartData;
-        debugPrint('📈 [STATS_PROVIDER] UniversalCache hit for $cardType (${cachedChartData.dataPoints.length} points)');
+        debugPrint('📈 [STATS_PROVIDER] ⚡ Enhanced cache hit for $cardType (${cachedChartData.dataPoints.length} points)');
         notifyListeners();
         return;
       }
 
       debugPrint('📈 [STATS_PROVIDER] Cache miss. Generating new chart data for $cardType');
 
-      // 3. 캐시 미스 시 새로 생성 (StatisticsService에서 자동으로 캐싱됨)
+      // 3. 캐시 미스 시 새로 생성 (StatisticsCacheService에서 자동으로 캐싱됨)
       final chartData = await _statisticsService.generateChartData(
         cardType: cardType,
         userId: _currentUserId!,
