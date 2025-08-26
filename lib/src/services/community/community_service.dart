@@ -3,9 +3,12 @@ import '../../core/config/supabase_config.dart';
 import '../../domain/models/community_post.dart';
 import '../../domain/models/community_comment.dart';
 import '../../domain/models/community_category.dart';
+import '../../core/events/app_event_bus.dart';
+import '../../core/events/data_sync_events.dart';
 
 class CommunityService {
   final SupabaseClient _supabase = SupabaseConfig.client;
+  final AppEventBus _eventBus = AppEventBus.instance;
   
   // 일일 인기 게시글 캐시 (30분간 유효)
   static List<CommunityPost>? _dailyPopularCache;
@@ -478,6 +481,20 @@ class CommunityService {
       }
       post = CommunityPost.fromJson(postJson);
 
+      // 커뮤니티 게시글 생성 이벤트 발생
+      _eventBus.notifyDataChanged(
+        type: DataSyncEventType.communityPostCreated,
+        babyId: authorId, // 커뮤니티는 babyId 대신 authorId 사용
+        date: post.createdAt,
+        action: DataSyncAction.created,
+        recordId: post.id,
+        metadata: {
+          'postId': post.id,
+          'authorId': authorId,
+          'categoryId': categoryId,
+        },
+      );
+
       return post;
     } catch (e, stackTrace) {
       print('ERROR: 게시글 작성 실패');
@@ -551,6 +568,20 @@ class CommunityService {
       }
       post = CommunityPost.fromJson(postJson);
 
+      // 커뮤니티 게시글 수정 이벤트 발생
+      _eventBus.notifyDataChanged(
+        type: DataSyncEventType.communityPostUpdated,
+        babyId: authorId,
+        date: post.updatedAt ?? post.createdAt,
+        action: DataSyncAction.updated,
+        recordId: postId,
+        metadata: {
+          'postId': postId,
+          'authorId': authorId,
+          'categoryId': categoryId,
+        },
+      );
+
       return post;
     } catch (e) {
       throw Exception('게시글 수정 실패: $e');
@@ -579,6 +610,19 @@ class CommunityService {
             'updated_at': DateTime.now().toIso8601String(),
           })
           .eq('id', postId);
+
+      // 커뮤니티 게시글 삭제 이벤트 발생
+      _eventBus.notifyDataChanged(
+        type: DataSyncEventType.communityPostDeleted,
+        babyId: authorId,
+        date: DateTime.now(),
+        action: DataSyncAction.deleted,
+        recordId: postId,
+        metadata: {
+          'postId': postId,
+          'authorId': authorId,
+        },
+      );
 
       return true;
     } catch (e) {
@@ -877,6 +921,21 @@ class CommunityService {
           commentContent: content,
         );
       }
+
+      // 커뮤니티 댓글 생성 이벤트 발생
+      _eventBus.notifyDataChanged(
+        type: DataSyncEventType.communityCommentCreated,
+        babyId: authorId,
+        date: comment.createdAt,
+        action: DataSyncAction.created,
+        recordId: comment.id,
+        metadata: {
+          'commentId': comment.id,
+          'postId': postId,
+          'authorId': authorId,
+          'parentCommentId': parentCommentId,
+        },
+      );
 
       return comment;
     } catch (e) {
@@ -1183,6 +1242,19 @@ class CommunityService {
         comment = CommunityComment.fromJson(commentJson);
       }
 
+      // 커뮤니티 댓글 수정 이벤트 발생
+      _eventBus.notifyDataChanged(
+        type: DataSyncEventType.communityCommentUpdated,
+        babyId: authorId,
+        date: comment.updatedAt ?? comment.createdAt,
+        action: DataSyncAction.updated,
+        recordId: commentId,
+        metadata: {
+          'commentId': commentId,
+          'authorId': authorId,
+        },
+      );
+
       return comment;
     } catch (e) {
       throw Exception('댓글 수정 실패: $e');
@@ -1231,6 +1303,19 @@ class CommunityService {
         commentJson['author'] = authorResponse;
         deletedComment = CommunityComment.fromJson(commentJson);
       }
+
+      // 커뮤니티 댓글 삭제 이벤트 발생
+      _eventBus.notifyDataChanged(
+        type: DataSyncEventType.communityCommentDeleted,
+        babyId: authorId,
+        date: DateTime.now(),
+        action: DataSyncAction.deleted,
+        recordId: commentId,
+        metadata: {
+          'commentId': commentId,
+          'authorId': authorId,
+        },
+      );
 
       return deletedComment;
     } catch (e) {

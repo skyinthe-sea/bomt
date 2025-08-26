@@ -5,7 +5,11 @@ import 'package:bomt/src/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../screens/community_notification_screen.dart';
 import '../screens/community_search_screen.dart';
+import '../screens/community_my_posts_screen.dart';
+import '../screens/community_write_screen.dart';
+import '../screens/community_nickname_setup_screen.dart';
 import '../../../../presentation/providers/community_provider.dart';
+import '../../../../presentation/providers/community_my_posts_provider.dart';
 import '../../../../services/community/notification_service.dart';
 import '../../../../domain/models/community_category.dart';
 
@@ -20,7 +24,7 @@ class CommunityAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CommunityAppBarState extends State<CommunityAppBar>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   int _unreadCount = 0;
   final NotificationService _notificationService = NotificationService();
   bool _isCategoryExpanded = false;
@@ -28,10 +32,20 @@ class _CommunityAppBarState extends State<CommunityAppBar>
   final LayerLink _categoryLayerLink = LayerLink();
   OverlayEntry? _categoryOverlayEntry;
 
+  // 통합 메뉴 관련 상태
+  bool _isMenuExpanded = false;
+  late AnimationController _menuAnimationController;
+  final LayerLink _menuLayerLink = LayerLink();
+  OverlayEntry? _menuOverlayEntry;
+
   @override
   void initState() {
     super.initState();
     _categoryAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _menuAnimationController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
@@ -45,6 +59,9 @@ class _CommunityAppBarState extends State<CommunityAppBar>
     _categoryOverlayEntry?.remove();
     _categoryOverlayEntry = null;
     _categoryAnimationController.dispose();
+    _menuOverlayEntry?.remove();
+    _menuOverlayEntry = null;
+    _menuAnimationController.dispose();
     super.dispose();
   }
 
@@ -311,10 +328,316 @@ class _CommunityAppBarState extends State<CommunityAppBar>
     );
   }
 
+  // 통합 메뉴 관련 함수들
+  void _toggleMenu() {
+    if (!mounted) return;
+    
+    if (_isMenuExpanded) {
+      _closeMenu();
+    } else {
+      _openMenu();
+    }
+    HapticFeedback.lightImpact();
+  }
+
+  void _openMenu() {
+    if (!mounted) return;
+    
+    _isMenuExpanded = true;
+    _menuAnimationController.forward();
+    
+    final overlay = Overlay.of(context);
+    final renderBox = context.findRenderObject() as RenderBox;
+    final size = renderBox.size;
+    
+    _menuOverlayEntry = OverlayEntry(
+      builder: (overlayContext) => Stack(
+        children: [
+          // 외부 터치 감지를 위한 투명 배경
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: _closeMenu,
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+          
+          // 실제 드롭다운 메뉴
+          Positioned(
+            width: 180,
+            child: CompositedTransformFollower(
+              link: _menuLayerLink,
+              showWhenUnlinked: false,
+              offset: Offset(-138, size.height + 8),
+              child: Material(
+                elevation: 8,
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.transparent,
+                child: AnimatedBuilder(
+                  animation: _menuAnimationController,
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: 0.8 + (0.2 * _menuAnimationController.value),
+                      alignment: Alignment.topRight,
+                      child: Opacity(
+                        opacity: _menuAnimationController.value,
+                        child: _buildMenuDropdownContent(overlayContext),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    
+    overlay.insert(_menuOverlayEntry!);
+  }
+
+  void _closeMenu() {
+    if (!_isMenuExpanded) return;
+    
+    _isMenuExpanded = false;
+    
+    if (mounted) {
+      try {
+        _menuAnimationController.reverse().then((_) {
+          if (mounted) {
+            _menuOverlayEntry?.remove();
+            _menuOverlayEntry = null;
+          }
+        });
+      } catch (e) {
+        _menuOverlayEntry?.remove();
+        _menuOverlayEntry = null;
+      }
+    } else {
+      _menuOverlayEntry?.remove();
+      _menuOverlayEntry = null;
+    }
+  }
+
+  Widget _buildMenuDropdownContent(BuildContext overlayContext) {
+    if (!mounted) return const SizedBox.shrink();
+    
+    final theme = Theme.of(overlayContext);
+    final l10n = AppLocalizations.of(overlayContext)!;
+    
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: theme.colorScheme.outline.withOpacity(0.2),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: theme.colorScheme.shadow.withOpacity(0.15),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Column(
+          children: [
+            _buildMenuItem(
+              icon: Icons.edit,
+              title: '글쓰기',
+              onTap: () async {
+                _closeMenu();
+                final provider = context.read<CommunityProvider>();
+                
+                // 닉네임이 없으면 먼저 설정하도록 유도
+                if (provider.currentUserProfile == null) {
+                  final result = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const CommunityNicknameSetupScreen(),
+                    ),
+                  );
+                  
+                  // 닉네임 설정 후 글쓰기 페이지로
+                  if (result != false && context.mounted) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const CommunityWriteScreen(),
+                      ),
+                    );
+                  }
+                } else {
+                  // 닉네임이 있으면 바로 글쓰기 페이지로
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const CommunityWriteScreen(),
+                    ),
+                  );
+                }
+              },
+              theme: theme,
+            ),
+            _buildMenuDivider(theme),
+            _buildMenuItem(
+              icon: Icons.person_outline,
+              title: '내 활동',
+              onTap: () {
+                _closeMenu();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ChangeNotifierProvider(
+                      create: (context) => CommunityMyPostsProvider(),
+                      child: const CommunityMyPostsScreen(),
+                    ),
+                  ),
+                );
+              },
+              theme: theme,
+            ),
+            _buildMenuDivider(theme),
+            _buildMenuItem(
+              icon: Icons.search,
+              title: l10n.search,
+              onTap: () {
+                _closeMenu();
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const CommunitySearchScreen(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.easeInOut;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              theme: theme,
+            ),
+            _buildMenuDivider(theme),
+            _buildMenuItem(
+              icon: Icons.notifications_outlined,
+              title: l10n.notification,
+              onTap: () async {
+                _closeMenu();
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const CommunityNotificationScreen(),
+                  ),
+                );
+                _loadUnreadCount();
+              },
+              theme: theme,
+              badge: _unreadCount > 0 ? _unreadCount : null,
+            ),
+            _buildMenuDivider(theme),
+            _buildMenuItem(
+              icon: Icons.tune,
+              title: '카테고리',
+              onTap: () {
+                _closeMenu();
+                // 잠시 후 카테고리 드롭다운 열기
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  _toggleCategoryDropdown();
+                });
+              },
+              theme: theme,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+    required ThemeData theme,
+    int? badge,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            children: [
+              Stack(
+                children: [
+                  Icon(
+                    icon,
+                    size: 18,
+                    color: theme.colorScheme.onSurface.withOpacity(0.8),
+                  ),
+                  if (badge != null && badge > 0)
+                    Positioned(
+                      top: -2,
+                      right: -2,
+                      child: Container(
+                        constraints: const BoxConstraints(
+                          minWidth: 12,
+                          minHeight: 12,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 2,
+                          vertical: 1,
+                        ),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.error,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          badge > 99 ? '99+' : badge.toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 8,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuDivider(ThemeData theme) {
+    return Divider(
+      height: 1,
+      thickness: 1,
+      color: theme.colorScheme.outline.withOpacity(0.1),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       decoration: BoxDecoration(
@@ -389,161 +712,71 @@ class _CommunityAppBarState extends State<CommunityAppBar>
                       ),
                     ),
                     
-                    // 검색 버튼 (크기 조정)
-                    Container(
-                      margin: const EdgeInsets.only(right: 6),
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
-                        ),
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          // 검색 페이지로 이동
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation, secondaryAnimation) =>
-                                  const CommunitySearchScreen(),
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                const begin = Offset(1.0, 0.0);
-                                const end = Offset.zero;
-                                const curve = Curves.easeInOut;
-
-                                var tween = Tween(begin: begin, end: end)
-                                    .chain(CurveTween(curve: curve));
-
-                                return SlideTransition(
-                                  position: animation.drive(tween),
-                                  child: child,
-                                );
-                              },
-                            ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.search,
-                          color: Colors.white.withOpacity(0.9),
-                          size: 18,
-                        ),
-                        tooltip: l10n.search,
-                        padding: EdgeInsets.zero,
-                      ),
-                    ),
-                    
-                    // 알림 버튼 (크기 조정)
-                    Container(
-                      margin: const EdgeInsets.only(right: 6),
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
-                        ),
-                      ),
-                      child: IconButton(
-                        onPressed: () async {
-                          // 알림 화면으로 이동
-                          await Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const CommunityNotificationScreen(),
-                            ),
-                          );
-                          // 돌아왔을 때 알림 개수 업데이트
-                          _loadUnreadCount();
-                        },
-                        icon: Stack(
-                          children: [
-                            Icon(
-                              Icons.notifications_outlined,
-                              color: Colors.white.withOpacity(0.9),
-                              size: 18,
-                            ),
-                            // 읽지 않은 알림 뱃지
-                            if (_unreadCount > 0)
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: Container(
-                                  constraints: const BoxConstraints(
-                                    minWidth: 14,
-                                    minHeight: 14,
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 3,
-                                    vertical: 1,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: theme.colorScheme.error,
-                                    borderRadius: BorderRadius.circular(7),
-                                    border: Border.all(
-                                      color: theme.colorScheme.surface,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    _unreadCount > 99 ? '99+' : _unreadCount.toString(),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                        tooltip: l10n.notification,
-                        padding: EdgeInsets.zero,
-                      ),
-                    ),
-
-                    // 카테고리 버튼 (새로 추가)
-                    Consumer<CommunityProvider>(
-                      builder: (context, provider, child) {
-                        if (provider.categories.isEmpty) {
-                          return const SizedBox.shrink();
-                        }
-
-                        return CompositedTransformTarget(
-                          link: _categoryLayerLink,
-                          child: Container(
-                            width: 42,
-                            height: 42,
-                            decoration: BoxDecoration(
-                              color: _isCategoryExpanded 
-                                  ? Colors.white.withOpacity(0.25)
-                                  : Colors.white.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: _isCategoryExpanded
-                                    ? Colors.white.withOpacity(0.4)
-                                    : Colors.white.withOpacity(0.2),
-                              ),
-                            ),
-                            child: IconButton(
-                              onPressed: _toggleCategoryDropdown,
-                              icon: AnimatedRotation(
-                                turns: _isCategoryExpanded ? 0.5 : 0,
-                                duration: const Duration(milliseconds: 200),
-                                child: Icon(
-                                  Icons.tune,
-                                  color: Colors.white.withOpacity(0.9),
-                                  size: 18,
-                                ),
-                              ),
-                              tooltip: '카테고리 선택',
-                              padding: EdgeInsets.zero,
-                            ),
+                    // 통합 메뉴 버튼
+                    CompositedTransformTarget(
+                      link: _menuLayerLink,
+                      child: Container(
+                        width: 42,
+                        height: 42,
+                        decoration: BoxDecoration(
+                          color: _isMenuExpanded 
+                              ? Colors.white.withOpacity(0.25)
+                              : Colors.white.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: _isMenuExpanded
+                                ? Colors.white.withOpacity(0.4)
+                                : Colors.white.withOpacity(0.2),
                           ),
-                        );
-                      },
+                        ),
+                        child: IconButton(
+                          onPressed: _toggleMenu,
+                          icon: Stack(
+                            children: [
+                              Icon(
+                                Icons.more_vert,
+                                color: Colors.white.withOpacity(0.9),
+                                size: 18,
+                              ),
+                              // 읽지 않은 알림 뱃지 표시
+                              if (_unreadCount > 0)
+                                Positioned(
+                                  top: 0,
+                                  right: 0,
+                                  child: Container(
+                                    constraints: const BoxConstraints(
+                                      minWidth: 12,
+                                      minHeight: 12,
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 2,
+                                      vertical: 1,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.error,
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      _unreadCount > 99 ? '99+' : _unreadCount.toString(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 8,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                          tooltip: '메뉴',
+                          padding: EdgeInsets.zero,
+                        ),
+                      ),
                     ),
                   ],
                 ),

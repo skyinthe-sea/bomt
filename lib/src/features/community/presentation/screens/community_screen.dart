@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import '../../../../presentation/providers/community_provider.dart';
 import '../widgets/community_app_bar.dart';
 import '../widgets/community_post_list.dart';
-import '../widgets/community_fab.dart';
 import '../widgets/community_loading_shimmer.dart';
 import 'community_nickname_setup_screen.dart';
 
@@ -192,8 +191,6 @@ class _CommunityScreenState extends State<CommunityScreen>
             },
           ),
         ),
-        floatingActionButton: const CommunityFAB(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       );
   }
 }

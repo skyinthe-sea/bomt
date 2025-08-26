@@ -16,6 +16,18 @@ enum DataSyncEventType {
   solidFoodChanged,
   /// 체온 데이터 변경
   temperatureChanged,
+  /// 커뮤니티 게시글 생성
+  communityPostCreated,
+  /// 커뮤니티 게시글 수정
+  communityPostUpdated,
+  /// 커뮤니티 게시글 삭제
+  communityPostDeleted,
+  /// 커뮤니티 댓글 생성
+  communityCommentCreated,
+  /// 커뮤니티 댓글 수정
+  communityCommentUpdated,
+  /// 커뮤니티 댓글 삭제
+  communityCommentDeleted,
   /// 모든 데이터 새로고침 필요
   allDataRefresh,
 }
