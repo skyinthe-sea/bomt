@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../domain/models/community_post.dart';
@@ -13,6 +14,8 @@ class CommunityMyPostsProvider with ChangeNotifier {
   final CommunityMyPostsCacheService _cache = CommunityMyPostsCacheService.instance;
   AuthService? _authService;
   final AppEventBus _eventBus = AppEventBus.instance;
+  StreamSubscription<DataSyncEvent>? _eventSubscription;
+  bool _isDisposed = false;
 
   // State
   List<CommunityPost> _myPosts = [];
@@ -41,33 +44,63 @@ class CommunityMyPostsProvider with ChangeNotifier {
 
   /// 초기화
   Future<void> initialize() async {
+    debugPrint('=' * 100);
     debugPrint('🏠 [MY_POSTS] Initializing my posts provider');
+    debugPrint('=' * 100);
     
     try {
       // AuthService 초기화
+      debugPrint('📋 [MY_POSTS] STEP 1: SharedPreferences 초기화 중...');
       final prefs = await SharedPreferences.getInstance();
-      _authService = AuthService(prefs);
+      debugPrint('✅ [MY_POSTS] SharedPreferences 초기화 완료');
       
-      // 현재 사용자 ID 가져오기
-      final currentUser = await _authService!.getCurrentUser();
-      _currentUserId = currentUser?.id.toString();
+      debugPrint('📋 [MY_POSTS] STEP 2: AuthService 초기화 중...');
+      _authService = AuthService(prefs);
+      debugPrint('✅ [MY_POSTS] AuthService 초기화 완료');
+      
+      // 현재 사용자 ID 가져오기 (실제 user_id UUID 형태)
+      debugPrint('📋 [MY_POSTS] STEP 3: getCurrentUserProfileId() 호출 중...');
+      debugPrint('    - 호출 전 _currentUserId: $_currentUserId');
+      
+      _currentUserId = await _authService!.getCurrentUserProfileId();
+      
+      debugPrint('    - 호출 후 _currentUserId: $_currentUserId');
+      debugPrint('    - _currentUserId 타입: ${_currentUserId.runtimeType}');
+      debugPrint('    - _currentUserId == null: ${_currentUserId == null}');
+      debugPrint('    - _currentUserId?.isEmpty: ${_currentUserId?.isEmpty}');
+      
       if (_currentUserId == null) {
         debugPrint('❌ [MY_POSTS] No current user ID found');
+        debugPrint('=' * 100);
         return;
       }
 
       debugPrint('✅ [MY_POSTS] Current user ID: $_currentUserId');
 
       // 캐시에서 데이터 로드 시도
+      debugPrint('📋 [MY_POSTS] STEP 4: 캐시에서 데이터 로드 시도...');
       await _loadFromCache();
+      debugPrint('✅ [MY_POSTS] 캐시 로드 완료 - Posts: ${_myPosts.length}, Comments: ${_myComments.length}');
 
       // 캐시가 비어있거나 오래된 경우 새로 로드
-      if (_myPosts.isEmpty || _cache.isCacheExpired(_currentUserId!)) {
+      final isCacheExpired = _cache.isCacheExpired(_currentUserId!);
+      debugPrint('📋 [MY_POSTS] STEP 5: 캐시 상태 확인');
+      debugPrint('    - _myPosts.isEmpty: ${_myPosts.isEmpty}');
+      debugPrint('    - isCacheExpired: $isCacheExpired');
+      debugPrint('    - 새로운 데이터 로드 필요: ${_myPosts.isEmpty || isCacheExpired}');
+      
+      if (_myPosts.isEmpty || isCacheExpired) {
+        debugPrint('📋 [MY_POSTS] STEP 6: 새로운 데이터 로드 중...');
         await _loadFreshData();
+        debugPrint('✅ [MY_POSTS] 새 데이터 로드 완료 - Posts: ${_myPosts.length}, Comments: ${_myComments.length}');
+      } else {
+        debugPrint('✅ [MY_POSTS] 캐시된 데이터 사용 중');
       }
 
       // 이벤트 리스너 등록
+      debugPrint('📋 [MY_POSTS] STEP 7: 이벤트 리스너 등록...');
       _listenToEvents();
+      debugPrint('✅ [MY_POSTS] 이벤트 리스너 등록 완료');
 
     } catch (e) {
       debugPrint('❌ [MY_POSTS] Error initializing: $e');
@@ -108,34 +141,68 @@ class CommunityMyPostsProvider with ChangeNotifier {
 
   /// 내 글 목록 로드
   Future<void> _loadMyPosts({bool refresh = false}) async {
-    if (_currentUserId == null) return;
-    if (_isLoadingPosts) return;
-    if (!refresh && !_hasMorePosts) return;
+    debugPrint('🔄 [MY_POSTS] _loadMyPosts 시작 - refresh: $refresh');
+    
+    if (_currentUserId == null) {
+      debugPrint('❌ [MY_POSTS] _currentUserId가 null이어서 종료');
+      return;
+    }
+    if (_isLoadingPosts) {
+      debugPrint('❌ [MY_POSTS] 이미 로딩 중이어서 종료');
+      return;
+    }
+    if (!refresh && !_hasMorePosts) {
+      debugPrint('❌ [MY_POSTS] 더 이상 로드할 데이터가 없어서 종료');
+      return;
+    }
 
     try {
       _isLoadingPosts = true;
       if (refresh) {
         _postsPage = 0;
         _hasMorePosts = true;
+        debugPrint('🔄 [MY_POSTS] 페이지 초기화: $_postsPage');
       }
       notifyListeners();
 
+      debugPrint('🌐 [MY_POSTS] API 호출 중...');
+      debugPrint('    - userId: $_currentUserId');
+      debugPrint('    - page: $_postsPage');
+      debugPrint('    - pageSize: $_pageSize');
+      
       final posts = await _service.getMyPosts(
         userId: _currentUserId!,
         page: _postsPage,
         pageSize: _pageSize,
       );
 
+      debugPrint('📥 [MY_POSTS] API 응답 수신');
+      debugPrint('    - 받은 posts 개수: ${posts.length}');
+      debugPrint('    - 각 post의 author_id:');
+      for (int i = 0; i < posts.length; i++) {
+        debugPrint('      [$i] ${posts[i].id} - author: ${posts[i].authorId}');
+        debugPrint('      [$i] 제목: ${posts[i].title ?? "제목없음"}');
+        debugPrint('      [$i] 내용: ${posts[i].content.length > 50 ? posts[i].content.substring(0, 50) + "..." : posts[i].content}');
+      }
+
       if (refresh) {
         _myPosts = posts;
+        debugPrint('🔄 [MY_POSTS] 전체 교체 완료 - 총 ${_myPosts.length}개');
       } else {
+        final oldLength = _myPosts.length;
         _myPosts.addAll(posts);
+        debugPrint('🔄 [MY_POSTS] 추가 완료 - ${oldLength}개 → ${_myPosts.length}개');
       }
 
       _hasMorePosts = posts.length == _pageSize;
       _postsPage++;
 
+      debugPrint('📊 [MY_POSTS] 상태 업데이트');
+      debugPrint('    - _hasMorePosts: $_hasMorePosts');
+      debugPrint('    - _postsPage: $_postsPage');
+
       // 캐시 업데이트
+      debugPrint('💾 [MY_POSTS] 캐시 업데이트 중...');
       await _cache.cacheMyPosts(_currentUserId!, _myPosts);
 
       debugPrint('📝 [MY_POSTS] Loaded ${posts.length} posts, total: ${_myPosts.length}');
@@ -219,7 +286,8 @@ class CommunityMyPostsProvider with ChangeNotifier {
 
   /// 이벤트 리스너 등록
   void _listenToEvents() {
-    _eventBus.dataSyncStream.listen((event) {
+    _eventSubscription?.cancel(); // 기존 구독 취소
+    _eventSubscription = _eventBus.dataSyncStream.listen((event) {
       if (_currentUserId == null) return;
 
       // 커뮤니티 관련 이벤트만 처리
@@ -249,13 +317,24 @@ class CommunityMyPostsProvider with ChangeNotifier {
   /// 캐시 무효화 및 새로고침
   Future<void> _invalidateCacheAndRefresh() async {
     if (_currentUserId == null) return;
+    
+    // dispose된 경우 처리 중단
+    if (_isDisposed) {
+      debugPrint('🔄 [MY_POSTS] Provider disposed, skipping refresh');
+      return;
+    }
 
     try {
       // 캐시 무효화
       await _cache.invalidateCache(_currentUserId!);
       
-      // 백그라운드에서 새로고침 (UI 블로킹 방지)
-      _loadFreshData();
+      // dispose 확인 후 새로고침
+      if (!_isDisposed) {
+        // 백그라운드에서 새로고침 (UI 블로킹 방지)
+        _loadFreshData();
+      } else {
+        debugPrint('🔄 [MY_POSTS] Provider disposed during cache invalidation');
+      }
       
     } catch (e) {
       debugPrint('❌ [MY_POSTS] Error invalidating cache: $e');
@@ -263,8 +342,12 @@ class CommunityMyPostsProvider with ChangeNotifier {
   }
 
   /// 리소스 정리
+  @override
   void dispose() {
     debugPrint('🗑️ [MY_POSTS] Disposing provider');
+    _isDisposed = true; // dispose 상태 표시
+    _eventSubscription?.cancel(); // 이벤트 구독 취소
+    debugPrint('🗑️ [MY_POSTS] Event subscription cancelled');
     super.dispose();
   }
 }

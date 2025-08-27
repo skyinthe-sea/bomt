@@ -449,19 +449,13 @@ class CommunityProvider with ChangeNotifier {
       final authService = AuthService(prefs);
       debugPrint('DEBUG: ✅ AuthService 생성 완료');
       
-      debugPrint('DEBUG: Calling authService.getCurrentUser()...');
-      final kakaoUser = await authService.getCurrentUser();
-      debugPrint('DEBUG: authService.getCurrentUser() result = $kakaoUser');
-      debugPrint('DEBUG: kakaoUser type = ${kakaoUser.runtimeType}');
+      debugPrint('DEBUG: Calling authService.getCurrentUserProfileId()...');
+      _currentUserId = await authService.getCurrentUserProfileId();
+      debugPrint('DEBUG: authService.getCurrentUserProfileId() result = $_currentUserId');
       
-      if (kakaoUser != null) {
-        _currentUserId = kakaoUser.id.toString();
+      if (_currentUserId != null) {
         debugPrint('DEBUG: ✅ 카카오 사용자 발견!');
-        debugPrint('    - Kakao User ID: ${kakaoUser.id}');
-        debugPrint('    - String User ID: $_currentUserId');
-        if (kakaoUser.kakaoAccount?.email != null) {
-          debugPrint('    - Kakao Email: ${kakaoUser.kakaoAccount!.email}');
-        }
+        debugPrint('    - User Profile ID (UUID): $_currentUserId');
       } else {
         _currentUserId = null;
         debugPrint('DEBUG: ❌ 카카오 사용자도 없음');

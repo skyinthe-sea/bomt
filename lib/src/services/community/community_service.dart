@@ -888,6 +888,9 @@ class CommunityService {
 
       print('🔥 DEBUG: 댓글 삽입 완료 - commentId: ${response['id']}');
       
+      // 🔥 comment_count는 이제 DB 트리거가 자동 처리
+      print('🔥 DEBUG: comment_count는 DB 트리거가 자동 업데이트 처리함');
+      
       // 게시글의 변경된 comment_count 확인
       final postAfter = await _supabase
           .from('community_posts')
@@ -1474,6 +1477,118 @@ class CommunityService {
     } catch (e) {
       // 좋아요 정보 조회 실패 시 원본 반환
       return posts;
+    }
+  }
+
+  /// 게시글 조회수 증가 (중복 방지 로직 포함)
+  /// 
+  /// 같은 사용자가 같은 게시글을 여러 번 조회해도 조회수는 1번만 증가
+  /// 현업에서 많이 사용하는 방식: 사용자별 중복 방지
+  Future<bool> incrementViewCount({
+    required String postId,
+    required String userId,
+    String? ipAddress,
+    String? userAgent,
+  }) async {
+    try {
+      print('🔥 DEBUG: incrementViewCount 시작 - postId: $postId, userId: $userId');
+      
+      // 1. 이미 조회한 기록이 있는지 확인
+      final existingView = await _supabase
+          .from('community_post_views')
+          .select('id, viewed_at')
+          .eq('post_id', postId)
+          .eq('user_id', userId)
+          .maybeSingle();
+      
+      if (existingView != null) {
+        print('🔥 DEBUG: 이미 조회한 기록 있음 - 조회수 증가 안함');
+        return false; // 이미 조회한 경우 조회수 증가하지 않음
+      }
+      
+      // 2. 조회 기록 삽입 (UNIQUE 제약으로 중복 방지)
+      print('🔥 DEBUG: 새로운 조회 기록 삽입 중...');
+      await _supabase
+          .from('community_post_views')
+          .insert({
+            'post_id': postId,
+            'user_id': userId,
+            'ip_address': ipAddress,
+            'user_agent': userAgent,
+            'viewed_at': DateTime.now().toIso8601String(),
+          });
+      
+      print('🔥 DEBUG: 조회 기록 삽입 완료');
+      
+      // 3. 게시글의 view_count 증가
+      print('🔥 DEBUG: 게시글 view_count 업데이트 시작...');
+      
+      // 현재 조회수 가져오기
+      final currentPost = await _supabase
+          .from('community_posts')
+          .select('view_count')
+          .eq('id', postId)
+          .single();
+          
+      final currentViewCount = currentPost['view_count'] ?? 0;
+      print('🔥 DEBUG: 현재 조회수: $currentViewCount');
+      
+      // 조회수 증가
+      await _supabase
+          .from('community_posts')
+          .update({
+            'view_count': currentViewCount + 1
+          })
+          .eq('id', postId);
+      
+      print('🔥 DEBUG: 조회수 업데이트 완료 - ${currentViewCount + 1}');
+      
+      return true; // 조회수 증가 성공
+      
+    } catch (e) {
+      // 중복 삽입 시도 시 (UNIQUE 제약 위반) 조회수 증가하지 않음
+      if (e.toString().contains('unique_user_post_view')) {
+        print('🔥 DEBUG: 중복 조회 시도 - 조회수 증가 안함');
+        return false;
+      }
+      
+      print('❌ ERROR: 조회수 증가 실패: $e');
+      return false;
+    }
+  }
+
+  /// 게시글 상세 조회 (조회수 증가 포함)
+  /// 
+  /// 게시글을 조회할 때 자동으로 조회수를 증가시킵니다.
+  /// 중복 조회는 방지됩니다.
+  Future<CommunityPost?> getPostWithViewIncrement({
+    required String postId,
+    required String currentUserId,
+    String? ipAddress,
+    String? userAgent,
+  }) async {
+    try {
+      print('🔥 DEBUG: getPostWithViewIncrement 시작 - postId: $postId');
+      
+      // 1. 게시글 조회
+      final post = await getPost(postId, currentUserId: currentUserId);
+      if (post == null) return null;
+      
+      // 2. 조회수 증가 (백그라운드에서 실행 - UI 블로킹 방지)
+      Future.microtask(() async {
+        await incrementViewCount(
+          postId: postId,
+          userId: currentUserId,
+          ipAddress: ipAddress,
+          userAgent: userAgent,
+        );
+      });
+      
+      return post;
+      
+    } catch (e) {
+      print('❌ ERROR: getPostWithViewIncrement 실패: $e');
+      throw Exception('게시글 조회 실패: $e');
     }
   }
 }

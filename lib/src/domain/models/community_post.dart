@@ -66,11 +66,11 @@ class CommunityPost {
 
     try {
       return CommunityPost(
-        id: json['id'] as String,
-        authorId: json['author_id'] as String,
+        id: json['id']?.toString() ?? '', // null-safe 처리
+        authorId: json['author_id']?.toString() ?? '', // null-safe 처리
         categoryId: json['category_id']?.toString() ?? '', // 빈 문자열로 처리
-        title: json['title'] as String?, // X 스타일: null 허용
-        content: json['content'] as String? ?? '',
+        title: json['title']?.toString(), // null-safe 처리
+        content: json['content']?.toString() ?? '', // null-safe 처리
         images: images,
         mosaicImages: mosaicImages,
         hasMosaic: json['has_mosaic'] as bool? ?? false,

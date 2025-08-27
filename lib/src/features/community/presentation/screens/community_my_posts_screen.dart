@@ -12,19 +12,13 @@ class CommunityMyPostsScreen extends StatefulWidget {
   State<CommunityMyPostsScreen> createState() => _CommunityMyPostsScreenState();
 }
 
-class _CommunityMyPostsScreenState extends State<CommunityMyPostsScreen>
-    with TickerProviderStateMixin {
-  late TabController _tabController;
+class _CommunityMyPostsScreenState extends State<CommunityMyPostsScreen> {
   final ScrollController _postsScrollController = ScrollController();
-  final ScrollController _commentsScrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-    
     _postsScrollController.addListener(_onPostsScroll);
-    _commentsScrollController.addListener(_onCommentsScroll);
     
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<CommunityMyPostsProvider>().initialize();
@@ -33,9 +27,7 @@ class _CommunityMyPostsScreenState extends State<CommunityMyPostsScreen>
 
   @override
   void dispose() {
-    _tabController.dispose();
     _postsScrollController.dispose();
-    _commentsScrollController.dispose();
     super.dispose();
   }
 
@@ -46,12 +38,6 @@ class _CommunityMyPostsScreenState extends State<CommunityMyPostsScreen>
     }
   }
 
-  void _onCommentsScroll() {
-    if (_commentsScrollController.position.pixels >=
-        _commentsScrollController.position.maxScrollExtent * 0.9) {
-      context.read<CommunityMyPostsProvider>().loadMoreComments();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,17 +58,6 @@ class _CommunityMyPostsScreenState extends State<CommunityMyPostsScreen>
         foregroundColor: theme.colorScheme.onSurface,
         elevation: 0,
         scrolledUnderElevation: 1,
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(text: '내가 쓴 글'),
-            Tab(text: '내가 쓴 댓글'),
-          ],
-          labelColor: theme.colorScheme.primary,
-          unselectedLabelColor: theme.colorScheme.onSurface.withOpacity(0.6),
-          indicatorColor: theme.colorScheme.primary,
-          indicatorWeight: 3,
-        ),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -96,13 +71,7 @@ class _CommunityMyPostsScreenState extends State<CommunityMyPostsScreen>
             ],
           ),
         ),
-        child: TabBarView(
-          controller: _tabController,
-          children: [
-            _buildMyPostsTab(),
-            _buildMyCommentsTab(),
-          ],
-        ),
+        child: _buildMyPostsTab(),
       ),
     );
   }
@@ -144,101 +113,6 @@ class _CommunityMyPostsScreenState extends State<CommunityMyPostsScreen>
     );
   }
 
-  Widget _buildMyCommentsTab() {
-    return Consumer<CommunityMyPostsProvider>(
-      builder: (context, provider, child) {
-        if (provider.isLoadingComments && provider.myComments.isEmpty) {
-          return const CommunityLoadingShimmer();
-        }
-
-        if (provider.myComments.isEmpty && !provider.isLoadingComments) {
-          return _buildEmptyState('아직 작성한 댓글이 없어요', Icons.chat_bubble_outline);
-        }
-
-        return RefreshIndicator(
-          onRefresh: () => provider.refreshComments(),
-          child: ListView.separated(
-            controller: _commentsScrollController,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            itemCount: provider.myComments.length + (provider.hasMoreComments ? 1 : 0),
-            separatorBuilder: (context, index) => const SizedBox(height: 12),
-            itemBuilder: (context, index) {
-              if (index >= provider.myComments.length) {
-                return _buildLoadingIndicator();
-              }
-
-              final comment = provider.myComments[index];
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: _buildCommentCard(comment),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildCommentCard(dynamic comment) {
-    final theme = Theme.of(context);
-    
-    return Card(
-      margin: EdgeInsets.zero,
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () {
-          // TODO: 해당 게시글로 이동
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 댓글 내용
-              Text(
-                comment.content,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface,
-                ),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 12),
-              
-              // 하단 정보
-              Row(
-                children: [
-                  Icon(
-                    Icons.chat_bubble_outline,
-                    size: 16,
-                    color: theme.colorScheme.onSurface.withOpacity(0.6),
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    '게시글로 이동',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    _formatDateTime(comment.createdAt),
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurface.withOpacity(0.6),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildEmptyState(String message, IconData icon) {
     final theme = Theme.of(context);

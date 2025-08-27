@@ -57,7 +57,19 @@ class CommunityPostProvider with ChangeNotifier {
       _error = null;
       notifyListeners();
 
-      _post = await _communityService.getPost(postId, currentUserId: currentUserId);
+      // 🔥 조회수 증가 로직 적용
+      if (currentUserId != null) {
+        _post = await _communityService.getPostWithViewIncrement(
+          postId: postId, 
+          currentUserId: currentUserId!,
+          // TODO: 추후 필요시 IP 주소와 User Agent 추가
+          // ipAddress: null,
+          // userAgent: null,
+        );
+      } else {
+        // 로그인하지 않은 경우 기존 방식 사용
+        _post = await _communityService.getPost(postId, currentUserId: null);
+      }
       
       if (_post == null) {
         _error = '게시글을 찾을 수 없습니다.';
