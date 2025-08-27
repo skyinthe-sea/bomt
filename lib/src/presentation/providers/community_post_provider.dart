@@ -26,11 +26,16 @@ class CommunityPostProvider with ChangeNotifier {
   UserProfile? _currentUserProfile;
   String? _currentUserId;
   
-  // 댓글 페이징 및 정렬 상태
+  // 댓글 페이징 및 정렬 상태 (성능 최적화)
   String _commentSortOrder = 'like_count'; // 'like_count' | 'created_at'
   int _commentOffset = 0;
-  int _commentLimit = 10;
+  int _commentLimit = 10; // 초기 페이지 크기
   bool _hasMoreComments = true;
+  
+  // 성능 최적화를 위한 적응형 페이징
+  static const int _maxCommentsPerPage = 20; // 최대 페이지 크기
+  static const int _minCommentsPerPage = 5;  // 최소 페이지 크기
+  static const int _performanceThreshold = 500; // 성능 임계값 (ms)
   int _totalCommentsCount = 0;
 
   // Getters
@@ -101,6 +106,10 @@ class CommunityPostProvider with ChangeNotifier {
         orderBy: _commentSortOrder, // 현재 선택된 정렬 순서 사용
       );
       
+      // 성능 기반 적응형 페이지 크기 조정
+      final loadTime = result['loadTime'] as int? ?? 0;
+      _adaptPageSize(loadTime);
+      
       final commentsWithMeta = result['comments'] as List<Map<String, dynamic>>;
       _totalCommentsCount = result['totalCount'] as int;
       _hasMoreComments = result['hasMore'] as bool;
@@ -159,6 +168,10 @@ class CommunityPostProvider with ChangeNotifier {
         offset: _commentOffset,
         orderBy: _commentSortOrder, // 현재 선택된 정렬 순서 사용
       );
+      
+      // 성능 기반 적응형 페이지 크기 조정 (더보기에서도 적용)
+      final loadTime = result['loadTime'] as int? ?? 0;
+      _adaptPageSize(loadTime);
       
       final commentsWithMeta = result['comments'] as List<Map<String, dynamic>>;
       _hasMoreComments = result['hasMore'] as bool;
@@ -570,9 +583,20 @@ class CommunityPostProvider with ChangeNotifier {
     return currentUserId != null && currentUserId == commentAuthorId;
   }
 
-  // 트위터 방식의 댓글 우선순위 정렬
+  // 트위터 방식의 댓글 우선순위 정렬 (좋아요순에서는 우선순위 완화)
   List<CommunityComment> _sortCommentsWithPriority(List<CommunityComment> comments) {
     if (comments.isEmpty || currentUserId == null) {
+      // 사용자 정보가 없으면 DB 정렬 순서 그대로 반환
+      return comments;
+    }
+
+    // 🔥 좋아요순일 때는 우선순위 약화 - DB 정렬 우선
+    if (_commentSortOrder == 'like_count') {
+      debugPrint('🔥 [COMMENT_SORT] 좋아요순 - DB 정렬 순서 우선 적용');
+      debugPrint('    - 현재 정렬: $_commentSortOrder');
+      debugPrint('    - 댓글 수: ${comments.length}개');
+      
+      // 좋아요순에서는 트위터 방식 우선순위를 적용하지 않고 DB 순서 유지
       return comments;
     }
 
@@ -581,7 +605,7 @@ class CommunityPostProvider with ChangeNotifier {
     final authorComments = <CommunityComment>[];
     final otherComments = <CommunityComment>[];
 
-    // 댓글을 카테고리별로 분류
+    // 최신순일 때만 댓글을 카테고리별로 분류
     for (final comment in comments) {
       if (comment.authorId == currentUserId) {
         myComments.add(comment);
@@ -592,23 +616,40 @@ class CommunityPostProvider with ChangeNotifier {
       }
     }
 
-    // 각 그룹 내에서 선택된 정렬 순서 적용
-    void sortByOrder(List<CommunityComment> commentsToSort) {
-      if (_commentSortOrder == 'like_count') {
-        // 좋아요순 (내림차순)
-        commentsToSort.sort((a, b) => b.likeCount.compareTo(a.likeCount));
-      } else {
-        // 최신순 (내림차순)
-        commentsToSort.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    debugPrint('🔥 [COMMENT_SORT] 최신순 - 트위터 방식 우선순위 적용');
+    debugPrint('    - 작성자 댓글: ${authorComments.length}개');
+    debugPrint('    - 내 댓글: ${myComments.length}개'); 
+    debugPrint('    - 기타 댓글: ${otherComments.length}개');
+    debugPrint('    - 현재 정렬: $_commentSortOrder');
+
+    // 최신순에서만 트위터 방식 순서: 작성자 댓글 → 본인 댓글 → 나머지 댓글
+    return [...authorComments, ...myComments, ...otherComments];
+  }
+
+  /// 성능 기반 적응형 페이지 크기 조정
+  /// 
+  /// [로직]
+  /// - 로딩 시간이 임계값보다 길면 페이지 크기 감소
+  /// - 로딩 시간이 빠르면 페이지 크기 증가
+  /// - 최소/최대 범위 내에서만 조정
+  void _adaptPageSize(int loadTimeMs) {
+    debugPrint('🔥 [ADAPTIVE_PAGING] 현재 페이지 크기: $_commentLimit, 로딩 시간: ${loadTimeMs}ms');
+    
+    if (loadTimeMs > _performanceThreshold) {
+      // 성능이 느려지면 페이지 크기 감소
+      final newLimit = (_commentLimit * 0.8).round().clamp(_minCommentsPerPage, _maxCommentsPerPage);
+      if (newLimit != _commentLimit) {
+        _commentLimit = newLimit;
+        debugPrint('🔥 [ADAPTIVE_PAGING] 성능 저하로 페이지 크기 감소: $_commentLimit');
+      }
+    } else if (loadTimeMs < _performanceThreshold * 0.3) {
+      // 성능이 좋으면 페이지 크기 증가
+      final newLimit = (_commentLimit * 1.2).round().clamp(_minCommentsPerPage, _maxCommentsPerPage);
+      if (newLimit != _commentLimit) {
+        _commentLimit = newLimit;
+        debugPrint('🔥 [ADAPTIVE_PAGING] 성능 양호로 페이지 크기 증가: $_commentLimit');
       }
     }
-
-    sortByOrder(myComments);
-    sortByOrder(authorComments);
-    sortByOrder(otherComments);
-
-    // 트위터 방식 순서: 작성자 댓글 → 본인 댓글 → 나머지 댓글
-    return [...authorComments, ...myComments, ...otherComments];
   }
 
   // 데이터 클리어

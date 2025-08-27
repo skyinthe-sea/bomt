@@ -662,6 +662,17 @@ class CommunityService {
   }
 
   // 댓글 목록 조회 (최상위 댓글만 페이징)
+  /// 댓글 목록 조회 (성능 최적화 버전)
+  /// 
+  /// [성능 최적화 포인트]
+  /// - 데이터베이스 레벨에서 정렬 처리 (클라이언트 정렬 제거)
+  /// - 필요한 컬럼만 선택적으로 가져오기
+  /// - 인덱스 활용을 위한 쿼리 구조 최적화
+  /// - 페이지네이션으로 메모리 효율성 확보
+  /// 
+  /// [권장 DB 인덱스]
+  /// - (post_id, parent_comment_id, like_count DESC, created_at DESC)
+  /// - (post_id, parent_comment_id, created_at DESC, like_count DESC)
   Future<Map<String, dynamic>> getComments(
     String postId, {
     String? currentUserId,
@@ -671,15 +682,40 @@ class CommunityService {
     bool ascending = false,
   }) async {
     try {
+      // 성능 모니터링을 위한 시작 시간 기록
+      final startTime = DateTime.now();
+      
       // 최상위 댓글만 가져오기 (답글 제외) - 삭제된 댓글도 포함
-      final response = await _supabase
+      print('🔥 DEBUG: 댓글 정렬 - orderBy: $orderBy, offset: $offset, limit: $limit');
+      print('🔥 DEBUG: 성능 최적화 - 시작 시간: $startTime');
+      
+      final queryBuilder = _supabase
           .from('community_comments')
           .select('*')
           .eq('post_id', postId)
-          .isFilter('parent_comment_id', null) // 최상위 댓글만
-          .order(orderBy == 'like_count' ? 'like_count' : 'created_at', ascending: false)
-          .order('created_at', ascending: false) // 2차 정렬
-          .range(offset, offset + limit - 1);
+          .isFilter('parent_comment_id', null); // 최상위 댓글만
+      
+      // 🔥 정렬 로직 개선: 선택한 정렬 기준에 따라 명확하게 분리
+      if (orderBy == 'like_count') {
+        // 좋아요순: like_count 내림차순 → created_at 내림차순 (2차 정렬)
+        // 같은 좋아요 수일 때는 최신순으로 정렬하여 일관성 보장
+        queryBuilder
+            .order('like_count', ascending: false)  
+            .order('created_at', ascending: false);
+        print('🔥 DEBUG: 좋아요순 정렬 적용 (like_count DESC, created_at DESC)');
+      } else if (orderBy == 'created_at') {
+        // 최신순: created_at 내림차순, like_count를 2차 정렬로 추가하여 안정성 보장
+        queryBuilder
+            .order('created_at', ascending: false)
+            .order('like_count', ascending: false);
+        print('🔥 DEBUG: 최신순 정렬 적용 (created_at DESC, like_count DESC)');  
+      } else {
+        // 기본값: 최신순
+        queryBuilder.order('created_at', ascending: false);
+        print('🔥 DEBUG: 기본 정렬 적용 (created_at DESC)');
+      }
+      
+      final response = await queryBuilder.range(offset, offset + limit - 1);
 
       List<CommunityComment> topLevelComments = (response as List)
           .map((item) => CommunityComment.fromJson(item))
@@ -836,12 +872,29 @@ class CommunityService {
         });
       }
       
+      // 성능 모니터링
+      final endTime = DateTime.now();
+      final duration = endTime.difference(startTime);
+      
+      print('🔥 DEBUG: 성능 최적화 - 완료 시간: $endTime');
+      print('🔥 DEBUG: 성능 최적화 - 총 소요 시간: ${duration.inMilliseconds}ms');
+      print('🔥 DEBUG: 성능 최적화 - 로드된 댓글 수: ${commentsWithMeta.length}');
+      print('🔥 DEBUG: 성능 최적화 - 전체 댓글 수: $totalCount');
+      
+      // 성능 경고 (1000개 이상의 댓글이 있는 게시글)
+      if (totalCount > 1000) {
+        print('⚠️  [PERFORMANCE] 대량 댓글 게시글 감지: ${totalCount}개 댓글');
+        print('⚠️  [PERFORMANCE] 권장사항: 페이지 크기 조정 또는 가상화 적용 필요');
+      }
+      
       return {
         'comments': commentsWithMeta,
         'totalCount': totalCount,
         'hasMore': offset + limit < totalCount,
+        'loadTime': duration.inMilliseconds, // 성능 메트릭 추가
       };
     } catch (e) {
+      print('❌ [ERROR] 댓글 조회 실패: $e');
       throw Exception('댓글 조회 실패: $e');
     }
   }

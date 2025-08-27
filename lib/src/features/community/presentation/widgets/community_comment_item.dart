@@ -535,8 +535,8 @@ class _CommunityCommentItemState extends State<CommunityCommentItem>
                                             ? theme.colorScheme.error
                                             : theme.colorScheme.onSurface.withOpacity(0.6),
                                   ),
-                                  // 좋아요 수 표시 (5개 이상일 때만 표시)
-                                if (widget.comment.likeCount >= 5) ...[
+                                  // 좋아요 수 표시 (1개 이상일 때만 표시)
+                                if (widget.comment.likeCount >= 1) ...[
                                     const SizedBox(width: 4),
                                     Text(
                                       widget.comment.likeCount.toString(),
