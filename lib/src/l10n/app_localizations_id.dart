@@ -2178,4 +2178,58 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get confidence => 'Confidence';
+
+  @override
+  String sleepProgressMinutes(int minutes) {
+    return '$minutes minutes in progress';
+  }
+
+  @override
+  String get sleepProgressTime => 'Sleep Progress Time';
+
+  @override
+  String get standardFeedingTimeNow => 'It\'s standard feeding time';
+
+  @override
+  String standardFeedingTimeSoon(int minutes) {
+    return 'Standard feeding time coming soon ($minutes minutes)';
+  }
+
+  @override
+  String timeUntilStandardFeedingHours(int hours, int minutes) {
+    return '$hours hours $minutes minutes until standard feeding';
+  }
+
+  @override
+  String timeUntilStandardFeedingMinutes(int minutes) {
+    return '$minutes minutes until standard feeding';
+  }
+
+  @override
+  String get insufficientFeedingRecordsApplyingStandard =>
+      'Insufficient feeding records (applying standard interval)';
+
+  @override
+  String get standardFeedingTimeOverdue => 'Standard feeding time is overdue';
+
+  @override
+  String hoursMinutesFormat(int hours, int minutes) {
+    return '$hours hours $minutes minutes';
+  }
+
+  @override
+  String minutesFormat(int minutes) {
+    return '$minutes minutes';
+  }
+
+  @override
+  String personalPatternInfo(String interval) {
+    return 'Personal pattern: $interval interval (for reference)';
+  }
+
+  @override
+  String get longPressForDetails => 'Long press for details';
+
+  @override
+  String get checkStandardFeedingInterval => 'Check standard feeding interval';
 }

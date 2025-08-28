@@ -1303,5 +1303,74 @@
   "noInsightsYet": "Not enough data to analyze patterns yet",
   "confidence": "Confidence",
   
+  "sleepProgressMinutes": "{minutes} minutes in progress",
+  "@sleepProgressMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepProgressTime": "Sleep Progress Time",
+  "standardFeedingTimeNow": "It's standard feeding time",
+  "standardFeedingTimeSoon": "Standard feeding time coming soon ({minutes} minutes)",
+  "@standardFeedingTimeSoon": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingHours": "{hours} hours {minutes} minutes until standard feeding",
+  "@timeUntilStandardFeedingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingMinutes": "{minutes} minutes until standard feeding",
+  "@timeUntilStandardFeedingMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "insufficientFeedingRecordsApplyingStandard": "Insufficient feeding records (applying standard interval)",
+  "standardFeedingTimeOverdue": "Standard feeding time is overdue",
+  "hoursMinutesFormat": "{hours} hours {minutes} minutes",
+  "@hoursMinutesFormat": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesFormat": "{minutes} minutes",
+  "@minutesFormat": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "personalPatternInfo": "Personal pattern: {interval} interval (for reference)",
+  "@personalPatternInfo": {
+    "placeholders": {
+      "interval": {
+        "type": "String"
+      }
+    }
+  },
+  "longPressForDetails": "Long press for details",
+  "checkStandardFeedingInterval": "Check standard feeding interval",
+  
   "confirm": "Confirm"
 }

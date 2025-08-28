@@ -2186,4 +2186,60 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get confidence => 'Confidence';
+
+  @override
+  String sleepProgressMinutes(int minutes) {
+    return '$minutes Minuten im Gange';
+  }
+
+  @override
+  String get sleepProgressTime => 'Schlaffortschritt';
+
+  @override
+  String get standardFeedingTimeNow => 'Es ist Standard-Fütterungszeit';
+
+  @override
+  String standardFeedingTimeSoon(int minutes) {
+    return 'Standard-Fütterungszeit kommt bald ($minutes Minuten)';
+  }
+
+  @override
+  String timeUntilStandardFeedingHours(int hours, int minutes) {
+    return '$hours Stunden $minutes Minuten bis zur Standard-Fütterung';
+  }
+
+  @override
+  String timeUntilStandardFeedingMinutes(int minutes) {
+    return '$minutes Minuten bis zur Standard-Fütterung';
+  }
+
+  @override
+  String get insufficientFeedingRecordsApplyingStandard =>
+      'Unzureichende Fütterungsaufzeichnungen (Standard-Intervall anwenden)';
+
+  @override
+  String get standardFeedingTimeOverdue =>
+      'Standard-Fütterungszeit ist überfällig';
+
+  @override
+  String hoursMinutesFormat(int hours, int minutes) {
+    return '$hours Stunden $minutes Minuten';
+  }
+
+  @override
+  String minutesFormat(int minutes) {
+    return '$minutes Minuten';
+  }
+
+  @override
+  String personalPatternInfo(String interval) {
+    return 'Persönliches Muster: $interval Intervall (zur Referenz)';
+  }
+
+  @override
+  String get longPressForDetails => 'Lang drücken für Details';
+
+  @override
+  String get checkStandardFeedingInterval =>
+      'Standard-Fütterungsintervall prüfen';
 }

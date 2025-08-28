@@ -4037,6 +4037,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confidence'**
   String get confidence;
+
+  /// No description provided for @sleepProgressMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes in progress'**
+  String sleepProgressMinutes(int minutes);
+
+  /// No description provided for @sleepProgressTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep Progress Time'**
+  String get sleepProgressTime;
+
+  /// No description provided for @standardFeedingTimeNow.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s standard feeding time'**
+  String get standardFeedingTimeNow;
+
+  /// No description provided for @standardFeedingTimeSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard feeding time coming soon ({minutes} minutes)'**
+  String standardFeedingTimeSoon(int minutes);
+
+  /// No description provided for @timeUntilStandardFeedingHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours {minutes} minutes until standard feeding'**
+  String timeUntilStandardFeedingHours(int hours, int minutes);
+
+  /// No description provided for @timeUntilStandardFeedingMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes until standard feeding'**
+  String timeUntilStandardFeedingMinutes(int minutes);
+
+  /// No description provided for @insufficientFeedingRecordsApplyingStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient feeding records (applying standard interval)'**
+  String get insufficientFeedingRecordsApplyingStandard;
+
+  /// No description provided for @standardFeedingTimeOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard feeding time is overdue'**
+  String get standardFeedingTimeOverdue;
+
+  /// No description provided for @hoursMinutesFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours {minutes} minutes'**
+  String hoursMinutesFormat(int hours, int minutes);
+
+  /// No description provided for @minutesFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes'**
+  String minutesFormat(int minutes);
+
+  /// No description provided for @personalPatternInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal pattern: {interval} interval (for reference)'**
+  String personalPatternInfo(String interval);
+
+  /// No description provided for @longPressForDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Long press for details'**
+  String get longPressForDetails;
+
+  /// No description provided for @checkStandardFeedingInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'Check standard feeding interval'**
+  String get checkStandardFeedingInterval;
 }
 
 class _AppLocalizationsDelegate

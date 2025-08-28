@@ -76,7 +76,7 @@ class _BabyInfoCardState extends State<BabyInfoCard> {
     
     // Show sleep elapsed time if sleep is active, otherwise show last feeding time
     final displayText = isActiveSleep 
-        ? '${_elapsedMinutes}분 진행 중'
+        ? l10n.sleepProgressMinutes(_elapsedMinutes)
         : l10n.minutesAgo(lastFeedingMinutes);
     
     // 다음 수유까지 남은 시간 (알람 서비스에서 제공)
@@ -360,7 +360,7 @@ class _BabyInfoCardState extends State<BabyInfoCard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              isActiveSleep ? '수면 진행 시간' : l10n.lastFeedingTime,
+                              isActiveSleep ? l10n.sleepProgressTime : l10n.lastFeedingTime,
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: theme.colorScheme.onSurface.withOpacity(0.6),
                               ),
@@ -450,7 +450,7 @@ class _BabyInfoCardState extends State<BabyInfoCard> {
       );
       widgets.add(
         Text(
-          '개인 패턴: ${intervalText} 간격 (참고용)',
+          l10n.personalPatternInfo(intervalText),
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurface.withOpacity(0.5),
             fontSize: 10,
@@ -523,19 +523,19 @@ class _BabyInfoCardState extends State<BabyInfoCard> {
     if (nextFeedingMessage != null) {
       switch (nextFeedingMessage) {
         case 'feeding_time_now':
-          return '표준 수유 시간입니다';
+          return l10n.standardFeedingTimeNow;
         case 'feeding_time_soon':
-          return '곧 표준 수유 시간입니다 (${nextMinutes}분 후)';
+          return l10n.standardFeedingTimeSoon(nextMinutes);
         case 'standard_schedule':
           return nextHours > 0 
-              ? '표준 수유까지 ${nextHours}시간 ${nextMinutes}분'
-              : '표준 수유까지 ${nextMinutes}분';
+              ? l10n.timeUntilStandardFeedingHours(nextHours, nextMinutes)
+              : l10n.timeUntilStandardFeedingMinutes(nextMinutes);
         case 'insufficient_feeding_records':
-          return '수유 기록이 부족합니다 (표준 간격 적용)';
+          return l10n.insufficientFeedingRecordsApplyingStandard;
         case 'feeding_overdue':
-          return '표준 수유 시간이 지났습니다';
+          return l10n.standardFeedingTimeOverdue;
         case 'no_recent_feeding':
-          return '최근 수유 기록이 없습니다';
+          return l10n.noRecentFeeding;
         default:
           break;
       }
@@ -544,16 +544,16 @@ class _BabyInfoCardState extends State<BabyInfoCard> {
     // 기본 표준 가이드라인 메시지
     if (minutesUntilNextFeeding != null) {
       if (nextFeedingMinutes <= 0) {
-        return '표준 수유 시간입니다';
+        return l10n.standardFeedingTimeNow;
       } else if (nextFeedingMinutes < 30) {
-        return '곧 표준 수유 시간입니다 (${nextMinutes}분 후)';
+        return l10n.standardFeedingTimeSoon(nextMinutes);
       } else {
         return nextHours > 0 
-            ? '표준 수유까지 ${nextHours}시간 ${nextMinutes}분'
-            : '표준 수유까지 ${nextMinutes}분';
+            ? l10n.timeUntilStandardFeedingHours(nextHours, nextMinutes)
+            : l10n.timeUntilStandardFeedingMinutes(nextMinutes);
       }
     } else {
-      return '표준 수유 간격을 확인하세요';
+      return l10n.checkStandardFeedingInterval;
     }
   }
 }

@@ -536,5 +536,74 @@
   "popularSearchTerms": "Termos de pesquisa populares",
   "recentSearches": "Pesquisas recentes",
   "deleteAll": "Excluir tudo",
-  "sortByComments": "Classificar por comentários"
+  "sortByComments": "Classificar por comentários",
+  
+  "sleepProgressMinutes": "{minutes} minutos em andamento",
+  "@sleepProgressMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepProgressTime": "Tempo de progresso do sono",
+  "standardFeedingTimeNow": "É horário padrão de alimentação",
+  "standardFeedingTimeSoon": "Horário padrão de alimentação em breve ({minutes} minutos)",
+  "@standardFeedingTimeSoon": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingHours": "{hours} horas {minutes} minutos até a alimentação padrão",
+  "@timeUntilStandardFeedingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingMinutes": "{minutes} minutos até a alimentação padrão",
+  "@timeUntilStandardFeedingMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "insufficientFeedingRecordsApplyingStandard": "Registros de alimentação insuficientes (aplicando intervalo padrão)",
+  "standardFeedingTimeOverdue": "Horário padrão de alimentação está atrasado",
+  "hoursMinutesFormat": "{hours} horas {minutes} minutos",
+  "@hoursMinutesFormat": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesFormat": "{minutes} minutos",
+  "@minutesFormat": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "personalPatternInfo": "Padrão pessoal: {interval} intervalo (para referência)",
+  "@personalPatternInfo": {
+    "placeholders": {
+      "interval": {
+        "type": "String"
+      }
+    }
+  },
+  "longPressForDetails": "Pressione e segure para detalhes",
+  "checkStandardFeedingInterval": "Verificar intervalo de alimentação padrão"
 }

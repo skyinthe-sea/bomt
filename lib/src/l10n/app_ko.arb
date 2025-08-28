@@ -808,5 +808,74 @@
   "noInsightsYet": "아직 분석할 패턴이 충분하지 않습니다",
   "confidence": "신뢰도",
   
+  "sleepProgressMinutes": "{minutes}분 진행 중",
+  "@sleepProgressMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepProgressTime": "수면 진행 시간",
+  "standardFeedingTimeNow": "표준 수유 시간입니다",
+  "standardFeedingTimeSoon": "곧 표준 수유 시간입니다 ({minutes}분 후)",
+  "@standardFeedingTimeSoon": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingHours": "표준 수유까지 {hours}시간 {minutes}분",
+  "@timeUntilStandardFeedingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingMinutes": "표준 수유까지 {minutes}분",
+  "@timeUntilStandardFeedingMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "insufficientFeedingRecordsApplyingStandard": "수유 기록이 부족합니다 (표준 간격 적용)",
+  "standardFeedingTimeOverdue": "표준 수유 시간이 지났습니다",
+  "hoursMinutesFormat": "{hours}시간 {minutes}분",
+  "@hoursMinutesFormat": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesFormat": "{minutes}분",
+  "@minutesFormat": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "personalPatternInfo": "개인 패턴: {interval} 간격 (참고용)",
+  "@personalPatternInfo": {
+    "placeholders": {
+      "interval": {
+        "type": "String"
+      }
+    }
+  },
+  "longPressForDetails": "길게 눌러 상세보기",
+  "checkStandardFeedingInterval": "표준 수유 간격을 확인하세요",
+  
   "confirm": "확인"
 }

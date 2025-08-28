@@ -2185,4 +2185,61 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get confidence => 'Confidence';
+
+  @override
+  String sleepProgressMinutes(int minutes) {
+    return '$minutes minutes en cours';
+  }
+
+  @override
+  String get sleepProgressTime => 'Temps de progression du sommeil';
+
+  @override
+  String get standardFeedingTimeNow =>
+      'C\'est l\'heure standard d\'alimentation';
+
+  @override
+  String standardFeedingTimeSoon(int minutes) {
+    return 'Heure standard d\'alimentation bientôt ($minutes minutes)';
+  }
+
+  @override
+  String timeUntilStandardFeedingHours(int hours, int minutes) {
+    return '$hours heures $minutes minutes avant l\'alimentation standard';
+  }
+
+  @override
+  String timeUntilStandardFeedingMinutes(int minutes) {
+    return '$minutes minutes avant l\'alimentation standard';
+  }
+
+  @override
+  String get insufficientFeedingRecordsApplyingStandard =>
+      'Enregistrements d\'alimentation insuffisants (application de l\'intervalle standard)';
+
+  @override
+  String get standardFeedingTimeOverdue =>
+      'L\'heure standard d\'alimentation est dépassée';
+
+  @override
+  String hoursMinutesFormat(int hours, int minutes) {
+    return '$hours heures $minutes minutes';
+  }
+
+  @override
+  String minutesFormat(int minutes) {
+    return '$minutes minutes';
+  }
+
+  @override
+  String personalPatternInfo(String interval) {
+    return 'Motif personnel: $interval intervalle (à titre de référence)';
+  }
+
+  @override
+  String get longPressForDetails => 'Appui long pour les détails';
+
+  @override
+  String get checkStandardFeedingInterval =>
+      'Vérifier l\'intervalle d\'alimentation standard';
 }

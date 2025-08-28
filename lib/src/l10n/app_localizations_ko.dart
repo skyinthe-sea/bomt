@@ -2141,4 +2141,58 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get confidence => '신뢰도';
+
+  @override
+  String sleepProgressMinutes(int minutes) {
+    return '$minutes분 진행 중';
+  }
+
+  @override
+  String get sleepProgressTime => '수면 진행 시간';
+
+  @override
+  String get standardFeedingTimeNow => '표준 수유 시간입니다';
+
+  @override
+  String standardFeedingTimeSoon(int minutes) {
+    return '곧 표준 수유 시간입니다 ($minutes분 후)';
+  }
+
+  @override
+  String timeUntilStandardFeedingHours(int hours, int minutes) {
+    return '표준 수유까지 $hours시간 $minutes분';
+  }
+
+  @override
+  String timeUntilStandardFeedingMinutes(int minutes) {
+    return '표준 수유까지 $minutes분';
+  }
+
+  @override
+  String get insufficientFeedingRecordsApplyingStandard =>
+      '수유 기록이 부족합니다 (표준 간격 적용)';
+
+  @override
+  String get standardFeedingTimeOverdue => '표준 수유 시간이 지났습니다';
+
+  @override
+  String hoursMinutesFormat(int hours, int minutes) {
+    return '$hours시간 $minutes분';
+  }
+
+  @override
+  String minutesFormat(int minutes) {
+    return '$minutes분';
+  }
+
+  @override
+  String personalPatternInfo(String interval) {
+    return '개인 패턴: $interval 간격 (참고용)';
+  }
+
+  @override
+  String get longPressForDetails => '길게 눌러 상세보기';
+
+  @override
+  String get checkStandardFeedingInterval => '표준 수유 간격을 확인하세요';
 }

@@ -740,5 +740,74 @@
   "popularSearchTerms": "人気の検索語",
   "recentSearches": "最近の検索",
   "deleteAll": "すべて削除",
-  "sortByComments": "コメント順"
+  "sortByComments": "コメント順",
+  
+  "sleepProgressMinutes": "{minutes}分進行中",
+  "@sleepProgressMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepProgressTime": "睡眠進行時間",
+  "standardFeedingTimeNow": "標準授乳時間です",
+  "standardFeedingTimeSoon": "もうすぐ標準授乳時間です（{minutes}分後）",
+  "@standardFeedingTimeSoon": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingHours": "標準授乳まで{hours}時間{minutes}分",
+  "@timeUntilStandardFeedingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingMinutes": "標準授乳まで{minutes}分",
+  "@timeUntilStandardFeedingMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "insufficientFeedingRecordsApplyingStandard": "授乳記録が不足しています（標準間隔適用）",
+  "standardFeedingTimeOverdue": "標準授乳時間が過ぎました",
+  "hoursMinutesFormat": "{hours}時間{minutes}分",
+  "@hoursMinutesFormat": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesFormat": "{minutes}分",
+  "@minutesFormat": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "personalPatternInfo": "個人パターン: {interval} 間隔（参考用）",
+  "@personalPatternInfo": {
+    "placeholders": {
+      "interval": {
+        "type": "String"
+      }
+    }
+  },
+  "longPressForDetails": "長押しで詳細表示",
+  "checkStandardFeedingInterval": "標準授乳間隔を確認してください"
 }

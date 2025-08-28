@@ -536,5 +536,74 @@
   "popularSearchTerms": "Beliebte Suchbegriffe",
   "recentSearches": "Neueste Suchen",
   "deleteAll": "Alle löschen",
-  "sortByComments": "Nach Kommentaren sortieren"
+  "sortByComments": "Nach Kommentaren sortieren",
+  
+  "sleepProgressMinutes": "{minutes} Minuten im Gange",
+  "@sleepProgressMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepProgressTime": "Schlaffortschritt",
+  "standardFeedingTimeNow": "Es ist Standard-Fütterungszeit",
+  "standardFeedingTimeSoon": "Standard-Fütterungszeit kommt bald ({minutes} Minuten)",
+  "@standardFeedingTimeSoon": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingHours": "{hours} Stunden {minutes} Minuten bis zur Standard-Fütterung",
+  "@timeUntilStandardFeedingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingMinutes": "{minutes} Minuten bis zur Standard-Fütterung",
+  "@timeUntilStandardFeedingMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "insufficientFeedingRecordsApplyingStandard": "Unzureichende Fütterungsaufzeichnungen (Standard-Intervall anwenden)",
+  "standardFeedingTimeOverdue": "Standard-Fütterungszeit ist überfällig",
+  "hoursMinutesFormat": "{hours} Stunden {minutes} Minuten",
+  "@hoursMinutesFormat": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesFormat": "{minutes} Minuten",
+  "@minutesFormat": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "personalPatternInfo": "Persönliches Muster: {interval} Intervall (zur Referenz)",
+  "@personalPatternInfo": {
+    "placeholders": {
+      "interval": {
+        "type": "String"
+      }
+    }
+  },
+  "longPressForDetails": "Lang drücken für Details",
+  "checkStandardFeedingInterval": "Standard-Fütterungsintervall prüfen"
 }

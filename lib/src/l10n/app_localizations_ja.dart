@@ -2140,4 +2140,58 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get confidence => 'Confidence';
+
+  @override
+  String sleepProgressMinutes(int minutes) {
+    return '$minutes分進行中';
+  }
+
+  @override
+  String get sleepProgressTime => '睡眠進行時間';
+
+  @override
+  String get standardFeedingTimeNow => '標準授乳時間です';
+
+  @override
+  String standardFeedingTimeSoon(int minutes) {
+    return 'もうすぐ標準授乳時間です（$minutes分後）';
+  }
+
+  @override
+  String timeUntilStandardFeedingHours(int hours, int minutes) {
+    return '標準授乳まで$hours時間$minutes分';
+  }
+
+  @override
+  String timeUntilStandardFeedingMinutes(int minutes) {
+    return '標準授乳まで$minutes分';
+  }
+
+  @override
+  String get insufficientFeedingRecordsApplyingStandard =>
+      '授乳記録が不足しています（標準間隔適用）';
+
+  @override
+  String get standardFeedingTimeOverdue => '標準授乳時間が過ぎました';
+
+  @override
+  String hoursMinutesFormat(int hours, int minutes) {
+    return '$hours時間$minutes分';
+  }
+
+  @override
+  String minutesFormat(int minutes) {
+    return '$minutes分';
+  }
+
+  @override
+  String personalPatternInfo(String interval) {
+    return '個人パターン: $interval 間隔（参考用）';
+  }
+
+  @override
+  String get longPressForDetails => '長押しで詳細表示';
+
+  @override
+  String get checkStandardFeedingInterval => '標準授乳間隔を確認してください';
 }

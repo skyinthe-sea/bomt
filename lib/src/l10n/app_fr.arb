@@ -536,5 +536,74 @@
   "popularSearchTerms": "Termes de recherche populaires",
   "recentSearches": "Recherches récentes",
   "deleteAll": "Tout supprimer",
-  "sortByComments": "Trier par commentaires"
+  "sortByComments": "Trier par commentaires",
+  
+  "sleepProgressMinutes": "{minutes} minutes en cours",
+  "@sleepProgressMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepProgressTime": "Temps de progression du sommeil",
+  "standardFeedingTimeNow": "C'est l'heure standard d'alimentation",
+  "standardFeedingTimeSoon": "Heure standard d'alimentation bientôt ({minutes} minutes)",
+  "@standardFeedingTimeSoon": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingHours": "{hours} heures {minutes} minutes avant l'alimentation standard",
+  "@timeUntilStandardFeedingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingMinutes": "{minutes} minutes avant l'alimentation standard",
+  "@timeUntilStandardFeedingMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "insufficientFeedingRecordsApplyingStandard": "Enregistrements d'alimentation insuffisants (application de l'intervalle standard)",
+  "standardFeedingTimeOverdue": "L'heure standard d'alimentation est dépassée",
+  "hoursMinutesFormat": "{hours} heures {minutes} minutes",
+  "@hoursMinutesFormat": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesFormat": "{minutes} minutes",
+  "@minutesFormat": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "personalPatternInfo": "Motif personnel: {interval} intervalle (à titre de référence)",
+  "@personalPatternInfo": {
+    "placeholders": {
+      "interval": {
+        "type": "String"
+      }
+    }
+  },
+  "longPressForDetails": "Appui long pour les détails",
+  "checkStandardFeedingInterval": "Vérifier l'intervalle d'alimentation standard"
 }

@@ -2180,4 +2180,60 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get confidence => 'Confidence';
+
+  @override
+  String sleepProgressMinutes(int minutes) {
+    return '$minutes minutos em andamento';
+  }
+
+  @override
+  String get sleepProgressTime => 'Tempo de progresso do sono';
+
+  @override
+  String get standardFeedingTimeNow => 'É horário padrão de alimentação';
+
+  @override
+  String standardFeedingTimeSoon(int minutes) {
+    return 'Horário padrão de alimentação em breve ($minutes minutos)';
+  }
+
+  @override
+  String timeUntilStandardFeedingHours(int hours, int minutes) {
+    return '$hours horas $minutes minutos até a alimentação padrão';
+  }
+
+  @override
+  String timeUntilStandardFeedingMinutes(int minutes) {
+    return '$minutes minutos até a alimentação padrão';
+  }
+
+  @override
+  String get insufficientFeedingRecordsApplyingStandard =>
+      'Registros de alimentação insuficientes (aplicando intervalo padrão)';
+
+  @override
+  String get standardFeedingTimeOverdue =>
+      'Horário padrão de alimentação está atrasado';
+
+  @override
+  String hoursMinutesFormat(int hours, int minutes) {
+    return '$hours horas $minutes minutos';
+  }
+
+  @override
+  String minutesFormat(int minutes) {
+    return '$minutes minutos';
+  }
+
+  @override
+  String personalPatternInfo(String interval) {
+    return 'Padrão pessoal: $interval intervalo (para referência)';
+  }
+
+  @override
+  String get longPressForDetails => 'Pressione e segure para detalhes';
+
+  @override
+  String get checkStandardFeedingInterval =>
+      'Verificar intervalo de alimentação padrão';
 }

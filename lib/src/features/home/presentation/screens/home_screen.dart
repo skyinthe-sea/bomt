@@ -1504,7 +1504,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                     ),
                                     const SizedBox(height: 2),
                                     Text(
-                                      '길게 눌러 상세보기',
+                                      l10n.longPressForDetails,
                                       style: theme.textTheme.bodySmall?.copyWith(
                                         color: theme.colorScheme.onSurface.withOpacity(0.5),
                                         fontSize: 11,
