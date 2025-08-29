@@ -2193,6 +2193,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get longPressForDetails => '長押しで詳細表示';
 
   @override
+  String get todaysSummary => '今日の概要';
+
+  @override
   String get checkStandardFeedingInterval => '標準授乳間隔を確認してください';
 
   @override

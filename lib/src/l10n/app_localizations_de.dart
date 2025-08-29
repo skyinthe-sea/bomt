@@ -207,7 +207,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get todaySummary => 'Today\'s Summary';
 
   @override
-  String get growthInfo => 'Growth Info';
+  String get growthInfo => 'Wachstumsinfo';
 
   @override
   String get lastFeeding => 'Last Feeding';
@@ -216,13 +216,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get healthy => 'Healthy';
 
   @override
-  String get feeding => 'Feeding';
+  String get feeding => 'Füttern';
 
   @override
   String get totalFeeding => 'Total Feeding';
 
   @override
-  String get sleep => 'Sleep';
+  String get sleep => 'Schlaf';
 
   @override
   String get totalSleepTime => 'Total Sleep Time';
@@ -268,13 +268,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get diaper => 'Windel';
 
   @override
-  String get solidFood => 'Solid Food';
+  String get solidFood => 'Feste Nahrung';
 
   @override
   String get medication => 'Medikament';
 
   @override
-  String get milkPumping => 'Milk Pumping';
+  String get milkPumping => 'Milchpumpe';
 
   @override
   String get temperature => 'Temperatur';
@@ -408,10 +408,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get diaperChangeTime => 'Change Time';
 
   @override
-  String get weight => 'Weight';
+  String get weight => 'Gewicht';
 
   @override
-  String get height => 'Height';
+  String get height => 'Größe';
 
   @override
   String get growthRecord => 'Growth Record';
@@ -961,7 +961,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String ageMonthsAndDays(Object days, Object months) {
-    return '$months months $days days';
+    return '$months Monate $days Tage';
   }
 
   @override
@@ -1028,7 +1028,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get minutesUnit => 'minutes';
 
   @override
-  String get viewDetails => 'View Details';
+  String get viewDetails => 'Details anzeigen';
 
   @override
   String get firstRecord => 'First Record';
@@ -2238,6 +2238,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get longPressForDetails => 'Lang drücken für Details';
+
+  @override
+  String get todaysSummary => 'Heutiger Überblick';
 
   @override
   String get checkStandardFeedingInterval =>

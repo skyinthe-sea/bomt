@@ -584,5 +584,17 @@
   "menu": "Menu",
   "seeMore": "Lihat Selengkapnya",
   "search": "Cari",
-  "notification": "Notifikasi"
+  "notification": "Notifikasi",
+  
+  "sleep": "Tidur",
+  "feeding": "Menyusui",
+  "solidFood": "Makanan Padat",
+  "milkPumping": "Memompa ASI",
+  "growthInfo": "Info Pertumbuhan",
+  "viewDetails": "Lihat Detail",
+  "weight": "Berat",
+  "height": "Tinggi",
+  "ageMonthsAndDays": "{months} bulan {days} hari",
+  "longPressForDetails": "Tekan lama untuk detail",
+  "todaysSummary": "Ringkasan Hari Ini"
 }

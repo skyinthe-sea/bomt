@@ -4110,6 +4110,12 @@ abstract class AppLocalizations {
   /// **'Long press for details'**
   String get longPressForDetails;
 
+  /// No description provided for @todaysSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Summary'**
+  String get todaysSummary;
+
   /// No description provided for @checkStandardFeedingInterval.
   ///
   /// In en, this message translates to:

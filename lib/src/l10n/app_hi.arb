@@ -154,6 +154,8 @@
   "maxImagesReached": "अधिकतम {count} छवियों की अनुमति है",
   
   "ageMonthsAndDays": "{months} महीने {days} दिन",
+  "longPressForDetails": "विवरण के लिए दबाकर रखें",
+  "todaysSummary": "आज का सारांश",
   "lastFeedingTime": "अंतिम दूध पिलाने का समय",
   "minutesAgo": "{minutes} मिनट पहले",
   "hoursAndMinutesAgo": "{hours} घंटे {minutes} मिनट पहले",

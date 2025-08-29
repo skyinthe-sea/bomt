@@ -206,7 +206,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get todaySummary => 'Today\'s Summary';
 
   @override
-  String get growthInfo => 'Growth Info';
+  String get growthInfo => 'ข้อมูลการเจริญเติบโต';
 
   @override
   String get lastFeeding => 'Last Feeding';
@@ -215,13 +215,13 @@ class AppLocalizationsTh extends AppLocalizations {
   String get healthy => 'Healthy';
 
   @override
-  String get feeding => 'Feeding';
+  String get feeding => 'ให้นม';
 
   @override
   String get totalFeeding => 'Total Feeding';
 
   @override
-  String get sleep => 'Sleep';
+  String get sleep => 'นอน';
 
   @override
   String get totalSleepTime => 'Total Sleep Time';
@@ -267,13 +267,13 @@ class AppLocalizationsTh extends AppLocalizations {
   String get diaper => 'ผ้าอ้อม';
 
   @override
-  String get solidFood => 'Solid Food';
+  String get solidFood => 'อาหารแข็ง';
 
   @override
   String get medication => 'ยา';
 
   @override
-  String get milkPumping => 'Milk Pumping';
+  String get milkPumping => 'ปั๊มนม';
 
   @override
   String get temperature => 'อุณหภูมิ';
@@ -407,10 +407,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get diaperChangeTime => 'Change Time';
 
   @override
-  String get weight => 'Weight';
+  String get weight => 'น้ำหนัก';
 
   @override
-  String get height => 'Height';
+  String get height => 'ส่วนสูง';
 
   @override
   String get growthRecord => 'Growth Record';
@@ -960,7 +960,7 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String ageMonthsAndDays(Object days, Object months) {
-    return '$months months $days days';
+    return '$months เดือน $days วัน';
   }
 
   @override
@@ -1027,7 +1027,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get minutesUnit => 'minutes';
 
   @override
-  String get viewDetails => 'View Details';
+  String get viewDetails => 'ดูรายละเอียด';
 
   @override
   String get firstRecord => 'First Record';
@@ -2225,7 +2225,10 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get longPressForDetails => 'Long press for details';
+  String get longPressForDetails => 'กดค้างไว้เพื่อดูรายละเอียด';
+
+  @override
+  String get todaysSummary => 'สรุปวันนี้';
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';

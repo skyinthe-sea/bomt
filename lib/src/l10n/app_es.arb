@@ -584,5 +584,17 @@
   "menu": "Menú",
   "seeMore": "Ver Más",
   "search": "Buscar",
-  "notification": "Notificación"
+  "notification": "Notificación",
+  
+  "sleep": "Sueño",
+  "feeding": "Alimentación",
+  "solidFood": "Comida Sólida",
+  "milkPumping": "Extracción de Leche",
+  "growthInfo": "Información de Crecimiento",
+  "viewDetails": "Ver Detalles",
+  "weight": "Peso",
+  "height": "Altura",
+  "ageMonthsAndDays": "{months} meses {days} días",
+  "longPressForDetails": "Mantener presionado para detalles",
+  "todaysSummary": "Resumen de Hoy"
 }

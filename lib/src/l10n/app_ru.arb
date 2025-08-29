@@ -584,5 +584,17 @@
   "menu": "Меню",
   "seeMore": "Посмотреть ещё",
   "search": "Поиск",
-  "notification": "Уведомление"
+  "notification": "Уведомление",
+  
+  "sleep": "Сон",
+  "feeding": "Кормление",
+  "solidFood": "Твёрдая пища",
+  "milkPumping": "Сцеживание молока",
+  "growthInfo": "Информация о росте",
+  "viewDetails": "Посмотреть подробности",
+  "weight": "Вес",
+  "height": "Рост",
+  "ageMonthsAndDays": "{months} месяцев {days} дней",
+  "longPressForDetails": "Длительное нажатие для подробностей",
+  "todaysSummary": "Сводка за сегодня"
 }

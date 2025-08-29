@@ -2194,6 +2194,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get longPressForDetails => '길게 눌러 상세보기';
 
   @override
+  String get todaysSummary => '오늘의 요약';
+
+  @override
   String get checkStandardFeedingInterval => '표준 수유 간격을 확인하세요';
 
   @override

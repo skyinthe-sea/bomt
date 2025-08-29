@@ -584,5 +584,17 @@
   "menu": "Menu",
   "seeMore": "Makita Pa",
   "search": "Maghanap",
-  "notification": "Abiso"
+  "notification": "Abiso",
+  
+  "sleep": "Tulog",
+  "feeding": "Pagpapakain",
+  "solidFood": "Solid na Pagkain",
+  "milkPumping": "Pag-pump ng Gatas",
+  "growthInfo": "Impormasyon sa Paglaki",
+  "viewDetails": "Tingnan ang Detalye",
+  "weight": "Timbang",
+  "height": "Taas",
+  "ageMonthsAndDays": "{months} buwan {days} araw",
+  "longPressForDetails": "Mahabang pindot para sa mga detalye",
+  "todaysSummary": "Buod ng Araw na Ito"
 }

@@ -2228,7 +2228,10 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get longPressForDetails => 'Long press for details';
+  String get longPressForDetails => 'विवरण के लिए दबाकर रखें';
+
+  @override
+  String get todaysSummary => 'आज का सारांश';
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';

@@ -584,5 +584,17 @@
   "menu": "Menü",
   "seeMore": "Daha Fazla Gör",
   "search": "Ara",
-  "notification": "Bildirim"
+  "notification": "Bildirim",
+  
+  "sleep": "Uyku",
+  "feeding": "Beslenme",
+  "solidFood": "Katı Gıda",
+  "milkPumping": "Süt Sağma",
+  "growthInfo": "Büyüme Bilgisi",
+  "viewDetails": "Detayları Görüntüle",
+  "weight": "Ağırlık",
+  "height": "Boy",
+  "ageMonthsAndDays": "{months} ay {days} gün",
+  "longPressForDetails": "Detaylar için uzun basın",
+  "todaysSummary": "Bugünün Özeti"
 }

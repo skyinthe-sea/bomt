@@ -605,6 +605,7 @@
     }
   },
   "longPressForDetails": "Appui long pour les détails",
+  "todaysSummary": "Résumé d'Aujourd'hui",
   "checkStandardFeedingInterval": "Vérifier l'intervalle d'alimentation standard",
   
   "registerBabyFirst": "Veuillez d'abord enregistrer votre bébé",
@@ -653,5 +654,15 @@
   "menu": "Menu",
   "seeMore": "Voir plus",
   "search": "Rechercher",
-  "notification": "Notification"
+  "notification": "Notification",
+  
+  "sleep": "Sommeil",
+  "feeding": "Allaitement",
+  "solidFood": "Aliments solides",
+  "milkPumping": "Tire-lait",
+  "growthInfo": "Infos de croissance",
+  "viewDetails": "Voir les détails",
+  "weight": "Poids",
+  "height": "Taille",
+  "ageMonthsAndDays": "{months} mois {days} jours"
 }

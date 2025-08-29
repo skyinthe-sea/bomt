@@ -206,7 +206,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get todaySummary => 'Today\'s Summary';
 
   @override
-  String get growthInfo => 'Growth Info';
+  String get growthInfo => 'Infos de croissance';
 
   @override
   String get lastFeeding => 'Last Feeding';
@@ -215,13 +215,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get healthy => 'Healthy';
 
   @override
-  String get feeding => 'Feeding';
+  String get feeding => 'Allaitement';
 
   @override
   String get totalFeeding => 'Total Feeding';
 
   @override
-  String get sleep => 'Sleep';
+  String get sleep => 'Sommeil';
 
   @override
   String get totalSleepTime => 'Total Sleep Time';
@@ -267,13 +267,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get diaper => 'Couche';
 
   @override
-  String get solidFood => 'Solid Food';
+  String get solidFood => 'Aliments solides';
 
   @override
   String get medication => 'Médicament';
 
   @override
-  String get milkPumping => 'Milk Pumping';
+  String get milkPumping => 'Tire-lait';
 
   @override
   String get temperature => 'Température';
@@ -407,10 +407,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get diaperChangeTime => 'Change Time';
 
   @override
-  String get weight => 'Weight';
+  String get weight => 'Poids';
 
   @override
-  String get height => 'Height';
+  String get height => 'Taille';
 
   @override
   String get growthRecord => 'Growth Record';
@@ -960,7 +960,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String ageMonthsAndDays(Object days, Object months) {
-    return '$months months $days days';
+    return '$months mois $days jours';
   }
 
   @override
@@ -1027,7 +1027,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get minutesUnit => 'minutes';
 
   @override
-  String get viewDetails => 'View Details';
+  String get viewDetails => 'Voir les détails';
 
   @override
   String get firstRecord => 'First Record';
@@ -2239,6 +2239,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get longPressForDetails => 'Appui long pour les détails';
+
+  @override
+  String get todaysSummary => 'Résumé d\'Aujourd\'hui';
 
   @override
   String get checkStandardFeedingInterval =>

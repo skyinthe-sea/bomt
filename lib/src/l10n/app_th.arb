@@ -584,5 +584,17 @@
   "menu": "เมนู",
   "seeMore": "ดูเพิ่มเติม",
   "search": "ค้นหา",
-  "notification": "การแจ้งเตือน"
+  "notification": "การแจ้งเตือน",
+  
+  "sleep": "นอน",
+  "feeding": "ให้นม",
+  "solidFood": "อาหารแข็ง",
+  "milkPumping": "ปั๊มนม",
+  "growthInfo": "ข้อมูลการเจริญเติบโต",
+  "viewDetails": "ดูรายละเอียด",
+  "weight": "น้ำหนัก",
+  "height": "ส่วนสูง",
+  "ageMonthsAndDays": "{months} เดือน {days} วัน",
+  "longPressForDetails": "กดค้างไว้เพื่อดูรายละเอียด",
+  "todaysSummary": "สรุปวันนี้"
 }

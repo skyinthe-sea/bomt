@@ -2230,6 +2230,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get longPressForDetails => 'Long press for details';
 
   @override
+  String get todaysSummary => 'Today\'s Summary';
+
+  @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
 
   @override

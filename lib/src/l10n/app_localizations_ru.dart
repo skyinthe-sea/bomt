@@ -206,7 +206,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get todaySummary => 'Today\'s Summary';
 
   @override
-  String get growthInfo => 'Growth Info';
+  String get growthInfo => 'Информация о росте';
 
   @override
   String get lastFeeding => 'Last Feeding';
@@ -215,13 +215,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get healthy => 'Healthy';
 
   @override
-  String get feeding => 'Feeding';
+  String get feeding => 'Кормление';
 
   @override
   String get totalFeeding => 'Total Feeding';
 
   @override
-  String get sleep => 'Sleep';
+  String get sleep => 'Сон';
 
   @override
   String get totalSleepTime => 'Total Sleep Time';
@@ -267,13 +267,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get diaper => 'Подгузник';
 
   @override
-  String get solidFood => 'Solid Food';
+  String get solidFood => 'Твёрдая пища';
 
   @override
   String get medication => 'Лекарство';
 
   @override
-  String get milkPumping => 'Milk Pumping';
+  String get milkPumping => 'Сцеживание молока';
 
   @override
   String get temperature => 'Температура';
@@ -407,10 +407,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get diaperChangeTime => 'Change Time';
 
   @override
-  String get weight => 'Weight';
+  String get weight => 'Вес';
 
   @override
-  String get height => 'Height';
+  String get height => 'Рост';
 
   @override
   String get growthRecord => 'Growth Record';
@@ -960,7 +960,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String ageMonthsAndDays(Object days, Object months) {
-    return '$months months $days days';
+    return '$months месяцев $days дней';
   }
 
   @override
@@ -1027,7 +1027,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get minutesUnit => 'minutes';
 
   @override
-  String get viewDetails => 'View Details';
+  String get viewDetails => 'Посмотреть подробности';
 
   @override
   String get firstRecord => 'First Record';
@@ -2227,7 +2227,10 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get longPressForDetails => 'Long press for details';
+  String get longPressForDetails => 'Длительное нажатие для подробностей';
+
+  @override
+  String get todaysSummary => 'Сводка за сегодня';
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
