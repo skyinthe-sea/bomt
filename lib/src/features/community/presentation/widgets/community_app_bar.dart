@@ -447,7 +447,7 @@ class _CommunityAppBarState extends State<CommunityAppBar>
           children: [
             _buildMenuItem(
               icon: Icons.edit,
-              title: '글쓰기',
+              title: l10n.writePost,
               onTap: () async {
                 _closeMenu();
                 final provider = context.read<CommunityProvider>();
@@ -482,7 +482,7 @@ class _CommunityAppBarState extends State<CommunityAppBar>
             _buildMenuDivider(theme),
             _buildMenuItem(
               icon: Icons.person_outline,
-              title: '내 활동',
+              title: l10n.myActivity,
               onTap: () {
                 _closeMenu();
                 Navigator.of(context).push(
@@ -543,7 +543,7 @@ class _CommunityAppBarState extends State<CommunityAppBar>
             _buildMenuDivider(theme),
             _buildMenuItem(
               icon: Icons.tune,
-              title: '카테고리',
+              title: l10n.categories,
               onTap: () {
                 _closeMenu();
                 // 잠시 후 카테고리 드롭다운 열기
@@ -638,6 +638,7 @@ class _CommunityAppBarState extends State<CommunityAppBar>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       decoration: BoxDecoration(
@@ -699,7 +700,7 @@ class _CommunityAppBarState extends State<CommunityAppBar>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '함께 나누는 육아 이야기',
+                                l10n.sharingParentingStories,
                                 style: theme.textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
@@ -773,7 +774,7 @@ class _CommunityAppBarState extends State<CommunityAppBar>
                                 ),
                             ],
                           ),
-                          tooltip: '메뉴',
+                          tooltip: l10n.menu,
                           padding: EdgeInsets.zero,
                         ),
                       ),

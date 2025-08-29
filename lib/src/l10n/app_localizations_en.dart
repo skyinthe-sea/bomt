@@ -1993,10 +1993,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalFeedingAmount => 'Total Feeding Amount';
 
   @override
-  String get averageFeedingAmount => 'Average Feeding Amount';
+  String get averageFeedingAmount => 'Average feeding amount';
 
   @override
-  String get dailyAverageFeedingCount => 'Daily Average Feeding Count';
+  String get dailyAverageFeedingCount => 'Daily average feeding count';
 
   @override
   String get clinical => 'Clinical';
@@ -2231,4 +2231,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
+
+  @override
+  String get registerBabyFirst => 'Please register your baby';
+
+  @override
+  String get registerBabyToRecordMoments =>
+      'To record your baby\'s precious moments,\nplease register baby information first.';
+
+  @override
+  String get addBabyFromHome => 'Add baby from home';
+
+  @override
+  String get timesUnit => 'times';
+
+  @override
+  String get itemsUnit => 'items';
+
+  @override
+  String get timesPerDay => 'times/day';
+
+  @override
+  String get activityDistributionByCategory =>
+      'Activity Distribution by Category';
+
+  @override
+  String itemsCount(int count) {
+    return '$count items';
+  }
+
+  @override
+  String get totalCount => 'Total count';
+
+  @override
+  String timesCount(int count) {
+    return '$count times';
+  }
+
+  @override
+  String get noDetailedData => 'No detailed data';
+
+  @override
+  String get averageFeedingTime => 'Average feeding time';
+
+  @override
+  String get averageSleepTime => 'Average sleep time';
+
+  @override
+  String get dailyAverageTotalSleepTime => 'Daily average total sleep time';
+
+  @override
+  String get dailyAverageSleepCount => 'Daily average sleep count';
+
+  @override
+  String get dailyAverageChangeCount => 'Daily average change count';
+
+  @override
+  String get sharingParentingStories => 'Sharing Parenting Stories';
+
+  @override
+  String get myActivity => 'My Activity';
+
+  @override
+  String get categories => 'Categories';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get seeMore => 'See More';
 }

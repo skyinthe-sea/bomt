@@ -536,5 +536,53 @@
   "popularSearchTerms": "คำค้นหายอดนิยม",
   "recentSearches": "การค้นหาล่าสุด",
   "deleteAll": "ลบทั้งหมด",
-  "sortByComments": "เรียงตามความคิดเห็น"
+  "sortByComments": "เรียงตามความคิดเห็น",
+  
+  "registerBabyFirst": "กรุณาลงทะเบียนลูกก่อน",
+  "registerBabyToRecordMoments": "เพื่อบันทึกช่วงเวลาล้ำค่าของลูก\nกรุณาลงทะเบียนข้อมูลลูกก่อน",
+  "addBabyFromHome": "เพิ่มลูกจากหน้าหลัก",
+
+  "overallActivityOverview": "ภาพรวมกิจกรรมทั้งหมด",
+  "totalActivities": "กิจกรรมทั้งหมด",
+  "timesUnit": "ครั้ง",
+  "activeCards": "การ์ดที่ใช้งานอยู่",
+  "itemsUnit": "รายการ",
+  "dailyAverage": "เฉลี่ยต่อวัน",
+  "timesPerDay": "ครั้ง/วัน",
+  "activityDistributionByCategory": "การกระจายกิจกรรมตามหมวดหมู่",
+  "detailedStatistics": "สถิติรายละเอียด",
+  "itemsCount": "{count} รายการ",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "จำนวนทั้งหมด",
+  "timesCount": "{count} ครั้ง",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "ไม่มีข้อมูลรายละเอียด",
+  "averageFeedingAmount": "ปริมาณการให้อาหารเฉลี่ย",
+  "averageFeedingTime": "เวลาการให้อาหารเฉลี่ย",
+  "dailyAverageFeedingCount": "จำนวนการให้อาหารเฉลี่ยต่อวัน",
+  "averageSleepTime": "เวลานอนเฉลี่ย",
+  "dailyAverageTotalSleepTime": "เวลานอนรวมเฉลี่ยต่อวัน",
+  "dailyAverageSleepCount": "จำนวนการนอนเฉลี่ยต่อวัน",
+  "dailyAverageChangeCount": "จำนวนการเปลี่ยนเฉลี่ยต่อวัน",
+  
+  "sharingParentingStories": "แบ่งปันเรื่องราวการเลี้ยงลูก",
+  "writePost": "เขียนโพสต์",
+  "myActivity": "กิจกรรมของฉัน",
+  "categories": "หมวดหมู่",
+  "menu": "เมนู",
+  "seeMore": "ดูเพิ่มเติม",
+  "search": "ค้นหา",
+  "notification": "การแจ้งเตือน"
 }

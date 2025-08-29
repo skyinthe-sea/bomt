@@ -877,5 +877,51 @@
   "longPressForDetails": "길게 눌러 상세보기",
   "checkStandardFeedingInterval": "표준 수유 간격을 확인하세요",
   
+  "registerBabyFirst": "아기를 등록해주세요",
+  "registerBabyToRecordMoments": "아기의 소중한 순간들을 기록하기 위해\n먼저 아기 정보를 등록해주세요.",
+  "addBabyFromHome": "홈에서 아기 추가하기",
+  
+  "overallActivityOverview": "전체 활동 개요",
+  "totalActivities": "총 활동",
+  "timesUnit": "회",
+  "activeCards": "활성 카드",
+  "itemsUnit": "개",
+  "dailyAverage": "일평균",
+  "timesPerDay": "회/일",
+  "activityDistributionByCategory": "카드별 활동 분포",
+  "detailedStatistics": "상세 통계",
+  "itemsCount": "{count}개 항목",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "총 횟수",
+  "timesCount": "{count}회",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "상세 데이터 없음",
+  "averageFeedingAmount": "평균 수유량",
+  "averageFeedingTime": "평균 수유 시간",
+  "dailyAverageFeedingCount": "하루 평균 수유 횟수",
+  "averageSleepTime": "평균 수면 시간",
+  "dailyAverageTotalSleepTime": "하루 평균 총 수면 시간",
+  "dailyAverageSleepCount": "하루 평균 수면 횟수",
+  "dailyAverageChangeCount": "하루 평균 교체 횟수",
+  
+  "sharingParentingStories": "함께 나누는 육아 이야기",
+  "writePost": "글쓰기",
+  "myActivity": "내 활동",
+  "categories": "카테고리",
+  "menu": "메뉴",
+  "seeMore": "더 보기",
+  
   "confirm": "확인"
 }

@@ -605,5 +605,53 @@
     }
   },
   "longPressForDetails": "Appui long pour les détails",
-  "checkStandardFeedingInterval": "Vérifier l'intervalle d'alimentation standard"
+  "checkStandardFeedingInterval": "Vérifier l'intervalle d'alimentation standard",
+  
+  "registerBabyFirst": "Veuillez d'abord enregistrer votre bébé",
+  "registerBabyToRecordMoments": "Pour enregistrer les précieux moments de votre bébé,\nveuillez d'abord enregistrer les informations du bébé.",
+  "addBabyFromHome": "Ajouter un bébé depuis l'accueil",
+
+  "overallActivityOverview": "Vue d'ensemble de l'activité globale",
+  "totalActivities": "Activités totales",
+  "timesUnit": "fois",
+  "activeCards": "Cartes actives",
+  "itemsUnit": "éléments",
+  "dailyAverage": "Moyenne quotidienne",
+  "timesPerDay": "fois/jour",
+  "activityDistributionByCategory": "Distribution des activités par catégorie",
+  "detailedStatistics": "Statistiques détaillées",
+  "itemsCount": "{count} éléments",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "Nombre total",
+  "timesCount": "{count} fois",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "Aucune donnée détaillée",
+  "averageFeedingAmount": "Quantité d'alimentation moyenne",
+  "averageFeedingTime": "Durée d'alimentation moyenne",
+  "dailyAverageFeedingCount": "Nombre moyen d'alimentations par jour",
+  "averageSleepTime": "Durée de sommeil moyenne",
+  "dailyAverageTotalSleepTime": "Durée totale de sommeil moyenne par jour",
+  "dailyAverageSleepCount": "Nombre moyen de sommeil par jour",
+  "dailyAverageChangeCount": "Nombre moyen de changements par jour",
+  
+  "sharingParentingStories": "Partage d'histoires parentales",
+  "writePost": "Écrire un post",
+  "myActivity": "Mon activité",
+  "categories": "Catégories",
+  "menu": "Menu",
+  "seeMore": "Voir plus",
+  "search": "Rechercher",
+  "notification": "Notification"
 }

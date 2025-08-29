@@ -467,7 +467,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get communityTitle => 'コミュニティ';
 
   @override
-  String get writePost => '投稿を書く';
+  String get writePost => '投稿する';
 
   @override
   String get post => '投稿';
@@ -1291,7 +1291,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get totalActivities => '総活動';
 
   @override
-  String get activeCards => 'アクティブカード';
+  String get activeCards => '有効なカード';
 
   @override
   String get dailyAverage => '日平均';
@@ -2194,4 +2194,72 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get checkStandardFeedingInterval => '標準授乳間隔を確認してください';
+
+  @override
+  String get registerBabyFirst => '赤ちゃんを登録してください';
+
+  @override
+  String get registerBabyToRecordMoments =>
+      '赤ちゃんの大切な瞬間を記録するために、\nまず赤ちゃんの情報を登録してください。';
+
+  @override
+  String get addBabyFromHome => 'ホームから赤ちゃんを追加';
+
+  @override
+  String get timesUnit => '回';
+
+  @override
+  String get itemsUnit => '個';
+
+  @override
+  String get timesPerDay => '回/日';
+
+  @override
+  String get activityDistributionByCategory => 'カテゴリ別活動分布';
+
+  @override
+  String itemsCount(int count) {
+    return '$count個項目';
+  }
+
+  @override
+  String get totalCount => '総回数';
+
+  @override
+  String timesCount(int count) {
+    return '$count回';
+  }
+
+  @override
+  String get noDetailedData => '詳細データなし';
+
+  @override
+  String get averageFeedingTime => '平均授乳時間';
+
+  @override
+  String get averageSleepTime => '平均睡眠時間';
+
+  @override
+  String get dailyAverageTotalSleepTime => '1日平均総睡眠時間';
+
+  @override
+  String get dailyAverageSleepCount => '1日平均睡眠回数';
+
+  @override
+  String get dailyAverageChangeCount => '1日平均交換回数';
+
+  @override
+  String get sharingParentingStories => '子育ての話を共有';
+
+  @override
+  String get myActivity => '私の活動';
+
+  @override
+  String get categories => 'カテゴリー';
+
+  @override
+  String get menu => 'メニュー';
+
+  @override
+  String get seeMore => 'もっと見る';
 }

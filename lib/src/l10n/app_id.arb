@@ -536,5 +536,53 @@
   "popularSearchTerms": "Kata kunci pencarian populer",
   "recentSearches": "Pencarian terbaru",
   "deleteAll": "Hapus semua",
-  "sortByComments": "Urutkan berdasarkan komentar"
+  "sortByComments": "Urutkan berdasarkan komentar",
+  
+  "registerBabyFirst": "Silakan daftarkan bayi Anda terlebih dahulu",
+  "registerBabyToRecordMoments": "Untuk merekam momen-momen berharga bayi Anda,\nsilakan daftarkan informasi bayi terlebih dahulu.",
+  "addBabyFromHome": "Tambah bayi dari beranda",
+
+  "overallActivityOverview": "Tinjauan Aktivitas Keseluruhan",
+  "totalActivities": "Total Aktivitas",
+  "timesUnit": "kali",
+  "activeCards": "Kartu Aktif",
+  "itemsUnit": "item",
+  "dailyAverage": "Rata-rata Harian",
+  "timesPerDay": "kali/hari",
+  "activityDistributionByCategory": "Distribusi Aktivitas berdasarkan Kategori",
+  "detailedStatistics": "Statistik Terperinci",
+  "itemsCount": "{count} item",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "Jumlah Total",
+  "timesCount": "{count} kali",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "Tidak ada data terperinci",
+  "averageFeedingAmount": "Jumlah rata-rata pemberian makan",
+  "averageFeedingTime": "Waktu rata-rata pemberian makan",
+  "dailyAverageFeedingCount": "Jumlah rata-rata harian pemberian makan",
+  "averageSleepTime": "Waktu rata-rata tidur",
+  "dailyAverageTotalSleepTime": "Total waktu rata-rata harian tidur",
+  "dailyAverageSleepCount": "Jumlah rata-rata harian tidur",
+  "dailyAverageChangeCount": "Jumlah rata-rata harian penggantian",
+  
+  "sharingParentingStories": "Berbagi Cerita Parenting",
+  "writePost": "Tulis Postingan",
+  "myActivity": "Aktivitas Saya",
+  "categories": "Kategori",
+  "menu": "Menu",
+  "seeMore": "Lihat Selengkapnya",
+  "search": "Cari",
+  "notification": "Notifikasi"
 }

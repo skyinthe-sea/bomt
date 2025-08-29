@@ -536,5 +536,53 @@
   "popularSearchTerms": "Términos de búsqueda populares",
   "recentSearches": "Búsquedas recientes",
   "deleteAll": "Eliminar todo",
-  "sortByComments": "Ordenar por comentarios"
+  "sortByComments": "Ordenar por comentarios",
+  
+  "registerBabyFirst": "Por favor registra tu bebé primero",
+  "registerBabyToRecordMoments": "Para registrar los momentos preciosos de tu bebé,\npor favor registra primero la información del bebé.",
+  "addBabyFromHome": "Agregar bebé desde inicio",
+
+  "overallActivityOverview": "Resumen General de Actividades",
+  "totalActivities": "Actividades Totales",
+  "timesUnit": "veces",
+  "activeCards": "Tarjetas Activas",
+  "itemsUnit": "elementos",
+  "dailyAverage": "Promedio Diario",
+  "timesPerDay": "veces/día",
+  "activityDistributionByCategory": "Distribución de Actividades por Categoría",
+  "detailedStatistics": "Estadísticas Detalladas",
+  "itemsCount": "{count} elementos",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "Recuento Total",
+  "timesCount": "{count} veces",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "No hay datos detallados",
+  "averageFeedingAmount": "Cantidad promedio de alimentación",
+  "averageFeedingTime": "Tiempo promedio de alimentación",
+  "dailyAverageFeedingCount": "Recuento promedio diario de alimentaciones",
+  "averageSleepTime": "Tiempo promedio de sueño",
+  "dailyAverageTotalSleepTime": "Tiempo total promedio diario de sueño",
+  "dailyAverageSleepCount": "Recuento promedio diario de sueño",
+  "dailyAverageChangeCount": "Recuento promedio diario de cambios",
+  
+  "sharingParentingStories": "Compartiendo Historias de Crianza",
+  "writePost": "Escribir Post",
+  "myActivity": "Mi Actividad",
+  "categories": "Categorías",
+  "menu": "Menú",
+  "seeMore": "Ver Más",
+  "search": "Buscar",
+  "notification": "Notificación"
 }

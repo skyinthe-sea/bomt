@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/statistics.dart';
 
 class StatisticsOverviewCard extends StatelessWidget {
@@ -12,6 +13,7 @@ class StatisticsOverviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -61,7 +63,7 @@ class StatisticsOverviewCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '전체 활동 개요',
+                            l10n.overallActivityOverview,
                             style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: theme.colorScheme.onSurface,
@@ -97,15 +99,16 @@ class StatisticsOverviewCard extends StatelessWidget {
   }
 
   Widget _buildMetricsGrid(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Row(
       children: [
         // 총 활동 수
         Expanded(
           child: _buildMetricCard(
             theme: theme,
-            title: '총 활동',
+            title: l10n.totalActivities,
             value: statistics.totalActivities.toString(),
-            subtitle: '회',
+            subtitle: l10n.timesUnit,
             icon: Icons.timeline_rounded,
             color: theme.colorScheme.primary,
           ),
@@ -117,9 +120,9 @@ class StatisticsOverviewCard extends StatelessWidget {
         Expanded(
           child: _buildMetricCard(
             theme: theme,
-            title: '활성 카드',
+            title: l10n.activeCards,
             value: statistics.cardsWithData.length.toString(),
-            subtitle: '개',
+            subtitle: l10n.itemsUnit,
             icon: Icons.dashboard_rounded,
             color: theme.colorScheme.secondary,
           ),
@@ -131,9 +134,9 @@ class StatisticsOverviewCard extends StatelessWidget {
         Expanded(
           child: _buildMetricCard(
             theme: theme,
-            title: '일평균',
+            title: l10n.dailyAverage,
             value: (statistics.totalActivities / statistics.dateRange.totalDays).toStringAsFixed(1),
-            subtitle: '회/일',
+            subtitle: l10n.timesPerDay,
             icon: Icons.trending_up_rounded,
             color: theme.colorScheme.tertiary,
           ),
@@ -216,6 +219,7 @@ class StatisticsOverviewCard extends StatelessWidget {
   }
 
   Widget _buildCardSummary(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -237,7 +241,7 @@ class StatisticsOverviewCard extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                '카드별 활동 분포',
+                l10n.activityDistributionByCategory,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: theme.colorScheme.onSurface,
@@ -252,6 +256,7 @@ class StatisticsOverviewCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: _buildCardSummaryItem(
+                context: context,
                 theme: theme,
                 cardStats: cardStats,
                 totalActivities: statistics.totalActivities,
@@ -264,10 +269,12 @@ class StatisticsOverviewCard extends StatelessWidget {
   }
 
   Widget _buildCardSummaryItem({
+    required BuildContext context,
     required ThemeData theme,
     required CardStatistics cardStats,
     required int totalActivities,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     final percentage = totalActivities > 0 
         ? (cardStats.totalCount / totalActivities * 100)
         : 0.0;
@@ -301,7 +308,7 @@ class StatisticsOverviewCard extends StatelessWidget {
         Expanded(
           flex: 2,
           child: Text(
-            '${cardStats.totalCount}회',
+            l10n.timesCount(cardStats.totalCount),
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
               color: theme.colorScheme.onSurface,

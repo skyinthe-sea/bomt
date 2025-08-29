@@ -1372,5 +1372,51 @@
   "longPressForDetails": "Long press for details",
   "checkStandardFeedingInterval": "Check standard feeding interval",
   
+  "registerBabyFirst": "Please register your baby",
+  "registerBabyToRecordMoments": "To record your baby's precious moments,\nplease register baby information first.",
+  "addBabyFromHome": "Add baby from home",
+  
+  "overallActivityOverview": "Overall Activity Overview",
+  "totalActivities": "Total Activities",
+  "timesUnit": "times",
+  "activeCards": "Active Cards",
+  "itemsUnit": "items",
+  "dailyAverage": "Daily Average",
+  "timesPerDay": "times/day",
+  "activityDistributionByCategory": "Activity Distribution by Category",
+  "detailedStatistics": "Detailed Statistics",
+  "itemsCount": "{count} items",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "Total count",
+  "timesCount": "{count} times",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "No detailed data",
+  "averageFeedingAmount": "Average feeding amount",
+  "averageFeedingTime": "Average feeding time",
+  "dailyAverageFeedingCount": "Daily average feeding count",
+  "averageSleepTime": "Average sleep time",
+  "dailyAverageTotalSleepTime": "Daily average total sleep time",
+  "dailyAverageSleepCount": "Daily average sleep count",
+  "dailyAverageChangeCount": "Daily average change count",
+  
+  "sharingParentingStories": "Sharing Parenting Stories",
+  "writePost": "Write Post",
+  "myActivity": "My Activity",
+  "categories": "Categories",
+  "menu": "Menu",
+  "seeMore": "See More",
+  
   "confirm": "Confirm"
 }

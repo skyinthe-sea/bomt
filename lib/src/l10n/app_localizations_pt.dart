@@ -471,7 +471,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get communityTitle => 'Community';
 
   @override
-  String get writePost => 'Escrever post';
+  String get writePost => 'Escrever Post';
 
   @override
   String get post => 'Publicar';
@@ -1299,22 +1299,22 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pleaseSelectDate => 'Please select a date';
 
   @override
-  String get detailedStatistics => 'Detailed Statistics';
+  String get detailedStatistics => 'Estatísticas Detalhadas';
 
   @override
   String get chartAnalysis => 'Chart Analysis';
 
   @override
-  String get overallActivityOverview => 'Overall Activity Overview';
+  String get overallActivityOverview => 'Visão Geral da Atividade Global';
 
   @override
-  String get totalActivities => 'Total Activities';
+  String get totalActivities => 'Atividades Totais';
 
   @override
-  String get activeCards => 'Active Cards';
+  String get activeCards => 'Cartões Ativos';
 
   @override
-  String get dailyAverage => 'Daily Average';
+  String get dailyAverage => 'Média Diária';
 
   @override
   String get activityDistributionByCard => 'Activity Distribution by Card';
@@ -1341,10 +1341,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get communitySubtitle => 'Sharing Parenting Stories Together';
 
   @override
-  String get search => 'Search';
+  String get search => 'Pesquisar';
 
   @override
-  String get notification => 'Notification';
+  String get notification => 'Notificação';
 
   @override
   String get searchFeatureComingSoon => 'Search feature coming soon';
@@ -1999,7 +1999,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get averageFeedingAmount => 'Quantidade média de alimentação';
 
   @override
-  String get dailyAverageFeedingCount => 'Contagem média diária de alimentação';
+  String get dailyAverageFeedingCount =>
+      'Contagem média diária de alimentações';
 
   @override
   String get clinical => 'Clínico';
@@ -2236,4 +2237,74 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get checkStandardFeedingInterval =>
       'Verificar intervalo de alimentação padrão';
+
+  @override
+  String get registerBabyFirst => 'Por favor, cadastre seu bebê primeiro';
+
+  @override
+  String get registerBabyToRecordMoments =>
+      'Para registrar os momentos preciosos do seu bebê,\npor favor cadastre primeiro as informações do bebê.';
+
+  @override
+  String get addBabyFromHome => 'Adicionar bebê da tela inicial';
+
+  @override
+  String get timesUnit => 'vezes';
+
+  @override
+  String get itemsUnit => 'itens';
+
+  @override
+  String get timesPerDay => 'vezes/dia';
+
+  @override
+  String get activityDistributionByCategory =>
+      'Distribuição de Atividades por Categoria';
+
+  @override
+  String itemsCount(int count) {
+    return '$count itens';
+  }
+
+  @override
+  String get totalCount => 'Contagem Total';
+
+  @override
+  String timesCount(int count) {
+    return '$count vezes';
+  }
+
+  @override
+  String get noDetailedData => 'Nenhum dado detalhado';
+
+  @override
+  String get averageFeedingTime => 'Tempo médio de alimentação';
+
+  @override
+  String get averageSleepTime => 'Tempo médio de sono';
+
+  @override
+  String get dailyAverageTotalSleepTime => 'Tempo total médio diário de sono';
+
+  @override
+  String get dailyAverageSleepCount => 'Contagem média diária de sono';
+
+  @override
+  String get dailyAverageChangeCount => 'Contagem média diária de trocas';
+
+  @override
+  String get sharingParentingStories =>
+      'Compartilhando Histórias de Paternidade';
+
+  @override
+  String get myActivity => 'Minha Atividade';
+
+  @override
+  String get categories => 'Categorias';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get seeMore => 'Ver Mais';
 }

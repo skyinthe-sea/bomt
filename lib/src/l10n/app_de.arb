@@ -605,5 +605,53 @@
     }
   },
   "longPressForDetails": "Lang drücken für Details",
-  "checkStandardFeedingInterval": "Standard-Fütterungsintervall prüfen"
+  "checkStandardFeedingInterval": "Standard-Fütterungsintervall prüfen",
+  
+  "registerBabyFirst": "Bitte registrieren Sie Ihr Baby",
+  "registerBabyToRecordMoments": "Um die kostbaren Momente Ihres Babys festzuhalten,\nregistrieren Sie bitte zuerst die Baby-Informationen.",
+  "addBabyFromHome": "Baby vom Startbildschirm hinzufügen",
+
+  "overallActivityOverview": "Gesamtaktivitätsübersicht",
+  "totalActivities": "Gesamtaktivitäten",
+  "timesUnit": "Mal",
+  "activeCards": "Aktive Karten",
+  "itemsUnit": "Artikel",
+  "dailyAverage": "Tagesdurchschnitt",
+  "timesPerDay": "Mal/Tag",
+  "activityDistributionByCategory": "Aktivitätsverteilung nach Kategorie",
+  "detailedStatistics": "Detaillierte Statistiken",
+  "itemsCount": "{count} Artikel",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "Gesamtanzahl",
+  "timesCount": "{count} Mal",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "Keine detaillierten Daten",
+  "averageFeedingAmount": "Durchschnittliche Fütterungsmenge",
+  "averageFeedingTime": "Durchschnittliche Fütterungszeit",
+  "dailyAverageFeedingCount": "Tägliche durchschnittliche Fütterungsanzahl",
+  "averageSleepTime": "Durchschnittliche Schlafzeit",
+  "dailyAverageTotalSleepTime": "Tägliche durchschnittliche Gesamtschlafzeit",
+  "dailyAverageSleepCount": "Tägliche durchschnittliche Schlafanzahl",
+  "dailyAverageChangeCount": "Tägliche durchschnittliche Wechselanzahl",
+  
+  "sharingParentingStories": "Austausch von Elterngeschichten",
+  "writePost": "Beitrag schreiben",
+  "myActivity": "Meine Aktivität",
+  "categories": "Kategorien",
+  "menu": "Menü",
+  "seeMore": "Mehr sehen",
+  "search": "Suchen",
+  "notification": "Benachrichtigung"
 }

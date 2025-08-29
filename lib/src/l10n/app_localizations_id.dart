@@ -471,7 +471,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get communityTitle => 'Community';
 
   @override
-  String get writePost => 'Tulis postingan';
+  String get writePost => 'Tulis Postingan';
 
   @override
   String get post => 'Posting';
@@ -1299,22 +1299,22 @@ class AppLocalizationsId extends AppLocalizations {
   String get pleaseSelectDate => 'Please select a date';
 
   @override
-  String get detailedStatistics => 'Detailed Statistics';
+  String get detailedStatistics => 'Statistik Terperinci';
 
   @override
   String get chartAnalysis => 'Chart Analysis';
 
   @override
-  String get overallActivityOverview => 'Overall Activity Overview';
+  String get overallActivityOverview => 'Tinjauan Aktivitas Keseluruhan';
 
   @override
-  String get totalActivities => 'Total Activities';
+  String get totalActivities => 'Total Aktivitas';
 
   @override
-  String get activeCards => 'Active Cards';
+  String get activeCards => 'Kartu Aktif';
 
   @override
-  String get dailyAverage => 'Daily Average';
+  String get dailyAverage => 'Rata-rata Harian';
 
   @override
   String get activityDistributionByCard => 'Activity Distribution by Card';
@@ -1341,10 +1341,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get communitySubtitle => 'Sharing Parenting Stories Together';
 
   @override
-  String get search => 'Search';
+  String get search => 'Cari';
 
   @override
-  String get notification => 'Notification';
+  String get notification => 'Notifikasi';
 
   @override
   String get searchFeatureComingSoon => 'Search feature coming soon';
@@ -1997,7 +1997,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get dailyAverageFeedingCount =>
-      'Jumlah rata-rata pemberian makan harian';
+      'Jumlah rata-rata harian pemberian makan';
 
   @override
   String get clinical => 'Klinis';
@@ -2232,4 +2232,73 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
+
+  @override
+  String get registerBabyFirst => 'Silakan daftarkan bayi Anda terlebih dahulu';
+
+  @override
+  String get registerBabyToRecordMoments =>
+      'Untuk merekam momen-momen berharga bayi Anda,\nsilakan daftarkan informasi bayi terlebih dahulu.';
+
+  @override
+  String get addBabyFromHome => 'Tambah bayi dari beranda';
+
+  @override
+  String get timesUnit => 'kali';
+
+  @override
+  String get itemsUnit => 'item';
+
+  @override
+  String get timesPerDay => 'kali/hari';
+
+  @override
+  String get activityDistributionByCategory =>
+      'Distribusi Aktivitas berdasarkan Kategori';
+
+  @override
+  String itemsCount(int count) {
+    return '$count item';
+  }
+
+  @override
+  String get totalCount => 'Jumlah Total';
+
+  @override
+  String timesCount(int count) {
+    return '$count kali';
+  }
+
+  @override
+  String get noDetailedData => 'Tidak ada data terperinci';
+
+  @override
+  String get averageFeedingTime => 'Waktu rata-rata pemberian makan';
+
+  @override
+  String get averageSleepTime => 'Waktu rata-rata tidur';
+
+  @override
+  String get dailyAverageTotalSleepTime => 'Total waktu rata-rata harian tidur';
+
+  @override
+  String get dailyAverageSleepCount => 'Jumlah rata-rata harian tidur';
+
+  @override
+  String get dailyAverageChangeCount => 'Jumlah rata-rata harian penggantian';
+
+  @override
+  String get sharingParentingStories => 'Berbagi Cerita Parenting';
+
+  @override
+  String get myActivity => 'Aktivitas Saya';
+
+  @override
+  String get categories => 'Kategori';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get seeMore => 'Lihat Selengkapnya';
 }

@@ -183,17 +183,17 @@ class _TimelineScreenState extends State<TimelineScreen>
         if (!_isInitialized) {
           return Scaffold(
             body: CleanBackground(
-              child: const Center(
+              child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(
+                    const CircularProgressIndicator(
                       strokeWidth: 3,
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     Text(
-                      '타임라인을 준비하고 있어요...',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.preparingTimeline,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
@@ -256,7 +256,7 @@ class _TimelineScreenState extends State<TimelineScreen>
                           
                           // 제목
                           Text(
-                            '아기를 등록해주세요',
+                            AppLocalizations.of(context)!.registerBabyFirst,
                             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -268,7 +268,7 @@ class _TimelineScreenState extends State<TimelineScreen>
                           
                           // 설명
                           Text(
-                            '아기의 소중한 순간들을 기록하기 위해\n먼저 아기 정보를 등록해주세요.',
+                            AppLocalizations.of(context)!.registerBabyToRecordMoments,
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                               height: 1.5,
@@ -295,9 +295,9 @@ class _TimelineScreenState extends State<TimelineScreen>
                                 ),
                                 elevation: 2,
                               ),
-                              child: const Text(
-                                '홈에서 아기 추가하기',
-                                style: TextStyle(
+                              child: Text(
+                                AppLocalizations.of(context)!.addBabyFromHome,
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -549,7 +549,7 @@ class _TimelineScreenState extends State<TimelineScreen>
                   ),
                   const SizedBox(width: 6),
                   Text(
-                    '패턴',
+                    AppLocalizations.of(context)!.pattern,
                     style: theme.textTheme.labelMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: theme.colorScheme.secondary,

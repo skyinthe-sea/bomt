@@ -536,5 +536,53 @@
   "popularSearchTerms": "Sikat na search terms",
   "recentSearches": "Kamakailang paghahanap",
   "deleteAll": "Tanggalin lahat",
-  "sortByComments": "Ayusin ayon sa mga komento"
+  "sortByComments": "Ayusin ayon sa mga komento",
+  
+  "registerBabyFirst": "Pakirehistro muna ang inyong baby",
+  "registerBabyToRecordMoments": "Para ma-record ang mga precious moments ng inyong baby,\npakirehistro muna ang baby information.",
+  "addBabyFromHome": "Magdagdag ng baby mula sa home",
+
+  "overallActivityOverview": "Kabuuang Pagtingin sa Aktibidad",
+  "totalActivities": "Kabuuang Mga Aktibidad",
+  "timesUnit": "beses",
+  "activeCards": "Mga Aktibong Card",
+  "itemsUnit": "mga item",
+  "dailyAverage": "Araw-araw na Average",
+  "timesPerDay": "beses/araw",
+  "activityDistributionByCategory": "Pamamahagi ng Aktibidad ayon sa Kategorya",
+  "detailedStatistics": "Detalyadong Statistics",
+  "itemsCount": "{count} mga item",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "Kabuuang Bilang",
+  "timesCount": "{count} beses",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "Walang detalyadong data",
+  "averageFeedingAmount": "Average na dami ng pagkain",
+  "averageFeedingTime": "Average na oras ng pagkain",
+  "dailyAverageFeedingCount": "Araw-araw na average na bilang ng pagkain",
+  "averageSleepTime": "Average na oras ng tulog",
+  "dailyAverageTotalSleepTime": "Araw-araw na average na kabuuang oras ng tulog",
+  "dailyAverageSleepCount": "Araw-araw na average na bilang ng tulog",
+  "dailyAverageChangeCount": "Araw-araw na average na bilang ng pagbabago",
+  
+  "sharingParentingStories": "Pagbabahagi ng mga Kuwentong Pagpapalaki",
+  "writePost": "Sumulat ng Post",
+  "myActivity": "Aking Aktibidad",
+  "categories": "Mga Kategorya",
+  "menu": "Menu",
+  "seeMore": "Makita Pa",
+  "search": "Maghanap",
+  "notification": "Abiso"
 }

@@ -355,6 +355,7 @@ class _CommunityPostCardState extends State<CommunityPostCard> {
 
   // X 스타일: 내용 섹션 구현 (반응형 높이 + fade out 효과)
   Widget _buildContentSection(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     const int maxLines = 6; // 최대 표시 줄 수
     const double fadeHeight = 40.0; // fade out 영역 높이
     
@@ -445,7 +446,7 @@ class _CommunityPostCardState extends State<CommunityPostCard> {
                   ),
                 ),
                 child: Text(
-                  '더 보기',
+                  l10n.seeMore,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w600,

@@ -341,25 +341,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 2),
-            AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 300),
-              style: TextStyle(
-                fontSize: isSelected ? 10 : 9,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected 
-                    ? theme.colorScheme.primary
-                    : isDark 
-                        ? Colors.grey[400] 
-                        : Colors.grey[600],
-              ),
-              child: Text(
-                item.title ?? '',
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+            // 텍스트 라벨 제거 - 아이콘만 표시
           ],
         ),
       ),

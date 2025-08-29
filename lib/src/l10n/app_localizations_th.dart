@@ -1299,22 +1299,22 @@ class AppLocalizationsTh extends AppLocalizations {
   String get pleaseSelectDate => 'Please select a date';
 
   @override
-  String get detailedStatistics => 'Detailed Statistics';
+  String get detailedStatistics => 'สถิติรายละเอียด';
 
   @override
   String get chartAnalysis => 'Chart Analysis';
 
   @override
-  String get overallActivityOverview => 'Overall Activity Overview';
+  String get overallActivityOverview => 'ภาพรวมกิจกรรมทั้งหมด';
 
   @override
-  String get totalActivities => 'Total Activities';
+  String get totalActivities => 'กิจกรรมทั้งหมด';
 
   @override
-  String get activeCards => 'Active Cards';
+  String get activeCards => 'การ์ดที่ใช้งานอยู่';
 
   @override
-  String get dailyAverage => 'Daily Average';
+  String get dailyAverage => 'เฉลี่ยต่อวัน';
 
   @override
   String get activityDistributionByCard => 'Activity Distribution by Card';
@@ -1341,10 +1341,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get communitySubtitle => 'Sharing Parenting Stories Together';
 
   @override
-  String get search => 'Search';
+  String get search => 'ค้นหา';
 
   @override
-  String get notification => 'Notification';
+  String get notification => 'การแจ้งเตือน';
 
   @override
   String get searchFeatureComingSoon => 'Search feature coming soon';
@@ -2229,4 +2229,72 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
+
+  @override
+  String get registerBabyFirst => 'กรุณาลงทะเบียนลูกก่อน';
+
+  @override
+  String get registerBabyToRecordMoments =>
+      'เพื่อบันทึกช่วงเวลาล้ำค่าของลูก\nกรุณาลงทะเบียนข้อมูลลูกก่อน';
+
+  @override
+  String get addBabyFromHome => 'เพิ่มลูกจากหน้าหลัก';
+
+  @override
+  String get timesUnit => 'ครั้ง';
+
+  @override
+  String get itemsUnit => 'รายการ';
+
+  @override
+  String get timesPerDay => 'ครั้ง/วัน';
+
+  @override
+  String get activityDistributionByCategory => 'การกระจายกิจกรรมตามหมวดหมู่';
+
+  @override
+  String itemsCount(int count) {
+    return '$count รายการ';
+  }
+
+  @override
+  String get totalCount => 'จำนวนทั้งหมด';
+
+  @override
+  String timesCount(int count) {
+    return '$count ครั้ง';
+  }
+
+  @override
+  String get noDetailedData => 'ไม่มีข้อมูลรายละเอียด';
+
+  @override
+  String get averageFeedingTime => 'เวลาการให้อาหารเฉลี่ย';
+
+  @override
+  String get averageSleepTime => 'เวลานอนเฉลี่ย';
+
+  @override
+  String get dailyAverageTotalSleepTime => 'เวลานอนรวมเฉลี่ยต่อวัน';
+
+  @override
+  String get dailyAverageSleepCount => 'จำนวนการนอนเฉลี่ยต่อวัน';
+
+  @override
+  String get dailyAverageChangeCount => 'จำนวนการเปลี่ยนเฉลี่ยต่อวัน';
+
+  @override
+  String get sharingParentingStories => 'แบ่งปันเรื่องราวการเลี้ยงลูก';
+
+  @override
+  String get myActivity => 'กิจกรรมของฉัน';
+
+  @override
+  String get categories => 'หมวดหมู่';
+
+  @override
+  String get menu => 'เมนู';
+
+  @override
+  String get seeMore => 'ดูเพิ่มเติม';
 }

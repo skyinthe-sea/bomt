@@ -472,7 +472,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get communityTitle => 'Community';
 
   @override
-  String get writePost => 'Sumulat ng post';
+  String get writePost => 'Sumulat ng Post';
 
   @override
   String get post => 'I-post';
@@ -1300,22 +1300,22 @@ class AppLocalizationsTl extends AppLocalizations {
   String get pleaseSelectDate => 'Please select a date';
 
   @override
-  String get detailedStatistics => 'Detailed Statistics';
+  String get detailedStatistics => 'Detalyadong Statistics';
 
   @override
   String get chartAnalysis => 'Chart Analysis';
 
   @override
-  String get overallActivityOverview => 'Overall Activity Overview';
+  String get overallActivityOverview => 'Kabuuang Pagtingin sa Aktibidad';
 
   @override
-  String get totalActivities => 'Total Activities';
+  String get totalActivities => 'Kabuuang Mga Aktibidad';
 
   @override
-  String get activeCards => 'Active Cards';
+  String get activeCards => 'Mga Aktibong Card';
 
   @override
-  String get dailyAverage => 'Daily Average';
+  String get dailyAverage => 'Araw-araw na Average';
 
   @override
   String get activityDistributionByCard => 'Activity Distribution by Card';
@@ -1342,10 +1342,10 @@ class AppLocalizationsTl extends AppLocalizations {
   String get communitySubtitle => 'Sharing Parenting Stories Together';
 
   @override
-  String get search => 'Search';
+  String get search => 'Maghanap';
 
   @override
-  String get notification => 'Notification';
+  String get notification => 'Abiso';
 
   @override
   String get searchFeatureComingSoon => 'Search feature coming soon';
@@ -1997,11 +1997,11 @@ class AppLocalizationsTl extends AppLocalizations {
   String get totalFeedingAmount => 'Kabuuang dami ng pagpapakain';
 
   @override
-  String get averageFeedingAmount => 'Average na dami ng pagpapakain';
+  String get averageFeedingAmount => 'Average na dami ng pagkain';
 
   @override
   String get dailyAverageFeedingCount =>
-      'Araw-araw na average na bilang ng pagpapakain';
+      'Araw-araw na average na bilang ng pagkain';
 
   @override
   String get clinical => 'Clinical';
@@ -2236,4 +2236,77 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
+
+  @override
+  String get registerBabyFirst => 'Pakirehistro muna ang inyong baby';
+
+  @override
+  String get registerBabyToRecordMoments =>
+      'Para ma-record ang mga precious moments ng inyong baby,\npakirehistro muna ang baby information.';
+
+  @override
+  String get addBabyFromHome => 'Magdagdag ng baby mula sa home';
+
+  @override
+  String get timesUnit => 'beses';
+
+  @override
+  String get itemsUnit => 'mga item';
+
+  @override
+  String get timesPerDay => 'beses/araw';
+
+  @override
+  String get activityDistributionByCategory =>
+      'Pamamahagi ng Aktibidad ayon sa Kategorya';
+
+  @override
+  String itemsCount(int count) {
+    return '$count mga item';
+  }
+
+  @override
+  String get totalCount => 'Kabuuang Bilang';
+
+  @override
+  String timesCount(int count) {
+    return '$count beses';
+  }
+
+  @override
+  String get noDetailedData => 'Walang detalyadong data';
+
+  @override
+  String get averageFeedingTime => 'Average na oras ng pagkain';
+
+  @override
+  String get averageSleepTime => 'Average na oras ng tulog';
+
+  @override
+  String get dailyAverageTotalSleepTime =>
+      'Araw-araw na average na kabuuang oras ng tulog';
+
+  @override
+  String get dailyAverageSleepCount =>
+      'Araw-araw na average na bilang ng tulog';
+
+  @override
+  String get dailyAverageChangeCount =>
+      'Araw-araw na average na bilang ng pagbabago';
+
+  @override
+  String get sharingParentingStories =>
+      'Pagbabahagi ng mga Kuwentong Pagpapalaki';
+
+  @override
+  String get myActivity => 'Aking Aktibidad';
+
+  @override
+  String get categories => 'Mga Kategorya';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get seeMore => 'Makita Pa';
 }

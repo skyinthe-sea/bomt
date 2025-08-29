@@ -536,5 +536,53 @@
   "popularSearchTerms": "Популярные поисковые запросы",
   "recentSearches": "Недавние поиски",
   "deleteAll": "Удалить все",
-  "sortByComments": "Сортировать по комментариям"
+  "sortByComments": "Сортировать по комментариям",
+  
+  "registerBabyFirst": "Пожалуйста, сначала зарегистрируйте вашего ребёнка",
+  "registerBabyToRecordMoments": "Чтобы записывать драгоценные моменты вашего ребёнка,\nпожалуйста, сначала зарегистрируйте информацию о ребёнке.",
+  "addBabyFromHome": "Добавить ребёнка с главного экрана",
+
+  "overallActivityOverview": "Общий обзор активности",
+  "totalActivities": "Общее количество активностей",
+  "timesUnit": "раз",
+  "activeCards": "Активные карточки",
+  "itemsUnit": "элементов",
+  "dailyAverage": "Дневное среднее",
+  "timesPerDay": "раз/день",
+  "activityDistributionByCategory": "Распределение активности по категориям",
+  "detailedStatistics": "Подробная статистика",
+  "itemsCount": "{count} элементов",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "Общее количество",
+  "timesCount": "{count} раз",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "Нет подробных данных",
+  "averageFeedingAmount": "Среднее количество кормления",
+  "averageFeedingTime": "Среднее время кормления",
+  "dailyAverageFeedingCount": "Дневное среднее количество кормлений",
+  "averageSleepTime": "Среднее время сна",
+  "dailyAverageTotalSleepTime": "Дневное среднее общее время сна",
+  "dailyAverageSleepCount": "Дневное среднее количество снов",
+  "dailyAverageChangeCount": "Дневное среднее количество смен",
+  
+  "sharingParentingStories": "Обмен родительскими историями",
+  "writePost": "Написать пост",
+  "myActivity": "Моя активность",
+  "categories": "Категории",
+  "menu": "Меню",
+  "seeMore": "Посмотреть ещё",
+  "search": "Поиск",
+  "notification": "Уведомление"
 }

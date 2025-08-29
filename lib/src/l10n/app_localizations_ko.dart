@@ -2195,4 +2195,72 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get checkStandardFeedingInterval => '표준 수유 간격을 확인하세요';
+
+  @override
+  String get registerBabyFirst => '아기를 등록해주세요';
+
+  @override
+  String get registerBabyToRecordMoments =>
+      '아기의 소중한 순간들을 기록하기 위해\n먼저 아기 정보를 등록해주세요.';
+
+  @override
+  String get addBabyFromHome => '홈에서 아기 추가하기';
+
+  @override
+  String get timesUnit => '회';
+
+  @override
+  String get itemsUnit => '개';
+
+  @override
+  String get timesPerDay => '회/일';
+
+  @override
+  String get activityDistributionByCategory => '카드별 활동 분포';
+
+  @override
+  String itemsCount(int count) {
+    return '$count개 항목';
+  }
+
+  @override
+  String get totalCount => '총 횟수';
+
+  @override
+  String timesCount(int count) {
+    return '$count회';
+  }
+
+  @override
+  String get noDetailedData => '상세 데이터 없음';
+
+  @override
+  String get averageFeedingTime => '평균 수유 시간';
+
+  @override
+  String get averageSleepTime => '평균 수면 시간';
+
+  @override
+  String get dailyAverageTotalSleepTime => '하루 평균 총 수면 시간';
+
+  @override
+  String get dailyAverageSleepCount => '하루 평균 수면 횟수';
+
+  @override
+  String get dailyAverageChangeCount => '하루 평균 교체 횟수';
+
+  @override
+  String get sharingParentingStories => '함께 나누는 육아 이야기';
+
+  @override
+  String get myActivity => '내 활동';
+
+  @override
+  String get categories => '카테고리';
+
+  @override
+  String get menu => '메뉴';
+
+  @override
+  String get seeMore => '더 보기';
 }

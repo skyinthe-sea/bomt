@@ -471,7 +471,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get communityTitle => 'Community';
 
   @override
-  String get writePost => 'Gönderi yaz';
+  String get writePost => 'Gönderi Yaz';
 
   @override
   String get post => 'Gönder';
@@ -1299,22 +1299,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pleaseSelectDate => 'Please select a date';
 
   @override
-  String get detailedStatistics => 'Detailed Statistics';
+  String get detailedStatistics => 'Detaylı İstatistikler';
 
   @override
   String get chartAnalysis => 'Chart Analysis';
 
   @override
-  String get overallActivityOverview => 'Overall Activity Overview';
+  String get overallActivityOverview => 'Genel Aktivite Özeti';
 
   @override
-  String get totalActivities => 'Total Activities';
+  String get totalActivities => 'Toplam Aktiviteler';
 
   @override
-  String get activeCards => 'Active Cards';
+  String get activeCards => 'Aktif Kartlar';
 
   @override
-  String get dailyAverage => 'Daily Average';
+  String get dailyAverage => 'Günlük Ortalama';
 
   @override
   String get activityDistributionByCard => 'Activity Distribution by Card';
@@ -1341,10 +1341,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get communitySubtitle => 'Sharing Parenting Stories Together';
 
   @override
-  String get search => 'Search';
+  String get search => 'Ara';
 
   @override
-  String get notification => 'Notification';
+  String get notification => 'Bildirim';
 
   @override
   String get searchFeatureComingSoon => 'Search feature coming soon';
@@ -2231,4 +2231,73 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
+
+  @override
+  String get registerBabyFirst => 'Lütfen önce bebeğinizi kaydedin';
+
+  @override
+  String get registerBabyToRecordMoments =>
+      'Bebeğinizin değerli anlarını kaydetmek için,\nlütfen önce bebek bilgilerini kaydedin.';
+
+  @override
+  String get addBabyFromHome => 'Ana sayfadan bebek ekle';
+
+  @override
+  String get timesUnit => 'kez';
+
+  @override
+  String get itemsUnit => 'öğeler';
+
+  @override
+  String get timesPerDay => 'kez/gün';
+
+  @override
+  String get activityDistributionByCategory =>
+      'Kategoriye Göre Aktivite Dağılımı';
+
+  @override
+  String itemsCount(int count) {
+    return '$count öğeler';
+  }
+
+  @override
+  String get totalCount => 'Toplam Sayı';
+
+  @override
+  String timesCount(int count) {
+    return '$count kez';
+  }
+
+  @override
+  String get noDetailedData => 'Detaylı veri yok';
+
+  @override
+  String get averageFeedingTime => 'Ortalama beslenme süresi';
+
+  @override
+  String get averageSleepTime => 'Ortalama uyku süresi';
+
+  @override
+  String get dailyAverageTotalSleepTime => 'Günlük ortalama toplam uyku süresi';
+
+  @override
+  String get dailyAverageSleepCount => 'Günlük ortalama uyku sayısı';
+
+  @override
+  String get dailyAverageChangeCount => 'Günlük ortalama değişim sayısı';
+
+  @override
+  String get sharingParentingStories => 'Ebeveynlik Hikayelerini Paylaşma';
+
+  @override
+  String get myActivity => 'Aktivitem';
+
+  @override
+  String get categories => 'Kategoriler';
+
+  @override
+  String get menu => 'Menü';
+
+  @override
+  String get seeMore => 'Daha Fazla Gör';
 }

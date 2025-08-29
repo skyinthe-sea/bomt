@@ -1299,22 +1299,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pleaseSelectDate => 'Please select a date';
 
   @override
-  String get detailedStatistics => 'Detailed Statistics';
+  String get detailedStatistics => 'Statistiques détaillées';
 
   @override
   String get chartAnalysis => 'Chart Analysis';
 
   @override
-  String get overallActivityOverview => 'Overall Activity Overview';
+  String get overallActivityOverview =>
+      'Vue d\'ensemble de l\'activité globale';
 
   @override
-  String get totalActivities => 'Total Activities';
+  String get totalActivities => 'Activités totales';
 
   @override
-  String get activeCards => 'Active Cards';
+  String get activeCards => 'Cartes actives';
 
   @override
-  String get dailyAverage => 'Daily Average';
+  String get dailyAverage => 'Moyenne quotidienne';
 
   @override
   String get activityDistributionByCard => 'Activity Distribution by Card';
@@ -1341,7 +1342,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get communitySubtitle => 'Sharing Parenting Stories Together';
 
   @override
-  String get search => 'Search';
+  String get search => 'Rechercher';
 
   @override
   String get notification => 'Notification';
@@ -1999,11 +2000,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get totalFeedingAmount => 'Quantité totale d\'alimentation';
 
   @override
-  String get averageFeedingAmount => 'Quantité moyenne d\'alimentation';
+  String get averageFeedingAmount => 'Quantité d\'alimentation moyenne';
 
   @override
   String get dailyAverageFeedingCount =>
-      'Nombre moyen quotidien d\'alimentations';
+      'Nombre moyen d\'alimentations par jour';
 
   @override
   String get clinical => 'Clinique';
@@ -2242,4 +2243,74 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get checkStandardFeedingInterval =>
       'Vérifier l\'intervalle d\'alimentation standard';
+
+  @override
+  String get registerBabyFirst => 'Veuillez d\'abord enregistrer votre bébé';
+
+  @override
+  String get registerBabyToRecordMoments =>
+      'Pour enregistrer les précieux moments de votre bébé,\nveuillez d\'abord enregistrer les informations du bébé.';
+
+  @override
+  String get addBabyFromHome => 'Ajouter un bébé depuis l\'accueil';
+
+  @override
+  String get timesUnit => 'fois';
+
+  @override
+  String get itemsUnit => 'éléments';
+
+  @override
+  String get timesPerDay => 'fois/jour';
+
+  @override
+  String get activityDistributionByCategory =>
+      'Distribution des activités par catégorie';
+
+  @override
+  String itemsCount(int count) {
+    return '$count éléments';
+  }
+
+  @override
+  String get totalCount => 'Nombre total';
+
+  @override
+  String timesCount(int count) {
+    return '$count fois';
+  }
+
+  @override
+  String get noDetailedData => 'Aucune donnée détaillée';
+
+  @override
+  String get averageFeedingTime => 'Durée d\'alimentation moyenne';
+
+  @override
+  String get averageSleepTime => 'Durée de sommeil moyenne';
+
+  @override
+  String get dailyAverageTotalSleepTime =>
+      'Durée totale de sommeil moyenne par jour';
+
+  @override
+  String get dailyAverageSleepCount => 'Nombre moyen de sommeil par jour';
+
+  @override
+  String get dailyAverageChangeCount => 'Nombre moyen de changements par jour';
+
+  @override
+  String get sharingParentingStories => 'Partage d\'histoires parentales';
+
+  @override
+  String get myActivity => 'Mon activité';
+
+  @override
+  String get categories => 'Catégories';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get seeMore => 'Voir plus';
 }

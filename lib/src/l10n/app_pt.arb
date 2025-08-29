@@ -605,5 +605,53 @@
     }
   },
   "longPressForDetails": "Pressione e segure para detalhes",
-  "checkStandardFeedingInterval": "Verificar intervalo de alimentação padrão"
+  "checkStandardFeedingInterval": "Verificar intervalo de alimentação padrão",
+  
+  "registerBabyFirst": "Por favor, cadastre seu bebê primeiro",
+  "registerBabyToRecordMoments": "Para registrar os momentos preciosos do seu bebê,\npor favor cadastre primeiro as informações do bebê.",
+  "addBabyFromHome": "Adicionar bebê da tela inicial",
+
+  "overallActivityOverview": "Visão Geral da Atividade Global",
+  "totalActivities": "Atividades Totais",
+  "timesUnit": "vezes",
+  "activeCards": "Cartões Ativos",
+  "itemsUnit": "itens",
+  "dailyAverage": "Média Diária",
+  "timesPerDay": "vezes/dia",
+  "activityDistributionByCategory": "Distribuição de Atividades por Categoria",
+  "detailedStatistics": "Estatísticas Detalhadas",
+  "itemsCount": "{count} itens",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "Contagem Total",
+  "timesCount": "{count} vezes",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "Nenhum dado detalhado",
+  "averageFeedingAmount": "Quantidade média de alimentação",
+  "averageFeedingTime": "Tempo médio de alimentação",
+  "dailyAverageFeedingCount": "Contagem média diária de alimentações",
+  "averageSleepTime": "Tempo médio de sono",
+  "dailyAverageTotalSleepTime": "Tempo total médio diário de sono",
+  "dailyAverageSleepCount": "Contagem média diária de sono",
+  "dailyAverageChangeCount": "Contagem média diária de trocas",
+  
+  "sharingParentingStories": "Compartilhando Histórias de Paternidade",
+  "writePost": "Escrever Post",
+  "myActivity": "Minha Atividade",
+  "categories": "Categorias",
+  "menu": "Menu",
+  "seeMore": "Ver Mais",
+  "search": "Pesquisar",
+  "notification": "Notificação"
 }

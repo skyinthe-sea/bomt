@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/statistics.dart';
 
 class StatisticsCardGrid extends StatelessWidget {
@@ -51,6 +52,7 @@ class StatisticsCardGrid extends StatelessWidget {
 
   Widget _buildSectionHeader(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     
     return Row(
       children: [
@@ -61,7 +63,7 @@ class StatisticsCardGrid extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(
-          '상세 통계',
+          l10n.detailedStatistics,
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: theme.colorScheme.onSurface,
@@ -69,7 +71,7 @@ class StatisticsCardGrid extends StatelessWidget {
         ),
         const Spacer(),
         Text(
-          '${cardStatistics.length}개 항목',
+          l10n.itemsCount(cardStatistics.length),
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurface.withOpacity(0.6),
           ),
@@ -187,6 +189,7 @@ class _StatisticsCard extends StatelessWidget {
   }
 
   Widget _buildMainMetric(BuildContext context, ThemeData theme, Color cardColor) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -205,13 +208,13 @@ class _StatisticsCard extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: '총 횟수 ',
+                    text: '${l10n.totalCount} ',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurface.withOpacity(0.7),
                     ),
                   ),
                   TextSpan(
-                    text: '${cardStatistics.totalCount}회',
+                    text: l10n.timesCount(cardStatistics.totalCount),
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: cardColor,
@@ -232,12 +235,13 @@ class _StatisticsCard extends StatelessWidget {
   }
 
   Widget _buildKeyMetrics(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     final keyMetrics = _getKeyMetrics();
     
     if (keyMetrics.isEmpty) {
       return Center(
         child: Text(
-          '상세 데이터 없음',
+          l10n.noDetailedData,
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurface.withOpacity(0.5),
           ),
@@ -376,6 +380,7 @@ class _StatisticsDetailDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final cardColor = _getCardColor(cardStatistics.cardType, theme);
 
     return Dialog(
@@ -430,7 +435,7 @@ class _StatisticsDetailDialog extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '상세 통계',
+                          l10n.detailedStatistics,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.onSurface.withOpacity(0.7),
                           ),

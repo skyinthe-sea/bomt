@@ -536,5 +536,53 @@
   "popularSearchTerms": "Popüler arama terimleri",
   "recentSearches": "Son aramalar",
   "deleteAll": "Tümünü sil",
-  "sortByComments": "Yorumlara göre sırala"
+  "sortByComments": "Yorumlara göre sırala",
+  
+  "registerBabyFirst": "Lütfen önce bebeğinizi kaydedin",
+  "registerBabyToRecordMoments": "Bebeğinizin değerli anlarını kaydetmek için,\nlütfen önce bebek bilgilerini kaydedin.",
+  "addBabyFromHome": "Ana sayfadan bebek ekle",
+
+  "overallActivityOverview": "Genel Aktivite Özeti",
+  "totalActivities": "Toplam Aktiviteler",
+  "timesUnit": "kez",
+  "activeCards": "Aktif Kartlar",
+  "itemsUnit": "öğeler",
+  "dailyAverage": "Günlük Ortalama",
+  "timesPerDay": "kez/gün",
+  "activityDistributionByCategory": "Kategoriye Göre Aktivite Dağılımı",
+  "detailedStatistics": "Detaylı İstatistikler",
+  "itemsCount": "{count} öğeler",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "Toplam Sayı",
+  "timesCount": "{count} kez",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "Detaylı veri yok",
+  "averageFeedingAmount": "Ortalama beslenme miktarı",
+  "averageFeedingTime": "Ortalama beslenme süresi",
+  "dailyAverageFeedingCount": "Günlük ortalama beslenme sayısı",
+  "averageSleepTime": "Ortalama uyku süresi",
+  "dailyAverageTotalSleepTime": "Günlük ortalama toplam uyku süresi",
+  "dailyAverageSleepCount": "Günlük ortalama uyku sayısı",
+  "dailyAverageChangeCount": "Günlük ortalama değişim sayısı",
+  
+  "sharingParentingStories": "Ebeveynlik Hikayelerini Paylaşma",
+  "writePost": "Gönderi Yaz",
+  "myActivity": "Aktivitem",
+  "categories": "Kategoriler",
+  "menu": "Menü",
+  "seeMore": "Daha Fazla Gör",
+  "search": "Ara",
+  "notification": "Bildirim"
 }

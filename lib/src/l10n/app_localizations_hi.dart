@@ -1299,7 +1299,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get pleaseSelectDate => 'कृपया तारीख चुनें';
 
   @override
-  String get detailedStatistics => 'विस्तृत आंकड़े';
+  String get detailedStatistics => 'विस्तृत आँकड़े';
 
   @override
   String get chartAnalysis => 'चार्ट विश्लेषण';
@@ -1308,7 +1308,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get overallActivityOverview => 'समग्र गतिविधि अवलोकन';
 
   @override
-  String get totalActivities => 'कुल गतिविधियां';
+  String get totalActivities => 'कुल गतिविधियाँ';
 
   @override
   String get activeCards => 'सक्रिय कार्ड';
@@ -1994,10 +1994,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get totalFeedingAmount => 'कुल फीडिंग मात्रा';
 
   @override
-  String get averageFeedingAmount => 'औसत फीडिंग मात्रा';
+  String get averageFeedingAmount => 'औसत भोजन की मात्रा';
 
   @override
-  String get dailyAverageFeedingCount => 'दैनिक औसत फीडिंग संख्या';
+  String get dailyAverageFeedingCount => 'दैनिक औसत भोजन की संख्या';
 
   @override
   String get clinical => 'क्लिनिकल';
@@ -2232,4 +2232,72 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
+
+  @override
+  String get registerBabyFirst => 'कृपया पहले अपने बच्चे को पंजीकृत करें';
+
+  @override
+  String get registerBabyToRecordMoments =>
+      'अपने बच्चे के कीमती पलों को रिकॉर्ड करने के लिए,\nकृपया पहले बच्चे की जानकारी दर्ज करें।';
+
+  @override
+  String get addBabyFromHome => 'होम से बच्चा जोड़ें';
+
+  @override
+  String get timesUnit => 'बार';
+
+  @override
+  String get itemsUnit => 'आइटम';
+
+  @override
+  String get timesPerDay => 'बार/दिन';
+
+  @override
+  String get activityDistributionByCategory => 'श्रेणी के अनुसार गतिविधि वितरण';
+
+  @override
+  String itemsCount(int count) {
+    return '$count आइटम';
+  }
+
+  @override
+  String get totalCount => 'कुल संख्या';
+
+  @override
+  String timesCount(int count) {
+    return '$count बार';
+  }
+
+  @override
+  String get noDetailedData => 'कोई विस्तृत डेटा नहीं';
+
+  @override
+  String get averageFeedingTime => 'औसत भोजन का समय';
+
+  @override
+  String get averageSleepTime => 'औसत नींद का समय';
+
+  @override
+  String get dailyAverageTotalSleepTime => 'दैनिक औसत कुल नींद का समय';
+
+  @override
+  String get dailyAverageSleepCount => 'दैनिक औसत नींद की संख्या';
+
+  @override
+  String get dailyAverageChangeCount => 'दैनिक औसत परिवर्तन की संख्या';
+
+  @override
+  String get sharingParentingStories => 'पेरेंटिंग की कहानियां साझा करना';
+
+  @override
+  String get myActivity => 'मेरी गतिविधि';
+
+  @override
+  String get categories => 'श्रेणियां';
+
+  @override
+  String get menu => 'मेनू';
+
+  @override
+  String get seeMore => 'और देखें';
 }

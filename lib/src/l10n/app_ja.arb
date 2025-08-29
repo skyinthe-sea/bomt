@@ -809,5 +809,51 @@
     }
   },
   "longPressForDetails": "長押しで詳細表示",
-  "checkStandardFeedingInterval": "標準授乳間隔を確認してください"
+  "checkStandardFeedingInterval": "標準授乳間隔を確認してください",
+  
+  "registerBabyFirst": "赤ちゃんを登録してください",
+  "registerBabyToRecordMoments": "赤ちゃんの大切な瞬間を記録するために、\nまず赤ちゃんの情報を登録してください。",
+  "addBabyFromHome": "ホームから赤ちゃんを追加",
+  
+  "overallActivityOverview": "全体活動概要",
+  "totalActivities": "総活動",
+  "timesUnit": "回",
+  "activeCards": "有効なカード",
+  "itemsUnit": "個",
+  "dailyAverage": "日平均",
+  "timesPerDay": "回/日",
+  "activityDistributionByCategory": "カテゴリ別活動分布",
+  "detailedStatistics": "詳細統計",
+  "itemsCount": "{count}個項目",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "総回数",
+  "timesCount": "{count}回",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "詳細データなし",
+  "averageFeedingAmount": "平均授乳量",
+  "averageFeedingTime": "平均授乳時間",
+  "dailyAverageFeedingCount": "1日平均授乳回数",
+  "averageSleepTime": "平均睡眠時間",
+  "dailyAverageTotalSleepTime": "1日平均総睡眠時間",
+  "dailyAverageSleepCount": "1日平均睡眠回数",
+  "dailyAverageChangeCount": "1日平均交換回数",
+  
+  "sharingParentingStories": "子育ての話を共有",
+  "writePost": "投稿する",
+  "myActivity": "私の活動",
+  "categories": "カテゴリー",
+  "menu": "メニュー",
+  "seeMore": "もっと見る"
 }

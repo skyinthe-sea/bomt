@@ -3675,13 +3675,13 @@ abstract class AppLocalizations {
   /// No description provided for @averageFeedingAmount.
   ///
   /// In en, this message translates to:
-  /// **'Average Feeding Amount'**
+  /// **'Average feeding amount'**
   String get averageFeedingAmount;
 
   /// No description provided for @dailyAverageFeedingCount.
   ///
   /// In en, this message translates to:
-  /// **'Daily Average Feeding Count'**
+  /// **'Daily average feeding count'**
   String get dailyAverageFeedingCount;
 
   /// No description provided for @clinical.
@@ -4115,6 +4115,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Check standard feeding interval'**
   String get checkStandardFeedingInterval;
+
+  /// No description provided for @registerBabyFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please register your baby'**
+  String get registerBabyFirst;
+
+  /// No description provided for @registerBabyToRecordMoments.
+  ///
+  /// In en, this message translates to:
+  /// **'To record your baby\'s precious moments,\nplease register baby information first.'**
+  String get registerBabyToRecordMoments;
+
+  /// No description provided for @addBabyFromHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Add baby from home'**
+  String get addBabyFromHome;
+
+  /// No description provided for @timesUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'times'**
+  String get timesUnit;
+
+  /// No description provided for @itemsUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'items'**
+  String get itemsUnit;
+
+  /// No description provided for @timesPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'times/day'**
+  String get timesPerDay;
+
+  /// No description provided for @activityDistributionByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Distribution by Category'**
+  String get activityDistributionByCategory;
+
+  /// No description provided for @itemsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items'**
+  String itemsCount(int count);
+
+  /// No description provided for @totalCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total count'**
+  String get totalCount;
+
+  /// No description provided for @timesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} times'**
+  String timesCount(int count);
+
+  /// No description provided for @noDetailedData.
+  ///
+  /// In en, this message translates to:
+  /// **'No detailed data'**
+  String get noDetailedData;
+
+  /// No description provided for @averageFeedingTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Average feeding time'**
+  String get averageFeedingTime;
+
+  /// No description provided for @averageSleepTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Average sleep time'**
+  String get averageSleepTime;
+
+  /// No description provided for @dailyAverageTotalSleepTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily average total sleep time'**
+  String get dailyAverageTotalSleepTime;
+
+  /// No description provided for @dailyAverageSleepCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily average sleep count'**
+  String get dailyAverageSleepCount;
+
+  /// No description provided for @dailyAverageChangeCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily average change count'**
+  String get dailyAverageChangeCount;
+
+  /// No description provided for @sharingParentingStories.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharing Parenting Stories'**
+  String get sharingParentingStories;
+
+  /// No description provided for @myActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'My Activity'**
+  String get myActivity;
+
+  /// No description provided for @categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get categories;
+
+  /// No description provided for @menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get menu;
+
+  /// No description provided for @seeMore.
+  ///
+  /// In en, this message translates to:
+  /// **'See More'**
+  String get seeMore;
 }
 
 class _AppLocalizationsDelegate

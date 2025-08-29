@@ -1299,22 +1299,22 @@ class AppLocalizationsRu extends AppLocalizations {
   String get pleaseSelectDate => 'Please select a date';
 
   @override
-  String get detailedStatistics => 'Detailed Statistics';
+  String get detailedStatistics => 'Подробная статистика';
 
   @override
   String get chartAnalysis => 'Chart Analysis';
 
   @override
-  String get overallActivityOverview => 'Overall Activity Overview';
+  String get overallActivityOverview => 'Общий обзор активности';
 
   @override
-  String get totalActivities => 'Total Activities';
+  String get totalActivities => 'Общее количество активностей';
 
   @override
-  String get activeCards => 'Active Cards';
+  String get activeCards => 'Активные карточки';
 
   @override
-  String get dailyAverage => 'Daily Average';
+  String get dailyAverage => 'Дневное среднее';
 
   @override
   String get activityDistributionByCard => 'Activity Distribution by Card';
@@ -1341,10 +1341,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get communitySubtitle => 'Sharing Parenting Stories Together';
 
   @override
-  String get search => 'Search';
+  String get search => 'Поиск';
 
   @override
-  String get notification => 'Notification';
+  String get notification => 'Уведомление';
 
   @override
   String get searchFeatureComingSoon => 'Search feature coming soon';
@@ -1996,7 +1996,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get averageFeedingAmount => 'Среднее количество кормления';
 
   @override
-  String get dailyAverageFeedingCount => 'Среднее дневное количество кормлений';
+  String get dailyAverageFeedingCount => 'Дневное среднее количество кормлений';
 
   @override
   String get clinical => 'Клинический';
@@ -2231,4 +2231,74 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
+
+  @override
+  String get registerBabyFirst =>
+      'Пожалуйста, сначала зарегистрируйте вашего ребёнка';
+
+  @override
+  String get registerBabyToRecordMoments =>
+      'Чтобы записывать драгоценные моменты вашего ребёнка,\nпожалуйста, сначала зарегистрируйте информацию о ребёнке.';
+
+  @override
+  String get addBabyFromHome => 'Добавить ребёнка с главного экрана';
+
+  @override
+  String get timesUnit => 'раз';
+
+  @override
+  String get itemsUnit => 'элементов';
+
+  @override
+  String get timesPerDay => 'раз/день';
+
+  @override
+  String get activityDistributionByCategory =>
+      'Распределение активности по категориям';
+
+  @override
+  String itemsCount(int count) {
+    return '$count элементов';
+  }
+
+  @override
+  String get totalCount => 'Общее количество';
+
+  @override
+  String timesCount(int count) {
+    return '$count раз';
+  }
+
+  @override
+  String get noDetailedData => 'Нет подробных данных';
+
+  @override
+  String get averageFeedingTime => 'Среднее время кормления';
+
+  @override
+  String get averageSleepTime => 'Среднее время сна';
+
+  @override
+  String get dailyAverageTotalSleepTime => 'Дневное среднее общее время сна';
+
+  @override
+  String get dailyAverageSleepCount => 'Дневное среднее количество снов';
+
+  @override
+  String get dailyAverageChangeCount => 'Дневное среднее количество смен';
+
+  @override
+  String get sharingParentingStories => 'Обмен родительскими историями';
+
+  @override
+  String get myActivity => 'Моя активность';
+
+  @override
+  String get categories => 'Категории';
+
+  @override
+  String get menu => 'Меню';
+
+  @override
+  String get seeMore => 'Посмотреть ещё';
 }

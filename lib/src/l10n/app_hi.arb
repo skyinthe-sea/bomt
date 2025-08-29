@@ -559,5 +559,51 @@
   "popularSearchTerms": "लोकप्रिय खोज शब्द",
   "recentSearches": "हाल की खोजें",
   "deleteAll": "सभी हटाएं",
-  "sortByComments": "टिप्पणियों के अनुसार क्रमबद्ध करें"
+  "sortByComments": "टिप्पणियों के अनुसार क्रमबद्ध करें",
+  
+  "registerBabyFirst": "कृपया पहले अपने बच्चे को पंजीकृत करें",
+  "registerBabyToRecordMoments": "अपने बच्चे के कीमती पलों को रिकॉर्ड करने के लिए,\nकृपया पहले बच्चे की जानकारी दर्ज करें।",
+  "addBabyFromHome": "होम से बच्चा जोड़ें",
+
+  "overallActivityOverview": "समग्र गतिविधि अवलोकन",
+  "totalActivities": "कुल गतिविधियाँ",
+  "timesUnit": "बार",
+  "activeCards": "सक्रिय कार्ड",
+  "itemsUnit": "आइटम",
+  "dailyAverage": "दैनिक औसत",
+  "timesPerDay": "बार/दिन",
+  "activityDistributionByCategory": "श्रेणी के अनुसार गतिविधि वितरण",
+  "detailedStatistics": "विस्तृत आँकड़े",
+  "itemsCount": "{count} आइटम",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "कुल संख्या",
+  "timesCount": "{count} बार",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "कोई विस्तृत डेटा नहीं",
+  "averageFeedingAmount": "औसत भोजन की मात्रा",
+  "averageFeedingTime": "औसत भोजन का समय",
+  "dailyAverageFeedingCount": "दैनिक औसत भोजन की संख्या",
+  "averageSleepTime": "औसत नींद का समय",
+  "dailyAverageTotalSleepTime": "दैनिक औसत कुल नींद का समय",
+  "dailyAverageSleepCount": "दैनिक औसत नींद की संख्या",
+  "dailyAverageChangeCount": "दैनिक औसत परिवर्तन की संख्या",
+  
+  "sharingParentingStories": "पेरेंटिंग की कहानियां साझा करना",
+  "writePost": "पोस्ट लिखें",
+  "myActivity": "मेरी गतिविधि",
+  "categories": "श्रेणियां",
+  "menu": "मेनू",
+  "seeMore": "और देखें"
 }
