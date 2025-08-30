@@ -4433,6 +4433,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Family invitation accepted! Now you can manage baby records together.'**
   String get familyInvitationAccepted;
+
+  /// Header message when user has a family group
+  ///
+  /// In en, this message translates to:
+  /// **'Caring for baby together with {familyName}'**
+  String careTogetherWithFamily(String familyName);
 }
 
 class _AppLocalizationsDelegate

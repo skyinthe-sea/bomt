@@ -1586,5 +1586,15 @@
   "familyInvitationAccepted": "Family invitation accepted! Now you can manage baby records together.",
   "@familyInvitationAccepted": {
     "description": "Success message when family invitation is accepted"
+  },
+
+  "careTogetherWithFamily": "Caring for baby together with {familyName}",
+  "@careTogetherWithFamily": {
+    "description": "Header message when user has a family group",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
   }
 }

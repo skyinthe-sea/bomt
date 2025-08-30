@@ -2404,4 +2404,9 @@ class AppLocalizationsTh extends AppLocalizations {
   @override
   String get familyInvitationAccepted =>
       'ได้รับการเชิญเข้าร่วมครอบครัว! ตอนนี้คุณสามารถจัดการบันทึกของลูกร่วมกันได้แล้ว';
+
+  @override
+  String careTogetherWithFamily(String familyName) {
+    return 'เลี้ยงลูกร่วมกับ $familyName';
+  }
 }

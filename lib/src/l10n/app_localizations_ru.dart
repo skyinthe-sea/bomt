@@ -2408,4 +2408,9 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get familyInvitationAccepted =>
       'Family invitation accepted! Now you can manage baby records together.';
+
+  @override
+  String careTogetherWithFamily(String familyName) {
+    return 'Caring for baby together with $familyName';
+  }
 }

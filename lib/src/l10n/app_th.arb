@@ -771,5 +771,15 @@
   "familyInvitationAccepted": "ได้รับการเชิญเข้าร่วมครอบครัว! ตอนนี้คุณสามารถจัดการบันทึกของลูกร่วมกันได้แล้ว",
   "@familyInvitationAccepted": {
     "description": "Success message when family invitation is accepted"
+  },
+
+  "careTogetherWithFamily": "เลี้ยงลูกร่วมกับ {familyName}",
+  "@careTogetherWithFamily": {
+    "description": "Header message when user has a family group",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
   }
 }

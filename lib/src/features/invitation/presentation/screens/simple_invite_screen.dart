@@ -669,7 +669,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                   const SizedBox(height: 12),
                   Text(
                     babyProvider.hasFamilyGroup 
-                        ? '${babyProvider.currentFamilyGroup!.name}과 함께 육아해요'
+                        ? l10n.careTogetherWithFamily(babyProvider.currentFamilyGroup!.name)
                         : l10n.careTogetherWith(babyName),
                     style: const TextStyle(
                       fontSize: 20,
