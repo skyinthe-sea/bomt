@@ -4439,6 +4439,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Caring for baby together with {familyName}'**
   String careTogetherWithFamily(String familyName);
+
+  /// Title of feeding time notification
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s feeding time! 🍼'**
+  String get feedingTimeNotificationTitle;
+
+  /// Body text of feeding time notification
+  ///
+  /// In en, this message translates to:
+  /// **'Baby might be hungry now.'**
+  String get feedingTimeNotificationBody;
+
+  /// Android notification channel name for feeding alarms
+  ///
+  /// In en, this message translates to:
+  /// **'Feeding Reminders'**
+  String get feedingAlarmChannelName;
+
+  /// Android notification channel description for feeding alarms
+  ///
+  /// In en, this message translates to:
+  /// **'Feeding time reminder notifications'**
+  String get feedingAlarmChannelDescription;
 }
 
 class _AppLocalizationsDelegate

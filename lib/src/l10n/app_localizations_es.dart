@@ -2421,4 +2421,17 @@ class AppLocalizationsEs extends AppLocalizations {
   String careTogetherWithFamily(String familyName) {
     return 'Caring for baby together with $familyName';
   }
+
+  @override
+  String get feedingTimeNotificationTitle => 'It\'s feeding time! 🍼';
+
+  @override
+  String get feedingTimeNotificationBody => 'Baby might be hungry now.';
+
+  @override
+  String get feedingAlarmChannelName => 'Feeding Reminders';
+
+  @override
+  String get feedingAlarmChannelDescription =>
+      'Feeding time reminder notifications';
 }

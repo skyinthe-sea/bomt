@@ -781,5 +781,25 @@
         "type": "String"
       }
     }
+  },
+
+  "feedingTimeNotificationTitle": "ถึงเวลาให้นมแล้ว! 🍼",
+  "@feedingTimeNotificationTitle": {
+    "description": "Title of feeding time notification"
+  },
+
+  "feedingTimeNotificationBody": "ลูกอาจจะหิวแล้วนะ",
+  "@feedingTimeNotificationBody": {
+    "description": "Body text of feeding time notification"
+  },
+
+  "feedingAlarmChannelName": "การแจ้งเตือนการให้นม",
+  "@feedingAlarmChannelName": {
+    "description": "Android notification channel name for feeding alarms"
+  },
+
+  "feedingAlarmChannelDescription": "การแจ้งเตือนเวลาให้นมลูก",
+  "@feedingAlarmChannelDescription": {
+    "description": "Android notification channel description for feeding alarms"
   }
 }

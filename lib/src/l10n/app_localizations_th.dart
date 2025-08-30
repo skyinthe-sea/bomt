@@ -2409,4 +2409,16 @@ class AppLocalizationsTh extends AppLocalizations {
   String careTogetherWithFamily(String familyName) {
     return 'เลี้ยงลูกร่วมกับ $familyName';
   }
+
+  @override
+  String get feedingTimeNotificationTitle => 'ถึงเวลาให้นมแล้ว! 🍼';
+
+  @override
+  String get feedingTimeNotificationBody => 'ลูกอาจจะหิวแล้วนะ';
+
+  @override
+  String get feedingAlarmChannelName => 'การแจ้งเตือนการให้นม';
+
+  @override
+  String get feedingAlarmChannelDescription => 'การแจ้งเตือนเวลาให้นมลูก';
 }

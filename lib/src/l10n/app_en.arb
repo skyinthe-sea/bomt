@@ -1596,5 +1596,25 @@
         "type": "String"
       }
     }
+  },
+
+  "feedingTimeNotificationTitle": "It's feeding time! 🍼",
+  "@feedingTimeNotificationTitle": {
+    "description": "Title of feeding time notification"
+  },
+
+  "feedingTimeNotificationBody": "Baby might be hungry now.",
+  "@feedingTimeNotificationBody": {
+    "description": "Body text of feeding time notification"
+  },
+
+  "feedingAlarmChannelName": "Feeding Reminders",
+  "@feedingAlarmChannelName": {
+    "description": "Android notification channel name for feeding alarms"
+  },
+
+  "feedingAlarmChannelDescription": "Feeding time reminder notifications",
+  "@feedingAlarmChannelDescription": {
+    "description": "Android notification channel description for feeding alarms"
   }
 }

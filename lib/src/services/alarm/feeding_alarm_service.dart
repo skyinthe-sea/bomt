@@ -106,7 +106,13 @@ class FeedingAlarmService {
   }
   
   /// 수유 알람 설정
-  Future<bool> scheduleNextFeedingAlarm(DateTime lastFeedingTime) async {
+  Future<bool> scheduleNextFeedingAlarm(
+    DateTime lastFeedingTime, {
+    String? notificationTitle,
+    String? notificationBody,
+    String? channelName,
+    String? channelDescription,
+  }) async {
     try {
       // 기존 알람이 있으면 취소
       await cancelFeedingAlarm();
@@ -120,25 +126,28 @@ class FeedingAlarmService {
         return false;
       }
       
+      // 로컬라이즈된 텍스트 가져오기 (파라미터가 제공되지 않은 경우)
+      final localizedTexts = await _getLocalizedNotificationTexts();
+      
       final alarmId = _generateAlarmId();
       
       await _notificationsPlugin.zonedSchedule(
         alarmId,
-        '수유 시간이에요! 🍼',
-        '아기가 배고파할 시간입니다.',
+        notificationTitle ?? localizedTexts['title']!,
+        notificationBody ?? localizedTexts['body']!,
         tz.TZDateTime.from(nextFeedingTime, tz.getLocation('Asia/Seoul')),
-        const NotificationDetails(
+        NotificationDetails(
           android: AndroidNotificationDetails(
             'feeding_alarm',
-            '수유 알림',
-            channelDescription: '수유 시간 알림',
+            channelName ?? localizedTexts['channelName']!,
+            channelDescription: channelDescription ?? localizedTexts['channelDescription']!,
             importance: Importance.max,
             priority: Priority.high,
             playSound: true,
             enableVibration: true,
             fullScreenIntent: true,
           ),
-          iOS: DarwinNotificationDetails(
+          iOS: const DarwinNotificationDetails(
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
@@ -231,6 +240,37 @@ class FeedingAlarmService {
     return difference.inMinutes;
   }
   
+  /// 현재 언어 설정에 따른 알림 텍스트 가져오기
+  Future<Map<String, String>> _getLocalizedNotificationTexts() async {
+    final prefs = await SharedPreferences.getInstance();
+    final languageCode = prefs.getString('language_code') ?? 'ko';
+    
+    switch (languageCode) {
+      case 'en':
+        return {
+          'title': 'It\'s feeding time! 🍼',
+          'body': 'Baby might be hungry now.',
+          'channelName': 'Feeding Reminders',
+          'channelDescription': 'Feeding time reminder notifications',
+        };
+      case 'th':
+        return {
+          'title': 'ถึงเวลาให้นมแล้ว! 🍼',
+          'body': 'ลูกอาจจะหิวแล้วนะ',
+          'channelName': 'การแจ้งเตือนการให้นม',
+          'channelDescription': 'การแจ้งเตือนเวลาให้นมลูก',
+        };
+      case 'ko':
+      default:
+        return {
+          'title': '수유 시간이에요! 🍼',
+          'body': '아기가 배고파할 시간입니다.',
+          'channelName': '수유 알림',
+          'channelDescription': '수유 시간 알림',
+        };
+    }
+  }
+
   /// 알람 ID 생성 (타임스탬프 기반)
   int _generateAlarmId() {
     return DateTime.now().millisecondsSinceEpoch % 2147483647; // int 최댓값 내에서
