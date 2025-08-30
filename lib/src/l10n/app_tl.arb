@@ -596,5 +596,35 @@
   "height": "Taas",
   "ageMonthsAndDays": "{months} buwan {days} araw",
   "longPressForDetails": "Mahabang pindot para sa mga detalye",
-  "todaysSummary": "Buod ng Araw na Ito"
+  "todaysSummary": "Buod ng Araw na Ito",
+  "today": "Ngayon",
+  "todaysStory": "Kwento ng Araw na Ito",
+  "firstMomentMessage": "Itala ang inyong unang mahalagang sandali.\nAng mga maliliit na pagbabago araw-araw ay nagiging malaking paglaki.",
+  "future": "Hinaharap",
+  "previousDate": "Nakaraang petsa",
+  "nextDate": "Susunod na petsa",
+  "selectDate": "Pumili ng petsa",
+  "cancel": "Kanselahin",
+
+  "hourActivityPattern": "Pattern ng 24-Oras na Aktibidad",
+  "@hourActivityPattern": {
+    "description": "Title for 24-hour activity pattern chart"
+  },
+
+  "midnight": "Hatinggabi",
+  "@midnight": {
+    "description": "12:00 AM - midnight time label"
+  },
+  "morning": "Umaga",
+  "@morning": {
+    "description": "AM - morning time period label"
+  },
+  "noon": "Tanghali",
+  "@noon": {
+    "description": "12:00 PM - noon time label"
+  },
+  "afternoon": "Hapon",
+  "@afternoon": {
+    "description": "PM - afternoon time period label"
+  }
 }

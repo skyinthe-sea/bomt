@@ -607,5 +607,22 @@
   "myActivity": "मेरी गतिविधि",
   "categories": "श्रेणियां",
   "menu": "मेनू",
-  "seeMore": "और देखें"
+  "seeMore": "और देखें",
+
+  "midnight": "मध्यरात्रि",
+  "@midnight": {
+    "description": "12:00 AM - midnight time label"
+  },
+  "morning": "पूर्वाह्न",
+  "@morning": {
+    "description": "AM - morning time period label"
+  },
+  "noon": "दोपहर",
+  "@noon": {
+    "description": "12:00 PM - noon time label"
+  },
+  "afternoon": "अपराह्न",
+  "@afternoon": {
+    "description": "PM - afternoon time period label"
+  }
 }

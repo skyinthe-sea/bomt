@@ -606,6 +606,14 @@
   },
   "longPressForDetails": "Appui long pour les détails",
   "todaysSummary": "Résumé d'Aujourd'hui",
+  "today": "Aujourd'hui",
+  "todaysStory": "Histoire d'Aujourd'hui",
+  "firstMomentMessage": "Enregistrez votre premier moment précieux.\nLes petits changements quotidiens s'additionnent pour une grande croissance.",
+  "future": "Futur",
+  "previousDate": "Date précédente",
+  "nextDate": "Date suivante",
+  "selectDate": "Sélectionner la date",
+  "cancel": "Annuler",
   "checkStandardFeedingInterval": "Vérifier l'intervalle d'alimentation standard",
   
   "registerBabyFirst": "Veuillez d'abord enregistrer votre bébé",
@@ -664,5 +672,27 @@
   "viewDetails": "Voir les détails",
   "weight": "Poids",
   "height": "Taille",
-  "ageMonthsAndDays": "{months} mois {days} jours"
+  "ageMonthsAndDays": "{months} mois {days} jours",
+
+  "hourActivityPattern": "Modèle d'Activité de 24 Heures",
+  "@hourActivityPattern": {
+    "description": "Title for 24-hour activity pattern chart"
+  },
+
+  "midnight": "Minuit",
+  "@midnight": {
+    "description": "12:00 AM - midnight time label"
+  },
+  "morning": "Matin",
+  "@morning": {
+    "description": "AM - morning time period label"
+  },
+  "noon": "Midi",
+  "@noon": {
+    "description": "12:00 PM - noon time label"
+  },
+  "afternoon": "Après-midi",
+  "@afternoon": {
+    "description": "PM - afternoon time period label"
+  }
 }

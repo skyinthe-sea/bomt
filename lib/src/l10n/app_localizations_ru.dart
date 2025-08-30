@@ -860,7 +860,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get justNow => 'Just now';
 
   @override
-  String get today => 'Today';
+  String get today => 'Сегодня';
 
   @override
   String get yesterday => 'Yesterday';
@@ -1104,7 +1104,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sleepRecordProcessFailed => 'Failed to process sleep record';
 
   @override
-  String get hourActivityPattern => '24-Hour Activity Pattern';
+  String get hourActivityPattern => '24-часовая модель активности';
 
   @override
   String get touchClockInstruction =>
@@ -1120,7 +1120,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get activityPatternAnalysis => 'Activity Pattern Analysis';
 
   @override
-  String get todaysStory => 'Today\'s Story';
+  String get todaysStory => 'История сегодняшнего дня';
 
   @override
   String preciousMoments(Object count) {
@@ -1129,7 +1129,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get firstMomentMessage =>
-      'Record your first precious moment.\nSmall daily changes add up to great growth.';
+      'Запишите свой первый драгоценный момент.\nНебольшие ежедневные изменения складываются в большой рост.';
 
   @override
   String get pattern => 'Pattern';
@@ -2233,6 +2233,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get todaysSummary => 'Сводка за сегодня';
 
   @override
+  String get future => 'Будущее';
+
+  @override
+  String get previousDate => 'Предыдущая дата';
+
+  @override
+  String get nextDate => 'Следующая дата';
+
+  @override
+  String get selectDate => 'Выбрать дату';
+
+  @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
 
   @override
@@ -2304,4 +2316,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get seeMore => 'Посмотреть ещё';
+
+  @override
+  String get midnight => 'Полночь';
+
+  @override
+  String get morning => 'Утро';
+
+  @override
+  String get noon => 'Полдень';
+
+  @override
+  String get afternoon => 'Вечер';
 }

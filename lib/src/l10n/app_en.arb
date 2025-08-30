@@ -1371,6 +1371,11 @@
   },
   "longPressForDetails": "Long press for details",
   "todaysSummary": "Today's Summary",
+  "future": "Future",
+  "previousDate": "Previous date",
+  "nextDate": "Next date",
+  "selectDate": "Select date",
+  "cancel": "Cancel",
   "checkStandardFeedingInterval": "Check standard feeding interval",
   
   "registerBabyFirst": "Please register your baby",
@@ -1419,5 +1424,22 @@
   "menu": "Menu",
   "seeMore": "See More",
   
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  
+  "midnight": "Midnight",
+  "@midnight": {
+    "description": "12:00 AM - midnight time label"
+  },
+  "morning": "AM",
+  "@morning": {
+    "description": "AM - morning time period label"
+  },
+  "noon": "Noon",
+  "@noon": {
+    "description": "12:00 PM - noon time label"
+  },
+  "afternoon": "PM",
+  "@afternoon": {
+    "description": "PM - afternoon time period label"
+  }
 }

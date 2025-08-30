@@ -860,7 +860,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get justNow => 'Just now';
 
   @override
-  String get today => 'Today';
+  String get today => 'วันนี้';
 
   @override
   String get yesterday => 'Yesterday';
@@ -1104,7 +1104,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get sleepRecordProcessFailed => 'Failed to process sleep record';
 
   @override
-  String get hourActivityPattern => '24-Hour Activity Pattern';
+  String get hourActivityPattern => 'รูปแบบกิจกรรม 24 ชั่วโมง';
 
   @override
   String get touchClockInstruction =>
@@ -1120,7 +1120,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get activityPatternAnalysis => 'Activity Pattern Analysis';
 
   @override
-  String get todaysStory => 'Today\'s Story';
+  String get todaysStory => 'เรื่องราวของวันนี้';
 
   @override
   String preciousMoments(Object count) {
@@ -1129,7 +1129,7 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get firstMomentMessage =>
-      'Record your first precious moment.\nSmall daily changes add up to great growth.';
+      'บันทึกช่วงเวลาอันบริชุดแรกของคุณ\nการเปลี่ยนแปลงเล็กๆ ในแต่ละวันจะรวมกันเป็นการเติบโตอย่างยิ่งใหญ่';
 
   @override
   String get pattern => 'Pattern';
@@ -2231,6 +2231,18 @@ class AppLocalizationsTh extends AppLocalizations {
   String get todaysSummary => 'สรุปวันนี้';
 
   @override
+  String get future => 'อนาคต';
+
+  @override
+  String get previousDate => 'วันที่ผ่านมา';
+
+  @override
+  String get nextDate => 'วันถัดไป';
+
+  @override
+  String get selectDate => 'เลือกวันที่';
+
+  @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
 
   @override
@@ -2300,4 +2312,16 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get seeMore => 'ดูเพิ่มเติม';
+
+  @override
+  String get midnight => 'เที่ยงคืน';
+
+  @override
+  String get morning => 'เช้า';
+
+  @override
+  String get noon => 'เที่ยงวัน';
+
+  @override
+  String get afternoon => 'บ่าย';
 }

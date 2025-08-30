@@ -175,6 +175,7 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
       ]),
       builder: (context, child) {
         final isDark = Theme.of(context).brightness == Brightness.dark;
+        final l10n = AppLocalizations.of(context)!;
         
         return SizedBox(
           width: 340,
@@ -186,6 +187,10 @@ class _CircularTimelineChartState extends State<CircularTimelineChart>
                 rotationValue: _rotationAnimation.value,
                 pulseValue: _pulseAnimation.value,
                 isDark: isDark,
+                midnightLabel: l10n.midnight,
+                morningLabel: l10n.morning,
+                noonLabel: l10n.noon,
+                afternoonLabel: l10n.afternoon,
               ),
             ),
           ),
@@ -206,12 +211,20 @@ class CircularTimelinePainter extends CustomPainter {
   final double rotationValue;
   final double pulseValue;
   final bool isDark;
+  final String midnightLabel;
+  final String morningLabel;
+  final String noonLabel;
+  final String afternoonLabel;
 
   CircularTimelinePainter({
     required this.timelineItems,
     required this.rotationValue,
     required this.pulseValue,
     required this.isDark,
+    required this.midnightLabel,
+    required this.morningLabel,
+    required this.noonLabel,
+    required this.afternoonLabel,
   });
 
   @override
@@ -307,13 +320,13 @@ class CircularTimelinePainter extends CustomPainter {
         // 24시간 표기를 더 명확하게
         String hourText;
         if (hour == 0) {
-          hourText = '0\n자정'; // 0시 자정
+          hourText = '0\n$midnightLabel'; // 0시 자정
         } else if (hour == 6) {
-          hourText = '6\n오전'; // 6시 오전
+          hourText = '6\n$morningLabel'; // 6시 오전
         } else if (hour == 12) {
-          hourText = '12\n정오'; // 12시 정오
+          hourText = '12\n$noonLabel'; // 12시 정오
         } else if (hour == 18) {
-          hourText = '18\n오후'; // 18시 오후
+          hourText = '18\n$afternoonLabel'; // 18시 오후
         } else {
           hourText = hour.toString();
         }
@@ -718,6 +731,14 @@ class CircularTimelinePainter extends CustomPainter {
       if (currentStartTime != oldStartTime || currentEndTime != oldEndTime) {
         return true;
       }
+    }
+    
+    // 로컬라이제이션 레이블 변경 확인
+    if (midnightLabel != oldDelegate.midnightLabel ||
+        morningLabel != oldDelegate.morningLabel ||
+        noonLabel != oldDelegate.noonLabel ||
+        afternoonLabel != oldDelegate.afternoonLabel) {
+      return true;
     }
     
     // 애니메이션은 전체 재그리기보다는 제한적으로

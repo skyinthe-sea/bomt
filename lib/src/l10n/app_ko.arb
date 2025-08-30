@@ -234,6 +234,11 @@
   "add": "추가",
   "remove": "제거",
   "confirm": "확인",
+  "future": "미래",
+  "previousDate": "이전 날짜",
+  "nextDate": "다음 날짜",
+  "selectDate": "날짜 선택",
+  "cancel": "취소",
   "back": "뒤로",
   "next": "다음",
   "done": "완료",
@@ -924,5 +929,22 @@
   "menu": "메뉴",
   "seeMore": "더 보기",
   
-  "confirm": "확인"
+  "confirm": "확인",
+  
+  "midnight": "자정",
+  "@midnight": {
+    "description": "12:00 AM - midnight time label"
+  },
+  "morning": "오전",
+  "@morning": {
+    "description": "AM - morning time period label"
+  },
+  "noon": "정오",
+  "@noon": {
+    "description": "12:00 PM - noon time label"
+  },
+  "afternoon": "오후",
+  "@afternoon": {
+    "description": "PM - afternoon time period label"
+  }
 }

@@ -108,7 +108,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get genderOptional => 'Gender (Optional)';
 
   @override
-  String get cancel => 'Ikansela';
+  String get cancel => 'Kanselahin';
 
   @override
   String get loginFailed => 'Login failed';
@@ -861,7 +861,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get justNow => 'Just now';
 
   @override
-  String get today => 'Today';
+  String get today => 'Ngayon';
 
   @override
   String get yesterday => 'Yesterday';
@@ -1105,7 +1105,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get sleepRecordProcessFailed => 'Failed to process sleep record';
 
   @override
-  String get hourActivityPattern => '24-Hour Activity Pattern';
+  String get hourActivityPattern => 'Pattern ng 24-Oras na Aktibidad';
 
   @override
   String get touchClockInstruction =>
@@ -1121,7 +1121,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get activityPatternAnalysis => 'Activity Pattern Analysis';
 
   @override
-  String get todaysStory => 'Today\'s Story';
+  String get todaysStory => 'Kwento ng Araw na Ito';
 
   @override
   String preciousMoments(Object count) {
@@ -1130,7 +1130,7 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get firstMomentMessage =>
-      'Record your first precious moment.\nSmall daily changes add up to great growth.';
+      'Itala ang inyong unang mahalagang sandali.\nAng mga maliliit na pagbabago araw-araw ay nagiging malaking paglaki.';
 
   @override
   String get pattern => 'Pattern';
@@ -2238,6 +2238,18 @@ class AppLocalizationsTl extends AppLocalizations {
   String get todaysSummary => 'Buod ng Araw na Ito';
 
   @override
+  String get future => 'Hinaharap';
+
+  @override
+  String get previousDate => 'Nakaraang petsa';
+
+  @override
+  String get nextDate => 'Susunod na petsa';
+
+  @override
+  String get selectDate => 'Pumili ng petsa';
+
+  @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
 
   @override
@@ -2312,4 +2324,16 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get seeMore => 'Makita Pa';
+
+  @override
+  String get midnight => 'Hatinggabi';
+
+  @override
+  String get morning => 'Umaga';
+
+  @override
+  String get noon => 'Tanghali';
+
+  @override
+  String get afternoon => 'Hapon';
 }

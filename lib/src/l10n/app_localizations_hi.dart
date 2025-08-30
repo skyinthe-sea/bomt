@@ -2234,6 +2234,18 @@ class AppLocalizationsHi extends AppLocalizations {
   String get todaysSummary => 'आज का सारांश';
 
   @override
+  String get future => 'Future';
+
+  @override
+  String get previousDate => 'Previous date';
+
+  @override
+  String get nextDate => 'Next date';
+
+  @override
+  String get selectDate => 'Select date';
+
+  @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
 
   @override
@@ -2303,4 +2315,16 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get seeMore => 'और देखें';
+
+  @override
+  String get midnight => 'मध्यरात्रि';
+
+  @override
+  String get morning => 'पूर्वाह्न';
+
+  @override
+  String get noon => 'दोपहर';
+
+  @override
+  String get afternoon => 'अपराह्न';
 }

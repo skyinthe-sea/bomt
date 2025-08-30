@@ -596,5 +596,35 @@
   "height": "Altura",
   "ageMonthsAndDays": "{months} meses {days} días",
   "longPressForDetails": "Mantener presionado para detalles",
-  "todaysSummary": "Resumen de Hoy"
+  "todaysSummary": "Resumen de Hoy",
+  "today": "Hoy",
+  "todaysStory": "Historia de Hoy",
+  "firstMomentMessage": "Registra tu primer momento precioso.\nLos pequeños cambios diarios se suman a un gran crecimiento.",
+  "future": "Futuro",
+  "previousDate": "Fecha anterior",
+  "nextDate": "Fecha siguiente",
+  "selectDate": "Seleccionar fecha",
+  "cancel": "Cancelar",
+
+  "hourActivityPattern": "Patrón de Actividad de 24 Horas",
+  "@hourActivityPattern": {
+    "description": "Title for 24-hour activity pattern chart"
+  },
+
+  "midnight": "Medianoche",
+  "@midnight": {
+    "description": "12:00 AM - midnight time label"
+  },
+  "morning": "Mañana",
+  "@morning": {
+    "description": "AM - morning time period label"
+  },
+  "noon": "Mediodía",
+  "@noon": {
+    "description": "12:00 PM - noon time label"
+  },
+  "afternoon": "Tarde",
+  "@afternoon": {
+    "description": "PM - afternoon time period label"
+  }
 }

@@ -856,5 +856,22 @@
   "myActivity": "私の活動",
   "categories": "カテゴリー",
   "menu": "メニュー",
-  "seeMore": "もっと見る"
+  "seeMore": "もっと見る",
+
+  "midnight": "深夜",
+  "@midnight": {
+    "description": "12:00 AM - midnight time label"
+  },
+  "morning": "午前",
+  "@morning": {
+    "description": "AM - morning time period label"
+  },
+  "noon": "正午",
+  "@noon": {
+    "description": "12:00 PM - noon time label"
+  },
+  "afternoon": "午後",
+  "@afternoon": {
+    "description": "PM - afternoon time period label"
+  }
 }

@@ -596,5 +596,35 @@
   "height": "Boy",
   "ageMonthsAndDays": "{months} ay {days} gün",
   "longPressForDetails": "Detaylar için uzun basın",
-  "todaysSummary": "Bugünün Özeti"
+  "todaysSummary": "Bugünün Özeti",
+  "today": "Bugün",
+  "todaysStory": "Bugünün Hikayesi",
+  "firstMomentMessage": "İlk değerli anınızı kaydedin.\nKüçük günlük değişiklikler büyük bir büyüme oluşturur.",
+  "future": "Gelecek",
+  "previousDate": "Önceki tarih",
+  "nextDate": "Sonraki tarih",
+  "selectDate": "Tarih seçin",
+  "cancel": "İptal",
+
+  "hourActivityPattern": "24 Saatlik Aktivite Deseni",
+  "@hourActivityPattern": {
+    "description": "Title for 24-hour activity pattern chart"
+  },
+
+  "midnight": "Gece Yarısı",
+  "@midnight": {
+    "description": "12:00 AM - midnight time label"
+  },
+  "morning": "Sabah",
+  "@morning": {
+    "description": "AM - morning time period label"
+  },
+  "noon": "Öğle",
+  "@noon": {
+    "description": "12:00 PM - noon time label"
+  },
+  "afternoon": "Akşam",
+  "@afternoon": {
+    "description": "PM - afternoon time period label"
+  }
 }

@@ -596,5 +596,35 @@
   "height": "Рост",
   "ageMonthsAndDays": "{months} месяцев {days} дней",
   "longPressForDetails": "Длительное нажатие для подробностей",
-  "todaysSummary": "Сводка за сегодня"
+  "todaysSummary": "Сводка за сегодня",
+  "today": "Сегодня",
+  "todaysStory": "История сегодняшнего дня",
+  "firstMomentMessage": "Запишите свой первый драгоценный момент.\nНебольшие ежедневные изменения складываются в большой рост.",
+  "future": "Будущее",
+  "previousDate": "Предыдущая дата",
+  "nextDate": "Следующая дата",
+  "selectDate": "Выбрать дату",
+  "cancel": "Отмена",
+
+  "hourActivityPattern": "24-часовая модель активности",
+  "@hourActivityPattern": {
+    "description": "Title for 24-hour activity pattern chart"
+  },
+
+  "midnight": "Полночь",
+  "@midnight": {
+    "description": "12:00 AM - midnight time label"
+  },
+  "morning": "Утро",
+  "@morning": {
+    "description": "AM - morning time period label"
+  },
+  "noon": "Полдень",
+  "@noon": {
+    "description": "12:00 PM - noon time label"
+  },
+  "afternoon": "Вечер",
+  "@afternoon": {
+    "description": "PM - afternoon time period label"
+  }
 }

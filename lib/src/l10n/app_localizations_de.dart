@@ -861,7 +861,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get justNow => 'Just now';
 
   @override
-  String get today => 'Today';
+  String get today => 'Heute';
 
   @override
   String get yesterday => 'Yesterday';
@@ -1105,7 +1105,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get sleepRecordProcessFailed => 'Failed to process sleep record';
 
   @override
-  String get hourActivityPattern => '24-Hour Activity Pattern';
+  String get hourActivityPattern => '24-Stunden-Aktivitätsmuster';
 
   @override
   String get touchClockInstruction =>
@@ -1121,7 +1121,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get activityPatternAnalysis => 'Activity Pattern Analysis';
 
   @override
-  String get todaysStory => 'Today\'s Story';
+  String get todaysStory => 'Heutige Geschichte';
 
   @override
   String preciousMoments(Object count) {
@@ -1130,7 +1130,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get firstMomentMessage =>
-      'Record your first precious moment.\nSmall daily changes add up to great growth.';
+      'Erfassen Sie Ihren ersten kostbaren Moment.\nKleine tägliche Veränderungen fügen sich zu großem Wachstum zusammen.';
 
   @override
   String get pattern => 'Pattern';
@@ -2243,6 +2243,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get todaysSummary => 'Heutiger Überblick';
 
   @override
+  String get future => 'Zukunft';
+
+  @override
+  String get previousDate => 'Vorheriges Datum';
+
+  @override
+  String get nextDate => 'Nächstes Datum';
+
+  @override
+  String get selectDate => 'Datum auswählen';
+
+  @override
   String get checkStandardFeedingInterval =>
       'Standard-Fütterungsintervall prüfen';
 
@@ -2317,4 +2329,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get seeMore => 'Mehr sehen';
+
+  @override
+  String get midnight => 'Mitternacht';
+
+  @override
+  String get morning => 'Morgens';
+
+  @override
+  String get noon => 'Mittag';
+
+  @override
+  String get afternoon => 'Nachmittags';
 }

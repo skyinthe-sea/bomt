@@ -860,7 +860,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get justNow => 'Just now';
 
   @override
-  String get today => 'Today';
+  String get today => 'Hoy';
 
   @override
   String get yesterday => 'Yesterday';
@@ -1104,7 +1104,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sleepRecordProcessFailed => 'Failed to process sleep record';
 
   @override
-  String get hourActivityPattern => '24-Hour Activity Pattern';
+  String get hourActivityPattern => 'Patrón de Actividad de 24 Horas';
 
   @override
   String get touchClockInstruction =>
@@ -1120,7 +1120,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get activityPatternAnalysis => 'Activity Pattern Analysis';
 
   @override
-  String get todaysStory => 'Today\'s Story';
+  String get todaysStory => 'Historia de Hoy';
 
   @override
   String preciousMoments(Object count) {
@@ -1129,7 +1129,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get firstMomentMessage =>
-      'Record your first precious moment.\nSmall daily changes add up to great growth.';
+      'Registra tu primer momento precioso.\nLos pequeños cambios diarios se suman a un gran crecimiento.';
 
   @override
   String get pattern => 'Pattern';
@@ -2241,6 +2241,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get todaysSummary => 'Resumen de Hoy';
 
   @override
+  String get future => 'Futuro';
+
+  @override
+  String get previousDate => 'Fecha anterior';
+
+  @override
+  String get nextDate => 'Fecha siguiente';
+
+  @override
+  String get selectDate => 'Seleccionar fecha';
+
+  @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
 
   @override
@@ -2312,4 +2324,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get seeMore => 'Ver Más';
+
+  @override
+  String get midnight => 'Medianoche';
+
+  @override
+  String get morning => 'Mañana';
+
+  @override
+  String get noon => 'Mediodía';
+
+  @override
+  String get afternoon => 'Tarde';
 }

@@ -596,5 +596,35 @@
   "height": "ส่วนสูง",
   "ageMonthsAndDays": "{months} เดือน {days} วัน",
   "longPressForDetails": "กดค้างไว้เพื่อดูรายละเอียด",
-  "todaysSummary": "สรุปวันนี้"
+  "todaysSummary": "สรุปวันนี้",
+  "today": "วันนี้",
+  "todaysStory": "เรื่องราวของวันนี้",
+  "firstMomentMessage": "บันทึกช่วงเวลาอันบริชุดแรกของคุณ\nการเปลี่ยนแปลงเล็กๆ ในแต่ละวันจะรวมกันเป็นการเติบโตอย่างยิ่งใหญ่",
+  "future": "อนาคต",
+  "previousDate": "วันที่ผ่านมา",
+  "nextDate": "วันถัดไป",
+  "selectDate": "เลือกวันที่",
+  "cancel": "ยกเลิก",
+
+  "hourActivityPattern": "รูปแบบกิจกรรม 24 ชั่วโมง",
+  "@hourActivityPattern": {
+    "description": "Title for 24-hour activity pattern chart"
+  },
+
+  "midnight": "เที่ยงคืน",
+  "@midnight": {
+    "description": "12:00 AM - midnight time label"
+  },
+  "morning": "เช้า",
+  "@morning": {
+    "description": "AM - morning time period label"
+  },
+  "noon": "เที่ยงวัน",
+  "@noon": {
+    "description": "12:00 PM - noon time label"
+  },
+  "afternoon": "บ่าย",
+  "@afternoon": {
+    "description": "PM - afternoon time period label"
+  }
 }

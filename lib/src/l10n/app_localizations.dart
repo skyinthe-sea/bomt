@@ -4116,6 +4116,30 @@ abstract class AppLocalizations {
   /// **'Today\'s Summary'**
   String get todaysSummary;
 
+  /// No description provided for @future.
+  ///
+  /// In en, this message translates to:
+  /// **'Future'**
+  String get future;
+
+  /// No description provided for @previousDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous date'**
+  String get previousDate;
+
+  /// No description provided for @nextDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Next date'**
+  String get nextDate;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date'**
+  String get selectDate;
+
   /// No description provided for @checkStandardFeedingInterval.
   ///
   /// In en, this message translates to:
@@ -4247,6 +4271,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See More'**
   String get seeMore;
+
+  /// 12:00 AM - midnight time label
+  ///
+  /// In en, this message translates to:
+  /// **'Midnight'**
+  String get midnight;
+
+  /// AM - morning time period label
+  ///
+  /// In en, this message translates to:
+  /// **'AM'**
+  String get morning;
+
+  /// 12:00 PM - noon time label
+  ///
+  /// In en, this message translates to:
+  /// **'Noon'**
+  String get noon;
+
+  /// PM - afternoon time period label
+  ///
+  /// In en, this message translates to:
+  /// **'PM'**
+  String get afternoon;
 }
 
 class _AppLocalizationsDelegate

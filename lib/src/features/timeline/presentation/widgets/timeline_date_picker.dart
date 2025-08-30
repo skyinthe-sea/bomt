@@ -79,6 +79,33 @@ class _TimelineDatePickerState extends State<TimelineDatePicker>
       case 'hi':
         dateFormat = DateFormat('d MMMM yyyy (EEEE)', 'hi_IN');
         break;
+      case 'th':
+        dateFormat = DateFormat('d MMMM yyyy (EEEE)', 'th_TH');
+        break;
+      case 'de':
+        dateFormat = DateFormat('d. MMMM yyyy (EEEE)', 'de_DE');
+        break;
+      case 'es':
+        dateFormat = DateFormat('d \\de MMMM \\de yyyy (EEEE)', 'es_ES');
+        break;
+      case 'fr':
+        dateFormat = DateFormat('d MMMM yyyy (EEEE)', 'fr_FR');
+        break;
+      case 'pt':
+        dateFormat = DateFormat('d \\de MMMM \\de yyyy (EEEE)', 'pt_PT');
+        break;
+      case 'id':
+        dateFormat = DateFormat('d MMMM yyyy (EEEE)', 'id_ID');
+        break;
+      case 'ru':
+        dateFormat = DateFormat('d MMMM yyyy г. (EEEE)', 'ru_RU');
+        break;
+      case 'tr':
+        dateFormat = DateFormat('d MMMM yyyy (EEEE)', 'tr_TR');
+        break;
+      case 'tl':
+        dateFormat = DateFormat('MMMM d, yyyy (EEEE)', 'tl_PH');
+        break;
       default: // 'en'
         dateFormat = DateFormat('MMMM d, yyyy (EEEE)', 'en_US');
         break;
@@ -112,7 +139,7 @@ class _TimelineDatePickerState extends State<TimelineDatePicker>
               HapticFeedback.lightImpact();
               widget.onPreviousDay();
             },
-            tooltip: '이전 날짜',
+            tooltip: AppLocalizations.of(context)!.previousDate,
           ),
           
           const SizedBox(width: 12),
@@ -157,7 +184,7 @@ class _TimelineDatePickerState extends State<TimelineDatePicker>
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            widget.isToday ? '오늘' : '미래',
+                            widget.isToday ? AppLocalizations.of(context)!.today : AppLocalizations.of(context)!.future,
                             style: theme.textTheme.bodySmall?.copyWith(
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
@@ -183,7 +210,7 @@ class _TimelineDatePickerState extends State<TimelineDatePicker>
               HapticFeedback.lightImpact();
               widget.onNextDay();
             },
-            tooltip: '다음 날짜',
+            tooltip: AppLocalizations.of(context)!.nextDate,
             disabled: widget.isFuture,
           ),
           
@@ -208,9 +235,9 @@ class _TimelineDatePickerState extends State<TimelineDatePicker>
       initialDate: widget.selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
-      helpText: '날짜 선택',
-      cancelText: '취소',
-      confirmText: '확인',
+      helpText: AppLocalizations.of(context)!.selectDate,
+      cancelText: AppLocalizations.of(context)!.cancel,
+      confirmText: AppLocalizations.of(context)!.confirm,
     );
 
     if (selectedDate != null) {
@@ -390,7 +417,7 @@ class _TodayButtonState extends State<_TodayButton>
       onTapCancel: _handleTapCancel,
       onTap: widget.onTap,
       child: Tooltip(
-        message: '오늘로 가기',
+        message: AppLocalizations.of(context)!.goToToday,
         child: AnimatedBuilder(
           animation: _scaleAnimation,
           builder: (context, child) {
@@ -412,7 +439,7 @@ class _TodayButtonState extends State<_TodayButton>
                   ],
                 ),
                 child: Text(
-                  '오늘',
+                  AppLocalizations.of(context)!.today,
                   style: theme.textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: theme.colorScheme.onPrimary,

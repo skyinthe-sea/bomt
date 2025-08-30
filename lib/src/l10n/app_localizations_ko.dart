@@ -2197,6 +2197,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get todaysSummary => '오늘의 요약';
 
   @override
+  String get future => '미래';
+
+  @override
+  String get previousDate => '이전 날짜';
+
+  @override
+  String get nextDate => '다음 날짜';
+
+  @override
+  String get selectDate => '날짜 선택';
+
+  @override
   String get checkStandardFeedingInterval => '표준 수유 간격을 확인하세요';
 
   @override
@@ -2266,4 +2278,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get seeMore => '더 보기';
+
+  @override
+  String get midnight => '자정';
+
+  @override
+  String get morning => '오전';
+
+  @override
+  String get noon => '정오';
+
+  @override
+  String get afternoon => '오후';
 }

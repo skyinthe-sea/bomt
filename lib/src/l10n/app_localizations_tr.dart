@@ -860,7 +860,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get justNow => 'Just now';
 
   @override
-  String get today => 'Today';
+  String get today => 'Bugün';
 
   @override
   String get yesterday => 'Yesterday';
@@ -1104,7 +1104,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sleepRecordProcessFailed => 'Failed to process sleep record';
 
   @override
-  String get hourActivityPattern => '24-Hour Activity Pattern';
+  String get hourActivityPattern => '24 Saatlik Aktivite Deseni';
 
   @override
   String get touchClockInstruction =>
@@ -1120,7 +1120,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get activityPatternAnalysis => 'Activity Pattern Analysis';
 
   @override
-  String get todaysStory => 'Today\'s Story';
+  String get todaysStory => 'Bugünün Hikayesi';
 
   @override
   String preciousMoments(Object count) {
@@ -1129,7 +1129,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get firstMomentMessage =>
-      'Record your first precious moment.\nSmall daily changes add up to great growth.';
+      'İlk değerli anınızı kaydedin.\nKüçük günlük değişiklikler büyük bir büyüme oluşturur.';
 
   @override
   String get pattern => 'Pattern';
@@ -2233,6 +2233,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get todaysSummary => 'Bugünün Özeti';
 
   @override
+  String get future => 'Gelecek';
+
+  @override
+  String get previousDate => 'Önceki tarih';
+
+  @override
+  String get nextDate => 'Sonraki tarih';
+
+  @override
+  String get selectDate => 'Tarih seçin';
+
+  @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
 
   @override
@@ -2303,4 +2315,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get seeMore => 'Daha Fazla Gör';
+
+  @override
+  String get midnight => 'Gece Yarısı';
+
+  @override
+  String get morning => 'Sabah';
+
+  @override
+  String get noon => 'Öğle';
+
+  @override
+  String get afternoon => 'Akşam';
 }

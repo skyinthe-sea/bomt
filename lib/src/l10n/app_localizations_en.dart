@@ -2233,6 +2233,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get todaysSummary => 'Today\'s Summary';
 
   @override
+  String get future => 'Future';
+
+  @override
+  String get previousDate => 'Previous date';
+
+  @override
+  String get nextDate => 'Next date';
+
+  @override
+  String get selectDate => 'Select date';
+
+  @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
 
   @override
@@ -2303,4 +2315,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get seeMore => 'See More';
+
+  @override
+  String get midnight => 'Midnight';
+
+  @override
+  String get morning => 'AM';
+
+  @override
+  String get noon => 'Noon';
+
+  @override
+  String get afternoon => 'PM';
 }

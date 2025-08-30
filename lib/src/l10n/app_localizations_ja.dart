@@ -2196,6 +2196,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get todaysSummary => '今日の概要';
 
   @override
+  String get future => 'Future';
+
+  @override
+  String get previousDate => 'Previous date';
+
+  @override
+  String get nextDate => 'Next date';
+
+  @override
+  String get selectDate => 'Select date';
+
+  @override
   String get checkStandardFeedingInterval => '標準授乳間隔を確認してください';
 
   @override
@@ -2265,4 +2277,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get seeMore => 'もっと見る';
+
+  @override
+  String get midnight => '深夜';
+
+  @override
+  String get morning => '午前';
+
+  @override
+  String get noon => '正午';
+
+  @override
+  String get afternoon => '午後';
 }
