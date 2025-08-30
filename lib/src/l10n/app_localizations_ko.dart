@@ -2388,4 +2388,57 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get feedingAlarmChannelDescription =>
       'Feeding time reminder notifications';
+
+  @override
+  String get averageFeedingDuration => 'Average feeding duration';
+
+  @override
+  String get averageSleepDuration => 'Average sleep duration';
+
+  @override
+  String get dailyTotalSleepDuration => 'Daily total sleep duration';
+
+  @override
+  String get dailyAverageDiaperChangeCount => 'Daily average diaper changes';
+
+  @override
+  String get dailyAverageMedicationCount => 'Daily average medication count';
+
+  @override
+  String get medicationTypesUsed => 'Types of medication used';
+
+  @override
+  String get totalPumpedAmount => 'Total pumped amount';
+
+  @override
+  String get averagePumpedAmount => 'Average pumped amount';
+
+  @override
+  String get countTab => 'Count';
+
+  @override
+  String get amountTimeTab => 'Amount/Time';
+
+  @override
+  String get durationTab => 'Duration';
+
+  @override
+  String get chartDataLoading => 'Loading chart data...';
+
+  @override
+  String get chartDataNotAvailable => 'Chart data not available.';
+
+  @override
+  String get averageLabel => 'Average: ';
+
+  @override
+  String get dailyFeedingCountTitle => 'Daily feeding count';
+
+  @override
+  String get weekdaysSundayToSaturday => 'SunMonTueWedThuFriSat';
+
+  @override
+  String dayFormat(int day) {
+    return '$day';
+  }
 }

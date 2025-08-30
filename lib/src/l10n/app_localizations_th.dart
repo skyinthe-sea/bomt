@@ -1302,7 +1302,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get detailedStatistics => 'สถิติรายละเอียด';
 
   @override
-  String get chartAnalysis => 'Chart Analysis';
+  String get chartAnalysis => 'การวิเคราะห์แผนภูมิ';
 
   @override
   String get overallActivityOverview => 'ภาพรวมกิจกรรมทั้งหมด';
@@ -1991,10 +1991,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get totalFeedingAmount => 'ปริมาณการให้อาหารทั้งหมด';
 
   @override
-  String get averageFeedingAmount => 'ปริมาณการให้อาหารเฉลี่ย';
+  String get averageFeedingAmount => 'ปริมาณนมเฉลี่ย';
 
   @override
-  String get dailyAverageFeedingCount => 'จำนวนการให้อาหารเฉลี่ยต่อวัน';
+  String get dailyAverageFeedingCount => 'จำนวนครั้งการให้นมเฉลี่ยต่อวัน';
 
   @override
   String get clinical => 'ทางคลินิก';
@@ -2293,7 +2293,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get dailyAverageTotalSleepTime => 'เวลานอนรวมเฉลี่ยต่อวัน';
 
   @override
-  String get dailyAverageSleepCount => 'จำนวนการนอนเฉลี่ยต่อวัน';
+  String get dailyAverageSleepCount => 'จำนวนครั้งการนอนเฉลี่ยต่อวัน';
 
   @override
   String get dailyAverageChangeCount => 'จำนวนการเปลี่ยนเฉลี่ยต่อวัน';
@@ -2421,4 +2421,58 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get feedingAlarmChannelDescription => 'การแจ้งเตือนเวลาให้นมลูก';
+
+  @override
+  String get averageFeedingDuration => 'ระยะเวลาให้นมเฉลี่ย';
+
+  @override
+  String get averageSleepDuration => 'ระยะเวลานอนเฉลี่ย';
+
+  @override
+  String get dailyTotalSleepDuration => 'ระยะเวลานอนรวมต่อวัน';
+
+  @override
+  String get dailyAverageDiaperChangeCount =>
+      'จำนวนครั้งการเปลี่ยนผ้าอ้อมเฉลี่ยต่อวัน';
+
+  @override
+  String get dailyAverageMedicationCount => 'จำนวนครั้งการให้ยาเฉลี่ยต่อวัน';
+
+  @override
+  String get medicationTypesUsed => 'ประเภทยาที่ใช้';
+
+  @override
+  String get totalPumpedAmount => 'ปริมาณนมปั๊มรวม';
+
+  @override
+  String get averagePumpedAmount => 'ปริมาณนมปั๊มเฉลี่ย';
+
+  @override
+  String get countTab => 'จำนวนครั้ง';
+
+  @override
+  String get amountTimeTab => 'ปริมาณ/เวลา';
+
+  @override
+  String get durationTab => 'ระยะเวลา';
+
+  @override
+  String get chartDataLoading => 'กำลังโหลดข้อมูลแผนภูมิ...';
+
+  @override
+  String get chartDataNotAvailable => 'ไม่มีข้อมูลแผนภูมิ';
+
+  @override
+  String get averageLabel => 'เฉลี่ย: ';
+
+  @override
+  String get dailyFeedingCountTitle => 'จำนวนครั้งการให้นมต่อวัน';
+
+  @override
+  String get weekdaysSundayToSaturday => 'อาทิพาอังเสาร์พฤหัศุก';
+
+  @override
+  String dayFormat(int day) {
+    return '$day';
+  }
 }

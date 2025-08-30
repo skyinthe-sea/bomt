@@ -1616,5 +1616,115 @@
   "feedingAlarmChannelDescription": "Feeding time reminder notifications",
   "@feedingAlarmChannelDescription": {
     "description": "Android notification channel description for feeding alarms"
+  },
+
+  "averageFeedingAmount": "Average feeding amount",
+  "@averageFeedingAmount": {
+    "description": "Label for average feeding amount metric"
+  },
+
+  "averageFeedingDuration": "Average feeding duration",
+  "@averageFeedingDuration": {
+    "description": "Label for average feeding duration metric"
+  },
+
+  "dailyAverageFeedingCount": "Daily average feeding count",
+  "@dailyAverageFeedingCount": {
+    "description": "Label for daily average feeding count metric"
+  },
+
+  "averageSleepDuration": "Average sleep duration",
+  "@averageSleepDuration": {
+    "description": "Label for average sleep duration metric"
+  },
+
+  "dailyTotalSleepDuration": "Daily total sleep duration",
+  "@dailyTotalSleepDuration": {
+    "description": "Label for daily total sleep duration metric"
+  },
+
+  "dailyAverageSleepCount": "Daily average sleep count",
+  "@dailyAverageSleepCount": {
+    "description": "Label for daily average sleep count metric"
+  },
+
+  "dailyAverageDiaperChangeCount": "Daily average diaper changes",
+  "@dailyAverageDiaperChangeCount": {
+    "description": "Label for daily average diaper change count metric"
+  },
+
+  "dailyAverageMedicationCount": "Daily average medication count",
+  "@dailyAverageMedicationCount": {
+    "description": "Label for daily average medication count metric"
+  },
+
+  "medicationTypesUsed": "Types of medication used",
+  "@medicationTypesUsed": {
+    "description": "Label for medication types used metric"
+  },
+
+  "totalPumpedAmount": "Total pumped amount",
+  "@totalPumpedAmount": {
+    "description": "Label for total pumped amount metric"
+  },
+
+  "averagePumpedAmount": "Average pumped amount",
+  "@averagePumpedAmount": {
+    "description": "Label for average pumped amount metric"
+  },
+
+  "chartAnalysis": "Chart Analysis",
+  "@chartAnalysis": {
+    "description": "Section title for chart analysis"
+  },
+
+  "countTab": "Count",
+  "@countTab": {
+    "description": "Tab label for count metrics"
+  },
+
+  "amountTimeTab": "Amount/Time",
+  "@amountTimeTab": {
+    "description": "Tab label for amount/time metrics"
+  },
+
+  "durationTab": "Duration",
+  "@durationTab": {
+    "description": "Tab label for duration metrics"
+  },
+
+  "chartDataLoading": "Loading chart data...",
+  "@chartDataLoading": {
+    "description": "Message displayed while chart data is loading"
+  },
+
+  "chartDataNotAvailable": "Chart data not available.",
+  "@chartDataNotAvailable": {
+    "description": "Message displayed when chart data is not available"
+  },
+
+  "averageLabel": "Average: ",
+  "@averageLabel": {
+    "description": "Label prefix for average values in charts"
+  },
+
+  "dailyFeedingCountTitle": "Daily feeding count",
+  "@dailyFeedingCountTitle": {
+    "description": "Chart title for daily feeding count"
+  },
+
+  "weekdaysSundayToSaturday": "SunMonTueWedThuFriSat",
+  "@weekdaysSundayToSaturday": {
+    "description": "Weekday abbreviations from Sunday to Saturday (concatenated for parsing)"
+  },
+
+  "dayFormat": "{day}",
+  "@dayFormat": {
+    "description": "Format for displaying day numbers",
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
   }
 }

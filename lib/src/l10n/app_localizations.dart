@@ -2436,7 +2436,7 @@ abstract class AppLocalizations {
   /// **'Detailed Statistics'**
   String get detailedStatistics;
 
-  /// No description provided for @chartAnalysis.
+  /// Section title for chart analysis
   ///
   /// In en, this message translates to:
   /// **'Chart Analysis'**
@@ -3672,13 +3672,13 @@ abstract class AppLocalizations {
   /// **'Total Feeding Amount'**
   String get totalFeedingAmount;
 
-  /// No description provided for @averageFeedingAmount.
+  /// Label for average feeding amount metric
   ///
   /// In en, this message translates to:
   /// **'Average feeding amount'**
   String get averageFeedingAmount;
 
-  /// No description provided for @dailyAverageFeedingCount.
+  /// Label for daily average feeding count metric
   ///
   /// In en, this message translates to:
   /// **'Daily average feeding count'**
@@ -4230,7 +4230,7 @@ abstract class AppLocalizations {
   /// **'Daily average total sleep time'**
   String get dailyAverageTotalSleepTime;
 
-  /// No description provided for @dailyAverageSleepCount.
+  /// Label for daily average sleep count metric
   ///
   /// In en, this message translates to:
   /// **'Daily average sleep count'**
@@ -4463,6 +4463,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Feeding time reminder notifications'**
   String get feedingAlarmChannelDescription;
+
+  /// Label for average feeding duration metric
+  ///
+  /// In en, this message translates to:
+  /// **'Average feeding duration'**
+  String get averageFeedingDuration;
+
+  /// Label for average sleep duration metric
+  ///
+  /// In en, this message translates to:
+  /// **'Average sleep duration'**
+  String get averageSleepDuration;
+
+  /// Label for daily total sleep duration metric
+  ///
+  /// In en, this message translates to:
+  /// **'Daily total sleep duration'**
+  String get dailyTotalSleepDuration;
+
+  /// Label for daily average diaper change count metric
+  ///
+  /// In en, this message translates to:
+  /// **'Daily average diaper changes'**
+  String get dailyAverageDiaperChangeCount;
+
+  /// Label for daily average medication count metric
+  ///
+  /// In en, this message translates to:
+  /// **'Daily average medication count'**
+  String get dailyAverageMedicationCount;
+
+  /// Label for medication types used metric
+  ///
+  /// In en, this message translates to:
+  /// **'Types of medication used'**
+  String get medicationTypesUsed;
+
+  /// Label for total pumped amount metric
+  ///
+  /// In en, this message translates to:
+  /// **'Total pumped amount'**
+  String get totalPumpedAmount;
+
+  /// Label for average pumped amount metric
+  ///
+  /// In en, this message translates to:
+  /// **'Average pumped amount'**
+  String get averagePumpedAmount;
+
+  /// Tab label for count metrics
+  ///
+  /// In en, this message translates to:
+  /// **'Count'**
+  String get countTab;
+
+  /// Tab label for amount/time metrics
+  ///
+  /// In en, this message translates to:
+  /// **'Amount/Time'**
+  String get amountTimeTab;
+
+  /// Tab label for duration metrics
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get durationTab;
+
+  /// Message displayed while chart data is loading
+  ///
+  /// In en, this message translates to:
+  /// **'Loading chart data...'**
+  String get chartDataLoading;
+
+  /// Message displayed when chart data is not available
+  ///
+  /// In en, this message translates to:
+  /// **'Chart data not available.'**
+  String get chartDataNotAvailable;
+
+  /// Label prefix for average values in charts
+  ///
+  /// In en, this message translates to:
+  /// **'Average: '**
+  String get averageLabel;
+
+  /// Chart title for daily feeding count
+  ///
+  /// In en, this message translates to:
+  /// **'Daily feeding count'**
+  String get dailyFeedingCountTitle;
+
+  /// Weekday abbreviations from Sunday to Saturday (concatenated for parsing)
+  ///
+  /// In en, this message translates to:
+  /// **'SunMonTueWedThuFriSat'**
+  String get weekdaysSundayToSaturday;
+
+  /// Format for displaying day numbers
+  ///
+  /// In en, this message translates to:
+  /// **'{day}'**
+  String dayFormat(int day);
 }
 
 class _AppLocalizationsDelegate

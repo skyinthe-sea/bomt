@@ -236,7 +236,7 @@ class _StatisticsCard extends StatelessWidget {
 
   Widget _buildKeyMetrics(BuildContext context, ThemeData theme) {
     final l10n = AppLocalizations.of(context)!;
-    final keyMetrics = _getKeyMetrics();
+    final keyMetrics = _getKeyMetrics(context);
     
     if (keyMetrics.isEmpty) {
       return Center(
@@ -296,29 +296,50 @@ class _StatisticsCard extends StatelessWidget {
     );
   }
 
-  List<StatisticsMetric> _getKeyMetrics() {
-    // 각 카드별로 중요한 메트릭 2-3개만 표시
+  List<StatisticsMetric> _getKeyMetrics(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final allMetrics = cardStatistics.metrics;
     
     switch (cardStatistics.cardType) {
       case 'feeding':
         return allMetrics.where((m) => 
-          m.label == '평균 수유량' || 
+          m.label == l10n.averageFeedingAmount || 
+          m.label == l10n.averageFeedingDuration ||
+          m.label == l10n.dailyAverageFeedingCount ||
+          m.label == '평균 수유량' ||
           m.label == '평균 수유 시간' ||
           m.label == '하루 평균 수유 횟수'
-        ).take(2).toList(); // 2개로 줄임
+        ).take(2).toList();
       case 'sleep':
         return allMetrics.where((m) => 
-          m.label == '평균 수면 시간' || 
+          m.label == l10n.averageSleepDuration || 
+          m.label == l10n.dailyTotalSleepDuration ||
+          m.label == l10n.dailyAverageSleepCount ||
+          m.label == '평균 수면 시간' ||
           m.label == '하루 평균 총 수면 시간' ||
           m.label == '하루 평균 수면 횟수'
-        ).take(2).toList(); // 2개로 줄임
+        ).take(2).toList();
       case 'diaper':
         return allMetrics.where((m) => 
+          m.label == l10n.dailyAverageDiaperChangeCount ||
           m.label == '하루 평균 교체 횟수'
-        ).take(1).toList(); // 1개로 줄임
+        ).take(1).toList();
+      case 'medication':
+        return allMetrics.where((m) => 
+          m.label == l10n.dailyAverageMedicationCount ||
+          m.label == l10n.medicationTypesUsed ||
+          m.label == '하루 평균 투약 횟수' ||
+          m.label == '사용한 약물 종류'
+        ).take(2).toList();
+      case 'milk_pumping':
+        return allMetrics.where((m) => 
+          m.label == l10n.totalPumpedAmount ||
+          m.label == l10n.averagePumpedAmount ||
+          m.label == '총 유축량' ||
+          m.label == '평균 유축량'
+        ).take(2).toList();
       default:
-        return allMetrics.take(2).toList(); // 2개로 줄임
+        return allMetrics.take(2).toList();
     }
   }
 

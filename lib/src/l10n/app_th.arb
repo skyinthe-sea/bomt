@@ -801,5 +801,115 @@
   "feedingAlarmChannelDescription": "การแจ้งเตือนเวลาให้นมลูก",
   "@feedingAlarmChannelDescription": {
     "description": "Android notification channel description for feeding alarms"
+  },
+
+  "averageFeedingAmount": "ปริมาณนมเฉลี่ย",
+  "@averageFeedingAmount": {
+    "description": "Label for average feeding amount metric"
+  },
+
+  "averageFeedingDuration": "ระยะเวลาให้นมเฉลี่ย",
+  "@averageFeedingDuration": {
+    "description": "Label for average feeding duration metric"
+  },
+
+  "dailyAverageFeedingCount": "จำนวนครั้งการให้นมเฉลี่ยต่อวัน",
+  "@dailyAverageFeedingCount": {
+    "description": "Label for daily average feeding count metric"
+  },
+
+  "averageSleepDuration": "ระยะเวลานอนเฉลี่ย",
+  "@averageSleepDuration": {
+    "description": "Label for average sleep duration metric"
+  },
+
+  "dailyTotalSleepDuration": "ระยะเวลานอนรวมต่อวัน",
+  "@dailyTotalSleepDuration": {
+    "description": "Label for daily total sleep duration metric"
+  },
+
+  "dailyAverageSleepCount": "จำนวนครั้งการนอนเฉลี่ยต่อวัน",
+  "@dailyAverageSleepCount": {
+    "description": "Label for daily average sleep count metric"
+  },
+
+  "dailyAverageDiaperChangeCount": "จำนวนครั้งการเปลี่ยนผ้าอ้อมเฉลี่ยต่อวัน",
+  "@dailyAverageDiaperChangeCount": {
+    "description": "Label for daily average diaper change count metric"
+  },
+
+  "dailyAverageMedicationCount": "จำนวนครั้งการให้ยาเฉลี่ยต่อวัน",
+  "@dailyAverageMedicationCount": {
+    "description": "Label for daily average medication count metric"
+  },
+
+  "medicationTypesUsed": "ประเภทยาที่ใช้",
+  "@medicationTypesUsed": {
+    "description": "Label for medication types used metric"
+  },
+
+  "totalPumpedAmount": "ปริมาณนมปั๊มรวม",
+  "@totalPumpedAmount": {
+    "description": "Label for total pumped amount metric"
+  },
+
+  "averagePumpedAmount": "ปริมาณนมปั๊มเฉลี่ย",
+  "@averagePumpedAmount": {
+    "description": "Label for average pumped amount metric"
+  },
+
+  "chartAnalysis": "การวิเคราะห์แผนภูมิ",
+  "@chartAnalysis": {
+    "description": "Section title for chart analysis"
+  },
+
+  "countTab": "จำนวนครั้ง",
+  "@countTab": {
+    "description": "Tab label for count metrics"
+  },
+
+  "amountTimeTab": "ปริมาณ/เวลา",
+  "@amountTimeTab": {
+    "description": "Tab label for amount/time metrics"
+  },
+
+  "durationTab": "ระยะเวลา",
+  "@durationTab": {
+    "description": "Tab label for duration metrics"
+  },
+
+  "chartDataLoading": "กำลังโหลดข้อมูลแผนภูมิ...",
+  "@chartDataLoading": {
+    "description": "Message displayed while chart data is loading"
+  },
+
+  "chartDataNotAvailable": "ไม่มีข้อมูลแผนภูมิ",
+  "@chartDataNotAvailable": {
+    "description": "Message displayed when chart data is not available"
+  },
+
+  "averageLabel": "เฉลี่ย: ",
+  "@averageLabel": {
+    "description": "Label prefix for average values in charts"
+  },
+
+  "dailyFeedingCountTitle": "จำนวนครั้งการให้นมต่อวัน",
+  "@dailyFeedingCountTitle": {
+    "description": "Chart title for daily feeding count"
+  },
+
+  "weekdaysSundayToSaturday": "อาทิพาอังเสาร์พฤหัศุก",
+  "@weekdaysSundayToSaturday": {
+    "description": "Weekday abbreviations from Sunday to Saturday (concatenated for parsing)"
+  },
+
+  "dayFormat": "{day}",
+  "@dayFormat": {
+    "description": "Format for displaying day numbers",
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
   }
 }

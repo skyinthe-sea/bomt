@@ -48,6 +48,7 @@ class StatisticsChartSection extends StatelessWidget {
   }
 
   Widget _buildSectionHeader(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Row(
       children: [
         Icon(
@@ -57,7 +58,7 @@ class StatisticsChartSection extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(
-          '차트 분석',
+          l10n.chartAnalysis,
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: theme.colorScheme.onSurface,
@@ -70,10 +71,11 @@ class StatisticsChartSection extends StatelessWidget {
   Widget _buildMetricTypeSelector(BuildContext context, ThemeData theme) {
     return Consumer<StatisticsProvider>(
       builder: (context, provider, child) {
+        final l10n = AppLocalizations.of(context)!;
         final metricTypes = [
-          {'value': 'count', 'label': '횟수'},
-          {'value': 'amount', 'label': '양/시간'},
-          {'value': 'duration', 'label': '지속시간'},
+          {'value': 'count', 'label': l10n.countTab},
+          {'value': 'amount', 'label': l10n.amountTimeTab},
+          {'value': 'duration', 'label': l10n.durationTab},
         ];
 
         return Container(
@@ -241,12 +243,13 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
                 builder: (context, provider, child) {
                   final chartData = provider.getChartData(widget.cardStatistics.cardType);
                   
+                  final l10n = AppLocalizations.of(context)!;
                   if (chartData == null) {
-                    return _buildChartPlaceholder(theme, '차트 데이터 로딩 중...');
+                    return _buildChartPlaceholder(theme, l10n.chartDataLoading);
                   } else if (!chartData.hasData) {
-                    return _buildChartPlaceholder(theme, '차트 데이터가 없습니다.');
+                    return _buildChartPlaceholder(theme, l10n.chartDataNotAvailable);
                   } else {
-                    return _buildSimpleChart(theme, chartData, cardColor);
+                    return _buildSimpleChart(context, theme, chartData, cardColor);
                   }
                 },
               ),
@@ -290,7 +293,8 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
     );
   }
 
-  Widget _buildSimpleChart(ThemeData theme, StatisticsChartData chartData, Color cardColor) {
+  Widget _buildSimpleChart(BuildContext context, ThemeData theme, StatisticsChartData chartData, Color cardColor) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       height: 120,
       padding: const EdgeInsets.all(12),
@@ -317,7 +321,7 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
                 ),
               ),
               Text(
-                '평균: ${chartData.averageValue.toStringAsFixed(1)}${chartData.unit}',
+                '${l10n.averageLabel}${chartData.averageValue.toStringAsFixed(1)}${chartData.unit}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: cardColor,
                   fontWeight: FontWeight.w500,
@@ -388,7 +392,7 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
     }
     
     // 날짜 포맷팅
-    String formattedDate = _formatDateLabel(point.date, dateRange.type, totalDays);
+    String formattedDate = _formatDateLabel(context, point.date, dateRange.type, totalDays);
     
     return Container(
       height: 12,
@@ -446,17 +450,20 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
   }
 
   /// 날짜 포맷팅
-  String _formatDateLabel(DateTime date, StatisticsDateRangeType dateRangeType, int totalDays) {
+  String _formatDateLabel(BuildContext context, DateTime date, StatisticsDateRangeType dateRangeType, int totalDays) {
+    final l10n = AppLocalizations.of(context)!;
+    
     switch (dateRangeType) {
       case StatisticsDateRangeType.weekly:
-        // 주간: 요일 + 날짜 (예: "월1", "화2")
-        final weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+        // 주간: 요일 + 날짜 (예: "Mon1", "Tue2")
+        final weekdaysString = l10n.weekdaysSundayToSaturday;
+        final weekdays = _parseWeekdays(weekdaysString);
         final weekday = weekdays[date.weekday % 7];
         return '$weekday${date.day}';
         
       case StatisticsDateRangeType.monthly:
-        // 월간: 날짜만 (예: "1일", "15일", "30일")
-        return '${date.day}일';
+        // 월간: 날짜만 (예: "1", "15", "30")
+        return l10n.dayFormat(date.day);
         
       case StatisticsDateRangeType.custom:
         if (totalDays <= 7) {
@@ -464,9 +471,30 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
           return '${date.month}/${date.day}';
         } else {
           // 긴 커스텀: 날짜만
-          return '${date.day}일';
+          return l10n.dayFormat(date.day);
         }
     }
+  }
+
+  /// 연결된 요일 문자열을 파싱하여 배열로 변환
+  List<String> _parseWeekdays(String weekdaysString) {
+    // 각 언어에 따라 요일 길이가 다를 수 있으므로 고정 길이로 나누기
+    final length = weekdaysString.length ~/ 7; // 7개 요일로 나누기
+    final weekdays = <String>[];
+    for (int i = 0; i < 7; i++) {
+      final start = i * length;
+      final end = start + length;
+      if (end <= weekdaysString.length) {
+        weekdays.add(weekdaysString.substring(start, end));
+      }
+    }
+    
+    // 파싱 실패 시 기본값 반환
+    if (weekdays.length != 7) {
+      return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    }
+    
+    return weekdays;
   }
 
   void _refreshChart(BuildContext context) {
