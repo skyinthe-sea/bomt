@@ -1476,5 +1476,65 @@
   "selectPeriodForAnalysis": "Please select the period for analysis",
   "@selectPeriodForAnalysis": {
     "description": "Description text for period selection dialog"
+  },
+
+  "cardSettings": "Card Settings",
+  "@cardSettings": {
+    "description": "Card settings screen title"
+  },
+
+  "cardSettingsGuide": "Card Settings Guide",
+  "@cardSettingsGuide": {
+    "description": "Card settings guide section title"
+  },
+
+  "cardSettingsInstructions": "• Toggle switches to show/hide cards\n• Drag to change card order\n• Changes are previewed in real time",
+  "@cardSettingsInstructions": {
+    "description": "Instructions for using card settings"
+  },
+
+  "visible": "Visible",
+  "@visible": {
+    "description": "Card visible status"
+  },
+
+  "hidden": "Hidden",
+  "@hidden": {
+    "description": "Card hidden status"
+  },
+
+  "touchToSetDefault": "Touch to set default values",
+  "@touchToSetDefault": {
+    "description": "Hint text to set default values"
+  },
+
+  "continueEditing": "Continue Editing",
+  "@continueEditing": {
+    "description": "Button to continue editing"
+  },
+
+  "unsavedChangesMessage": "Do you want to cancel changes and return to previous state?",
+  "@unsavedChangesMessage": {
+    "description": "Message asking about unsaved changes"
+  },
+
+  "unsavedChangesExitMessage": "Do you want to exit without saving changes?",
+  "@unsavedChangesExitMessage": {
+    "description": "Message asking about exiting without saving"
+  },
+
+  "exitWithoutSaving": "Exit",
+  "@exitWithoutSaving": {
+    "description": "Button to exit without saving"
+  },
+
+  "savingError": "An error occurred while saving settings. Please try again.",
+  "@savingError": {
+    "description": "Error message when saving fails"
+  },
+
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
   }
 }

@@ -504,13 +504,13 @@ abstract class AppLocalizations {
   /// **'Total Sleep Time'**
   String get totalSleepTime;
 
-  /// No description provided for @cardSettings.
+  /// Card settings screen title
   ///
   /// In en, this message translates to:
   /// **'Card Settings'**
   String get cardSettings;
 
-  /// No description provided for @cardSettingsGuide.
+  /// Card settings guide section title
   ///
   /// In en, this message translates to:
   /// **'Card Settings Guide'**
@@ -558,10 +558,10 @@ abstract class AppLocalizations {
   /// **'Discard changes and return to previous state?'**
   String get discardChanges;
 
-  /// No description provided for @continueEditing.
+  /// Button to continue editing
   ///
   /// In en, this message translates to:
-  /// **'Continue editing'**
+  /// **'Continue Editing'**
   String get continueEditing;
 
   /// No description provided for @discardChangesExit.
@@ -1488,7 +1488,7 @@ abstract class AppLocalizations {
   /// **'Loading...'**
   String get loading;
 
-  /// No description provided for @retry.
+  /// Retry button text
   ///
   /// In en, this message translates to:
   /// **'Retry'**
@@ -4337,6 +4337,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please select the period for analysis'**
   String get selectPeriodForAnalysis;
+
+  /// Instructions for using card settings
+  ///
+  /// In en, this message translates to:
+  /// **'• Toggle switches to show/hide cards\n• Drag to change card order\n• Changes are previewed in real time'**
+  String get cardSettingsInstructions;
+
+  /// Card visible status
+  ///
+  /// In en, this message translates to:
+  /// **'Visible'**
+  String get visible;
+
+  /// Card hidden status
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden'**
+  String get hidden;
+
+  /// Hint text to set default values
+  ///
+  /// In en, this message translates to:
+  /// **'Touch to set default values'**
+  String get touchToSetDefault;
+
+  /// Message asking about unsaved changes
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to cancel changes and return to previous state?'**
+  String get unsavedChangesMessage;
+
+  /// Message asking about exiting without saving
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to exit without saving changes?'**
+  String get unsavedChangesExitMessage;
+
+  /// Button to exit without saving
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get exitWithoutSaving;
+
+  /// Error message when saving fails
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while saving settings. Please try again.'**
+  String get savingError;
 }
 
 class _AppLocalizationsDelegate

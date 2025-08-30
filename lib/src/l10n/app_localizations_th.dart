@@ -227,10 +227,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get totalSleepTime => 'Total Sleep Time';
 
   @override
-  String get cardSettings => 'Card Settings';
+  String get cardSettings => 'การตั้งค่าการ์ด';
 
   @override
-  String get cardSettingsGuide => 'Card Settings Guide';
+  String get cardSettingsGuide => 'คู่มือการตั้งค่าการ์ด';
 
   @override
   String get cardSettingsDescription =>
@@ -255,7 +255,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get discardChanges => 'Discard changes and return to previous state?';
 
   @override
-  String get continueEditing => 'Continue editing';
+  String get continueEditing => 'แก้ไขต่อ';
 
   @override
   String get discardChangesExit => 'Exit without saving changes?';
@@ -764,7 +764,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get loading => 'Loading...';
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'ลองใหม่';
 
   @override
   String get error => 'Error';
@@ -2345,4 +2345,32 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get selectPeriodForAnalysis => 'กรุณาเลือกช่วงเวลาสำหรับการวิเคราะห์';
+
+  @override
+  String get cardSettingsInstructions =>
+      '• ใช้สวิตช์เปิด/ปิดเพื่อแสดง/ซ่อนการ์ด\n• ลากเพื่อเปลี่ยนลำดับการ์ด\n• การเปลี่ยนแปลงจะแสดงตัวอย่างแบบเรียลไทม์';
+
+  @override
+  String get visible => 'แสดง';
+
+  @override
+  String get hidden => 'ซ่อน';
+
+  @override
+  String get touchToSetDefault => 'แตะเพื่อตั้งค่าเริ่มต้น';
+
+  @override
+  String get unsavedChangesMessage =>
+      'คุณต้องการยกเลิกการเปลี่ยนแปลงและกลับไปสู่สถานะเดิมหรือไม่?';
+
+  @override
+  String get unsavedChangesExitMessage =>
+      'คุณต้องการออกโดยไม่บันทึกการเปลี่ยนแปลงหรือไม่?';
+
+  @override
+  String get exitWithoutSaving => 'ออก';
+
+  @override
+  String get savingError =>
+      'เกิดข้อผิดพลาดขณะบันทึกการตั้งค่า กรุณาลองใหม่อีกครั้ง';
 }

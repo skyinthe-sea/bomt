@@ -287,7 +287,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
         // 에러 메시지 표시
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('설정 저장 중 오류가 발생했습니다: $e'),
+            content: Text('${AppLocalizations.of(context)!.savingError}: $e'),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 3),
           ),
@@ -405,7 +405,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                '설정 저장 중 오류가 발생했습니다. 다시 시도해 주세요.',
+                AppLocalizations.of(context)!.savingError,
                 style: const TextStyle(fontSize: 14),
               ),
             ),
@@ -418,7 +418,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
         ),
         duration: const Duration(seconds: 4),
         action: SnackBarAction(
-          label: '다시 시도',
+          label: AppLocalizations.of(context)!.retry,
           textColor: Colors.white,
           onPressed: _saveSettings,
         ),
@@ -434,11 +434,11 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(AppLocalizations.of(context)!.cancel),
-          content: Text('변경된 설정을 취소하고 이전 상태로 돌아가시겠습니까?'),
+          content: Text(AppLocalizations.of(context)!.unsavedChangesMessage),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('계속 편집'),
+              child: Text(AppLocalizations.of(context)!.continueEditing),
             ),
             TextButton(
               onPressed: () {
@@ -463,15 +463,15 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(AppLocalizations.of(context)!.cancel),
-          content: Text('변경된 설정을 저장하지 않고 나가시겠습니까?'),
+          content: Text(AppLocalizations.of(context)!.unsavedChangesExitMessage),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: Text('계속 편집'),
+              child: Text(AppLocalizations.of(context)!.continueEditing),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: Text('나가기'),
+              child: Text(AppLocalizations.of(context)!.exitWithoutSaving),
             ),
           ],
         ),
@@ -491,7 +491,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
         backgroundColor: theme.colorScheme.background,
         appBar: AppBar(
           title: Text(
-            '카드 설정',
+            AppLocalizations.of(context)!.cardSettings,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           elevation: 0,
@@ -506,7 +506,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
               TextButton(
                 onPressed: _saveSettings,
                 child: Text(
-                  '저장',
+                  AppLocalizations.of(context)!.save,
                   style: TextStyle(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,
@@ -541,7 +541,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '카드 설정 가이드',
+                        AppLocalizations.of(context)!.cardSettingsGuide,
                         style: theme.textTheme.titleSmall?.copyWith(
                           color: theme.colorScheme.primary,
                           fontWeight: FontWeight.bold,
@@ -551,7 +551,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '• 토글 스위치로 카드 표시/숨김을 설정하세요\n• 드래그하여 카드 순서를 변경하세요\n• 변경사항은 실시간으로 미리보기됩니다',
+                    AppLocalizations.of(context)!.cardSettingsInstructions,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.primary.withOpacity(0.8),
                       height: 1.4,
@@ -645,7 +645,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    item.name,
+                                    _getCardName(item.cardType),
                                     style: theme.textTheme.titleMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: item.isVisible
@@ -664,8 +664,8 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
                             ),
                             subtitle: Text(
                               item.isVisible 
-                                  ? '표시됨 • 터치하여 기본값 설정' 
-                                  : '숨김 • 터치하여 기본값 설정',
+                                  ? '${AppLocalizations.of(context)!.visible} • ${AppLocalizations.of(context)!.touchToSetDefault}' 
+                                  : '${AppLocalizations.of(context)!.hidden} • ${AppLocalizations.of(context)!.touchToSetDefault}',
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: item.isVisible
                                     ? _getCardColor(item.cardType)
@@ -735,7 +735,7 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
                             : theme.colorScheme.outline.withOpacity(0.2),
                       ),
                       child: Text(
-                        '저장',
+                        AppLocalizations.of(context)!.save,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -764,13 +764,13 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
       case 'sleep':
         return l10n.sleep;
       case 'diaper':
-        return '기저귀';
+        return l10n.diaper;
       case 'solid_food':
-        return '이유식';
+        return l10n.solidFood;
       case 'medication':
-        return '투약';
+        return l10n.medication;
       case 'milk_pumping':
-        return '유축';
+        return l10n.milkPumping;
       default:
         return cardType;
     }

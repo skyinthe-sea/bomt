@@ -255,7 +255,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discardChanges => 'Discard changes and return to previous state?';
 
   @override
-  String get continueEditing => 'Continue editing';
+  String get continueEditing => 'Continue Editing';
 
   @override
   String get discardChangesExit => 'Exit without saving changes?';
@@ -2348,4 +2348,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectPeriodForAnalysis => 'Please select the period for analysis';
+
+  @override
+  String get cardSettingsInstructions =>
+      '• Toggle switches to show/hide cards\n• Drag to change card order\n• Changes are previewed in real time';
+
+  @override
+  String get visible => 'Visible';
+
+  @override
+  String get hidden => 'Hidden';
+
+  @override
+  String get touchToSetDefault => 'Touch to set default values';
+
+  @override
+  String get unsavedChangesMessage =>
+      'Do you want to cancel changes and return to previous state?';
+
+  @override
+  String get unsavedChangesExitMessage =>
+      'Do you want to exit without saving changes?';
+
+  @override
+  String get exitWithoutSaving => 'Exit';
+
+  @override
+  String get savingError =>
+      'An error occurred while saving settings. Please try again.';
 }
