@@ -1536,5 +1536,55 @@
   "retry": "Retry",
   "@retry": {
     "description": "Retry button text"
+  },
+
+  "familyMembers": "Family Members",
+  "@familyMembers": {
+    "description": "Family members section title"
+  },
+
+  "cannotLoadFamilyMembersInfo": "Cannot load family member information",
+  "@cannotLoadFamilyMembersInfo": {
+    "description": "Error message when family member info cannot be loaded"
+  },
+
+  "administrator": "Administrator",
+  "@administrator": {
+    "description": "Administrator role label"
+  },
+
+  "member": "Member",
+  "@member": {
+    "description": "Member role label"
+  },
+
+  "joinDate": "Join date: {date}",
+  "@joinDate": {
+    "description": "Join date label with date parameter",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+
+  "inviteFamilyMembersDescription": "Invite family members to manage baby records together",
+  "@inviteFamilyMembersDescription": {
+    "description": "Description for inviting family members when family group exists"
+  },
+
+  "joinFamilyGroupWarning": "Do you want to join {familyName}'s family?\n\nExisting baby data will be moved to the new family group.",
+  "@joinFamilyGroupWarning": {
+    "description": "Warning message when joining a family group",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "familyInvitationAccepted": "Family invitation accepted! Now you can manage baby records together.",
+  "@familyInvitationAccepted": {
+    "description": "Success message when family invitation is accepted"
   }
 }

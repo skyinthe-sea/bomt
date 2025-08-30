@@ -2339,4 +2339,35 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get savingError =>
       'An error occurred while saving settings. Please try again.';
+
+  @override
+  String get familyMembers => 'Family Members';
+
+  @override
+  String get cannotLoadFamilyMembersInfo =>
+      'Cannot load family member information';
+
+  @override
+  String get administrator => 'Administrator';
+
+  @override
+  String get member => 'Member';
+
+  @override
+  String joinDate(String date) {
+    return 'Join date: $date';
+  }
+
+  @override
+  String get inviteFamilyMembersDescription =>
+      'Invite family members to manage baby records together';
+
+  @override
+  String joinFamilyGroupWarning(String familyName) {
+    return 'Do you want to join $familyName\'s family?\n\nExisting baby data will be moved to the new family group.';
+  }
+
+  @override
+  String get familyInvitationAccepted =>
+      'Family invitation accepted! Now you can manage baby records together.';
 }

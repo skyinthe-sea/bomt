@@ -4385,6 +4385,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred while saving settings. Please try again.'**
   String get savingError;
+
+  /// Family members section title
+  ///
+  /// In en, this message translates to:
+  /// **'Family Members'**
+  String get familyMembers;
+
+  /// Error message when family member info cannot be loaded
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot load family member information'**
+  String get cannotLoadFamilyMembersInfo;
+
+  /// Administrator role label
+  ///
+  /// In en, this message translates to:
+  /// **'Administrator'**
+  String get administrator;
+
+  /// Member role label
+  ///
+  /// In en, this message translates to:
+  /// **'Member'**
+  String get member;
+
+  /// Join date label with date parameter
+  ///
+  /// In en, this message translates to:
+  /// **'Join date: {date}'**
+  String joinDate(String date);
+
+  /// Description for inviting family members when family group exists
+  ///
+  /// In en, this message translates to:
+  /// **'Invite family members to manage baby records together'**
+  String get inviteFamilyMembersDescription;
+
+  /// Warning message when joining a family group
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to join {familyName}\'s family?\n\nExisting baby data will be moved to the new family group.'**
+  String joinFamilyGroupWarning(String familyName);
+
+  /// Success message when family invitation is accepted
+  ///
+  /// In en, this message translates to:
+  /// **'Family invitation accepted! Now you can manage baby records together.'**
+  String get familyInvitationAccepted;
 }
 
 class _AppLocalizationsDelegate

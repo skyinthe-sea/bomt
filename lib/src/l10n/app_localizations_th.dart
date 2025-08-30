@@ -2373,4 +2373,35 @@ class AppLocalizationsTh extends AppLocalizations {
   @override
   String get savingError =>
       'เกิดข้อผิดพลาดขณะบันทึกการตั้งค่า กรุณาลองใหม่อีกครั้ง';
+
+  @override
+  String get familyMembers => 'สมาชิกครอบครัว';
+
+  @override
+  String get cannotLoadFamilyMembersInfo =>
+      'ไม่สามารถโหลดข้อมูลสมาชิกครอบครัวได้';
+
+  @override
+  String get administrator => 'ผู้ดูแล';
+
+  @override
+  String get member => 'สมาชิก';
+
+  @override
+  String joinDate(String date) {
+    return 'วันที่เข้าร่วม: $date';
+  }
+
+  @override
+  String get inviteFamilyMembersDescription =>
+      'เชิญสมาชิกครอบครัวมาจัดการบันทึกของลูกด้วยกัน';
+
+  @override
+  String joinFamilyGroupWarning(String familyName) {
+    return 'คุณต้องการเข้าร่วมครอบครัวของ $familyName หรือไม่?\n\nข้อมูลลูกที่มีอยู่จะถูกย้ายไปยังกลุ่มครอบครัวใหม่';
+  }
+
+  @override
+  String get familyInvitationAccepted =>
+      'ได้รับการเชิญเข้าร่วมครอบครัว! ตอนนี้คุณสามารถจัดการบันทึกของลูกร่วมกันได้แล้ว';
 }

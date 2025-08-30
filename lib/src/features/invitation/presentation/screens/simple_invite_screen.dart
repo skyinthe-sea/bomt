@@ -331,7 +331,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
           title: Text(l10n.acceptInvitation),
           content: Text(
             inviteInfo.containsKey('familyName')
-                ? '${inviteInfo['familyName']} 가족에 참여하시겠습니까?\n\n기존 아기 데이터는 새로운 가족 그룹으로 이동됩니다.'
+                ? l10n.joinFamilyGroupWarning(inviteInfo['familyName'])
                 : l10n.acceptInvitationWarning(inviteInfo['babyName'] ?? '')
           ),
           actions: [
@@ -358,7 +358,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
       final success = await _inviteService.joinWithInviteCode(code, userId);
       
       if (success) {
-        _showSuccessSnackBar('가족 초대를 수락했습니다! 이제 함께 육아 기록을 관리할 수 있습니다.');
+        _showSuccessSnackBar(l10n.familyInvitationAccepted);
         
         // BabyProvider 완전 새로고침
         await babyProvider.refresh();
@@ -471,7 +471,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
             ),
             const SizedBox(width: 8),
             Text(
-              '가족 구성원',
+              l10n.familyMembers,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -512,7 +512,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
               : _familyMembers.isEmpty
                   ? Center(
                       child: Text(
-                        '가족 구성원 정보를 불러올 수 없습니다',
+                        l10n.cannotLoadFamilyMembersInfo,
                         style: TextStyle(
                           color: Theme.of(context).brightness == Brightness.dark
                               ? Colors.blueGrey[300]
@@ -599,7 +599,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      isOwner ? '관리자' : '구성원',
+                      isOwner ? AppLocalizations.of(context)!.administrator : AppLocalizations.of(context)!.member,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -617,7 +617,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
               ),
               const SizedBox(height: 4),
               Text(
-                '참여일: ${createdAt.year}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}',
+                AppLocalizations.of(context)!.joinDate('${createdAt.year}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}'),
                 style: TextStyle(
                   fontSize: 12,
                   color: Theme.of(context).brightness == Brightness.dark
@@ -679,7 +679,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                   const SizedBox(height: 8),
                   Text(
                     babyProvider.hasFamilyGroup
-                        ? '가족 구성원을 초대하여\n함께 아기 기록을 관리하세요'
+                        ? l10n.inviteFamilyMembersDescription
                         : l10n.inviteFamilyDescription,
                     textAlign: TextAlign.center,
                     style: TextStyle(
