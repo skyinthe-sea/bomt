@@ -1441,5 +1441,40 @@
   "afternoon": "PM",
   "@afternoon": {
     "description": "PM - afternoon time period label"
+  },
+
+  "quickSelection": "Quick Selection",
+  "@quickSelection": {
+    "description": "Quick selection label for date presets"
+  },
+
+  "customSettings": "Custom Settings",
+  "@customSettings": {
+    "description": "Custom settings label for date range"
+  },
+
+  "selectDateRange": "Select Date Range",
+  "@selectDateRange": {
+    "description": "Select date range button text"
+  },
+
+  "recent7Days": "Recent 7 Days",
+  "@recent7Days": {
+    "description": "Recent 7 days preset label"
+  },
+
+  "recent14Days": "Recent 14 Days",
+  "@recent14Days": {
+    "description": "Recent 14 days preset label"
+  },
+
+  "recent30Days": "Recent 30 Days",
+  "@recent30Days": {
+    "description": "Recent 30 days preset label"
+  },
+
+  "selectPeriodForAnalysis": "Please select the period for analysis",
+  "@selectPeriodForAnalysis": {
+    "description": "Description text for period selection dialog"
   }
 }

@@ -4295,6 +4295,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PM'**
   String get afternoon;
+
+  /// Quick selection label for date presets
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Selection'**
+  String get quickSelection;
+
+  /// Custom settings label for date range
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Settings'**
+  String get customSettings;
+
+  /// Select date range button text
+  ///
+  /// In en, this message translates to:
+  /// **'Select Date Range'**
+  String get selectDateRange;
+
+  /// Recent 7 days preset label
+  ///
+  /// In en, this message translates to:
+  /// **'Recent 7 Days'**
+  String get recent7Days;
+
+  /// Recent 14 days preset label
+  ///
+  /// In en, this message translates to:
+  /// **'Recent 14 Days'**
+  String get recent14Days;
+
+  /// Recent 30 days preset label
+  ///
+  /// In en, this message translates to:
+  /// **'Recent 30 Days'**
+  String get recent30Days;
+
+  /// Description text for period selection dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Please select the period for analysis'**
+  String get selectPeriodForAnalysis;
 }
 
 class _AppLocalizationsDelegate

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../domain/models/statistics.dart';
 import '../../../../presentation/providers/statistics_provider.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class StatisticsChartSection extends StatelessWidget {
   final List<CardStatistics> cardStatistics;
@@ -213,7 +214,7 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      widget.cardStatistics.cardName,
+                      _getLocalizedCardName(context, widget.cardStatistics.cardType),
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurface,
@@ -508,6 +509,27 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
         return Colors.green;
       default:
         return theme.colorScheme.primary;
+    }
+  }
+
+  String _getLocalizedCardName(BuildContext context, String cardType) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    switch (cardType) {
+      case 'feeding':
+        return l10n.feeding;
+      case 'sleep':
+        return l10n.sleep;
+      case 'diaper':
+        return l10n.diaper;
+      case 'medication':
+        return l10n.medication;
+      case 'milk_pumping':
+        return l10n.milkPumping;
+      case 'solid_food':
+        return l10n.solidFood;
+      default:
+        return cardType; // fallback to cardType if no translation found
     }
   }
 }

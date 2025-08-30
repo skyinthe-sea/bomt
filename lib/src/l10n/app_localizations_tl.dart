@@ -2336,4 +2336,25 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get afternoon => 'Hapon';
+
+  @override
+  String get quickSelection => 'Quick Selection';
+
+  @override
+  String get customSettings => 'Custom Settings';
+
+  @override
+  String get selectDateRange => 'Select Date Range';
+
+  @override
+  String get recent7Days => 'Recent 7 Days';
+
+  @override
+  String get recent14Days => 'Recent 14 Days';
+
+  @override
+  String get recent30Days => 'Recent 30 Days';
+
+  @override
+  String get selectPeriodForAnalysis => 'Please select the period for analysis';
 }

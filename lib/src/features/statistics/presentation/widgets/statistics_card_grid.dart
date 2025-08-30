@@ -156,7 +156,7 @@ class _StatisticsCard extends StatelessWidget {
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          cardStatistics.cardName,
+                          _getLocalizedCardName(context, cardStatistics.cardType),
                           style: theme.textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: theme.colorScheme.onSurface,
@@ -368,6 +368,27 @@ class _StatisticsCard extends StatelessWidget {
         return theme.colorScheme.primary;
     }
   }
+
+  String _getLocalizedCardName(BuildContext context, String cardType) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    switch (cardType) {
+      case 'feeding':
+        return l10n.feeding;
+      case 'sleep':
+        return l10n.sleep;
+      case 'diaper':
+        return l10n.diaper;
+      case 'medication':
+        return l10n.medication;
+      case 'milk_pumping':
+        return l10n.milkPumping;
+      case 'solid_food':
+        return l10n.solidFood;
+      default:
+        return cardType; // fallback to cardType if no translation found
+    }
+  }
 }
 
 class _StatisticsDetailDialog extends StatelessWidget {
@@ -428,7 +449,7 @@ class _StatisticsDetailDialog extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          cardStatistics.cardName,
+                          _getLocalizedCardName(context, cardStatistics.cardType),
                           style: theme.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: theme.colorScheme.onSurface,
@@ -549,6 +570,27 @@ class _StatisticsDetailDialog extends StatelessWidget {
         return Colors.green;
       default:
         return theme.colorScheme.primary;
+    }
+  }
+
+  String _getLocalizedCardName(BuildContext context, String cardType) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    switch (cardType) {
+      case 'feeding':
+        return l10n.feeding;
+      case 'sleep':
+        return l10n.sleep;
+      case 'diaper':
+        return l10n.diaper;
+      case 'medication':
+        return l10n.medication;
+      case 'milk_pumping':
+        return l10n.milkPumping;
+      case 'solid_food':
+        return l10n.solidFood;
+      default:
+        return cardType; // fallback to cardType if no translation found
     }
   }
 }

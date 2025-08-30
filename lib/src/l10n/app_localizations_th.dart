@@ -2324,4 +2324,25 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get afternoon => 'บ่าย';
+
+  @override
+  String get quickSelection => 'การเลือกด่วน';
+
+  @override
+  String get customSettings => 'การตั้งค่าเอง';
+
+  @override
+  String get selectDateRange => 'เลือกช่วงวันที่';
+
+  @override
+  String get recent7Days => '7 วันที่ผ่านมา';
+
+  @override
+  String get recent14Days => '14 วันที่ผ่านมา';
+
+  @override
+  String get recent30Days => '30 วันที่ผ่านมา';
+
+  @override
+  String get selectPeriodForAnalysis => 'กรุณาเลือกช่วงเวลาสำหรับการวิเคราะห์';
 }

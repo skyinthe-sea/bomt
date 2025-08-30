@@ -626,5 +626,40 @@
   "afternoon": "บ่าย",
   "@afternoon": {
     "description": "PM - afternoon time period label"
+  },
+
+  "quickSelection": "การเลือกด่วน",
+  "@quickSelection": {
+    "description": "Quick selection label for date presets"
+  },
+
+  "customSettings": "การตั้งค่าเอง",
+  "@customSettings": {
+    "description": "Custom settings label for date range"
+  },
+
+  "selectDateRange": "เลือกช่วงวันที่",
+  "@selectDateRange": {
+    "description": "Select date range button text"
+  },
+
+  "recent7Days": "7 วันที่ผ่านมา",
+  "@recent7Days": {
+    "description": "Recent 7 days preset label"
+  },
+
+  "recent14Days": "14 วันที่ผ่านมา",
+  "@recent14Days": {
+    "description": "Recent 14 days preset label"
+  },
+
+  "recent30Days": "30 วันที่ผ่านมา",
+  "@recent30Days": {
+    "description": "Recent 30 days preset label"
+  },
+
+  "selectPeriodForAnalysis": "กรุณาเลือกช่วงเวลาสำหรับการวิเคราะห์",
+  "@selectPeriodForAnalysis": {
+    "description": "Description text for period selection dialog"
   }
 }

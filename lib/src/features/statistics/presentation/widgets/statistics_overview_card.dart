@@ -297,7 +297,7 @@ class StatisticsOverviewCard extends StatelessWidget {
         Expanded(
           flex: 3,
           child: Text(
-            cardStats.cardName,
+            _getLocalizedCardName(context, cardStats.cardType),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.8),
             ),
@@ -349,6 +349,27 @@ class StatisticsOverviewCard extends StatelessWidget {
         return Colors.green;
       default:
         return theme.colorScheme.primary;
+    }
+  }
+
+  String _getLocalizedCardName(BuildContext context, String cardType) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    switch (cardType) {
+      case 'feeding':
+        return l10n.feeding;
+      case 'sleep':
+        return l10n.sleep;
+      case 'diaper':
+        return l10n.diaper;
+      case 'medication':
+        return l10n.medication;
+      case 'milk_pumping':
+        return l10n.milkPumping;
+      case 'solid_food':
+        return l10n.solidFood;
+      default:
+        return cardType; // fallback to cardType if no translation found
     }
   }
 }

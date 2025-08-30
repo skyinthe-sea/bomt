@@ -387,7 +387,7 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '빠른 선택',
+          AppLocalizations.of(context)!.quickSelection,
           style: theme.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w600,
             color: theme.colorScheme.onSurface,
@@ -447,7 +447,7 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '사용자 정의',
+          AppLocalizations.of(context)!.customSettings,
           style: theme.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w600,
             color: theme.colorScheme.onSurface,
@@ -482,7 +482,7 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '날짜 범위 선택',
+                          AppLocalizations.of(context)!.selectDateRange,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.onSurface.withOpacity(0.7),
                           ),
@@ -610,37 +610,38 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
 
   /// 날짜 프리셋 정의
   List<Map<String, dynamic>> _getDatePresets() {
+    final l10n = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     
     return [
       {
-        'label': '최근 7일',
+        'label': l10n.recent7Days,
         'startDate': today.subtract(const Duration(days: 6)),
         'endDate': today,
       },
       {
-        'label': '최근 14일',
+        'label': l10n.recent14Days,
         'startDate': today.subtract(const Duration(days: 13)),
         'endDate': today,
       },
       {
-        'label': '최근 30일',
+        'label': l10n.recent30Days,
         'startDate': today.subtract(const Duration(days: 29)),
         'endDate': today,
       },
       {
-        'label': '지난 주',
+        'label': l10n.lastWeek,
         'startDate': today.subtract(Duration(days: today.weekday + 6)),
         'endDate': today.subtract(Duration(days: today.weekday)),
       },
       {
-        'label': '지난 달',
+        'label': l10n.lastMonth,
         'startDate': DateTime(now.year, now.month - 1, 1),
         'endDate': DateTime(now.year, now.month, 0),
       },
       {
-        'label': '이번 달',
+        'label': l10n.thisMonth,
         'startDate': DateTime(now.year, now.month, 1),
         'endDate': today,
       },
@@ -689,7 +690,7 @@ class _CustomDatePickerSheetState extends State<_CustomDatePickerSheet> {
   /// 선택된 범위 텍스트 생성
   String _getSelectedRangeText() {
     if (_startDate == null || _endDate == null) {
-      return '날짜를 선택하세요';
+      return AppLocalizations.of(context)!.pleaseSelectDate;
     }
     
     final formatter = DateFormat('M/d', Localizations.localeOf(context).toString());
@@ -854,7 +855,7 @@ class _CustomDateRangeDialogState extends State<_CustomDateRangeDialog>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '기간 선택',
+                  AppLocalizations.of(context)!.periodSelection,
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: theme.colorScheme.onSurface,
@@ -862,7 +863,7 @@ class _CustomDateRangeDialogState extends State<_CustomDateRangeDialog>
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '분석할 기간을 선택해주세요',
+                  AppLocalizations.of(context)!.selectPeriodForAnalysis,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurface.withOpacity(0.7),
                   ),
@@ -894,7 +895,7 @@ class _CustomDateRangeDialogState extends State<_CustomDateRangeDialog>
           Expanded(
             child: _buildDateInfoCard(
               theme: theme,
-              title: '시작일',
+              title: AppLocalizations.of(context)!.startDate,
               date: _startDate,
               isSelected: !_isSelectingEndDate,
               onTap: () => setState(() => _isSelectingEndDate = false),
@@ -911,7 +912,7 @@ class _CustomDateRangeDialogState extends State<_CustomDateRangeDialog>
           Expanded(
             child: _buildDateInfoCard(
               theme: theme,
-              title: '종료일',
+              title: AppLocalizations.of(context)!.endDate,
               date: _endDate,
               isSelected: _isSelectingEndDate,
               onTap: () => setState(() => _isSelectingEndDate = true),
@@ -965,7 +966,7 @@ class _CustomDateRangeDialogState extends State<_CustomDateRangeDialog>
               Text(
                 date != null 
                     ? DateFormat('M월 d일', 'ko').format(date)
-                    : '날짜 선택',
+                    : AppLocalizations.of(context)!.pleaseSelectDate,
                 style: theme.textTheme.titleMedium?.copyWith(
                   color: date != null 
                       ? theme.colorScheme.onSurface
@@ -1017,7 +1018,7 @@ class _CustomDateRangeDialogState extends State<_CustomDateRangeDialog>
                 ),
               ),
               child: Text(
-                '취소',
+                AppLocalizations.of(context)!.cancel,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -1044,7 +1045,7 @@ class _CustomDateRangeDialogState extends State<_CustomDateRangeDialog>
                 shadowColor: canApply ? theme.colorScheme.primary.withOpacity(0.3) : null,
               ),
               child: Text(
-                '적용',
+                AppLocalizations.of(context)!.apply,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: canApply 
