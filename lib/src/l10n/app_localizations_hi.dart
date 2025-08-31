@@ -179,7 +179,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get timeline => 'टाइमलाइन';
 
   @override
-  String get record => 'रिकॉर्ड';
+  String get record => 'रिकॉर्ड करें';
 
   @override
   String get statistics => 'आंकड़े';
@@ -1061,7 +1061,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get goToSettings => 'सेटिंग्स पर जाएं';
 
   @override
-  String get profilePhotoUpdated => 'प्रोफाइल फोटो अपडेट की गई।';
+  String get profilePhotoUpdated => 'प्रोफाइल फोटो अपडेट कर दिया गया।';
 
   @override
   String get profilePhotoUpdateFailed => 'Failed to update profile photo';
@@ -1876,7 +1876,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get joinWithInviteCodeButton => 'निमंत्रण कोड से जुड़ें';
 
   @override
-  String get temperatureRecorded => 'तापमान रिकॉर्ड किया गया';
+  String get temperatureRecorded => 'तापमान दर्ज किया गया';
 
   @override
   String recordFailed(String error) {
@@ -1888,7 +1888,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get loadingUserInfo =>
-      'उपयोगकर्ता जानकारी लोड हो रही है। कृपया थोड़ी देर बाद फिर कोशिश करें।';
+      'उपयोगकर्ता की जानकारी लोड कर रहे हैं। कृपया थोड़ी देर बाद पुनः प्रयास करें।';
 
   @override
   String get continueWithSeparateAccount => 'अलग खाते के साथ जारी रखें';
@@ -2853,4 +2853,32 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get heightDataEmpty => 'कोई ऊंचाई डेटा उपलब्ध नहीं';
+
+  @override
+  String get undoAction => 'पूर्ववत करें';
+
+  @override
+  String get feedingRecordDeleted => 'आहार रिकॉर्ड हटा दिया गया';
+
+  @override
+  String get sleepRecordDeleted => 'नींद का रिकॉर्ड हटा दिया गया';
+
+  @override
+  String get diaperRecordDeleted => 'डायपर रिकॉर्ड हटा दिया गया';
+
+  @override
+  String get healthRecordDeleted => 'स्वास्थ्य रिकॉर्ड हटा दिया गया';
+
+  @override
+  String get deletionError => 'हटाने में त्रुटि हुई';
+
+  @override
+  String get duplicateInputDetected => 'डुप्लिकेट इनपुट मिला';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      'आपने अभी-अभी ठोस आहार रिकॉर्ड किया है।\\nक्या आप वास्तव में फिर से रिकॉर्ड करना चाहते हैं?';
+
+  @override
+  String get cannotOpenSettings => 'सेटिंग्स स्क्रीन खोल नहीं पा रहे';
 }

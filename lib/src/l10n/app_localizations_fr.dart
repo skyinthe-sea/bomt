@@ -1881,7 +1881,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get joinWithInviteCodeButton => 'Rejoindre avec le code d\'invitation';
 
   @override
-  String get temperatureRecorded => 'La température a été enregistrée';
+  String get temperatureRecorded => 'Température enregistrée';
 
   @override
   String recordFailed(String error) {
@@ -2870,4 +2870,33 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get heightDataEmpty => 'Aucune donnée de taille disponible';
+
+  @override
+  String get undoAction => 'Annuler';
+
+  @override
+  String get feedingRecordDeleted => 'Enregistrement d\'alimentation supprimé';
+
+  @override
+  String get sleepRecordDeleted => 'Enregistrement de sommeil supprimé';
+
+  @override
+  String get diaperRecordDeleted => 'Enregistrement de couche supprimé';
+
+  @override
+  String get healthRecordDeleted => 'Enregistrement de santé supprimé';
+
+  @override
+  String get deletionError => 'Erreur lors de la suppression';
+
+  @override
+  String get duplicateInputDetected => 'Saisie en double détectée';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      'Vous venez d\'enregistrer la nourriture solide.\\nVoulez-vous vraiment l\'enregistrer à nouveau ?';
+
+  @override
+  String get cannotOpenSettings =>
+      'Impossible d\'ouvrir l\'écran des paramètres';
 }

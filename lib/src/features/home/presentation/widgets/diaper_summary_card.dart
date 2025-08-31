@@ -499,7 +499,7 @@ class _DiaperDuplicateConfirmationDialogState extends State<_DiaperDuplicateConf
                     
                     // 제목
                     Text(
-                      '중복 입력 감지',
+                      AppLocalizations.of(context)!.duplicateInputDetected,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurface,
@@ -534,7 +534,7 @@ class _DiaperDuplicateConfirmationDialogState extends State<_DiaperDuplicateConf
                               ),
                             ),
                             child: Text(
-                              '취소',
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(
                                 color: theme.colorScheme.onSurface.withOpacity(0.7),
                                 fontWeight: FontWeight.w600,
@@ -556,7 +556,7 @@ class _DiaperDuplicateConfirmationDialogState extends State<_DiaperDuplicateConf
                               elevation: 0,
                             ),
                             child: Text(
-                              '기록하기',
+                              AppLocalizations.of(context)!.record,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -820,7 +820,7 @@ class _DiaperTypeSelectionDialogState extends State<_DiaperTypeSelectionDialog>
                               ),
                             ),
                             child: Text(
-                              '취소',
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(
                                 color: theme.colorScheme.onSurface.withOpacity(0.7),
                                 fontWeight: FontWeight.w600,

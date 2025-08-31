@@ -3447,7 +3447,7 @@ abstract class AppLocalizations {
   /// No description provided for @temperatureRecorded.
   ///
   /// In en, this message translates to:
-  /// **'Temperature has been recorded'**
+  /// **'Temperature recorded'**
   String get temperatureRecorded;
 
   /// No description provided for @recordFailed.
@@ -5261,6 +5261,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No height data available'**
   String get heightDataEmpty;
+
+  /// No description provided for @undoAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undoAction;
+
+  /// No description provided for @feedingRecordDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Feeding record deleted'**
+  String get feedingRecordDeleted;
+
+  /// No description provided for @sleepRecordDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep record deleted'**
+  String get sleepRecordDeleted;
+
+  /// No description provided for @diaperRecordDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Diaper record deleted'**
+  String get diaperRecordDeleted;
+
+  /// No description provided for @healthRecordDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Health record deleted'**
+  String get healthRecordDeleted;
+
+  /// No description provided for @deletionError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error occurred during deletion'**
+  String get deletionError;
+
+  /// No description provided for @duplicateInputDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate input detected'**
+  String get duplicateInputDetected;
+
+  /// No description provided for @solidFoodDuplicateConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'You just recorded solid food.\\nDo you really want to record it again?'**
+  String get solidFoodDuplicateConfirm;
+
+  /// No description provided for @cannotOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot open settings screen'**
+  String get cannotOpenSettings;
 }
 
 class _AppLocalizationsDelegate

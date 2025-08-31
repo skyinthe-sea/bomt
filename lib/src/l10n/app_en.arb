@@ -2012,5 +2012,19 @@
   "start": "Start",
   "memo": "Memo",
   "weightDataEmpty": "No weight data available",
-  "heightDataEmpty": "No height data available"
+  "heightDataEmpty": "No height data available",
+
+  "undoAction": "Undo",
+  "feedingRecordDeleted": "Feeding record deleted",
+  "sleepRecordDeleted": "Sleep record deleted",
+  "diaperRecordDeleted": "Diaper record deleted",
+  "healthRecordDeleted": "Health record deleted",
+  "deletionError": "Error occurred during deletion",
+  "temperatureRecorded": "Temperature recorded",
+  "duplicateInputDetected": "Duplicate input detected",
+  "record": "Record",
+  "solidFoodDuplicateConfirm": "You just recorded solid food.\\nDo you really want to record it again?",
+  "profilePhotoUpdated": "Profile photo has been updated.",
+  "loadingUserInfo": "Loading user information. Please try again in a moment.",
+  "cannotOpenSettings": "Cannot open settings screen"
 }

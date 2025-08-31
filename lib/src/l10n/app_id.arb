@@ -857,5 +857,19 @@
   "start": "Mulai",
   "memo": "Memo",
   "weightDataEmpty": "Tidak ada data berat badan tersedia",
-  "heightDataEmpty": "Tidak ada data tinggi badan tersedia"
+  "heightDataEmpty": "Tidak ada data tinggi badan tersedia",
+
+  "undoAction": "Batalkan",
+  "feedingRecordDeleted": "Catatan pemberian makan dihapus",
+  "sleepRecordDeleted": "Catatan tidur dihapus",
+  "diaperRecordDeleted": "Catatan popok dihapus",
+  "healthRecordDeleted": "Catatan kesehatan dihapus",
+  "deletionError": "Terjadi kesalahan saat menghapus",
+  "temperatureRecorded": "Suhu tubuh dicatat",
+  "duplicateInputDetected": "Input duplikat terdeteksi",
+  "record": "Catat",
+  "solidFoodDuplicateConfirm": "Anda baru saja mencatat makanan padat.\\nApakah Anda benar-benar ingin mencatatnya lagi?",
+  "profilePhotoUpdated": "Foto profil telah diperbarui.",
+  "loadingUserInfo": "Memuat informasi pengguna. Silakan coba lagi dalam beberapa saat.",
+  "cannotOpenSettings": "Tidak dapat membuka layar pengaturan"
 }

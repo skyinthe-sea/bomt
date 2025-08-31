@@ -1202,5 +1202,19 @@
   "start": "เริ่มต้น",
   "memo": "บันทึก",
   "weightDataEmpty": "ไม่มีข้อมูลน้ำหนัก",
-  "heightDataEmpty": "ไม่มีข้อมูลส่วนสูง"
+  "heightDataEmpty": "ไม่มีข้อมูลส่วนสูง",
+
+  "undoAction": "เลิกทำ",
+  "feedingRecordDeleted": "ลบบันทึกการให้อาหารแล้ว",
+  "sleepRecordDeleted": "ลบบันทึกการนอนแล้ว",
+  "diaperRecordDeleted": "ลบบันทึกผ้าอ้อมแล้ว",
+  "healthRecordDeleted": "ลบบันทึกสุขภาพแล้ว",
+  "deletionError": "เกิดข้อผิดพลาดในการลบ",
+  "temperatureRecorded": "บันทึกอุณหภูมิแล้ว",
+  "duplicateInputDetected": "พบข้อมูลที่ซ้ำกัน",
+  "record": "บันทึก",
+  "solidFoodDuplicateConfirm": "คุณเพิ่งบันทึกอาหารแข็งไปแล้ว\\nต้องการบันทึกอีกครั้งจริงหรือไม่?",
+  "profilePhotoUpdated": "รูปโปรไฟล์ได้รับการอัพเดตแล้ว",
+  "loadingUserInfo": "กำลังโหลดข้อมูลผู้ใช้ กรุณาลองใหม่อีกครั้งในอีกสักครู่",
+  "cannotOpenSettings": "ไม่สามารถเปิดหน้าจอการตั้งค่าได้"
 }

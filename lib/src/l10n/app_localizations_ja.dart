@@ -1851,7 +1851,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get temperatureSettingsSaved => '体温設定が保存されました';
 
   @override
-  String get loadingUserInfo => 'ユーザー情報を読み込み中です。しばらくしてからもう一度お試しください。';
+  String get loadingUserInfo => 'ユーザー情報を読み込んでいます。しばらくしてからもう一度お試しください。';
 
   @override
   String get continueWithSeparateAccount => '別のアカウントで続行';
@@ -2812,4 +2812,31 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get heightDataEmpty => '身長データがありません';
+
+  @override
+  String get undoAction => '元に戻す';
+
+  @override
+  String get feedingRecordDeleted => '授乳記録が削除されました';
+
+  @override
+  String get sleepRecordDeleted => '睡眠記録が削除されました';
+
+  @override
+  String get diaperRecordDeleted => 'おむつ記録が削除されました';
+
+  @override
+  String get healthRecordDeleted => '健康記録が削除されました';
+
+  @override
+  String get deletionError => '削除中にエラーが発生しました';
+
+  @override
+  String get duplicateInputDetected => '重複入力が検出されました';
+
+  @override
+  String get solidFoodDuplicateConfirm => 'さっき離乳食を記録しました。\\n本当にもう一度記録しますか？';
+
+  @override
+  String get cannotOpenSettings => '設定画面を開けません';
 }

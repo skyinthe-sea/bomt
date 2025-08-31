@@ -1061,7 +1061,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get goToSettings => 'ไปที่การตั้งค่า';
 
   @override
-  String get profilePhotoUpdated => 'ภาพโปรไฟล์ได้รับการอัปเดตแล้ว';
+  String get profilePhotoUpdated => 'รูปโปรไฟล์ได้รับการอัพเดตแล้ว';
 
   @override
   String get profilePhotoUpdateFailed => 'Failed to update profile photo';
@@ -1872,7 +1872,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get joinWithInviteCodeButton => 'เข้าร่วมด้วยรหัสเชิญ';
 
   @override
-  String get temperatureRecorded => 'อุณหภูมิได้รับการบันทึกแล้ว';
+  String get temperatureRecorded => 'บันทึกอุณหภูมิแล้ว';
 
   @override
   String recordFailed(String error) {
@@ -1885,7 +1885,7 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get loadingUserInfo =>
-      'กำลังโหลดข้อมูลผู้ใช้ กรุณาลองใหม่อีกครั้งในภายหลัง';
+      'กำลังโหลดข้อมูลผู้ใช้ กรุณาลองใหม่อีกครั้งในอีกสักครู่';
 
   @override
   String get continueWithSeparateAccount => 'ดำเนินการต่อด้วยบัญชีแยกต่างหาก';
@@ -2851,4 +2851,32 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get heightDataEmpty => 'ไม่มีข้อมูลส่วนสูง';
+
+  @override
+  String get undoAction => 'เลิกทำ';
+
+  @override
+  String get feedingRecordDeleted => 'ลบบันทึกการให้อาหารแล้ว';
+
+  @override
+  String get sleepRecordDeleted => 'ลบบันทึกการนอนแล้ว';
+
+  @override
+  String get diaperRecordDeleted => 'ลบบันทึกผ้าอ้อมแล้ว';
+
+  @override
+  String get healthRecordDeleted => 'ลบบันทึกสุขภาพแล้ว';
+
+  @override
+  String get deletionError => 'เกิดข้อผิดพลาดในการลบ';
+
+  @override
+  String get duplicateInputDetected => 'พบข้อมูลที่ซ้ำกัน';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      'คุณเพิ่งบันทึกอาหารแข็งไปแล้ว\\nต้องการบันทึกอีกครั้งจริงหรือไม่?';
+
+  @override
+  String get cannotOpenSettings => 'ไม่สามารถเปิดหน้าจอการตั้งค่าได้';
 }

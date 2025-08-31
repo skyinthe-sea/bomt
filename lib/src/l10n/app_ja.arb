@@ -1097,5 +1097,19 @@
   "start": "開始",
   "memo": "メモ",
   "weightDataEmpty": "体重データがありません",
-  "heightDataEmpty": "身長データがありません"
+  "heightDataEmpty": "身長データがありません",
+
+  "undoAction": "元に戻す",
+  "feedingRecordDeleted": "授乳記録が削除されました",
+  "sleepRecordDeleted": "睡眠記録が削除されました",
+  "diaperRecordDeleted": "おむつ記録が削除されました",
+  "healthRecordDeleted": "健康記録が削除されました",
+  "deletionError": "削除中にエラーが発生しました",
+  "temperatureRecorded": "体温が記録されました",
+  "duplicateInputDetected": "重複入力が検出されました",
+  "record": "記録",
+  "solidFoodDuplicateConfirm": "さっき離乳食を記録しました。\\n本当にもう一度記録しますか？",
+  "profilePhotoUpdated": "プロフィール写真が更新されました。",
+  "loadingUserInfo": "ユーザー情報を読み込んでいます。しばらくしてからもう一度お試しください。",
+  "cannotOpenSettings": "設定画面を開けません"
 }

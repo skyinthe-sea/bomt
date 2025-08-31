@@ -857,5 +857,19 @@
   "start": "Начало",
   "memo": "Заметка",
   "weightDataEmpty": "Нет данных о весе",
-  "heightDataEmpty": "Нет данных о росте"
+  "heightDataEmpty": "Нет данных о росте",
+
+  "undoAction": "Отменить",
+  "feedingRecordDeleted": "Запись кормления удалена",
+  "sleepRecordDeleted": "Запись сна удалена",
+  "diaperRecordDeleted": "Запись подгузника удалена",
+  "healthRecordDeleted": "Запись здоровья удалена",
+  "deletionError": "Произошла ошибка при удалении",
+  "temperatureRecorded": "Температура записана",
+  "duplicateInputDetected": "Обнаружен дублированный ввод",
+  "record": "Записать",
+  "solidFoodDuplicateConfirm": "Вы только что записали твердую пищу.\\nДействительно хотите записать ещё раз?",
+  "profilePhotoUpdated": "Фотография профиля обновлена.",
+  "loadingUserInfo": "Загрузка информации о пользователе. Пожалуйста, попробуйте ещё раз через момент.",
+  "cannotOpenSettings": "Не удается открыть экран настроек"
 }

@@ -925,5 +925,19 @@
   "start": "Start",
   "memo": "Notiz",
   "weightDataEmpty": "Keine Gewichtsdaten verfügbar",
-  "heightDataEmpty": "Keine Größendaten verfügbar"
+  "heightDataEmpty": "Keine Größendaten verfügbar",
+
+  "undoAction": "Rückgängig machen",
+  "feedingRecordDeleted": "Fütterungsaufzeichnung gelöscht",
+  "sleepRecordDeleted": "Schlafaufzeichnung gelöscht",
+  "diaperRecordDeleted": "Windelaufzeichnung gelöscht",
+  "healthRecordDeleted": "Gesundheitsaufzeichnung gelöscht",
+  "deletionError": "Fehler beim Löschen aufgetreten",
+  "temperatureRecorded": "Temperatur aufgezeichnet",
+  "duplicateInputDetected": "Doppelte Eingabe erkannt",
+  "record": "Aufzeichnen",
+  "solidFoodDuplicateConfirm": "Sie haben gerade Beikost aufgezeichnet.\\nMöchten Sie wirklich erneut aufzeichnen?",
+  "profilePhotoUpdated": "Profilbild wurde aktualisiert.",
+  "loadingUserInfo": "Benutzerinformationen werden geladen. Bitte versuchen Sie es in einem Moment erneut.",
+  "cannotOpenSettings": "Einstellungsbildschirm kann nicht geöffnet werden"
 }

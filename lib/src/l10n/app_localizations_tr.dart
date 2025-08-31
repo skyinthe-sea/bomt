@@ -178,7 +178,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get timeline => 'Zaman çizelgesi';
 
   @override
-  String get record => 'Kayıt';
+  String get record => 'Kaydet';
 
   @override
   String get statistics => 'İstatistikler';
@@ -1875,7 +1875,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get joinWithInviteCodeButton => 'Davet koduyla katıl';
 
   @override
-  String get temperatureRecorded => 'Sıcaklık kaydedildi';
+  String get temperatureRecorded => 'Vücut sıcaklığı kaydedildi';
 
   @override
   String recordFailed(String error) {
@@ -1887,7 +1887,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get loadingUserInfo =>
-      'Kullanıcı bilgileri yükleniyor. Lütfen bir süre sonra tekrar deneyin.';
+      'Kullanıcı bilgileri yüklüyor. Lütfen bir süre sonra tekrar deneyin.';
 
   @override
   String get continueWithSeparateAccount => 'Ayrı hesapla devam et';
@@ -2855,4 +2855,32 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get heightDataEmpty => 'Boy verisi mevcut değil';
+
+  @override
+  String get undoAction => 'Geri al';
+
+  @override
+  String get feedingRecordDeleted => 'Beslenme kaydı silindi';
+
+  @override
+  String get sleepRecordDeleted => 'Uyku kaydı silindi';
+
+  @override
+  String get diaperRecordDeleted => 'Bez kaydı silindi';
+
+  @override
+  String get healthRecordDeleted => 'Sağlık kaydı silindi';
+
+  @override
+  String get deletionError => 'Silme sırasında hata oluştu';
+
+  @override
+  String get duplicateInputDetected => 'Yinelenen girdi tespit edildi';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      'Az önce katı gıda kaydettiniz.\\nGerçekten tekrar kaydetmek istiyor musunuz?';
+
+  @override
+  String get cannotOpenSettings => 'Ayarlar ekranı açılamıyor';
 }

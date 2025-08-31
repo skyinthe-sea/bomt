@@ -177,7 +177,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get timeline => '타임라인';
 
   @override
-  String get record => '기록';
+  String get record => '기록하기';
 
   @override
   String get statistics => '통계';
@@ -2813,4 +2813,32 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get heightDataEmpty => '키 데이터가 없습니다';
+
+  @override
+  String get undoAction => '실행 취소';
+
+  @override
+  String get feedingRecordDeleted => '수유 기록이 삭제되었습니다';
+
+  @override
+  String get sleepRecordDeleted => '수면 기록이 삭제되었습니다';
+
+  @override
+  String get diaperRecordDeleted => '기저귀 기록이 삭제되었습니다';
+
+  @override
+  String get healthRecordDeleted => '건강 기록이 삭제되었습니다';
+
+  @override
+  String get deletionError => '삭제 중 오류가 발생했습니다';
+
+  @override
+  String get duplicateInputDetected => '중복 입력 감지';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      '방금 전에 이유식을 기록하셨습니다.\\n정말로 다시 기록하시겠습니까?';
+
+  @override
+  String get cannotOpenSettings => '설정 화면을 열 수 없습니다';
 }

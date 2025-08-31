@@ -703,7 +703,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       if (imageUrl != null && mounted) {
         debugPrint('Showing success message...');
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('프로필 사진이 업데이트되었습니다.')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.profilePhotoUpdated)),
         );
       }
     } catch (e) {
@@ -1522,7 +1522,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                   onPressed: () async {
                                     if (_currentUserId == null || _currentBaby == null) {
                                       ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(content: Text('사용자 정보를 불러오는 중입니다. 잠시 후 다시 시도해주세요.')),
+                                        SnackBar(content: Text(AppLocalizations.of(context)!.loadingUserInfo)),
                                       );
                                       return;
                                     }
@@ -1567,7 +1567,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                       debugPrint('❌ [SETTINGS] Error opening settings: $e');
                                       if (mounted) {
                                         ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(content: Text('설정 화면을 열 수 없습니다: $e')),
+                                          SnackBar(content: Text('${AppLocalizations.of(context)!.cannotOpenSettings}: $e')),
                                         );
                                       }
                                     }

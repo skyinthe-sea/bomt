@@ -491,7 +491,7 @@ class _MedicationDuplicateConfirmationDialogState extends State<_MedicationDupli
                     
                     // 제목
                     Text(
-                      '중복 입력 감지',
+                      AppLocalizations.of(context)!.duplicateInputDetected,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurface,
@@ -526,7 +526,7 @@ class _MedicationDuplicateConfirmationDialogState extends State<_MedicationDupli
                               ),
                             ),
                             child: Text(
-                              '취소',
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(
                                 color: theme.colorScheme.onSurface.withOpacity(0.7),
                                 fontWeight: FontWeight.w600,
@@ -548,7 +548,7 @@ class _MedicationDuplicateConfirmationDialogState extends State<_MedicationDupli
                               elevation: 0,
                             ),
                             child: Text(
-                              '기록하기',
+                              AppLocalizations.of(context)!.record,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                               ),

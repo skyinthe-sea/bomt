@@ -178,7 +178,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get timeline => 'Timeline';
 
   @override
-  String get record => 'Catatan';
+  String get record => 'Catat';
 
   @override
   String get statistics => 'Statistik';
@@ -1875,7 +1875,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get joinWithInviteCodeButton => 'Bergabung dengan kode undangan';
 
   @override
-  String get temperatureRecorded => 'Suhu telah dicatat';
+  String get temperatureRecorded => 'Suhu tubuh dicatat';
 
   @override
   String recordFailed(String error) {
@@ -1887,7 +1887,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get loadingUserInfo =>
-      'Memuat informasi pengguna. Silakan coba lagi nanti.';
+      'Memuat informasi pengguna. Silakan coba lagi dalam beberapa saat.';
 
   @override
   String get continueWithSeparateAccount => 'Lanjutkan dengan akun terpisah';
@@ -2854,4 +2854,32 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get heightDataEmpty => 'Tidak ada data tinggi badan tersedia';
+
+  @override
+  String get undoAction => 'Batalkan';
+
+  @override
+  String get feedingRecordDeleted => 'Catatan pemberian makan dihapus';
+
+  @override
+  String get sleepRecordDeleted => 'Catatan tidur dihapus';
+
+  @override
+  String get diaperRecordDeleted => 'Catatan popok dihapus';
+
+  @override
+  String get healthRecordDeleted => 'Catatan kesehatan dihapus';
+
+  @override
+  String get deletionError => 'Terjadi kesalahan saat menghapus';
+
+  @override
+  String get duplicateInputDetected => 'Input duplikat terdeteksi';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      'Anda baru saja mencatat makanan padat.\\nApakah Anda benar-benar ingin mencatatnya lagi?';
+
+  @override
+  String get cannotOpenSettings => 'Tidak dapat membuka layar pengaturan';
 }

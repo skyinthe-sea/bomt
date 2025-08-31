@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 
 class UndoSnackbar {
   static void show({
@@ -36,7 +37,7 @@ class UndoSnackbar {
         ],
       ),
       action: SnackBarAction(
-        label: '실행 취소',
+        label: AppLocalizations.of(context)!.undoAction,
         textColor: actionColor ?? Colors.yellow[300],
         onPressed: () {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -76,7 +77,7 @@ class UndoSnackbar {
   }) {
     show(
       context: context,
-      message: '수유 기록이 삭제되었습니다',
+      message: AppLocalizations.of(context)!.feedingRecordDeleted,
       onUndo: onUndo,
       onDismissed: onDismissed,
       backgroundColor: Colors.blue[700],
@@ -92,7 +93,7 @@ class UndoSnackbar {
   }) {
     show(
       context: context,
-      message: '수면 기록이 삭제되었습니다',
+      message: AppLocalizations.of(context)!.sleepRecordDeleted,
       onUndo: onUndo,
       onDismissed: onDismissed,
       backgroundColor: Colors.purple[700],
@@ -108,7 +109,7 @@ class UndoSnackbar {
   }) {
     show(
       context: context,
-      message: '기저귀 기록이 삭제되었습니다',
+      message: AppLocalizations.of(context)!.diaperRecordDeleted,
       onUndo: onUndo,
       onDismissed: onDismissed,
       backgroundColor: Colors.amber[700],
@@ -124,7 +125,7 @@ class UndoSnackbar {
   }) {
     show(
       context: context,
-      message: '건강 기록이 삭제되었습니다',
+      message: AppLocalizations.of(context)!.healthRecordDeleted,
       onUndo: onUndo,
       onDismissed: onDismissed,
       backgroundColor: Colors.orange[700],
@@ -190,7 +191,7 @@ class UndoSnackbar {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                customMessage ?? '삭제 중 오류가 발생했습니다',
+                customMessage ?? AppLocalizations.of(context)!.deletionError,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,

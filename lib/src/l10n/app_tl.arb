@@ -857,5 +857,19 @@
   "start": "Simula",
   "memo": "Memo",
   "weightDataEmpty": "Walang available na datos ng timbang",
-  "heightDataEmpty": "Walang available na datos ng taas"
+  "heightDataEmpty": "Walang available na datos ng taas",
+
+  "undoAction": "I-undo",
+  "feedingRecordDeleted": "Na-delete ang record ng pagpapakain",
+  "sleepRecordDeleted": "Na-delete ang record ng tulog",
+  "diaperRecordDeleted": "Na-delete ang record ng diaper",
+  "healthRecordDeleted": "Na-delete ang record ng kalusugan",
+  "deletionError": "May error habang nagde-delete",
+  "temperatureRecorded": "Na-record ang temperatura",
+  "duplicateInputDetected": "Nakita ang duplicate na input",
+  "record": "I-record",
+  "solidFoodDuplicateConfirm": "Kaka-record mo lang ng solid food.\\nGusto mo ba talaga ulit mag-record?",
+  "profilePhotoUpdated": "Na-update na ang profile photo.",
+  "loadingUserInfo": "Nilo-load ang user information. Pakisubok ulit maya-maya.",
+  "cannotOpenSettings": "Hindi mabuksan ang settings screen"
 }

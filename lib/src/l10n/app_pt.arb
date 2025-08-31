@@ -925,5 +925,19 @@
   "start": "Início",
   "memo": "Memorando",
   "weightDataEmpty": "Nenhum dado de peso disponível",
-  "heightDataEmpty": "Nenhum dado de altura disponível"
+  "heightDataEmpty": "Nenhum dado de altura disponível",
+
+  "undoAction": "Desfazer",
+  "feedingRecordDeleted": "Registro de alimentação excluído",
+  "sleepRecordDeleted": "Registro de sono excluído",
+  "diaperRecordDeleted": "Registro de fralda excluído",
+  "healthRecordDeleted": "Registro de saúde excluído",
+  "deletionError": "Erro ao excluir",
+  "temperatureRecorded": "Temperatura registrada",
+  "duplicateInputDetected": "Entrada duplicada detectada",
+  "record": "Registrar",
+  "solidFoodDuplicateConfirm": "Você acabou de registrar comida sólida.\\nRealmente deseja registrar novamente?",
+  "profilePhotoUpdated": "A foto do perfil foi atualizada.",
+  "loadingUserInfo": "Carregando informações do usuário. Tente novamente em um momento.",
+  "cannotOpenSettings": "Não é possível abrir a tela de configurações"
 }

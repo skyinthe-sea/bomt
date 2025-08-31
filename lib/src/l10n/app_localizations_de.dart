@@ -179,7 +179,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get timeline => 'Zeitachse';
 
   @override
-  String get record => 'Aufzeichnung';
+  String get record => 'Aufzeichnen';
 
   @override
   String get statistics => 'Statistiken';
@@ -1881,7 +1881,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get joinWithInviteCodeButton => 'Mit Einladungscode beitreten';
 
   @override
-  String get temperatureRecorded => 'Temperatur wurde aufgezeichnet';
+  String get temperatureRecorded => 'Temperatur aufgezeichnet';
 
   @override
   String recordFailed(String error) {
@@ -2871,4 +2871,33 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get heightDataEmpty => 'Keine Größendaten verfügbar';
+
+  @override
+  String get undoAction => 'Rückgängig machen';
+
+  @override
+  String get feedingRecordDeleted => 'Fütterungsaufzeichnung gelöscht';
+
+  @override
+  String get sleepRecordDeleted => 'Schlafaufzeichnung gelöscht';
+
+  @override
+  String get diaperRecordDeleted => 'Windelaufzeichnung gelöscht';
+
+  @override
+  String get healthRecordDeleted => 'Gesundheitsaufzeichnung gelöscht';
+
+  @override
+  String get deletionError => 'Fehler beim Löschen aufgetreten';
+
+  @override
+  String get duplicateInputDetected => 'Doppelte Eingabe erkannt';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      'Sie haben gerade Beikost aufgezeichnet.\\nMöchten Sie wirklich erneut aufzeichnen?';
+
+  @override
+  String get cannotOpenSettings =>
+      'Einstellungsbildschirm kann nicht geöffnet werden';
 }

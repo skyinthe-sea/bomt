@@ -178,7 +178,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get timeline => 'Línea de tiempo';
 
   @override
-  String get record => 'Registro';
+  String get record => 'Registrar';
 
   @override
   String get statistics => 'Estadísticas';
@@ -1880,7 +1880,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get joinWithInviteCodeButton => 'Unirse con código de invitación';
 
   @override
-  String get temperatureRecorded => 'La temperatura ha sido registrada';
+  String get temperatureRecorded => 'Temperatura registrada';
 
   @override
   String recordFailed(String error) {
@@ -1893,7 +1893,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get loadingUserInfo =>
-      'Cargando información del usuario. Por favor, inténtalo de nuevo en un momento.';
+      'Cargando información del usuario. Por favor, inténtelo de nuevo en un momento.';
 
   @override
   String get continueWithSeparateAccount => 'Continuar con cuenta separada';
@@ -2865,4 +2865,33 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get heightDataEmpty => 'No hay datos de altura disponibles';
+
+  @override
+  String get undoAction => 'Deshacer';
+
+  @override
+  String get feedingRecordDeleted => 'Registro de alimentación eliminado';
+
+  @override
+  String get sleepRecordDeleted => 'Registro de sueño eliminado';
+
+  @override
+  String get diaperRecordDeleted => 'Registro de pañal eliminado';
+
+  @override
+  String get healthRecordDeleted => 'Registro de salud eliminado';
+
+  @override
+  String get deletionError => 'Error al eliminar';
+
+  @override
+  String get duplicateInputDetected => 'Entrada duplicada detectada';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      'Acaba de registrar comida sólida.\\n¿Realmente desea registrarla de nuevo?';
+
+  @override
+  String get cannotOpenSettings =>
+      'No se puede abrir la pantalla de configuración';
 }

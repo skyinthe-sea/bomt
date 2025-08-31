@@ -178,7 +178,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get timeline => 'Хронология';
 
   @override
-  String get record => 'Запись';
+  String get record => 'Записать';
 
   @override
   String get statistics => 'Статистика';
@@ -1061,7 +1061,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get goToSettings => 'Перейти к настройкам';
 
   @override
-  String get profilePhotoUpdated => 'Фото профиля обновлено.';
+  String get profilePhotoUpdated => 'Фотография профиля обновлена.';
 
   @override
   String get profilePhotoUpdateFailed => 'Failed to update profile photo';
@@ -1887,7 +1887,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get loadingUserInfo =>
-      'Загрузка информации пользователя. Попробуйте снова через момент.';
+      'Загрузка информации о пользователе. Пожалуйста, попробуйте ещё раз через момент.';
 
   @override
   String get continueWithSeparateAccount => 'Продолжить с отдельным аккаунтом';
@@ -2858,4 +2858,32 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get heightDataEmpty => 'Нет данных о росте';
+
+  @override
+  String get undoAction => 'Отменить';
+
+  @override
+  String get feedingRecordDeleted => 'Запись кормления удалена';
+
+  @override
+  String get sleepRecordDeleted => 'Запись сна удалена';
+
+  @override
+  String get diaperRecordDeleted => 'Запись подгузника удалена';
+
+  @override
+  String get healthRecordDeleted => 'Запись здоровья удалена';
+
+  @override
+  String get deletionError => 'Произошла ошибка при удалении';
+
+  @override
+  String get duplicateInputDetected => 'Обнаружен дублированный ввод';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      'Вы только что записали твердую пищу.\\nДействительно хотите записать ещё раз?';
+
+  @override
+  String get cannotOpenSettings => 'Не удается открыть экран настроек';
 }

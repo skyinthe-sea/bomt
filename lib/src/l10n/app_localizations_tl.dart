@@ -179,7 +179,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get timeline => 'Timeline';
 
   @override
-  String get record => 'Talaan';
+  String get record => 'I-record';
 
   @override
   String get statistics => 'Estadistika';
@@ -1878,7 +1878,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get joinWithInviteCodeButton => 'Sumali gamit ang invite code';
 
   @override
-  String get temperatureRecorded => 'Naitala na ang temperatura';
+  String get temperatureRecorded => 'Na-record ang temperatura';
 
   @override
   String recordFailed(String error) {
@@ -1891,7 +1891,7 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get loadingUserInfo =>
-      'Nilo-load ang user information. Subukan ulit mamaya.';
+      'Nilo-load ang user information. Pakisubok ulit maya-maya.';
 
   @override
   String get continueWithSeparateAccount => 'Magpatuloy sa hiwalay na account';
@@ -2865,4 +2865,32 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get heightDataEmpty => 'Walang available na datos ng taas';
+
+  @override
+  String get undoAction => 'I-undo';
+
+  @override
+  String get feedingRecordDeleted => 'Na-delete ang record ng pagpapakain';
+
+  @override
+  String get sleepRecordDeleted => 'Na-delete ang record ng tulog';
+
+  @override
+  String get diaperRecordDeleted => 'Na-delete ang record ng diaper';
+
+  @override
+  String get healthRecordDeleted => 'Na-delete ang record ng kalusugan';
+
+  @override
+  String get deletionError => 'May error habang nagde-delete';
+
+  @override
+  String get duplicateInputDetected => 'Nakita ang duplicate na input';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      'Kaka-record mo lang ng solid food.\\nGusto mo ba talaga ulit mag-record?';
+
+  @override
+  String get cannotOpenSettings => 'Hindi mabuksan ang settings screen';
 }

@@ -857,5 +857,19 @@
   "start": "Başlangıç",
   "memo": "Not",
   "weightDataEmpty": "Kilo verisi mevcut değil",
-  "heightDataEmpty": "Boy verisi mevcut değil"
+  "heightDataEmpty": "Boy verisi mevcut değil",
+
+  "undoAction": "Geri al",
+  "feedingRecordDeleted": "Beslenme kaydı silindi",
+  "sleepRecordDeleted": "Uyku kaydı silindi",
+  "diaperRecordDeleted": "Bez kaydı silindi",
+  "healthRecordDeleted": "Sağlık kaydı silindi",
+  "deletionError": "Silme sırasında hata oluştu",
+  "temperatureRecorded": "Vücut sıcaklığı kaydedildi",
+  "duplicateInputDetected": "Yinelenen girdi tespit edildi",
+  "record": "Kaydet",
+  "solidFoodDuplicateConfirm": "Az önce katı gıda kaydettiniz.\\nGerçekten tekrar kaydetmek istiyor musunuz?",
+  "profilePhotoUpdated": "Profil fotoğrafı güncellendi.",
+  "loadingUserInfo": "Kullanıcı bilgileri yüklüyor. Lütfen bir süre sonra tekrar deneyin.",
+  "cannotOpenSettings": "Ayarlar ekranı açılamıyor"
 }

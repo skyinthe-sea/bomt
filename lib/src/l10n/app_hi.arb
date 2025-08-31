@@ -848,5 +848,19 @@
   "start": "शुरू",
   "memo": "मेमो",
   "weightDataEmpty": "कोई वजन डेटा उपलब्ध नहीं",
-  "heightDataEmpty": "कोई ऊंचाई डेटा उपलब्ध नहीं"
+  "heightDataEmpty": "कोई ऊंचाई डेटा उपलब्ध नहीं",
+
+  "undoAction": "पूर्ववत करें",
+  "feedingRecordDeleted": "आहार रिकॉर्ड हटा दिया गया",
+  "sleepRecordDeleted": "नींद का रिकॉर्ड हटा दिया गया",
+  "diaperRecordDeleted": "डायपर रिकॉर्ड हटा दिया गया",
+  "healthRecordDeleted": "स्वास्थ्य रिकॉर्ड हटा दिया गया",
+  "deletionError": "हटाने में त्रुटि हुई",
+  "temperatureRecorded": "तापमान दर्ज किया गया",
+  "duplicateInputDetected": "डुप्लिकेट इनपुट मिला",
+  "record": "रिकॉर्ड करें",
+  "solidFoodDuplicateConfirm": "आपने अभी-अभी ठोस आहार रिकॉर्ड किया है।\\nक्या आप वास्तव में फिर से रिकॉर्ड करना चाहते हैं?",
+  "profilePhotoUpdated": "प्रोफाइल फोटो अपडेट कर दिया गया।",
+  "loadingUserInfo": "उपयोगकर्ता की जानकारी लोड कर रहे हैं। कृपया थोड़ी देर बाद पुनः प्रयास करें।",
+  "cannotOpenSettings": "सेटिंग्स स्क्रीन खोल नहीं पा रहे"
 }

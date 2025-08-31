@@ -1875,7 +1875,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get joinWithInviteCodeButton => 'Join with Invite Code';
 
   @override
-  String get temperatureRecorded => 'Temperature has been recorded';
+  String get temperatureRecorded => 'Temperature recorded';
 
   @override
   String recordFailed(String error) {
@@ -2854,4 +2854,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get heightDataEmpty => 'No height data available';
+
+  @override
+  String get undoAction => 'Undo';
+
+  @override
+  String get feedingRecordDeleted => 'Feeding record deleted';
+
+  @override
+  String get sleepRecordDeleted => 'Sleep record deleted';
+
+  @override
+  String get diaperRecordDeleted => 'Diaper record deleted';
+
+  @override
+  String get healthRecordDeleted => 'Health record deleted';
+
+  @override
+  String get deletionError => 'Error occurred during deletion';
+
+  @override
+  String get duplicateInputDetected => 'Duplicate input detected';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      'You just recorded solid food.\\nDo you really want to record it again?';
+
+  @override
+  String get cannotOpenSettings => 'Cannot open settings screen';
 }

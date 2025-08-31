@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../presentation/providers/health_provider.dart';
 import 'temperature_settings_dialog.dart';
 import 'swipeable_card.dart';
@@ -62,9 +63,9 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
       
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('체온이 기록되었습니다'),
-            duration: Duration(seconds: 2),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.temperatureRecorded),
+            duration: const Duration(seconds: 2),
           ),
         );
       }

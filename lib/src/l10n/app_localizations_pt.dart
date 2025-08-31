@@ -178,7 +178,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get timeline => 'Linha do tempo';
 
   @override
-  String get record => 'Registro';
+  String get record => 'Registrar';
 
   @override
   String get statistics => 'Estatísticas';
@@ -1061,7 +1061,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get goToSettings => 'Ir para configurações';
 
   @override
-  String get profilePhotoUpdated => 'A foto de perfil foi atualizada.';
+  String get profilePhotoUpdated => 'A foto do perfil foi atualizada.';
 
   @override
   String get profilePhotoUpdateFailed => 'Failed to update profile photo';
@@ -1877,7 +1877,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get joinWithInviteCodeButton => 'Participar com código de convite';
 
   @override
-  String get temperatureRecorded => 'A temperatura foi registrada';
+  String get temperatureRecorded => 'Temperatura registrada';
 
   @override
   String recordFailed(String error) {
@@ -2863,4 +2863,33 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get heightDataEmpty => 'Nenhum dado de altura disponível';
+
+  @override
+  String get undoAction => 'Desfazer';
+
+  @override
+  String get feedingRecordDeleted => 'Registro de alimentação excluído';
+
+  @override
+  String get sleepRecordDeleted => 'Registro de sono excluído';
+
+  @override
+  String get diaperRecordDeleted => 'Registro de fralda excluído';
+
+  @override
+  String get healthRecordDeleted => 'Registro de saúde excluído';
+
+  @override
+  String get deletionError => 'Erro ao excluir';
+
+  @override
+  String get duplicateInputDetected => 'Entrada duplicada detectada';
+
+  @override
+  String get solidFoodDuplicateConfirm =>
+      'Você acabou de registrar comida sólida.\\nRealmente deseja registrar novamente?';
+
+  @override
+  String get cannotOpenSettings =>
+      'Não é possível abrir a tela de configurações';
 }
