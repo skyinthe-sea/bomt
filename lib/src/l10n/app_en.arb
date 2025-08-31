@@ -1726,5 +1726,65 @@
         "type": "int"
       }
     }
+  },
+
+  "dailyFeedingCount": "Daily feeding count",
+  "@dailyFeedingCount": {
+    "description": "Chart title for daily feeding count"
+  },
+
+  "dailyFeedingAmount": "Daily feeding amount",
+  "@dailyFeedingAmount": {
+    "description": "Chart title for daily feeding amount"
+  },
+
+  "dailyFeedingDuration": "Daily feeding duration",
+  "@dailyFeedingDuration": {
+    "description": "Chart title for daily feeding duration"
+  },
+
+  "dailySleepCount": "Daily sleep count",
+  "@dailySleepCount": {
+    "description": "Chart title for daily sleep count"
+  },
+
+  "dailySleepDuration": "Daily sleep duration",
+  "@dailySleepDuration": {
+    "description": "Chart title for daily sleep duration"
+  },
+
+  "dailyDiaperChangeCount": "Daily diaper changes",
+  "@dailyDiaperChangeCount": {
+    "description": "Chart title for daily diaper changes"
+  },
+
+  "dailyMedicationCount": "Daily medication count",
+  "@dailyMedicationCount": {
+    "description": "Chart title for daily medication count"
+  },
+
+  "dailyMilkPumpingCount": "Daily pumping count",
+  "@dailyMilkPumpingCount": {
+    "description": "Chart title for daily pumping count"
+  },
+
+  "dailyMilkPumpingAmount": "Daily pumping amount",
+  "@dailyMilkPumpingAmount": {
+    "description": "Chart title for daily pumping amount"
+  },
+
+  "dailySolidFoodCount": "Daily solid food count",
+  "@dailySolidFoodCount": {
+    "description": "Chart title for daily solid food count"
+  },
+
+  "dailyAverageSolidFoodCount": "Daily average solid food count",
+  "@dailyAverageSolidFoodCount": {
+    "description": "Label for daily average solid food count metric"
+  },
+
+  "triedFoodTypes": "Types of food tried",
+  "@triedFoodTypes": {
+    "description": "Label for types of food tried metric"
   }
 }

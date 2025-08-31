@@ -2440,4 +2440,40 @@ class AppLocalizationsJa extends AppLocalizations {
   String dayFormat(int day) {
     return '$day';
   }
+
+  @override
+  String get dailyFeedingCount => 'Daily feeding count';
+
+  @override
+  String get dailyFeedingAmount => 'Daily feeding amount';
+
+  @override
+  String get dailyFeedingDuration => 'Daily feeding duration';
+
+  @override
+  String get dailySleepCount => 'Daily sleep count';
+
+  @override
+  String get dailySleepDuration => 'Daily sleep duration';
+
+  @override
+  String get dailyDiaperChangeCount => 'Daily diaper changes';
+
+  @override
+  String get dailyMedicationCount => 'Daily medication count';
+
+  @override
+  String get dailyMilkPumpingCount => 'Daily pumping count';
+
+  @override
+  String get dailyMilkPumpingAmount => 'Daily pumping amount';
+
+  @override
+  String get dailySolidFoodCount => 'Daily solid food count';
+
+  @override
+  String get dailyAverageSolidFoodCount => 'Daily average solid food count';
+
+  @override
+  String get triedFoodTypes => 'Types of food tried';
 }

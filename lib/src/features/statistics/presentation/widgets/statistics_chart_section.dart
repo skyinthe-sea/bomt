@@ -313,7 +313,7 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
             children: [
               Expanded(
                 child: Text(
-                  chartData.title,
+                  _getTranslatedChartTitle(context, chartData.title),
                   style: theme.textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: theme.colorScheme.onSurface,
@@ -558,6 +558,49 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
         return l10n.solidFood;
       default:
         return cardType; // fallback to cardType if no translation found
+    }
+  }
+
+  String _getTranslatedChartTitle(BuildContext context, String originalTitle) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    // 기존 한국어 차트 제목을 i18n으로 변환
+    switch (originalTitle) {
+      // 수유 차트
+      case '일별 수유 횟수':
+        return l10n.dailyFeedingCount;
+      case '일별 수유량':
+        return l10n.dailyFeedingAmount;
+      case '일별 수유 시간':
+        return l10n.dailyFeedingDuration;
+      
+      // 수면 차트
+      case '일별 수면 횟수':
+        return l10n.dailySleepCount;
+      case '일별 수면 시간':
+        return l10n.dailySleepDuration;
+      
+      // 기저귀 차트
+      case '일별 기저귀 교체 횟수':
+        return l10n.dailyDiaperChangeCount;
+      
+      // 투약 차트
+      case '일별 투약 횟수':
+        return l10n.dailyMedicationCount;
+      
+      // 유축 차트
+      case '일별 유축 횟수':
+        return l10n.dailyMilkPumpingCount;
+      case '일별 유축량':
+        return l10n.dailyMilkPumpingAmount;
+      
+      // 이유식 차트
+      case '일별 이유식 횟수':
+        return l10n.dailySolidFoodCount;
+      
+      // 기본값: 원래 제목 반환 (번역이 없는 경우)
+      default:
+        return originalTitle;
     }
   }
 }

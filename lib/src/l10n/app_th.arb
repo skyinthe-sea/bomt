@@ -911,5 +911,65 @@
         "type": "int"
       }
     }
+  },
+
+  "dailyFeedingCount": "จำนวนครั้งการให้นมต่อวัน",
+  "@dailyFeedingCount": {
+    "description": "Chart title for daily feeding count"
+  },
+
+  "dailyFeedingAmount": "ปริมาณนมต่อวัน",
+  "@dailyFeedingAmount": {
+    "description": "Chart title for daily feeding amount"
+  },
+
+  "dailyFeedingDuration": "ระยะเวลาให้นมต่อวัน",
+  "@dailyFeedingDuration": {
+    "description": "Chart title for daily feeding duration"
+  },
+
+  "dailySleepCount": "จำนวนครั้งการนอนต่อวัน",
+  "@dailySleepCount": {
+    "description": "Chart title for daily sleep count"
+  },
+
+  "dailySleepDuration": "ระยะเวลานอนต่อวัน",
+  "@dailySleepDuration": {
+    "description": "Chart title for daily sleep duration"
+  },
+
+  "dailyDiaperChangeCount": "จำนวนครั้งการเปลี่ยนผ้าอ้อมต่อวัน",
+  "@dailyDiaperChangeCount": {
+    "description": "Chart title for daily diaper changes"
+  },
+
+  "dailyMedicationCount": "จำนวนครั้งการให้ยาต่อวัน",
+  "@dailyMedicationCount": {
+    "description": "Chart title for daily medication count"
+  },
+
+  "dailyMilkPumpingCount": "จำนวนครั้งการปั๊มนมต่อวัน",
+  "@dailyMilkPumpingCount": {
+    "description": "Chart title for daily pumping count"
+  },
+
+  "dailyMilkPumpingAmount": "ปริมาณนมปั๊มต่อวัน",
+  "@dailyMilkPumpingAmount": {
+    "description": "Chart title for daily pumping amount"
+  },
+
+  "dailySolidFoodCount": "จำนวนครั้งการให้อาหารแข็งต่อวัน",
+  "@dailySolidFoodCount": {
+    "description": "Chart title for daily solid food count"
+  },
+
+  "dailyAverageSolidFoodCount": "จำนวนครั้งการให้อาหารแข็งเฉลี่ยต่อวัน",
+  "@dailyAverageSolidFoodCount": {
+    "description": "Label for daily average solid food count metric"
+  },
+
+  "triedFoodTypes": "ประเภทอาหารที่ลอง",
+  "@triedFoodTypes": {
+    "description": "Label for types of food tried metric"
   }
 }

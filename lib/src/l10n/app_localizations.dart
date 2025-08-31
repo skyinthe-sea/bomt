@@ -4565,6 +4565,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{day}'**
   String dayFormat(int day);
+
+  /// Chart title for daily feeding count
+  ///
+  /// In en, this message translates to:
+  /// **'Daily feeding count'**
+  String get dailyFeedingCount;
+
+  /// Chart title for daily feeding amount
+  ///
+  /// In en, this message translates to:
+  /// **'Daily feeding amount'**
+  String get dailyFeedingAmount;
+
+  /// Chart title for daily feeding duration
+  ///
+  /// In en, this message translates to:
+  /// **'Daily feeding duration'**
+  String get dailyFeedingDuration;
+
+  /// Chart title for daily sleep count
+  ///
+  /// In en, this message translates to:
+  /// **'Daily sleep count'**
+  String get dailySleepCount;
+
+  /// Chart title for daily sleep duration
+  ///
+  /// In en, this message translates to:
+  /// **'Daily sleep duration'**
+  String get dailySleepDuration;
+
+  /// Chart title for daily diaper changes
+  ///
+  /// In en, this message translates to:
+  /// **'Daily diaper changes'**
+  String get dailyDiaperChangeCount;
+
+  /// Chart title for daily medication count
+  ///
+  /// In en, this message translates to:
+  /// **'Daily medication count'**
+  String get dailyMedicationCount;
+
+  /// Chart title for daily pumping count
+  ///
+  /// In en, this message translates to:
+  /// **'Daily pumping count'**
+  String get dailyMilkPumpingCount;
+
+  /// Chart title for daily pumping amount
+  ///
+  /// In en, this message translates to:
+  /// **'Daily pumping amount'**
+  String get dailyMilkPumpingAmount;
+
+  /// Chart title for daily solid food count
+  ///
+  /// In en, this message translates to:
+  /// **'Daily solid food count'**
+  String get dailySolidFoodCount;
+
+  /// Label for daily average solid food count metric
+  ///
+  /// In en, this message translates to:
+  /// **'Daily average solid food count'**
+  String get dailyAverageSolidFoodCount;
+
+  /// Label for types of food tried metric
+  ///
+  /// In en, this message translates to:
+  /// **'Types of food tried'**
+  String get triedFoodTypes;
 }
 
 class _AppLocalizationsDelegate

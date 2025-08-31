@@ -2475,4 +2475,41 @@ class AppLocalizationsTh extends AppLocalizations {
   String dayFormat(int day) {
     return '$day';
   }
+
+  @override
+  String get dailyFeedingCount => 'จำนวนครั้งการให้นมต่อวัน';
+
+  @override
+  String get dailyFeedingAmount => 'ปริมาณนมต่อวัน';
+
+  @override
+  String get dailyFeedingDuration => 'ระยะเวลาให้นมต่อวัน';
+
+  @override
+  String get dailySleepCount => 'จำนวนครั้งการนอนต่อวัน';
+
+  @override
+  String get dailySleepDuration => 'ระยะเวลานอนต่อวัน';
+
+  @override
+  String get dailyDiaperChangeCount => 'จำนวนครั้งการเปลี่ยนผ้าอ้อมต่อวัน';
+
+  @override
+  String get dailyMedicationCount => 'จำนวนครั้งการให้ยาต่อวัน';
+
+  @override
+  String get dailyMilkPumpingCount => 'จำนวนครั้งการปั๊มนมต่อวัน';
+
+  @override
+  String get dailyMilkPumpingAmount => 'ปริมาณนมปั๊มต่อวัน';
+
+  @override
+  String get dailySolidFoodCount => 'จำนวนครั้งการให้อาหารแข็งต่อวัน';
+
+  @override
+  String get dailyAverageSolidFoodCount =>
+      'จำนวนครั้งการให้อาหารแข็งเฉลี่ยต่อวัน';
+
+  @override
+  String get triedFoodTypes => 'ประเภทอาหารที่ลอง';
 }
