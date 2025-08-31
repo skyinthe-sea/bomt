@@ -693,5 +693,115 @@
   },
   "temperatureRecordMemo": "Nota del Registro de Temperatura",
   "fever": "Fiebre",
-  "highFever": "Fiebre Alta"
+  "highFever": "Fiebre Alta",
+  "babyGrowthChart": "Gráfico de Crecimiento de {name}",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "No hay registros de crecimiento",
+  "enterWeightAndHeightFromHome": "Por favor ingrese peso y altura desde la pantalla principal",
+  "weight": "Peso",
+  "height": "Altura",
+  "periodSelection": "Selección de período:",
+  "all": "Todo",
+  "growthInsights": "Perspectivas del Crecimiento",
+  "growthRate": "Tasa de Crecimiento",
+  "monthlyAverageGrowth": "Crecimiento Promedio Mensual",
+  "dataInsufficient": "Datos Insuficientes",
+  "twoOrMoreRequired": "Se requieren 2 o más",
+  "recentDaysBasis": "Basado en los últimos {days} días",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "Basado en período completo",
+  "oneMonthPrediction": "Predicción de 1 Mes",
+  "currentTrendBasis": "Basado en tendencia actual",
+  "predictionNotPossible": "Predicción no posible",
+  "trendInsufficient": "Tendencia insuficiente",
+  "recordFrequency": "Frecuencia de Registro",
+  "veryConsistent": "Muy Consistente",
+  "consistent": "Consistente",
+  "average": "Promedio",
+  "irregular": "Irregular",
+  "averageDaysInterval": "Promedio {days} días de intervalo",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "Próximo Registro",
+  "now": "Ahora",
+  "soon": "Pronto",
+  "daysLater": "{days} días después",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "Registrado hace {days} días",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "Registro semanal recomendado",
+  "nextMilestone": "Próximo Hito",
+  "targetValue": "Meta de {value}{unit}",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "{remaining}{unit} restante ({progress}% logrado)",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "Cálculo no posible",
+  "periodInsufficient": "Período insuficiente",
+  "noDataAvailable": "No hay datos disponibles",
+  "weightRecordRequired": "Registro de peso requerido",
+  "heightRecordRequired": "Registro de altura requerido",
+  "currentRecordMissing": "Registro actual faltante",
+  "noRecord": "Sin registro",
+  "firstRecordStart": "Comenzar primer registro",
+  "oneRecord": "1 registro",
+  "moreRecordsNeeded": "Se necesitan más registros",
+  "sameDayRecord": "Registro del mismo día",
+  "recordedTimes": "{count} veces registrado",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

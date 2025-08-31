@@ -693,5 +693,115 @@
   },
   "temperatureRecordMemo": "Memo Catatan Suhu",
   "fever": "Demam",
-  "highFever": "Demam Tinggi"
+  "highFever": "Demam Tinggi",
+  "babyGrowthChart": "Grafik Pertumbuhan {name}",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "Tidak ada catatan pertumbuhan",
+  "enterWeightAndHeightFromHome": "Silakan masukkan berat dan tinggi badan dari layar beranda",
+  "weight": "Berat",
+  "height": "Tinggi",
+  "periodSelection": "Pemilihan periode:",
+  "all": "Semua",
+  "growthInsights": "Wawasan Pertumbuhan",
+  "growthRate": "Tingkat Pertumbuhan",
+  "monthlyAverageGrowth": "Pertumbuhan Rata-rata Bulanan",
+  "dataInsufficient": "Data Tidak Mencukupi",
+  "twoOrMoreRequired": "2 atau lebih diperlukan",
+  "recentDaysBasis": "Berdasarkan {days} hari terakhir",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "Berdasarkan seluruh periode",
+  "oneMonthPrediction": "Prediksi 1 Bulan",
+  "currentTrendBasis": "Berdasarkan tren saat ini",
+  "predictionNotPossible": "Prediksi tidak dapat dilakukan",
+  "trendInsufficient": "Tren tidak mencukupi",
+  "recordFrequency": "Frekuensi Catatan",
+  "veryConsistent": "Sangat Konsisten",
+  "consistent": "Konsisten",
+  "average": "Rata-rata",
+  "irregular": "Tidak teratur",
+  "averageDaysInterval": "Rata-rata interval {days} hari",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "Catatan Berikutnya",
+  "now": "Sekarang",
+  "soon": "Segera",
+  "daysLater": "{days} hari kemudian",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "Dicatat {days} hari yang lalu",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "Pencatatan mingguan direkomendasikan",
+  "nextMilestone": "Pencapaian Berikutnya",
+  "targetValue": "Target {value}{unit}",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "Tersisa {remaining}{unit} ({progress}% tercapai)",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "Perhitungan tidak dapat dilakukan",
+  "periodInsufficient": "Periode tidak mencukupi",
+  "noDataAvailable": "Tidak ada data yang tersedia",
+  "weightRecordRequired": "Catatan berat diperlukan",
+  "heightRecordRequired": "Catatan tinggi diperlukan",
+  "currentRecordMissing": "Catatan saat ini hilang",
+  "noRecord": "Tidak ada catatan",
+  "firstRecordStart": "Mulai catatan pertama",
+  "oneRecord": "1 catatan",
+  "moreRecordsNeeded": "Memerlukan lebih banyak catatan",
+  "sameDayRecord": "Catatan hari yang sama",
+  "recordedTimes": "Tercatat {count} kali",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

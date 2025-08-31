@@ -407,7 +407,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get diaperChangeTime => 'Change Time';
 
   @override
-  String get weight => 'Ağırlık';
+  String get weight => 'Kilo';
 
   @override
   String get height => 'Boy';
@@ -1281,7 +1281,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lastUpdated => 'Last updated:';
 
   @override
-  String get periodSelection => 'Period Selection';
+  String get periodSelection => 'Dönem seçimi:';
 
   @override
   String get daily => 'Daily';
@@ -1945,7 +1945,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get good => 'İyi';
 
   @override
-  String get average => 'Orta';
+  String get average => 'Ortalama';
 
   @override
   String get poor => 'Kötü';
@@ -2610,4 +2610,144 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get temperatureRecordMemo => 'Sıcaklık Kayıt Notu';
+
+  @override
+  String babyGrowthChart(String name) {
+    return '$name\'nin Büyüme Grafiği';
+  }
+
+  @override
+  String get noGrowthRecords => 'Büyüme kayıtları yok';
+
+  @override
+  String get enterWeightAndHeightFromHome =>
+      'Lütfen ana ekrandan kilo ve boy bilgilerini girin';
+
+  @override
+  String get all => 'Tümü';
+
+  @override
+  String get growthInsights => 'Büyüme İçgörüleri';
+
+  @override
+  String get growthRate => 'Büyüme Oranı';
+
+  @override
+  String get monthlyAverageGrowth => 'Aylık Ortalama Büyüme';
+
+  @override
+  String get dataInsufficient => 'Veri Yetersiz';
+
+  @override
+  String get twoOrMoreRequired => '2 veya daha fazla gerekli';
+
+  @override
+  String recentDaysBasis(int days) {
+    return 'Son $days güne dayalı';
+  }
+
+  @override
+  String get entireBasis => 'Tüm döneme dayalı';
+
+  @override
+  String get oneMonthPrediction => '1 Aylık Tahmin';
+
+  @override
+  String get currentTrendBasis => 'Mevcut eğilime dayalı';
+
+  @override
+  String get predictionNotPossible => 'Tahmin mümkün değil';
+
+  @override
+  String get trendInsufficient => 'Eğilim yetersiz';
+
+  @override
+  String get recordFrequency => 'Kayıt Sıklığı';
+
+  @override
+  String get veryConsistent => 'Çok Tutarlı';
+
+  @override
+  String get consistent => 'Tutarlı';
+
+  @override
+  String get irregular => 'Düzensiz';
+
+  @override
+  String averageDaysInterval(String days) {
+    return 'Ortalama $days günlük aralık';
+  }
+
+  @override
+  String get nextRecord => 'Sonraki Kayıt';
+
+  @override
+  String get now => 'Şimdi';
+
+  @override
+  String get soon => 'Yakında';
+
+  @override
+  String daysLater(int days) {
+    return '$days gün sonra';
+  }
+
+  @override
+  String daysAgoRecorded(int days) {
+    return '$days gün önce kaydedildi';
+  }
+
+  @override
+  String get weeklyRecordRecommended => 'Haftalık kayıt önerilir';
+
+  @override
+  String get nextMilestone => 'Sonraki Kilometre Taşı';
+
+  @override
+  String targetValue(String value, String unit) {
+    return '$value$unit hedef';
+  }
+
+  @override
+  String remainingProgress(String remaining, String unit, String progress) {
+    return 'Kalan $remaining$unit ($progress% ulaşıldı)';
+  }
+
+  @override
+  String get calculationNotPossible => 'Hesaplama mümkün değil';
+
+  @override
+  String get periodInsufficient => 'Dönem yetersiz';
+
+  @override
+  String get noDataAvailable => 'Kullanılabilir veri yok';
+
+  @override
+  String get weightRecordRequired => 'Kilo kaydı gerekli';
+
+  @override
+  String get heightRecordRequired => 'Boy kaydı gerekli';
+
+  @override
+  String get currentRecordMissing => 'Mevcut kayıt eksik';
+
+  @override
+  String get noRecord => 'Kayıt yok';
+
+  @override
+  String get firstRecordStart => 'İlk kaydı başlat';
+
+  @override
+  String get oneRecord => '1 kayıt';
+
+  @override
+  String get moreRecordsNeeded => 'Daha fazla kayıt gerekli';
+
+  @override
+  String get sameDayRecord => 'Aynı gün kaydı';
+
+  @override
+  String recordedTimes(int count) {
+    return '$count kez kaydedildi';
+  }
 }

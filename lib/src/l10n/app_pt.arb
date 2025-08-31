@@ -761,5 +761,115 @@
   },
   "temperatureRecordMemo": "Nota do Registro de Temperatura",
   "fever": "Febre",
-  "highFever": "Febre Alta"
+  "highFever": "Febre Alta",
+  "babyGrowthChart": "Gráfico de Crescimento do {name}",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "Nenhum registro de crescimento",
+  "enterWeightAndHeightFromHome": "Por favor, insira peso e altura pela tela inicial",
+  "weight": "Peso",
+  "height": "Altura",
+  "periodSelection": "Seleção de período:",
+  "all": "Todos",
+  "growthInsights": "Insights de Crescimento",
+  "growthRate": "Taxa de Crescimento",
+  "monthlyAverageGrowth": "Crescimento Médio Mensal",
+  "dataInsufficient": "Dados Insuficientes",
+  "twoOrMoreRequired": "2 ou mais necessários",
+  "recentDaysBasis": "Baseado nos últimos {days} dias",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "Baseado no período inteiro",
+  "oneMonthPrediction": "Predição de 1 Mês",
+  "currentTrendBasis": "Baseado na tendência atual",
+  "predictionNotPossible": "Predição não possível",
+  "trendInsufficient": "Tendência insuficiente",
+  "recordFrequency": "Frequência de Registro",
+  "veryConsistent": "Muito Consistente",
+  "consistent": "Consistente",
+  "average": "Médio",
+  "irregular": "Irregular",
+  "averageDaysInterval": "Intervalo médio de {days} dias",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "Próximo Registro",
+  "now": "Agora",
+  "soon": "Em breve",
+  "daysLater": "{days} dias depois",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "Registrado há {days} dias",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "Registro semanal recomendado",
+  "nextMilestone": "Próxima Meta",
+  "targetValue": "Meta de {value}{unit}",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "{remaining}{unit} restante ({progress}% alcançado)",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "Cálculo não possível",
+  "periodInsufficient": "Período insuficiente",
+  "noDataAvailable": "Nenhum dado disponível",
+  "weightRecordRequired": "Registro de peso necessário",
+  "heightRecordRequired": "Registro de altura necessário",
+  "currentRecordMissing": "Registro atual ausente",
+  "noRecord": "Nenhum registro",
+  "firstRecordStart": "Iniciar primeiro registro",
+  "oneRecord": "1 registro",
+  "moreRecordsNeeded": "Mais registros necessários",
+  "sameDayRecord": "Registro do mesmo dia",
+  "recordedTimes": "{count} vezes registrado",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -1282,7 +1282,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get lastUpdated => 'Last updated:';
 
   @override
-  String get periodSelection => 'Period Selection';
+  String get periodSelection => 'Pagpili ng panahon:';
 
   @override
   String get daily => 'Daily';
@@ -1949,7 +1949,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get good => 'Mabuti';
 
   @override
-  String get average => 'Katamtaman';
+  String get average => 'Average';
 
   @override
   String get poor => 'Masama';
@@ -2620,4 +2620,144 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get temperatureRecordMemo => 'Tala ng Memo sa Temperatura';
+
+  @override
+  String babyGrowthChart(String name) {
+    return 'Growth Chart ni $name';
+  }
+
+  @override
+  String get noGrowthRecords => 'Walang growth records';
+
+  @override
+  String get enterWeightAndHeightFromHome =>
+      'Mangyaring ilagay ang timbang at taas mula sa home screen';
+
+  @override
+  String get all => 'Lahat';
+
+  @override
+  String get growthInsights => 'Growth Insights';
+
+  @override
+  String get growthRate => 'Growth Rate';
+
+  @override
+  String get monthlyAverageGrowth => 'Buwanang Average na Paglaki';
+
+  @override
+  String get dataInsufficient => 'Hindi Sapat ang Data';
+
+  @override
+  String get twoOrMoreRequired => 'Kailangan ng 2 o higit pa';
+
+  @override
+  String recentDaysBasis(int days) {
+    return 'Batay sa nakaraang $days araw';
+  }
+
+  @override
+  String get entireBasis => 'Batay sa buong panahon';
+
+  @override
+  String get oneMonthPrediction => '1 Buwan na Prediction';
+
+  @override
+  String get currentTrendBasis => 'Batay sa kasalukuyang trend';
+
+  @override
+  String get predictionNotPossible => 'Hindi makakagawa ng prediction';
+
+  @override
+  String get trendInsufficient => 'Hindi sapat ang trend';
+
+  @override
+  String get recordFrequency => 'Frequency ng Record';
+
+  @override
+  String get veryConsistent => 'Napaka-Consistent';
+
+  @override
+  String get consistent => 'Consistent';
+
+  @override
+  String get irregular => 'Hindi Regular';
+
+  @override
+  String averageDaysInterval(String days) {
+    return 'Average $days araw na agwat';
+  }
+
+  @override
+  String get nextRecord => 'Susunod na Record';
+
+  @override
+  String get now => 'Ngayon';
+
+  @override
+  String get soon => 'Malapit na';
+
+  @override
+  String daysLater(int days) {
+    return '$days araw pagkatapos';
+  }
+
+  @override
+  String daysAgoRecorded(int days) {
+    return 'Na-record $days araw na ang nakalipas';
+  }
+
+  @override
+  String get weeklyRecordRecommended => 'Inirerekomenda ang lingguhang record';
+
+  @override
+  String get nextMilestone => 'Susunod na Milestone';
+
+  @override
+  String targetValue(String value, String unit) {
+    return '$value$unit target';
+  }
+
+  @override
+  String remainingProgress(String remaining, String unit, String progress) {
+    return '$remaining$unit na natitira ($progress% na-achieve)';
+  }
+
+  @override
+  String get calculationNotPossible => 'Hindi makakagawa ng calculation';
+
+  @override
+  String get periodInsufficient => 'Hindi sapat ang panahon';
+
+  @override
+  String get noDataAvailable => 'Walang available na data';
+
+  @override
+  String get weightRecordRequired => 'Kailangan ng weight record';
+
+  @override
+  String get heightRecordRequired => 'Kailangan ng height record';
+
+  @override
+  String get currentRecordMissing => 'Nawawala ang kasalukuyang record';
+
+  @override
+  String get noRecord => 'Walang record';
+
+  @override
+  String get firstRecordStart => 'Simulan ang unang record';
+
+  @override
+  String get oneRecord => '1 record';
+
+  @override
+  String get moreRecordsNeeded => 'Kailangan ng mas maraming records';
+
+  @override
+  String get sameDayRecord => 'Record sa parehong araw';
+
+  @override
+  String recordedTimes(int count) {
+    return 'Na-record ng $count beses';
+  }
 }

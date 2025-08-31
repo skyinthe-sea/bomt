@@ -693,5 +693,115 @@
   },
   "temperatureRecordMemo": "Sıcaklık Kayıt Notu",
   "fever": "Ateş",
-  "highFever": "Yüksek Ateş"
+  "highFever": "Yüksek Ateş",
+  "babyGrowthChart": "{name}'nin Büyüme Grafiği",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "Büyüme kayıtları yok",
+  "enterWeightAndHeightFromHome": "Lütfen ana ekrandan kilo ve boy bilgilerini girin",
+  "weight": "Kilo",
+  "height": "Boy",
+  "periodSelection": "Dönem seçimi:",
+  "all": "Tümü",
+  "growthInsights": "Büyüme İçgörüleri",
+  "growthRate": "Büyüme Oranı",
+  "monthlyAverageGrowth": "Aylık Ortalama Büyüme",
+  "dataInsufficient": "Veri Yetersiz",
+  "twoOrMoreRequired": "2 veya daha fazla gerekli",
+  "recentDaysBasis": "Son {days} güne dayalı",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "Tüm döneme dayalı",
+  "oneMonthPrediction": "1 Aylık Tahmin",
+  "currentTrendBasis": "Mevcut eğilime dayalı",
+  "predictionNotPossible": "Tahmin mümkün değil",
+  "trendInsufficient": "Eğilim yetersiz",
+  "recordFrequency": "Kayıt Sıklığı",
+  "veryConsistent": "Çok Tutarlı",
+  "consistent": "Tutarlı",
+  "average": "Ortalama",
+  "irregular": "Düzensiz",
+  "averageDaysInterval": "Ortalama {days} günlük aralık",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "Sonraki Kayıt",
+  "now": "Şimdi",
+  "soon": "Yakında",
+  "daysLater": "{days} gün sonra",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "{days} gün önce kaydedildi",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "Haftalık kayıt önerilir",
+  "nextMilestone": "Sonraki Kilometre Taşı",
+  "targetValue": "{value}{unit} hedef",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "Kalan {remaining}{unit} ({progress}% ulaşıldı)",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "Hesaplama mümkün değil",
+  "periodInsufficient": "Dönem yetersiz",
+  "noDataAvailable": "Kullanılabilir veri yok",
+  "weightRecordRequired": "Kilo kaydı gerekli",
+  "heightRecordRequired": "Boy kaydı gerekli",
+  "currentRecordMissing": "Mevcut kayıt eksik",
+  "noRecord": "Kayıt yok",
+  "firstRecordStart": "İlk kaydı başlat",
+  "oneRecord": "1 kayıt",
+  "moreRecordsNeeded": "Daha fazla kayıt gerekli",
+  "sameDayRecord": "Aynı gün kaydı",
+  "recordedTimes": "{count} kez kaydedildi",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -1281,7 +1281,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get lastUpdated => 'Last updated:';
 
   @override
-  String get periodSelection => 'Period Selection';
+  String get periodSelection => 'Pemilihan periode:';
 
   @override
   String get daily => 'Daily';
@@ -1945,7 +1945,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get good => 'Baik';
 
   @override
-  String get average => 'Sedang';
+  String get average => 'Rata-rata';
 
   @override
   String get poor => 'Buruk';
@@ -2609,4 +2609,144 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get temperatureRecordMemo => 'Memo Catatan Suhu';
+
+  @override
+  String babyGrowthChart(String name) {
+    return 'Grafik Pertumbuhan $name';
+  }
+
+  @override
+  String get noGrowthRecords => 'Tidak ada catatan pertumbuhan';
+
+  @override
+  String get enterWeightAndHeightFromHome =>
+      'Silakan masukkan berat dan tinggi badan dari layar beranda';
+
+  @override
+  String get all => 'Semua';
+
+  @override
+  String get growthInsights => 'Wawasan Pertumbuhan';
+
+  @override
+  String get growthRate => 'Tingkat Pertumbuhan';
+
+  @override
+  String get monthlyAverageGrowth => 'Pertumbuhan Rata-rata Bulanan';
+
+  @override
+  String get dataInsufficient => 'Data Tidak Mencukupi';
+
+  @override
+  String get twoOrMoreRequired => '2 atau lebih diperlukan';
+
+  @override
+  String recentDaysBasis(int days) {
+    return 'Berdasarkan $days hari terakhir';
+  }
+
+  @override
+  String get entireBasis => 'Berdasarkan seluruh periode';
+
+  @override
+  String get oneMonthPrediction => 'Prediksi 1 Bulan';
+
+  @override
+  String get currentTrendBasis => 'Berdasarkan tren saat ini';
+
+  @override
+  String get predictionNotPossible => 'Prediksi tidak dapat dilakukan';
+
+  @override
+  String get trendInsufficient => 'Tren tidak mencukupi';
+
+  @override
+  String get recordFrequency => 'Frekuensi Catatan';
+
+  @override
+  String get veryConsistent => 'Sangat Konsisten';
+
+  @override
+  String get consistent => 'Konsisten';
+
+  @override
+  String get irregular => 'Tidak teratur';
+
+  @override
+  String averageDaysInterval(String days) {
+    return 'Rata-rata interval $days hari';
+  }
+
+  @override
+  String get nextRecord => 'Catatan Berikutnya';
+
+  @override
+  String get now => 'Sekarang';
+
+  @override
+  String get soon => 'Segera';
+
+  @override
+  String daysLater(int days) {
+    return '$days hari kemudian';
+  }
+
+  @override
+  String daysAgoRecorded(int days) {
+    return 'Dicatat $days hari yang lalu';
+  }
+
+  @override
+  String get weeklyRecordRecommended => 'Pencatatan mingguan direkomendasikan';
+
+  @override
+  String get nextMilestone => 'Pencapaian Berikutnya';
+
+  @override
+  String targetValue(String value, String unit) {
+    return 'Target $value$unit';
+  }
+
+  @override
+  String remainingProgress(String remaining, String unit, String progress) {
+    return 'Tersisa $remaining$unit ($progress% tercapai)';
+  }
+
+  @override
+  String get calculationNotPossible => 'Perhitungan tidak dapat dilakukan';
+
+  @override
+  String get periodInsufficient => 'Periode tidak mencukupi';
+
+  @override
+  String get noDataAvailable => 'Tidak ada data yang tersedia';
+
+  @override
+  String get weightRecordRequired => 'Catatan berat diperlukan';
+
+  @override
+  String get heightRecordRequired => 'Catatan tinggi diperlukan';
+
+  @override
+  String get currentRecordMissing => 'Catatan saat ini hilang';
+
+  @override
+  String get noRecord => 'Tidak ada catatan';
+
+  @override
+  String get firstRecordStart => 'Mulai catatan pertama';
+
+  @override
+  String get oneRecord => '1 catatan';
+
+  @override
+  String get moreRecordsNeeded => 'Memerlukan lebih banyak catatan';
+
+  @override
+  String get sameDayRecord => 'Catatan hari yang sama';
+
+  @override
+  String recordedTimes(int count) {
+    return 'Tercatat $count kali';
+  }
 }

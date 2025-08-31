@@ -1261,7 +1261,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lastUpdated => '最終更新:';
 
   @override
-  String get periodSelection => '期間選択';
+  String get periodSelection => '期間選択:';
 
   @override
   String get daily => '日間';
@@ -1908,7 +1908,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get good => '良い';
 
   @override
-  String get average => '普通';
+  String get average => '平均的';
 
   @override
   String get poor => '悪い';
@@ -2568,4 +2568,143 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get temperatureRecordMemo => '体温記録メモ';
+
+  @override
+  String babyGrowthChart(String name) {
+    return '$nameの成長チャート';
+  }
+
+  @override
+  String get noGrowthRecords => '成長記録がありません';
+
+  @override
+  String get enterWeightAndHeightFromHome => 'ホーム画面から体重と身長を記録してください';
+
+  @override
+  String get all => '全て';
+
+  @override
+  String get growthInsights => '成長の洞察';
+
+  @override
+  String get growthRate => '成長率';
+
+  @override
+  String get monthlyAverageGrowth => '月間平均成長';
+
+  @override
+  String get dataInsufficient => 'データ不足';
+
+  @override
+  String get twoOrMoreRequired => '2つ以上必要';
+
+  @override
+  String recentDaysBasis(int days) {
+    return '直近$days日間に基づく';
+  }
+
+  @override
+  String get entireBasis => '全期間に基づく';
+
+  @override
+  String get oneMonthPrediction => '1ヶ月予測';
+
+  @override
+  String get currentTrendBasis => '現在のトレンドに基づく';
+
+  @override
+  String get predictionNotPossible => '予測不可能';
+
+  @override
+  String get trendInsufficient => 'トレンド不足';
+
+  @override
+  String get recordFrequency => '記録頻度';
+
+  @override
+  String get veryConsistent => 'とても一定';
+
+  @override
+  String get consistent => '一定';
+
+  @override
+  String get irregular => '不規則';
+
+  @override
+  String averageDaysInterval(String days) {
+    return '平均$days日間隔';
+  }
+
+  @override
+  String get nextRecord => '次回記録';
+
+  @override
+  String get now => '今';
+
+  @override
+  String get soon => 'まもなく';
+
+  @override
+  String daysLater(int days) {
+    return '$days日後';
+  }
+
+  @override
+  String daysAgoRecorded(int days) {
+    return '$days日前に記録';
+  }
+
+  @override
+  String get weeklyRecordRecommended => '週間記録を推奨';
+
+  @override
+  String get nextMilestone => '次のマイルストーン';
+
+  @override
+  String targetValue(String value, String unit) {
+    return '$value$unit目標';
+  }
+
+  @override
+  String remainingProgress(String remaining, String unit, String progress) {
+    return '残り$remaining$unit（$progress%達成）';
+  }
+
+  @override
+  String get calculationNotPossible => '計算不可能';
+
+  @override
+  String get periodInsufficient => '期間不足';
+
+  @override
+  String get noDataAvailable => 'データがありません';
+
+  @override
+  String get weightRecordRequired => '体重記録が必要';
+
+  @override
+  String get heightRecordRequired => '身長記録が必要';
+
+  @override
+  String get currentRecordMissing => '現在の記録がありません';
+
+  @override
+  String get noRecord => '記録なし';
+
+  @override
+  String get firstRecordStart => '最初の記録を開始';
+
+  @override
+  String get oneRecord => '1つの記録';
+
+  @override
+  String get moreRecordsNeeded => 'さらに記録が必要';
+
+  @override
+  String get sameDayRecord => '同日記録';
+
+  @override
+  String recordedTimes(int count) {
+    return '$count回記録';
+  }
 }

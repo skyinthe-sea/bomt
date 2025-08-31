@@ -1261,7 +1261,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lastUpdated => '마지막 업데이트:';
 
   @override
-  String get periodSelection => '기간 선택';
+  String get periodSelection => '기간 선택:';
 
   @override
   String get daily => '일간';
@@ -2569,4 +2569,143 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get temperatureRecordMemo => '체온 기록 메모';
+
+  @override
+  String babyGrowthChart(String name) {
+    return '$name의 성장곡선';
+  }
+
+  @override
+  String get noGrowthRecords => '성장 기록이 없습니다';
+
+  @override
+  String get enterWeightAndHeightFromHome => '홈 화면에서 체중과 키를 입력해보세요';
+
+  @override
+  String get all => '전체';
+
+  @override
+  String get growthInsights => '성장 인사이트';
+
+  @override
+  String get growthRate => '성장 속도';
+
+  @override
+  String get monthlyAverageGrowth => '월평균 성장';
+
+  @override
+  String get dataInsufficient => '데이터 부족';
+
+  @override
+  String get twoOrMoreRequired => '2개 이상 필요';
+
+  @override
+  String recentDaysBasis(int days) {
+    return '최근 $days일 기준';
+  }
+
+  @override
+  String get entireBasis => '전체 기준';
+
+  @override
+  String get oneMonthPrediction => '1개월 후 예상';
+
+  @override
+  String get currentTrendBasis => '현재 트렌드 기준';
+
+  @override
+  String get predictionNotPossible => '예측 불가';
+
+  @override
+  String get trendInsufficient => '트렌드 부족';
+
+  @override
+  String get recordFrequency => '기록 빈도';
+
+  @override
+  String get veryConsistent => '매우 꾸준함';
+
+  @override
+  String get consistent => '꾸준함';
+
+  @override
+  String get irregular => '불규칙';
+
+  @override
+  String averageDaysInterval(String days) {
+    return '평균 $days일 간격';
+  }
+
+  @override
+  String get nextRecord => '다음 기록';
+
+  @override
+  String get now => '지금';
+
+  @override
+  String get soon => '곧';
+
+  @override
+  String daysLater(int days) {
+    return '$days일 후';
+  }
+
+  @override
+  String daysAgoRecorded(int days) {
+    return '$days일 전 기록됨';
+  }
+
+  @override
+  String get weeklyRecordRecommended => '주간 기록 권장';
+
+  @override
+  String get nextMilestone => '다음 마일스톤';
+
+  @override
+  String targetValue(String value, String unit) {
+    return '$value$unit 목표';
+  }
+
+  @override
+  String remainingProgress(String remaining, String unit, String progress) {
+    return '$remaining$unit 남음 ($progress% 달성)';
+  }
+
+  @override
+  String get calculationNotPossible => '계산 불가';
+
+  @override
+  String get periodInsufficient => '기간 부족';
+
+  @override
+  String get noDataAvailable => '데이터 없음';
+
+  @override
+  String get weightRecordRequired => '체중 기록 필요';
+
+  @override
+  String get heightRecordRequired => '키 기록 필요';
+
+  @override
+  String get currentRecordMissing => '현재 기록 없음';
+
+  @override
+  String get noRecord => '기록 없음';
+
+  @override
+  String get firstRecordStart => '첫 기록을 시작하세요';
+
+  @override
+  String get oneRecord => '1회';
+
+  @override
+  String get moreRecordsNeeded => '더 많은 기록 필요';
+
+  @override
+  String get sameDayRecord => '당일 기록';
+
+  @override
+  String recordedTimes(int count) {
+    return '$count회 기록';
+  }
 }

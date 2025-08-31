@@ -1282,7 +1282,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lastUpdated => 'Last updated:';
 
   @override
-  String get periodSelection => 'Period Selection';
+  String get periodSelection => 'Zeitraumauswahl:';
 
   @override
   String get daily => 'Daily';
@@ -2626,4 +2626,144 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get temperatureRecordMemo => 'Temperaturprotokoll Notiz';
+
+  @override
+  String babyGrowthChart(String name) {
+    return '${name}s Wachstumsdiagramm';
+  }
+
+  @override
+  String get noGrowthRecords => 'Keine Wachstumsaufzeichnungen';
+
+  @override
+  String get enterWeightAndHeightFromHome =>
+      'Bitte geben Sie Gewicht und Größe über den Startbildschirm ein';
+
+  @override
+  String get all => 'Alle';
+
+  @override
+  String get growthInsights => 'Wachstumseinblicke';
+
+  @override
+  String get growthRate => 'Wachstumsrate';
+
+  @override
+  String get monthlyAverageGrowth => 'Monatliches Durchschnittswachstum';
+
+  @override
+  String get dataInsufficient => 'Daten unzureichend';
+
+  @override
+  String get twoOrMoreRequired => '2 oder mehr erforderlich';
+
+  @override
+  String recentDaysBasis(int days) {
+    return 'Basierend auf den letzten $days Tagen';
+  }
+
+  @override
+  String get entireBasis => 'Basierend auf gesamten Zeitraum';
+
+  @override
+  String get oneMonthPrediction => '1-Monats-Vorhersage';
+
+  @override
+  String get currentTrendBasis => 'Basierend auf aktuellem Trend';
+
+  @override
+  String get predictionNotPossible => 'Vorhersage nicht möglich';
+
+  @override
+  String get trendInsufficient => 'Trend unzureichend';
+
+  @override
+  String get recordFrequency => 'Aufzeichnungshäufigkeit';
+
+  @override
+  String get veryConsistent => 'Sehr konstant';
+
+  @override
+  String get consistent => 'Konstant';
+
+  @override
+  String get irregular => 'Unregelmäßig';
+
+  @override
+  String averageDaysInterval(String days) {
+    return 'Durchschnittlich $days Tage Intervall';
+  }
+
+  @override
+  String get nextRecord => 'Nächste Aufzeichnung';
+
+  @override
+  String get now => 'Jetzt';
+
+  @override
+  String get soon => 'Bald';
+
+  @override
+  String daysLater(int days) {
+    return '$days Tage später';
+  }
+
+  @override
+  String daysAgoRecorded(int days) {
+    return 'Vor $days Tagen aufgezeichnet';
+  }
+
+  @override
+  String get weeklyRecordRecommended => 'Wöchentliche Aufzeichnung empfohlen';
+
+  @override
+  String get nextMilestone => 'Nächster Meilenstein';
+
+  @override
+  String targetValue(String value, String unit) {
+    return '$value$unit Ziel';
+  }
+
+  @override
+  String remainingProgress(String remaining, String unit, String progress) {
+    return '$remaining$unit verbleibend ($progress% erreicht)';
+  }
+
+  @override
+  String get calculationNotPossible => 'Berechnung nicht möglich';
+
+  @override
+  String get periodInsufficient => 'Zeitraum unzureichend';
+
+  @override
+  String get noDataAvailable => 'Keine Daten verfügbar';
+
+  @override
+  String get weightRecordRequired => 'Gewichtsaufzeichnung erforderlich';
+
+  @override
+  String get heightRecordRequired => 'Größenaufzeichnung erforderlich';
+
+  @override
+  String get currentRecordMissing => 'Aktuelle Aufzeichnung fehlt';
+
+  @override
+  String get noRecord => 'Keine Aufzeichnung';
+
+  @override
+  String get firstRecordStart => 'Erste Aufzeichnung starten';
+
+  @override
+  String get oneRecord => '1 Aufzeichnung';
+
+  @override
+  String get moreRecordsNeeded => 'Weitere Aufzeichnungen erforderlich';
+
+  @override
+  String get sameDayRecord => 'Aufzeichnung am selben Tag';
+
+  @override
+  String recordedTimes(int count) {
+    return '$count mal aufgezeichnet';
+  }
 }

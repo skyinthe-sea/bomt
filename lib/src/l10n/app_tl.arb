@@ -693,5 +693,115 @@
   },
   "temperatureRecordMemo": "Tala ng Memo sa Temperatura",
   "fever": "Lagnat",
-  "highFever": "Mataas na Lagnat"
+  "highFever": "Mataas na Lagnat",
+  "babyGrowthChart": "Growth Chart ni {name}",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "Walang growth records",
+  "enterWeightAndHeightFromHome": "Mangyaring ilagay ang timbang at taas mula sa home screen",
+  "weight": "Timbang",
+  "height": "Taas",
+  "periodSelection": "Pagpili ng panahon:",
+  "all": "Lahat",
+  "growthInsights": "Growth Insights",
+  "growthRate": "Growth Rate",
+  "monthlyAverageGrowth": "Buwanang Average na Paglaki",
+  "dataInsufficient": "Hindi Sapat ang Data",
+  "twoOrMoreRequired": "Kailangan ng 2 o higit pa",
+  "recentDaysBasis": "Batay sa nakaraang {days} araw",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "Batay sa buong panahon",
+  "oneMonthPrediction": "1 Buwan na Prediction",
+  "currentTrendBasis": "Batay sa kasalukuyang trend",
+  "predictionNotPossible": "Hindi makakagawa ng prediction",
+  "trendInsufficient": "Hindi sapat ang trend",
+  "recordFrequency": "Frequency ng Record",
+  "veryConsistent": "Napaka-Consistent",
+  "consistent": "Consistent",
+  "average": "Average",
+  "irregular": "Hindi Regular",
+  "averageDaysInterval": "Average {days} araw na agwat",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "Susunod na Record",
+  "now": "Ngayon",
+  "soon": "Malapit na",
+  "daysLater": "{days} araw pagkatapos",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "Na-record {days} araw na ang nakalipas",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "Inirerekomenda ang lingguhang record",
+  "nextMilestone": "Susunod na Milestone",
+  "targetValue": "{value}{unit} target",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "{remaining}{unit} na natitira ({progress}% na-achieve)",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "Hindi makakagawa ng calculation",
+  "periodInsufficient": "Hindi sapat ang panahon",
+  "noDataAvailable": "Walang available na data",
+  "weightRecordRequired": "Kailangan ng weight record",
+  "heightRecordRequired": "Kailangan ng height record",
+  "currentRecordMissing": "Nawawala ang kasalukuyang record",
+  "noRecord": "Walang record",
+  "firstRecordStart": "Simulan ang unang record",
+  "oneRecord": "1 record",
+  "moreRecordsNeeded": "Kailangan ng mas maraming records",
+  "sameDayRecord": "Record sa parehong araw",
+  "recordedTimes": "Na-record ng {count} beses",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

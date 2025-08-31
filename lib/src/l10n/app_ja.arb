@@ -940,5 +940,115 @@
   },
   "temperatureRecordMemo": "体温記録メモ",
   "fever": "発熱",
-  "highFever": "高熱"
+  "highFever": "高熱",
+  "babyGrowthChart": "{name}の成長チャート",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "成長記録がありません",
+  "enterWeightAndHeightFromHome": "ホーム画面から体重と身長を記録してください",
+  "weight": "体重",
+  "height": "身長",
+  "periodSelection": "期間選択:",
+  "all": "全て",
+  "growthInsights": "成長の洞察",
+  "growthRate": "成長率",
+  "monthlyAverageGrowth": "月間平均成長",
+  "dataInsufficient": "データ不足",
+  "twoOrMoreRequired": "2つ以上必要",
+  "recentDaysBasis": "直近{days}日間に基づく",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "全期間に基づく",
+  "oneMonthPrediction": "1ヶ月予測",
+  "currentTrendBasis": "現在のトレンドに基づく",
+  "predictionNotPossible": "予測不可能",
+  "trendInsufficient": "トレンド不足",
+  "recordFrequency": "記録頻度",
+  "veryConsistent": "とても一定",
+  "consistent": "一定",
+  "average": "平均的",
+  "irregular": "不規則",
+  "averageDaysInterval": "平均{days}日間隔",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "次回記録",
+  "now": "今",
+  "soon": "まもなく",
+  "daysLater": "{days}日後",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "{days}日前に記録",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "週間記録を推奨",
+  "nextMilestone": "次のマイルストーン",
+  "targetValue": "{value}{unit}目標",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "残り{remaining}{unit}（{progress}%達成）",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "計算不可能",
+  "periodInsufficient": "期間不足",
+  "noDataAvailable": "データがありません",
+  "weightRecordRequired": "体重記録が必要",
+  "heightRecordRequired": "身長記録が必要",
+  "currentRecordMissing": "現在の記録がありません",
+  "noRecord": "記録なし",
+  "firstRecordStart": "最初の記録を開始",
+  "oneRecord": "1つの記録",
+  "moreRecordsNeeded": "さらに記録が必要",
+  "sameDayRecord": "同日記録",
+  "recordedTimes": "{count}回記録",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

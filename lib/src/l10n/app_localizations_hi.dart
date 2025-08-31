@@ -410,7 +410,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get weight => 'वजन';
 
   @override
-  String get height => 'लंबाई';
+  String get height => 'कद';
 
   @override
   String get growthRecord => 'Growth Record';
@@ -1281,7 +1281,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lastUpdated => 'अंतिम अपडेट:';
 
   @override
-  String get periodSelection => 'अवधि चयन';
+  String get periodSelection => 'अवधि चयन:';
 
   @override
   String get daily => 'दैनिक';
@@ -1946,7 +1946,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get good => 'अच्छा';
 
   @override
-  String get average => 'औसत';
+  String get average => 'ौसत';
 
   @override
   String get poor => 'खराब';
@@ -2608,4 +2608,144 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get temperatureRecordMemo => 'तापमान रिकॉर्ड मेमो';
+
+  @override
+  String babyGrowthChart(String name) {
+    return '$name का विकास चार्ट';
+  }
+
+  @override
+  String get noGrowthRecords => 'कोई विकास रिकॉर्ड नहीं';
+
+  @override
+  String get enterWeightAndHeightFromHome =>
+      'कृपया होम स्क्रीन से वजन और आर्म दर्ज करें';
+
+  @override
+  String get all => 'सभी';
+
+  @override
+  String get growthInsights => 'विकास की जानकारी';
+
+  @override
+  String get growthRate => 'विकास दर';
+
+  @override
+  String get monthlyAverageGrowth => 'मासिक औसत विकास';
+
+  @override
+  String get dataInsufficient => 'डेटा अपर्याप्त';
+
+  @override
+  String get twoOrMoreRequired => '2 या अधिक आवश्यक';
+
+  @override
+  String recentDaysBasis(int days) {
+    return 'पिछले $days दिनों के आधार पर';
+  }
+
+  @override
+  String get entireBasis => 'पूरी अवधि के आधार पर';
+
+  @override
+  String get oneMonthPrediction => '1 महीने की भविष्यवाणी';
+
+  @override
+  String get currentTrendBasis => 'मौजूदा ट्रेंड के आधार पर';
+
+  @override
+  String get predictionNotPossible => 'भविष्यवाणी संभव नहीं';
+
+  @override
+  String get trendInsufficient => 'ट्रेंड अपर्याप्त';
+
+  @override
+  String get recordFrequency => 'रिकॉर्ड आवृत्ति';
+
+  @override
+  String get veryConsistent => 'बहुत निरंतर';
+
+  @override
+  String get consistent => 'निरंतर';
+
+  @override
+  String get irregular => 'अनियमित';
+
+  @override
+  String averageDaysInterval(String days) {
+    return 'ौसत $days दिन का अंतराल';
+  }
+
+  @override
+  String get nextRecord => 'अगला रिकॉर्ड';
+
+  @override
+  String get now => 'अभी';
+
+  @override
+  String get soon => 'जल्द ही';
+
+  @override
+  String daysLater(int days) {
+    return '$days दिन बाद';
+  }
+
+  @override
+  String daysAgoRecorded(int days) {
+    return '$days दिन पहले रिकॉर्ड किया गया';
+  }
+
+  @override
+  String get weeklyRecordRecommended => 'साप्ताहिक रिकॉर्ड की सिफारिश';
+
+  @override
+  String get nextMilestone => 'अगला मील का पत्थर';
+
+  @override
+  String targetValue(String value, String unit) {
+    return '$value$unit लक्ष्य';
+  }
+
+  @override
+  String remainingProgress(String remaining, String unit, String progress) {
+    return '$remaining$unit बाकी ($progress% हासिल)';
+  }
+
+  @override
+  String get calculationNotPossible => 'गणना संभव नहीं';
+
+  @override
+  String get periodInsufficient => 'अवधि अपर्याप्त';
+
+  @override
+  String get noDataAvailable => 'कोई डेटा उपलब्ध नहीं';
+
+  @override
+  String get weightRecordRequired => 'वजन रिकॉर्ड आवश्यक';
+
+  @override
+  String get heightRecordRequired => 'कद का रिकॉर्ड आवश्यक';
+
+  @override
+  String get currentRecordMissing => 'मौजूदा रिकॉर्ड गुम';
+
+  @override
+  String get noRecord => 'कोई रिकॉर्ड नहीं';
+
+  @override
+  String get firstRecordStart => 'पहला रिकॉर्ड शुरू करें';
+
+  @override
+  String get oneRecord => '1 रिकॉर्ड';
+
+  @override
+  String get moreRecordsNeeded => 'और रिकॉर्ड चाहिए';
+
+  @override
+  String get sameDayRecord => 'उसी दिन का रिकॉर्ड';
+
+  @override
+  String recordedTimes(int count) {
+    return '$count बार रिकॉर्ड किया गया';
+  }
 }

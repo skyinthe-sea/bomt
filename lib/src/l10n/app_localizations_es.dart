@@ -1281,7 +1281,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get lastUpdated => 'Last updated:';
 
   @override
-  String get periodSelection => 'Period Selection';
+  String get periodSelection => 'Selección de período:';
 
   @override
   String get daily => 'Daily';
@@ -2620,4 +2620,144 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get temperatureRecordMemo => 'Nota del Registro de Temperatura';
+
+  @override
+  String babyGrowthChart(String name) {
+    return 'Gráfico de Crecimiento de $name';
+  }
+
+  @override
+  String get noGrowthRecords => 'No hay registros de crecimiento';
+
+  @override
+  String get enterWeightAndHeightFromHome =>
+      'Por favor ingrese peso y altura desde la pantalla principal';
+
+  @override
+  String get all => 'Todo';
+
+  @override
+  String get growthInsights => 'Perspectivas del Crecimiento';
+
+  @override
+  String get growthRate => 'Tasa de Crecimiento';
+
+  @override
+  String get monthlyAverageGrowth => 'Crecimiento Promedio Mensual';
+
+  @override
+  String get dataInsufficient => 'Datos Insuficientes';
+
+  @override
+  String get twoOrMoreRequired => 'Se requieren 2 o más';
+
+  @override
+  String recentDaysBasis(int days) {
+    return 'Basado en los últimos $days días';
+  }
+
+  @override
+  String get entireBasis => 'Basado en período completo';
+
+  @override
+  String get oneMonthPrediction => 'Predicción de 1 Mes';
+
+  @override
+  String get currentTrendBasis => 'Basado en tendencia actual';
+
+  @override
+  String get predictionNotPossible => 'Predicción no posible';
+
+  @override
+  String get trendInsufficient => 'Tendencia insuficiente';
+
+  @override
+  String get recordFrequency => 'Frecuencia de Registro';
+
+  @override
+  String get veryConsistent => 'Muy Consistente';
+
+  @override
+  String get consistent => 'Consistente';
+
+  @override
+  String get irregular => 'Irregular';
+
+  @override
+  String averageDaysInterval(String days) {
+    return 'Promedio $days días de intervalo';
+  }
+
+  @override
+  String get nextRecord => 'Próximo Registro';
+
+  @override
+  String get now => 'Ahora';
+
+  @override
+  String get soon => 'Pronto';
+
+  @override
+  String daysLater(int days) {
+    return '$days días después';
+  }
+
+  @override
+  String daysAgoRecorded(int days) {
+    return 'Registrado hace $days días';
+  }
+
+  @override
+  String get weeklyRecordRecommended => 'Registro semanal recomendado';
+
+  @override
+  String get nextMilestone => 'Próximo Hito';
+
+  @override
+  String targetValue(String value, String unit) {
+    return 'Meta de $value$unit';
+  }
+
+  @override
+  String remainingProgress(String remaining, String unit, String progress) {
+    return '$remaining$unit restante ($progress% logrado)';
+  }
+
+  @override
+  String get calculationNotPossible => 'Cálculo no posible';
+
+  @override
+  String get periodInsufficient => 'Período insuficiente';
+
+  @override
+  String get noDataAvailable => 'No hay datos disponibles';
+
+  @override
+  String get weightRecordRequired => 'Registro de peso requerido';
+
+  @override
+  String get heightRecordRequired => 'Registro de altura requerido';
+
+  @override
+  String get currentRecordMissing => 'Registro actual faltante';
+
+  @override
+  String get noRecord => 'Sin registro';
+
+  @override
+  String get firstRecordStart => 'Comenzar primer registro';
+
+  @override
+  String get oneRecord => '1 registro';
+
+  @override
+  String get moreRecordsNeeded => 'Se necesitan más registros';
+
+  @override
+  String get sameDayRecord => 'Registro del mismo día';
+
+  @override
+  String recordedTimes(int count) {
+    return '$count veces registrado';
+  }
 }

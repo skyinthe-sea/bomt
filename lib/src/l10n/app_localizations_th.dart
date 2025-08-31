@@ -1281,7 +1281,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get lastUpdated => 'Last updated:';
 
   @override
-  String get periodSelection => 'Period Selection';
+  String get periodSelection => 'การเลือกช่วงเวลา:';
 
   @override
   String get daily => 'Daily';
@@ -1943,7 +1943,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get good => 'ดี';
 
   @override
-  String get average => 'ปานกลาง';
+  String get average => 'เฉลี่ย';
 
   @override
   String get poor => 'แย่';
@@ -2606,4 +2606,144 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get temperatureRecordMemo => 'บันทึกหมายเหตุอุณหภูมิ';
+
+  @override
+  String babyGrowthChart(String name) {
+    return 'แผนภูมิการเจริญเติบโตของ $name';
+  }
+
+  @override
+  String get noGrowthRecords => 'ไม่มีบันทึกการเจริญเติบโต';
+
+  @override
+  String get enterWeightAndHeightFromHome =>
+      'กรุณาบันทึกน้ำหนักและส่วนสูงจากหน้าจอหลัก';
+
+  @override
+  String get all => 'ทั้งหมด';
+
+  @override
+  String get growthInsights => 'ข้อมูลเชิงลึกการเจริญเติบโต';
+
+  @override
+  String get growthRate => 'อัตราการเจริญเติบโต';
+
+  @override
+  String get monthlyAverageGrowth => 'การเจริญเติบโตเฉลี่ยต่อเดือน';
+
+  @override
+  String get dataInsufficient => 'ข้อมูลไม่เพียงพอ';
+
+  @override
+  String get twoOrMoreRequired => 'ต้องการ 2 รายการขึ้นไป';
+
+  @override
+  String recentDaysBasis(int days) {
+    return 'อิงจาก $days วันที่ผ่านมา';
+  }
+
+  @override
+  String get entireBasis => 'อิงจากช่วงเวลาทั้งหมด';
+
+  @override
+  String get oneMonthPrediction => 'คาดการณ์ 1 เดือน';
+
+  @override
+  String get currentTrendBasis => 'อิงจากแนวโน้มปัจจุบัน';
+
+  @override
+  String get predictionNotPossible => 'ไม่สามารถคาดการณ์ได้';
+
+  @override
+  String get trendInsufficient => 'แนวโน้มไม่เพียงพอ';
+
+  @override
+  String get recordFrequency => 'ความถี่ในการบันทึก';
+
+  @override
+  String get veryConsistent => 'สม่ำเสมอมาก';
+
+  @override
+  String get consistent => 'สม่ำเสมอ';
+
+  @override
+  String get irregular => 'ไม่สม่ำเสมอ';
+
+  @override
+  String averageDaysInterval(String days) {
+    return 'ช่วงห่างเฉลี่ย $days วัน';
+  }
+
+  @override
+  String get nextRecord => 'การบันทึกครั้งต่อไป';
+
+  @override
+  String get now => 'ตอนนี้';
+
+  @override
+  String get soon => 'เร็วๆ นี้';
+
+  @override
+  String daysLater(int days) {
+    return '$days วันต่อมา';
+  }
+
+  @override
+  String daysAgoRecorded(int days) {
+    return 'บันทึกเมื่อ $days วันที่แล้ว';
+  }
+
+  @override
+  String get weeklyRecordRecommended => 'แนะนำให้บันทึกรายสัปดาห์';
+
+  @override
+  String get nextMilestone => 'เป้าหมายหลักถัดไป';
+
+  @override
+  String targetValue(String value, String unit) {
+    return 'เป้าหมาย $value$unit';
+  }
+
+  @override
+  String remainingProgress(String remaining, String unit, String progress) {
+    return 'เหลือ $remaining$unit ($progress% บรรลุ)';
+  }
+
+  @override
+  String get calculationNotPossible => 'ไม่สามารถคำนวณได้';
+
+  @override
+  String get periodInsufficient => 'ช่วงเวลาไม่เพียงพอ';
+
+  @override
+  String get noDataAvailable => 'ไม่มีข้อมูล';
+
+  @override
+  String get weightRecordRequired => 'ต้องการบันทึกน้ำหนัก';
+
+  @override
+  String get heightRecordRequired => 'ต้องการบันทึกส่วนสูง';
+
+  @override
+  String get currentRecordMissing => 'ไม่มีบันทึกปัจจุบัน';
+
+  @override
+  String get noRecord => 'ไม่มีบันทึก';
+
+  @override
+  String get firstRecordStart => 'เริ่มบันทึกครั้งแรก';
+
+  @override
+  String get oneRecord => '1 บันทึก';
+
+  @override
+  String get moreRecordsNeeded => 'ต้องการบันทึกเพิ่มเติม';
+
+  @override
+  String get sameDayRecord => 'บันทึกวันเดียวกัน';
+
+  @override
+  String recordedTimes(int count) {
+    return 'บันทึกแล้ว $count ครั้ง';
+  }
 }

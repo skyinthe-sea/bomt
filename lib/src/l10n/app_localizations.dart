@@ -2397,7 +2397,7 @@ abstract class AppLocalizations {
   /// No description provided for @periodSelection.
   ///
   /// In en, this message translates to:
-  /// **'Period Selection'**
+  /// **'Period selection:'**
   String get periodSelection;
 
   /// No description provided for @daily.
@@ -4805,6 +4805,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Temperature Record Memo'**
   String get temperatureRecordMemo;
+
+  /// No description provided for @babyGrowthChart.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s Growth Chart'**
+  String babyGrowthChart(String name);
+
+  /// No description provided for @noGrowthRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'No growth records'**
+  String get noGrowthRecords;
+
+  /// No description provided for @enterWeightAndHeightFromHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter weight and height from home screen'**
+  String get enterWeightAndHeightFromHome;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @growthInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Growth Insights'**
+  String get growthInsights;
+
+  /// No description provided for @growthRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Growth Rate'**
+  String get growthRate;
+
+  /// No description provided for @monthlyAverageGrowth.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Average Growth'**
+  String get monthlyAverageGrowth;
+
+  /// No description provided for @dataInsufficient.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Insufficient'**
+  String get dataInsufficient;
+
+  /// No description provided for @twoOrMoreRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'2 or more required'**
+  String get twoOrMoreRequired;
+
+  /// No description provided for @recentDaysBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on recent {days} days'**
+  String recentDaysBasis(int days);
+
+  /// No description provided for @entireBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on entire period'**
+  String get entireBasis;
+
+  /// No description provided for @oneMonthPrediction.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Month Prediction'**
+  String get oneMonthPrediction;
+
+  /// No description provided for @currentTrendBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on current trend'**
+  String get currentTrendBasis;
+
+  /// No description provided for @predictionNotPossible.
+  ///
+  /// In en, this message translates to:
+  /// **'Prediction not possible'**
+  String get predictionNotPossible;
+
+  /// No description provided for @trendInsufficient.
+  ///
+  /// In en, this message translates to:
+  /// **'Trend insufficient'**
+  String get trendInsufficient;
+
+  /// No description provided for @recordFrequency.
+  ///
+  /// In en, this message translates to:
+  /// **'Record Frequency'**
+  String get recordFrequency;
+
+  /// No description provided for @veryConsistent.
+  ///
+  /// In en, this message translates to:
+  /// **'Very Consistent'**
+  String get veryConsistent;
+
+  /// No description provided for @consistent.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistent'**
+  String get consistent;
+
+  /// No description provided for @irregular.
+  ///
+  /// In en, this message translates to:
+  /// **'Irregular'**
+  String get irregular;
+
+  /// No description provided for @averageDaysInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'Average {days} days interval'**
+  String averageDaysInterval(String days);
+
+  /// No description provided for @nextRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Record'**
+  String get nextRecord;
+
+  /// No description provided for @now.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get now;
+
+  /// No description provided for @soon.
+  ///
+  /// In en, this message translates to:
+  /// **'Soon'**
+  String get soon;
+
+  /// No description provided for @daysLater.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days later'**
+  String daysLater(int days);
+
+  /// No description provided for @daysAgoRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded {days} days ago'**
+  String daysAgoRecorded(int days);
+
+  /// No description provided for @weeklyRecordRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly record recommended'**
+  String get weeklyRecordRecommended;
+
+  /// No description provided for @nextMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Milestone'**
+  String get nextMilestone;
+
+  /// No description provided for @targetValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}{unit} target'**
+  String targetValue(String value, String unit);
+
+  /// No description provided for @remainingProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{remaining}{unit} remaining ({progress}% achieved)'**
+  String remainingProgress(String remaining, String unit, String progress);
+
+  /// No description provided for @calculationNotPossible.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculation not possible'**
+  String get calculationNotPossible;
+
+  /// No description provided for @periodInsufficient.
+  ///
+  /// In en, this message translates to:
+  /// **'Period insufficient'**
+  String get periodInsufficient;
+
+  /// No description provided for @noDataAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No data available'**
+  String get noDataAvailable;
+
+  /// No description provided for @weightRecordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight record required'**
+  String get weightRecordRequired;
+
+  /// No description provided for @heightRecordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Height record required'**
+  String get heightRecordRequired;
+
+  /// No description provided for @currentRecordMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Current record missing'**
+  String get currentRecordMissing;
+
+  /// No description provided for @noRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'No record'**
+  String get noRecord;
+
+  /// No description provided for @firstRecordStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start your first record'**
+  String get firstRecordStart;
+
+  /// No description provided for @oneRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'1 record'**
+  String get oneRecord;
+
+  /// No description provided for @moreRecordsNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'More records needed'**
+  String get moreRecordsNeeded;
+
+  /// No description provided for @sameDayRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Same day record'**
+  String get sameDayRecord;
+
+  /// No description provided for @recordedTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} times recorded'**
+  String recordedTimes(int count);
 }
 
 class _AppLocalizationsDelegate

@@ -1038,5 +1038,115 @@
   },
   "temperatureRecordMemo": "บันทึกหมายเหตุอุณหภูมิ",
   "fever": "มีไข้",
-  "highFever": "ไข้สูง"
+  "highFever": "ไข้สูง",
+  "babyGrowthChart": "แผนภูมิการเจริญเติบโตของ {name}",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "ไม่มีบันทึกการเจริญเติบโต",
+  "enterWeightAndHeightFromHome": "กรุณาบันทึกน้ำหนักและส่วนสูงจากหน้าจอหลัก",
+  "weight": "น้ำหนัก",
+  "height": "ส่วนสูง",
+  "periodSelection": "การเลือกช่วงเวลา:",
+  "all": "ทั้งหมด",
+  "growthInsights": "ข้อมูลเชิงลึกการเจริญเติบโต",
+  "growthRate": "อัตราการเจริญเติบโต",
+  "monthlyAverageGrowth": "การเจริญเติบโตเฉลี่ยต่อเดือน",
+  "dataInsufficient": "ข้อมูลไม่เพียงพอ",
+  "twoOrMoreRequired": "ต้องการ 2 รายการขึ้นไป",
+  "recentDaysBasis": "อิงจาก {days} วันที่ผ่านมา",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "อิงจากช่วงเวลาทั้งหมด",
+  "oneMonthPrediction": "คาดการณ์ 1 เดือน",
+  "currentTrendBasis": "อิงจากแนวโน้มปัจจุบัน",
+  "predictionNotPossible": "ไม่สามารถคาดการณ์ได้",
+  "trendInsufficient": "แนวโน้มไม่เพียงพอ",
+  "recordFrequency": "ความถี่ในการบันทึก",
+  "veryConsistent": "สม่ำเสมอมาก",
+  "consistent": "สม่ำเสมอ",
+  "average": "เฉลี่ย",
+  "irregular": "ไม่สม่ำเสมอ",
+  "averageDaysInterval": "ช่วงห่างเฉลี่ย {days} วัน",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "การบันทึกครั้งต่อไป",
+  "now": "ตอนนี้",
+  "soon": "เร็วๆ นี้",
+  "daysLater": "{days} วันต่อมา",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "บันทึกเมื่อ {days} วันที่แล้ว",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "แนะนำให้บันทึกรายสัปดาห์",
+  "nextMilestone": "เป้าหมายหลักถัดไป",
+  "targetValue": "เป้าหมาย {value}{unit}",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "เหลือ {remaining}{unit} ({progress}% บรรลุ)",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "ไม่สามารถคำนวณได้",
+  "periodInsufficient": "ช่วงเวลาไม่เพียงพอ",
+  "noDataAvailable": "ไม่มีข้อมูล",
+  "weightRecordRequired": "ต้องการบันทึกน้ำหนัก",
+  "heightRecordRequired": "ต้องการบันทึกส่วนสูง",
+  "currentRecordMissing": "ไม่มีบันทึกปัจจุบัน",
+  "noRecord": "ไม่มีบันทึก",
+  "firstRecordStart": "เริ่มบันทึกครั้งแรก",
+  "oneRecord": "1 บันทึก",
+  "moreRecordsNeeded": "ต้องการบันทึกเพิ่มเติม",
+  "sameDayRecord": "บันทึกวันเดียวกัน",
+  "recordedTimes": "บันทึกแล้ว {count} ครั้ง",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

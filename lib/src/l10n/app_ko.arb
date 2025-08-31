@@ -1014,5 +1014,116 @@
   },
   "temperatureRecordMemo": "체온 기록 메모",
   "fever": "발열",
-  "highFever": "고열"
+  "highFever": "고열",
+  
+  "babyGrowthChart": "{name}의 성장곡선",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "성장 기록이 없습니다",
+  "enterWeightAndHeightFromHome": "홈 화면에서 체중과 키를 입력해보세요",
+  "weight": "체중",
+  "height": "키",
+  "periodSelection": "기간 선택:",
+  "all": "전체",
+  "growthInsights": "성장 인사이트",
+  "growthRate": "성장 속도",
+  "monthlyAverageGrowth": "월평균 성장",
+  "dataInsufficient": "데이터 부족",
+  "twoOrMoreRequired": "2개 이상 필요",
+  "recentDaysBasis": "최근 {days}일 기준",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "전체 기준",
+  "oneMonthPrediction": "1개월 후 예상",
+  "currentTrendBasis": "현재 트렌드 기준",
+  "predictionNotPossible": "예측 불가",
+  "trendInsufficient": "트렌드 부족",
+  "recordFrequency": "기록 빈도",
+  "veryConsistent": "매우 꾸준함",
+  "consistent": "꾸준함",
+  "average": "보통",
+  "irregular": "불규칙",
+  "averageDaysInterval": "평균 {days}일 간격",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "다음 기록",
+  "now": "지금",
+  "soon": "곧",
+  "daysLater": "{days}일 후",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "{days}일 전 기록됨",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "주간 기록 권장",
+  "nextMilestone": "다음 마일스톤",
+  "targetValue": "{value}{unit} 목표",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "{remaining}{unit} 남음 ({progress}% 달성)",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "계산 불가",
+  "periodInsufficient": "기간 부족",
+  "noDataAvailable": "데이터 없음",
+  "weightRecordRequired": "체중 기록 필요",
+  "heightRecordRequired": "키 기록 필요",
+  "currentRecordMissing": "현재 기록 없음",
+  "noRecord": "기록 없음",
+  "firstRecordStart": "첫 기록을 시작하세요",
+  "oneRecord": "1회",
+  "moreRecordsNeeded": "더 많은 기록 필요",
+  "sameDayRecord": "당일 기록",
+  "recordedTimes": "{count}회 기록",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

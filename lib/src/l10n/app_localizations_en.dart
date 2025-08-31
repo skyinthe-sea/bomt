@@ -1281,7 +1281,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lastUpdated => 'Last updated:';
 
   @override
-  String get periodSelection => 'Period Selection';
+  String get periodSelection => 'Period selection:';
 
   @override
   String get daily => 'Daily';
@@ -2609,4 +2609,144 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get temperatureRecordMemo => 'Temperature Record Memo';
+
+  @override
+  String babyGrowthChart(String name) {
+    return '$name\'s Growth Chart';
+  }
+
+  @override
+  String get noGrowthRecords => 'No growth records';
+
+  @override
+  String get enterWeightAndHeightFromHome =>
+      'Please enter weight and height from home screen';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get growthInsights => 'Growth Insights';
+
+  @override
+  String get growthRate => 'Growth Rate';
+
+  @override
+  String get monthlyAverageGrowth => 'Monthly Average Growth';
+
+  @override
+  String get dataInsufficient => 'Data Insufficient';
+
+  @override
+  String get twoOrMoreRequired => '2 or more required';
+
+  @override
+  String recentDaysBasis(int days) {
+    return 'Based on recent $days days';
+  }
+
+  @override
+  String get entireBasis => 'Based on entire period';
+
+  @override
+  String get oneMonthPrediction => '1 Month Prediction';
+
+  @override
+  String get currentTrendBasis => 'Based on current trend';
+
+  @override
+  String get predictionNotPossible => 'Prediction not possible';
+
+  @override
+  String get trendInsufficient => 'Trend insufficient';
+
+  @override
+  String get recordFrequency => 'Record Frequency';
+
+  @override
+  String get veryConsistent => 'Very Consistent';
+
+  @override
+  String get consistent => 'Consistent';
+
+  @override
+  String get irregular => 'Irregular';
+
+  @override
+  String averageDaysInterval(String days) {
+    return 'Average $days days interval';
+  }
+
+  @override
+  String get nextRecord => 'Next Record';
+
+  @override
+  String get now => 'Now';
+
+  @override
+  String get soon => 'Soon';
+
+  @override
+  String daysLater(int days) {
+    return '$days days later';
+  }
+
+  @override
+  String daysAgoRecorded(int days) {
+    return 'Recorded $days days ago';
+  }
+
+  @override
+  String get weeklyRecordRecommended => 'Weekly record recommended';
+
+  @override
+  String get nextMilestone => 'Next Milestone';
+
+  @override
+  String targetValue(String value, String unit) {
+    return '$value$unit target';
+  }
+
+  @override
+  String remainingProgress(String remaining, String unit, String progress) {
+    return '$remaining$unit remaining ($progress% achieved)';
+  }
+
+  @override
+  String get calculationNotPossible => 'Calculation not possible';
+
+  @override
+  String get periodInsufficient => 'Period insufficient';
+
+  @override
+  String get noDataAvailable => 'No data available';
+
+  @override
+  String get weightRecordRequired => 'Weight record required';
+
+  @override
+  String get heightRecordRequired => 'Height record required';
+
+  @override
+  String get currentRecordMissing => 'Current record missing';
+
+  @override
+  String get noRecord => 'No record';
+
+  @override
+  String get firstRecordStart => 'Start your first record';
+
+  @override
+  String get oneRecord => '1 record';
+
+  @override
+  String get moreRecordsNeeded => 'More records needed';
+
+  @override
+  String get sameDayRecord => 'Same day record';
+
+  @override
+  String recordedTimes(int count) {
+    return '$count times recorded';
+  }
 }

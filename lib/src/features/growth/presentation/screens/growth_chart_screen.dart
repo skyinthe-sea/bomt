@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/growth_record.dart';
 import '../../../../domain/models/baby.dart';
 import '../../../../services/growth/growth_service.dart';
@@ -104,7 +105,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          '${baby?.name ?? '아기'}의 성장곡선',
+          AppLocalizations.of(context)!.babyGrowthChart(baby?.name ?? '아기'),
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             color: colorScheme.onSurface,
@@ -123,6 +124,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
   Widget _buildEmptyState() {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     
     return Center(
       child: Column(
@@ -135,7 +137,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            '성장 기록이 없습니다',
+            l10n.noGrowthRecords,
             style: theme.textTheme.titleLarge?.copyWith(
               color: colorScheme.onSurface.withOpacity(0.7),
               fontWeight: FontWeight.w500,
@@ -143,7 +145,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            '홈 화면에서 체중과 키를 입력해보세요',
+            l10n.enterWeightAndHeightFromHome,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurface.withOpacity(0.5),
             ),
@@ -156,6 +158,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
   Widget _buildChartContent() {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     
     return Column(
       children: [
@@ -177,7 +180,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
             children: [
               Expanded(
                 child: _buildToggleButton(
-                  '체중',
+                  l10n.weight,
                   Icons.monitor_weight_outlined,
                   _showWeight,
                   () => setState(() => _showWeight = true),
@@ -187,7 +190,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
               ),
               Expanded(
                 child: _buildToggleButton(
-                  '키',
+                  l10n.height,
                   Icons.height,
                   !_showWeight,
                   () => setState(() => _showWeight = false),
@@ -212,7 +215,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  '기간 선택:',
+                  l10n.periodSelection,
                   style: TextStyle(
                     color: colorScheme.onSurface.withOpacity(0.7),
                     fontSize: 14,
@@ -227,7 +230,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
                       children: [
                         // 전체 보기 버튼
                         _buildMonthFilter(
-                          '전체',
+                          l10n.all,
                           _selectedMonth == null,
                           () => setState(() => _selectedMonth = null),
                         ),
@@ -403,14 +406,15 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
   Widget _buildGrowthRateCard() {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     final records = _filteredRecords;
     
     if (records.length < 2) {
       return _buildInfoCard(
         icon: Icons.trending_up,
-        title: '성장 속도',
-        value: '데이터 부족',
-        subtitle: '2개 이상 필요',
+        title: AppLocalizations.of(context)!.growthRate,
+        value: AppLocalizations.of(context)!.dataInsufficient,
+        subtitle: AppLocalizations.of(context)!.twoOrMoreRequired,
         color: colorScheme.outline,
       );
     }
@@ -429,9 +433,9 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
     if (targetRecords.length < 2) {
       return _buildInfoCard(
         icon: Icons.trending_up,
-        title: '성장 속도',
-        value: '데이터 부족',
-        subtitle: '2개 이상 필요',
+        title: AppLocalizations.of(context)!.growthRate,
+        value: AppLocalizations.of(context)!.dataInsufficient,
+        subtitle: AppLocalizations.of(context)!.twoOrMoreRequired,
         color: colorScheme.outline,
       );
     }
@@ -443,9 +447,9 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
     if (daysDiff <= 0) {
       return _buildInfoCard(
         icon: Icons.trending_up,
-        title: '성장 속도',
-        value: '계산 불가',
-        subtitle: '기간 부족',
+        title: AppLocalizations.of(context)!.growthRate,
+        value: AppLocalizations.of(context)!.calculationNotPossible,
+        subtitle: AppLocalizations.of(context)!.periodInsufficient,
         color: colorScheme.outline,
       );
     }
@@ -456,9 +460,9 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
     if (firstValue == null || lastValue == null) {
       return _buildInfoCard(
         icon: Icons.trending_up,
-        title: '성장 속도',
-        value: '데이터 없음',
-        subtitle: _showWeight ? '체중 기록 필요' : '키 기록 필요',
+        title: AppLocalizations.of(context)!.growthRate,
+        value: AppLocalizations.of(context)!.noDataAvailable,
+        subtitle: _showWeight ? AppLocalizations.of(context)!.weightRecordRequired : AppLocalizations.of(context)!.heightRecordRequired,
         color: colorScheme.outline,
       );
     }
@@ -473,9 +477,9 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
     
     return _buildInfoCard(
       icon: isPositive ? Icons.trending_up : Icons.trending_down,
-      title: '월평균 성장',
+      title: l10n.monthlyAverageGrowth,
       value: '${monthlyRate >= 0 ? '+' : ''}${monthlyRate.toStringAsFixed(2)}$unit',
-      subtitle: '최근 ${recentRecords.length >= 2 ? '30일' : '전체'} 기준',
+      subtitle: recentRecords.length >= 2 ? l10n.recentDaysBasis(30) : l10n.entireBasis,
       color: rateColor ?? colorScheme.primary,
     );
   }
@@ -484,14 +488,15 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
   Widget _buildPredictionCard() {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     final records = _filteredRecords;
     
     if (records.length < 2) {
       return _buildInfoCard(
         icon: Icons.auto_graph,
-        title: '1개월 후 예상',
-        value: '예측 불가',
-        subtitle: '데이터 부족',
+        title: l10n.oneMonthPrediction,
+        value: l10n.predictionNotPossible,
+        subtitle: l10n.dataInsufficient,
         color: colorScheme.outline,
       );
     }
@@ -506,9 +511,9 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
     if (latestValue == null) {
       return _buildInfoCard(
         icon: Icons.auto_graph,
-        title: '1개월 후 예상',
-        value: '예측 불가',
-        subtitle: '현재 기록 없음',
+        title: l10n.oneMonthPrediction,
+        value: l10n.predictionNotPossible,
+        subtitle: l10n.currentRecordMissing,
         color: colorScheme.outline,
       );
     }
@@ -528,9 +533,9 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
           
           return _buildInfoCard(
             icon: Icons.auto_graph,
-            title: '1개월 후 예상',
+            title: l10n.oneMonthPrediction,
             value: '${predicted.toStringAsFixed(1)}$unit',
-            subtitle: '현재 트렌드 기준',
+            subtitle: l10n.currentTrendBasis,
             color: colorScheme.secondary,
           );
         }
@@ -539,9 +544,9 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
     
     return _buildInfoCard(
       icon: Icons.auto_graph,
-      title: '1개월 후 예상',
-      value: '예측 불가',
-      subtitle: '트렌드 부족',
+      title: l10n.oneMonthPrediction,
+      value: l10n.predictionNotPossible,
+      subtitle: l10n.trendInsufficient,
       color: colorScheme.outline,
     );
   }
@@ -550,14 +555,15 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
   Widget _buildRecordFrequencyCard() {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     final records = _filteredRecords;
     
     if (records.isEmpty) {
       return _buildInfoCard(
         icon: Icons.calendar_month,
-        title: '기록 빈도',
-        value: '기록 없음',
-        subtitle: '첫 기록을 시작하세요',
+        title: l10n.recordFrequency,
+        value: l10n.noRecord,
+        subtitle: l10n.firstRecordStart,
         color: colorScheme.outline,
       );
     }
@@ -565,9 +571,9 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
     if (records.length == 1) {
       return _buildInfoCard(
         icon: Icons.calendar_month,
-        title: '기록 빈도',
-        value: '1회',
-        subtitle: '더 많은 기록 필요',
+        title: l10n.recordFrequency,
+        value: l10n.oneRecord,
+        subtitle: l10n.moreRecordsNeeded,
         color: colorScheme.outline,
       );
     }
@@ -581,9 +587,9 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
     if (totalDays <= 0) {
       return _buildInfoCard(
         icon: Icons.calendar_month,
-        title: '기록 빈도',
-        value: '당일 기록',
-        subtitle: '${records.length}회 기록',
+        title: l10n.recordFrequency,
+        value: l10n.sameDayRecord,
+        subtitle: l10n.recordedTimes(records.length),
         color: colorScheme.primary,
       );
     }
@@ -593,24 +599,24 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
     Color frequencyColor;
     
     if (avgDays <= 3) {
-      frequency = '매우 꾸준함';
+      frequency = l10n.veryConsistent;
       frequencyColor = Colors.green[600]!;
     } else if (avgDays <= 7) {
-      frequency = '꾸준함';
+      frequency = l10n.consistent;
       frequencyColor = Colors.blue[600]!;
     } else if (avgDays <= 14) {
-      frequency = '보통';
+      frequency = l10n.average;
       frequencyColor = Colors.orange[600]!;
     } else {
-      frequency = '불규칙';
+      frequency = l10n.irregular;
       frequencyColor = Colors.red[600]!;
     }
     
     return _buildInfoCard(
       icon: Icons.calendar_month,
-      title: '기록 빈도',
+      title: l10n.recordFrequency,
       value: frequency,
-      subtitle: '평균 ${avgDays.toStringAsFixed(1)}일 간격',
+      subtitle: l10n.averageDaysInterval(avgDays.toStringAsFixed(1)),
       color: frequencyColor,
     );
   }
@@ -619,14 +625,15 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
   Widget _buildNextRecordCard() {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     final records = _filteredRecords;
     
     if (records.isEmpty) {
       return _buildInfoCard(
         icon: Icons.notification_important,
-        title: '다음 기록',
-        value: '지금',
-        subtitle: '첫 기록을 시작하세요',
+        title: l10n.nextRecord,
+        value: l10n.now,
+        subtitle: l10n.firstRecordStart,
         color: colorScheme.primary,
       );
     }
@@ -640,26 +647,26 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
     if (daysSinceLastRecord >= 7) {
       return _buildInfoCard(
         icon: Icons.notification_important,
-        title: '다음 기록',
-        value: '지금',
-        subtitle: '${daysSinceLastRecord}일 전 기록됨',
+        title: l10n.nextRecord,
+        value: l10n.now,
+        subtitle: l10n.daysAgoRecorded(daysSinceLastRecord),
         color: Colors.red[600]!,
       );
     } else if (daysSinceLastRecord >= 3) {
       return _buildInfoCard(
         icon: Icons.schedule,
-        title: '다음 기록',
-        value: '곧',
-        subtitle: '${daysSinceLastRecord}일 전 기록됨',
+        title: l10n.nextRecord,
+        value: l10n.soon,
+        subtitle: l10n.daysAgoRecorded(daysSinceLastRecord),
         color: Colors.orange[600]!,
       );
     } else {
       final recommendedDays = 7 - daysSinceLastRecord;
       return _buildInfoCard(
         icon: Icons.schedule,
-        title: '다음 기록',
-        value: '${recommendedDays}일 후',
-        subtitle: '주간 기록 권장',
+        title: l10n.nextRecord,
+        value: l10n.daysLater(recommendedDays),
+        subtitle: l10n.weeklyRecordRecommended,
         color: Colors.green[600]!,
       );
     }
@@ -669,6 +676,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
   Widget _buildMilestoneCard() {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     final records = _filteredRecords;
     
     if (records.isEmpty) {
@@ -720,7 +728,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
               ),
               const SizedBox(width: 8),
               Text(
-                '다음 마일스톤',
+                l10n.nextMilestone,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: colorScheme.onSurface,
@@ -728,7 +736,7 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
               ),
               const Spacer(),
               Text(
-                '${nextMilestone.toStringAsFixed(1)}$unit 목표',
+                l10n.targetValue(nextMilestone.toStringAsFixed(1), unit),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colorScheme.primary,
                   fontWeight: FontWeight.w600,
@@ -749,7 +757,11 @@ class _GrowthChartScreenState extends State<GrowthChartScreen> {
           const SizedBox(height: 8),
           
           Text(
-            '${remaining.toStringAsFixed(2)}$unit 남음 (${(progress * 100).toStringAsFixed(1)}% 달성)',
+            l10n.remainingProgress(
+              remaining.toStringAsFixed(2),
+              unit,
+              (progress * 100).toStringAsFixed(1),
+            ),
             style: theme.textTheme.bodySmall?.copyWith(
               color: colorScheme.onSurface.withOpacity(0.7),
             ),

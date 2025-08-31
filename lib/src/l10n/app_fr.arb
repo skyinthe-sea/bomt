@@ -761,5 +761,115 @@
   },
   "temperatureRecordMemo": "Mémo du Relevé de Température",
   "fever": "Fièvre",
-  "highFever": "Fièvre Élevée"
+  "highFever": "Fièvre Élevée",
+  "babyGrowthChart": "Courbe de Croissance de {name}",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "Aucun enregistrement de croissance",
+  "enterWeightAndHeightFromHome": "Veuillez saisir le poids et la taille depuis l'écran d'accueil",
+  "weight": "Poids",
+  "height": "Taille",
+  "periodSelection": "Sélection de période :",
+  "all": "Tout",
+  "growthInsights": "Aperçus de Croissance",
+  "growthRate": "Taux de Croissance",
+  "monthlyAverageGrowth": "Croissance Moyenne Mensuelle",
+  "dataInsufficient": "Données Insuffisantes",
+  "twoOrMoreRequired": "2 ou plus requis",
+  "recentDaysBasis": "Basé sur les derniers {days} jours",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "Basé sur la période entière",
+  "oneMonthPrediction": "Prévision 1 Mois",
+  "currentTrendBasis": "Basé sur la tendance actuelle",
+  "predictionNotPossible": "Prévision non possible",
+  "trendInsufficient": "Tendance insuffisante",
+  "recordFrequency": "Fréquence d'Enregistrement",
+  "veryConsistent": "Très Cohérent",
+  "consistent": "Cohérent",
+  "average": "Moyen",
+  "irregular": "Irrégulier",
+  "averageDaysInterval": "Intervalle moyen de {days} jours",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "Prochain Enregistrement",
+  "now": "Maintenant",
+  "soon": "Bientôt",
+  "daysLater": "{days} jours plus tard",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "Enregistré il y a {days} jours",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "Enregistrement hebdomadaire recommandé",
+  "nextMilestone": "Prochain Jalon",
+  "targetValue": "Objectif de {value}{unit}",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "{remaining}{unit} restant ({progress}% atteint)",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "Calcul non possible",
+  "periodInsufficient": "Période insuffisante",
+  "noDataAvailable": "Aucune donnée disponible",
+  "weightRecordRequired": "Enregistrement de poids requis",
+  "heightRecordRequired": "Enregistrement de taille requis",
+  "currentRecordMissing": "Enregistrement actuel manquant",
+  "noRecord": "Aucun enregistrement",
+  "firstRecordStart": "Commencer le premier enregistrement",
+  "oneRecord": "1 enregistrement",
+  "moreRecordsNeeded": "Plus d'enregistrements nécessaires",
+  "sameDayRecord": "Enregistrement du même jour",
+  "recordedTimes": "{count} fois enregistré",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

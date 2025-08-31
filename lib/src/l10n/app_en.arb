@@ -1854,5 +1854,116 @@
   },
   "temperatureRecordMemo": "Temperature Record Memo",
   "fever": "Fever",
-  "highFever": "High Fever"
+  "highFever": "High Fever",
+  
+  "babyGrowthChart": "{name}'s Growth Chart",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "No growth records",
+  "enterWeightAndHeightFromHome": "Please enter weight and height from home screen",
+  "weight": "Weight",
+  "height": "Height",
+  "periodSelection": "Period selection:",
+  "all": "All",
+  "growthInsights": "Growth Insights",
+  "growthRate": "Growth Rate",
+  "monthlyAverageGrowth": "Monthly Average Growth",
+  "dataInsufficient": "Data Insufficient",
+  "twoOrMoreRequired": "2 or more required",
+  "recentDaysBasis": "Based on recent {days} days",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "Based on entire period",
+  "oneMonthPrediction": "1 Month Prediction",
+  "currentTrendBasis": "Based on current trend",
+  "predictionNotPossible": "Prediction not possible",
+  "trendInsufficient": "Trend insufficient",
+  "recordFrequency": "Record Frequency",
+  "veryConsistent": "Very Consistent",
+  "consistent": "Consistent",
+  "average": "Average",
+  "irregular": "Irregular",
+  "averageDaysInterval": "Average {days} days interval",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "Next Record",
+  "now": "Now",
+  "soon": "Soon",
+  "daysLater": "{days} days later",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "Recorded {days} days ago",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "Weekly record recommended",
+  "nextMilestone": "Next Milestone",
+  "targetValue": "{value}{unit} target",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "{remaining}{unit} remaining ({progress}% achieved)",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "Calculation not possible",
+  "periodInsufficient": "Period insufficient",
+  "noDataAvailable": "No data available",
+  "weightRecordRequired": "Weight record required",
+  "heightRecordRequired": "Height record required",
+  "currentRecordMissing": "Current record missing",
+  "noRecord": "No record",
+  "firstRecordStart": "Start your first record",
+  "oneRecord": "1 record",
+  "moreRecordsNeeded": "More records needed",
+  "sameDayRecord": "Same day record",
+  "recordedTimes": "{count} times recorded",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -1281,7 +1281,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lastUpdated => 'Last updated:';
 
   @override
-  String get periodSelection => 'Period Selection';
+  String get periodSelection => 'Выбор периода:';
 
   @override
   String get daily => 'Daily';
@@ -1945,7 +1945,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get good => 'Хорошо';
 
   @override
-  String get average => 'Средне';
+  String get average => 'Среднее';
 
   @override
   String get poor => 'Плохо';
@@ -2613,4 +2613,144 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get temperatureRecordMemo => 'Заметка Записи Температуры';
+
+  @override
+  String babyGrowthChart(String name) {
+    return 'График Роста $name';
+  }
+
+  @override
+  String get noGrowthRecords => 'Нет записей роста';
+
+  @override
+  String get enterWeightAndHeightFromHome =>
+      'Пожалуйста, введите вес и рост с главного экрана';
+
+  @override
+  String get all => 'Все';
+
+  @override
+  String get growthInsights => 'Анализ Роста';
+
+  @override
+  String get growthRate => 'Темп Роста';
+
+  @override
+  String get monthlyAverageGrowth => 'Средний Месячный Рост';
+
+  @override
+  String get dataInsufficient => 'Недостаточно Данных';
+
+  @override
+  String get twoOrMoreRequired => 'Требуется 2 или больше';
+
+  @override
+  String recentDaysBasis(int days) {
+    return 'На основе последних $days дней';
+  }
+
+  @override
+  String get entireBasis => 'На основе всего периода';
+
+  @override
+  String get oneMonthPrediction => 'Прогноз на 1 Месяц';
+
+  @override
+  String get currentTrendBasis => 'На основе текущей тенденции';
+
+  @override
+  String get predictionNotPossible => 'Прогноз невозможен';
+
+  @override
+  String get trendInsufficient => 'Недостаточная тенденция';
+
+  @override
+  String get recordFrequency => 'Частота Записей';
+
+  @override
+  String get veryConsistent => 'Очень Стабильно';
+
+  @override
+  String get consistent => 'Стабильно';
+
+  @override
+  String get irregular => 'Нерегулярно';
+
+  @override
+  String averageDaysInterval(String days) {
+    return 'Средний интервал $days дней';
+  }
+
+  @override
+  String get nextRecord => 'Следующая Запись';
+
+  @override
+  String get now => 'Сейчас';
+
+  @override
+  String get soon => 'Скоро';
+
+  @override
+  String daysLater(int days) {
+    return 'через $days дней';
+  }
+
+  @override
+  String daysAgoRecorded(int days) {
+    return 'Записано $days дней назад';
+  }
+
+  @override
+  String get weeklyRecordRecommended => 'Рекомендуется еженедельная запись';
+
+  @override
+  String get nextMilestone => 'Следующая Веха';
+
+  @override
+  String targetValue(String value, String unit) {
+    return 'Цель $value$unit';
+  }
+
+  @override
+  String remainingProgress(String remaining, String unit, String progress) {
+    return 'Осталось $remaining$unit ($progress% достигнуто)';
+  }
+
+  @override
+  String get calculationNotPossible => 'Расчет невозможен';
+
+  @override
+  String get periodInsufficient => 'Недостаточный период';
+
+  @override
+  String get noDataAvailable => 'Нет доступных данных';
+
+  @override
+  String get weightRecordRequired => 'Требуется запись веса';
+
+  @override
+  String get heightRecordRequired => 'Требуется запись роста';
+
+  @override
+  String get currentRecordMissing => 'Текущая запись отсутствует';
+
+  @override
+  String get noRecord => 'Нет записи';
+
+  @override
+  String get firstRecordStart => 'Начать первую запись';
+
+  @override
+  String get oneRecord => '1 запись';
+
+  @override
+  String get moreRecordsNeeded => 'Требуется больше записей';
+
+  @override
+  String get sameDayRecord => 'Запись в тот же день';
+
+  @override
+  String recordedTimes(int count) {
+    return 'Записано $count раз';
+  }
 }

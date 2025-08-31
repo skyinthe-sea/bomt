@@ -693,5 +693,115 @@
   },
   "temperatureRecordMemo": "Заметка Записи Температуры",
   "fever": "Лихорадка",
-  "highFever": "Высокая Лихорадка"
+  "highFever": "Высокая Лихорадка",
+  "babyGrowthChart": "График Роста {name}",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "Нет записей роста",
+  "enterWeightAndHeightFromHome": "Пожалуйста, введите вес и рост с главного экрана",
+  "weight": "Вес",
+  "height": "Рост",
+  "periodSelection": "Выбор периода:",
+  "all": "Все",
+  "growthInsights": "Анализ Роста",
+  "growthRate": "Темп Роста",
+  "monthlyAverageGrowth": "Средний Месячный Рост",
+  "dataInsufficient": "Недостаточно Данных",
+  "twoOrMoreRequired": "Требуется 2 или больше",
+  "recentDaysBasis": "На основе последних {days} дней",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "На основе всего периода",
+  "oneMonthPrediction": "Прогноз на 1 Месяц",
+  "currentTrendBasis": "На основе текущей тенденции",
+  "predictionNotPossible": "Прогноз невозможен",
+  "trendInsufficient": "Недостаточная тенденция",
+  "recordFrequency": "Частота Записей",
+  "veryConsistent": "Очень Стабильно",
+  "consistent": "Стабильно",
+  "average": "Среднее",
+  "irregular": "Нерегулярно",
+  "averageDaysInterval": "Средний интервал {days} дней",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "Следующая Запись",
+  "now": "Сейчас",
+  "soon": "Скоро",
+  "daysLater": "через {days} дней",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "Записано {days} дней назад",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "Рекомендуется еженедельная запись",
+  "nextMilestone": "Следующая Веха",
+  "targetValue": "Цель {value}{unit}",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "Осталось {remaining}{unit} ({progress}% достигнуто)",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "Расчет невозможен",
+  "periodInsufficient": "Недостаточный период",
+  "noDataAvailable": "Нет доступных данных",
+  "weightRecordRequired": "Требуется запись веса",
+  "heightRecordRequired": "Требуется запись роста",
+  "currentRecordMissing": "Текущая запись отсутствует",
+  "noRecord": "Нет записи",
+  "firstRecordStart": "Начать первую запись",
+  "oneRecord": "1 запись",
+  "moreRecordsNeeded": "Требуется больше записей",
+  "sameDayRecord": "Запись в тот же день",
+  "recordedTimes": "Записано {count} раз",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }
