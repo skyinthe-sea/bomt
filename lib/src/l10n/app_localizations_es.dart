@@ -267,7 +267,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get diaper => 'Pañal';
 
   @override
-  String get solidFood => 'Comida Sólida';
+  String get solidFood => 'Alimento Sólido';
 
   @override
   String get medication => 'Medicación';
@@ -336,7 +336,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sleepEnded => 'Sleep ended';
 
   @override
-  String get sleepInProgress => 'In Progress';
+  String get sleepInProgress => 'Durmiendo';
 
   @override
   String get sleepRecordFailed => 'Failed to process sleep record';
@@ -1205,10 +1205,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get consistency => 'Consistency';
 
   @override
-  String get diaperChange => 'Diaper Change';
+  String get diaperChange => 'Cambio de Pañal';
 
   @override
-  String get oralMedication => 'Oral medication';
+  String get oralMedication => 'Medicación Oral';
 
   @override
   String get topical => 'Tópico';
@@ -1220,7 +1220,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get pumping => 'Pumping';
 
   @override
-  String get temperatureMeasurement => 'Temperature Measurement';
+  String get temperatureMeasurement => 'Medición de Temperatura';
 
   @override
   String get fever => 'Fiebre';
@@ -1987,7 +1987,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tablespoon => 'Cucharada';
 
   @override
-  String get sleepQuality => 'Sueño';
+  String get sleepQuality => 'Calidad';
 
   @override
   String get pumpingTime => 'Extracción';
@@ -2221,7 +2221,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String hoursMinutesFormat(int hours, int minutes) {
-    return '$hours hours $minutes minutes';
+    return '${hours}h ${minutes}min';
   }
 
   @override
@@ -2894,4 +2894,59 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get cannotOpenSettings =>
       'No se puede abrir la pantalla de configuración';
+
+  @override
+  String get sleepQualityGood => 'Bueno';
+
+  @override
+  String get sleepQualityFair => 'Regular';
+
+  @override
+  String get sleepQualityPoor => 'Malo';
+
+  @override
+  String sleepInProgressDuration(Object minutes) {
+    return 'Durmiendo - ${minutes}min transcurridos';
+  }
+
+  @override
+  String get wetOnly => 'Solo Mojado';
+
+  @override
+  String get dirtyOnly => 'Solo Sucio';
+
+  @override
+  String get wetAndDirty => 'Mojado + Sucio';
+
+  @override
+  String get colorLabel => 'Color';
+
+  @override
+  String get consistencyLabel => 'Consistencia';
+
+  @override
+  String get topicalMedication => 'Tópico';
+
+  @override
+  String get inhaledMedication => 'Inhalado';
+
+  @override
+  String get milkPumpingInProgress => 'Extrayendo';
+
+  @override
+  String pumpingInProgressDuration(Object minutes) {
+    return 'Extrayendo - ${minutes}min transcurridos';
+  }
+
+  @override
+  String get lowGradeFever => 'Fiebre Leve';
+
+  @override
+  String get normalTemperature => 'Normal';
+
+  @override
+  String get allActivities => 'Todo';
+
+  @override
+  String get temperatureFilter => 'Temperatura';
 }

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:intl/intl.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/timeline_item.dart';
+import '../utils/timeline_localization_helper.dart';
 
 class GlassmorphicTimelineCard extends StatefulWidget {
   final TimelineItem item;
@@ -466,7 +467,7 @@ class _GlassmorphicTimelineCardState extends State<GlassmorphicTimelineCard>
       case TimelineItemType.temperature:
         return l10n.temperatureMeasurement;
       default:
-        return widget.item.title;
+        return TimelineLocalizationHelper.getLocalizedTitle(context, widget.item);
     }
   }
 
@@ -490,7 +491,7 @@ class _GlassmorphicTimelineCardState extends State<GlassmorphicTimelineCard>
       case TimelineItemType.temperature:
         return _buildTemperatureSubtitle(l10n, data);
       default:
-        return widget.item.subtitle ?? '';
+        return TimelineLocalizationHelper.getLocalizedSubtitle(context, widget.item);
     }
   }
 

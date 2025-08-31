@@ -173,26 +173,32 @@ class TimelineService {
 
   // 변환 메서드들
   TimelineItem _convertFeedingToTimelineItem(Feeding feeding) {
+    // Store feeding details in data for UI layer to localize
+    final localizationData = {
+      'feedingType': feeding.type,
+      'amount': feeding.amountMl,
+      'duration': feeding.durationMinutes,
+      'side': feeding.side,
+    };
+    
     String subtitle = '';
     if (feeding.type == 'bottle' || feeding.type == 'formula') {
-      subtitle = '분유';
+      subtitle = 'formula';
       if (feeding.amountMl != null && feeding.amountMl! > 0) {
-        subtitle += ' ${feeding.amountMl}ml';
+        subtitle += '|${feeding.amountMl}ml';
       }
     } else if (feeding.type == 'breast') {
-      subtitle = '모유';
+      subtitle = 'breastMilk';
       if (feeding.durationMinutes != null && feeding.durationMinutes! > 0) {
-        subtitle += ' ${feeding.durationMinutes}분';
+        subtitle += '|${feeding.durationMinutes}min';
       }
       if (feeding.side != null) {
-        final sideText = feeding.side == 'left' ? '왼쪽' : 
-                        feeding.side == 'right' ? '오른쪽' : '양쪽';
-        subtitle += ' ($sideText)';
+        subtitle += '|${feeding.side}';
       }
     } else if (feeding.type == 'solid') {
-      subtitle = '이유식';
+      subtitle = 'solidFood';
       if (feeding.amountMl != null && feeding.amountMl! > 0) {
-        subtitle += ' ${feeding.amountMl}ml';
+        subtitle += '|${feeding.amountMl}ml';
       }
     }
 
@@ -216,41 +222,44 @@ class TimelineService {
     feedingData['timeline_ended_at'] = endedAtUtc.toIso8601String();
     feedingData['timeline_duration_minutes'] = endedAtUtc.difference(startedAtUtc).inMinutes;
 
+    // Merge localization data with existing feeding data
+    final mergedData = {...feedingData, ...localizationData};
+    
     return TimelineItem(
       id: feeding.id,
       type: TimelineItemType.feeding,
       timestamp: feeding.startedAt,
-      title: '수유',
+      title: 'feeding',
       subtitle: subtitle,
-      data: feedingData,
+      data: mergedData,
       colorCode: '#2196F3', // 파란색
     );
   }
 
   TimelineItem _convertSleepToTimelineItem(Sleep sleep) {
     String subtitle;
+    String titleKey;
     bool isOngoing = false;
 
     if (sleep.endedAt == null) {
       // 진행 중인 수면
       final now = DateTime.now();
       final duration = now.difference(sleep.startedAt);
-      final hours = duration.inHours;
-      final minutes = duration.inMinutes % 60;
-      subtitle = '수면 중 - ${hours}시간 ${minutes}분 경과';
+      final minutes = duration.inMinutes;
+      subtitle = 'sleepInProgressDuration|$minutes';
+      titleKey = 'sleepInProgress';
       isOngoing = true;
     } else {
       // 완료된 수면
       final duration = sleep.endedAt!.difference(sleep.startedAt);
       final hours = duration.inHours;
       final minutes = duration.inMinutes % 60;
-      subtitle = '${hours}시간 ${minutes}분';
+      titleKey = 'sleep';
       
-      // 수면 품질 추가
       if (sleep.quality != null) {
-        final qualityText = sleep.quality == 'good' ? '좋음' :
-                           sleep.quality == 'fair' ? '보통' : '나쁨';
-        subtitle += ' (품질: $qualityText)';
+        subtitle = 'sleepQuality|$hours|$minutes|${sleep.quality}';
+      } else {
+        subtitle = 'sleepDuration|$hours|$minutes';
       }
     }
 
@@ -275,7 +284,7 @@ class TimelineService {
       id: sleep.id,
       type: TimelineItemType.sleep,
       timestamp: sleep.startedAt,
-      title: isOngoing ? '수면 중' : '수면',
+      title: titleKey,
       subtitle: subtitle,
       data: sleepData,
       isOngoing: isOngoing,
@@ -286,20 +295,20 @@ class TimelineService {
   TimelineItem _convertDiaperToTimelineItem(Diaper diaper) {
     String subtitle = '';
     if (diaper.type == 'wet') {
-      subtitle = '소변만';
+      subtitle = 'wetOnly';
     } else if (diaper.type == 'dirty') {
-      subtitle = '대변만';
+      subtitle = 'dirtyOnly';
       // 색상과 농도 정보 추가
       if (diaper.color != null && diaper.color!.isNotEmpty) {
-        subtitle += ' (색상: ${diaper.color})';
+        subtitle += '|color:${diaper.color}';
       }
       if (diaper.consistency != null && diaper.consistency!.isNotEmpty) {
-        subtitle += ' (농도: ${diaper.consistency})';
+        subtitle += '|consistency:${diaper.consistency}';
       }
     } else if (diaper.type == 'both') {
-      subtitle = '소변 + 대변';
+      subtitle = 'wetAndDirty';
       if (diaper.color != null && diaper.color!.isNotEmpty) {
-        subtitle += ' (색상: ${diaper.color})';
+        subtitle += '|color:${diaper.color}';
       }
     }
 
@@ -321,7 +330,7 @@ class TimelineService {
       id: diaper.id,
       type: TimelineItemType.diaper,
       timestamp: diaper.changedAt,
-      title: '기저귀 교체',
+      title: 'diaperChange',
       subtitle: subtitle,
       data: diaperData,
       colorCode: '#FF9800', // 주황색
@@ -331,13 +340,13 @@ class TimelineService {
   TimelineItem _convertMedicationToTimelineItem(Medication medication) {
     String subtitle = '';
     if (medication.route == 'oral') {
-      subtitle = '경구 투약';
+      subtitle = 'oralMedication';
     } else if (medication.route == 'topical') {
-      subtitle = '외용';
+      subtitle = 'topicalMedication';
     } else if (medication.route == 'inhaled') {
-      subtitle = '흡입';
+      subtitle = 'inhaledMedication';
     } else {
-      subtitle = '투약';
+      subtitle = 'medication';
     }
 
     if (medication.medicationName.isNotEmpty) {
@@ -369,7 +378,7 @@ class TimelineService {
       id: medication.id,
       type: TimelineItemType.medication,
       timestamp: medication.administeredAt,
-      title: '투약',
+      title: 'medication',
       subtitle: subtitle,
       data: medicationData,
       colorCode: '#E91E63', // 핑크색
@@ -378,6 +387,7 @@ class TimelineService {
 
   TimelineItem _convertMilkPumpingToTimelineItem(MilkPumping milkPumping) {
     String subtitle = '';
+    String titleKey;
     bool isOngoing = false;
     
     // endedAt 유효성 검증: null이거나 startedAt보다 이전이면 무효한 데이터로 처리
@@ -388,25 +398,27 @@ class TimelineService {
     if (!hasValidEndedAt) {
       final now = DateTime.now();
       final duration = now.difference(milkPumping.startedAt);
-      subtitle = '유축 중 - ${duration.inMinutes}분 경과';
+      subtitle = 'pumpingInProgressDuration|${duration.inMinutes}';
+      titleKey = 'milkPumpingInProgress';
       isOngoing = true;
     } else {
       // 완료된 유축
+      titleKey = 'milkPumping';
+      List<String> parts = [];
+      
       if (milkPumping.amountMl != null && milkPumping.amountMl! > 0) {
-        subtitle = '${milkPumping.amountMl}ml';
+        parts.add('${milkPumping.amountMl}ml');
       }
       if (milkPumping.durationMinutes != null && milkPumping.durationMinutes! > 0) {
-        if (subtitle.isNotEmpty) subtitle += ', ';
-        subtitle += '${milkPumping.durationMinutes}분';
+        parts.add('${milkPumping.durationMinutes}min');
       }
       
       // 위치 정보 추가
       if (milkPumping.side != null) {
-        final sideText = milkPumping.side == 'left' ? '왼쪽' :
-                        milkPumping.side == 'right' ? '오른쪽' : '양쪽';
-        if (subtitle.isNotEmpty) subtitle += ' ';
-        subtitle += '($sideText)';
+        parts.add(milkPumping.side!);
       }
+      
+      subtitle = parts.join('|');
     }
 
     // 타임라인 차트용 추가 데이터 생성
@@ -432,7 +444,7 @@ class TimelineService {
       id: milkPumping.id,
       type: TimelineItemType.milkPumping,
       timestamp: milkPumping.startedAt,
-      title: isOngoing ? '유축 중' : '유축',
+      title: titleKey,
       subtitle: subtitle,
       data: milkPumpingData,
       isOngoing: isOngoing,
@@ -468,7 +480,7 @@ class TimelineService {
       id: solidFood.id,
       type: TimelineItemType.solidFood,
       timestamp: solidFood.startedAt,
-      title: '이유식',
+      title: 'solidFood',
       subtitle: subtitle,
       data: solidFoodData,
       colorCode: '#4CAF50', // 녹색
@@ -515,7 +527,7 @@ class TimelineService {
       id: health.id,
       type: TimelineItemType.temperature,
       timestamp: health.recordedAt,
-      title: '체온 측정',
+      title: 'temperatureMeasurement',
       subtitle: subtitle,
       data: healthData,
       colorCode: '#FF5722', // 주황-빨강색

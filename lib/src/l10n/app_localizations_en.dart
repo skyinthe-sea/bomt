@@ -336,7 +336,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sleepEnded => 'Sleep ended';
 
   @override
-  String get sleepInProgress => 'In Progress';
+  String get sleepInProgress => 'Sleeping';
 
   @override
   String get sleepRecordFailed => 'Failed to process sleep record';
@@ -1208,7 +1208,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get diaperChange => 'Diaper Change';
 
   @override
-  String get oralMedication => 'Oral medication';
+  String get oralMedication => 'Oral Medication';
 
   @override
   String get topical => 'Topical';
@@ -1981,7 +1981,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tablespoon => 'Tablespoon';
 
   @override
-  String get sleepQuality => 'Sleep';
+  String get sleepQuality => 'Quality';
 
   @override
   String get pumpingTime => 'Pumping';
@@ -2213,7 +2213,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String hoursMinutesFormat(int hours, int minutes) {
-    return '$hours hours $minutes minutes';
+    return '${hours}h ${minutes}m';
   }
 
   @override
@@ -2882,4 +2882,59 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cannotOpenSettings => 'Cannot open settings screen';
+
+  @override
+  String get sleepQualityGood => 'Good';
+
+  @override
+  String get sleepQualityFair => 'Fair';
+
+  @override
+  String get sleepQualityPoor => 'Poor';
+
+  @override
+  String sleepInProgressDuration(Object minutes) {
+    return 'Sleeping - ${minutes}m elapsed';
+  }
+
+  @override
+  String get wetOnly => 'Wet Only';
+
+  @override
+  String get dirtyOnly => 'Dirty Only';
+
+  @override
+  String get wetAndDirty => 'Wet + Dirty';
+
+  @override
+  String get colorLabel => 'Color';
+
+  @override
+  String get consistencyLabel => 'Consistency';
+
+  @override
+  String get topicalMedication => 'Topical';
+
+  @override
+  String get inhaledMedication => 'Inhaled';
+
+  @override
+  String get milkPumpingInProgress => 'Pumping';
+
+  @override
+  String pumpingInProgressDuration(Object minutes) {
+    return 'Pumping - ${minutes}m elapsed';
+  }
+
+  @override
+  String get lowGradeFever => 'Low Grade Fever';
+
+  @override
+  String get normalTemperature => 'Normal';
+
+  @override
+  String get allActivities => 'All';
+
+  @override
+  String get temperatureFilter => 'Temperature';
 }

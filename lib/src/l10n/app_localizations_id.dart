@@ -336,7 +336,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get sleepEnded => 'Sleep ended';
 
   @override
-  String get sleepInProgress => 'In Progress';
+  String get sleepInProgress => 'Sedang Tidur';
 
   @override
   String get sleepRecordFailed => 'Failed to process sleep record';
@@ -1205,10 +1205,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get consistency => 'Consistency';
 
   @override
-  String get diaperChange => 'Diaper Change';
+  String get diaperChange => 'Ganti Popok';
 
   @override
-  String get oralMedication => 'Oral medication';
+  String get oralMedication => 'Obat Oral';
 
   @override
   String get topical => 'Topikal';
@@ -1220,7 +1220,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get pumping => 'Pumping';
 
   @override
-  String get temperatureMeasurement => 'Temperature Measurement';
+  String get temperatureMeasurement => 'Pengukuran Suhu';
 
   @override
   String get fever => 'Demam';
@@ -1981,7 +1981,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get tablespoon => 'Sendok makan';
 
   @override
-  String get sleepQuality => 'Tidur';
+  String get sleepQuality => 'Kualitas';
 
   @override
   String get pumpingTime => 'Memompa';
@@ -2214,7 +2214,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String hoursMinutesFormat(int hours, int minutes) {
-    return '$hours hours $minutes minutes';
+    return '${hours}j ${minutes}m';
   }
 
   @override
@@ -2882,4 +2882,59 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get cannotOpenSettings => 'Tidak dapat membuka layar pengaturan';
+
+  @override
+  String get sleepQualityGood => 'Baik';
+
+  @override
+  String get sleepQualityFair => 'Sedang';
+
+  @override
+  String get sleepQualityPoor => 'Buruk';
+
+  @override
+  String sleepInProgressDuration(Object minutes) {
+    return 'Sedang Tidur - ${minutes}m berlalu';
+  }
+
+  @override
+  String get wetOnly => 'Hanya Basah';
+
+  @override
+  String get dirtyOnly => 'Hanya Kotor';
+
+  @override
+  String get wetAndDirty => 'Basah + Kotor';
+
+  @override
+  String get colorLabel => 'Warna';
+
+  @override
+  String get consistencyLabel => 'Konsistensi';
+
+  @override
+  String get topicalMedication => 'Topikal';
+
+  @override
+  String get inhaledMedication => 'Inhalasi';
+
+  @override
+  String get milkPumpingInProgress => 'Memompa';
+
+  @override
+  String pumpingInProgressDuration(Object minutes) {
+    return 'Memompa - ${minutes}m berlalu';
+  }
+
+  @override
+  String get lowGradeFever => 'Demam Ringan';
+
+  @override
+  String get normalTemperature => 'Normal';
+
+  @override
+  String get allActivities => 'Semua';
+
+  @override
+  String get temperatureFilter => 'Suhu';
 }

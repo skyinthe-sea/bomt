@@ -336,7 +336,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sleepEnded => 'Sleep ended';
 
   @override
-  String get sleepInProgress => 'In Progress';
+  String get sleepInProgress => 'सो रहा है';
 
   @override
   String get sleepRecordFailed => 'Failed to process sleep record';
@@ -1204,10 +1204,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get consistency => 'स्थिरता';
 
   @override
-  String get diaperChange => 'डायपर बदलना';
+  String get diaperChange => 'डाइपर बदलना';
 
   @override
-  String get oralMedication => 'मुंह की दवा';
+  String get oralMedication => 'मौखिक दवा';
 
   @override
   String get topical => 'बाहरी';
@@ -1228,7 +1228,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get lowFever => 'हल्का बुखार';
 
   @override
-  String get hypothermia => 'कम तापमान';
+  String get hypothermia => 'हाइपोथर्मिया';
 
   @override
   String get normal => 'सामान्य';
@@ -1982,7 +1982,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tablespoon => 'बड़ा चम्मच';
 
   @override
-  String get sleepQuality => 'नींद';
+  String get sleepQuality => 'गुणवत्ता';
 
   @override
   String get pumpingTime => 'पंपिंग';
@@ -2214,7 +2214,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String hoursMinutesFormat(int hours, int minutes) {
-    return '$hours hours $minutes minutes';
+    return '$hoursघंटे $minutesमिनट';
   }
 
   @override
@@ -2881,4 +2881,59 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get cannotOpenSettings => 'सेटिंग्स स्क्रीन खोल नहीं पा रहे';
+
+  @override
+  String get sleepQualityGood => 'अच्छी';
+
+  @override
+  String get sleepQualityFair => 'ठीक';
+
+  @override
+  String get sleepQualityPoor => 'खराब';
+
+  @override
+  String sleepInProgressDuration(Object minutes) {
+    return 'सो रहा है - $minutesमिनट बीते';
+  }
+
+  @override
+  String get wetOnly => 'केवल गीला';
+
+  @override
+  String get dirtyOnly => 'केवल गंदा';
+
+  @override
+  String get wetAndDirty => 'गीला + गंदा';
+
+  @override
+  String get colorLabel => 'रंग';
+
+  @override
+  String get consistencyLabel => 'स्थिरता';
+
+  @override
+  String get topicalMedication => 'लागू करने वाली';
+
+  @override
+  String get inhaledMedication => 'साँस से लेने वाली';
+
+  @override
+  String get milkPumpingInProgress => 'दूध निकाल रहा है';
+
+  @override
+  String pumpingInProgressDuration(Object minutes) {
+    return 'दूध निकाल रहा है - $minutesमिनट बीते';
+  }
+
+  @override
+  String get lowGradeFever => 'हल्का बुखार';
+
+  @override
+  String get normalTemperature => 'सामान्य';
+
+  @override
+  String get allActivities => 'सभी';
+
+  @override
+  String get temperatureFilter => 'तापमान';
 }

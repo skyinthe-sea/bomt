@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/timeline_item.dart';
 import '../widgets/timeline_item_pattern_analysis.dart';
 import '../widgets/timeline_item_edit_dialog.dart';
+import '../utils/timeline_localization_helper.dart';
 
 class TimelineItemDetailScreen extends StatefulWidget {
   final TimelineItem item;
@@ -329,7 +331,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _currentItem!.title,
+                      TimelineLocalizationHelper.getLocalizedTitle(context, _currentItem!),
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -338,7 +340,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
                     if (_currentItem!.subtitle != null) ...[
                       const SizedBox(height: 4),
                       Text(
-                        _currentItem!.subtitle!,
+                        TimelineLocalizationHelper.getLocalizedSubtitle(context, _currentItem!),
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: Colors.white.withOpacity(0.9),
                         ),
@@ -876,9 +878,55 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
   }
 
   String _formatDetailedDateTime(DateTime dateTime, AppLocalizations localizations) {
-    final weekdays = [localizations.monday, localizations.tuesday, localizations.wednesday, localizations.thursday, localizations.friday, localizations.saturday, localizations.sunday];
-    final weekday = weekdays[dateTime.weekday - 1];
-    return '${dateTime.month}월 ${dateTime.day}일 ($weekday) ${_formatDateTime(dateTime)}';
+    final locale = Localizations.localeOf(context);
+    final localeCode = locale.languageCode;
+    
+    DateFormat dateFormat;
+    switch (localeCode) {
+      case 'ko':
+        dateFormat = DateFormat('M월 d일 (EEEE) HH:mm', 'ko_KR');
+        break;
+      case 'ja':
+        dateFormat = DateFormat('M月d日 (EEEE) HH:mm', 'ja_JP');
+        break;
+      case 'en':
+        dateFormat = DateFormat('MMM d (EEEE) HH:mm', 'en_US');
+        break;
+      case 'de':
+        dateFormat = DateFormat('d. MMM (EEEE) HH:mm', 'de_DE');
+        break;
+      case 'es':
+        dateFormat = DateFormat('d MMM (EEEE) HH:mm', 'es_ES');
+        break;
+      case 'fr':
+        dateFormat = DateFormat('d MMM (EEEE) HH:mm', 'fr_FR');
+        break;
+      case 'pt':
+        dateFormat = DateFormat('d MMM (EEEE) HH:mm', 'pt_BR');
+        break;
+      case 'id':
+        dateFormat = DateFormat('d MMM (EEEE) HH:mm', 'id_ID');
+        break;
+      case 'ru':
+        dateFormat = DateFormat('d MMM (EEEE) HH:mm', 'ru_RU');
+        break;
+      case 'tl':
+        dateFormat = DateFormat('MMM d (EEEE) HH:mm', 'tl_PH');
+        break;
+      case 'tr':
+        dateFormat = DateFormat('d MMM (EEEE) HH:mm', 'tr_TR');
+        break;
+      case 'hi':
+        dateFormat = DateFormat('d MMM (EEEE) HH:mm', 'hi_IN');
+        break;
+      case 'th':
+        dateFormat = DateFormat('d MMM (EEEE) HH:mm', 'th_TH');
+        break;
+      default:
+        dateFormat = DateFormat('MMM d (EEEE) HH:mm', 'en_US');
+    }
+    
+    return dateFormat.format(dateTime);
   }
 
   String _formatDuration(int? minutes, AppLocalizations localizations) {

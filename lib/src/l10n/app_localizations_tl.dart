@@ -337,7 +337,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get sleepEnded => 'Sleep ended';
 
   @override
-  String get sleepInProgress => 'In Progress';
+  String get sleepInProgress => 'Natutulog';
 
   @override
   String get sleepRecordFailed => 'Failed to process sleep record';
@@ -1206,10 +1206,10 @@ class AppLocalizationsTl extends AppLocalizations {
   String get consistency => 'Consistency';
 
   @override
-  String get diaperChange => 'Diaper Change';
+  String get diaperChange => 'Palit Lampin';
 
   @override
-  String get oralMedication => 'Oral medication';
+  String get oralMedication => 'Oral na Gamot';
 
   @override
   String get topical => 'Pantapat sa balat';
@@ -1221,7 +1221,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get pumping => 'Pumping';
 
   @override
-  String get temperatureMeasurement => 'Temperature Measurement';
+  String get temperatureMeasurement => 'Pagsukat ng Temperatura';
 
   @override
   String get fever => 'Lagnat';
@@ -1985,7 +1985,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get tablespoon => 'Kutsara';
 
   @override
-  String get sleepQuality => 'Tulog';
+  String get sleepQuality => 'Kalidad';
 
   @override
   String get pumpingTime => 'Pag-extract';
@@ -2218,7 +2218,7 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String hoursMinutesFormat(int hours, int minutes) {
-    return '$hours hours $minutes minutes';
+    return '${hours}o ${minutes}m';
   }
 
   @override
@@ -2893,4 +2893,59 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get cannotOpenSettings => 'Hindi mabuksan ang settings screen';
+
+  @override
+  String get sleepQualityGood => 'Maganda';
+
+  @override
+  String get sleepQualityFair => 'Katamtaman';
+
+  @override
+  String get sleepQualityPoor => 'Hindi Maganda';
+
+  @override
+  String sleepInProgressDuration(Object minutes) {
+    return 'Natutulog - ${minutes}m nakalipas';
+  }
+
+  @override
+  String get wetOnly => 'Basa Lang';
+
+  @override
+  String get dirtyOnly => 'Marumi Lang';
+
+  @override
+  String get wetAndDirty => 'Basa + Marumi';
+
+  @override
+  String get colorLabel => 'Kulay';
+
+  @override
+  String get consistencyLabel => 'Consistency';
+
+  @override
+  String get topicalMedication => 'Panlabas';
+
+  @override
+  String get inhaledMedication => 'Inihinga';
+
+  @override
+  String get milkPumpingInProgress => 'Nag-pump';
+
+  @override
+  String pumpingInProgressDuration(Object minutes) {
+    return 'Nag-pump - ${minutes}m nakalipas';
+  }
+
+  @override
+  String get lowGradeFever => 'Banayad na Lagnat';
+
+  @override
+  String get normalTemperature => 'Normal';
+
+  @override
+  String get allActivities => 'Lahat';
+
+  @override
+  String get temperatureFilter => 'Temperatura';
 }

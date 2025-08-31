@@ -711,7 +711,7 @@ abstract class AppLocalizations {
   /// No description provided for @sleepInProgress.
   ///
   /// In en, this message translates to:
-  /// **'In Progress'**
+  /// **'Sleeping'**
   String get sleepInProgress;
 
   /// No description provided for @sleepRecordFailed.
@@ -2265,7 +2265,7 @@ abstract class AppLocalizations {
   /// No description provided for @oralMedication.
   ///
   /// In en, this message translates to:
-  /// **'Oral medication'**
+  /// **'Oral Medication'**
   String get oralMedication;
 
   /// No description provided for @topical.
@@ -3651,7 +3651,7 @@ abstract class AppLocalizations {
   /// No description provided for @sleepQuality.
   ///
   /// In en, this message translates to:
-  /// **'Sleep'**
+  /// **'Quality'**
   String get sleepQuality;
 
   /// No description provided for @pumpingTime.
@@ -4089,7 +4089,7 @@ abstract class AppLocalizations {
   /// No description provided for @hoursMinutesFormat.
   ///
   /// In en, this message translates to:
-  /// **'{hours} hours {minutes} minutes'**
+  /// **'{hours}h {minutes}m'**
   String hoursMinutesFormat(int hours, int minutes);
 
   /// No description provided for @minutesFormat.
@@ -5315,6 +5315,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cannot open settings screen'**
   String get cannotOpenSettings;
+
+  /// No description provided for @sleepQualityGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get sleepQualityGood;
+
+  /// No description provided for @sleepQualityFair.
+  ///
+  /// In en, this message translates to:
+  /// **'Fair'**
+  String get sleepQualityFair;
+
+  /// No description provided for @sleepQualityPoor.
+  ///
+  /// In en, this message translates to:
+  /// **'Poor'**
+  String get sleepQualityPoor;
+
+  /// No description provided for @sleepInProgressDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleeping - {minutes}m elapsed'**
+  String sleepInProgressDuration(Object minutes);
+
+  /// No description provided for @wetOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Wet Only'**
+  String get wetOnly;
+
+  /// No description provided for @dirtyOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Dirty Only'**
+  String get dirtyOnly;
+
+  /// No description provided for @wetAndDirty.
+  ///
+  /// In en, this message translates to:
+  /// **'Wet + Dirty'**
+  String get wetAndDirty;
+
+  /// No description provided for @colorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get colorLabel;
+
+  /// No description provided for @consistencyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistency'**
+  String get consistencyLabel;
+
+  /// No description provided for @topicalMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'Topical'**
+  String get topicalMedication;
+
+  /// No description provided for @inhaledMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'Inhaled'**
+  String get inhaledMedication;
+
+  /// No description provided for @milkPumpingInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Pumping'**
+  String get milkPumpingInProgress;
+
+  /// No description provided for @pumpingInProgressDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Pumping - {minutes}m elapsed'**
+  String pumpingInProgressDuration(Object minutes);
+
+  /// No description provided for @lowGradeFever.
+  ///
+  /// In en, this message translates to:
+  /// **'Low Grade Fever'**
+  String get lowGradeFever;
+
+  /// No description provided for @normalTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get normalTemperature;
+
+  /// No description provided for @allActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allActivities;
+
+  /// No description provided for @temperatureFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature'**
+  String get temperatureFilter;
 }
 
 class _AppLocalizationsDelegate

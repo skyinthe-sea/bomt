@@ -221,7 +221,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get totalFeeding => 'Total Feeding';
 
   @override
-  String get sleep => 'นอน';
+  String get sleep => 'การนอน';
 
   @override
   String get totalSleepTime => 'Total Sleep Time';
@@ -336,7 +336,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get sleepEnded => 'Sleep ended';
 
   @override
-  String get sleepInProgress => 'In Progress';
+  String get sleepInProgress => 'กำลังนอน';
 
   @override
   String get sleepRecordFailed => 'Failed to process sleep record';
@@ -1205,10 +1205,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get consistency => 'Consistency';
 
   @override
-  String get diaperChange => 'Diaper Change';
+  String get diaperChange => 'เปลี่ยนผ้าอ้อม';
 
   @override
-  String get oralMedication => 'Oral medication';
+  String get oralMedication => 'ยารับประทาน';
 
   @override
   String get topical => 'ทางผิวหนัง';
@@ -1220,16 +1220,16 @@ class AppLocalizationsTh extends AppLocalizations {
   String get pumping => 'Pumping';
 
   @override
-  String get temperatureMeasurement => 'Temperature Measurement';
+  String get temperatureMeasurement => 'การวัดอุณหภูมิ';
 
   @override
-  String get fever => 'มีไข้';
+  String get fever => 'ไข้';
 
   @override
   String get lowFever => 'ไข้เล็กน้อย';
 
   @override
-  String get hypothermia => 'อุณหภูมิกายต่ำ';
+  String get hypothermia => 'ภาวะอุณหภูมิกายต่ำ';
 
   @override
   String get normal => 'ปกติ';
@@ -1979,7 +1979,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get tablespoon => 'ช้อนโต๊ะ';
 
   @override
-  String get sleepQuality => 'การนอน';
+  String get sleepQuality => 'คุณภาพ';
 
   @override
   String get pumpingTime => 'การปั๊มนม';
@@ -2211,7 +2211,7 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String hoursMinutesFormat(int hours, int minutes) {
-    return '$hours hours $minutes minutes';
+    return '$hoursชม. $minutesนา.';
   }
 
   @override
@@ -2879,4 +2879,59 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get cannotOpenSettings => 'ไม่สามารถเปิดหน้าจอการตั้งค่าได้';
+
+  @override
+  String get sleepQualityGood => 'ดี';
+
+  @override
+  String get sleepQualityFair => 'ปานกลาง';
+
+  @override
+  String get sleepQualityPoor => 'ไม่ดี';
+
+  @override
+  String sleepInProgressDuration(Object minutes) {
+    return 'กำลังนอน - $minutesนา.ผ่านไป';
+  }
+
+  @override
+  String get wetOnly => 'เปียกอย่างเดียว';
+
+  @override
+  String get dirtyOnly => 'อุจจาระอย่างเดียว';
+
+  @override
+  String get wetAndDirty => 'เปียก + อุจจาระ';
+
+  @override
+  String get colorLabel => 'สี';
+
+  @override
+  String get consistencyLabel => 'ความข้น';
+
+  @override
+  String get topicalMedication => 'ทาภายนอก';
+
+  @override
+  String get inhaledMedication => 'สูดดม';
+
+  @override
+  String get milkPumpingInProgress => 'กำลังปั๊มนม';
+
+  @override
+  String pumpingInProgressDuration(Object minutes) {
+    return 'กำลังปั๊มนม - $minutesนา.ผ่านไป';
+  }
+
+  @override
+  String get lowGradeFever => 'ไข้เล็กน้อย';
+
+  @override
+  String get normalTemperature => 'ปกติ';
+
+  @override
+  String get allActivities => 'ทั้งหมด';
+
+  @override
+  String get temperatureFilter => 'อุณหภูมิ';
 }

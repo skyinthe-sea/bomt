@@ -270,7 +270,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get solidFood => 'Katı Gıda';
 
   @override
-  String get medication => 'İlaç';
+  String get medication => 'Ilaç';
 
   @override
   String get milkPumping => 'Süt Sağma';
@@ -336,7 +336,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sleepEnded => 'Sleep ended';
 
   @override
-  String get sleepInProgress => 'In Progress';
+  String get sleepInProgress => 'Uyuyor';
 
   @override
   String get sleepRecordFailed => 'Failed to process sleep record';
@@ -1205,10 +1205,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get consistency => 'Consistency';
 
   @override
-  String get diaperChange => 'Diaper Change';
+  String get diaperChange => 'Bez Değişimi';
 
   @override
-  String get oralMedication => 'Oral medication';
+  String get oralMedication => 'Ağızdan Ilaç';
 
   @override
   String get topical => 'Cilde';
@@ -1220,7 +1220,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pumping => 'Pumping';
 
   @override
-  String get temperatureMeasurement => 'Temperature Measurement';
+  String get temperatureMeasurement => 'Sıcaklık Ölçümü';
 
   @override
   String get fever => 'Ateş';
@@ -1981,7 +1981,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tablespoon => 'Yemek kaşığı';
 
   @override
-  String get sleepQuality => 'Uyku';
+  String get sleepQuality => 'Kalite';
 
   @override
   String get pumpingTime => 'Sağma';
@@ -2213,7 +2213,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String hoursMinutesFormat(int hours, int minutes) {
-    return '$hours hours $minutes minutes';
+    return '${hours}s ${minutes}d';
   }
 
   @override
@@ -2883,4 +2883,59 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get cannotOpenSettings => 'Ayarlar ekranı açılamıyor';
+
+  @override
+  String get sleepQualityGood => 'İyi';
+
+  @override
+  String get sleepQualityFair => 'Orta';
+
+  @override
+  String get sleepQualityPoor => 'Kötü';
+
+  @override
+  String sleepInProgressDuration(Object minutes) {
+    return 'Uyuyor - ${minutes}d geçti';
+  }
+
+  @override
+  String get wetOnly => 'Sadece Islak';
+
+  @override
+  String get dirtyOnly => 'Sadece Kirli';
+
+  @override
+  String get wetAndDirty => 'Islak + Kirli';
+
+  @override
+  String get colorLabel => 'Renk';
+
+  @override
+  String get consistencyLabel => 'Kivam';
+
+  @override
+  String get topicalMedication => 'Harici';
+
+  @override
+  String get inhaledMedication => 'Solunum';
+
+  @override
+  String get milkPumpingInProgress => 'Sağıyor';
+
+  @override
+  String pumpingInProgressDuration(Object minutes) {
+    return 'Sağıyor - ${minutes}d geçti';
+  }
+
+  @override
+  String get lowGradeFever => 'Hafif Ateş';
+
+  @override
+  String get normalTemperature => 'Normal';
+
+  @override
+  String get allActivities => 'Hepsi';
+
+  @override
+  String get temperatureFilter => 'Sıcaklık';
 }

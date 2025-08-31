@@ -1946,7 +1946,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tablespoon => '큰술';
 
   @override
-  String get sleepQuality => '수면';
+  String get sleepQuality => '품질';
 
   @override
   String get pumpingTime => '유축';
@@ -2841,4 +2841,59 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get cannotOpenSettings => '설정 화면을 열 수 없습니다';
+
+  @override
+  String get sleepQualityGood => '좋음';
+
+  @override
+  String get sleepQualityFair => '보통';
+
+  @override
+  String get sleepQualityPoor => '나쁨';
+
+  @override
+  String sleepInProgressDuration(Object minutes) {
+    return '수면 중 - $minutes분 경과';
+  }
+
+  @override
+  String get wetOnly => '소변만';
+
+  @override
+  String get dirtyOnly => '대변만';
+
+  @override
+  String get wetAndDirty => '소변 + 대변';
+
+  @override
+  String get colorLabel => '색상';
+
+  @override
+  String get consistencyLabel => '농도';
+
+  @override
+  String get topicalMedication => '외용';
+
+  @override
+  String get inhaledMedication => '흡입';
+
+  @override
+  String get milkPumpingInProgress => '유축 중';
+
+  @override
+  String pumpingInProgressDuration(Object minutes) {
+    return '유축 중 - $minutes분 경과';
+  }
+
+  @override
+  String get lowGradeFever => '미열';
+
+  @override
+  String get normalTemperature => '정상';
+
+  @override
+  String get allActivities => '전체';
+
+  @override
+  String get temperatureFilter => '체온';
 }

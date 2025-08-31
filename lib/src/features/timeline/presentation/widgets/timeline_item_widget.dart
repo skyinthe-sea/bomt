@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/timeline_item.dart';
+import '../utils/timeline_localization_helper.dart';
 
 class TimelineItemWidget extends StatefulWidget {
   final TimelineItem item;
@@ -16,6 +17,7 @@ class TimelineItemWidget extends StatefulWidget {
     this.onTap,
     this.onLongPress,
   });
+  
 
   @override
   State<TimelineItemWidget> createState() => _TimelineItemWidgetState();
@@ -246,7 +248,7 @@ class _TimelineItemWidgetState extends State<TimelineItemWidget>
                           Row(
                             children: [
                               Text(
-                                widget.item.title,
+                                TimelineLocalizationHelper.getLocalizedTitle(context, widget.item),
                                 style: theme.textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.w600,
                                   color: theme.colorScheme.onSurface,
@@ -285,7 +287,7 @@ class _TimelineItemWidgetState extends State<TimelineItemWidget>
                               widget.item.subtitle!.isNotEmpty) ...[
                             const SizedBox(height: 6),
                             Text(
-                              widget.item.subtitle!,
+                              TimelineLocalizationHelper.getLocalizedSubtitle(context, widget.item),
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: theme.colorScheme.onSurface.withOpacity(0.7),
                               ),

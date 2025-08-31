@@ -1944,7 +1944,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tablespoon => '大さじ';
 
   @override
-  String get sleepQuality => '睡眠';
+  String get sleepQuality => '質';
 
   @override
   String get pumpingTime => '搾乳';
@@ -2839,4 +2839,59 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cannotOpenSettings => '設定画面を開けません';
+
+  @override
+  String get sleepQualityGood => '良い';
+
+  @override
+  String get sleepQualityFair => '普通';
+
+  @override
+  String get sleepQualityPoor => '悪い';
+
+  @override
+  String sleepInProgressDuration(Object minutes) {
+    return '睡眠中 - $minutes分経過';
+  }
+
+  @override
+  String get wetOnly => '尿のみ';
+
+  @override
+  String get dirtyOnly => '便のみ';
+
+  @override
+  String get wetAndDirty => '尿 + 便';
+
+  @override
+  String get colorLabel => '色';
+
+  @override
+  String get consistencyLabel => '濃度';
+
+  @override
+  String get topicalMedication => '外用';
+
+  @override
+  String get inhaledMedication => '吸入';
+
+  @override
+  String get milkPumpingInProgress => '搾乳中';
+
+  @override
+  String pumpingInProgressDuration(Object minutes) {
+    return '搾乳中 - $minutes分経過';
+  }
+
+  @override
+  String get lowGradeFever => '微熱';
+
+  @override
+  String get normalTemperature => '正常';
+
+  @override
+  String get allActivities => 'すべて';
+
+  @override
+  String get temperatureFilter => '体温';
 }

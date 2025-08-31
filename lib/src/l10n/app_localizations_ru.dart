@@ -267,13 +267,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get diaper => 'Подгузник';
 
   @override
-  String get solidFood => 'Твёрдая пища';
+  String get solidFood => 'Твердая Пища';
 
   @override
   String get medication => 'Лекарство';
 
   @override
-  String get milkPumping => 'Сцеживание молока';
+  String get milkPumping => 'Сцеживание Молока';
 
   @override
   String get temperature => 'Температура';
@@ -336,7 +336,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sleepEnded => 'Sleep ended';
 
   @override
-  String get sleepInProgress => 'In Progress';
+  String get sleepInProgress => 'Спит';
 
   @override
   String get sleepRecordFailed => 'Failed to process sleep record';
@@ -1205,10 +1205,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get consistency => 'Consistency';
 
   @override
-  String get diaperChange => 'Diaper Change';
+  String get diaperChange => 'Смена Подгузника';
 
   @override
-  String get oralMedication => 'Oral medication';
+  String get oralMedication => 'Пероральное Лекарство';
 
   @override
   String get topical => 'Наружный';
@@ -1220,7 +1220,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get pumping => 'Pumping';
 
   @override
-  String get temperatureMeasurement => 'Temperature Measurement';
+  String get temperatureMeasurement => 'Измерение Температуры';
 
   @override
   String get fever => 'Лихорадка';
@@ -1981,7 +1981,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tablespoon => 'Столовая ложка';
 
   @override
-  String get sleepQuality => 'Сон';
+  String get sleepQuality => 'Качество';
 
   @override
   String get pumpingTime => 'Сцеживание';
@@ -2213,7 +2213,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String hoursMinutesFormat(int hours, int minutes) {
-    return '$hours hours $minutes minutes';
+    return '$hoursч $minutesм';
   }
 
   @override
@@ -2886,4 +2886,59 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get cannotOpenSettings => 'Не удается открыть экран настроек';
+
+  @override
+  String get sleepQualityGood => 'Хороший';
+
+  @override
+  String get sleepQualityFair => 'Нормальный';
+
+  @override
+  String get sleepQualityPoor => 'Плохой';
+
+  @override
+  String sleepInProgressDuration(Object minutes) {
+    return 'Спит - $minutesм прошло';
+  }
+
+  @override
+  String get wetOnly => 'Только Мокрый';
+
+  @override
+  String get dirtyOnly => 'Только Грязный';
+
+  @override
+  String get wetAndDirty => 'Мокрый + Грязный';
+
+  @override
+  String get colorLabel => 'Цвет';
+
+  @override
+  String get consistencyLabel => 'Консистенция';
+
+  @override
+  String get topicalMedication => 'Наружное';
+
+  @override
+  String get inhaledMedication => 'Ингаляционное';
+
+  @override
+  String get milkPumpingInProgress => 'Сцеживание';
+
+  @override
+  String pumpingInProgressDuration(Object minutes) {
+    return 'Сцеживание - $minutesм прошло';
+  }
+
+  @override
+  String get lowGradeFever => 'Легкая Лихорадка';
+
+  @override
+  String get normalTemperature => 'Нормальная';
+
+  @override
+  String get allActivities => 'Все';
+
+  @override
+  String get temperatureFilter => 'Температура';
 }
