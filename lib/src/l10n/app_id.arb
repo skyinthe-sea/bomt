@@ -54,6 +54,13 @@
   "settings": "Pengaturan",
   "language": "Bahasa", 
   "appearance": "Tampilan",
+  
+  "home": "Beranda",
+  "timeline": "Timeline",
+  "record": "Catatan",
+  "statistics": "Statistik",
+  "community": "Komunitas",
+  
   "darkMode": "Mode gelap",
   "logout": "Keluar",
   "logoutConfirm": "Yakin ingin keluar?",
@@ -842,5 +849,13 @@
   "smartInsights": "Wawasan Cerdas",
   "confidence": "Kepercayaan",
   "analyzingPatterns": "Menganalisis pola...",
-  "insightsFound": "{count} wawasan ditemukan"
+  "insightsFound": "{count} wawasan ditemukan",
+  "weightChange": "Perubahan Berat Badan",
+  "heightChange": "Perubahan Tinggi Badan",
+  "totalRecords": "Total Catatan",
+  "totalChange": "Perubahan Total",
+  "start": "Mulai",
+  "memo": "Memo",
+  "weightDataEmpty": "Tidak ada data berat badan tersedia",
+  "heightDataEmpty": "Tidak ada data tinggi badan tersedia"
 }

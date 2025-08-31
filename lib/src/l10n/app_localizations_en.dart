@@ -2830,4 +2830,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get off => 'Off';
+
+  @override
+  String get weightChange => 'Weight Change';
+
+  @override
+  String get heightChange => 'Height Change';
+
+  @override
+  String get totalRecords => 'Total Records';
+
+  @override
+  String get totalChange => 'Total Change';
+
+  @override
+  String get start => 'Start';
+
+  @override
+  String get memo => 'Memo';
+
+  @override
+  String get weightDataEmpty => 'No weight data available';
+
+  @override
+  String get heightDataEmpty => 'No height data available';
 }

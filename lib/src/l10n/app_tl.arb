@@ -54,6 +54,13 @@
   "settings": "Settings",
   "language": "Wika", 
   "appearance": "Hitsura",
+  
+  "home": "Home",
+  "timeline": "Timeline",
+  "record": "Talaan",
+  "statistics": "Estadistika",
+  "community": "Komunidad",
+  
   "darkMode": "Dark mode",
   "logout": "Mag-logout",
   "logoutConfirm": "Sigurado ka bang mag-logout?",
@@ -842,5 +849,13 @@
   "smartInsights": "Matalinong Pag-unawa",
   "confidence": "Tiwala",
   "analyzingPatterns": "Sinusuri ang mga pattern...",
-  "insightsFound": "{count} pag-unawa na natagpuan"
+  "insightsFound": "{count} pag-unawa na natagpuan",
+  "weightChange": "Pagbabago ng Timbang",
+  "heightChange": "Pagbabago ng Taas",
+  "totalRecords": "Kabuuang Mga Talaan",
+  "totalChange": "Kabuuang Pagbabago",
+  "start": "Simula",
+  "memo": "Memo",
+  "weightDataEmpty": "Walang available na datos ng timbang",
+  "heightDataEmpty": "Walang available na datos ng taas"
 }

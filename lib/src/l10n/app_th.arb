@@ -54,6 +54,13 @@
   "settings": "การตั้งค่า",
   "language": "ภาษา", 
   "appearance": "รูปลักษณ์",
+  
+  "home": "หน้าหลัก",
+  "timeline": "ไทม์ไลน์",
+  "record": "บันทึก",
+  "statistics": "สถิติ",
+  "community": "ชุมชน",
+  
   "darkMode": "โหมดมืด",
   "logout": "ออกจากระบบ",
   "logoutConfirm": "คุณแน่ใจว่าต้องการออกจากระบบ?",
@@ -1187,5 +1194,13 @@
   "smartInsights": "ข้อมูลเชิงลึกอัจฉริยะ",
   "confidence": "ความเชื่อมั่น",
   "analyzingPatterns": "กำลังวิเคราะห์รูปแบบ...",
-  "insightsFound": "พบข้อมูลเชิงลึก {count} รายการ"
+  "insightsFound": "พบข้อมูลเชิงลึก {count} รายการ",
+  "weightChange": "การเปลี่ยนแปลงน้ำหนัก",
+  "heightChange": "การเปลี่ยนแปลงส่วนสูง",
+  "totalRecords": "บันทึกทั้งหมด",
+  "totalChange": "การเปลี่ยนแปลงทั้งหมด",
+  "start": "เริ่มต้น",
+  "memo": "บันทึก",
+  "weightDataEmpty": "ไม่มีข้อมูลน้ำหนัก",
+  "heightDataEmpty": "ไม่มีข้อมูลส่วนสูง"
 }

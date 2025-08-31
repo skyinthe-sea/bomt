@@ -172,19 +172,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get appearance => 'Оформление';
 
   @override
-  String get home => 'Home';
+  String get home => 'Главная';
 
   @override
-  String get timeline => 'Timeline';
+  String get timeline => 'Хронология';
 
   @override
-  String get record => 'Record';
+  String get record => 'Запись';
 
   @override
-  String get statistics => 'Statistics';
+  String get statistics => 'Статистика';
 
   @override
-  String get community => 'Community';
+  String get community => 'Сообщество';
 
   @override
   String get comingSoon => 'Скоро';
@@ -2834,4 +2834,28 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get off => 'Выкл';
+
+  @override
+  String get weightChange => 'Изменение Веса';
+
+  @override
+  String get heightChange => 'Изменение Роста';
+
+  @override
+  String get totalRecords => 'Общее Количество Записей';
+
+  @override
+  String get totalChange => 'Общее Изменение';
+
+  @override
+  String get start => 'Начало';
+
+  @override
+  String get memo => 'Заметка';
+
+  @override
+  String get weightDataEmpty => 'Нет данных о весе';
+
+  @override
+  String get heightDataEmpty => 'Нет данных о росте';
 }

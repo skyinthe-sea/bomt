@@ -2789,4 +2789,28 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get off => '끔';
+
+  @override
+  String get weightChange => '체중 변화';
+
+  @override
+  String get heightChange => '키 변화';
+
+  @override
+  String get totalRecords => '총 기록';
+
+  @override
+  String get totalChange => '총 변화';
+
+  @override
+  String get start => '시작';
+
+  @override
+  String get memo => '메모';
+
+  @override
+  String get weightDataEmpty => '체중 데이터가 없습니다';
+
+  @override
+  String get heightDataEmpty => '키 데이터가 없습니다';
 }

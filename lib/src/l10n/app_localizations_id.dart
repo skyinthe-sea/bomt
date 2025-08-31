@@ -172,19 +172,19 @@ class AppLocalizationsId extends AppLocalizations {
   String get appearance => 'Tampilan';
 
   @override
-  String get home => 'Home';
+  String get home => 'Beranda';
 
   @override
   String get timeline => 'Timeline';
 
   @override
-  String get record => 'Record';
+  String get record => 'Catatan';
 
   @override
-  String get statistics => 'Statistics';
+  String get statistics => 'Statistik';
 
   @override
-  String get community => 'Community';
+  String get community => 'Komunitas';
 
   @override
   String get comingSoon => 'Segera hadir';
@@ -2830,4 +2830,28 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get off => 'Mati';
+
+  @override
+  String get weightChange => 'Perubahan Berat Badan';
+
+  @override
+  String get heightChange => 'Perubahan Tinggi Badan';
+
+  @override
+  String get totalRecords => 'Total Catatan';
+
+  @override
+  String get totalChange => 'Perubahan Total';
+
+  @override
+  String get start => 'Mulai';
+
+  @override
+  String get memo => 'Memo';
+
+  @override
+  String get weightDataEmpty => 'Tidak ada data berat badan tersedia';
+
+  @override
+  String get heightDataEmpty => 'Tidak ada data tinggi badan tersedia';
 }

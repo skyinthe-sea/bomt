@@ -2829,4 +2829,28 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get off => 'बंद';
+
+  @override
+  String get weightChange => 'वजन परिवर्तन';
+
+  @override
+  String get heightChange => 'ऊंचाई परिवर्तन';
+
+  @override
+  String get totalRecords => 'कुल रिकॉर्ड';
+
+  @override
+  String get totalChange => 'कुल परिवर्तन';
+
+  @override
+  String get start => 'शुरू';
+
+  @override
+  String get memo => 'मेमो';
+
+  @override
+  String get weightDataEmpty => 'कोई वजन डेटा उपलब्ध नहीं';
+
+  @override
+  String get heightDataEmpty => 'कोई ऊंचाई डेटा उपलब्ध नहीं';
 }

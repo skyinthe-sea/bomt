@@ -179,13 +179,13 @@ class AppLocalizationsTl extends AppLocalizations {
   String get timeline => 'Timeline';
 
   @override
-  String get record => 'Record';
+  String get record => 'Talaan';
 
   @override
-  String get statistics => 'Statistics';
+  String get statistics => 'Estadistika';
 
   @override
-  String get community => 'Community';
+  String get community => 'Komunidad';
 
   @override
   String get comingSoon => 'Malapit na';
@@ -2841,4 +2841,28 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get off => 'Sara';
+
+  @override
+  String get weightChange => 'Pagbabago ng Timbang';
+
+  @override
+  String get heightChange => 'Pagbabago ng Taas';
+
+  @override
+  String get totalRecords => 'Kabuuang Mga Talaan';
+
+  @override
+  String get totalChange => 'Kabuuang Pagbabago';
+
+  @override
+  String get start => 'Simula';
+
+  @override
+  String get memo => 'Memo';
+
+  @override
+  String get weightDataEmpty => 'Walang available na datos ng timbang';
+
+  @override
+  String get heightDataEmpty => 'Walang available na datos ng taas';
 }

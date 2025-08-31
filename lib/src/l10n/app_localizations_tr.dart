@@ -172,19 +172,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get appearance => 'Görünüm';
 
   @override
-  String get home => 'Home';
+  String get home => 'Ana sayfa';
 
   @override
-  String get timeline => 'Timeline';
+  String get timeline => 'Zaman çizelgesi';
 
   @override
-  String get record => 'Record';
+  String get record => 'Kayıt';
 
   @override
-  String get statistics => 'Statistics';
+  String get statistics => 'İstatistikler';
 
   @override
-  String get community => 'Community';
+  String get community => 'Topluluk';
 
   @override
   String get comingSoon => 'Yakında';
@@ -2831,4 +2831,28 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get off => 'Kapalı';
+
+  @override
+  String get weightChange => 'Kilo Değişimi';
+
+  @override
+  String get heightChange => 'Boy Değişimi';
+
+  @override
+  String get totalRecords => 'Toplam Kayıtlar';
+
+  @override
+  String get totalChange => 'Toplam Değişim';
+
+  @override
+  String get start => 'Başlangıç';
+
+  @override
+  String get memo => 'Not';
+
+  @override
+  String get weightDataEmpty => 'Kilo verisi mevcut değil';
+
+  @override
+  String get heightDataEmpty => 'Boy verisi mevcut değil';
 }

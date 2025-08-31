@@ -2788,4 +2788,28 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get off => 'オフ';
+
+  @override
+  String get weightChange => '体重変化';
+
+  @override
+  String get heightChange => '身長変化';
+
+  @override
+  String get totalRecords => '総記録';
+
+  @override
+  String get totalChange => '総変化';
+
+  @override
+  String get start => '開始';
+
+  @override
+  String get memo => 'メモ';
+
+  @override
+  String get weightDataEmpty => '体重データがありません';
+
+  @override
+  String get heightDataEmpty => '身長データがありません';
 }

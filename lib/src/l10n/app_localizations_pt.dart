@@ -172,19 +172,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get appearance => 'Aparência';
 
   @override
-  String get home => 'Home';
+  String get home => 'Início';
 
   @override
-  String get timeline => 'Timeline';
+  String get timeline => 'Linha do tempo';
 
   @override
-  String get record => 'Record';
+  String get record => 'Registro';
 
   @override
-  String get statistics => 'Statistics';
+  String get statistics => 'Estatísticas';
 
   @override
-  String get community => 'Community';
+  String get community => 'Comunidade';
 
   @override
   String get comingSoon => 'Em breve';
@@ -2839,4 +2839,28 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get off => 'Desligado';
+
+  @override
+  String get weightChange => 'Mudança de Peso';
+
+  @override
+  String get heightChange => 'Mudança de Altura';
+
+  @override
+  String get totalRecords => 'Total de Registros';
+
+  @override
+  String get totalChange => 'Mudança Total';
+
+  @override
+  String get start => 'Início';
+
+  @override
+  String get memo => 'Memorando';
+
+  @override
+  String get weightDataEmpty => 'Nenhum dado de peso disponível';
+
+  @override
+  String get heightDataEmpty => 'Nenhum dado de altura disponível';
 }

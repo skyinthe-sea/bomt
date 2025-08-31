@@ -2004,5 +2004,13 @@
   "smartInsights": "Smart Insights",
   "confidence": "Confidence",
   "analyzingPatterns": "Analyzing patterns...",
-  "insightsFound": "{count} insights found"
+  "insightsFound": "{count} insights found",
+  "weightChange": "Weight Change",
+  "heightChange": "Height Change",
+  "totalRecords": "Total Records",
+  "totalChange": "Total Change",
+  "start": "Start",
+  "memo": "Memo",
+  "weightDataEmpty": "No weight data available",
+  "heightDataEmpty": "No height data available"
 }

@@ -1,6 +1,7 @@
 import 'dart:ui' show lerpDouble;
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/growth_record.dart';
 
 class GrowthChartWidget extends StatelessWidget {
@@ -17,6 +18,7 @@ class GrowthChartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final localizations = AppLocalizations.of(context)!;
     final chartData = _processChartData();
     
     if (chartData.isEmpty) {
@@ -36,7 +38,7 @@ class GrowthChartWidget extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              showWeight ? '체중 변화' : '키 변화',
+              showWeight ? localizations.weightChange : localizations.heightChange,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: colorScheme.onSurface,
@@ -210,6 +212,7 @@ class GrowthChartWidget extends StatelessWidget {
   Widget _buildNoDataMessage(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final localizations = AppLocalizations.of(context)!;
     
     return Center(
       child: Column(
@@ -222,7 +225,7 @@ class GrowthChartWidget extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            showWeight ? '체중 데이터가 없습니다' : '키 데이터가 없습니다',
+            showWeight ? localizations.weightDataEmpty : localizations.heightDataEmpty,
             style: TextStyle(
               color: colorScheme.onSurface.withOpacity(0.6),
               fontSize: 16,
@@ -277,6 +280,7 @@ class GrowthChartWidget extends StatelessWidget {
 
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final localizations = AppLocalizations.of(context)!;
     final firstValue = data.first.value;
     final lastValue = data.last.value;
     final totalChange = lastValue - firstValue;
@@ -297,9 +301,9 @@ class GrowthChartWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildStatItem('총 기록', '${data.length}개', colorScheme.onSurface.withOpacity(0.7), context),
-          _buildStatItem('시작', '${firstValue.toStringAsFixed(1)}$unit', colorScheme.onSurface.withOpacity(0.7), context),
-          _buildStatItem('현재', '${lastValue.toStringAsFixed(1)}$unit', colorScheme.onSurface.withOpacity(0.7), context),
+          _buildStatItem(localizations.totalRecords, '${data.length}', colorScheme.onSurface.withOpacity(0.7), context),
+          _buildStatItem(localizations.start, '${firstValue.toStringAsFixed(1)}$unit', colorScheme.onSurface.withOpacity(0.7), context),
+          _buildStatItem(localizations.current, '${lastValue.toStringAsFixed(1)}$unit', colorScheme.onSurface.withOpacity(0.7), context),
           Row(
             children: [
               Icon(changeIcon, size: 16, color: changeColor),
@@ -307,7 +311,7 @@ class GrowthChartWidget extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    '총 변화',
+                    localizations.totalChange,
                     style: TextStyle(
                       fontSize: 11,
                       color: colorScheme.onSurface.withOpacity(0.5),
@@ -359,6 +363,7 @@ class GrowthChartWidget extends StatelessWidget {
   void _showMemoPopup(BuildContext context, ChartDataPoint dataPoint) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final localizations = AppLocalizations.of(context)!;
     final unit = showWeight ? 'kg' : 'cm';
     
     showDialog(
@@ -406,7 +411,7 @@ class GrowthChartWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${showWeight ? '체중' : '키'} 기록',
+                            '${showWeight ? localizations.weight : localizations.height} ${localizations.record}',
                             style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: colorScheme.onSurface,
@@ -477,7 +482,7 @@ class GrowthChartWidget extends StatelessWidget {
                 
                 // 메모 내용
                 Text(
-                  '메모',
+                  localizations.memo,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface,

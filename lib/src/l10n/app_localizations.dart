@@ -5213,6 +5213,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Off'**
   String get off;
+
+  /// No description provided for @weightChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight Change'**
+  String get weightChange;
+
+  /// No description provided for @heightChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Height Change'**
+  String get heightChange;
+
+  /// No description provided for @totalRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Records'**
+  String get totalRecords;
+
+  /// No description provided for @totalChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Change'**
+  String get totalChange;
+
+  /// No description provided for @start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get start;
+
+  /// No description provided for @memo.
+  ///
+  /// In en, this message translates to:
+  /// **'Memo'**
+  String get memo;
+
+  /// No description provided for @weightDataEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No weight data available'**
+  String get weightDataEmpty;
+
+  /// No description provided for @heightDataEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No height data available'**
+  String get heightDataEmpty;
 }
 
 class _AppLocalizationsDelegate

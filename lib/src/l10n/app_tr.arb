@@ -54,6 +54,13 @@
   "settings": "Ayarlar",
   "language": "Dil", 
   "appearance": "Görünüm",
+  
+  "home": "Ana sayfa",
+  "timeline": "Zaman çizelgesi",
+  "record": "Kayıt",
+  "statistics": "İstatistikler",
+  "community": "Topluluk",
+  
   "darkMode": "Karanlık mod",
   "logout": "Çıkış yap",
   "logoutConfirm": "Çıkış yapmak istediğinizden emin misiniz?",
@@ -842,5 +849,13 @@
   "smartInsights": "Akıllı İçgörüler",
   "confidence": "Güven",
   "analyzingPatterns": "Desenler analiz ediliyor...",
-  "insightsFound": "{count} içgörü bulundu"
+  "insightsFound": "{count} içgörü bulundu",
+  "weightChange": "Kilo Değişimi",
+  "heightChange": "Boy Değişimi",
+  "totalRecords": "Toplam Kayıtlar",
+  "totalChange": "Toplam Değişim",
+  "start": "Başlangıç",
+  "memo": "Not",
+  "weightDataEmpty": "Kilo verisi mevcut değil",
+  "heightDataEmpty": "Boy verisi mevcut değil"
 }

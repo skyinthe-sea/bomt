@@ -54,6 +54,13 @@
   "settings": "Configurações",
   "language": "Idioma", 
   "appearance": "Aparência",
+  
+  "home": "Início",
+  "timeline": "Linha do tempo",
+  "record": "Registro",
+  "statistics": "Estatísticas",
+  "community": "Comunidade",
+  
   "darkMode": "Modo escuro",
   "logout": "Sair",
   "logoutConfirm": "Tem certeza que deseja sair?",
@@ -910,5 +917,13 @@
   "smartInsights": "Insights Inteligentes",
   "confidence": "Confiança",
   "analyzingPatterns": "Analisando padrões...",
-  "insightsFound": "{count} insights encontrados"
+  "insightsFound": "{count} insights encontrados",
+  "weightChange": "Mudança de Peso",
+  "heightChange": "Mudança de Altura",
+  "totalRecords": "Total de Registros",
+  "totalChange": "Mudança Total",
+  "start": "Início",
+  "memo": "Memorando",
+  "weightDataEmpty": "Nenhum dado de peso disponível",
+  "heightDataEmpty": "Nenhum dado de altura disponível"
 }

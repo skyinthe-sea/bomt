@@ -840,5 +840,13 @@
   "smartInsights": "स्मार्ट अंतर्दृष्टि",
   "confidence": "विश्वास",
   "analyzingPatterns": "पैटर्न का विश्लेषण...",
-  "insightsFound": "{count} अंतर्दृष्टि मिली"
+  "insightsFound": "{count} अंतर्दृष्टि मिली",
+  "weightChange": "वजन परिवर्तन",
+  "heightChange": "ऊंचाई परिवर्तन",
+  "totalRecords": "कुल रिकॉर्ड",
+  "totalChange": "कुल परिवर्तन",
+  "start": "शुरू",
+  "memo": "मेमो",
+  "weightDataEmpty": "कोई वजन डेटा उपलब्ध नहीं",
+  "heightDataEmpty": "कोई ऊंचाई डेटा उपलब्ध नहीं"
 }

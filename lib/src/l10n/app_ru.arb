@@ -54,6 +54,13 @@
   "settings": "Настройки",
   "language": "Язык", 
   "appearance": "Оформление",
+  
+  "home": "Главная",
+  "timeline": "Хронология",
+  "record": "Запись",
+  "statistics": "Статистика",
+  "community": "Сообщество",
+  
   "darkMode": "Тёмная тема",
   "logout": "Выйти",
   "logoutConfirm": "Вы уверены, что хотите выйти?",
@@ -842,5 +849,13 @@
   "smartInsights": "Умные Выводы",
   "confidence": "Уверенность",
   "analyzingPatterns": "Анализ закономерностей...",
-  "insightsFound": "{count} выводов найдено"
+  "insightsFound": "{count} выводов найдено",
+  "weightChange": "Изменение Веса",
+  "heightChange": "Изменение Роста",
+  "totalRecords": "Общее Количество Записей",
+  "totalChange": "Общее Изменение",
+  "start": "Начало",
+  "memo": "Заметка",
+  "weightDataEmpty": "Нет данных о весе",
+  "heightDataEmpty": "Нет данных о росте"
 }

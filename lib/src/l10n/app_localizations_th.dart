@@ -172,19 +172,19 @@ class AppLocalizationsTh extends AppLocalizations {
   String get appearance => 'รูปลักษณ์';
 
   @override
-  String get home => 'Home';
+  String get home => 'หน้าหลัก';
 
   @override
-  String get timeline => 'Timeline';
+  String get timeline => 'ไทม์ไลน์';
 
   @override
-  String get record => 'Record';
+  String get record => 'บันทึก';
 
   @override
-  String get statistics => 'Statistics';
+  String get statistics => 'สถิติ';
 
   @override
-  String get community => 'Community';
+  String get community => 'ชุมชน';
 
   @override
   String get comingSoon => 'เร็วๆ นี้';
@@ -2827,4 +2827,28 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get off => 'ปิด';
+
+  @override
+  String get weightChange => 'การเปลี่ยนแปลงน้ำหนัก';
+
+  @override
+  String get heightChange => 'การเปลี่ยนแปลงส่วนสูง';
+
+  @override
+  String get totalRecords => 'บันทึกทั้งหมด';
+
+  @override
+  String get totalChange => 'การเปลี่ยนแปลงทั้งหมด';
+
+  @override
+  String get start => 'เริ่มต้น';
+
+  @override
+  String get memo => 'บันทึก';
+
+  @override
+  String get weightDataEmpty => 'ไม่มีข้อมูลน้ำหนัก';
+
+  @override
+  String get heightDataEmpty => 'ไม่มีข้อมูลส่วนสูง';
 }

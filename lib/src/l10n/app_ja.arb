@@ -1089,5 +1089,13 @@
   "smartInsights": "スマートインサイト",
   "confidence": "信頼度",
   "analyzingPatterns": "パターン分析中...",
-  "insightsFound": "{count}個のインサイトが見つかりました"
+  "insightsFound": "{count}個のインサイトが見つかりました",
+  "weightChange": "体重変化",
+  "heightChange": "身長変化",
+  "totalRecords": "総記録",
+  "totalChange": "総変化",
+  "start": "開始",
+  "memo": "メモ",
+  "weightDataEmpty": "体重データがありません",
+  "heightDataEmpty": "身長データがありません"
 }

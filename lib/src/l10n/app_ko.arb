@@ -1158,5 +1158,13 @@
   "smartInsights": "스마트 인사이트",
   "confidence": "신뢰도",
   "analyzingPatterns": "패턴 분석 중...",
-  "insightsFound": "{count}개의 인사이트 발견"
+  "insightsFound": "{count}개의 인사이트 발견",
+  "weightChange": "체중 변화",
+  "heightChange": "키 변화",
+  "totalRecords": "총 기록",
+  "totalChange": "총 변화",
+  "start": "시작",
+  "memo": "메모",
+  "weightDataEmpty": "체중 데이터가 없습니다",
+  "heightDataEmpty": "키 데이터가 없습니다"
 }

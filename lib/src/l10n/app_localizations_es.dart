@@ -172,19 +172,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appearance => 'Apariencia';
 
   @override
-  String get home => 'Home';
+  String get home => 'Inicio';
 
   @override
-  String get timeline => 'Timeline';
+  String get timeline => 'Línea de tiempo';
 
   @override
-  String get record => 'Record';
+  String get record => 'Registro';
 
   @override
-  String get statistics => 'Statistics';
+  String get statistics => 'Estadísticas';
 
   @override
-  String get community => 'Community';
+  String get community => 'Comunidad';
 
   @override
   String get comingSoon => 'Próximamente';
@@ -2841,4 +2841,28 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get off => 'Apagado';
+
+  @override
+  String get weightChange => 'Cambio de Peso';
+
+  @override
+  String get heightChange => 'Cambio de Altura';
+
+  @override
+  String get totalRecords => 'Total de Registros';
+
+  @override
+  String get totalChange => 'Cambio Total';
+
+  @override
+  String get start => 'Inicio';
+
+  @override
+  String get memo => 'Nota';
+
+  @override
+  String get weightDataEmpty => 'No hay datos de peso disponibles';
+
+  @override
+  String get heightDataEmpty => 'No hay datos de altura disponibles';
 }
