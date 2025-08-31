@@ -1224,7 +1224,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get temperatureMeasurement => 'Temperature Measurement';
 
   @override
-  String get fever => 'Fever';
+  String get fever => 'Fieber';
 
   @override
   String get lowFever => 'Leichtes Fieber';
@@ -2567,4 +2567,63 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get analMethod => 'Anal';
+
+  @override
+  String recentDaysTrend(int days) {
+    return 'Trend der letzten $days Tage';
+  }
+
+  @override
+  String get days3 => '3 Tage';
+
+  @override
+  String get days7 => '7 Tage';
+
+  @override
+  String get weeks2 => '2 Wochen';
+
+  @override
+  String get month1 => '1 Monat';
+
+  @override
+  String get noTemperatureRecordsInPeriod =>
+      'Keine Temperaturaufzeichnungen im gewählten Zeitraum';
+
+  @override
+  String get temperatureChangeTrend => 'Temperaturveränderungstrend';
+
+  @override
+  String get averageTemperature => 'Durchschnittstemperatur';
+
+  @override
+  String get highestTemperature => 'Höchsttemperatur';
+
+  @override
+  String get lowestTemperature => 'Niedrigsttemperatur';
+
+  @override
+  String get noteAvailableTapToView =>
+      '📝 Notiz verfügbar (tippen zum Anzeigen)';
+
+  @override
+  String get temperatureRisingTrend =>
+      'Die Temperatur zeigt einen steigenden Trend';
+
+  @override
+  String get temperatureFallingTrend =>
+      'Die Temperatur zeigt einen fallenden Trend';
+
+  @override
+  String get temperatureStableTrend => 'Die Temperatur ist stabil';
+
+  @override
+  String get trendAnalysis => 'Trendanalyse';
+
+  @override
+  String totalMeasurements(int count) {
+    return 'Insgesamt $count Messungen';
+  }
+
+  @override
+  String get temperatureRecordMemo => 'Temperaturprotokoll Notiz';
 }

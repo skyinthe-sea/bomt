@@ -1223,7 +1223,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get temperatureMeasurement => 'Temperature Measurement';
 
   @override
-  String get fever => 'Fever';
+  String get fever => 'Лихорадка';
 
   @override
   String get lowFever => 'Легкая лихорадка';
@@ -1835,7 +1835,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get temperatureRecord => 'Запись температуры';
 
   @override
-  String get temperatureTrend => 'Тенденция температуры';
+  String get temperatureTrend => 'Тренд Температуры';
 
   @override
   String get profilePhotoSetup => 'Настройка фото профиля';
@@ -1957,7 +1957,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get illness => 'Болезнь';
 
   @override
-  String get highFever => 'Высокая лихорадка';
+  String get highFever => 'Высокая Лихорадка';
 
   @override
   String get oral => 'Оральный';
@@ -2554,4 +2554,63 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get analMethod => 'Анальный';
+
+  @override
+  String recentDaysTrend(int days) {
+    return 'Тренд за последние $days дней';
+  }
+
+  @override
+  String get days3 => '3 дня';
+
+  @override
+  String get days7 => '7 дней';
+
+  @override
+  String get weeks2 => '2 недели';
+
+  @override
+  String get month1 => '1 месяц';
+
+  @override
+  String get noTemperatureRecordsInPeriod =>
+      'Нет записей температуры за выбранный период';
+
+  @override
+  String get temperatureChangeTrend => 'Тренд Изменения Температуры';
+
+  @override
+  String get averageTemperature => 'Средняя Температура';
+
+  @override
+  String get highestTemperature => 'Самая Высокая Температура';
+
+  @override
+  String get lowestTemperature => 'Самая Низкая Температура';
+
+  @override
+  String get noteAvailableTapToView =>
+      '📝 Заметка доступна (нажмите для просмотра)';
+
+  @override
+  String get temperatureRisingTrend =>
+      'Температура показывает восходящий тренд';
+
+  @override
+  String get temperatureFallingTrend =>
+      'Температура показывает нисходящий тренд';
+
+  @override
+  String get temperatureStableTrend => 'Температура стабильна';
+
+  @override
+  String get trendAnalysis => 'Анализ Тренда';
+
+  @override
+  String totalMeasurements(int count) {
+    return 'Всего $count измерений';
+  }
+
+  @override
+  String get temperatureRecordMemo => 'Заметка Записи Температуры';
 }

@@ -1819,5 +1819,40 @@
   "temperatureRangeValidation": "Temperature must be between 34.0°C ~ 42.0°C",
   "recordSymptomsHint": "Please record symptoms or special notes",
   "oralMethod": "Oral",
-  "analMethod": "Anal"
+  "analMethod": "Anal",
+  
+  "temperatureTrend": "Temperature Trend",
+  "recentDaysTrend": "Recent {days} days trend",
+  "@recentDaysTrend": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "days3": "3 days",
+  "days7": "7 days", 
+  "weeks2": "2 weeks",
+  "month1": "1 month",
+  "noTemperatureRecordsInPeriod": "No temperature records in selected period",
+  "temperatureChangeTrend": "Temperature Change Trend",
+  "averageTemperature": "Average Temperature",
+  "highestTemperature": "Highest Temperature",
+  "lowestTemperature": "Lowest Temperature",
+  "noteAvailableTapToView": "📝 Note available (tap to view)",
+  "temperatureRisingTrend": "Temperature is showing a rising trend",
+  "temperatureFallingTrend": "Temperature is showing a falling trend",
+  "temperatureStableTrend": "Temperature is stable",
+  "trendAnalysis": "Trend Analysis",
+  "totalMeasurements": "Total {count} measurements",
+  "@totalMeasurements": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "temperatureRecordMemo": "Temperature Record Memo",
+  "fever": "Fever",
+  "highFever": "High Fever"
 }

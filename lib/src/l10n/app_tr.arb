@@ -658,5 +658,40 @@
   "temperatureRangeValidation": "Sıcaklık 34,0°C ~ 42,0°C arasında olmalıdır",
   "recordSymptomsHint": "Lütfen belirtileri veya özel notları kaydedin",
   "oralMethod": "Ağızdan",
-  "analMethod": "Anelden"
+  "analMethod": "Anelden",
+  
+  "temperatureTrend": "Sıcaklık Trendi",
+  "recentDaysTrend": "Son {days} günün trendi",
+  "@recentDaysTrend": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "days3": "3 gün",
+  "days7": "7 gün", 
+  "weeks2": "2 hafta",
+  "month1": "1 ay",
+  "noTemperatureRecordsInPeriod": "Seçilen dönemde sıcaklık kaydı yok",
+  "temperatureChangeTrend": "Sıcaklık Değişim Trendi",
+  "averageTemperature": "Ortalama Sıcaklık",
+  "highestTemperature": "En Yüksek Sıcaklık",
+  "lowestTemperature": "En Düşük Sıcaklık",
+  "noteAvailableTapToView": "📝 Not mevcut (görüntülemek için dokun)",
+  "temperatureRisingTrend": "Sıcaklık yükselen bir trend gösteriyor",
+  "temperatureFallingTrend": "Sıcaklık düşen bir trend gösteriyor", 
+  "temperatureStableTrend": "Sıcaklık stabil",
+  "trendAnalysis": "Trend Analizi",
+  "totalMeasurements": "Toplam {count} ölçüm",
+  "@totalMeasurements": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "temperatureRecordMemo": "Sıcaklık Kayıt Notu",
+  "fever": "Ateş",
+  "highFever": "Yüksek Ateş"
 }

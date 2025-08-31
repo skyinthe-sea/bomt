@@ -2514,4 +2514,59 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get analMethod => '항문';
+
+  @override
+  String recentDaysTrend(int days) {
+    return '최근 $days일간 추이';
+  }
+
+  @override
+  String get days3 => '3일';
+
+  @override
+  String get days7 => '7일';
+
+  @override
+  String get weeks2 => '2주';
+
+  @override
+  String get month1 => '한달';
+
+  @override
+  String get noTemperatureRecordsInPeriod => '선택한 기간에 체온 기록이 없습니다';
+
+  @override
+  String get temperatureChangeTrend => '체온 변화 추이';
+
+  @override
+  String get averageTemperature => '평균 체온';
+
+  @override
+  String get highestTemperature => '최고 체온';
+
+  @override
+  String get lowestTemperature => '최저 체온';
+
+  @override
+  String get noteAvailableTapToView => '📝 메모 있음 (탭하여 보기)';
+
+  @override
+  String get temperatureRisingTrend => '체온이 상승하는 추세입니다';
+
+  @override
+  String get temperatureFallingTrend => '체온이 하강하는 추세입니다';
+
+  @override
+  String get temperatureStableTrend => '체온이 안정적입니다';
+
+  @override
+  String get trendAnalysis => '추세 분석';
+
+  @override
+  String totalMeasurements(int count) {
+    return '총 $count회 측정됨';
+  }
+
+  @override
+  String get temperatureRecordMemo => '체온 기록 메모';
 }

@@ -905,5 +905,40 @@
   "temperatureRangeValidation": "体温は34.0°C〜42.0°Cの範囲で入力してください",
   "recordSymptomsHint": "症状や特記事項を記録してください",
   "oralMethod": "口腔",
-  "analMethod": "肛門"
+  "analMethod": "肛門",
+  
+  "temperatureTrend": "体温推移",
+  "recentDaysTrend": "過去{days}日間の推移",
+  "@recentDaysTrend": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "days3": "3日間",
+  "days7": "7日間", 
+  "weeks2": "2週間",
+  "month1": "1ヶ月",
+  "noTemperatureRecordsInPeriod": "選択した期間の体温記録がありません",
+  "temperatureChangeTrend": "体温変化の傾向",
+  "averageTemperature": "平均体温",
+  "highestTemperature": "最高体温",
+  "lowestTemperature": "最低体温",
+  "noteAvailableTapToView": "📝 メモあり（タップして表示）",
+  "temperatureRisingTrend": "体温が上昇傾向にあります",
+  "temperatureFallingTrend": "体温が下降傾向にあります", 
+  "temperatureStableTrend": "体温は安定しています",
+  "trendAnalysis": "推移分析",
+  "totalMeasurements": "合計{count}回の測定",
+  "@totalMeasurements": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "temperatureRecordMemo": "体温記録メモ",
+  "fever": "発熱",
+  "highFever": "高熱"
 }

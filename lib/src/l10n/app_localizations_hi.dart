@@ -1836,7 +1836,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get temperatureRecord => 'तापमान रिकॉर्ड';
 
   @override
-  String get temperatureTrend => 'तापमान ट्रेंड';
+  String get temperatureTrend => 'तापमान की प्रवृत्ति';
 
   @override
   String get profilePhotoSetup => 'प्रोफाइल फोटो सेटअप';
@@ -2552,4 +2552,60 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get analMethod => 'गुदा';
+
+  @override
+  String recentDaysTrend(int days) {
+    return 'पिछले $days दिनों की प्रवृत्ति';
+  }
+
+  @override
+  String get days3 => '3 दिन';
+
+  @override
+  String get days7 => '7 दिन';
+
+  @override
+  String get weeks2 => '2 सप्ताह';
+
+  @override
+  String get month1 => '1 महीना';
+
+  @override
+  String get noTemperatureRecordsInPeriod =>
+      'चयनित अवधि में कोई तापमान रिकॉर्ड नहीं';
+
+  @override
+  String get temperatureChangeTrend => 'तापमान परिवर्तन की प्रवृत्ति';
+
+  @override
+  String get averageTemperature => 'औसत तापमान';
+
+  @override
+  String get highestTemperature => 'सबसे ऊंचा तापमान';
+
+  @override
+  String get lowestTemperature => 'सबसे कम तापमान';
+
+  @override
+  String get noteAvailableTapToView => '📝 नोट उपलब्ध (देखने के लिए दबाएं)';
+
+  @override
+  String get temperatureRisingTrend => 'तापमान बढ़ती प्रवृत्ति दिखा रहा है';
+
+  @override
+  String get temperatureFallingTrend => 'तापमान गिरती प्रवृत्ति दिखा रहा है';
+
+  @override
+  String get temperatureStableTrend => 'तापमान स्थिर है';
+
+  @override
+  String get trendAnalysis => 'प्रवृत्ति विश्लेषण';
+
+  @override
+  String totalMeasurements(int count) {
+    return 'कुल $count मापन';
+  }
+
+  @override
+  String get temperatureRecordMemo => 'तापमान रिकॉर्ड मेमो';
 }

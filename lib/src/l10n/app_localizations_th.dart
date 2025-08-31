@@ -1223,7 +1223,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get temperatureMeasurement => 'Temperature Measurement';
 
   @override
-  String get fever => 'Fever';
+  String get fever => 'มีไข้';
 
   @override
   String get lowFever => 'ไข้เล็กน้อย';
@@ -1832,7 +1832,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get temperatureRecord => 'บันทึกอุณหภูมิ';
 
   @override
-  String get temperatureTrend => 'เทรนด์อุณหภูมิ';
+  String get temperatureTrend => 'แนวโน้มอุณหภูมิ';
 
   @override
   String get profilePhotoSetup => 'การตั้งค่าภาพโปรไฟล์';
@@ -2550,4 +2550,60 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get analMethod => 'ทางทวารหนัก';
+
+  @override
+  String recentDaysTrend(int days) {
+    return 'แนวโน้ม $days วันที่ผ่านมา';
+  }
+
+  @override
+  String get days3 => '3 วัน';
+
+  @override
+  String get days7 => '7 วัน';
+
+  @override
+  String get weeks2 => '2 สัปดาห์';
+
+  @override
+  String get month1 => '1 เดือน';
+
+  @override
+  String get noTemperatureRecordsInPeriod =>
+      'ไม่มีบันทึกอุณหภูมิในช่วงเวลาที่เลือก';
+
+  @override
+  String get temperatureChangeTrend => 'แนวโน้มการเปลี่ยนแปลงอุณหภูมิ';
+
+  @override
+  String get averageTemperature => 'อุณหภูมิเฉลี่ย';
+
+  @override
+  String get highestTemperature => 'อุณหภูมิสูงสุด';
+
+  @override
+  String get lowestTemperature => 'อุณหภูมิต่ำสุด';
+
+  @override
+  String get noteAvailableTapToView => '📝 มีหมายเหตุ (แตะเพื่อดู)';
+
+  @override
+  String get temperatureRisingTrend => 'อุณหภูมิมีแนวโน้มสูงขึ้น';
+
+  @override
+  String get temperatureFallingTrend => 'อุณหภูมิมีแนวโน้มลดลง';
+
+  @override
+  String get temperatureStableTrend => 'อุณหภูมิคงที่';
+
+  @override
+  String get trendAnalysis => 'การวิเคราะห์แนวโน้ม';
+
+  @override
+  String totalMeasurements(int count) {
+    return 'รวม $count ครั้งการวัด';
+  }
+
+  @override
+  String get temperatureRecordMemo => 'บันทึกหมายเหตุอุณหภูมิ';
 }

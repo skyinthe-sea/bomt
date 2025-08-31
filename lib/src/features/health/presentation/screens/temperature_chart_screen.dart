@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/baby.dart';
 import '../../../../services/health/health_service.dart';
 
@@ -126,11 +127,12 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
-        title: Text('체온 추이'),
+        title: Text(l10n.temperatureTrend),
         backgroundColor: theme.colorScheme.surface,
         foregroundColor: theme.colorScheme.onSurface,
         elevation: 0,
@@ -182,6 +184,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
   }
 
   Widget _buildBabyInfoCard(ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -237,7 +240,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${widget.baby.name}의 체온 기록',
+                  l10n.babyTemperatureRecord(widget.baby.name),
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: theme.colorScheme.onSurface,
@@ -252,7 +255,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '최근 ${_selectedDays}일간 추이',
+                  l10n.recentDaysTrend(_selectedDays),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w600,
@@ -267,11 +270,12 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
   }
 
   Widget _buildPeriodSelector(ThemeData theme) {
-    const periods = [
-      {'days': 3, 'label': '3일'},
-      {'days': 7, 'label': '7일'},
-      {'days': 14, 'label': '2주'},
-      {'days': 30, 'label': '한달'},
+    final l10n = AppLocalizations.of(context)!;
+    final periods = [
+      {'days': 3, 'label': l10n.days3},
+      {'days': 7, 'label': l10n.days7},
+      {'days': 14, 'label': l10n.weeks2},
+      {'days': 30, 'label': l10n.month1},
     ];
 
     return Row(
@@ -330,6 +334,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
   }
 
   Widget _buildTemperatureChart(ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     final data = _temperatureData['data'] as List<Map<String, dynamic>>? ?? [];
     
     if (data.isEmpty) {
@@ -357,7 +362,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
               ),
               const SizedBox(height: 16),
               Text(
-                '선택한 기간에 체온 기록이 없습니다',
+                l10n.noTemperatureRecordsInPeriod,
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: theme.colorScheme.outline,
                 ),
@@ -400,7 +405,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
               ),
               const SizedBox(width: 8),
               Text(
-                '체온 변화 추이',
+                l10n.temperatureChangeTrend,
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -564,7 +569,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
                         
                         String tooltipText = '${DateFormat('MM/dd HH:mm').format(time)}\n${temp.toStringAsFixed(1)}°C';
                         if (note != null && note.isNotEmpty) {
-                          tooltipText += '\n📝 메모 있음 (탭하여 보기)';
+                          tooltipText += '\n${l10n.noteAvailableTapToView}';
                         }
                         
                         return LineTooltipItem(
@@ -587,6 +592,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
   }
 
   Widget _buildStatsCards(ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     final data = _temperatureData['data'] as List<Map<String, dynamic>>? ?? [];
     final totalRecords = _temperatureData['totalRecords'] as int? ?? 0;
     final avgTemp = _temperatureData['averageTemperature'] as double? ?? 0.0;
@@ -603,7 +609,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
         Expanded(
           child: _buildStatCard(
             theme: theme,
-            title: '평균 체온',
+            title: l10n.averageTemperature,
             value: '${avgTemp.toStringAsFixed(1)}°C',
             icon: Icons.timeline,
             color: Colors.blue,
@@ -613,7 +619,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
         Expanded(
           child: _buildStatCard(
             theme: theme,
-            title: '최고 체온',
+            title: l10n.highestTemperature,
             value: maxTemp != null ? '${maxTemp.toStringAsFixed(1)}°C' : '-',
             icon: Icons.keyboard_arrow_up,
             color: Colors.red,
@@ -623,7 +629,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
         Expanded(
           child: _buildStatCard(
             theme: theme,
-            title: '최저 체온',
+            title: l10n.lowestTemperature,
             value: minTemp != null ? '${minTemp.toStringAsFixed(1)}°C' : '-',
             icon: Icons.keyboard_arrow_down,
             color: Colors.green,
@@ -690,6 +696,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
   }
 
   Widget _buildTrendAnalysis(ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     final trend = _temperatureData['trend'] as String? ?? 'stable';
     final data = _temperatureData['data'] as List<Map<String, dynamic>>? ?? [];
     
@@ -699,17 +706,17 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
     
     switch (trend) {
       case 'rising':
-        trendText = '체온이 상승하는 추세입니다';
+        trendText = l10n.temperatureRisingTrend;
         trendIcon = Icons.trending_up;
         trendColor = Colors.red;
         break;
       case 'falling':
-        trendText = '체온이 하강하는 추세입니다';
+        trendText = l10n.temperatureFallingTrend;
         trendIcon = Icons.trending_down;
         trendColor = Colors.blue;
         break;
       default:
-        trendText = '체온이 안정적입니다';
+        trendText = l10n.temperatureStableTrend;
         trendIcon = Icons.trending_flat;
         trendColor = Colors.green;
     }
@@ -774,7 +781,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '총 ${data.length}회 측정됨',
+                      l10n.totalMeasurements(data.length),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurface.withOpacity(0.7),
                       ),
@@ -791,6 +798,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
   
   // 멋진 애니메이션과 함께 메모 팝업을 그리는 메서드
   Widget _buildNotePopup(ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: _hideNotePopup,
       child: Container(
@@ -854,7 +862,7 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          '체온 기록 메모',
+                                          l10n.temperatureRecordMemo,
                                           style: theme.textTheme.titleMedium?.copyWith(
                                             fontWeight: FontWeight.bold,
                                             color: theme.colorScheme.onSurface,
@@ -986,14 +994,15 @@ class _TemperatureChartScreenState extends State<TemperatureChartScreen>
   
   // 체온 상태 텍스트 반환
   String _getTemperatureStatus(double temperature) {
+    final l10n = AppLocalizations.of(context)!;
     if (temperature < 36.0) {
-      return '저체온';
+      return l10n.hypothermia;
     } else if (temperature <= 37.5) {
-      return '정상';
+      return l10n.normal;
     } else if (temperature <= 38.5) {
-      return '미열';
+      return l10n.lowFever;
     } else {
-      return '발열';
+      return l10n.fever;
     }
   }
 }

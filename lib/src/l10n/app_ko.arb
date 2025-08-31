@@ -979,5 +979,40 @@
   "temperatureRangeValidation": "체온은 34.0°C ~ 42.0°C 범위여야 합니다",
   "recordSymptomsHint": "증상이나 특이사항을 기록해주세요",
   "oralMethod": "구강",
-  "analMethod": "항문"
+  "analMethod": "항문",
+  
+  "temperatureTrend": "체온 추이",
+  "recentDaysTrend": "최근 {days}일간 추이",
+  "@recentDaysTrend": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "days3": "3일",
+  "days7": "7일", 
+  "weeks2": "2주",
+  "month1": "한달",
+  "noTemperatureRecordsInPeriod": "선택한 기간에 체온 기록이 없습니다",
+  "temperatureChangeTrend": "체온 변화 추이",
+  "averageTemperature": "평균 체온",
+  "highestTemperature": "최고 체온",
+  "lowestTemperature": "최저 체온",
+  "noteAvailableTapToView": "📝 메모 있음 (탭하여 보기)",
+  "temperatureRisingTrend": "체온이 상승하는 추세입니다",
+  "temperatureFallingTrend": "체온이 하강하는 추세입니다",
+  "temperatureStableTrend": "체온이 안정적입니다",
+  "trendAnalysis": "추세 분석",
+  "totalMeasurements": "총 {count}회 측정됨",
+  "@totalMeasurements": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "temperatureRecordMemo": "체온 기록 메모",
+  "fever": "발열",
+  "highFever": "고열"
 }

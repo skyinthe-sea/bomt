@@ -1224,7 +1224,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get temperatureMeasurement => 'Temperature Measurement';
 
   @override
-  String get fever => 'Fever';
+  String get fever => 'Lagnat';
 
   @override
   String get lowFever => 'Mababang lagnat';
@@ -1837,7 +1837,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get temperatureRecord => 'Tala ng temperatura';
 
   @override
-  String get temperatureTrend => 'Trend ng temperatura';
+  String get temperatureTrend => 'Trend ng Temperatura';
 
   @override
   String get profilePhotoSetup => 'Pag-setup ng profile photo';
@@ -1961,7 +1961,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get illness => 'Sakit';
 
   @override
-  String get highFever => 'Mataas na lagnat';
+  String get highFever => 'Mataas na Lagnat';
 
   @override
   String get oral => 'Oral';
@@ -2562,4 +2562,62 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get analMethod => 'Anal';
+
+  @override
+  String recentDaysTrend(int days) {
+    return 'Trend sa nakaraang $days araw';
+  }
+
+  @override
+  String get days3 => '3 araw';
+
+  @override
+  String get days7 => '7 araw';
+
+  @override
+  String get weeks2 => '2 linggo';
+
+  @override
+  String get month1 => '1 buwan';
+
+  @override
+  String get noTemperatureRecordsInPeriod =>
+      'Walang mga tala ng temperatura sa napiling panahon';
+
+  @override
+  String get temperatureChangeTrend => 'Trend ng Pagbabago ng Temperatura';
+
+  @override
+  String get averageTemperature => 'Katamtamang Temperatura';
+
+  @override
+  String get highestTemperature => 'Pinakamataas na Temperatura';
+
+  @override
+  String get lowestTemperature => 'Pinakamababang Temperatura';
+
+  @override
+  String get noteAvailableTapToView => '📝 May tala (pindutin para makita)';
+
+  @override
+  String get temperatureRisingTrend =>
+      'Ang temperatura ay nagpapakita ng pataas na trend';
+
+  @override
+  String get temperatureFallingTrend =>
+      'Ang temperatura ay nagpapakita ng pababa na trend';
+
+  @override
+  String get temperatureStableTrend => 'Ang temperatura ay matatag';
+
+  @override
+  String get trendAnalysis => 'Pagsusuri ng Trend';
+
+  @override
+  String totalMeasurements(int count) {
+    return 'Kabuuang $count sukat';
+  }
+
+  @override
+  String get temperatureRecordMemo => 'Tala ng Memo sa Temperatura';
 }

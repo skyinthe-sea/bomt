@@ -726,5 +726,40 @@
   "temperatureRangeValidation": "La température doit être entre 34,0°C ~ 42,0°C",
   "recordSymptomsHint": "Veuillez enregistrer les symptômes ou notes spéciales",
   "oralMethod": "Orale",
-  "analMethod": "Anale"
+  "analMethod": "Anale",
+  
+  "temperatureTrend": "Tendance de Température",
+  "recentDaysTrend": "Tendance des {days} derniers jours",
+  "@recentDaysTrend": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "days3": "3 jours",
+  "days7": "7 jours", 
+  "weeks2": "2 semaines",
+  "month1": "1 mois",
+  "noTemperatureRecordsInPeriod": "Aucun enregistrement de température pendant la période sélectionnée",
+  "temperatureChangeTrend": "Tendance de Changement de Température",
+  "averageTemperature": "Température Moyenne",
+  "highestTemperature": "Température la Plus Élevée",
+  "lowestTemperature": "Température la Plus Basse",
+  "noteAvailableTapToView": "📝 Note disponible (toucher pour voir)",
+  "temperatureRisingTrend": "La température montre une tendance à la hausse",
+  "temperatureFallingTrend": "La température montre une tendance à la baisse", 
+  "temperatureStableTrend": "La température est stable",
+  "trendAnalysis": "Analyse de Tendance",
+  "totalMeasurements": "Total de {count} mesures",
+  "@totalMeasurements": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "temperatureRecordMemo": "Mémo du Relevé de Température",
+  "fever": "Fièvre",
+  "highFever": "Fièvre Élevée"
 }

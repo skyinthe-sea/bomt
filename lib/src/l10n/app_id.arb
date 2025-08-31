@@ -658,5 +658,40 @@
   "temperatureRangeValidation": "Suhu harus antara 34,0°C ~ 42,0°C",
   "recordSymptomsHint": "Silakan catat gejala atau catatan khusus",
   "oralMethod": "Oral",
-  "analMethod": "Anal"
+  "analMethod": "Anal",
+  
+  "temperatureTrend": "Tren Suhu",
+  "recentDaysTrend": "Tren {days} hari terakhir",
+  "@recentDaysTrend": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "days3": "3 hari",
+  "days7": "7 hari", 
+  "weeks2": "2 minggu",
+  "month1": "1 bulan",
+  "noTemperatureRecordsInPeriod": "Tidak ada catatan suhu dalam periode yang dipilih",
+  "temperatureChangeTrend": "Tren Perubahan Suhu",
+  "averageTemperature": "Suhu Rata-rata",
+  "highestTemperature": "Suhu Tertinggi",
+  "lowestTemperature": "Suhu Terendah",
+  "noteAvailableTapToView": "📝 Catatan tersedia (ketuk untuk melihat)",
+  "temperatureRisingTrend": "Suhu menunjukkan tren meningkat",
+  "temperatureFallingTrend": "Suhu menunjukkan tren menurun", 
+  "temperatureStableTrend": "Suhu stabil",
+  "trendAnalysis": "Analisis Tren",
+  "totalMeasurements": "Total {count} pengukuran",
+  "@totalMeasurements": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "temperatureRecordMemo": "Memo Catatan Suhu",
+  "fever": "Demam",
+  "highFever": "Demam Tinggi"
 }

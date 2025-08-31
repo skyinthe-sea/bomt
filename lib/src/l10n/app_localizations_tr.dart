@@ -1223,7 +1223,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get temperatureMeasurement => 'Temperature Measurement';
 
   @override
-  String get fever => 'Fever';
+  String get fever => 'Ateş';
 
   @override
   String get lowFever => 'Düşük ateş';
@@ -1835,7 +1835,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get temperatureRecord => 'Sıcaklık kaydı';
 
   @override
-  String get temperatureTrend => 'Sıcaklık trendi';
+  String get temperatureTrend => 'Sıcaklık Trendi';
 
   @override
   String get profilePhotoSetup => 'Profil fotoğrafı kurulumu';
@@ -1957,7 +1957,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get illness => 'Hastalık';
 
   @override
-  String get highFever => 'Yüksek ateş';
+  String get highFever => 'Yüksek Ateş';
 
   @override
   String get oral => 'Ağızdan';
@@ -2553,4 +2553,61 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get analMethod => 'Anelden';
+
+  @override
+  String recentDaysTrend(int days) {
+    return 'Son $days günün trendi';
+  }
+
+  @override
+  String get days3 => '3 gün';
+
+  @override
+  String get days7 => '7 gün';
+
+  @override
+  String get weeks2 => '2 hafta';
+
+  @override
+  String get month1 => '1 ay';
+
+  @override
+  String get noTemperatureRecordsInPeriod =>
+      'Seçilen dönemde sıcaklık kaydı yok';
+
+  @override
+  String get temperatureChangeTrend => 'Sıcaklık Değişim Trendi';
+
+  @override
+  String get averageTemperature => 'Ortalama Sıcaklık';
+
+  @override
+  String get highestTemperature => 'En Yüksek Sıcaklık';
+
+  @override
+  String get lowestTemperature => 'En Düşük Sıcaklık';
+
+  @override
+  String get noteAvailableTapToView =>
+      '📝 Not mevcut (görüntülemek için dokun)';
+
+  @override
+  String get temperatureRisingTrend => 'Sıcaklık yükselen bir trend gösteriyor';
+
+  @override
+  String get temperatureFallingTrend => 'Sıcaklık düşen bir trend gösteriyor';
+
+  @override
+  String get temperatureStableTrend => 'Sıcaklık stabil';
+
+  @override
+  String get trendAnalysis => 'Trend Analizi';
+
+  @override
+  String totalMeasurements(int count) {
+    return 'Toplam $count ölçüm';
+  }
+
+  @override
+  String get temperatureRecordMemo => 'Sıcaklık Kayıt Notu';
 }

@@ -4703,6 +4703,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Anal'**
   String get analMethod;
+
+  /// No description provided for @recentDaysTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent {days} days trend'**
+  String recentDaysTrend(int days);
+
+  /// No description provided for @days3.
+  ///
+  /// In en, this message translates to:
+  /// **'3 days'**
+  String get days3;
+
+  /// No description provided for @days7.
+  ///
+  /// In en, this message translates to:
+  /// **'7 days'**
+  String get days7;
+
+  /// No description provided for @weeks2.
+  ///
+  /// In en, this message translates to:
+  /// **'2 weeks'**
+  String get weeks2;
+
+  /// No description provided for @month1.
+  ///
+  /// In en, this message translates to:
+  /// **'1 month'**
+  String get month1;
+
+  /// No description provided for @noTemperatureRecordsInPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'No temperature records in selected period'**
+  String get noTemperatureRecordsInPeriod;
+
+  /// No description provided for @temperatureChangeTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature Change Trend'**
+  String get temperatureChangeTrend;
+
+  /// No description provided for @averageTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Average Temperature'**
+  String get averageTemperature;
+
+  /// No description provided for @highestTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Highest Temperature'**
+  String get highestTemperature;
+
+  /// No description provided for @lowestTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest Temperature'**
+  String get lowestTemperature;
+
+  /// No description provided for @noteAvailableTapToView.
+  ///
+  /// In en, this message translates to:
+  /// **'📝 Note available (tap to view)'**
+  String get noteAvailableTapToView;
+
+  /// No description provided for @temperatureRisingTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature is showing a rising trend'**
+  String get temperatureRisingTrend;
+
+  /// No description provided for @temperatureFallingTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature is showing a falling trend'**
+  String get temperatureFallingTrend;
+
+  /// No description provided for @temperatureStableTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature is stable'**
+  String get temperatureStableTrend;
+
+  /// No description provided for @trendAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Trend Analysis'**
+  String get trendAnalysis;
+
+  /// No description provided for @totalMeasurements.
+  ///
+  /// In en, this message translates to:
+  /// **'Total {count} measurements'**
+  String totalMeasurements(int count);
+
+  /// No description provided for @temperatureRecordMemo.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature Record Memo'**
+  String get temperatureRecordMemo;
 }
 
 class _AppLocalizationsDelegate

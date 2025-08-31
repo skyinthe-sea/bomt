@@ -2513,4 +2513,59 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get analMethod => '肛門';
+
+  @override
+  String recentDaysTrend(int days) {
+    return '過去$days日間の推移';
+  }
+
+  @override
+  String get days3 => '3日間';
+
+  @override
+  String get days7 => '7日間';
+
+  @override
+  String get weeks2 => '2週間';
+
+  @override
+  String get month1 => '1ヶ月';
+
+  @override
+  String get noTemperatureRecordsInPeriod => '選択した期間の体温記録がありません';
+
+  @override
+  String get temperatureChangeTrend => '体温変化の傾向';
+
+  @override
+  String get averageTemperature => '平均体温';
+
+  @override
+  String get highestTemperature => '最高体温';
+
+  @override
+  String get lowestTemperature => '最低体温';
+
+  @override
+  String get noteAvailableTapToView => '📝 メモあり（タップして表示）';
+
+  @override
+  String get temperatureRisingTrend => '体温が上昇傾向にあります';
+
+  @override
+  String get temperatureFallingTrend => '体温が下降傾向にあります';
+
+  @override
+  String get temperatureStableTrend => '体温は安定しています';
+
+  @override
+  String get trendAnalysis => '推移分析';
+
+  @override
+  String totalMeasurements(int count) {
+    return '合計$count回の測定';
+  }
+
+  @override
+  String get temperatureRecordMemo => '体温記録メモ';
 }

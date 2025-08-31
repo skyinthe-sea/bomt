@@ -1223,7 +1223,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get temperatureMeasurement => 'Temperature Measurement';
 
   @override
-  String get fever => 'Fever';
+  String get fever => 'Fiebre';
 
   @override
   String get lowFever => 'Fiebre baja';
@@ -1839,7 +1839,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get temperatureRecord => 'Registro de temperatura';
 
   @override
-  String get temperatureTrend => 'Tendencia de temperatura';
+  String get temperatureTrend => 'Tendencia de Temperatura';
 
   @override
   String get profilePhotoSetup => 'Configuración de foto de perfil';
@@ -1963,7 +1963,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get illness => 'Enfermedad';
 
   @override
-  String get highFever => 'Fiebre alta';
+  String get highFever => 'Fiebre Alta';
 
   @override
   String get oral => 'Oral';
@@ -2562,4 +2562,62 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get analMethod => 'Anal';
+
+  @override
+  String recentDaysTrend(int days) {
+    return 'Tendencia de los últimos $days días';
+  }
+
+  @override
+  String get days3 => '3 días';
+
+  @override
+  String get days7 => '7 días';
+
+  @override
+  String get weeks2 => '2 semanas';
+
+  @override
+  String get month1 => '1 mes';
+
+  @override
+  String get noTemperatureRecordsInPeriod =>
+      'No hay registros de temperatura en el período seleccionado';
+
+  @override
+  String get temperatureChangeTrend => 'Tendencia de Cambio de Temperatura';
+
+  @override
+  String get averageTemperature => 'Temperatura Promedio';
+
+  @override
+  String get highestTemperature => 'Temperatura Más Alta';
+
+  @override
+  String get lowestTemperature => 'Temperatura Más Baja';
+
+  @override
+  String get noteAvailableTapToView => '📝 Nota disponible (toca para ver)';
+
+  @override
+  String get temperatureRisingTrend =>
+      'La temperatura muestra una tendencia al alza';
+
+  @override
+  String get temperatureFallingTrend =>
+      'La temperatura muestra una tendencia a la baja';
+
+  @override
+  String get temperatureStableTrend => 'La temperatura está estable';
+
+  @override
+  String get trendAnalysis => 'Análisis de Tendencia';
+
+  @override
+  String totalMeasurements(int count) {
+    return 'Total de $count mediciones';
+  }
+
+  @override
+  String get temperatureRecordMemo => 'Nota del Registro de Temperatura';
 }

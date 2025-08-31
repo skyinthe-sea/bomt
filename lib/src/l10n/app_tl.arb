@@ -658,5 +658,40 @@
   "temperatureRangeValidation": "Ang temperatura ay dapat nasa 34.0°C ~ 42.0°C",
   "recordSymptomsHint": "Paki-record ang mga sintomas o espesyal na tala",
   "oralMethod": "Oral",
-  "analMethod": "Anal"
+  "analMethod": "Anal",
+  
+  "temperatureTrend": "Trend ng Temperatura",
+  "recentDaysTrend": "Trend sa nakaraang {days} araw",
+  "@recentDaysTrend": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "days3": "3 araw",
+  "days7": "7 araw", 
+  "weeks2": "2 linggo",
+  "month1": "1 buwan",
+  "noTemperatureRecordsInPeriod": "Walang mga tala ng temperatura sa napiling panahon",
+  "temperatureChangeTrend": "Trend ng Pagbabago ng Temperatura",
+  "averageTemperature": "Katamtamang Temperatura",
+  "highestTemperature": "Pinakamataas na Temperatura",
+  "lowestTemperature": "Pinakamababang Temperatura",
+  "noteAvailableTapToView": "📝 May tala (pindutin para makita)",
+  "temperatureRisingTrend": "Ang temperatura ay nagpapakita ng pataas na trend",
+  "temperatureFallingTrend": "Ang temperatura ay nagpapakita ng pababa na trend", 
+  "temperatureStableTrend": "Ang temperatura ay matatag",
+  "trendAnalysis": "Pagsusuri ng Trend",
+  "totalMeasurements": "Kabuuang {count} sukat",
+  "@totalMeasurements": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "temperatureRecordMemo": "Tala ng Memo sa Temperatura",
+  "fever": "Lagnat",
+  "highFever": "Mataas na Lagnat"
 }

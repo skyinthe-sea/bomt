@@ -2552,4 +2552,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get analMethod => 'Anal';
+
+  @override
+  String recentDaysTrend(int days) {
+    return 'Recent $days days trend';
+  }
+
+  @override
+  String get days3 => '3 days';
+
+  @override
+  String get days7 => '7 days';
+
+  @override
+  String get weeks2 => '2 weeks';
+
+  @override
+  String get month1 => '1 month';
+
+  @override
+  String get noTemperatureRecordsInPeriod =>
+      'No temperature records in selected period';
+
+  @override
+  String get temperatureChangeTrend => 'Temperature Change Trend';
+
+  @override
+  String get averageTemperature => 'Average Temperature';
+
+  @override
+  String get highestTemperature => 'Highest Temperature';
+
+  @override
+  String get lowestTemperature => 'Lowest Temperature';
+
+  @override
+  String get noteAvailableTapToView => '📝 Note available (tap to view)';
+
+  @override
+  String get temperatureRisingTrend => 'Temperature is showing a rising trend';
+
+  @override
+  String get temperatureFallingTrend =>
+      'Temperature is showing a falling trend';
+
+  @override
+  String get temperatureStableTrend => 'Temperature is stable';
+
+  @override
+  String get trendAnalysis => 'Trend Analysis';
+
+  @override
+  String totalMeasurements(int count) {
+    return 'Total $count measurements';
+  }
+
+  @override
+  String get temperatureRecordMemo => 'Temperature Record Memo';
 }
