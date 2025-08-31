@@ -453,7 +453,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get heightRange => 'Height must be between 1cm and 200cm';
 
   @override
-  String get enterValidNumber => 'Please enter a valid number';
+  String get enterValidNumber => 'कृपया एक वैध संख्या दर्ज करें';
 
   @override
   String get recordGrowthInfo => 'Record Growth Information';
@@ -2514,4 +2514,42 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get triedFoodTypes => 'Types of food tried';
+
+  @override
+  String babyTemperatureRecord(String name) {
+    return '$name का तापमान रिकॉर्ड';
+  }
+
+  @override
+  String get adjustWithSlider => 'स्लाइडर से समायोजित करें';
+
+  @override
+  String get measurementMethod => 'माप विधि';
+
+  @override
+  String get normalRange => 'सामान्य सीमा';
+
+  @override
+  String normalRangeForAgeGroup(String ageGroup, String min, String max) {
+    return 'सामान्य सीमा ($ageGroup): $min°C - $max°C';
+  }
+
+  @override
+  String get saveTemperatureRecord => 'तापमान रिकॉर्ड सेव करें';
+
+  @override
+  String get enterTemperature => 'कृपया तापमान दर्ज करें';
+
+  @override
+  String get temperatureRangeValidation =>
+      'तापमान 34.0°C ~ 42.0°C के बीच होना चाहिए';
+
+  @override
+  String get recordSymptomsHint => 'कृपया लक्षण या विशेष नोट्स दर्ज करें';
+
+  @override
+  String get oralMethod => 'मौखिक';
+
+  @override
+  String get analMethod => 'गुदा';
 }

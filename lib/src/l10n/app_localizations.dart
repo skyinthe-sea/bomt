@@ -4637,6 +4637,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Types of food tried'**
   String get triedFoodTypes;
+
+  /// No description provided for @babyTemperatureRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s Temperature Record'**
+  String babyTemperatureRecord(String name);
+
+  /// No description provided for @adjustWithSlider.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust with slider'**
+  String get adjustWithSlider;
+
+  /// No description provided for @measurementMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Measurement method'**
+  String get measurementMethod;
+
+  /// No description provided for @normalRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal range'**
+  String get normalRange;
+
+  /// No description provided for @normalRangeForAgeGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal range ({ageGroup}): {min}°C - {max}°C'**
+  String normalRangeForAgeGroup(String ageGroup, String min, String max);
+
+  /// No description provided for @saveTemperatureRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Temperature Record'**
+  String get saveTemperatureRecord;
+
+  /// No description provided for @enterTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter temperature'**
+  String get enterTemperature;
+
+  /// No description provided for @temperatureRangeValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature must be between 34.0°C ~ 42.0°C'**
+  String get temperatureRangeValidation;
+
+  /// No description provided for @recordSymptomsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Please record symptoms or special notes'**
+  String get recordSymptomsHint;
+
+  /// No description provided for @oralMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Oral'**
+  String get oralMethod;
+
+  /// No description provided for @analMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Anal'**
+  String get analMethod;
 }
 
 class _AppLocalizationsDelegate

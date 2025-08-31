@@ -873,5 +873,37 @@
   "afternoon": "午後",
   "@afternoon": {
     "description": "PM - afternoon time period label"
-  }
+  },
+  "babyTemperatureRecord": "{name}の体温記録",
+  "@babyTemperatureRecord": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustWithSlider": "スライダーで調整",
+  "measurementMethod": "測定方法",
+  "normalRange": "正常範囲",
+  "normalRangeForAgeGroup": "正常範囲（{ageGroup}）: {min}°C - {max}°C",
+  "@normalRangeForAgeGroup": {
+    "placeholders": {
+      "ageGroup": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTemperatureRecord": "体温記録を保存",
+  "enterTemperature": "体温を入力してください",
+  "enterValidNumber": "有効な数値を入力してください",
+  "temperatureRangeValidation": "体温は34.0°C〜42.0°Cの範囲で入力してください",
+  "recordSymptomsHint": "症状や特記事項を記録してください",
+  "oralMethod": "口腔",
+  "analMethod": "肛門"
 }

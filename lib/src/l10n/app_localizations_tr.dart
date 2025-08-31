@@ -453,7 +453,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get heightRange => 'Height must be between 1cm and 200cm';
 
   @override
-  String get enterValidNumber => 'Please enter a valid number';
+  String get enterValidNumber => 'Lütfen geçerli bir sayı girin';
 
   @override
   String get recordGrowthInfo => 'Record Growth Information';
@@ -2514,4 +2514,43 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get triedFoodTypes => 'Types of food tried';
+
+  @override
+  String babyTemperatureRecord(String name) {
+    return '$name\'in Sıcaklık Kaydı';
+  }
+
+  @override
+  String get adjustWithSlider => 'Kaydırıcı ile ayarla';
+
+  @override
+  String get measurementMethod => 'Ölçüm yöntemi';
+
+  @override
+  String get normalRange => 'Normal aralık';
+
+  @override
+  String normalRangeForAgeGroup(String ageGroup, String min, String max) {
+    return 'Normal aralık ($ageGroup): $min°C - $max°C';
+  }
+
+  @override
+  String get saveTemperatureRecord => 'Sıcaklık Kaydını Kaydet';
+
+  @override
+  String get enterTemperature => 'Lütfen sıcaklığı girin';
+
+  @override
+  String get temperatureRangeValidation =>
+      'Sıcaklık 34,0°C ~ 42,0°C arasında olmalıdır';
+
+  @override
+  String get recordSymptomsHint =>
+      'Lütfen belirtileri veya özel notları kaydedin';
+
+  @override
+  String get oralMethod => 'Ağızdan';
+
+  @override
+  String get analMethod => 'Anelden';
 }

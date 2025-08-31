@@ -971,5 +971,37 @@
   "triedFoodTypes": "ประเภทอาหารที่ลอง",
   "@triedFoodTypes": {
     "description": "Label for types of food tried metric"
-  }
+  },
+  "babyTemperatureRecord": "บันทึกอุณหภูมิของ{name}",
+  "@babyTemperatureRecord": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustWithSlider": "ปรับด้วยแถบเลื่อน",
+  "measurementMethod": "วิธีการวัด",
+  "normalRange": "ช่วงปกติ",
+  "normalRangeForAgeGroup": "ช่วงปกติ ({ageGroup}): {min}°C - {max}°C",
+  "@normalRangeForAgeGroup": {
+    "placeholders": {
+      "ageGroup": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTemperatureRecord": "บันทึกข้อมูลอุณหภูมิ",
+  "enterTemperature": "กรุณากรอกอุณหภูมิ",
+  "enterValidNumber": "กรุณากรอกตัวเลขที่ถูกต้อง",
+  "temperatureRangeValidation": "อุณหภูมิต้องอยู่ระหว่าง 34.0°C ~ 42.0°C",
+  "recordSymptomsHint": "กรุณาบันทึกอาการหรือหมายเหตุพิเศษ",
+  "oralMethod": "ทางปาก",
+  "analMethod": "ทางทวารหนัก"
 }

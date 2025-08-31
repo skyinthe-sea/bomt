@@ -450,7 +450,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get heightRange => '身長は1cm〜200cmの間で入力してください';
 
   @override
-  String get enterValidNumber => '正しい数値を入力してください';
+  String get enterValidNumber => '有効な数値を入力してください';
 
   @override
   String get recordGrowthInfo => '成長情報を記録';
@@ -2476,4 +2476,41 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get triedFoodTypes => 'Types of food tried';
+
+  @override
+  String babyTemperatureRecord(String name) {
+    return '$nameの体温記録';
+  }
+
+  @override
+  String get adjustWithSlider => 'スライダーで調整';
+
+  @override
+  String get measurementMethod => '測定方法';
+
+  @override
+  String get normalRange => '正常範囲';
+
+  @override
+  String normalRangeForAgeGroup(String ageGroup, String min, String max) {
+    return '正常範囲（$ageGroup）: $min°C - $max°C';
+  }
+
+  @override
+  String get saveTemperatureRecord => '体温記録を保存';
+
+  @override
+  String get enterTemperature => '体温を入力してください';
+
+  @override
+  String get temperatureRangeValidation => '体温は34.0°C〜42.0°Cの範囲で入力してください';
+
+  @override
+  String get recordSymptomsHint => '症状や特記事項を記録してください';
+
+  @override
+  String get oralMethod => '口腔';
+
+  @override
+  String get analMethod => '肛門';
 }

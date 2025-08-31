@@ -946,5 +946,38 @@
   "afternoon": "오후",
   "@afternoon": {
     "description": "PM - afternoon time period label"
-  }
+  },
+
+  "babyTemperatureRecord": "{name}의 체온 기록",
+  "@babyTemperatureRecord": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustWithSlider": "슬라이더로 조정",
+  "measurementMethod": "측정 방법",
+  "normalRange": "정상 범위",
+  "normalRangeForAgeGroup": "정상 범위 ({ageGroup}): {min}°C - {max}°C",
+  "@normalRangeForAgeGroup": {
+    "placeholders": {
+      "ageGroup": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTemperatureRecord": "체온 기록 저장",
+  "enterTemperature": "체온을 입력해주세요",
+  "enterValidNumber": "올바른 숫자를 입력해주세요",
+  "temperatureRangeValidation": "체온은 34.0°C ~ 42.0°C 범위여야 합니다",
+  "recordSymptomsHint": "증상이나 특이사항을 기록해주세요",
+  "oralMethod": "구강",
+  "analMethod": "항문"
 }

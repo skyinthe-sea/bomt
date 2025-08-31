@@ -626,5 +626,37 @@
   "afternoon": "Hapon",
   "@afternoon": {
     "description": "PM - afternoon time period label"
-  }
+  },
+  "babyTemperatureRecord": "Talaan ng Temperatura ni {name}",
+  "@babyTemperatureRecord": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustWithSlider": "Iadjust gamit ang slider",
+  "measurementMethod": "Paraan ng pagsukat",
+  "normalRange": "Normal na saklaw",
+  "normalRangeForAgeGroup": "Normal na saklaw ({ageGroup}): {min}°C - {max}°C",
+  "@normalRangeForAgeGroup": {
+    "placeholders": {
+      "ageGroup": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTemperatureRecord": "I-save ang Talaan ng Temperatura",
+  "enterTemperature": "Paki-enter ang temperatura",
+  "enterValidNumber": "Paki-enter ang valid na numero",
+  "temperatureRangeValidation": "Ang temperatura ay dapat nasa 34.0°C ~ 42.0°C",
+  "recordSymptomsHint": "Paki-record ang mga sintomas o espesyal na tala",
+  "oralMethod": "Oral",
+  "analMethod": "Anal"
 }

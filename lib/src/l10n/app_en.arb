@@ -1786,5 +1786,38 @@
   "triedFoodTypes": "Types of food tried",
   "@triedFoodTypes": {
     "description": "Label for types of food tried metric"
-  }
+  },
+
+  "babyTemperatureRecord": "{name}'s Temperature Record",
+  "@babyTemperatureRecord": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustWithSlider": "Adjust with slider",
+  "measurementMethod": "Measurement method",
+  "normalRange": "Normal range",
+  "normalRangeForAgeGroup": "Normal range ({ageGroup}): {min}°C - {max}°C",
+  "@normalRangeForAgeGroup": {
+    "placeholders": {
+      "ageGroup": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTemperatureRecord": "Save Temperature Record",
+  "enterTemperature": "Please enter temperature",
+  "enterValidNumber": "Please enter a valid number",
+  "temperatureRangeValidation": "Temperature must be between 34.0°C ~ 42.0°C",
+  "recordSymptomsHint": "Please record symptoms or special notes",
+  "oralMethod": "Oral",
+  "analMethod": "Anal"
 }

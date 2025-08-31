@@ -694,5 +694,37 @@
   "afternoon": "Tarde",
   "@afternoon": {
     "description": "PM - afternoon time period label"
-  }
+  },
+  "babyTemperatureRecord": "Registro de temperatura de {name}",
+  "@babyTemperatureRecord": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustWithSlider": "Ajustar com controle deslizante",
+  "measurementMethod": "Método de medição",
+  "normalRange": "Faixa normal",
+  "normalRangeForAgeGroup": "Faixa normal ({ageGroup}): {min}°C - {max}°C",
+  "@normalRangeForAgeGroup": {
+    "placeholders": {
+      "ageGroup": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTemperatureRecord": "Salvar registro de temperatura",
+  "enterTemperature": "Por favor, insira a temperatura",
+  "enterValidNumber": "Por favor, insira um número válido",
+  "temperatureRangeValidation": "A temperatura deve estar entre 34,0°C ~ 42,0°C",
+  "recordSymptomsHint": "Por favor, registre sintomas ou observações especiais",
+  "oralMethod": "Oral",
+  "analMethod": "Anal"
 }

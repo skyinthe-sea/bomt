@@ -626,5 +626,37 @@
   "afternoon": "Akşam",
   "@afternoon": {
     "description": "PM - afternoon time period label"
-  }
+  },
+  "babyTemperatureRecord": "{name}'in Sıcaklık Kaydı",
+  "@babyTemperatureRecord": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustWithSlider": "Kaydırıcı ile ayarla",
+  "measurementMethod": "Ölçüm yöntemi",
+  "normalRange": "Normal aralık",
+  "normalRangeForAgeGroup": "Normal aralık ({ageGroup}): {min}°C - {max}°C",
+  "@normalRangeForAgeGroup": {
+    "placeholders": {
+      "ageGroup": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTemperatureRecord": "Sıcaklık Kaydını Kaydet",
+  "enterTemperature": "Lütfen sıcaklığı girin",
+  "enterValidNumber": "Lütfen geçerli bir sayı girin",
+  "temperatureRangeValidation": "Sıcaklık 34,0°C ~ 42,0°C arasında olmalıdır",
+  "recordSymptomsHint": "Lütfen belirtileri veya özel notları kaydedin",
+  "oralMethod": "Ağızdan",
+  "analMethod": "Anelden"
 }

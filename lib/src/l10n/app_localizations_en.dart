@@ -2514,4 +2514,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get triedFoodTypes => 'Types of food tried';
+
+  @override
+  String babyTemperatureRecord(String name) {
+    return '$name\'s Temperature Record';
+  }
+
+  @override
+  String get adjustWithSlider => 'Adjust with slider';
+
+  @override
+  String get measurementMethod => 'Measurement method';
+
+  @override
+  String get normalRange => 'Normal range';
+
+  @override
+  String normalRangeForAgeGroup(String ageGroup, String min, String max) {
+    return 'Normal range ($ageGroup): $min°C - $max°C';
+  }
+
+  @override
+  String get saveTemperatureRecord => 'Save Temperature Record';
+
+  @override
+  String get enterTemperature => 'Please enter temperature';
+
+  @override
+  String get temperatureRangeValidation =>
+      'Temperature must be between 34.0°C ~ 42.0°C';
+
+  @override
+  String get recordSymptomsHint => 'Please record symptoms or special notes';
+
+  @override
+  String get oralMethod => 'Oral';
+
+  @override
+  String get analMethod => 'Anal';
 }

@@ -2477,4 +2477,41 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get triedFoodTypes => 'Types of food tried';
+
+  @override
+  String babyTemperatureRecord(String name) {
+    return '$name의 체온 기록';
+  }
+
+  @override
+  String get adjustWithSlider => '슬라이더로 조정';
+
+  @override
+  String get measurementMethod => '측정 방법';
+
+  @override
+  String get normalRange => '정상 범위';
+
+  @override
+  String normalRangeForAgeGroup(String ageGroup, String min, String max) {
+    return '정상 범위 ($ageGroup): $min°C - $max°C';
+  }
+
+  @override
+  String get saveTemperatureRecord => '체온 기록 저장';
+
+  @override
+  String get enterTemperature => '체온을 입력해주세요';
+
+  @override
+  String get temperatureRangeValidation => '체온은 34.0°C ~ 42.0°C 범위여야 합니다';
+
+  @override
+  String get recordSymptomsHint => '증상이나 특이사항을 기록해주세요';
+
+  @override
+  String get oralMethod => '구강';
+
+  @override
+  String get analMethod => '항문';
 }

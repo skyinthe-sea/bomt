@@ -626,5 +626,37 @@
   "afternoon": "Sore",
   "@afternoon": {
     "description": "PM - afternoon time period label"
-  }
+  },
+  "babyTemperatureRecord": "Catatan Suhu {name}",
+  "@babyTemperatureRecord": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustWithSlider": "Sesuaikan dengan slider",
+  "measurementMethod": "Metode pengukuran",
+  "normalRange": "Rentang normal",
+  "normalRangeForAgeGroup": "Rentang normal ({ageGroup}): {min}°C - {max}°C",
+  "@normalRangeForAgeGroup": {
+    "placeholders": {
+      "ageGroup": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTemperatureRecord": "Simpan catatan suhu",
+  "enterTemperature": "Silakan masukkan suhu",
+  "enterValidNumber": "Silakan masukkan angka yang valid",
+  "temperatureRangeValidation": "Suhu harus antara 34,0°C ~ 42,0°C",
+  "recordSymptomsHint": "Silakan catat gejala atau catatan khusus",
+  "oralMethod": "Oral",
+  "analMethod": "Anal"
 }

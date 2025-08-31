@@ -454,7 +454,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get heightRange => 'Height must be between 1cm and 200cm';
 
   @override
-  String get enterValidNumber => 'Please enter a valid number';
+  String get enterValidNumber => 'Paki-enter ang valid na numero';
 
   @override
   String get recordGrowthInfo => 'Record Growth Information';
@@ -2523,4 +2523,43 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get triedFoodTypes => 'Types of food tried';
+
+  @override
+  String babyTemperatureRecord(String name) {
+    return 'Talaan ng Temperatura ni $name';
+  }
+
+  @override
+  String get adjustWithSlider => 'Iadjust gamit ang slider';
+
+  @override
+  String get measurementMethod => 'Paraan ng pagsukat';
+
+  @override
+  String get normalRange => 'Normal na saklaw';
+
+  @override
+  String normalRangeForAgeGroup(String ageGroup, String min, String max) {
+    return 'Normal na saklaw ($ageGroup): $min°C - $max°C';
+  }
+
+  @override
+  String get saveTemperatureRecord => 'I-save ang Talaan ng Temperatura';
+
+  @override
+  String get enterTemperature => 'Paki-enter ang temperatura';
+
+  @override
+  String get temperatureRangeValidation =>
+      'Ang temperatura ay dapat nasa 34.0°C ~ 42.0°C';
+
+  @override
+  String get recordSymptomsHint =>
+      'Paki-record ang mga sintomas o espesyal na tala';
+
+  @override
+  String get oralMethod => 'Oral';
+
+  @override
+  String get analMethod => 'Anal';
 }

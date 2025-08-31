@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../domain/models/baby.dart';
 import '../../../../domain/models/temperature_guideline.dart';
 import '../../../../services/health/health_service.dart';
@@ -9,7 +8,6 @@ import '../../../../services/health/temperature_feedback_service.dart';
 import '../../../../services/auth/supabase_auth_service.dart';
 import '../widgets/temperature_feedback_dialog.dart';
 import 'temperature_chart_screen.dart';
-import 'dart:math';
 
 // 온도 입력 포맷터 클래스
 class TemperatureInputFormatter extends TextInputFormatter {
@@ -116,8 +114,8 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
   bool _isLoading = false;
   double _sliderValue = 36.5;
   Map<String, dynamic> _temperatureStandards = {};
-  String _currentTemperatureStatus = '정상';
-  String _previousTemperatureStatus = '정상';
+  String _currentTemperatureStatus = 'normal';
+  String _previousTemperatureStatus = 'normal';
   
   late AnimationController _glowController;
   late AnimationController _scaleController;
@@ -257,7 +255,7 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
     
     return Scaffold(
       appBar: AppBar(
-        title: Text('체온 기록'),
+        title: Text(l10n.temperatureRecord),
         backgroundColor: theme.colorScheme.surface,
         foregroundColor: theme.colorScheme.onSurface,
         elevation: 0,
@@ -347,7 +345,7 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${widget.baby.name}의 체온 기록',
+                    l10n.babyTemperatureRecord(widget.baby.name),
                     style: theme.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -415,7 +413,7 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      '체온',
+                      l10n.temperature,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurface,
@@ -429,7 +427,7 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        _getTemperatureStatus(_sliderValue),
+                        _getLocalizedTemperatureStatus(_getTemperatureStatus(_sliderValue)),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: _getTemperatureColor(_sliderValue),
                           fontWeight: FontWeight.w600,
@@ -474,7 +472,11 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
                       
                       // 정상 범위 표시 (연령별)
                       Text(
-                        '정상 범위 (${_temperatureStandards['ageGroup']}): ${(_temperatureStandards['normalMin'] ?? 35.0).toStringAsFixed(1)}°C - ${(_temperatureStandards['normalMax'] ?? 37.2).toStringAsFixed(1)}°C',
+                        l10n.normalRangeForAgeGroup(
+                          _temperatureStandards['ageGroup'] ?? '',
+                          (_temperatureStandards['normalMin'] ?? 35.0).toStringAsFixed(1),
+                          (_temperatureStandards['normalMax'] ?? 37.2).toStringAsFixed(1),
+                        ),
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurface.withOpacity(0.6),
                         ),
@@ -533,14 +535,14 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return '체온을 입력해주세요';
+                      return l10n.enterTemperature;
                     }
                     final temp = double.tryParse(value);
                     if (temp == null) {
-                      return '올바른 숫자를 입력해주세요';
+                      return l10n.enterValidNumber;
                     }
                     if (temp < 34.0 || temp > 42.0) {
-                      return '체온은 34.0°C ~ 42.0°C 범위여야 합니다';
+                      return l10n.temperatureRangeValidation;
                     }
                     return null;
                   },
@@ -560,7 +562,7 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
                 Column(
                   children: [
                     Text(
-                      '슬라이더로 조정',
+                      l10n.adjustWithSlider,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurface.withOpacity(0.7),
                         fontWeight: FontWeight.w500,
@@ -645,13 +647,29 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
     final fever = _temperatureStandards['fever'] ?? 38.0;
     
     if (temperature < normalMin) {
-      return '저체온';
+      return 'hypothermia';
     } else if (temperature >= normalMin && temperature <= normalMax) {
-      return '정상';
+      return 'normal';
     } else if (temperature > normalMax && temperature < fever) {
-      return '미열';
+      return 'lowFever';
     } else {
-      return '고열';
+      return 'highFever';
+    }
+  }
+  
+  String _getLocalizedTemperatureStatus(String statusKey) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (statusKey) {
+      case 'hypothermia':
+        return l10n.hypothermia;
+      case 'normal':
+        return l10n.normal;
+      case 'lowFever':
+        return l10n.lowFever;
+      case 'highFever':
+        return l10n.highFever;
+      default:
+        return l10n.normal;
     }
   }
 
@@ -673,7 +691,7 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '측정 방법',
+            l10n.measurementMethod,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -753,7 +771,7 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '메모 (선택사항)',
+            l10n.notesOptional,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -763,7 +781,7 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
             controller: _notesController,
             maxLines: 3,
             decoration: InputDecoration(
-              hintText: '증상이나 특이사항을 기록해주세요',
+              hintText: l10n.recordSymptomsHint,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(
@@ -809,7 +827,7 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
                 ),
               )
             : Text(
-                '체온 기록 저장',
+                l10n.saveTemperatureRecord,
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: theme.colorScheme.onPrimary,
@@ -835,17 +853,18 @@ class _TemperatureInputScreenState extends State<TemperatureInputScreen>
   }
 
   String _getMethodName(TemperatureMeasurementMethod method) {
+    final l10n = AppLocalizations.of(context)!;
     switch (method) {
       case TemperatureMeasurementMethod.rectal:
-        return '항문';
+        return l10n.analMethod;
       case TemperatureMeasurementMethod.oral:
-        return '구강';
+        return l10n.oralMethod;
       case TemperatureMeasurementMethod.axillary:
-        return '겨드랑이';
+        return l10n.armpit;
       case TemperatureMeasurementMethod.ear:
-        return '귀';
+        return l10n.ear;
       case TemperatureMeasurementMethod.forehead:
-        return '이마';
+        return l10n.forehead;
     }
   }
 

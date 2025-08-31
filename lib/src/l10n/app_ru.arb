@@ -626,5 +626,37 @@
   "afternoon": "Вечер",
   "@afternoon": {
     "description": "PM - afternoon time period label"
-  }
+  },
+  "babyTemperatureRecord": "Запись температуры {name}",
+  "@babyTemperatureRecord": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustWithSlider": "Настроить с помощью ползунка",
+  "measurementMethod": "Метод измерения",
+  "normalRange": "Нормальный диапазон",
+  "normalRangeForAgeGroup": "Нормальный диапазон ({ageGroup}): {min}°C - {max}°C",
+  "@normalRangeForAgeGroup": {
+    "placeholders": {
+      "ageGroup": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTemperatureRecord": "Сохранить запись температуры",
+  "enterTemperature": "Пожалуйста, введите температуру",
+  "enterValidNumber": "Пожалуйста, введите действительное число",
+  "temperatureRangeValidation": "Температура должна быть в диапазоне 34,0°C ~ 42,0°C",
+  "recordSymptomsHint": "Пожалуйста, запишите симптомы или особые заметки",
+  "oralMethod": "Оральный",
+  "analMethod": "Анальный"
 }

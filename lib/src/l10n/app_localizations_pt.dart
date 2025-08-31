@@ -453,7 +453,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get heightRange => 'Height must be between 1cm and 200cm';
 
   @override
-  String get enterValidNumber => 'Please enter a valid number';
+  String get enterValidNumber => 'Por favor, insira um número válido';
 
   @override
   String get recordGrowthInfo => 'Record Growth Information';
@@ -2521,4 +2521,43 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get triedFoodTypes => 'Types of food tried';
+
+  @override
+  String babyTemperatureRecord(String name) {
+    return 'Registro de temperatura de $name';
+  }
+
+  @override
+  String get adjustWithSlider => 'Ajustar com controle deslizante';
+
+  @override
+  String get measurementMethod => 'Método de medição';
+
+  @override
+  String get normalRange => 'Faixa normal';
+
+  @override
+  String normalRangeForAgeGroup(String ageGroup, String min, String max) {
+    return 'Faixa normal ($ageGroup): $min°C - $max°C';
+  }
+
+  @override
+  String get saveTemperatureRecord => 'Salvar registro de temperatura';
+
+  @override
+  String get enterTemperature => 'Por favor, insira a temperatura';
+
+  @override
+  String get temperatureRangeValidation =>
+      'A temperatura deve estar entre 34,0°C ~ 42,0°C';
+
+  @override
+  String get recordSymptomsHint =>
+      'Por favor, registre sintomas ou observações especiais';
+
+  @override
+  String get oralMethod => 'Oral';
+
+  @override
+  String get analMethod => 'Anal';
 }
