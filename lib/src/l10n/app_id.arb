@@ -832,5 +832,15 @@
   "saturday": "Sabtu",
   "sunday": "Minggu",
   "on": "Hidup",
-  "off": "Mati"
+  "off": "Mati",
+
+  "detailInformation": "Informasi Detail",
+  "amount": "Jumlah",
+  "duration": "Durasi",
+  "side": "Sisi",
+
+  "smartInsights": "Wawasan Cerdas",
+  "confidence": "Kepercayaan",
+  "analyzingPatterns": "Menganalisis pola...",
+  "insightsFound": "{count} wawasan ditemukan"
 }

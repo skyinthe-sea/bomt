@@ -1177,5 +1177,15 @@
   "saturday": "วันเสาร์",
   "sunday": "วันอาทิตย์",
   "on": "เปิด",
-  "off": "ปิด"
+  "off": "ปิด",
+
+  "detailInformation": "ข้อมูลรายละเอียด",
+  "amount": "จำนวน",
+  "duration": "ระยะเวลา",
+  "side": "ข้าง",
+
+  "smartInsights": "ข้อมูลเชิงลึกอัจฉริยะ",
+  "confidence": "ความเชื่อมั่น",
+  "analyzingPatterns": "กำลังวิเคราะห์รูปแบบ...",
+  "insightsFound": "พบข้อมูลเชิงลึก {count} รายการ"
 }

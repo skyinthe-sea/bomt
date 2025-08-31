@@ -832,5 +832,15 @@
   "saturday": "Cumartesi",
   "sunday": "Pazar",
   "on": "Açık",
-  "off": "Kapalı"
+  "off": "Kapalı",
+
+  "detailInformation": "Detaylı Bilgi",
+  "amount": "Miktar",
+  "duration": "Süre",
+  "side": "Taraf",
+
+  "smartInsights": "Akıllı İçgörüler",
+  "confidence": "Güven",
+  "analyzingPatterns": "Desenler analiz ediliyor...",
+  "insightsFound": "{count} içgörü bulundu"
 }

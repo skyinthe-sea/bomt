@@ -900,5 +900,15 @@
   "saturday": "Sábado",
   "sunday": "Domingo",
   "on": "Ligado",
-  "off": "Desligado"
+  "off": "Desligado",
+
+  "detailInformation": "Informações Detalhadas",
+  "amount": "Quantidade",
+  "duration": "Duração",
+  "side": "Lado",
+
+  "smartInsights": "Insights Inteligentes",
+  "confidence": "Confiança",
+  "analyzingPatterns": "Analisando padrões...",
+  "insightsFound": "{count} insights encontrados"
 }

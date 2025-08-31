@@ -900,5 +900,15 @@
   "saturday": "Samedi",
   "sunday": "Dimanche",
   "on": "Activé",
-  "off": "Désactivé"
+  "off": "Désactivé",
+
+  "detailInformation": "Informations Détaillées",
+  "amount": "Quantité",
+  "duration": "Durée",
+  "side": "Côté",
+
+  "smartInsights": "Aperçus Intelligents",
+  "confidence": "Confiance",
+  "analyzingPatterns": "Analyse des modèles...",
+  "insightsFound": "{count} aperçus trouvés"
 }

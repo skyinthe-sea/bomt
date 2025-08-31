@@ -1079,5 +1079,15 @@
   "saturday": "土曜日",
   "sunday": "日曜日",
   "on": "オン",
-  "off": "オフ"
+  "off": "オフ",
+
+  "detailInformation": "詳細情報",
+  "amount": "量",
+  "duration": "時間",
+  "side": "側",
+
+  "smartInsights": "スマートインサイト",
+  "confidence": "信頼度",
+  "analyzingPatterns": "パターン分析中...",
+  "insightsFound": "{count}個のインサイトが見つかりました"
 }

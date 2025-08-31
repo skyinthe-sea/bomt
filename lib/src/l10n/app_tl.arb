@@ -832,5 +832,15 @@
   "saturday": "Sabado",
   "sunday": "Linggo",
   "on": "Bukas",
-  "off": "Sara"
+  "off": "Sara",
+
+  "detailInformation": "Detalyadong Impormasyon",
+  "amount": "Dami",
+  "duration": "Tagal",
+  "side": "Panig",
+
+  "smartInsights": "Matalinong Pag-unawa",
+  "confidence": "Tiwala",
+  "analyzingPatterns": "Sinusuri ang mga pattern...",
+  "insightsFound": "{count} pag-unawa na natagpuan"
 }

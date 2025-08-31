@@ -2090,7 +2090,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sortByComments => 'टिप्पणियों के अनुसार क्रमबद्ध करें';
 
   @override
-  String get detailInformation => 'Detail Information';
+  String get detailInformation => 'विस्तृत जानकारी';
 
   @override
   String get quickActions => 'Quick Actions';
@@ -2127,10 +2127,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get time => 'Time';
 
   @override
-  String get amount => 'Amount';
+  String get amount => 'मात्रा';
 
   @override
-  String get duration => 'Duration';
+  String get duration => 'अवधि';
 
   @override
   String get dosage => 'Dosage';
@@ -2139,7 +2139,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get unit => 'Unit';
 
   @override
-  String get side => 'Side';
+  String get side => 'तरफ';
 
   @override
   String get fair => 'Fair';
@@ -2163,21 +2163,21 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changesSaved => 'Changes saved';
 
   @override
-  String get smartInsights => 'Smart Insights';
+  String get smartInsights => 'स्मार्ट अंतर्दृष्टि';
 
   @override
-  String get analyzingPatterns => 'Analyzing patterns...';
+  String get analyzingPatterns => 'पैटर्न का विश्लेषण...';
 
   @override
   String insightsFound(int count) {
-    return '$count insights found';
+    return '$count अंतर्दृष्टि मिली';
   }
 
   @override
   String get noInsightsYet => 'Not enough data to analyze patterns yet';
 
   @override
-  String get confidence => 'Confidence';
+  String get confidence => 'विश्वास';
 
   @override
   String sleepProgressMinutes(int minutes) {

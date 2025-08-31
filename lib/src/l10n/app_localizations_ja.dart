@@ -2052,7 +2052,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sortByComments => 'コメント順';
 
   @override
-  String get detailInformation => 'Detail Information';
+  String get detailInformation => '詳細情報';
 
   @override
   String get quickActions => 'Quick Actions';
@@ -2089,10 +2089,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get time => 'Time';
 
   @override
-  String get amount => 'Amount';
+  String get amount => '量';
 
   @override
-  String get duration => 'Duration';
+  String get duration => '時間';
 
   @override
   String get dosage => 'Dosage';
@@ -2101,7 +2101,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get unit => 'Unit';
 
   @override
-  String get side => 'Side';
+  String get side => '側';
 
   @override
   String get fair => 'Fair';
@@ -2125,21 +2125,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changesSaved => 'Changes saved';
 
   @override
-  String get smartInsights => 'Smart Insights';
+  String get smartInsights => 'スマートインサイト';
 
   @override
-  String get analyzingPatterns => 'Analyzing patterns...';
+  String get analyzingPatterns => 'パターン分析中...';
 
   @override
   String insightsFound(int count) {
-    return '$count insights found';
+    return '$count個のインサイトが見つかりました';
   }
 
   @override
   String get noInsightsYet => 'Not enough data to analyze patterns yet';
 
   @override
-  String get confidence => 'Confidence';
+  String get confidence => '信頼度';
 
   @override
   String sleepProgressMinutes(int minutes) {

@@ -2089,7 +2089,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sortByComments => 'Yorumlara göre sırala';
 
   @override
-  String get detailInformation => 'Detail Information';
+  String get detailInformation => 'Detaylı Bilgi';
 
   @override
   String get quickActions => 'Quick Actions';
@@ -2126,10 +2126,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get time => 'Time';
 
   @override
-  String get amount => 'Amount';
+  String get amount => 'Miktar';
 
   @override
-  String get duration => 'Duration';
+  String get duration => 'Süre';
 
   @override
   String get dosage => 'Dosage';
@@ -2138,7 +2138,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get unit => 'Unit';
 
   @override
-  String get side => 'Side';
+  String get side => 'Taraf';
 
   @override
   String get fair => 'Fair';
@@ -2162,21 +2162,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changesSaved => 'Changes saved';
 
   @override
-  String get smartInsights => 'Smart Insights';
+  String get smartInsights => 'Akıllı İçgörüler';
 
   @override
-  String get analyzingPatterns => 'Analyzing patterns...';
+  String get analyzingPatterns => 'Desenler analiz ediliyor...';
 
   @override
   String insightsFound(int count) {
-    return '$count insights found';
+    return '$count içgörü bulundu';
   }
 
   @override
   String get noInsightsYet => 'Not enough data to analyze patterns yet';
 
   @override
-  String get confidence => 'Confidence';
+  String get confidence => 'Güven';
 
   @override
   String sleepProgressMinutes(int minutes) {

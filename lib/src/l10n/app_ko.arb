@@ -1154,5 +1154,9 @@
   "saturday": "토요일",
   "sunday": "일요일",
   "on": "켬",
-  "off": "끔"
+  "off": "끔",
+  "smartInsights": "스마트 인사이트",
+  "confidence": "신뢰도",
+  "analyzingPatterns": "패턴 분석 중...",
+  "insightsFound": "{count}개의 인사이트 발견"
 }

@@ -1994,5 +1994,15 @@
   "saturday": "Saturday",
   "sunday": "Sunday",
   "on": "On",
-  "off": "Off"
+  "off": "Off",
+
+  "detailInformation": "Detail Information",
+  "amount": "Amount",
+  "duration": "Duration",
+  "side": "Side",
+
+  "smartInsights": "Smart Insights",
+  "confidence": "Confidence",
+  "analyzingPatterns": "Analyzing patterns...",
+  "insightsFound": "{count} insights found"
 }

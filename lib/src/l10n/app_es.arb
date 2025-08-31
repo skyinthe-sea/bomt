@@ -832,5 +832,15 @@
   "saturday": "Sábado",
   "sunday": "Domingo",
   "on": "Encendido",
-  "off": "Apagado"
+  "off": "Apagado",
+
+  "detailInformation": "Información Detallada",
+  "amount": "Cantidad",
+  "duration": "Duración",
+  "side": "Lado",
+
+  "smartInsights": "Información Inteligente",
+  "confidence": "Confianza",
+  "analyzingPatterns": "Analizando patrones...",
+  "insightsFound": "{count} ideas encontradas"
 }

@@ -900,5 +900,15 @@
   "saturday": "Samstag",
   "sunday": "Sonntag",
   "on": "Ein",
-  "off": "Aus"
+  "off": "Aus",
+
+  "detailInformation": "Detaillierte Informationen",
+  "amount": "Menge",
+  "duration": "Dauer",
+  "side": "Seite",
+
+  "smartInsights": "Intelligente Einblicke",
+  "confidence": "Vertrauen",
+  "analyzingPatterns": "Muster analysieren...",
+  "insightsFound": "{count} Einblicke gefunden"
 }

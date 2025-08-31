@@ -830,5 +830,15 @@
   "saturday": "शनिवार",
   "sunday": "रविवार",
   "on": "चालू",
-  "off": "बंद"
+  "off": "बंद",
+
+  "detailInformation": "विस्तृत जानकारी",
+  "amount": "मात्रा",
+  "duration": "अवधि",
+  "side": "तरफ",
+
+  "smartInsights": "स्मार्ट अंतर्दृष्टि",
+  "confidence": "विश्वास",
+  "analyzingPatterns": "पैटर्न का विश्लेषण...",
+  "insightsFound": "{count} अंतर्दृष्टि मिली"
 }

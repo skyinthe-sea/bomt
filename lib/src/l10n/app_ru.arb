@@ -832,5 +832,15 @@
   "saturday": "Суббота",
   "sunday": "Воскресенье",
   "on": "Вкл",
-  "off": "Выкл"
+  "off": "Выкл",
+
+  "detailInformation": "Детальная Информация",
+  "amount": "Количество",
+  "duration": "Продолжительность",
+  "side": "Сторона",
+
+  "smartInsights": "Умные Выводы",
+  "confidence": "Уверенность",
+  "analyzingPatterns": "Анализ закономерностей...",
+  "insightsFound": "{count} выводов найдено"
 }
