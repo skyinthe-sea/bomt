@@ -1965,5 +1965,34 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "storageMethod": "Storage Method",
+  "pumpingType": "Pumping Type",
+  "quality": "Quality",
+  "foodName": "Food Name",
+  "mealType": "Meal Type",
+  "texture": "Texture",
+  "reaction": "Reaction",
+  "measurementLocation": "Measurement Location",
+  "feverReducerGiven": "Fever Reducer Given",
+  "given": "Given",
+  "hours": "hours",
+  "refrigerator": "Refrigerator",
+  "freezer": "Freezer",
+  "roomTemperature": "Room Temperature",
+  "fedImmediately": "Fed Immediately",
+  "breakfast": "Breakfast",
+  "lunch": "Lunch",
+  "dinner": "Dinner",
+  "snack": "Snack",
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+  "on": "On",
+  "off": "Off"
 }

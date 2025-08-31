@@ -801,5 +801,34 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "storageMethod": "भंडारण विधि",
+  "pumpingType": "पंपिंग प्रकार",
+  "quality": "गुणवत्ता",
+  "foodName": "भोजन का नाम",
+  "mealType": "भोजन का प्रकार",
+  "texture": "बनावट",
+  "reaction": "प्रतिक्रिया",
+  "measurementLocation": "माप स्थान",
+  "feverReducerGiven": "बुखार कम करने वाली दवा दी गई",
+  "given": "दिया गया",
+  "hours": "घंटे",
+  "refrigerator": "रेफ्रिजरेटर",
+  "freezer": "फ्रीजर",
+  "roomTemperature": "कमरे का तापमान",
+  "fedImmediately": "तुरंत खिलाया गया",
+  "breakfast": "नाश्ता",
+  "lunch": "दोपहर का खाना",
+  "dinner": "रात का खाना",
+  "snack": "नाश्ता",
+  "monday": "सोमवार",
+  "tuesday": "मंगलवार",
+  "wednesday": "बुधवार",
+  "thursday": "गुरुवार",
+  "friday": "शुक्रवार",
+  "saturday": "शनिवार",
+  "sunday": "रविवार",
+  "on": "चालू",
+  "off": "बंद"
 }

@@ -2708,4 +2708,85 @@ class AppLocalizationsKo extends AppLocalizations {
   String recordedTimes(int count) {
     return '$count회 기록';
   }
+
+  @override
+  String get storageMethod => '보관 방법';
+
+  @override
+  String get pumpingType => '유축 방식';
+
+  @override
+  String get foodName => '음식명';
+
+  @override
+  String get mealType => '식사 유형';
+
+  @override
+  String get texture => '질감';
+
+  @override
+  String get reaction => '반응';
+
+  @override
+  String get measurementLocation => '측정 부위';
+
+  @override
+  String get feverReducerGiven => '해열제 투약';
+
+  @override
+  String get given => '투약함';
+
+  @override
+  String get hours => '시간';
+
+  @override
+  String get refrigerator => '냉장고';
+
+  @override
+  String get freezer => '냉동고';
+
+  @override
+  String get roomTemperature => '실온';
+
+  @override
+  String get fedImmediately => '즉시 수유';
+
+  @override
+  String get breakfast => '아침';
+
+  @override
+  String get lunch => '점심';
+
+  @override
+  String get dinner => '저녁';
+
+  @override
+  String get snack => '간식';
+
+  @override
+  String get monday => '월요일';
+
+  @override
+  String get tuesday => '화요일';
+
+  @override
+  String get wednesday => '수요일';
+
+  @override
+  String get thursday => '목요일';
+
+  @override
+  String get friday => '금요일';
+
+  @override
+  String get saturday => '토요일';
+
+  @override
+  String get sunday => '일요일';
+
+  @override
+  String get on => '켬';
+
+  @override
+  String get off => '끔';
 }

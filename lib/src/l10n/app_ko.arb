@@ -1125,5 +1125,34 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "storageMethod": "보관 방법",
+  "pumpingType": "유축 방식",
+  "quality": "품질",
+  "foodName": "음식명",
+  "mealType": "식사 유형",
+  "texture": "질감",
+  "reaction": "반응",
+  "measurementLocation": "측정 부위",
+  "feverReducerGiven": "해열제 투약",
+  "given": "투약함",
+  "hours": "시간",
+  "refrigerator": "냉장고",
+  "freezer": "냉동고",
+  "roomTemperature": "실온",
+  "fedImmediately": "즉시 수유",
+  "breakfast": "아침",
+  "lunch": "점심",
+  "dinner": "저녁",
+  "snack": "간식",
+  "monday": "월요일",
+  "tuesday": "화요일",
+  "wednesday": "수요일",
+  "thursday": "목요일",
+  "friday": "금요일",
+  "saturday": "토요일",
+  "sunday": "일요일",
+  "on": "켬",
+  "off": "끔"
 }

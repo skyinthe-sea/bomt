@@ -1235,7 +1235,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get normal => 'Normal';
 
   @override
-  String get quality => 'Quality';
+  String get quality => 'Kualitas';
 
   @override
   String get weekly => 'Weekly';
@@ -2749,4 +2749,85 @@ class AppLocalizationsId extends AppLocalizations {
   String recordedTimes(int count) {
     return 'Tercatat $count kali';
   }
+
+  @override
+  String get storageMethod => 'Metode penyimpanan';
+
+  @override
+  String get pumpingType => 'Jenis pompa';
+
+  @override
+  String get foodName => 'Nama makanan';
+
+  @override
+  String get mealType => 'Jenis makanan';
+
+  @override
+  String get texture => 'Tekstur';
+
+  @override
+  String get reaction => 'Reaksi';
+
+  @override
+  String get measurementLocation => 'Lokasi pengukuran';
+
+  @override
+  String get feverReducerGiven => 'Pemberian penurun demam';
+
+  @override
+  String get given => 'Diberikan';
+
+  @override
+  String get hours => 'jam';
+
+  @override
+  String get refrigerator => 'Kulkas';
+
+  @override
+  String get freezer => 'Freezer';
+
+  @override
+  String get roomTemperature => 'Suhu ruang';
+
+  @override
+  String get fedImmediately => 'Langsung diberikan';
+
+  @override
+  String get breakfast => 'Sarapan';
+
+  @override
+  String get lunch => 'Makan siang';
+
+  @override
+  String get dinner => 'Makan malam';
+
+  @override
+  String get snack => 'Camilan';
+
+  @override
+  String get monday => 'Senin';
+
+  @override
+  String get tuesday => 'Selasa';
+
+  @override
+  String get wednesday => 'Rabu';
+
+  @override
+  String get thursday => 'Kamis';
+
+  @override
+  String get friday => 'Jumat';
+
+  @override
+  String get saturday => 'Sabtu';
+
+  @override
+  String get sunday => 'Minggu';
+
+  @override
+  String get on => 'Hidup';
+
+  @override
+  String get off => 'Mati';
 }

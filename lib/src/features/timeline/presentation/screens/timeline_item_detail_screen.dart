@@ -346,7 +346,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
                     ],
                     const SizedBox(height: 8),
                     Text(
-                      _formatDetailedDateTime(_currentItem!.timestamp),
+                      _formatDetailedDateTime(_currentItem!.timestamp, localizations),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.white.withOpacity(0.8),
                       ),
@@ -438,7 +438,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         if (data.containsKey('duration_minutes')) {
           widgets.add(_buildDetailRow(
             localizations.duration,
-            _formatDuration(data['duration_minutes']),
+            _formatDuration(data['duration_minutes'], localizations),
             Icons.timer_rounded,
             theme,
           ));
@@ -527,7 +527,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         if (data.containsKey('duration_minutes')) {
           widgets.add(_buildDetailRow(
             localizations.duration,
-            _formatDuration(data['duration_minutes']),
+            _formatDuration(data['duration_minutes'], localizations),
             Icons.timer_rounded,
             theme,
           ));
@@ -542,7 +542,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         }
         if (data.containsKey('storage_method')) {
           widgets.add(_buildDetailRow(
-            '저장 방법',
+            localizations.storageMethod,
             _getStorageMethodDisplayName(data['storage_method'], localizations),
             Icons.storage_rounded,
             theme,
@@ -550,7 +550,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         }
         if (data.containsKey('pumping_type')) {
           widgets.add(_buildDetailRow(
-            '유축 타입',
+            localizations.pumpingType,
             data['pumping_type'].toString(),
             Icons.category_rounded,
             theme,
@@ -558,7 +558,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         }
         if (data.containsKey('quality')) {
           widgets.add(_buildDetailRow(
-            '품질',
+            localizations.quality,
             _getQualityDisplayName(data['quality'], localizations),
             Icons.sentiment_satisfied_rounded,
             theme,
@@ -569,7 +569,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
       case TimelineItemType.solidFood:
         if (data.containsKey('food_name')) {
           widgets.add(_buildDetailRow(
-            '음식명',
+            localizations.foodName,
             data['food_name'].toString(),
             Icons.restaurant_rounded,
             theme,
@@ -585,7 +585,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         }
         if (data.containsKey('meal_type')) {
           widgets.add(_buildDetailRow(
-            '식사 유형',
+            localizations.mealType,
             _getMealTypeDisplayName(data['meal_type'], localizations),
             Icons.category_rounded,
             theme,
@@ -593,7 +593,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         }
         if (data.containsKey('texture')) {
           widgets.add(_buildDetailRow(
-            '식감',
+            localizations.texture,
             data['texture'].toString(),
             Icons.texture_rounded,
             theme,
@@ -601,7 +601,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         }
         if (data.containsKey('reaction')) {
           widgets.add(_buildDetailRow(
-            '반응',
+            localizations.reaction,
             data['reaction'].toString(),
             Icons.sentiment_satisfied_rounded,
             theme,
@@ -620,7 +620,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         }
         if (data.containsKey('measurement_location')) {
           widgets.add(_buildDetailRow(
-            '측정 위치',
+            localizations.measurementLocation,
             data['measurement_location'].toString(),
             Icons.location_on_rounded,
             theme,
@@ -629,8 +629,8 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
         if (data.containsKey('fever_reducer_given')) {
           if (data['fever_reducer_given'] == true) {
             widgets.add(_buildDetailRow(
-              '해열제 투여',
-              '투여함',
+              localizations.feverReducerGiven,
+              localizations.given,
               Icons.medication_rounded,
               theme,
             ));
@@ -875,20 +875,20 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
     return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
   }
 
-  String _formatDetailedDateTime(DateTime dateTime) {
-    final weekdays = ['월', '화', '수', '목', '금', '토', '일'];
+  String _formatDetailedDateTime(DateTime dateTime, AppLocalizations localizations) {
+    final weekdays = [localizations.monday, localizations.tuesday, localizations.wednesday, localizations.thursday, localizations.friday, localizations.saturday, localizations.sunday];
     final weekday = weekdays[dateTime.weekday - 1];
     return '${dateTime.month}월 ${dateTime.day}일 ($weekday) ${_formatDateTime(dateTime)}';
   }
 
-  String _formatDuration(int? minutes) {
+  String _formatDuration(int? minutes, AppLocalizations localizations) {
     if (minutes == null) return '-';
     final hours = minutes ~/ 60;
     final mins = minutes % 60;
     if (hours > 0) {
-      return '${hours}시간 ${mins}분';
+      return '${hours}${localizations.hours} ${mins}${localizations.minutes}';
     }
-    return '${mins}분';
+    return '${mins}${localizations.minutes}';
   }
 
   String _getFeedingTypeDisplayName(String type, AppLocalizations localizations) {
@@ -946,13 +946,13 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
   String _getStorageMethodDisplayName(String method, AppLocalizations localizations) {
     switch (method) {
       case 'refrigerator':
-        return '냉장고';
+        return localizations.refrigerator;
       case 'freezer':
-        return '냉동실';
+        return localizations.freezer;
       case 'room_temp':
-        return '실온';
+        return localizations.roomTemperature;
       case 'fed_immediately':
-        return '즉시 사용';
+        return localizations.fedImmediately;
       default:
         return method;
     }
@@ -961,13 +961,13 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
   String _getMealTypeDisplayName(String type, AppLocalizations localizations) {
     switch (type) {
       case 'breakfast':
-        return '아침식사';
+        return localizations.breakfast;
       case 'lunch':
-        return '점심식사';
+        return localizations.lunch;
       case 'dinner':
-        return '저녁식사';
+        return localizations.dinner;
       case 'snack':
-        return '간식';
+        return localizations.snack;
       default:
         return type;
     }

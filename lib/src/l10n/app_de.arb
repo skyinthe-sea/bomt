@@ -871,5 +871,34 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "storageMethod": "Aufbewahrungsmethode",
+  "pumpingType": "Pump-Art",
+  "quality": "Qualität",
+  "foodName": "Lebensmittelname",
+  "mealType": "Mahlzeittyp",
+  "texture": "Textur",
+  "reaction": "Reaktion",
+  "measurementLocation": "Messort",
+  "feverReducerGiven": "Fiebermittel gegeben",
+  "given": "Gegeben",
+  "hours": "Stunden",
+  "refrigerator": "Kühlschrank",
+  "freezer": "Gefrierschrank",
+  "roomTemperature": "Raumtemperatur",
+  "fedImmediately": "Sofort gefüttert",
+  "breakfast": "Frühstück",
+  "lunch": "Mittagessen",
+  "dinner": "Abendessen",
+  "snack": "Snack",
+  "monday": "Montag",
+  "tuesday": "Dienstag",
+  "wednesday": "Mittwoch",
+  "thursday": "Donnerstag",
+  "friday": "Freitag",
+  "saturday": "Samstag",
+  "sunday": "Sonntag",
+  "on": "Ein",
+  "off": "Aus"
 }

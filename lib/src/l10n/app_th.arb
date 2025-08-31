@@ -1148,5 +1148,34 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "storageMethod": "วิธีเก็บรักษา",
+  "pumpingType": "ประเภทการปั๊มนม",
+  "quality": "คุณภาพ",
+  "foodName": "ชื่ออาหาร",
+  "mealType": "ประเภทอาหาร",
+  "texture": "เนื้อสัมผัส",
+  "reaction": "ปฏิกิริยา",
+  "measurementLocation": "ตำแหน่งการวัด",
+  "feverReducerGiven": "ให้ยาลดไข้แล้ว",
+  "given": "ให้แล้ว",
+  "hours": "ชั่วโมง",
+  "refrigerator": "ตู้เย็น",
+  "freezer": "ตู้แช่แข็ง",
+  "roomTemperature": "อุณหภูมิห้อง",
+  "fedImmediately": "ให้ทันที",
+  "breakfast": "อาหารเช้า",
+  "lunch": "อาหารกลางวัน",
+  "dinner": "อาหารเย็น",
+  "snack": "ของว่าง",
+  "monday": "วันจันทร์",
+  "tuesday": "วันอังคาร",
+  "wednesday": "วันพุธ",
+  "thursday": "วันพฤหัสบดี",
+  "friday": "วันศุกร์",
+  "saturday": "วันเสาร์",
+  "sunday": "วันอาทิตย์",
+  "on": "เปิด",
+  "off": "ปิด"
 }

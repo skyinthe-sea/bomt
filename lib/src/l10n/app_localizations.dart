@@ -5051,6 +5051,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} times recorded'**
   String recordedTimes(int count);
+
+  /// No description provided for @storageMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage Method'**
+  String get storageMethod;
+
+  /// No description provided for @pumpingType.
+  ///
+  /// In en, this message translates to:
+  /// **'Pumping Type'**
+  String get pumpingType;
+
+  /// No description provided for @foodName.
+  ///
+  /// In en, this message translates to:
+  /// **'Food Name'**
+  String get foodName;
+
+  /// No description provided for @mealType.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal Type'**
+  String get mealType;
+
+  /// No description provided for @texture.
+  ///
+  /// In en, this message translates to:
+  /// **'Texture'**
+  String get texture;
+
+  /// No description provided for @reaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reaction'**
+  String get reaction;
+
+  /// No description provided for @measurementLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Measurement Location'**
+  String get measurementLocation;
+
+  /// No description provided for @feverReducerGiven.
+  ///
+  /// In en, this message translates to:
+  /// **'Fever Reducer Given'**
+  String get feverReducerGiven;
+
+  /// No description provided for @given.
+  ///
+  /// In en, this message translates to:
+  /// **'Given'**
+  String get given;
+
+  /// No description provided for @hours.
+  ///
+  /// In en, this message translates to:
+  /// **'hours'**
+  String get hours;
+
+  /// No description provided for @refrigerator.
+  ///
+  /// In en, this message translates to:
+  /// **'Refrigerator'**
+  String get refrigerator;
+
+  /// No description provided for @freezer.
+  ///
+  /// In en, this message translates to:
+  /// **'Freezer'**
+  String get freezer;
+
+  /// No description provided for @roomTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Room Temperature'**
+  String get roomTemperature;
+
+  /// No description provided for @fedImmediately.
+  ///
+  /// In en, this message translates to:
+  /// **'Fed Immediately'**
+  String get fedImmediately;
+
+  /// No description provided for @breakfast.
+  ///
+  /// In en, this message translates to:
+  /// **'Breakfast'**
+  String get breakfast;
+
+  /// No description provided for @lunch.
+  ///
+  /// In en, this message translates to:
+  /// **'Lunch'**
+  String get lunch;
+
+  /// No description provided for @dinner.
+  ///
+  /// In en, this message translates to:
+  /// **'Dinner'**
+  String get dinner;
+
+  /// No description provided for @snack.
+  ///
+  /// In en, this message translates to:
+  /// **'Snack'**
+  String get snack;
+
+  /// No description provided for @monday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get monday;
+
+  /// No description provided for @tuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get tuesday;
+
+  /// No description provided for @wednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get wednesday;
+
+  /// No description provided for @thursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get thursday;
+
+  /// No description provided for @friday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get friday;
+
+  /// No description provided for @saturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get saturday;
+
+  /// No description provided for @sunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get sunday;
+
+  /// No description provided for @on.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get on;
+
+  /// No description provided for @off.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get off;
 }
 
 class _AppLocalizationsDelegate

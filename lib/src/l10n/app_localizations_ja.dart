@@ -2707,4 +2707,85 @@ class AppLocalizationsJa extends AppLocalizations {
   String recordedTimes(int count) {
     return '$count回記録';
   }
+
+  @override
+  String get storageMethod => '保存方法';
+
+  @override
+  String get pumpingType => '搾乳タイプ';
+
+  @override
+  String get foodName => '食品名';
+
+  @override
+  String get mealType => '食事タイプ';
+
+  @override
+  String get texture => '食感';
+
+  @override
+  String get reaction => '反応';
+
+  @override
+  String get measurementLocation => '測定場所';
+
+  @override
+  String get feverReducerGiven => '解熱剤投与';
+
+  @override
+  String get given => '投与済み';
+
+  @override
+  String get hours => '時間';
+
+  @override
+  String get refrigerator => '冷蔵庫';
+
+  @override
+  String get freezer => '冷凍庫';
+
+  @override
+  String get roomTemperature => '常温';
+
+  @override
+  String get fedImmediately => 'すぐに授乳';
+
+  @override
+  String get breakfast => '朝食';
+
+  @override
+  String get lunch => '昼食';
+
+  @override
+  String get dinner => '夕食';
+
+  @override
+  String get snack => 'おやつ';
+
+  @override
+  String get monday => '月曜日';
+
+  @override
+  String get tuesday => '火曜日';
+
+  @override
+  String get wednesday => '水曜日';
+
+  @override
+  String get thursday => '木曜日';
+
+  @override
+  String get friday => '金曜日';
+
+  @override
+  String get saturday => '土曜日';
+
+  @override
+  String get sunday => '日曜日';
+
+  @override
+  String get on => 'オン';
+
+  @override
+  String get off => 'オフ';
 }

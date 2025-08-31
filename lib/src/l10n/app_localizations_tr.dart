@@ -1235,7 +1235,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get normal => 'Normal';
 
   @override
-  String get quality => 'Quality';
+  String get quality => 'Kalite';
 
   @override
   String get weekly => 'Weekly';
@@ -2750,4 +2750,85 @@ class AppLocalizationsTr extends AppLocalizations {
   String recordedTimes(int count) {
     return '$count kez kaydedildi';
   }
+
+  @override
+  String get storageMethod => 'Saklama yöntemi';
+
+  @override
+  String get pumpingType => 'Sağma türü';
+
+  @override
+  String get foodName => 'Yemek adı';
+
+  @override
+  String get mealType => 'Öğün türü';
+
+  @override
+  String get texture => 'Doku';
+
+  @override
+  String get reaction => 'Tepki';
+
+  @override
+  String get measurementLocation => 'Ölçüm yeri';
+
+  @override
+  String get feverReducerGiven => 'Ateş düşürücü verildi';
+
+  @override
+  String get given => 'Verildi';
+
+  @override
+  String get hours => 'saat';
+
+  @override
+  String get refrigerator => 'Buzdolabı';
+
+  @override
+  String get freezer => 'Dondurucu';
+
+  @override
+  String get roomTemperature => 'Oda sıcaklığı';
+
+  @override
+  String get fedImmediately => 'Hemen beslendi';
+
+  @override
+  String get breakfast => 'Kahvaltı';
+
+  @override
+  String get lunch => 'Öğle yemeği';
+
+  @override
+  String get dinner => 'Akşam yemeği';
+
+  @override
+  String get snack => 'Atıştırmalık';
+
+  @override
+  String get monday => 'Pazartesi';
+
+  @override
+  String get tuesday => 'Salı';
+
+  @override
+  String get wednesday => 'Çarşamba';
+
+  @override
+  String get thursday => 'Perşembe';
+
+  @override
+  String get friday => 'Cuma';
+
+  @override
+  String get saturday => 'Cumartesi';
+
+  @override
+  String get sunday => 'Pazar';
+
+  @override
+  String get on => 'Açık';
+
+  @override
+  String get off => 'Kapalı';
 }

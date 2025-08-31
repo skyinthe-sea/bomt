@@ -185,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   /// 기존 아기 정보로 데이터 로드
   Future<void> _loadDataWithExistingBaby() async {
     // 카드 설정 로드
-    await _loadCardSettings(_currentUserId!);
+    await _loadCardSettings(_currentUserId!, _currentBaby!.id);
     
     // 모든 Provider들에 현재 아기 정보 설정
     _feedingProvider.setCurrentBaby(_currentBaby!.id, _currentUserId!, babyAgeInDays: _currentBaby!.ageInDays);
@@ -509,7 +509,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       // 카드 설정 로드 (안전한 방식)
       debugPrint('🏠 [HOME] Loading card settings safely...');
       try {
-        await _loadCardSettings(userId);
+        await _loadCardSettings(userId, baby.id);
       } catch (e) {
         debugPrint('❌ [HOME] Card settings load failed, using defaults: $e');
         _enabledCardTypes = ['feeding', 'sleep', 'diaper']; // 폴백 기본값
@@ -952,12 +952,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
   
   /// 카드 설정 로드
-  Future<void> _loadCardSettings(String userId) async {
+  Future<void> _loadCardSettings(String userId, [String? babyId]) async {
     try {
       debugPrint('🃏 [CARD] Starting card settings load for user: $userId');
       debugPrint('🃏 [CARD] Calling service.getUserCardSettings...');
       
-      final cardSettings = await _userCardSettingService.getUserCardSettings(userId);
+      final cardSettings = await _userCardSettingService.getUserCardSettings(userId, babyId);
       debugPrint('🃏 [CARD] Service returned ${cardSettings.length} settings');
       
       if (cardSettings.isNotEmpty) {
@@ -1547,7 +1547,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                         
                                         // 간단한 UI 새로고침 (복잡한 로직 제거)
                                         try {
-                                          await _loadCardSettings(_currentUserId!);
+                                          await _loadCardSettings(_currentUserId!, _currentBaby!.id);
                                           if (mounted) {
                                             setState(() {});
                                             ScaffoldMessenger.of(context).showSnackBar(

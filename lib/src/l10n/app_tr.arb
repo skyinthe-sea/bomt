@@ -803,5 +803,34 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "storageMethod": "Saklama yöntemi",
+  "pumpingType": "Sağma türü",
+  "quality": "Kalite",
+  "foodName": "Yemek adı",
+  "mealType": "Öğün türü",
+  "texture": "Doku",
+  "reaction": "Tepki",
+  "measurementLocation": "Ölçüm yeri",
+  "feverReducerGiven": "Ateş düşürücü verildi",
+  "given": "Verildi",
+  "hours": "saat",
+  "refrigerator": "Buzdolabı",
+  "freezer": "Dondurucu",
+  "roomTemperature": "Oda sıcaklığı",
+  "fedImmediately": "Hemen beslendi",
+  "breakfast": "Kahvaltı",
+  "lunch": "Öğle yemeği",
+  "dinner": "Akşam yemeği",
+  "snack": "Atıştırmalık",
+  "monday": "Pazartesi",
+  "tuesday": "Salı",
+  "wednesday": "Çarşamba",
+  "thursday": "Perşembe",
+  "friday": "Cuma",
+  "saturday": "Cumartesi",
+  "sunday": "Pazar",
+  "on": "Açık",
+  "off": "Kapalı"
 }

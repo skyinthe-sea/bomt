@@ -803,5 +803,34 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "storageMethod": "Способ хранения",
+  "pumpingType": "Тип сцеживания",
+  "quality": "Качество",
+  "foodName": "Название продукта",
+  "mealType": "Тип приема пищи",
+  "texture": "Текстура",
+  "reaction": "Реакция",
+  "measurementLocation": "Место измерения",
+  "feverReducerGiven": "Жаропонижающее дано",
+  "given": "Дано",
+  "hours": "часов",
+  "refrigerator": "Холодильник",
+  "freezer": "Морозилка",
+  "roomTemperature": "Комнатная температура",
+  "fedImmediately": "Накормлен сразу",
+  "breakfast": "Завтрак",
+  "lunch": "Обед",
+  "dinner": "Ужин",
+  "snack": "Перекус",
+  "monday": "Понедельник",
+  "tuesday": "Вторник",
+  "wednesday": "Среда",
+  "thursday": "Четверг",
+  "friday": "Пятница",
+  "saturday": "Суббота",
+  "sunday": "Воскресенье",
+  "on": "Вкл",
+  "off": "Выкл"
 }

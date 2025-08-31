@@ -491,7 +491,8 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
     
     // 파싱 실패 시 기본값 반환
     if (weekdays.length != 7) {
-      return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      final l10n = AppLocalizations.of(context)!;
+      return [l10n.sunday, l10n.monday, l10n.tuesday, l10n.wednesday, l10n.thursday, l10n.friday, l10n.saturday];
     }
     
     return weekdays;

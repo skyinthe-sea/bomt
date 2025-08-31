@@ -2749,4 +2749,85 @@ class AppLocalizationsEn extends AppLocalizations {
   String recordedTimes(int count) {
     return '$count times recorded';
   }
+
+  @override
+  String get storageMethod => 'Storage Method';
+
+  @override
+  String get pumpingType => 'Pumping Type';
+
+  @override
+  String get foodName => 'Food Name';
+
+  @override
+  String get mealType => 'Meal Type';
+
+  @override
+  String get texture => 'Texture';
+
+  @override
+  String get reaction => 'Reaction';
+
+  @override
+  String get measurementLocation => 'Measurement Location';
+
+  @override
+  String get feverReducerGiven => 'Fever Reducer Given';
+
+  @override
+  String get given => 'Given';
+
+  @override
+  String get hours => 'hours';
+
+  @override
+  String get refrigerator => 'Refrigerator';
+
+  @override
+  String get freezer => 'Freezer';
+
+  @override
+  String get roomTemperature => 'Room Temperature';
+
+  @override
+  String get fedImmediately => 'Fed Immediately';
+
+  @override
+  String get breakfast => 'Breakfast';
+
+  @override
+  String get lunch => 'Lunch';
+
+  @override
+  String get dinner => 'Dinner';
+
+  @override
+  String get snack => 'Snack';
+
+  @override
+  String get monday => 'Monday';
+
+  @override
+  String get tuesday => 'Tuesday';
+
+  @override
+  String get wednesday => 'Wednesday';
+
+  @override
+  String get thursday => 'Thursday';
+
+  @override
+  String get friday => 'Friday';
+
+  @override
+  String get saturday => 'Saturday';
+
+  @override
+  String get sunday => 'Sunday';
+
+  @override
+  String get on => 'On';
+
+  @override
+  String get off => 'Off';
 }

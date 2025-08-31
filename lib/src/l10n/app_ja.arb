@@ -1050,5 +1050,34 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "storageMethod": "保存方法",
+  "pumpingType": "搾乳タイプ",
+  "quality": "品質",
+  "foodName": "食品名",
+  "mealType": "食事タイプ",
+  "texture": "食感",
+  "reaction": "反応",
+  "measurementLocation": "測定場所",
+  "feverReducerGiven": "解熱剤投与",
+  "given": "投与済み",
+  "hours": "時間",
+  "refrigerator": "冷蔵庫",
+  "freezer": "冷凍庫",
+  "roomTemperature": "常温",
+  "fedImmediately": "すぐに授乳",
+  "breakfast": "朝食",
+  "lunch": "昼食",
+  "dinner": "夕食",
+  "snack": "おやつ",
+  "monday": "月曜日",
+  "tuesday": "火曜日",
+  "wednesday": "水曜日",
+  "thursday": "木曜日",
+  "friday": "金曜日",
+  "saturday": "土曜日",
+  "sunday": "日曜日",
+  "on": "オン",
+  "off": "オフ"
 }

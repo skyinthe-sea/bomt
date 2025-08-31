@@ -1235,7 +1235,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get normal => 'ปกติ';
 
   @override
-  String get quality => 'Quality';
+  String get quality => 'คุณภาพ';
 
   @override
   String get weekly => 'Weekly';
@@ -2746,4 +2746,85 @@ class AppLocalizationsTh extends AppLocalizations {
   String recordedTimes(int count) {
     return 'บันทึกแล้ว $count ครั้ง';
   }
+
+  @override
+  String get storageMethod => 'วิธีเก็บรักษา';
+
+  @override
+  String get pumpingType => 'ประเภทการปั๊มนม';
+
+  @override
+  String get foodName => 'ชื่ออาหาร';
+
+  @override
+  String get mealType => 'ประเภทอาหาร';
+
+  @override
+  String get texture => 'เนื้อสัมผัส';
+
+  @override
+  String get reaction => 'ปฏิกิริยา';
+
+  @override
+  String get measurementLocation => 'ตำแหน่งการวัด';
+
+  @override
+  String get feverReducerGiven => 'ให้ยาลดไข้แล้ว';
+
+  @override
+  String get given => 'ให้แล้ว';
+
+  @override
+  String get hours => 'ชั่วโมง';
+
+  @override
+  String get refrigerator => 'ตู้เย็น';
+
+  @override
+  String get freezer => 'ตู้แช่แข็ง';
+
+  @override
+  String get roomTemperature => 'อุณหภูมิห้อง';
+
+  @override
+  String get fedImmediately => 'ให้ทันที';
+
+  @override
+  String get breakfast => 'อาหารเช้า';
+
+  @override
+  String get lunch => 'อาหารกลางวัน';
+
+  @override
+  String get dinner => 'อาหารเย็น';
+
+  @override
+  String get snack => 'ของว่าง';
+
+  @override
+  String get monday => 'วันจันทร์';
+
+  @override
+  String get tuesday => 'วันอังคาร';
+
+  @override
+  String get wednesday => 'วันพุธ';
+
+  @override
+  String get thursday => 'วันพฤหัสบดี';
+
+  @override
+  String get friday => 'วันศุกร์';
+
+  @override
+  String get saturday => 'วันเสาร์';
+
+  @override
+  String get sunday => 'วันอาทิตย์';
+
+  @override
+  String get on => 'เปิด';
+
+  @override
+  String get off => 'ปิด';
 }

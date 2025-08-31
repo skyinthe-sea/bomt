@@ -1235,7 +1235,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get normal => 'Normal';
 
   @override
-  String get quality => 'Quality';
+  String get quality => 'Qualidade';
 
   @override
   String get weekly => 'Weekly';
@@ -2758,4 +2758,85 @@ class AppLocalizationsPt extends AppLocalizations {
   String recordedTimes(int count) {
     return '$count vezes registrado';
   }
+
+  @override
+  String get storageMethod => 'Método de armazenamento';
+
+  @override
+  String get pumpingType => 'Tipo de ordenha';
+
+  @override
+  String get foodName => 'Nome do alimento';
+
+  @override
+  String get mealType => 'Tipo de refeição';
+
+  @override
+  String get texture => 'Textura';
+
+  @override
+  String get reaction => 'Reação';
+
+  @override
+  String get measurementLocation => 'Local de medição';
+
+  @override
+  String get feverReducerGiven => 'Redutor de febre administrado';
+
+  @override
+  String get given => 'Administrado';
+
+  @override
+  String get hours => 'horas';
+
+  @override
+  String get refrigerator => 'Refrigerador';
+
+  @override
+  String get freezer => 'Congelador';
+
+  @override
+  String get roomTemperature => 'Temperatura ambiente';
+
+  @override
+  String get fedImmediately => 'Alimentado imediatamente';
+
+  @override
+  String get breakfast => 'Café da manhã';
+
+  @override
+  String get lunch => 'Almoço';
+
+  @override
+  String get dinner => 'Jantar';
+
+  @override
+  String get snack => 'Lanche';
+
+  @override
+  String get monday => 'Segunda-feira';
+
+  @override
+  String get tuesday => 'Terça-feira';
+
+  @override
+  String get wednesday => 'Quarta-feira';
+
+  @override
+  String get thursday => 'Quinta-feira';
+
+  @override
+  String get friday => 'Sexta-feira';
+
+  @override
+  String get saturday => 'Sábado';
+
+  @override
+  String get sunday => 'Domingo';
+
+  @override
+  String get on => 'Ligado';
+
+  @override
+  String get off => 'Desligado';
 }

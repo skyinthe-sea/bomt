@@ -803,5 +803,34 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "storageMethod": "Metode penyimpanan",
+  "pumpingType": "Jenis pompa",
+  "quality": "Kualitas",
+  "foodName": "Nama makanan",
+  "mealType": "Jenis makanan",
+  "texture": "Tekstur",
+  "reaction": "Reaksi",
+  "measurementLocation": "Lokasi pengukuran",
+  "feverReducerGiven": "Pemberian penurun demam",
+  "given": "Diberikan",
+  "hours": "jam",
+  "refrigerator": "Kulkas",
+  "freezer": "Freezer",
+  "roomTemperature": "Suhu ruang",
+  "fedImmediately": "Langsung diberikan",
+  "breakfast": "Sarapan",
+  "lunch": "Makan siang",
+  "dinner": "Makan malam",
+  "snack": "Camilan",
+  "monday": "Senin",
+  "tuesday": "Selasa",
+  "wednesday": "Rabu",
+  "thursday": "Kamis",
+  "friday": "Jumat",
+  "saturday": "Sabtu",
+  "sunday": "Minggu",
+  "on": "Hidup",
+  "off": "Mati"
 }

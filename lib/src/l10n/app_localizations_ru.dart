@@ -1235,7 +1235,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get normal => 'Нормально';
 
   @override
-  String get quality => 'Quality';
+  String get quality => 'Качество';
 
   @override
   String get weekly => 'Weekly';
@@ -2753,4 +2753,85 @@ class AppLocalizationsRu extends AppLocalizations {
   String recordedTimes(int count) {
     return 'Записано $count раз';
   }
+
+  @override
+  String get storageMethod => 'Способ хранения';
+
+  @override
+  String get pumpingType => 'Тип сцеживания';
+
+  @override
+  String get foodName => 'Название продукта';
+
+  @override
+  String get mealType => 'Тип приема пищи';
+
+  @override
+  String get texture => 'Текстура';
+
+  @override
+  String get reaction => 'Реакция';
+
+  @override
+  String get measurementLocation => 'Место измерения';
+
+  @override
+  String get feverReducerGiven => 'Жаропонижающее дано';
+
+  @override
+  String get given => 'Дано';
+
+  @override
+  String get hours => 'часов';
+
+  @override
+  String get refrigerator => 'Холодильник';
+
+  @override
+  String get freezer => 'Морозилка';
+
+  @override
+  String get roomTemperature => 'Комнатная температура';
+
+  @override
+  String get fedImmediately => 'Накормлен сразу';
+
+  @override
+  String get breakfast => 'Завтрак';
+
+  @override
+  String get lunch => 'Обед';
+
+  @override
+  String get dinner => 'Ужин';
+
+  @override
+  String get snack => 'Перекус';
+
+  @override
+  String get monday => 'Понедельник';
+
+  @override
+  String get tuesday => 'Вторник';
+
+  @override
+  String get wednesday => 'Среда';
+
+  @override
+  String get thursday => 'Четверг';
+
+  @override
+  String get friday => 'Пятница';
+
+  @override
+  String get saturday => 'Суббота';
+
+  @override
+  String get sunday => 'Воскресенье';
+
+  @override
+  String get on => 'Вкл';
+
+  @override
+  String get off => 'Выкл';
 }

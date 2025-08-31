@@ -871,5 +871,34 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "storageMethod": "Método de armazenamento",
+  "pumpingType": "Tipo de ordenha",
+  "quality": "Qualidade",
+  "foodName": "Nome do alimento",
+  "mealType": "Tipo de refeição",
+  "texture": "Textura",
+  "reaction": "Reação",
+  "measurementLocation": "Local de medição",
+  "feverReducerGiven": "Redutor de febre administrado",
+  "given": "Administrado",
+  "hours": "horas",
+  "refrigerator": "Refrigerador",
+  "freezer": "Congelador",
+  "roomTemperature": "Temperatura ambiente",
+  "fedImmediately": "Alimentado imediatamente",
+  "breakfast": "Café da manhã",
+  "lunch": "Almoço",
+  "dinner": "Jantar",
+  "snack": "Lanche",
+  "monday": "Segunda-feira",
+  "tuesday": "Terça-feira",
+  "wednesday": "Quarta-feira",
+  "thursday": "Quinta-feira",
+  "friday": "Sexta-feira",
+  "saturday": "Sábado",
+  "sunday": "Domingo",
+  "on": "Ligado",
+  "off": "Desligado"
 }

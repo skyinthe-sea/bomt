@@ -403,7 +403,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SwitchListTile(
               title: Text(l10n.darkMode),
               subtitle: Text(
-                widget.themeProvider!.isDarkMode ? 'On' : 'Off',
+                widget.themeProvider!.isDarkMode ? l10n.on : l10n.off,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               value: widget.themeProvider!.isDarkMode,

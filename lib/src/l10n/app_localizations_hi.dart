@@ -2748,4 +2748,85 @@ class AppLocalizationsHi extends AppLocalizations {
   String recordedTimes(int count) {
     return '$count बार रिकॉर्ड किया गया';
   }
+
+  @override
+  String get storageMethod => 'भंडारण विधि';
+
+  @override
+  String get pumpingType => 'पंपिंग प्रकार';
+
+  @override
+  String get foodName => 'भोजन का नाम';
+
+  @override
+  String get mealType => 'भोजन का प्रकार';
+
+  @override
+  String get texture => 'बनावट';
+
+  @override
+  String get reaction => 'प्रतिक्रिया';
+
+  @override
+  String get measurementLocation => 'माप स्थान';
+
+  @override
+  String get feverReducerGiven => 'बुखार कम करने वाली दवा दी गई';
+
+  @override
+  String get given => 'दिया गया';
+
+  @override
+  String get hours => 'घंटे';
+
+  @override
+  String get refrigerator => 'रेफ्रिजरेटर';
+
+  @override
+  String get freezer => 'फ्रीजर';
+
+  @override
+  String get roomTemperature => 'कमरे का तापमान';
+
+  @override
+  String get fedImmediately => 'तुरंत खिलाया गया';
+
+  @override
+  String get breakfast => 'नाश्ता';
+
+  @override
+  String get lunch => 'दोपहर का खाना';
+
+  @override
+  String get dinner => 'रात का खाना';
+
+  @override
+  String get snack => 'नाश्ता';
+
+  @override
+  String get monday => 'सोमवार';
+
+  @override
+  String get tuesday => 'मंगलवार';
+
+  @override
+  String get wednesday => 'बुधवार';
+
+  @override
+  String get thursday => 'गुरुवार';
+
+  @override
+  String get friday => 'शुक्रवार';
+
+  @override
+  String get saturday => 'शनिवार';
+
+  @override
+  String get sunday => 'रविवार';
+
+  @override
+  String get on => 'चालू';
+
+  @override
+  String get off => 'बंद';
 }

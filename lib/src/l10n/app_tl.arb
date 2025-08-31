@@ -803,5 +803,34 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "storageMethod": "Paraan ng pag-imbak",
+  "pumpingType": "Uri ng pagbomba",
+  "quality": "Kalidad",
+  "foodName": "Pangalan ng pagkain",
+  "mealType": "Uri ng pagkain",
+  "texture": "Laki",
+  "reaction": "Reaksyon",
+  "measurementLocation": "Lugar ng pagsukat",
+  "feverReducerGiven": "Binigay ang gamot sa lagnat",
+  "given": "Binigay",
+  "hours": "oras",
+  "refrigerator": "Ref",
+  "freezer": "Freezer",
+  "roomTemperature": "Room temperature",
+  "fedImmediately": "Agad na pinakain",
+  "breakfast": "Almusal",
+  "lunch": "Tanghalian",
+  "dinner": "Hapunan",
+  "snack": "Meryenda",
+  "monday": "Lunes",
+  "tuesday": "Martes",
+  "wednesday": "Miyerkules",
+  "thursday": "Huwebes",
+  "friday": "Biyernes",
+  "saturday": "Sabado",
+  "sunday": "Linggo",
+  "on": "Bukas",
+  "off": "Sara"
 }
