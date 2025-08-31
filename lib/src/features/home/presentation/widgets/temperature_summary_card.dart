@@ -73,7 +73,7 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('기록 실패: $e'),
+            content: Text('${AppLocalizations.of(context)!.recordFailed}: $e'),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 3),
           ),
@@ -137,7 +137,7 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
           if (undoSuccess && mounted) {
             UndoSnackbar.showUndoSuccess(
               context: context,
-              message: '건강 기록이 복원되었습니다',
+              message: AppLocalizations.of(context)!.healthRecordRestored,
             );
           }
         },
@@ -169,7 +169,7 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
 
     return SwipeableCard(
       onDelete: count > 0 ? _handleDelete : null,
-      deleteConfirmMessage: '최근 체온 기록을 삭제하시겠습니까?',
+      deleteConfirmMessage: AppLocalizations.of(context)!.deleteTemperatureConfirm,
       isDeletable: count > 0 && !_isLoading,
       deleteButtonColor: Colors.orange[600]!,
       child: GestureDetector(
@@ -282,9 +282,9 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildTempInfo(context, '평균', avgTemp, Colors.blue),
-                        _buildTempInfo(context, '최저', minTemp, Colors.cyan),
-                        _buildTempInfo(context, '최고', maxTemp, Colors.red),
+                        _buildTempInfo(context, AppLocalizations.of(context)!.average, avgTemp, Colors.blue),
+                        _buildTempInfo(context, AppLocalizations.of(context)!.minimum, minTemp, Colors.cyan),
+                        _buildTempInfo(context, AppLocalizations.of(context)!.maximum, maxTemp, Colors.red),
                       ],
                     ),
                   ],

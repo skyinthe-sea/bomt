@@ -476,7 +476,7 @@ class _SleepDuplicateConfirmationDialogState extends State<_SleepDuplicateConfir
                     
                     // 제목
                     Text(
-                      '중복 입력 감지',
+                      AppLocalizations.of(context)!.duplicateEntryDetected,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurface,
@@ -487,8 +487,8 @@ class _SleepDuplicateConfirmationDialogState extends State<_SleepDuplicateConfir
                     // 내용
                     Text(
                       widget.isEnding
-                          ? '방금 전에 수면을 조작하셨습니다.\n정말로 수면을 종료하시겠습니까?'
-                          : '방금 전에 수면을 조작하셨습니다.\n정말로 수면을 시작하시겠습니까?',
+                          ? AppLocalizations.of(context)!.sleepEndDuplicateConfirm
+                          : AppLocalizations.of(context)!.sleepStartDuplicateConfirm,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurface.withOpacity(0.8),
                         height: 1.5,
@@ -513,7 +513,7 @@ class _SleepDuplicateConfirmationDialogState extends State<_SleepDuplicateConfir
                               ),
                             ),
                             child: Text(
-                              '취소',
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(
                                 color: theme.colorScheme.onSurface.withOpacity(0.7),
                                 fontWeight: FontWeight.w600,
@@ -535,7 +535,7 @@ class _SleepDuplicateConfirmationDialogState extends State<_SleepDuplicateConfir
                               elevation: 0,
                             ),
                             child: Text(
-                              widget.isEnding ? '종료하기' : '시작하기',
+                              widget.isEnding ? AppLocalizations.of(context)!.end : AppLocalizations.of(context)!.start,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                               ),

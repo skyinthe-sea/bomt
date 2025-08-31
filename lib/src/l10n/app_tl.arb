@@ -901,5 +901,34 @@
   "normalTemperature": "Normal",
 
   "allActivities": "Lahat",
-  "temperatureFilter": "Temperatura"
+  "temperatureFilter": "Temperatura",
+
+  "deleteRecordTitle": "Burahin ang Rekord",
+  "deleteRecordMessage": "Sigurado ka bang gusto mong burahin ang rekord na ito?\nAng mga naburang rekord ay hindi na mababalik.",
+  "recordDeletedSuccess": "Nabura na ang rekord",
+  "recordDeleteFailed": "Hindi nabura ang rekord",
+  "recordDeleteError": "May naganap na error habang binubura ang rekord",
+  "recordUpdatedSuccess": "Na-update na ang rekord",
+  "recordUpdateFailed": "Hindi na-update ang rekord",
+  "recordUpdateError": "May naganap na error habang ina-update ang rekord",
+  "noRecordsToday": "Walang {recordType} na rekord ngayong araw",
+  "recordFailed": "Hindi nakatala",
+  "healthRecordRestored": "Naibalik na ang mga rekord ng kalusugan",
+  "deleteTemperatureConfirm": "Gusto mo bang tanggalin ang kamakailang rekord ng temperatura?",
+  "average": "Karaniwang",
+  "minimum": "Pinakamababa",
+  "maximum": "Pinakamataas",
+
+  "duplicateEntryDetected": "May nakitang duplicate na entry",
+  "feedingDuplicateConfirm": "Kakadagdag mo lang ng feeding record.\\nGusto mo ba talagang mag-record ulit?",
+  "milkPumpingDuplicateConfirm": "Kakadagdag mo lang ng milk pumping record.\\nGusto mo ba talagang mag-record ulit?",
+  "medicationDuplicateConfirm": "Kakarecord mo lang ng medication.\\nGusto mo ba talagang mag-record ulit?",
+  "diaperDuplicateConfirm": "Kakarecord mo lang ng diaper change.\\nGusto mo ba talagang mag-record ulit?",
+  "sleepStartDuplicateConfirm": "Kaka-manipulate mo lang ng sleep.\\nGusto mo ba talagang magsimula ng tulog?",
+  "sleepEndDuplicateConfirm": "Kaka-manipulate mo lang ng sleep.\\nGusto mo ba talagang tapusin ang tulog?",
+  "recordAction": "I-record",
+  "end": "Tapos",
+
+  "minutes": "min",
+  "minutesShort": "m"
 }

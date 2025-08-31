@@ -1879,7 +1879,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String recordFailed(String error) {
-    return 'Pencatatan gagal: $error';
+    return 'Pencatatan gagal';
   }
 
   @override
@@ -2033,7 +2033,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get anonymous => 'Anonim';
 
   @override
-  String get minutes => 'Menit';
+  String get minutes => 'mnt';
 
   @override
   String get armpit => 'Ketiak';
@@ -2937,4 +2937,83 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get temperatureFilter => 'Suhu';
+
+  @override
+  String get deleteRecordTitle => 'Hapus Catatan';
+
+  @override
+  String get deleteRecordMessage =>
+      'Apakah Anda yakin ingin menghapus catatan ini?\nCatatan yang dihapus tidak dapat dipulihkan.';
+
+  @override
+  String get recordDeletedSuccess => 'Catatan telah dihapus';
+
+  @override
+  String get recordDeleteFailed => 'Gagal menghapus catatan';
+
+  @override
+  String get recordDeleteError => 'Terjadi kesalahan saat menghapus catatan';
+
+  @override
+  String get recordUpdatedSuccess => 'Catatan telah diperbarui';
+
+  @override
+  String get recordUpdateFailed => 'Gagal memperbarui catatan';
+
+  @override
+  String get recordUpdateError => 'Terjadi kesalahan saat memperbarui catatan';
+
+  @override
+  String noRecordsToday(Object recordType) {
+    return 'Tidak ada catatan $recordType hari ini';
+  }
+
+  @override
+  String get healthRecordRestored => 'Catatan kesehatan telah dipulihkan';
+
+  @override
+  String get deleteTemperatureConfirm =>
+      'Apakah Anda ingin menghapus catatan suhu terbaru?';
+
+  @override
+  String get minimum => 'Minimum';
+
+  @override
+  String get maximum => 'Maksimum';
+
+  @override
+  String get duplicateEntryDetected => 'Entri duplikat terdeteksi';
+
+  @override
+  String get feedingDuplicateConfirm =>
+      'Anda baru saja menambahkan catatan menyusui.\\nApakah Anda benar-benar ingin mencatat lagi?';
+
+  @override
+  String get milkPumpingDuplicateConfirm =>
+      'Anda baru saja menambahkan catatan memompa ASI.\\nApakah Anda benar-benar ingin mencatat lagi?';
+
+  @override
+  String get medicationDuplicateConfirm =>
+      'Anda baru saja mencatat obat.\\nApakah Anda benar-benar ingin mencatat lagi?';
+
+  @override
+  String get diaperDuplicateConfirm =>
+      'Anda baru saja mencatat penggantian popok.\\nApakah Anda benar-benar ingin mencatat lagi?';
+
+  @override
+  String get sleepStartDuplicateConfirm =>
+      'Anda baru saja memanipulasi tidur.\\nApakah Anda benar-benar ingin memulai tidur?';
+
+  @override
+  String get sleepEndDuplicateConfirm =>
+      'Anda baru saja memanipulasi tidur.\\nApakah Anda benar-benar ingin mengakhiri tidur?';
+
+  @override
+  String get recordAction => 'Catat';
+
+  @override
+  String get end => 'Selesai';
+
+  @override
+  String get minutesShort => 'm';
 }

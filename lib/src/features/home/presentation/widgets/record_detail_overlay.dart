@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../services/feeding/feeding_service.dart';
 import '../../../../services/sleep/sleep_service.dart';
 import '../../../../services/diaper/diaper_service.dart';
@@ -181,7 +182,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
               children: [
                 const Icon(Icons.check_circle, color: Colors.white, size: 20),
                 const SizedBox(width: 8),
-                Text('${_getRecordTitle()} 기록이 삭제되었습니다'),
+                Text(AppLocalizations.of(context)!.recordDeletedSuccess),
               ],
             ),
             backgroundColor: Colors.green[600],
@@ -213,11 +214,11 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('기록 삭제에 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.recordDeleteFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -240,11 +241,11 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
         
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('기록 삭제 중 오류가 발생했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.recordDeleteError),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -273,19 +274,49 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
   }
 
   String _getRecordTitle() {
+    final l10n = AppLocalizations.of(context)!;
     switch (widget.recordType) {
       case RecordType.feeding:
-        return '수유';
+        return l10n.feeding;
       case RecordType.sleep:
-        return '수면';
+        return l10n.sleep;
       case RecordType.diaper:
-        return '기저귀';
+        return l10n.diaperChange;
       case RecordType.milkPumping:
-        return '유축';
+        return l10n.milkPumping;
       case RecordType.solidFood:
-        return '이유식';
+        return l10n.solidFood;
       case RecordType.medication:
-        return '투약';
+        return l10n.medication;
+    }
+  }
+  
+  String _getLocalizedFeedingType(String type) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (type) {
+      case 'bottle':
+      case 'formula':
+        return l10n.formula;
+      case 'breast':
+        return l10n.breastMilk;
+      case 'solid':
+        return l10n.solidFood;
+      default:
+        return type;
+    }
+  }
+  
+  String _getLocalizedSide(String side) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (side) {
+      case 'left':
+        return l10n.left;
+      case 'right':
+        return l10n.right;
+      case 'both':
+        return l10n.both;
+      default:
+        return side;
     }
   }
 
@@ -412,7 +443,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
               children: [
                 const Icon(Icons.check_circle, color: Colors.white, size: 20),
                 const SizedBox(width: 8),
-                Text('${_getRecordTitle()} 기록이 수정되었습니다'),
+                Text(AppLocalizations.of(context)!.recordUpdatedSuccess),
               ],
             ),
             backgroundColor: Colors.green[600],
@@ -430,11 +461,11 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('기록 수정에 실패했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.recordUpdateFailed),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -450,11 +481,11 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
-                Icon(Icons.error, color: Colors.white, size: 20),
-                SizedBox(width: 8),
-                Text('기록 수정 중 오류가 발생했습니다'),
+                const Icon(Icons.error, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.recordUpdateError),
               ],
             ),
             backgroundColor: Colors.red[600],
@@ -639,7 +670,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            '오늘 ${_getRecordTitle()} 기록이 없습니다',
+                            AppLocalizations.of(context)!.noRecordsToday(_getRecordTitle()),
                             style: theme.textTheme.titleMedium?.copyWith(
                               color: theme.colorScheme.onSurface,
                               fontWeight: FontWeight.w600,
@@ -749,17 +780,17 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.delete,
                           color: Colors.white,
                           size: 28,
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
-                          '삭제',
+                          AppLocalizations.of(context)!.delete,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -773,19 +804,19 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                     return await showDialog<bool>(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: Text('${_getRecordTitle()} 기록 삭제'),
-                        content: const Text('이 기록을 삭제하시겠습니까?\n삭제된 기록은 복구할 수 없습니다.'),
+                        title: Text(AppLocalizations.of(context)!.deleteRecordTitle),
+                        content: Text(AppLocalizations.of(context)!.deleteRecordMessage),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(false),
-                            child: const Text('취소'),
+                            child: Text(AppLocalizations.of(context)!.cancel),
                           ),
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(true),
                             style: TextButton.styleFrom(
                               foregroundColor: Colors.red,
                             ),
-                            child: const Text('삭제'),
+                            child: Text(AppLocalizations.of(context)!.delete),
                           ),
                         ],
                       ),
@@ -898,7 +929,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
-                      type,
+                      _getLocalizedFeedingType(type),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.blue[700],
                         fontSize: 10,
@@ -921,7 +952,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                   ],
                   if (duration > 0)
                     Text(
-                      '${duration}분',
+                      '${duration}${AppLocalizations.of(context)!.minutesShort}',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -1004,7 +1035,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                 children: [
                   if (duration > 0) ...[
                     Text(
-                      '${(duration / 60).floor()}시간 ${duration % 60}분',
+                      AppLocalizations.of(context)!.hoursMinutesFormat((duration / 60).floor(), duration % 60),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -1160,7 +1191,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                 children: [
                   if (duration > 0) ...[
                     Text(
-                      '${duration}분',
+                      '${duration}${AppLocalizations.of(context)!.minutesShort}',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -1169,7 +1200,7 @@ class _RecordDetailOverlayState extends State<RecordDetailOverlay>
                   if (side.isNotEmpty) ...[
                     const Text(' • '),
                     Text(
-                      side == 'left' ? '왼쪽' : side == 'right' ? '오른쪽' : '양쪽',
+                      _getLocalizedSide(side),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),

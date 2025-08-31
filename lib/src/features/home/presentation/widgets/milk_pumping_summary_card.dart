@@ -451,7 +451,7 @@ class _MilkPumpingDuplicateConfirmationDialogState
                     const SizedBox(height: 20),
                     
                     Text(
-                      '중복 입력 감지',
+                      AppLocalizations.of(context)!.duplicateEntryDetected,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -460,7 +460,7 @@ class _MilkPumpingDuplicateConfirmationDialogState
                     const SizedBox(height: 12),
                     
                     Text(
-                      '방금 전에 유축 기록을 추가하셨습니다.\n정말로 다시 기록하시겠습니까?',
+                      AppLocalizations.of(context)!.milkPumpingDuplicateConfirm,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurface.withOpacity(0.7),
                       ),
@@ -483,7 +483,7 @@ class _MilkPumpingDuplicateConfirmationDialogState
                               padding: const EdgeInsets.symmetric(vertical: 12),
                             ),
                             child: Text(
-                              '취소',
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(
                                 color: theme.colorScheme.onSurface.withOpacity(0.7),
                               ),
@@ -503,7 +503,7 @@ class _MilkPumpingDuplicateConfirmationDialogState
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               elevation: 0,
                             ),
-                            child: Text('기록하기'),
+                            child: Text(AppLocalizations.of(context)!.recordAction),
                           ),
                         ),
                       ],

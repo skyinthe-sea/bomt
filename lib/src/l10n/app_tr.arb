@@ -901,5 +901,34 @@
   "normalTemperature": "Normal",
 
   "allActivities": "Hepsi",
-  "temperatureFilter": "Sıcaklık"
+  "temperatureFilter": "Sıcaklık",
+
+  "deleteRecordTitle": "Kaydı Sil",
+  "deleteRecordMessage": "Bu kaydı silmek istediğinizden emin misiniz?\nSilinen kayıtlar kurtarulamaz.",
+  "recordDeletedSuccess": "Kayıt silindi",
+  "recordDeleteFailed": "Kayıt silinemedi",
+  "recordDeleteError": "Kayıt silinirken bir hata oluştu",
+  "recordUpdatedSuccess": "Kayıt güncellendi",
+  "recordUpdateFailed": "Kayıt güncellenemedi",
+  "recordUpdateError": "Kayıt güncellenirken bir hata oluştu",
+  "noRecordsToday": "Bugün {recordType} kaydı yok",
+  "recordFailed": "Kayıt başarısız",
+  "healthRecordRestored": "Sağlık kayıtları geri yüklendi",
+  "deleteTemperatureConfirm": "Son ateş kaydını silmek istiyor musunuz?",
+  "average": "Ortalama",
+  "minimum": "En düşük",
+  "maximum": "En yüksek",
+
+  "duplicateEntryDetected": "Çiftlenen giriş tespit edildi",
+  "feedingDuplicateConfirm": "Az önce bir beslenme kaydı eklediniz.\\nGerçekten tekrar kaydetmek istiyor musunuz?",
+  "milkPumpingDuplicateConfirm": "Az önce bir süt sağma kaydı eklediniz.\\nGerçekten tekrar kaydetmek istiyor musunuz?",
+  "medicationDuplicateConfirm": "Az önce ilaç kaydettiniz.\\nGerçekten tekrar kaydetmek istiyor musunuz?",
+  "diaperDuplicateConfirm": "Az önce bir bez değişimi kaydettiniz.\\nGerçekten tekrar kaydetmek istiyor musunuz?",
+  "sleepStartDuplicateConfirm": "Az önce uyku durumunu değiştirdiniz.\\nGerçekten uyumaya başlamak istiyor musunuz?",
+  "sleepEndDuplicateConfirm": "Az önce uyku durumunu değiştirdiniz.\\nGerçekten uyumayı bitirmek istiyor musunuz?",
+  "recordAction": "Kaydet",
+  "end": "Son",
+
+  "minutes": "dk",
+  "minutesShort": "d"
 }

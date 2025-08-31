@@ -892,5 +892,34 @@
   "normalTemperature": "सामान्य",
 
   "allActivities": "सभी",
-  "temperatureFilter": "तापमान"
+  "temperatureFilter": "तापमान",
+
+  "deleteRecordTitle": "रिकॉर्ड हटाएं",
+  "deleteRecordMessage": "क्या आप वाकई इस रिकॉर्ड को हटाना चाहते हैं?\nहटाए गए रिकॉर्ड पुन:प्राप्त नहीं किए जा सकते।",
+  "recordDeletedSuccess": "रिकॉर्ड हटा दिया गया है",
+  "recordDeleteFailed": "रिकॉर्ड हटाने में असफल",
+  "recordDeleteError": "रिकॉर्ड हटाते समय एक त्रुटि आई",
+  "recordUpdatedSuccess": "रिकॉर्ड अपडेट कर दिया गया है",
+  "recordUpdateFailed": "रिकॉर्ड अपडेट करने में असफल",
+  "recordUpdateError": "रिकॉर्ड अपडेट करते समय एक त्रुटि आई",
+  "noRecordsToday": "आज कोई {recordType} रिकॉर्ड नहीं",
+  "recordFailed": "रिकॉर्ड असफल",
+  "healthRecordRestored": "स्वास्थ्य रिकॉर्ड बहाल हो गया है",
+  "deleteTemperatureConfirm": "क्या आप हालिया तापमान रिकॉर्ड को हटाना चाहते हैं?",
+  "average": "औसत",
+  "minimum": "न्यूनतम",
+  "maximum": "अधिकतम",
+
+  "duplicateEntryDetected": "डुप्लिकेट एंट्री का पता चला",
+  "feedingDuplicateConfirm": "आपने अभी एक फीडिंग रिकॉर्ड जोड़ा है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?",
+  "milkPumpingDuplicateConfirm": "आपने अभी दूध निकालने का रिकॉर्ड जोड़ा है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?",
+  "medicationDuplicateConfirm": "आपने अभी दवा का रिकॉर्ड किया है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?",
+  "diaperDuplicateConfirm": "आपने अभी डायपर बदलने का रिकॉर्ड किया है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?",
+  "sleepStartDuplicateConfirm": "आपने अभी नींद में हेरफेर किया है।\\nक्या आप वाकई सोना शुरू करना चाहते हैं?",
+  "sleepEndDuplicateConfirm": "आपने अभी नींद में हेरफेर किया है।\\nक्या आप वाकई सोना बंद करना चाहते हैं?",
+  "recordAction": "रिकॉर्ड करें",
+  "end": "अंत",
+
+  "minutes": "मिनट",
+  "minutesShort": "मिन"
 }

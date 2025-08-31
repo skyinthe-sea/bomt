@@ -969,5 +969,34 @@
   "normalTemperature": "Normal",
 
   "allActivities": "Alle",
-  "temperatureFilter": "Temperatur"
+  "temperatureFilter": "Temperatur",
+
+  "deleteRecordTitle": "Eintrag löschen",
+  "deleteRecordMessage": "Sind Sie sicher, dass Sie diesen Eintrag löschen möchten?\nGelöschte Einträge können nicht wiederhergestellt werden.",
+  "recordDeletedSuccess": "Eintrag wurde gelöscht",
+  "recordDeleteFailed": "Löschen des Eintrags fehlgeschlagen",
+  "recordDeleteError": "Fehler beim Löschen des Eintrags",
+  "recordUpdatedSuccess": "Eintrag wurde aktualisiert",
+  "recordUpdateFailed": "Aktualisierung des Eintrags fehlgeschlagen",
+  "recordUpdateError": "Fehler beim Aktualisieren des Eintrags",
+  "noRecordsToday": "Heute keine {recordType}-Einträge",
+  "recordFailed": "Aufzeichnung fehlgeschlagen",
+  "healthRecordRestored": "Gesundheitsdaten wurden wiederhergestellt",
+  "deleteTemperatureConfirm": "Möchten Sie den letzten Temperaturwert löschen?",
+  "average": "Durchschnitt",
+  "minimum": "Minimum",
+  "maximum": "Maximum",
+
+  "duplicateEntryDetected": "Doppelte Eingabe erkannt",
+  "feedingDuplicateConfirm": "Sie haben gerade einen Fütterungseintrag hinzugefügt.\\nMöchten Sie wirklich noch einmal aufzeichnen?",
+  "milkPumpingDuplicateConfirm": "Sie haben gerade einen Milchpump-Eintrag hinzugefügt.\\nMöchten Sie wirklich noch einmal aufzeichnen?",
+  "medicationDuplicateConfirm": "Sie haben gerade eine Medikation aufgezeichnet.\\nMöchten Sie wirklich noch einmal aufzeichnen?",
+  "diaperDuplicateConfirm": "Sie haben gerade einen Windelwechsel aufgezeichnet.\\nMöchten Sie wirklich noch einmal aufzeichnen?",
+  "sleepStartDuplicateConfirm": "Sie haben gerade den Schlaf manipuliert.\\nMöchten Sie wirklich mit dem Schlafen beginnen?",
+  "sleepEndDuplicateConfirm": "Sie haben gerade den Schlaf manipuliert.\\nMöchten Sie wirklich das Schlafen beenden?",
+  "recordAction": "Aufzeichnen",
+  "end": "Ende",
+
+  "minutes": "Min",
+  "minutesShort": "m"
 }

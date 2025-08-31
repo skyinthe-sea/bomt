@@ -501,7 +501,7 @@ class _MedicationDuplicateConfirmationDialogState extends State<_MedicationDupli
                     
                     // 내용
                     Text(
-                      '방금 전에 투약을 기록하셨습니다.\n정말로 다시 기록하시겠습니까?',
+                      AppLocalizations.of(context)!.medicationDuplicateConfirm,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurface.withOpacity(0.8),
                         height: 1.5,

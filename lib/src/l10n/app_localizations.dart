@@ -3453,7 +3453,7 @@ abstract class AppLocalizations {
   /// No description provided for @recordFailed.
   ///
   /// In en, this message translates to:
-  /// **'Record failed: {error}'**
+  /// **'Record failed'**
   String recordFailed(String error);
 
   /// No description provided for @temperatureSettingsSaved.
@@ -3753,7 +3753,7 @@ abstract class AppLocalizations {
   /// No description provided for @minutes.
   ///
   /// In en, this message translates to:
-  /// **'Minutes'**
+  /// **'min'**
   String get minutes;
 
   /// No description provided for @armpit.
@@ -5417,6 +5417,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Temperature'**
   String get temperatureFilter;
+
+  /// No description provided for @deleteRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Record'**
+  String get deleteRecordTitle;
+
+  /// No description provided for @deleteRecordMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this record?\nDeleted records cannot be recovered.'**
+  String get deleteRecordMessage;
+
+  /// No description provided for @recordDeletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Record has been deleted'**
+  String get recordDeletedSuccess;
+
+  /// No description provided for @recordDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete record'**
+  String get recordDeleteFailed;
+
+  /// No description provided for @recordDeleteError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while deleting the record'**
+  String get recordDeleteError;
+
+  /// No description provided for @recordUpdatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Record has been updated'**
+  String get recordUpdatedSuccess;
+
+  /// No description provided for @recordUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update record'**
+  String get recordUpdateFailed;
+
+  /// No description provided for @recordUpdateError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while updating the record'**
+  String get recordUpdateError;
+
+  /// No description provided for @noRecordsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'No {recordType} records today'**
+  String noRecordsToday(Object recordType);
+
+  /// No description provided for @healthRecordRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'Health record has been restored'**
+  String get healthRecordRestored;
+
+  /// No description provided for @deleteTemperatureConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to delete the recent temperature record?'**
+  String get deleteTemperatureConfirm;
+
+  /// No description provided for @minimum.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum'**
+  String get minimum;
+
+  /// No description provided for @maximum.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum'**
+  String get maximum;
+
+  /// No description provided for @duplicateEntryDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate Entry Detected'**
+  String get duplicateEntryDetected;
+
+  /// No description provided for @feedingDuplicateConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'You just added a feeding record.\\nDo you really want to record again?'**
+  String get feedingDuplicateConfirm;
+
+  /// No description provided for @milkPumpingDuplicateConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'You just added a milk pumping record.\\nDo you really want to record again?'**
+  String get milkPumpingDuplicateConfirm;
+
+  /// No description provided for @medicationDuplicateConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'You just recorded medication.\\nDo you really want to record again?'**
+  String get medicationDuplicateConfirm;
+
+  /// No description provided for @diaperDuplicateConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'You just recorded a diaper change.\\nDo you really want to record again?'**
+  String get diaperDuplicateConfirm;
+
+  /// No description provided for @sleepStartDuplicateConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'You just manipulated sleep.\\nDo you really want to start sleeping?'**
+  String get sleepStartDuplicateConfirm;
+
+  /// No description provided for @sleepEndDuplicateConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'You just manipulated sleep.\\nDo you really want to end sleeping?'**
+  String get sleepEndDuplicateConfirm;
+
+  /// No description provided for @recordAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Record'**
+  String get recordAction;
+
+  /// No description provided for @end.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get end;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'m'**
+  String get minutesShort;
 }
 
 class _AppLocalizationsDelegate

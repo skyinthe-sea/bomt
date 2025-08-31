@@ -2056,5 +2056,34 @@
   "normalTemperature": "Normal",
 
   "allActivities": "All",
-  "temperatureFilter": "Temperature"
+  "temperatureFilter": "Temperature",
+
+  "deleteRecordTitle": "Delete Record",
+  "deleteRecordMessage": "Are you sure you want to delete this record?\nDeleted records cannot be recovered.",
+  "recordDeletedSuccess": "Record has been deleted",
+  "recordDeleteFailed": "Failed to delete record",
+  "recordDeleteError": "An error occurred while deleting the record",
+  "recordUpdatedSuccess": "Record has been updated",
+  "recordUpdateFailed": "Failed to update record",
+  "recordUpdateError": "An error occurred while updating the record",
+  "noRecordsToday": "No {recordType} records today",
+  "recordFailed": "Record failed",
+  "healthRecordRestored": "Health record has been restored",
+  "deleteTemperatureConfirm": "Do you want to delete the recent temperature record?",
+  "average": "Average",
+  "minimum": "Minimum",
+  "maximum": "Maximum",
+
+  "duplicateEntryDetected": "Duplicate Entry Detected",
+  "feedingDuplicateConfirm": "You just added a feeding record.\\nDo you really want to record again?",
+  "milkPumpingDuplicateConfirm": "You just added a milk pumping record.\\nDo you really want to record again?",
+  "medicationDuplicateConfirm": "You just recorded medication.\\nDo you really want to record again?",
+  "diaperDuplicateConfirm": "You just recorded a diaper change.\\nDo you really want to record again?",
+  "sleepStartDuplicateConfirm": "You just manipulated sleep.\\nDo you really want to start sleeping?",
+  "sleepEndDuplicateConfirm": "You just manipulated sleep.\\nDo you really want to end sleeping?",
+  "recordAction": "Record",
+  "end": "End",
+
+  "minutes": "min",
+  "minutesShort": "m"
 }

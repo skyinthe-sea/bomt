@@ -509,7 +509,7 @@ class _DiaperDuplicateConfirmationDialogState extends State<_DiaperDuplicateConf
                     
                     // 내용
                     Text(
-                      '방금 전에 기저귀 교체를 기록하셨습니다.\n정말로 다시 기록하시겠습니까?',
+                      AppLocalizations.of(context)!.diaperDuplicateConfirm,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurface.withOpacity(0.8),
                         height: 1.5,

@@ -1879,7 +1879,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String recordFailed(String error) {
-    return 'Ошибка записи: $error';
+    return 'Ошибка записи';
   }
 
   @override
@@ -2032,7 +2032,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get anonymous => 'Анонимно';
 
   @override
-  String get minutes => 'Минуты';
+  String get minutes => 'мин';
 
   @override
   String get armpit => 'Подмышка';
@@ -2941,4 +2941,83 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get temperatureFilter => 'Температура';
+
+  @override
+  String get deleteRecordTitle => 'Удалить запись';
+
+  @override
+  String get deleteRecordMessage =>
+      'Вы уверены, что хотите удалить эту запись?\nУдаленные записи не могут быть восстановлены.';
+
+  @override
+  String get recordDeletedSuccess => 'Запись была удалена';
+
+  @override
+  String get recordDeleteFailed => 'Не удалось удалить запись';
+
+  @override
+  String get recordDeleteError => 'Произошла ошибка при удалении записи';
+
+  @override
+  String get recordUpdatedSuccess => 'Запись была обновлена';
+
+  @override
+  String get recordUpdateFailed => 'Не удалось обновить запись';
+
+  @override
+  String get recordUpdateError => 'Произошла ошибка при обновлении записи';
+
+  @override
+  String noRecordsToday(Object recordType) {
+    return 'Сегодня нет записей $recordType';
+  }
+
+  @override
+  String get healthRecordRestored => 'Медицинские записи восстановлены';
+
+  @override
+  String get deleteTemperatureConfirm =>
+      'Хотите удалить недавнюю запись температуры?';
+
+  @override
+  String get minimum => 'Минимум';
+
+  @override
+  String get maximum => 'Максимум';
+
+  @override
+  String get duplicateEntryDetected => 'Обнаружена дублированная запись';
+
+  @override
+  String get feedingDuplicateConfirm =>
+      'Вы только что добавили запись о кормлении.\\nДействительно хотите записать снова?';
+
+  @override
+  String get milkPumpingDuplicateConfirm =>
+      'Вы только что добавили запись о сцеживании молока.\\nДействительно хотите записать снова?';
+
+  @override
+  String get medicationDuplicateConfirm =>
+      'Вы только что записали лекарство.\\nДействительно хотите записать снова?';
+
+  @override
+  String get diaperDuplicateConfirm =>
+      'Вы только что записали смену подгузника.\\nДействительно хотите записать снова?';
+
+  @override
+  String get sleepStartDuplicateConfirm =>
+      'Вы только что управляли сном.\\nДействительно хотите начать сон?';
+
+  @override
+  String get sleepEndDuplicateConfirm =>
+      'Вы только что управляли сном.\\nДействительно хотите закончить сон?';
+
+  @override
+  String get recordAction => 'Записать';
+
+  @override
+  String get end => 'Конец';
+
+  @override
+  String get minutesShort => 'м';
 }

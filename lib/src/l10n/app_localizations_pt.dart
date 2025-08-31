@@ -1881,7 +1881,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String recordFailed(String error) {
-    return 'Falha no registro: $error';
+    return 'Falha no registro';
   }
 
   @override
@@ -1948,7 +1948,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get good => 'Bom';
 
   @override
-  String get average => 'Médio';
+  String get average => 'Média';
 
   @override
   String get poor => 'Ruim';
@@ -2036,7 +2036,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get anonymous => 'Anônimo';
 
   @override
-  String get minutes => 'Minutos';
+  String get minutes => 'min';
 
   @override
   String get armpit => 'Axila';
@@ -2947,4 +2947,83 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get temperatureFilter => 'Temperatura';
+
+  @override
+  String get deleteRecordTitle => 'Excluir registro';
+
+  @override
+  String get deleteRecordMessage =>
+      'Tem certeza de que deseja excluir este registro?\nRegistros excluídos não podem ser recuperados.';
+
+  @override
+  String get recordDeletedSuccess => 'Registro foi excluído';
+
+  @override
+  String get recordDeleteFailed => 'Falha ao excluir registro';
+
+  @override
+  String get recordDeleteError => 'Ocorreu um erro ao excluir o registro';
+
+  @override
+  String get recordUpdatedSuccess => 'Registro foi atualizado';
+
+  @override
+  String get recordUpdateFailed => 'Falha ao atualizar registro';
+
+  @override
+  String get recordUpdateError => 'Ocorreu um erro ao atualizar o registro';
+
+  @override
+  String noRecordsToday(Object recordType) {
+    return 'Nenhum registro de $recordType hoje';
+  }
+
+  @override
+  String get healthRecordRestored => 'Os registros de saúde foram restaurados';
+
+  @override
+  String get deleteTemperatureConfirm =>
+      'Deseja excluir o registro de temperatura recente?';
+
+  @override
+  String get minimum => 'Mínimo';
+
+  @override
+  String get maximum => 'Máximo';
+
+  @override
+  String get duplicateEntryDetected => 'Entrada duplicada detectada';
+
+  @override
+  String get feedingDuplicateConfirm =>
+      'Você acabou de adicionar um registro de alimentação.\\nRealmente quer registrar novamente?';
+
+  @override
+  String get milkPumpingDuplicateConfirm =>
+      'Você acabou de adicionar um registro de bombeamento de leite.\\nRealmente quer registrar novamente?';
+
+  @override
+  String get medicationDuplicateConfirm =>
+      'Você acabou de registrar medicação.\\nRealmente quer registrar novamente?';
+
+  @override
+  String get diaperDuplicateConfirm =>
+      'Você acabou de registrar uma troca de fralda.\\nRealmente quer registrar novamente?';
+
+  @override
+  String get sleepStartDuplicateConfirm =>
+      'Você acabou de manipular o sono.\\nRealmente quer começar a dormir?';
+
+  @override
+  String get sleepEndDuplicateConfirm =>
+      'Você acabou de manipular o sono.\\nRealmente quer parar de dormir?';
+
+  @override
+  String get recordAction => 'Registrar';
+
+  @override
+  String get end => 'Fim';
+
+  @override
+  String get minutesShort => 'm';
 }

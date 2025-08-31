@@ -1846,7 +1846,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String recordFailed(String error) {
-    return '기록 실패: $error';
+    return '기록 실패';
   }
 
   @override
@@ -1910,7 +1910,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get good => '좋음';
 
   @override
-  String get average => '보통';
+  String get average => '평균';
 
   @override
   String get poor => '나쁨';
@@ -2896,4 +2896,81 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get temperatureFilter => '체온';
+
+  @override
+  String get deleteRecordTitle => '기록 삭제';
+
+  @override
+  String get deleteRecordMessage => '이 기록을 삭제하시겠습니까?\n삭제된 기록은 복구할 수 없습니다.';
+
+  @override
+  String get recordDeletedSuccess => '기록이 삭제되었습니다';
+
+  @override
+  String get recordDeleteFailed => '기록 삭제에 실패했습니다';
+
+  @override
+  String get recordDeleteError => '기록 삭제 중 오류가 발생했습니다';
+
+  @override
+  String get recordUpdatedSuccess => '기록이 수정되었습니다';
+
+  @override
+  String get recordUpdateFailed => '기록 수정에 실패했습니다';
+
+  @override
+  String get recordUpdateError => '기록 수정 중 오류가 발생했습니다';
+
+  @override
+  String noRecordsToday(Object recordType) {
+    return '오늘 $recordType 기록이 없습니다';
+  }
+
+  @override
+  String get healthRecordRestored => '건강 기록이 복원되었습니다';
+
+  @override
+  String get deleteTemperatureConfirm => '최근 체온 기록을 삭제하시겠습니까?';
+
+  @override
+  String get minimum => '최저';
+
+  @override
+  String get maximum => '최고';
+
+  @override
+  String get duplicateEntryDetected => '중복 입력 감지';
+
+  @override
+  String get feedingDuplicateConfirm =>
+      '방금 전에 수유 기록을 추가하셨습니다.\\n정말로 다시 기록하시겠습니까?';
+
+  @override
+  String get milkPumpingDuplicateConfirm =>
+      '방금 전에 유축 기록을 추가하셨습니다.\\n정말로 다시 기록하시겠습니까?';
+
+  @override
+  String get medicationDuplicateConfirm =>
+      '방금 전에 투약을 기록하셨습니다.\\n정말로 다시 기록하시겠습니까?';
+
+  @override
+  String get diaperDuplicateConfirm =>
+      '방금 전에 기저귀 교체를 기록하셨습니다.\\n정말로 다시 기록하시겠습니까?';
+
+  @override
+  String get sleepStartDuplicateConfirm =>
+      '방금 전에 수면을 조작하셨습니다.\\n정말로 수면을 시작하시겠습니까?';
+
+  @override
+  String get sleepEndDuplicateConfirm =>
+      '방금 전에 수면을 조작하셨습니다.\\n정말로 수면을 종료하시겠습니까?';
+
+  @override
+  String get recordAction => '기록하기';
+
+  @override
+  String get end => '종료';
+
+  @override
+  String get minutesShort => '분';
 }

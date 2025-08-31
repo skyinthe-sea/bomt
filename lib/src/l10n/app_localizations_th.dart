@@ -1876,7 +1876,7 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String recordFailed(String error) {
-    return 'การบันทึกล้มเหลว: $error';
+    return 'บันทึกล้มเหลว';
   }
 
   @override
@@ -2934,4 +2934,83 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get temperatureFilter => 'อุณหภูมิ';
+
+  @override
+  String get deleteRecordTitle => 'ลบบันทึก';
+
+  @override
+  String get deleteRecordMessage =>
+      'คุณแน่ใจว่าต้องการลบบันทึกนี้หรือไม่?\nบันทึกที่ถูกลบจะไม่สามารถกู้คืนได้';
+
+  @override
+  String get recordDeletedSuccess => 'ลบบันทึกแล้ว';
+
+  @override
+  String get recordDeleteFailed => 'ลบบันทึกไม่สำเร็จ';
+
+  @override
+  String get recordDeleteError => 'เกิดข้อผิดพลาดในการลบบันทึก';
+
+  @override
+  String get recordUpdatedSuccess => 'อัพเดทบันทึกแล้ว';
+
+  @override
+  String get recordUpdateFailed => 'อัพเดทบันทึกไม่สำเร็จ';
+
+  @override
+  String get recordUpdateError => 'เกิดข้อผิดพลาดในการอัพเดทบันทึก';
+
+  @override
+  String noRecordsToday(Object recordType) {
+    return 'วันนี้ไม่มีบันทึก$recordType';
+  }
+
+  @override
+  String get healthRecordRestored => 'ข้อมูลสุขภาพได้รับการกู้คืนแล้ว';
+
+  @override
+  String get deleteTemperatureConfirm =>
+      'คุณต้องการลบบันทึกอุณหภูมิล่าสุดหรือไม่?';
+
+  @override
+  String get minimum => 'ต่ำสุด';
+
+  @override
+  String get maximum => 'สูงสุด';
+
+  @override
+  String get duplicateEntryDetected => 'ตรวจพบรายการซ้ำ';
+
+  @override
+  String get feedingDuplicateConfirm =>
+      'คุณเพิ่งเพิ่มบันทึกการให้นม\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?';
+
+  @override
+  String get milkPumpingDuplicateConfirm =>
+      'คุณเพิ่งเพิ่มบันทึกการปั๊มนม\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?';
+
+  @override
+  String get medicationDuplicateConfirm =>
+      'คุณเพิ่งบันทึกการให้ยา\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?';
+
+  @override
+  String get diaperDuplicateConfirm =>
+      'คุณเพิ่งบันทึกการเปลี่ยนผ้าอ้อม\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?';
+
+  @override
+  String get sleepStartDuplicateConfirm =>
+      'คุณเพิ่งจัดการการนอน\\nคุณต้องการเริ่มนอนจริงหรือ?';
+
+  @override
+  String get sleepEndDuplicateConfirm =>
+      'คุณเพิ่งจัดการการนอน\\nคุณต้องการสิ้นสุดการนอนจริงหรือ?';
+
+  @override
+  String get recordAction => 'บันทึก';
+
+  @override
+  String get end => 'จบ';
+
+  @override
+  String get minutesShort => 'น';
 }

@@ -460,7 +460,7 @@ class _DuplicateConfirmationDialogState extends State<_DuplicateConfirmationDial
                     
                     // 제목
                     Text(
-                      '중복 입력 감지',
+                      AppLocalizations.of(context)!.duplicateEntryDetected,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurface,
@@ -470,7 +470,7 @@ class _DuplicateConfirmationDialogState extends State<_DuplicateConfirmationDial
                     
                     // 내용
                     Text(
-                      '방금 전에 수유 기록을 추가하셨습니다.\n정말로 다시 기록하시겠습니까?',
+                      AppLocalizations.of(context)!.feedingDuplicateConfirm,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurface.withOpacity(0.8),
                         height: 1.5,
@@ -495,7 +495,7 @@ class _DuplicateConfirmationDialogState extends State<_DuplicateConfirmationDial
                               ),
                             ),
                             child: Text(
-                              '취소',
+                              AppLocalizations.of(context)!.cancel,
                               style: TextStyle(
                                 color: theme.colorScheme.onSurface.withOpacity(0.7),
                                 fontWeight: FontWeight.w600,
@@ -517,7 +517,7 @@ class _DuplicateConfirmationDialogState extends State<_DuplicateConfirmationDial
                               elevation: 0,
                             ),
                             child: Text(
-                              '기록하기',
+                              AppLocalizations.of(context)!.recordAction,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                               ),

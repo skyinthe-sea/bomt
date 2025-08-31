@@ -1879,7 +1879,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String recordFailed(String error) {
-    return 'Kayıt başarısız: $error';
+    return 'Kayıt başarısız';
   }
 
   @override
@@ -2032,7 +2032,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get anonymous => 'Anonim';
 
   @override
-  String get minutes => 'Dakika';
+  String get minutes => 'dk';
 
   @override
   String get armpit => 'Koltuk altı';
@@ -2938,4 +2938,83 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get temperatureFilter => 'Sıcaklık';
+
+  @override
+  String get deleteRecordTitle => 'Kaydı Sil';
+
+  @override
+  String get deleteRecordMessage =>
+      'Bu kaydı silmek istediğinizden emin misiniz?\nSilinen kayıtlar kurtarulamaz.';
+
+  @override
+  String get recordDeletedSuccess => 'Kayıt silindi';
+
+  @override
+  String get recordDeleteFailed => 'Kayıt silinemedi';
+
+  @override
+  String get recordDeleteError => 'Kayıt silinirken bir hata oluştu';
+
+  @override
+  String get recordUpdatedSuccess => 'Kayıt güncellendi';
+
+  @override
+  String get recordUpdateFailed => 'Kayıt güncellenemedi';
+
+  @override
+  String get recordUpdateError => 'Kayıt güncellenirken bir hata oluştu';
+
+  @override
+  String noRecordsToday(Object recordType) {
+    return 'Bugün $recordType kaydı yok';
+  }
+
+  @override
+  String get healthRecordRestored => 'Sağlık kayıtları geri yüklendi';
+
+  @override
+  String get deleteTemperatureConfirm =>
+      'Son ateş kaydını silmek istiyor musunuz?';
+
+  @override
+  String get minimum => 'En düşük';
+
+  @override
+  String get maximum => 'En yüksek';
+
+  @override
+  String get duplicateEntryDetected => 'Çiftlenen giriş tespit edildi';
+
+  @override
+  String get feedingDuplicateConfirm =>
+      'Az önce bir beslenme kaydı eklediniz.\\nGerçekten tekrar kaydetmek istiyor musunuz?';
+
+  @override
+  String get milkPumpingDuplicateConfirm =>
+      'Az önce bir süt sağma kaydı eklediniz.\\nGerçekten tekrar kaydetmek istiyor musunuz?';
+
+  @override
+  String get medicationDuplicateConfirm =>
+      'Az önce ilaç kaydettiniz.\\nGerçekten tekrar kaydetmek istiyor musunuz?';
+
+  @override
+  String get diaperDuplicateConfirm =>
+      'Az önce bir bez değişimi kaydettiniz.\\nGerçekten tekrar kaydetmek istiyor musunuz?';
+
+  @override
+  String get sleepStartDuplicateConfirm =>
+      'Az önce uyku durumunu değiştirdiniz.\\nGerçekten uyumaya başlamak istiyor musunuz?';
+
+  @override
+  String get sleepEndDuplicateConfirm =>
+      'Az önce uyku durumunu değiştirdiniz.\\nGerçekten uyumayı bitirmek istiyor musunuz?';
+
+  @override
+  String get recordAction => 'Kaydet';
+
+  @override
+  String get end => 'Son';
+
+  @override
+  String get minutesShort => 'd';
 }

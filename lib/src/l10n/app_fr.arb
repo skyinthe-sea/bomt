@@ -969,5 +969,34 @@
   "normalTemperature": "Normal",
 
   "allActivities": "Tout",
-  "temperatureFilter": "Température"
+  "temperatureFilter": "Température",
+
+  "deleteRecordTitle": "Supprimer l'enregistrement",
+  "deleteRecordMessage": "Êtes-vous sûr de vouloir supprimer cet enregistrement ?\nLes enregistrements supprimés ne peuvent pas être récupérés.",
+  "recordDeletedSuccess": "L'enregistrement a été supprimé",
+  "recordDeleteFailed": "Échec de la suppression de l'enregistrement",
+  "recordDeleteError": "Une erreur s'est produite lors de la suppression de l'enregistrement",
+  "recordUpdatedSuccess": "L'enregistrement a été mis à jour",
+  "recordUpdateFailed": "Échec de la mise à jour de l'enregistrement",
+  "recordUpdateError": "Une erreur s'est produite lors de la mise à jour de l'enregistrement",
+  "noRecordsToday": "Aucun enregistrement de {recordType} aujourd'hui",
+  "recordFailed": "Échec de l'enregistrement",
+  "healthRecordRestored": "Les données de santé ont été restaurées",
+  "deleteTemperatureConfirm": "Voulez-vous supprimer le relevé de température récent?",
+  "average": "Moyenne",
+  "minimum": "Minimum",
+  "maximum": "Maximum",
+
+  "duplicateEntryDetected": "Entrée en double détectée",
+  "feedingDuplicateConfirm": "Vous venez d'ajouter un enregistrement d'alimentation.\\nVoulez-vous vraiment enregistrer à nouveau?",
+  "milkPumpingDuplicateConfirm": "Vous venez d'ajouter un enregistrement de pompage de lait.\\nVoulez-vous vraiment enregistrer à nouveau?",
+  "medicationDuplicateConfirm": "Vous venez d'enregistrer un médicament.\\nVoulez-vous vraiment enregistrer à nouveau?",
+  "diaperDuplicateConfirm": "Vous venez d'enregistrer un changement de couche.\\nVoulez-vous vraiment enregistrer à nouveau?",
+  "sleepStartDuplicateConfirm": "Vous venez de manipuler le sommeil.\\nVoulez-vous vraiment commencer à dormir?",
+  "sleepEndDuplicateConfirm": "Vous venez de manipuler le sommeil.\\nVoulez-vous vraiment arrêter de dormir?",
+  "recordAction": "Enregistrer",
+  "end": "Fin",
+
+  "minutes": "min",
+  "minutesShort": "m"
 }

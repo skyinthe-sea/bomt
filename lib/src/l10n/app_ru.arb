@@ -901,5 +901,34 @@
   "normalTemperature": "Нормальная",
 
   "allActivities": "Все",
-  "temperatureFilter": "Температура"
+  "temperatureFilter": "Температура",
+
+  "deleteRecordTitle": "Удалить запись",
+  "deleteRecordMessage": "Вы уверены, что хотите удалить эту запись?\nУдаленные записи не могут быть восстановлены.",
+  "recordDeletedSuccess": "Запись была удалена",
+  "recordDeleteFailed": "Не удалось удалить запись",
+  "recordDeleteError": "Произошла ошибка при удалении записи",
+  "recordUpdatedSuccess": "Запись была обновлена",
+  "recordUpdateFailed": "Не удалось обновить запись",
+  "recordUpdateError": "Произошла ошибка при обновлении записи",
+  "noRecordsToday": "Сегодня нет записей {recordType}",
+  "recordFailed": "Ошибка записи",
+  "healthRecordRestored": "Медицинские записи восстановлены",
+  "deleteTemperatureConfirm": "Хотите удалить недавнюю запись температуры?",
+  "average": "Среднее",
+  "minimum": "Минимум",
+  "maximum": "Максимум",
+
+  "duplicateEntryDetected": "Обнаружена дублированная запись",
+  "feedingDuplicateConfirm": "Вы только что добавили запись о кормлении.\\nДействительно хотите записать снова?",
+  "milkPumpingDuplicateConfirm": "Вы только что добавили запись о сцеживании молока.\\nДействительно хотите записать снова?",
+  "medicationDuplicateConfirm": "Вы только что записали лекарство.\\nДействительно хотите записать снова?",
+  "diaperDuplicateConfirm": "Вы только что записали смену подгузника.\\nДействительно хотите записать снова?",
+  "sleepStartDuplicateConfirm": "Вы только что управляли сном.\\nДействительно хотите начать сон?",
+  "sleepEndDuplicateConfirm": "Вы только что управляли сном.\\nДействительно хотите закончить сон?",
+  "recordAction": "Записать",
+  "end": "Конец",
+
+  "minutes": "мин",
+  "minutesShort": "м"
 }

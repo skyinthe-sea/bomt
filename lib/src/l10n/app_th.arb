@@ -1246,5 +1246,34 @@
   "normalTemperature": "ปกติ",
 
   "allActivities": "ทั้งหมด",
-  "temperatureFilter": "อุณหภูมิ"
+  "temperatureFilter": "อุณหภูมิ",
+
+  "deleteRecordTitle": "ลบบันทึก",
+  "deleteRecordMessage": "คุณแน่ใจว่าต้องการลบบันทึกนี้หรือไม่?\nบันทึกที่ถูกลบจะไม่สามารถกู้คืนได้",
+  "recordDeletedSuccess": "ลบบันทึกแล้ว",
+  "recordDeleteFailed": "ลบบันทึกไม่สำเร็จ",
+  "recordDeleteError": "เกิดข้อผิดพลาดในการลบบันทึก",
+  "recordUpdatedSuccess": "อัพเดทบันทึกแล้ว",
+  "recordUpdateFailed": "อัพเดทบันทึกไม่สำเร็จ",
+  "recordUpdateError": "เกิดข้อผิดพลาดในการอัพเดทบันทึก",
+  "noRecordsToday": "วันนี้ไม่มีบันทึก{recordType}",
+  "recordFailed": "บันทึกล้มเหลว",
+  "healthRecordRestored": "ข้อมูลสุขภาพได้รับการกู้คืนแล้ว",
+  "deleteTemperatureConfirm": "คุณต้องการลบบันทึกอุณหภูมิล่าสุดหรือไม่?",
+  "average": "เฉลี่ย",
+  "minimum": "ต่ำสุด",
+  "maximum": "สูงสุด",
+
+  "duplicateEntryDetected": "ตรวจพบรายการซ้ำ",
+  "feedingDuplicateConfirm": "คุณเพิ่งเพิ่มบันทึกการให้นม\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?",
+  "milkPumpingDuplicateConfirm": "คุณเพิ่งเพิ่มบันทึกการปั๊มนม\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?",
+  "medicationDuplicateConfirm": "คุณเพิ่งบันทึกการให้ยา\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?",
+  "diaperDuplicateConfirm": "คุณเพิ่งบันทึกการเปลี่ยนผ้าอ้อม\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?",
+  "sleepStartDuplicateConfirm": "คุณเพิ่งจัดการการนอน\\nคุณต้องการเริ่มนอนจริงหรือ?",
+  "sleepEndDuplicateConfirm": "คุณเพิ่งจัดการการนอน\\nคุณต้องการสิ้นสุดการนอนจริงหรือ?",
+  "recordAction": "บันทึก",
+  "end": "จบ",
+
+  "minutes": "นาที",
+  "minutesShort": "น"
 }

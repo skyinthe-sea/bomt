@@ -1844,7 +1844,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String recordFailed(String error) {
-    return '記録に失敗: $error';
+    return '記録失敗';
   }
 
   @override
@@ -1908,7 +1908,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get good => '良い';
 
   @override
-  String get average => '平均的';
+  String get average => '平均';
 
   @override
   String get poor => '悪い';
@@ -2894,4 +2894,75 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get temperatureFilter => '体温';
+
+  @override
+  String get deleteRecordTitle => '記録を削除';
+
+  @override
+  String get deleteRecordMessage => 'この記録を削除しますか？\n削除された記録は復元できません。';
+
+  @override
+  String get recordDeletedSuccess => '記録が削除されました';
+
+  @override
+  String get recordDeleteFailed => '記録の削除に失敗しました';
+
+  @override
+  String get recordDeleteError => '記録の削除中にエラーが発生しました';
+
+  @override
+  String get recordUpdatedSuccess => '記録が更新されました';
+
+  @override
+  String get recordUpdateFailed => '記録の更新に失敗しました';
+
+  @override
+  String get recordUpdateError => '記録の更新中にエラーが発生しました';
+
+  @override
+  String noRecordsToday(Object recordType) {
+    return '今日は$recordTypeの記録がありません';
+  }
+
+  @override
+  String get healthRecordRestored => '健康記録が復元されました';
+
+  @override
+  String get deleteTemperatureConfirm => '最近の体温記録を削除しますか？';
+
+  @override
+  String get minimum => '最低';
+
+  @override
+  String get maximum => '最高';
+
+  @override
+  String get duplicateEntryDetected => '重複入力が検出されました';
+
+  @override
+  String get feedingDuplicateConfirm => '先ほど授乳記録を追加しました。\\n本当にもう一度記録しますか？';
+
+  @override
+  String get milkPumpingDuplicateConfirm => '先ほど搾乳記録を追加しました。\\n本当にもう一度記録しますか？';
+
+  @override
+  String get medicationDuplicateConfirm => '先ほど投薬を記録しました。\\n本当にもう一度記録しますか？';
+
+  @override
+  String get diaperDuplicateConfirm => '先ほどおむつ交換を記録しました。\\n本当にもう一度記録しますか？';
+
+  @override
+  String get sleepStartDuplicateConfirm => '先ほど睡眠を操作しました。\\n本当に睡眠を開始しますか？';
+
+  @override
+  String get sleepEndDuplicateConfirm => '先ほど睡眠を操作しました。\\n本当に睡眠を終了しますか？';
+
+  @override
+  String get recordAction => '記録する';
+
+  @override
+  String get end => '終了';
+
+  @override
+  String get minutesShort => '分';
 }

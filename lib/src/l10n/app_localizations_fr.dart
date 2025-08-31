@@ -1885,7 +1885,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String recordFailed(String error) {
-    return 'Échec de l\'enregistrement : $error';
+    return 'Échec de l\'enregistrement';
   }
 
   @override
@@ -1952,7 +1952,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get good => 'Bon';
 
   @override
-  String get average => 'Moyen';
+  String get average => 'Moyenne';
 
   @override
   String get poor => 'Mauvais';
@@ -2040,7 +2040,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get anonymous => 'Anonyme';
 
   @override
-  String get minutes => 'Minutes';
+  String get minutes => 'min';
 
   @override
   String get armpit => 'Aisselle';
@@ -2954,4 +2954,87 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get temperatureFilter => 'Température';
+
+  @override
+  String get deleteRecordTitle => 'Supprimer l\'enregistrement';
+
+  @override
+  String get deleteRecordMessage =>
+      'Êtes-vous sûr de vouloir supprimer cet enregistrement ?\nLes enregistrements supprimés ne peuvent pas être récupérés.';
+
+  @override
+  String get recordDeletedSuccess => 'L\'enregistrement a été supprimé';
+
+  @override
+  String get recordDeleteFailed =>
+      'Échec de la suppression de l\'enregistrement';
+
+  @override
+  String get recordDeleteError =>
+      'Une erreur s\'est produite lors de la suppression de l\'enregistrement';
+
+  @override
+  String get recordUpdatedSuccess => 'L\'enregistrement a été mis à jour';
+
+  @override
+  String get recordUpdateFailed =>
+      'Échec de la mise à jour de l\'enregistrement';
+
+  @override
+  String get recordUpdateError =>
+      'Une erreur s\'est produite lors de la mise à jour de l\'enregistrement';
+
+  @override
+  String noRecordsToday(Object recordType) {
+    return 'Aucun enregistrement de $recordType aujourd\'hui';
+  }
+
+  @override
+  String get healthRecordRestored => 'Les données de santé ont été restaurées';
+
+  @override
+  String get deleteTemperatureConfirm =>
+      'Voulez-vous supprimer le relevé de température récent?';
+
+  @override
+  String get minimum => 'Minimum';
+
+  @override
+  String get maximum => 'Maximum';
+
+  @override
+  String get duplicateEntryDetected => 'Entrée en double détectée';
+
+  @override
+  String get feedingDuplicateConfirm =>
+      'Vous venez d\'ajouter un enregistrement d\'alimentation.\\nVoulez-vous vraiment enregistrer à nouveau?';
+
+  @override
+  String get milkPumpingDuplicateConfirm =>
+      'Vous venez d\'ajouter un enregistrement de pompage de lait.\\nVoulez-vous vraiment enregistrer à nouveau?';
+
+  @override
+  String get medicationDuplicateConfirm =>
+      'Vous venez d\'enregistrer un médicament.\\nVoulez-vous vraiment enregistrer à nouveau?';
+
+  @override
+  String get diaperDuplicateConfirm =>
+      'Vous venez d\'enregistrer un changement de couche.\\nVoulez-vous vraiment enregistrer à nouveau?';
+
+  @override
+  String get sleepStartDuplicateConfirm =>
+      'Vous venez de manipuler le sommeil.\\nVoulez-vous vraiment commencer à dormir?';
+
+  @override
+  String get sleepEndDuplicateConfirm =>
+      'Vous venez de manipuler le sommeil.\\nVoulez-vous vraiment arrêter de dormir?';
+
+  @override
+  String get recordAction => 'Enregistrer';
+
+  @override
+  String get end => 'Fin';
+
+  @override
+  String get minutesShort => 'm';
 }

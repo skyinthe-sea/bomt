@@ -1882,7 +1882,7 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String recordFailed(String error) {
-    return 'Nabigo ang pagtala: $error';
+    return 'Hindi nakatala';
   }
 
   @override
@@ -1949,7 +1949,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get good => 'Mabuti';
 
   @override
-  String get average => 'Average';
+  String get average => 'Karaniwang';
 
   @override
   String get poor => 'Masama';
@@ -2037,7 +2037,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get anonymous => 'Hindi kilala';
 
   @override
-  String get minutes => 'Mga minuto';
+  String get minutes => 'min';
 
   @override
   String get armpit => 'Kilikili';
@@ -2948,4 +2948,85 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get temperatureFilter => 'Temperatura';
+
+  @override
+  String get deleteRecordTitle => 'Burahin ang Rekord';
+
+  @override
+  String get deleteRecordMessage =>
+      'Sigurado ka bang gusto mong burahin ang rekord na ito?\nAng mga naburang rekord ay hindi na mababalik.';
+
+  @override
+  String get recordDeletedSuccess => 'Nabura na ang rekord';
+
+  @override
+  String get recordDeleteFailed => 'Hindi nabura ang rekord';
+
+  @override
+  String get recordDeleteError =>
+      'May naganap na error habang binubura ang rekord';
+
+  @override
+  String get recordUpdatedSuccess => 'Na-update na ang rekord';
+
+  @override
+  String get recordUpdateFailed => 'Hindi na-update ang rekord';
+
+  @override
+  String get recordUpdateError =>
+      'May naganap na error habang ina-update ang rekord';
+
+  @override
+  String noRecordsToday(Object recordType) {
+    return 'Walang $recordType na rekord ngayong araw';
+  }
+
+  @override
+  String get healthRecordRestored => 'Naibalik na ang mga rekord ng kalusugan';
+
+  @override
+  String get deleteTemperatureConfirm =>
+      'Gusto mo bang tanggalin ang kamakailang rekord ng temperatura?';
+
+  @override
+  String get minimum => 'Pinakamababa';
+
+  @override
+  String get maximum => 'Pinakamataas';
+
+  @override
+  String get duplicateEntryDetected => 'May nakitang duplicate na entry';
+
+  @override
+  String get feedingDuplicateConfirm =>
+      'Kakadagdag mo lang ng feeding record.\\nGusto mo ba talagang mag-record ulit?';
+
+  @override
+  String get milkPumpingDuplicateConfirm =>
+      'Kakadagdag mo lang ng milk pumping record.\\nGusto mo ba talagang mag-record ulit?';
+
+  @override
+  String get medicationDuplicateConfirm =>
+      'Kakarecord mo lang ng medication.\\nGusto mo ba talagang mag-record ulit?';
+
+  @override
+  String get diaperDuplicateConfirm =>
+      'Kakarecord mo lang ng diaper change.\\nGusto mo ba talagang mag-record ulit?';
+
+  @override
+  String get sleepStartDuplicateConfirm =>
+      'Kaka-manipulate mo lang ng sleep.\\nGusto mo ba talagang magsimula ng tulog?';
+
+  @override
+  String get sleepEndDuplicateConfirm =>
+      'Kaka-manipulate mo lang ng sleep.\\nGusto mo ba talagang tapusin ang tulog?';
+
+  @override
+  String get recordAction => 'I-record';
+
+  @override
+  String get end => 'Tapos';
+
+  @override
+  String get minutesShort => 'm';
 }

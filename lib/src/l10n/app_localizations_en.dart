@@ -1879,7 +1879,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String recordFailed(String error) {
-    return 'Record failed: $error';
+    return 'Record failed';
   }
 
   @override
@@ -2032,7 +2032,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get anonymous => 'Anonymous';
 
   @override
-  String get minutes => 'Minutes';
+  String get minutes => 'min';
 
   @override
   String get armpit => 'Armpit';
@@ -2937,4 +2937,83 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get temperatureFilter => 'Temperature';
+
+  @override
+  String get deleteRecordTitle => 'Delete Record';
+
+  @override
+  String get deleteRecordMessage =>
+      'Are you sure you want to delete this record?\nDeleted records cannot be recovered.';
+
+  @override
+  String get recordDeletedSuccess => 'Record has been deleted';
+
+  @override
+  String get recordDeleteFailed => 'Failed to delete record';
+
+  @override
+  String get recordDeleteError => 'An error occurred while deleting the record';
+
+  @override
+  String get recordUpdatedSuccess => 'Record has been updated';
+
+  @override
+  String get recordUpdateFailed => 'Failed to update record';
+
+  @override
+  String get recordUpdateError => 'An error occurred while updating the record';
+
+  @override
+  String noRecordsToday(Object recordType) {
+    return 'No $recordType records today';
+  }
+
+  @override
+  String get healthRecordRestored => 'Health record has been restored';
+
+  @override
+  String get deleteTemperatureConfirm =>
+      'Do you want to delete the recent temperature record?';
+
+  @override
+  String get minimum => 'Minimum';
+
+  @override
+  String get maximum => 'Maximum';
+
+  @override
+  String get duplicateEntryDetected => 'Duplicate Entry Detected';
+
+  @override
+  String get feedingDuplicateConfirm =>
+      'You just added a feeding record.\\nDo you really want to record again?';
+
+  @override
+  String get milkPumpingDuplicateConfirm =>
+      'You just added a milk pumping record.\\nDo you really want to record again?';
+
+  @override
+  String get medicationDuplicateConfirm =>
+      'You just recorded medication.\\nDo you really want to record again?';
+
+  @override
+  String get diaperDuplicateConfirm =>
+      'You just recorded a diaper change.\\nDo you really want to record again?';
+
+  @override
+  String get sleepStartDuplicateConfirm =>
+      'You just manipulated sleep.\\nDo you really want to start sleeping?';
+
+  @override
+  String get sleepEndDuplicateConfirm =>
+      'You just manipulated sleep.\\nDo you really want to end sleeping?';
+
+  @override
+  String get recordAction => 'Record';
+
+  @override
+  String get end => 'End';
+
+  @override
+  String get minutesShort => 'm';
 }

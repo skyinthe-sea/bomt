@@ -901,5 +901,34 @@
   "normalTemperature": "Normal",
 
   "allActivities": "Todo",
-  "temperatureFilter": "Temperatura"
+  "temperatureFilter": "Temperatura",
+
+  "deleteRecordTitle": "Eliminar registro",
+  "deleteRecordMessage": "¿Estás seguro de que quieres eliminar este registro?\nLos registros eliminados no se pueden recuperar.",
+  "recordDeletedSuccess": "El registro ha sido eliminado",
+  "recordDeleteFailed": "Error al eliminar el registro",
+  "recordDeleteError": "Ocurrió un error al eliminar el registro",
+  "recordUpdatedSuccess": "El registro ha sido actualizado",
+  "recordUpdateFailed": "Error al actualizar el registro",
+  "recordUpdateError": "Ocurrió un error al actualizar el registro",
+  "noRecordsToday": "No hay registros de {recordType} hoy",
+  "recordFailed": "Error en el registro",
+  "healthRecordRestored": "Los registros de salud han sido restaurados",
+  "deleteTemperatureConfirm": "¿Desea eliminar el registro de temperatura reciente?",
+  "average": "Promedio",
+  "minimum": "Mínimo",
+  "maximum": "Máximo",
+
+  "duplicateEntryDetected": "Entrada duplicada detectada",
+  "feedingDuplicateConfirm": "Acabas de agregar un registro de alimentación.\\n¿Realmente quieres registrar de nuevo?",
+  "milkPumpingDuplicateConfirm": "Acabas de agregar un registro de extracción de leche.\\n¿Realmente quieres registrar de nuevo?",
+  "medicationDuplicateConfirm": "Acabas de registrar medicación.\\n¿Realmente quieres registrar de nuevo?",
+  "diaperDuplicateConfirm": "Acabas de registrar un cambio de pañal.\\n¿Realmente quieres registrar de nuevo?",
+  "sleepStartDuplicateConfirm": "Acabas de manipular el sueño.\\n¿Realmente quieres comenzar a dormir?",
+  "sleepEndDuplicateConfirm": "Acabas de manipular el sueño.\\n¿Realmente quieres terminar de dormir?",
+  "recordAction": "Registrar",
+  "end": "Fin",
+
+  "minutes": "min",
+  "minutesShort": "m"
 }

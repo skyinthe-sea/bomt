@@ -901,5 +901,34 @@
   "normalTemperature": "Normal",
 
   "allActivities": "Semua",
-  "temperatureFilter": "Suhu"
+  "temperatureFilter": "Suhu",
+
+  "deleteRecordTitle": "Hapus Catatan",
+  "deleteRecordMessage": "Apakah Anda yakin ingin menghapus catatan ini?\nCatatan yang dihapus tidak dapat dipulihkan.",
+  "recordDeletedSuccess": "Catatan telah dihapus",
+  "recordDeleteFailed": "Gagal menghapus catatan",
+  "recordDeleteError": "Terjadi kesalahan saat menghapus catatan",
+  "recordUpdatedSuccess": "Catatan telah diperbarui",
+  "recordUpdateFailed": "Gagal memperbarui catatan",
+  "recordUpdateError": "Terjadi kesalahan saat memperbarui catatan",
+  "noRecordsToday": "Tidak ada catatan {recordType} hari ini",
+  "recordFailed": "Pencatatan gagal",
+  "healthRecordRestored": "Catatan kesehatan telah dipulihkan",
+  "deleteTemperatureConfirm": "Apakah Anda ingin menghapus catatan suhu terbaru?",
+  "average": "Rata-rata",
+  "minimum": "Minimum",
+  "maximum": "Maksimum",
+
+  "duplicateEntryDetected": "Entri duplikat terdeteksi",
+  "feedingDuplicateConfirm": "Anda baru saja menambahkan catatan menyusui.\\nApakah Anda benar-benar ingin mencatat lagi?",
+  "milkPumpingDuplicateConfirm": "Anda baru saja menambahkan catatan memompa ASI.\\nApakah Anda benar-benar ingin mencatat lagi?",
+  "medicationDuplicateConfirm": "Anda baru saja mencatat obat.\\nApakah Anda benar-benar ingin mencatat lagi?",
+  "diaperDuplicateConfirm": "Anda baru saja mencatat penggantian popok.\\nApakah Anda benar-benar ingin mencatat lagi?",
+  "sleepStartDuplicateConfirm": "Anda baru saja memanipulasi tidur.\\nApakah Anda benar-benar ingin memulai tidur?",
+  "sleepEndDuplicateConfirm": "Anda baru saja memanipulasi tidur.\\nApakah Anda benar-benar ingin mengakhiri tidur?",
+  "recordAction": "Catat",
+  "end": "Selesai",
+
+  "minutes": "mnt",
+  "minutesShort": "m"
 }

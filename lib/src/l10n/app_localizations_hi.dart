@@ -1880,7 +1880,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String recordFailed(String error) {
-    return 'रिकॉर्ड विफल: $error';
+    return 'रिकॉर्ड असफल';
   }
 
   @override
@@ -1946,7 +1946,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get good => 'अच्छा';
 
   @override
-  String get average => 'ौसत';
+  String get average => 'औसत';
 
   @override
   String get poor => 'खराब';
@@ -2936,4 +2936,83 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get temperatureFilter => 'तापमान';
+
+  @override
+  String get deleteRecordTitle => 'रिकॉर्ड हटाएं';
+
+  @override
+  String get deleteRecordMessage =>
+      'क्या आप वाकई इस रिकॉर्ड को हटाना चाहते हैं?\nहटाए गए रिकॉर्ड पुन:प्राप्त नहीं किए जा सकते।';
+
+  @override
+  String get recordDeletedSuccess => 'रिकॉर्ड हटा दिया गया है';
+
+  @override
+  String get recordDeleteFailed => 'रिकॉर्ड हटाने में असफल';
+
+  @override
+  String get recordDeleteError => 'रिकॉर्ड हटाते समय एक त्रुटि आई';
+
+  @override
+  String get recordUpdatedSuccess => 'रिकॉर्ड अपडेट कर दिया गया है';
+
+  @override
+  String get recordUpdateFailed => 'रिकॉर्ड अपडेट करने में असफल';
+
+  @override
+  String get recordUpdateError => 'रिकॉर्ड अपडेट करते समय एक त्रुटि आई';
+
+  @override
+  String noRecordsToday(Object recordType) {
+    return 'आज कोई $recordType रिकॉर्ड नहीं';
+  }
+
+  @override
+  String get healthRecordRestored => 'स्वास्थ्य रिकॉर्ड बहाल हो गया है';
+
+  @override
+  String get deleteTemperatureConfirm =>
+      'क्या आप हालिया तापमान रिकॉर्ड को हटाना चाहते हैं?';
+
+  @override
+  String get minimum => 'न्यूनतम';
+
+  @override
+  String get maximum => 'अधिकतम';
+
+  @override
+  String get duplicateEntryDetected => 'डुप्लिकेट एंट्री का पता चला';
+
+  @override
+  String get feedingDuplicateConfirm =>
+      'आपने अभी एक फीडिंग रिकॉर्ड जोड़ा है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?';
+
+  @override
+  String get milkPumpingDuplicateConfirm =>
+      'आपने अभी दूध निकालने का रिकॉर्ड जोड़ा है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?';
+
+  @override
+  String get medicationDuplicateConfirm =>
+      'आपने अभी दवा का रिकॉर्ड किया है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?';
+
+  @override
+  String get diaperDuplicateConfirm =>
+      'आपने अभी डायपर बदलने का रिकॉर्ड किया है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?';
+
+  @override
+  String get sleepStartDuplicateConfirm =>
+      'आपने अभी नींद में हेरफेर किया है।\\nक्या आप वाकई सोना शुरू करना चाहते हैं?';
+
+  @override
+  String get sleepEndDuplicateConfirm =>
+      'आपने अभी नींद में हेरफेर किया है।\\nक्या आप वाकई सोना बंद करना चाहते हैं?';
+
+  @override
+  String get recordAction => 'रिकॉर्ड करें';
+
+  @override
+  String get end => 'अंत';
+
+  @override
+  String get minutesShort => 'मिन';
 }
