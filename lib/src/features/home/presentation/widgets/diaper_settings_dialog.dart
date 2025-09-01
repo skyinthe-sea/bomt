@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 
 class DiaperSettingsDialog extends StatefulWidget {
   final Map<String, dynamic> currentDefaults;
@@ -212,8 +213,8 @@ class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
 
   Widget _buildTypeTabs() {
     final types = [
-      {'value': 'dirty', 'label': '대변', 'icon': Icons.eco, 'color': Colors.brown},
-      {'value': 'both', 'label': '소변+대변', 'icon': Icons.child_care, 'color': Colors.purple},
+      {'value': 'dirty', 'label': AppLocalizations.of(context)!.poop, 'icon': Icons.eco, 'color': Colors.brown},
+      {'value': 'both', 'label': AppLocalizations.of(context)!.urinePoop, 'icon': Icons.child_care, 'color': Colors.purple},
     ];
 
     return Row(
@@ -278,7 +279,7 @@ class _DiaperSettingsDialogState extends State<DiaperSettingsDialog>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // 색상 설정
-        _buildSectionTitle('색상 (대변 시)'),
+        _buildSectionTitle(AppLocalizations.of(context)!.colorWhenPoop),
         const SizedBox(height: 12),
         _buildColorSelector(),
         

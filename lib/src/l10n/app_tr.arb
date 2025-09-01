@@ -929,6 +929,12 @@
   "recordAction": "Kaydet",
   "end": "Son",
 
+  "whatTypeChanged": "Hangi türü değiştirdiniz?",
+  "poop": "Kaka",
+  "urinePoop": "İdrar+Kaka",
+  "changeType": "Değişim Türü",
+  "colorWhenPoop": "Renk (Kaka Yaparken)",
+
   "minutes": "dk",
   "minutesShort": "d"
 }

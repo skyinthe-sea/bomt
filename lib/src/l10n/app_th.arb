@@ -1274,6 +1274,12 @@
   "recordAction": "บันทึก",
   "end": "จบ",
 
+  "whatTypeChanged": "คุณเปลี่ยนประเภทไหน?",
+  "poop": "อุจจาระ",
+  "urinePoop": "ปัสสาวะ+อุจจาระ",
+  "changeType": "ประเภทการเปลี่ยน",
+  "colorWhenPoop": "สี (ตอนถ่ายอุจจาระ)",
+
   "minutes": "นาที",
   "minutesShort": "น"
 }

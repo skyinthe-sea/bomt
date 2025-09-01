@@ -2084,6 +2084,12 @@
   "recordAction": "Record",
   "end": "End",
 
+  "whatTypeChanged": "What type did you change?",
+  "poop": "Poop",
+  "urinePoop": "Urine+Poop",
+  "changeType": "Change Type",
+  "colorWhenPoop": "Color (When Poop)",
+
   "minutes": "min",
   "minutesShort": "m"
 }

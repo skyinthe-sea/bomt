@@ -929,6 +929,12 @@
   "recordAction": "Catat",
   "end": "Selesai",
 
+  "whatTypeChanged": "Jenis apa yang Anda ganti?",
+  "poop": "Tinja",
+  "urinePoop": "Urin+Tinja",
+  "changeType": "Jenis Penggantian",
+  "colorWhenPoop": "Warna (Saat Buang Air Besar)",
+
   "minutes": "mnt",
   "minutesShort": "m"
 }

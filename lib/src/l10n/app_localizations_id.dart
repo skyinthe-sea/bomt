@@ -3015,5 +3015,20 @@ class AppLocalizationsId extends AppLocalizations {
   String get end => 'Selesai';
 
   @override
+  String get whatTypeChanged => 'Jenis apa yang Anda ganti?';
+
+  @override
+  String get poop => 'Tinja';
+
+  @override
+  String get urinePoop => 'Urin+Tinja';
+
+  @override
+  String get changeType => 'Jenis Penggantian';
+
+  @override
+  String get colorWhenPoop => 'Warna (Saat Buang Air Besar)';
+
+  @override
   String get minutesShort => 'm';
 }

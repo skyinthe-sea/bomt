@@ -3012,5 +3012,20 @@ class AppLocalizationsTh extends AppLocalizations {
   String get end => 'จบ';
 
   @override
+  String get whatTypeChanged => 'คุณเปลี่ยนประเภทไหน?';
+
+  @override
+  String get poop => 'อุจจาระ';
+
+  @override
+  String get urinePoop => 'ปัสสาวะ+อุจจาระ';
+
+  @override
+  String get changeType => 'ประเภทการเปลี่ยน';
+
+  @override
+  String get colorWhenPoop => 'สี (ตอนถ่ายอุจจาระ)';
+
+  @override
   String get minutesShort => 'น';
 }

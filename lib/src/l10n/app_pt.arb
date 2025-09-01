@@ -997,6 +997,12 @@
   "recordAction": "Registrar",
   "end": "Fim",
 
+  "whatTypeChanged": "Que tipo você trocou?",
+  "poop": "Cocô",
+  "urinePoop": "Urina+Cocô",
+  "changeType": "Tipo de Troca",
+  "colorWhenPoop": "Cor (Ao Fazer Cocô)",
+
   "minutes": "min",
   "minutesShort": "m"
 }

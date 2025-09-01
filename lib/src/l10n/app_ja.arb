@@ -1169,6 +1169,12 @@
   "recordAction": "記録する",
   "end": "終了",
 
+  "whatTypeChanged": "どのタイプに交換しましたか？",
+  "poop": "うんち",
+  "urinePoop": "おしっこ+うんち",
+  "changeType": "交換タイプ",
+  "colorWhenPoop": "色（うんちの時）",
+
   "minutes": "分",
   "minutesShort": "分"
 }

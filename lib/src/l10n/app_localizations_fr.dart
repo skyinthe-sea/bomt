@@ -3036,5 +3036,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get end => 'Fin';
 
   @override
+  String get whatTypeChanged => 'Quel type avez-vous changé?';
+
+  @override
+  String get poop => 'Caca';
+
+  @override
+  String get urinePoop => 'Urine+Caca';
+
+  @override
+  String get changeType => 'Type de Changement';
+
+  @override
+  String get colorWhenPoop => 'Couleur (Lors du Caca)';
+
+  @override
   String get minutesShort => 'm';
 }

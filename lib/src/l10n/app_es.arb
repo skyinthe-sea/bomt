@@ -929,6 +929,12 @@
   "recordAction": "Registrar",
   "end": "Fin",
 
+  "whatTypeChanged": "¿Qué tipo cambiaste?",
+  "poop": "Caca",
+  "urinePoop": "Orina+Caca",
+  "changeType": "Tipo de Cambio",
+  "colorWhenPoop": "Color (Al Hacer Caca)",
+
   "minutes": "min",
   "minutesShort": "m"
 }

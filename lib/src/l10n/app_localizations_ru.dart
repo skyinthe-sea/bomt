@@ -3019,5 +3019,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get end => 'Конец';
 
   @override
+  String get whatTypeChanged => 'Какой тип вы поменяли?';
+
+  @override
+  String get poop => 'Кал';
+
+  @override
+  String get urinePoop => 'Моча+Кал';
+
+  @override
+  String get changeType => 'Тип Смены';
+
+  @override
+  String get colorWhenPoop => 'Цвет (При Дефекации)';
+
+  @override
   String get minutesShort => 'м';
 }

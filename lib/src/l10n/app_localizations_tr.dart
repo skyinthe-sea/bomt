@@ -3016,5 +3016,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get end => 'Son';
 
   @override
+  String get whatTypeChanged => 'Hangi türü değiştirdiniz?';
+
+  @override
+  String get poop => 'Kaka';
+
+  @override
+  String get urinePoop => 'İdrar+Kaka';
+
+  @override
+  String get changeType => 'Değişim Türü';
+
+  @override
+  String get colorWhenPoop => 'Renk (Kaka Yaparken)';
+
+  @override
   String get minutesShort => 'd';
 }

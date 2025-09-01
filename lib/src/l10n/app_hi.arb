@@ -920,6 +920,12 @@
   "recordAction": "रिकॉर्ड करें",
   "end": "अंत",
 
+  "whatTypeChanged": "आपने कौन सा प्रकार बदला?",
+  "poop": "मल",
+  "urinePoop": "पेशाब+मल",
+  "changeType": "परिवर्तन प्रकार",
+  "colorWhenPoop": "रंग (मल करते समय)",
+
   "minutes": "मिनट",
   "minutesShort": "मिन"
 }

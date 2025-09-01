@@ -997,6 +997,12 @@
   "recordAction": "Enregistrer",
   "end": "Fin",
 
+  "whatTypeChanged": "Quel type avez-vous changé?",
+  "poop": "Caca",
+  "urinePoop": "Urine+Caca",
+  "changeType": "Type de Changement",
+  "colorWhenPoop": "Couleur (Lors du Caca)",
+
   "minutes": "min",
   "minutesShort": "m"
 }

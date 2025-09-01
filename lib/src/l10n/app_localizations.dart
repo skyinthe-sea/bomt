@@ -5550,6 +5550,36 @@ abstract class AppLocalizations {
   /// **'End'**
   String get end;
 
+  /// No description provided for @whatTypeChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'What type did you change?'**
+  String get whatTypeChanged;
+
+  /// No description provided for @poop.
+  ///
+  /// In en, this message translates to:
+  /// **'Poop'**
+  String get poop;
+
+  /// No description provided for @urinePoop.
+  ///
+  /// In en, this message translates to:
+  /// **'Urine+Poop'**
+  String get urinePoop;
+
+  /// No description provided for @changeType.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Type'**
+  String get changeType;
+
+  /// No description provided for @colorWhenPoop.
+  ///
+  /// In en, this message translates to:
+  /// **'Color (When Poop)'**
+  String get colorWhenPoop;
+
   /// No description provided for @minutesShort.
   ///
   /// In en, this message translates to:

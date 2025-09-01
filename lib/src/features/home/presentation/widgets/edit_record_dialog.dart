@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import 'record_detail_overlay.dart';
 
 class EditRecordDialog extends StatefulWidget {
@@ -400,12 +401,12 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
         const SizedBox(height: 20),
 
         _buildDropdownField(
-          label: '교체 타입',
+          label: AppLocalizations.of(context)!.changeType,
           value: _editedRecord['type'] ?? 'wet',
-          items: const [
-            {'value': 'wet', 'label': '소변'},
-            {'value': 'dirty', 'label': '대변'},
-            {'value': 'both', 'label': '소변+대변'},
+          items: [
+            {'value': 'wet', 'label': AppLocalizations.of(context)!.urine},
+            {'value': 'dirty', 'label': AppLocalizations.of(context)!.poop},
+            {'value': 'both', 'label': AppLocalizations.of(context)!.urinePoop},
           ],
           onChanged: (value) {
             setState(() {

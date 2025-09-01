@@ -3028,5 +3028,20 @@ class AppLocalizationsTl extends AppLocalizations {
   String get end => 'Tapos';
 
   @override
+  String get whatTypeChanged => 'Anong uri ang napalitan mo?';
+
+  @override
+  String get poop => 'Tae';
+
+  @override
+  String get urinePoop => 'Ihi+Tae';
+
+  @override
+  String get changeType => 'Uri ng Pagpapalit';
+
+  @override
+  String get colorWhenPoop => 'Kulay (Kapag Tumatae)';
+
+  @override
   String get minutesShort => 'm';
 }

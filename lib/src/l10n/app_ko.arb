@@ -1238,6 +1238,12 @@
   "recordAction": "기록하기",
   "end": "종료",
 
+  "whatTypeChanged": "어떤 종류로 교체하셨나요?",
+  "poop": "대변",
+  "urinePoop": "소변+대변",
+  "changeType": "교체 타입",
+  "colorWhenPoop": "색상 (대변 시)",
+
   "minutes": "분",
   "minutesShort": "분"
 }

@@ -3034,5 +3034,20 @@ class AppLocalizationsDe extends AppLocalizations {
   String get end => 'Ende';
 
   @override
+  String get whatTypeChanged => 'Welchen Typ haben Sie gewechselt?';
+
+  @override
+  String get poop => 'Stuhl';
+
+  @override
+  String get urinePoop => 'Urin+Stuhl';
+
+  @override
+  String get changeType => 'Wechseltyp';
+
+  @override
+  String get colorWhenPoop => 'Farbe (Bei Stuhlgang)';
+
+  @override
   String get minutesShort => 'm';
 }

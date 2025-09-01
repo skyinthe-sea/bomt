@@ -929,6 +929,12 @@
   "recordAction": "Записать",
   "end": "Конец",
 
+  "whatTypeChanged": "Какой тип вы поменяли?",
+  "poop": "Кал",
+  "urinePoop": "Моча+Кал",
+  "changeType": "Тип Смены",
+  "colorWhenPoop": "Цвет (При Дефекации)",
+
   "minutes": "мин",
   "minutesShort": "м"
 }

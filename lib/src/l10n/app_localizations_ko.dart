@@ -2972,5 +2972,20 @@ class AppLocalizationsKo extends AppLocalizations {
   String get end => '종료';
 
   @override
+  String get whatTypeChanged => '어떤 종류로 교체하셨나요?';
+
+  @override
+  String get poop => '대변';
+
+  @override
+  String get urinePoop => '소변+대변';
+
+  @override
+  String get changeType => '교체 타입';
+
+  @override
+  String get colorWhenPoop => '색상 (대변 시)';
+
+  @override
   String get minutesShort => '분';
 }

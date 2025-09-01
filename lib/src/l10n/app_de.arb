@@ -997,6 +997,12 @@
   "recordAction": "Aufzeichnen",
   "end": "Ende",
 
+  "whatTypeChanged": "Welchen Typ haben Sie gewechselt?",
+  "poop": "Stuhl",
+  "urinePoop": "Urin+Stuhl",
+  "changeType": "Wechseltyp",
+  "colorWhenPoop": "Farbe (Bei Stuhlgang)",
+
   "minutes": "Min",
   "minutesShort": "m"
 }

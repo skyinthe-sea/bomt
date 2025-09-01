@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 
 /// 카드별 기본값 설정 다이얼로그
 /// 
@@ -322,12 +323,12 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
       children: [
         _buildDropdownField(
           theme: theme,
-          label: '기저귀 타입',
+          label: AppLocalizations.of(context)!.diaperType,
           value: _settings['type'],
           items: [
-            ('wet', '소변'),
-            ('dirty', '대변'),
-            ('both', '소변+대변'),
+            ('wet', AppLocalizations.of(context)!.urine),
+            ('dirty', AppLocalizations.of(context)!.poop),
+            ('both', AppLocalizations.of(context)!.urinePoop),
           ],
           onChanged: (value) => setState(() => _settings['type'] = value),
         ),

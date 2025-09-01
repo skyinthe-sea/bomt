@@ -3014,5 +3014,20 @@ class AppLocalizationsHi extends AppLocalizations {
   String get end => 'अंत';
 
   @override
+  String get whatTypeChanged => 'आपने कौन सा प्रकार बदला?';
+
+  @override
+  String get poop => 'मल';
+
+  @override
+  String get urinePoop => 'पेशाब+मल';
+
+  @override
+  String get changeType => 'परिवर्तन प्रकार';
+
+  @override
+  String get colorWhenPoop => 'रंग (मल करते समय)';
+
+  @override
   String get minutesShort => 'मिन';
 }

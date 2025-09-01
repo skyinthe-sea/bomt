@@ -2964,5 +2964,20 @@ class AppLocalizationsJa extends AppLocalizations {
   String get end => '終了';
 
   @override
+  String get whatTypeChanged => 'どのタイプに交換しましたか？';
+
+  @override
+  String get poop => 'うんち';
+
+  @override
+  String get urinePoop => 'おしっこ+うんち';
+
+  @override
+  String get changeType => '交換タイプ';
+
+  @override
+  String get colorWhenPoop => '色（うんちの時）';
+
+  @override
   String get minutesShort => '分';
 }

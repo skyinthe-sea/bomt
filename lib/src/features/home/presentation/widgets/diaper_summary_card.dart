@@ -691,7 +691,7 @@ class _DiaperTypeSelectionDialogState extends State<_DiaperTypeSelectionDialog>
                     
                     // 제목
                     Text(
-                      '기저귀 교체',
+                      AppLocalizations.of(context)!.diaperChange,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurface,
@@ -701,7 +701,7 @@ class _DiaperTypeSelectionDialogState extends State<_DiaperTypeSelectionDialog>
                     
                     // 내용
                     Text(
-                      '어떤 종류로 교체하셨나요?',
+                      AppLocalizations.of(context)!.whatTypeChanged,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurface.withOpacity(0.8),
                       ),
@@ -732,7 +732,7 @@ class _DiaperTypeSelectionDialogState extends State<_DiaperTypeSelectionDialog>
                                 Icon(Icons.opacity, size: 20),
                                 const SizedBox(width: 8),
                                 Text(
-                                  '소변',
+                                  AppLocalizations.of(context)!.urine,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -763,7 +763,7 @@ class _DiaperTypeSelectionDialogState extends State<_DiaperTypeSelectionDialog>
                                 Icon(Icons.eco, size: 20),
                                 const SizedBox(width: 8),
                                 Text(
-                                  '대변',
+                                  AppLocalizations.of(context)!.poop,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -794,7 +794,7 @@ class _DiaperTypeSelectionDialogState extends State<_DiaperTypeSelectionDialog>
                                 Icon(Icons.child_care, size: 20),
                                 const SizedBox(width: 8),
                                 Text(
-                                  '소변+대변',
+                                  AppLocalizations.of(context)!.urinePoop,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                   ),

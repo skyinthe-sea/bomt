@@ -929,6 +929,12 @@
   "recordAction": "I-record",
   "end": "Tapos",
 
+  "whatTypeChanged": "Anong uri ang napalitan mo?",
+  "poop": "Tae",
+  "urinePoop": "Ihi+Tae",
+  "changeType": "Uri ng Pagpapalit",
+  "colorWhenPoop": "Kulay (Kapag Tumatae)",
+
   "minutes": "min",
   "minutesShort": "m"
 }
