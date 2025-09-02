@@ -1990,7 +1990,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get solidFoodTime => 'Solid Food';
 
   @override
-  String get totalFeedingAmount => 'Total Feeding Amount';
+  String get totalFeedingAmount => 'Total feeding amount';
 
   @override
   String get averageFeedingAmount => 'Average feeding amount';
@@ -3031,4 +3031,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get minutesShort => 'm';
+
+  @override
+  String get totalFeedingDuration => 'Total feeding duration';
+
+  @override
+  String get maximumFeedingAmount => 'Maximum feeding amount';
+
+  @override
+  String get minimumFeedingAmount => 'Minimum feeding amount';
+
+  @override
+  String get totalSleepDuration => 'Total sleep duration';
+
+  @override
+  String get dailyTotalMilkPumpingAmount => 'Daily total pumped amount';
 }

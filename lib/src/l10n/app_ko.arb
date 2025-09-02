@@ -1263,5 +1263,13 @@
   "totalPumpedAmount": "총 유축량",
   "averagePumpedAmount": "평균 유축량",
   "dailyAverageSolidFoodCount": "하루 평균 이유식 횟수",
-  "triedFoodTypes": "시도한 음식 종류"
+  "triedFoodTypes": "시도한 음식 종류",
+  "dailyAverageMedicationCount": "하루 평균 투약 횟수",
+
+  "totalFeedingAmount": "총 수유량",
+  "totalFeedingDuration": "총 수유 시간",
+  "maximumFeedingAmount": "최대 수유량",
+  "minimumFeedingAmount": "최소 수유량",
+  "totalSleepDuration": "총 수면 시간",
+  "dailyTotalMilkPumpingAmount": "하루 평균 총 유축량"
 }

@@ -1294,5 +1294,13 @@
   "totalPumpedAmount": "ปริมาณนมที่ปั้มทั้งหมด",
   "averagePumpedAmount": "ปริมาณนมที่ปั้มเฉลี่ย",
   "dailyAverageSolidFoodCount": "จำนวนอาหารแข็งเฉลี่ยรายวัน",
-  "triedFoodTypes": "ประเภทของอาหารที่ลองแล้ว"
+  "triedFoodTypes": "ประเภทของอาหารที่ลองแล้ว",
+  "dailyAverageMedicationCount": "จำนวนยาเฉลี่ยรายวัน",
+
+  "totalFeedingAmount": "ปริมาณการให้นมทั้งหมด",
+  "totalFeedingDuration": "ระยะเวลาการให้นมทั้งหมด",
+  "maximumFeedingAmount": "ปริมาณการให้นมสูงสุด",
+  "minimumFeedingAmount": "ปริมาณการให้นมต่ำสุด",
+  "totalSleepDuration": "ระยะเวลาการนอนทั้งหมด",
+  "dailyTotalMilkPumpingAmount": "ปริมาณนมที่ปั้มทั้งหมดรายวัน"
 }

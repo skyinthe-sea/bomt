@@ -2402,7 +2402,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dailyAverageDiaperChangeCount => '하루 평균 교체 횟수';
 
   @override
-  String get dailyAverageMedicationCount => 'Daily average medication count';
+  String get dailyAverageMedicationCount => '하루 평균 투약 횟수';
 
   @override
   String get medicationTypesUsed => '사용한 약물 종류';
@@ -2988,4 +2988,19 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get minutesShort => '분';
+
+  @override
+  String get totalFeedingDuration => '총 수유 시간';
+
+  @override
+  String get maximumFeedingAmount => '최대 수유량';
+
+  @override
+  String get minimumFeedingAmount => '최소 수유량';
+
+  @override
+  String get totalSleepDuration => '총 수면 시간';
+
+  @override
+  String get dailyTotalMilkPumpingAmount => '하루 평균 총 유축량';
 }

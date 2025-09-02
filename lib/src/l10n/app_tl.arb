@@ -954,5 +954,13 @@
   "totalPumpedAmount": "Kabuuang naipong dami",
   "averagePumpedAmount": "Karaniwang naipong dami",
   "dailyAverageSolidFoodCount": "Araw-araw na karaniwang bilang ng solid na pagkain",
-  "triedFoodTypes": "Uri ng pagkaing nasubukan"
+  "triedFoodTypes": "Uri ng pagkaing nasubukan",
+  "dailyAverageMedicationCount": "Araw-araw na karaniwang bilang ng gamot",
+
+  "totalFeedingAmount": "Kabuuang dami ng pagpapasuso",
+  "totalFeedingDuration": "Kabuuang tagal ng pagpapasuso",
+  "maximumFeedingAmount": "Pinakamataas na dami ng pagpapasuso",
+  "minimumFeedingAmount": "Pinakamababa na dami ng pagpapasuso",
+  "totalSleepDuration": "Kabuuang tagal ng tulog",
+  "dailyTotalMilkPumpingAmount": "Araw-araw na kabuuang naipong dami"
 }

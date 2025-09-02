@@ -2453,7 +2453,8 @@ class AppLocalizationsFr extends AppLocalizations {
       'Changements moyens quotidiens de couche';
 
   @override
-  String get dailyAverageMedicationCount => 'Daily average medication count';
+  String get dailyAverageMedicationCount =>
+      'Nombre moyen quotidien de médicaments';
 
   @override
   String get medicationTypesUsed => 'Types de médicaments utilisés';
@@ -3054,4 +3055,19 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get minutesShort => 'm';
+
+  @override
+  String get totalFeedingDuration => 'Durée totale d\'alimentation';
+
+  @override
+  String get maximumFeedingAmount => 'Quantité maximale d\'alimentation';
+
+  @override
+  String get minimumFeedingAmount => 'Quantité minimale d\'alimentation';
+
+  @override
+  String get totalSleepDuration => 'Durée totale de sommeil';
+
+  @override
+  String get dailyTotalMilkPumpingAmount => 'Quantité totale quotidienne tirée';
 }

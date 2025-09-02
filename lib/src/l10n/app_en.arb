@@ -2108,5 +2108,13 @@
   "totalPumpedAmount": "Total pumped amount",
   "averagePumpedAmount": "Average pumped amount",
   "dailyAverageSolidFoodCount": "Daily average solid food count",
-  "triedFoodTypes": "Types of food tried"
+  "triedFoodTypes": "Types of food tried",
+  "dailyAverageMedicationCount": "Daily average medication count",
+
+  "totalFeedingAmount": "Total feeding amount",
+  "totalFeedingDuration": "Total feeding duration",
+  "maximumFeedingAmount": "Maximum feeding amount",
+  "minimumFeedingAmount": "Minimum feeding amount",
+  "totalSleepDuration": "Total sleep duration",
+  "dailyTotalMilkPumpingAmount": "Daily total pumped amount"
 }

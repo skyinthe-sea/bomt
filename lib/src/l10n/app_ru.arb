@@ -954,5 +954,13 @@
   "totalPumpedAmount": "Общее количество сцеженного",
   "averagePumpedAmount": "Среднее количество сцеженного",
   "dailyAverageSolidFoodCount": "Ежедневное среднее количество твердой пищи",
-  "triedFoodTypes": "Типы пробованной пищи"
+  "triedFoodTypes": "Типы пробованной пищи",
+  "dailyAverageMedicationCount": "Ежедневное среднее количество лекарств",
+
+  "totalFeedingAmount": "Общее количество кормления",
+  "totalFeedingDuration": "Общая продолжительность кормления",
+  "maximumFeedingAmount": "Максимальное количество кормления",
+  "minimumFeedingAmount": "Минимальное количество кормления",
+  "totalSleepDuration": "Общая продолжительность сна",
+  "dailyTotalMilkPumpingAmount": "Ежедневное общее количество сцеженного"
 }

@@ -308,6 +308,14 @@ class _StatisticsCard extends StatelessWidget {
         return l10n.averageFeedingDuration;
       case '하루 평균 수유 횟수':
         return l10n.dailyAverageFeedingCount;
+      case '총 수유량':
+        return l10n.totalFeedingAmount;
+      case '총 수유 시간':
+        return l10n.totalFeedingDuration;
+      case '최대 수유량':
+        return l10n.maximumFeedingAmount;
+      case '최소 수유량':
+        return l10n.minimumFeedingAmount;
       
       // 수유 관련 (영어)
       case 'Average feeding amount':
@@ -324,6 +332,8 @@ class _StatisticsCard extends StatelessWidget {
         return l10n.dailyTotalSleepDuration;
       case '하루 평균 수면 횟수':
         return l10n.dailyAverageSleepCount;
+      case '총 수면 시간':
+        return l10n.totalSleepDuration;
       
       // 수면 관련 (영어)
       case 'Average sleep duration':
@@ -361,6 +371,8 @@ class _StatisticsCard extends StatelessWidget {
         return l10n.totalPumpedAmount;
       case '평균 유축량':
         return l10n.averagePumpedAmount;
+      case '하루 평균 총 유축량':
+        return l10n.dailyTotalMilkPumpingAmount;
       
       // 유축 관련 (영어)
       case 'Total pumped amount':
@@ -777,6 +789,8 @@ class _StatisticsDetailDialog extends StatelessWidget {
         return l10n.totalPumpedAmount;
       case '평균 유축량':
         return l10n.averagePumpedAmount;
+      case '하루 평균 총 유축량':
+        return l10n.dailyTotalMilkPumpingAmount;
       
       // 유축 관련 (영어)
       case 'Total pumped amount':

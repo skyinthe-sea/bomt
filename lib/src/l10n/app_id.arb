@@ -954,5 +954,13 @@
   "totalPumpedAmount": "Total jumlah yang dipompa",
   "averagePumpedAmount": "Rata-rata jumlah yang dipompa",
   "dailyAverageSolidFoodCount": "Rata-rata jumlah makanan padat harian",
-  "triedFoodTypes": "Jenis makanan yang dicoba"
+  "triedFoodTypes": "Jenis makanan yang dicoba",
+  "dailyAverageMedicationCount": "Rata-rata jumlah obat harian",
+
+  "totalFeedingAmount": "Total jumlah menyusui",
+  "totalFeedingDuration": "Total durasi menyusui",
+  "maximumFeedingAmount": "Jumlah menyusui maksimum",
+  "minimumFeedingAmount": "Jumlah menyusui minimum",
+  "totalSleepDuration": "Total durasi tidur",
+  "dailyTotalMilkPumpingAmount": "Total jumlah harian yang dipompa"
 }

@@ -2401,7 +2401,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dailyAverageDiaperChangeCount => '日別平均おむつ交換回数';
 
   @override
-  String get dailyAverageMedicationCount => 'Daily average medication count';
+  String get dailyAverageMedicationCount => '日別平均投薬回数';
 
   @override
   String get medicationTypesUsed => '使用薬物種類';
@@ -2980,4 +2980,19 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get minutesShort => '分';
+
+  @override
+  String get totalFeedingDuration => '総授乳時間';
+
+  @override
+  String get maximumFeedingAmount => '最大授乳量';
+
+  @override
+  String get minimumFeedingAmount => '最小授乳量';
+
+  @override
+  String get totalSleepDuration => '総睡眠時間';
+
+  @override
+  String get dailyTotalMilkPumpingAmount => '日別総搮乳量';
 }

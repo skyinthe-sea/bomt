@@ -2441,7 +2441,8 @@ class AppLocalizationsRu extends AppLocalizations {
       'Ежедневная средняя смена подгузников';
 
   @override
-  String get dailyAverageMedicationCount => 'Daily average medication count';
+  String get dailyAverageMedicationCount =>
+      'Ежедневное среднее количество лекарств';
 
   @override
   String get medicationTypesUsed => 'Типы используемых лекарств';
@@ -3037,4 +3038,20 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get minutesShort => 'м';
+
+  @override
+  String get totalFeedingDuration => 'Общая продолжительность кормления';
+
+  @override
+  String get maximumFeedingAmount => 'Максимальное количество кормления';
+
+  @override
+  String get minimumFeedingAmount => 'Минимальное количество кормления';
+
+  @override
+  String get totalSleepDuration => 'Общая продолжительность сна';
+
+  @override
+  String get dailyTotalMilkPumpingAmount =>
+      'Ежедневное общее количество сцеженного';
 }

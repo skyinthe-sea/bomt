@@ -945,5 +945,13 @@
   "totalPumpedAmount": "कुल पंप की गई मात्रा",
   "averagePumpedAmount": "औसत पंप की गई मात्रा",
   "dailyAverageSolidFoodCount": "दैनिक औसत ठोस भोजन संख्या",
-  "triedFoodTypes": "आजमाए गए भोजन के प्रकार"
+  "triedFoodTypes": "आजमाए गए भोजन के प्रकार",
+  "dailyAverageMedicationCount": "दैनिक औसत दवा संख्या",
+
+  "totalFeedingAmount": "कुल फीडिंग मात्रा",
+  "totalFeedingDuration": "कुल फीडिंग अवधि",
+  "maximumFeedingAmount": "अधिकतम फीडिंग मात्रा",
+  "minimumFeedingAmount": "न्यूनतम फीडिंग मात्रा",
+  "totalSleepDuration": "कुल नींद अवधि",
+  "dailyTotalMilkPumpingAmount": "दैनिक कुल पंप की गई मात्रा"
 }

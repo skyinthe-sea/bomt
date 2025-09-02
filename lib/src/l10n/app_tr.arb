@@ -954,5 +954,13 @@
   "totalPumpedAmount": "Toplam pompalanan miktar",
   "averagePumpedAmount": "Ortalama pompalanan miktar",
   "dailyAverageSolidFoodCount": "Günlük ortalama katı gıda sayısı",
-  "triedFoodTypes": "Denenen yiyecek türleri"
+  "triedFoodTypes": "Denenen yiyecek türleri",
+  "dailyAverageMedicationCount": "Günlük ortalama ilaç sayısı",
+
+  "totalFeedingAmount": "Toplam emzirme miktarı",
+  "totalFeedingDuration": "Toplam emzirme süresi",
+  "maximumFeedingAmount": "Maksimum emzirme miktarı",
+  "minimumFeedingAmount": "Minimum emzirme miktarı",
+  "totalSleepDuration": "Toplam uyku süresi",
+  "dailyTotalMilkPumpingAmount": "Günlük toplam pompalanan miktar"
 }

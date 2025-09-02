@@ -2446,7 +2446,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get dailyAverageDiaperChangeCount => 'Trocas médias diárias de fralda';
 
   @override
-  String get dailyAverageMedicationCount => 'Daily average medication count';
+  String get dailyAverageMedicationCount =>
+      'Contagem média diária de medicação';
 
   @override
   String get medicationTypesUsed => 'Tipos de medicação utilizados';
@@ -3042,4 +3043,19 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get minutesShort => 'm';
+
+  @override
+  String get totalFeedingDuration => 'Duração total de alimentação';
+
+  @override
+  String get maximumFeedingAmount => 'Quantidade máxima de alimentação';
+
+  @override
+  String get minimumFeedingAmount => 'Quantidade mínima de alimentação';
+
+  @override
+  String get totalSleepDuration => 'Duração total do sono';
+
+  @override
+  String get dailyTotalMilkPumpingAmount => 'Quantidade total diária ordenhada';
 }

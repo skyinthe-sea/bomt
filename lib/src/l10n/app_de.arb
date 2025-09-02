@@ -1022,5 +1022,13 @@
   "totalPumpedAmount": "Gesamtmenge abgepumpt",
   "averagePumpedAmount": "Durchschnittlich abgepumpte Menge",
   "dailyAverageSolidFoodCount": "Tägliche durchschnittliche Beikostanzahl",
-  "triedFoodTypes": "Arten der probierten Nahrung"
+  "triedFoodTypes": "Arten der probierten Nahrung",
+  "dailyAverageMedicationCount": "Tägliche durchschnittliche Medikamentenanzahl",
+
+  "totalFeedingAmount": "Gesamtstillmenge",
+  "totalFeedingDuration": "Gesamtstillzeit",
+  "maximumFeedingAmount": "Maximale Stillmenge",
+  "minimumFeedingAmount": "Minimale Stillmenge",
+  "totalSleepDuration": "Gesamtschlafdauer",
+  "dailyTotalMilkPumpingAmount": "Tägliche Gesamtabpumpmenge"
 }

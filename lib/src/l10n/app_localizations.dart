@@ -3669,7 +3669,7 @@ abstract class AppLocalizations {
   /// No description provided for @totalFeedingAmount.
   ///
   /// In en, this message translates to:
-  /// **'Total Feeding Amount'**
+  /// **'Total feeding amount'**
   String get totalFeedingAmount;
 
   /// Label for average feeding amount metric
@@ -5585,6 +5585,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'m'**
   String get minutesShort;
+
+  /// No description provided for @totalFeedingDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Total feeding duration'**
+  String get totalFeedingDuration;
+
+  /// No description provided for @maximumFeedingAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum feeding amount'**
+  String get maximumFeedingAmount;
+
+  /// No description provided for @minimumFeedingAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum feeding amount'**
+  String get minimumFeedingAmount;
+
+  /// No description provided for @totalSleepDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Total sleep duration'**
+  String get totalSleepDuration;
+
+  /// No description provided for @dailyTotalMilkPumpingAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily total pumped amount'**
+  String get dailyTotalMilkPumpingAmount;
 }
 
 class _AppLocalizationsDelegate

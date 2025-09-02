@@ -2449,7 +2449,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'Cambios promedio diarios de pañal';
 
   @override
-  String get dailyAverageMedicationCount => 'Daily average medication count';
+  String get dailyAverageMedicationCount =>
+      'Conteo promedio diario de medicación';
 
   @override
   String get medicationTypesUsed => 'Tipos de medicación utilizados';
@@ -3046,4 +3047,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get minutesShort => 'm';
+
+  @override
+  String get totalFeedingDuration => 'Duración total de alimentación';
+
+  @override
+  String get maximumFeedingAmount => 'Cantidad máxima de alimentación';
+
+  @override
+  String get minimumFeedingAmount => 'Cantidad mínima de alimentación';
+
+  @override
+  String get totalSleepDuration => 'Duración total del sueño';
+
+  @override
+  String get dailyTotalMilkPumpingAmount => 'Cantidad total diaria extraída';
 }

@@ -1988,7 +1988,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get solidFoodTime => 'อาหารแข็ง';
 
   @override
-  String get totalFeedingAmount => 'ปริมาณการให้อาหารทั้งหมด';
+  String get totalFeedingAmount => 'ปริมาณการให้นมทั้งหมด';
 
   @override
   String get averageFeedingAmount => 'ปริมาณนมเฉลี่ย';
@@ -2435,7 +2435,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get dailyAverageDiaperChangeCount => 'การเปลี่ยนผ้าอ้อมเฉลี่ยรายวัน';
 
   @override
-  String get dailyAverageMedicationCount => 'จำนวนครั้งการให้ยาเฉลี่ยต่อวัน';
+  String get dailyAverageMedicationCount => 'จำนวนยาเฉลี่ยรายวัน';
 
   @override
   String get medicationTypesUsed => 'ประเภทของยาที่ใช้';
@@ -3026,4 +3026,19 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get minutesShort => 'น';
+
+  @override
+  String get totalFeedingDuration => 'ระยะเวลาการให้นมทั้งหมด';
+
+  @override
+  String get maximumFeedingAmount => 'ปริมาณการให้นมสูงสุด';
+
+  @override
+  String get minimumFeedingAmount => 'ปริมาณการให้นมต่ำสุด';
+
+  @override
+  String get totalSleepDuration => 'ระยะเวลาการนอนทั้งหมด';
+
+  @override
+  String get dailyTotalMilkPumpingAmount => 'ปริมาณนมที่ปั้มทั้งหมดรายวัน';
 }

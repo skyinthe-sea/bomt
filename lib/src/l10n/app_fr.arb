@@ -1022,5 +1022,13 @@
   "totalPumpedAmount": "Quantité totale tirée",
   "averagePumpedAmount": "Quantité moyenne tirée",
   "dailyAverageSolidFoodCount": "Nombre moyen quotidien d'aliments solides",
-  "triedFoodTypes": "Types d'aliments essayés"
+  "triedFoodTypes": "Types d'aliments essayés",
+  "dailyAverageMedicationCount": "Nombre moyen quotidien de médicaments",
+
+  "totalFeedingAmount": "Quantité totale d'alimentation",
+  "totalFeedingDuration": "Durée totale d'alimentation",
+  "maximumFeedingAmount": "Quantité maximale d'alimentation",
+  "minimumFeedingAmount": "Quantité minimale d'alimentation",
+  "totalSleepDuration": "Durée totale de sommeil",
+  "dailyTotalMilkPumpingAmount": "Quantité totale quotidienne tirée"
 }

@@ -1990,7 +1990,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get solidFoodTime => 'Katı gıda';
 
   @override
-  String get totalFeedingAmount => 'Toplam beslenme miktarı';
+  String get totalFeedingAmount => 'Toplam emzirme miktarı';
 
   @override
   String get averageFeedingAmount => 'Ortalama beslenme miktarı';
@@ -2439,7 +2439,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get dailyAverageDiaperChangeCount => 'Günlük ortalama bez değişimi';
 
   @override
-  String get dailyAverageMedicationCount => 'Daily average medication count';
+  String get dailyAverageMedicationCount => 'Günlük ortalama ilaç sayısı';
 
   @override
   String get medicationTypesUsed => 'Kullanılan ilaç türleri';
@@ -3032,4 +3032,19 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get minutesShort => 'd';
+
+  @override
+  String get totalFeedingDuration => 'Toplam emzirme süresi';
+
+  @override
+  String get maximumFeedingAmount => 'Maksimum emzirme miktarı';
+
+  @override
+  String get minimumFeedingAmount => 'Minimum emzirme miktarı';
+
+  @override
+  String get totalSleepDuration => 'Toplam uyku süresi';
+
+  @override
+  String get dailyTotalMilkPumpingAmount => 'Günlük toplam pompalanan miktar';
 }

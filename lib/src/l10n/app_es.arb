@@ -954,5 +954,13 @@
   "totalPumpedAmount": "Cantidad total extraída",
   "averagePumpedAmount": "Cantidad promedio extraída",
   "dailyAverageSolidFoodCount": "Conteo promedio diario de comida sólida",
-  "triedFoodTypes": "Tipos de comida probados"
+  "triedFoodTypes": "Tipos de comida probados",
+  "dailyAverageMedicationCount": "Conteo promedio diario de medicación",
+
+  "totalFeedingAmount": "Cantidad total de alimentación",
+  "totalFeedingDuration": "Duración total de alimentación",
+  "maximumFeedingAmount": "Cantidad máxima de alimentación",
+  "minimumFeedingAmount": "Cantidad mínima de alimentación",
+  "totalSleepDuration": "Duración total del sueño",
+  "dailyTotalMilkPumpingAmount": "Cantidad total diaria extraída"
 }

@@ -1994,7 +1994,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get solidFoodTime => 'Solid na pagkain';
 
   @override
-  String get totalFeedingAmount => 'Kabuuang dami ng pagpapakain';
+  String get totalFeedingAmount => 'Kabuuang dami ng pagpapasuso';
 
   @override
   String get averageFeedingAmount => 'Average na dami ng pagkain';
@@ -2449,7 +2449,8 @@ class AppLocalizationsTl extends AppLocalizations {
       'Araw-araw na karaniwang pagpapalit ng lampin';
 
   @override
-  String get dailyAverageMedicationCount => 'Daily average medication count';
+  String get dailyAverageMedicationCount =>
+      'Araw-araw na karaniwang bilang ng gamot';
 
   @override
   String get medicationTypesUsed => 'Uri ng gamot na ginamit';
@@ -3046,4 +3047,20 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get minutesShort => 'm';
+
+  @override
+  String get totalFeedingDuration => 'Kabuuang tagal ng pagpapasuso';
+
+  @override
+  String get maximumFeedingAmount => 'Pinakamataas na dami ng pagpapasuso';
+
+  @override
+  String get minimumFeedingAmount => 'Pinakamababa na dami ng pagpapasuso';
+
+  @override
+  String get totalSleepDuration => 'Kabuuang tagal ng tulog';
+
+  @override
+  String get dailyTotalMilkPumpingAmount =>
+      'Araw-araw na kabuuang naipong dami';
 }

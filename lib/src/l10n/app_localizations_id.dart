@@ -1990,7 +1990,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get solidFoodTime => 'Makanan padat';
 
   @override
-  String get totalFeedingAmount => 'Total jumlah pemberian makan';
+  String get totalFeedingAmount => 'Total jumlah menyusui';
 
   @override
   String get averageFeedingAmount => 'Jumlah rata-rata pemberian makan';
@@ -2441,7 +2441,7 @@ class AppLocalizationsId extends AppLocalizations {
       'Rata-rata perubahan popok harian';
 
   @override
-  String get dailyAverageMedicationCount => 'Daily average medication count';
+  String get dailyAverageMedicationCount => 'Rata-rata jumlah obat harian';
 
   @override
   String get medicationTypesUsed => 'Jenis obat yang digunakan';
@@ -3033,4 +3033,19 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get minutesShort => 'm';
+
+  @override
+  String get totalFeedingDuration => 'Total durasi menyusui';
+
+  @override
+  String get maximumFeedingAmount => 'Jumlah menyusui maksimum';
+
+  @override
+  String get minimumFeedingAmount => 'Jumlah menyusui minimum';
+
+  @override
+  String get totalSleepDuration => 'Total durasi tidur';
+
+  @override
+  String get dailyTotalMilkPumpingAmount => 'Total jumlah harian yang dipompa';
 }

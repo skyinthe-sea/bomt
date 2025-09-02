@@ -1997,7 +1997,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get solidFoodTime => 'Feste Nahrung';
 
   @override
-  String get totalFeedingAmount => 'Gesamte Fütterungsmenge';
+  String get totalFeedingAmount => 'Gesamtstillmenge';
 
   @override
   String get averageFeedingAmount => 'Durchschnittliche Fütterungsmenge';
@@ -2454,7 +2454,8 @@ class AppLocalizationsDe extends AppLocalizations {
       'Tägliche durchschnittliche Windelwechsel';
 
   @override
-  String get dailyAverageMedicationCount => 'Daily average medication count';
+  String get dailyAverageMedicationCount =>
+      'Tägliche durchschnittliche Medikamentenanzahl';
 
   @override
   String get medicationTypesUsed => 'Verwendete Medikamentenarten';
@@ -3052,4 +3053,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get minutesShort => 'm';
+
+  @override
+  String get totalFeedingDuration => 'Gesamtstillzeit';
+
+  @override
+  String get maximumFeedingAmount => 'Maximale Stillmenge';
+
+  @override
+  String get minimumFeedingAmount => 'Minimale Stillmenge';
+
+  @override
+  String get totalSleepDuration => 'Gesamtschlafdauer';
+
+  @override
+  String get dailyTotalMilkPumpingAmount => 'Tägliche Gesamtabpumpmenge';
 }
