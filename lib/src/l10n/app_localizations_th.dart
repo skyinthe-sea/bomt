@@ -422,7 +422,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get growthRecordFailed => 'Failed to save growth record';
 
   @override
-  String get weightUnit => 'kg';
+  String get weightUnit => 'กก.';
 
   @override
   String get heightUnit => 'cm';
@@ -1015,13 +1015,13 @@ class AppLocalizationsTh extends AppLocalizations {
   String get centimeters => 'cm';
 
   @override
-  String get milliliters => 'ml';
+  String get milliliters => 'มล.';
 
   @override
   String get grams => 'g';
 
   @override
-  String get hoursUnit => 'hours';
+  String get hoursUnit => 'ชั่วโมง';
 
   @override
   String get minutesUnit => 'minutes';

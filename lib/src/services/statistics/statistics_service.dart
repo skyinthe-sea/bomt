@@ -297,9 +297,9 @@ class StatisticsService {
       metrics: [
         StatisticsMetric(label: '총 수유량', value: totalAmount.toDouble(), unit: 'ml'),
         StatisticsMetric(label: '평균 수유량', value: avgAmount, unit: 'ml'),
-        StatisticsMetric(label: '총 수유 시간', value: totalDuration.toDouble(), unit: '분'),
-        StatisticsMetric(label: '평균 수유 시간', value: avgDuration, unit: '분'),
-        StatisticsMetric(label: '하루 평균 수유 횟수', value: avgPerDay, unit: '회'),
+        StatisticsMetric(label: '총 수유 시간', value: totalDuration.toDouble(), unit: 'minutes'),
+        StatisticsMetric(label: '평균 수유 시간', value: avgDuration, unit: 'minutes'),
+        StatisticsMetric(label: '하루 평균 수유 횟수', value: avgPerDay, unit: 'times'),
         StatisticsMetric(label: '최대 수유량', value: maxAmount, unit: 'ml'),
         StatisticsMetric(label: '최소 수유량', value: minAmount, unit: 'ml'),
       ],
@@ -390,12 +390,12 @@ class StatisticsService {
       cardName: '수면',
       totalCount: sleeps.length,
       metrics: [
-        StatisticsMetric(label: '총 수면 시간', value: totalDuration.toDouble(), unit: '분'),
-        StatisticsMetric(label: '평균 수면 시간', value: avgDuration, unit: '분'),
-        StatisticsMetric(label: '하루 평균 수면 횟수', value: avgPerDay, unit: '회'),
-        StatisticsMetric(label: '하루 평균 총 수면 시간', value: avgTotalSleepPerDay, unit: '분'),
-        StatisticsMetric(label: '최대 수면 시간', value: maxDuration, unit: '분'),
-        StatisticsMetric(label: '최소 수면 시간', value: minDuration, unit: '분'),
+        StatisticsMetric(label: '총 수면 시간', value: totalDuration.toDouble(), unit: 'minutes'),
+        StatisticsMetric(label: '평균 수면 시간', value: avgDuration, unit: 'minutes'),
+        StatisticsMetric(label: '하루 평균 수면 횟수', value: avgPerDay, unit: 'times'),
+        StatisticsMetric(label: '하루 평균 총 수면 시간', value: avgTotalSleepPerDay, unit: 'minutes'),
+        StatisticsMetric(label: '최대 수면 시간', value: maxDuration, unit: 'minutes'),
+        StatisticsMetric(label: '최소 수면 시간', value: minDuration, unit: 'minutes'),
       ],
       additionalData: {
         'sleepQualities': _groupByType(sleeps, (sleep) => sleep.quality ?? 'unknown'),
@@ -448,10 +448,10 @@ class StatisticsService {
       cardName: '기저귀',
       totalCount: diapers.length,
       metrics: [
-        StatisticsMetric(label: '하루 평균 교체 횟수', value: avgPerDay, unit: '회'),
-        StatisticsMetric(label: '소변 기저귀', value: wetDiapers.toDouble(), unit: '회'),
-        StatisticsMetric(label: '대변 기저귀', value: dirtyDiapers.toDouble(), unit: '회'),
-        StatisticsMetric(label: '소변+대변 기저귀', value: bothDiapers.toDouble(), unit: '회'),
+        StatisticsMetric(label: '하루 평균 교체 횟수', value: avgPerDay, unit: 'times'),
+        StatisticsMetric(label: '소변 기저귀', value: wetDiapers.toDouble(), unit: 'times'),
+        StatisticsMetric(label: '대변 기저귀', value: dirtyDiapers.toDouble(), unit: 'times'),
+        StatisticsMetric(label: '소변+대변 기저귀', value: bothDiapers.toDouble(), unit: 'times'),
       ],
       additionalData: {
         'diaperTypes': _groupByType(diapers, (diaper) => diaper.type),
@@ -518,8 +518,8 @@ class StatisticsService {
       cardName: '투약',
       totalCount: medications.length,
       metrics: [
-        StatisticsMetric(label: '하루 평균 투약 횟수', value: avgPerDay, unit: '회'),
-        StatisticsMetric(label: '사용한 약물 종류', value: medicationsByName.length.toDouble(), unit: '종'),
+        StatisticsMetric(label: '하루 평균 투약 횟수', value: avgPerDay, unit: 'times'),
+        StatisticsMetric(label: '사용한 약물 종류', value: medicationsByName.length.toDouble(), unit: 'types'),
       ],
       additionalData: {
         'medicationsByName': medicationsByName,
@@ -580,7 +580,7 @@ class StatisticsService {
       metrics: [
         StatisticsMetric(label: '총 유축량', value: totalAmount.toDouble(), unit: 'ml'),
         StatisticsMetric(label: '평균 유축량', value: avgAmount, unit: 'ml'),
-        StatisticsMetric(label: '하루 평균 유축 횟수', value: avgPerDay, unit: '회'),
+        StatisticsMetric(label: '하루 평균 유축 횟수', value: avgPerDay, unit: 'times'),
         StatisticsMetric(label: '하루 평균 총 유축량', value: avgTotalAmountPerDay, unit: 'ml'),
       ],
     );
@@ -630,9 +630,9 @@ class StatisticsService {
       cardName: '이유식',
       totalCount: solidFoods.length,
       metrics: [
-        StatisticsMetric(label: '하루 평균 이유식 횟수', value: avgPerDay, unit: '회'),
-        StatisticsMetric(label: '시도한 음식 종류', value: foodsByName.length.toDouble(), unit: '종'),
-        StatisticsMetric(label: '알레르기 반응 횟수', value: allergicReactions.toDouble(), unit: '회'),
+        StatisticsMetric(label: '하루 평균 이유식 횟수', value: avgPerDay, unit: 'times'),
+        StatisticsMetric(label: '시도한 음식 종류', value: foodsByName.length.toDouble(), unit: 'types'),
+        StatisticsMetric(label: '알레르기 반응 횟수', value: allergicReactions.toDouble(), unit: 'times'),
       ],
       additionalData: {
         'foodsByName': foodsByName,
@@ -986,29 +986,29 @@ class StatisticsService {
     switch (cardType) {
       case 'feeding':
         switch (metricType) {
-          case 'count': return '회';
+          case 'count': return 'times';
           case 'amount': return 'ml';
-          case 'duration': return '분';
+          case 'duration': return 'minutes';
           default: return '';
         }
       case 'sleep':
         switch (metricType) {
-          case 'count': return '회';
-          case 'duration': return '분';
+          case 'count': return 'times';
+          case 'duration': return 'minutes';
           default: return '';
         }
       case 'diaper':
-        return '회';
+        return 'times';
       case 'medication':
-        return '회';
+        return 'times';
       case 'milk_pumping':
         switch (metricType) {
-          case 'count': return '회';
+          case 'count': return 'times';
           case 'amount': return 'ml';
           default: return '';
         }
       case 'solid_food':
-        return '회';
+        return 'times';
       default:
         debugPrint('📈 [CHART_UNIT] ⚠️  Unknown card type: $cardType');
         return '';

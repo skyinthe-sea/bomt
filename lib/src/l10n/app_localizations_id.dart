@@ -1021,7 +1021,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get grams => 'g';
 
   @override
-  String get hoursUnit => 'hours';
+  String get hoursUnit => 'jam';
 
   @override
   String get minutesUnit => 'minutes';

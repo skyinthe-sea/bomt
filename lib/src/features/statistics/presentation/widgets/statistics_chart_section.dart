@@ -643,17 +643,20 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
   String _getTranslatedUnit(BuildContext context, String originalUnit) {
     final l10n = AppLocalizations.of(context)!;
     
-    // 기존 한국어 단위를 i18n으로 변환
+    // 기존 한국어 단위 및 영어 단위를 i18n으로 변환
     switch (originalUnit) {
       case '회':
+      case 'times':
         return l10n.timesUnit;
       case 'ml':
         return l10n.milliliters;
       case '분':
+      case 'minutes':
         return l10n.minutesUnit;
       case '시간':
         return l10n.hoursUnit;
       case '개':
+      case 'types':
         return l10n.itemsUnit;
       case 'kg':
         return l10n.weightUnit;

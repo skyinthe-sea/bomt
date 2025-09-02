@@ -422,7 +422,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get growthRecordFailed => 'Failed to save growth record';
 
   @override
-  String get weightUnit => 'kg';
+  String get weightUnit => 'किग्रा';
 
   @override
   String get heightUnit => 'cm';

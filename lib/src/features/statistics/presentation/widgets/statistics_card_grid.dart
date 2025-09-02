@@ -285,7 +285,7 @@ class _StatisticsCard extends StatelessWidget {
           ),
         ),
         Text(
-          metric.valueWithUnit,
+          _getTranslatedValueWithUnit(context, metric),
           style: theme.textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w600,
             color: theme.colorScheme.onSurface,
@@ -520,6 +520,41 @@ class _StatisticsCard extends StatelessWidget {
         return cardType; // fallback to cardType if no translation found
     }
   }
+
+  /// 값과 단위를 번역하여 결합한 문자열 반환
+  String _getTranslatedValueWithUnit(BuildContext context, StatisticsMetric metric) {
+    final translatedUnit = _getTranslatedUnit(context, metric.unit);
+    return '${metric.formattedValue}$translatedUnit';
+  }
+
+  /// 단위를 번역하여 반환
+  String _getTranslatedUnit(BuildContext context, String originalUnit) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    switch (originalUnit) {
+      case '회':
+      case 'times':
+        return l10n.timesUnit;
+      case 'ml':
+        return l10n.milliliters;
+      case '분':
+      case 'minutes':
+        return l10n.minutesUnit;
+      case '시간':
+        return l10n.hoursUnit;
+      case '개':
+      case 'types':
+        return l10n.itemsUnit;
+      case 'kg':
+        return l10n.weightUnit;
+      case 'cm':
+        return l10n.heightUnit;
+      case '°C':
+        return l10n.temperatureUnit;
+      default:
+        return originalUnit;
+    }
+  }
 }
 
 class _StatisticsDetailDialog extends StatelessWidget {
@@ -647,7 +682,7 @@ class _StatisticsDetailDialog extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            metric.valueWithUnit,
+                            _getTranslatedValueWithUnit(context, metric),
                             style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: cardColor,
@@ -813,6 +848,41 @@ class _StatisticsDetailDialog extends StatelessWidget {
       
       default:
         return originalLabel;
+    }
+  }
+
+  /// 값과 단위를 번역하여 결합한 문자열 반환
+  String _getTranslatedValueWithUnit(BuildContext context, StatisticsMetric metric) {
+    final translatedUnit = _getTranslatedUnit(context, metric.unit);
+    return '${metric.formattedValue}$translatedUnit';
+  }
+
+  /// 단위를 번역하여 반환
+  String _getTranslatedUnit(BuildContext context, String originalUnit) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    switch (originalUnit) {
+      case '회':
+      case 'times':
+        return l10n.timesUnit;
+      case 'ml':
+        return l10n.milliliters;
+      case '분':
+      case 'minutes':
+        return l10n.minutesUnit;
+      case '시간':
+        return l10n.hoursUnit;
+      case '개':
+      case 'types':
+        return l10n.itemsUnit;
+      case 'kg':
+        return l10n.weightUnit;
+      case 'cm':
+        return l10n.heightUnit;
+      case '°C':
+        return l10n.temperatureUnit;
+      default:
+        return originalUnit;
     }
   }
 }

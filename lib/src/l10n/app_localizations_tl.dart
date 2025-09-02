@@ -1022,7 +1022,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get grams => 'g';
 
   @override
-  String get hoursUnit => 'hours';
+  String get hoursUnit => 'mga oras';
 
   @override
   String get minutesUnit => 'minutes';
