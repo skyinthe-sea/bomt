@@ -2091,5 +2091,22 @@
   "colorWhenPoop": "Color (When Poop)",
 
   "minutes": "min",
-  "minutesShort": "m"
+  "minutesShort": "m",
+
+  "dailyFeedingCount": "Daily feeding count",
+  "dailyDiaperChangeCount": "Daily diaper changes",
+  "dailyMedicationCount": "Daily medication count",
+
+  "dailySleepCount": "Daily sleep count",
+  "dailySolidFoodCount": "Daily solid food count",
+  "dailyMilkPumpingCount": "Daily pumping count",
+
+  "averageFeedingDuration": "Average feeding duration",
+  "averageSleepDuration": "Average sleep duration",
+  "dailyAverageDiaperChangeCount": "Daily average diaper changes",
+  "medicationTypesUsed": "Types of medication used",
+  "totalPumpedAmount": "Total pumped amount",
+  "averagePumpedAmount": "Average pumped amount",
+  "dailyAverageSolidFoodCount": "Daily average solid food count",
+  "triedFoodTypes": "Types of food tried"
 }

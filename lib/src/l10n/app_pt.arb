@@ -1004,5 +1004,23 @@
   "colorWhenPoop": "Cor (Ao Fazer Cocô)",
 
   "minutes": "min",
-  "minutesShort": "m"
+  "minutesShort": "m",
+
+  "dailyFeedingCount": "Contagem diária de alimentação",
+  "dailyDiaperChangeCount": "Trocas diárias de fralda",
+  "dailyMedicationCount": "Contagem diária de medicação",
+  "averageLabel": "Média: ",
+
+  "dailySleepCount": "Contagem diária de sono",
+  "dailySolidFoodCount": "Contagem diária de alimentos sólidos",
+  "dailyMilkPumpingCount": "Contagem diária de ordenha",
+
+  "averageFeedingDuration": "Duração média de alimentação",
+  "averageSleepDuration": "Duração média do sono",
+  "dailyAverageDiaperChangeCount": "Trocas médias diárias de fralda",
+  "medicationTypesUsed": "Tipos de medicação utilizados",
+  "totalPumpedAmount": "Quantidade total ordenhada",
+  "averagePumpedAmount": "Quantidade média ordenhada",
+  "dailyAverageSolidFoodCount": "Contagem média diária de alimentos sólidos",
+  "triedFoodTypes": "Tipos de alimentos testados"
 }

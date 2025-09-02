@@ -936,5 +936,23 @@
   "colorWhenPoop": "Color (Al Hacer Caca)",
 
   "minutes": "min",
-  "minutesShort": "m"
+  "minutesShort": "m",
+
+  "dailyFeedingCount": "Conteo diario de alimentación",
+  "dailyDiaperChangeCount": "Cambios diarios de pañal",
+  "dailyMedicationCount": "Conteo diario de medicación",
+  "averageLabel": "Promedio: ",
+
+  "dailySleepCount": "Conteo diario de sueño",
+  "dailySolidFoodCount": "Conteo diario de comida sólida",
+  "dailyMilkPumpingCount": "Conteo diario de extracción",
+
+  "averageFeedingDuration": "Duración promedio de alimentación",
+  "averageSleepDuration": "Duración promedio de sueño",
+  "dailyAverageDiaperChangeCount": "Cambios promedio diarios de pañal",
+  "medicationTypesUsed": "Tipos de medicación utilizados",
+  "totalPumpedAmount": "Cantidad total extraída",
+  "averagePumpedAmount": "Cantidad promedio extraída",
+  "dailyAverageSolidFoodCount": "Conteo promedio diario de comida sólida",
+  "triedFoodTypes": "Tipos de comida probados"
 }

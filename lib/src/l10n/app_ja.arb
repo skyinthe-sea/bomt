@@ -1176,5 +1176,23 @@
   "colorWhenPoop": "色（うんちの時）",
 
   "minutes": "分",
-  "minutesShort": "分"
+  "minutesShort": "分",
+
+  "dailyFeedingCount": "日別授乳回数",
+  "dailyDiaperChangeCount": "日別おむつ交換回数",
+  "dailyMedicationCount": "日別投薬回数",
+  "averageLabel": "平均: ",
+
+  "dailySleepCount": "日別睡眠回数",
+  "dailySolidFoodCount": "日別離乳食回数",
+  "dailyMilkPumpingCount": "日別搭乳回数",
+
+  "averageFeedingDuration": "平均授乳時間",
+  "averageSleepDuration": "平均睡眠時間",
+  "dailyAverageDiaperChangeCount": "日別平均おむつ交換回数",
+  "medicationTypesUsed": "使用薬物種類",
+  "totalPumpedAmount": "総搾乳量",
+  "averagePumpedAmount": "平均搾乳量",
+  "dailyAverageSolidFoodCount": "日別平均離乳食回数",
+  "triedFoodTypes": "試行食品種類"
 }

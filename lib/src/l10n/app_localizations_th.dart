@@ -2423,29 +2423,28 @@ class AppLocalizationsTh extends AppLocalizations {
   String get feedingAlarmChannelDescription => 'การแจ้งเตือนเวลาให้นมลูก';
 
   @override
-  String get averageFeedingDuration => 'ระยะเวลาให้นมเฉลี่ย';
+  String get averageFeedingDuration => 'ระยะเวลาการให้นมเฉลี่ย';
 
   @override
-  String get averageSleepDuration => 'ระยะเวลานอนเฉลี่ย';
+  String get averageSleepDuration => 'ระยะเวลาการนอนเฉลี่ย';
 
   @override
   String get dailyTotalSleepDuration => 'ระยะเวลานอนรวมต่อวัน';
 
   @override
-  String get dailyAverageDiaperChangeCount =>
-      'จำนวนครั้งการเปลี่ยนผ้าอ้อมเฉลี่ยต่อวัน';
+  String get dailyAverageDiaperChangeCount => 'การเปลี่ยนผ้าอ้อมเฉลี่ยรายวัน';
 
   @override
   String get dailyAverageMedicationCount => 'จำนวนครั้งการให้ยาเฉลี่ยต่อวัน';
 
   @override
-  String get medicationTypesUsed => 'ประเภทยาที่ใช้';
+  String get medicationTypesUsed => 'ประเภทของยาที่ใช้';
 
   @override
-  String get totalPumpedAmount => 'ปริมาณนมปั๊มรวม';
+  String get totalPumpedAmount => 'ปริมาณนมที่ปั้มทั้งหมด';
 
   @override
-  String get averagePumpedAmount => 'ปริมาณนมปั๊มเฉลี่ย';
+  String get averagePumpedAmount => 'ปริมาณนมที่ปั้มเฉลี่ย';
 
   @override
   String get countTab => 'จำนวนครั้ง';
@@ -2486,7 +2485,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get dailyFeedingDuration => 'ระยะเวลาให้นมต่อวัน';
 
   @override
-  String get dailySleepCount => 'จำนวนครั้งการนอนต่อวัน';
+  String get dailySleepCount => 'จำนวนการนอนรายวัน';
 
   @override
   String get dailySleepDuration => 'ระยะเวลานอนต่อวัน';
@@ -2498,20 +2497,19 @@ class AppLocalizationsTh extends AppLocalizations {
   String get dailyMedicationCount => 'จำนวนครั้งการให้ยาต่อวัน';
 
   @override
-  String get dailyMilkPumpingCount => 'จำนวนครั้งการปั๊มนมต่อวัน';
+  String get dailyMilkPumpingCount => 'จำนวนการปั้มนมรายวัน';
 
   @override
   String get dailyMilkPumpingAmount => 'ปริมาณนมปั๊มต่อวัน';
 
   @override
-  String get dailySolidFoodCount => 'จำนวนครั้งการให้อาหารแข็งต่อวัน';
+  String get dailySolidFoodCount => 'จำนวนอาหารแข็งรายวัน';
 
   @override
-  String get dailyAverageSolidFoodCount =>
-      'จำนวนครั้งการให้อาหารแข็งเฉลี่ยต่อวัน';
+  String get dailyAverageSolidFoodCount => 'จำนวนอาหารแข็งเฉลี่ยรายวัน';
 
   @override
-  String get triedFoodTypes => 'ประเภทอาหารที่ลอง';
+  String get triedFoodTypes => 'ประเภทของอาหารที่ลองแล้ว';
 
   @override
   String babyTemperatureRecord(String name) {

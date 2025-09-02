@@ -936,5 +936,23 @@
   "colorWhenPoop": "Kulay (Kapag Tumatae)",
 
   "minutes": "min",
-  "minutesShort": "m"
+  "minutesShort": "m",
+
+  "dailyFeedingCount": "Araw-araw na bilang ng pagpapasuso",
+  "dailyDiaperChangeCount": "Araw-araw na pagpapalit ng lampin",
+  "dailyMedicationCount": "Araw-araw na bilang ng gamot",
+  "averageLabel": "Karaniwang: ",
+
+  "dailySleepCount": "Araw-araw na bilang ng tulog",
+  "dailySolidFoodCount": "Araw-araw na bilang ng solid na pagkain",
+  "dailyMilkPumpingCount": "Araw-araw na bilang ng pagbomba",
+
+  "averageFeedingDuration": "Karaniwang tagal ng pagpapasuso",
+  "averageSleepDuration": "Karaniwang tagal ng tulog",
+  "dailyAverageDiaperChangeCount": "Araw-araw na karaniwang pagpapalit ng lampin",
+  "medicationTypesUsed": "Uri ng gamot na ginamit",
+  "totalPumpedAmount": "Kabuuang naipong dami",
+  "averagePumpedAmount": "Karaniwang naipong dami",
+  "dailyAverageSolidFoodCount": "Araw-araw na karaniwang bilang ng solid na pagkain",
+  "triedFoodTypes": "Uri ng pagkaing nasubukan"
 }

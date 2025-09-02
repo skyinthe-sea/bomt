@@ -936,5 +936,23 @@
   "colorWhenPoop": "Цвет (При Дефекации)",
 
   "minutes": "мин",
-  "minutesShort": "м"
+  "minutesShort": "м",
+
+  "dailyFeedingCount": "Ежедневное количество кормлений",
+  "dailyDiaperChangeCount": "Ежедневная смена подгузников",
+  "dailyMedicationCount": "Ежедневное количество лекарств",
+  "averageLabel": "Среднее: ",
+
+  "dailySleepCount": "Ежедневное количество сна",
+  "dailySolidFoodCount": "Ежедневное количество твердой пищи",
+  "dailyMilkPumpingCount": "Ежедневное количество сцеживаний",
+
+  "averageFeedingDuration": "Средняя продолжительность кормления",
+  "averageSleepDuration": "Средняя продолжительность сна",
+  "dailyAverageDiaperChangeCount": "Ежедневная средняя смена подгузников",
+  "medicationTypesUsed": "Типы используемых лекарств",
+  "totalPumpedAmount": "Общее количество сцеженного",
+  "averagePumpedAmount": "Среднее количество сцеженного",
+  "dailyAverageSolidFoodCount": "Ежедневное среднее количество твердой пищи",
+  "triedFoodTypes": "Типы пробованной пищи"
 }

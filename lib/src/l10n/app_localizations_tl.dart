@@ -2436,28 +2436,29 @@ class AppLocalizationsTl extends AppLocalizations {
       'Feeding time reminder notifications';
 
   @override
-  String get averageFeedingDuration => 'Average feeding duration';
+  String get averageFeedingDuration => 'Karaniwang tagal ng pagpapasuso';
 
   @override
-  String get averageSleepDuration => 'Average sleep duration';
+  String get averageSleepDuration => 'Karaniwang tagal ng tulog';
 
   @override
   String get dailyTotalSleepDuration => 'Daily total sleep duration';
 
   @override
-  String get dailyAverageDiaperChangeCount => 'Daily average diaper changes';
+  String get dailyAverageDiaperChangeCount =>
+      'Araw-araw na karaniwang pagpapalit ng lampin';
 
   @override
   String get dailyAverageMedicationCount => 'Daily average medication count';
 
   @override
-  String get medicationTypesUsed => 'Types of medication used';
+  String get medicationTypesUsed => 'Uri ng gamot na ginamit';
 
   @override
-  String get totalPumpedAmount => 'Total pumped amount';
+  String get totalPumpedAmount => 'Kabuuang naipong dami';
 
   @override
-  String get averagePumpedAmount => 'Average pumped amount';
+  String get averagePumpedAmount => 'Karaniwang naipong dami';
 
   @override
   String get countTab => 'Count';
@@ -2475,7 +2476,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get chartDataNotAvailable => 'Chart data not available.';
 
   @override
-  String get averageLabel => 'Average: ';
+  String get averageLabel => 'Karaniwang: ';
 
   @override
   String get dailyFeedingCountTitle => 'Daily feeding count';
@@ -2489,7 +2490,7 @@ class AppLocalizationsTl extends AppLocalizations {
   }
 
   @override
-  String get dailyFeedingCount => 'Daily feeding count';
+  String get dailyFeedingCount => 'Araw-araw na bilang ng pagpapasuso';
 
   @override
   String get dailyFeedingAmount => 'Daily feeding amount';
@@ -2498,31 +2499,32 @@ class AppLocalizationsTl extends AppLocalizations {
   String get dailyFeedingDuration => 'Daily feeding duration';
 
   @override
-  String get dailySleepCount => 'Daily sleep count';
+  String get dailySleepCount => 'Araw-araw na bilang ng tulog';
 
   @override
   String get dailySleepDuration => 'Daily sleep duration';
 
   @override
-  String get dailyDiaperChangeCount => 'Daily diaper changes';
+  String get dailyDiaperChangeCount => 'Araw-araw na pagpapalit ng lampin';
 
   @override
-  String get dailyMedicationCount => 'Daily medication count';
+  String get dailyMedicationCount => 'Araw-araw na bilang ng gamot';
 
   @override
-  String get dailyMilkPumpingCount => 'Daily pumping count';
+  String get dailyMilkPumpingCount => 'Araw-araw na bilang ng pagbomba';
 
   @override
   String get dailyMilkPumpingAmount => 'Daily pumping amount';
 
   @override
-  String get dailySolidFoodCount => 'Daily solid food count';
+  String get dailySolidFoodCount => 'Araw-araw na bilang ng solid na pagkain';
 
   @override
-  String get dailyAverageSolidFoodCount => 'Daily average solid food count';
+  String get dailyAverageSolidFoodCount =>
+      'Araw-araw na karaniwang bilang ng solid na pagkain';
 
   @override
-  String get triedFoodTypes => 'Types of food tried';
+  String get triedFoodTypes => 'Uri ng pagkaing nasubukan';
 
   @override
   String babyTemperatureRecord(String name) {

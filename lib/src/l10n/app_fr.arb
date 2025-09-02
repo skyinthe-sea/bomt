@@ -1004,5 +1004,23 @@
   "colorWhenPoop": "Couleur (Lors du Caca)",
 
   "minutes": "min",
-  "minutesShort": "m"
+  "minutesShort": "m",
+
+  "dailyFeedingCount": "Nombre quotidien d'alimentation",
+  "dailyDiaperChangeCount": "Changements quotidiens de couche",
+  "dailyMedicationCount": "Nombre quotidien de médicaments",
+  "averageLabel": "Moyenne: ",
+
+  "dailySleepCount": "Nombre quotidien de sommeil",
+  "dailySolidFoodCount": "Nombre quotidien d'aliments solides",
+  "dailyMilkPumpingCount": "Nombre quotidien d'extractions",
+
+  "averageFeedingDuration": "Durée moyenne d'alimentation",
+  "averageSleepDuration": "Durée moyenne de sommeil",
+  "dailyAverageDiaperChangeCount": "Changements moyens quotidiens de couche",
+  "medicationTypesUsed": "Types de médicaments utilisés",
+  "totalPumpedAmount": "Quantité totale tirée",
+  "averagePumpedAmount": "Quantité moyenne tirée",
+  "dailyAverageSolidFoodCount": "Nombre moyen quotidien d'aliments solides",
+  "triedFoodTypes": "Types d'aliments essayés"
 }

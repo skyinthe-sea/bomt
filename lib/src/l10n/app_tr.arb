@@ -936,5 +936,23 @@
   "colorWhenPoop": "Renk (Kaka Yaparken)",
 
   "minutes": "dk",
-  "minutesShort": "d"
+  "minutesShort": "d",
+
+  "dailyFeedingCount": "Günlük emzirme sayısı",
+  "dailyDiaperChangeCount": "Günlük bez değişimi",
+  "dailyMedicationCount": "Günlük ilaç sayısı",
+  "averageLabel": "Ortalama: ",
+
+  "dailySleepCount": "Günlük uyku sayısı",
+  "dailySolidFoodCount": "Günlük katı gıda sayısı",
+  "dailyMilkPumpingCount": "Günlük pompalama sayısı",
+
+  "averageFeedingDuration": "Ortalama emzirme süresi",
+  "averageSleepDuration": "Ortalama uyku süresi",
+  "dailyAverageDiaperChangeCount": "Günlük ortalama bez değişimi",
+  "medicationTypesUsed": "Kullanılan ilaç türleri",
+  "totalPumpedAmount": "Toplam pompalanan miktar",
+  "averagePumpedAmount": "Ortalama pompalanan miktar",
+  "dailyAverageSolidFoodCount": "Günlük ortalama katı gıda sayısı",
+  "triedFoodTypes": "Denenen yiyecek türleri"
 }

@@ -321,7 +321,7 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
                 ),
               ),
               Text(
-                '${l10n.averageLabel}${chartData.averageValue.toStringAsFixed(1)}${chartData.unit}',
+                '${l10n.averageLabel}${chartData.averageValue.toStringAsFixed(1)}${_getTranslatedUnit(context, chartData.unit)}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: cardColor,
                   fontWeight: FontWeight.w500,
@@ -455,11 +455,11 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
     
     switch (dateRangeType) {
       case StatisticsDateRangeType.weekly:
-        // 주간: 요일 + 날짜 (예: "Mon1", "Tue2")
+        // 주간: 요일만 (예: "Mon", "Tue")
         final weekdaysString = l10n.weekdaysSundayToSaturday;
         final weekdays = _parseWeekdays(weekdaysString);
         final weekday = weekdays[date.weekday % 7];
-        return '$weekday${date.day}';
+        return weekday;
         
       case StatisticsDateRangeType.monthly:
         // 월간: 날짜만 (예: "1", "15", "30")
@@ -565,9 +565,9 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
   String _getTranslatedChartTitle(BuildContext context, String originalTitle) {
     final l10n = AppLocalizations.of(context)!;
     
-    // 기존 한국어 차트 제목을 i18n으로 변환
+    // 기존 한국어와 영어 차트 제목을 i18n으로 변환
     switch (originalTitle) {
-      // 수유 차트
+      // 수유 차트 (한국어)
       case '일별 수유 횟수':
         return l10n.dailyFeedingCount;
       case '일별 수유량':
@@ -575,33 +575,95 @@ class _StatisticsChartCardState extends State<_StatisticsChartCard> {
       case '일별 수유 시간':
         return l10n.dailyFeedingDuration;
       
-      // 수면 차트
+      // 수유 차트 (영어)
+      case 'Daily feeding count':
+        return l10n.dailyFeedingCount;
+      case 'Daily feeding amount':
+        return l10n.dailyFeedingAmount;
+      case 'Daily feeding duration':
+        return l10n.dailyFeedingDuration;
+      
+      // 수면 차트 (한국어)
       case '일별 수면 횟수':
         return l10n.dailySleepCount;
       case '일별 수면 시간':
         return l10n.dailySleepDuration;
       
-      // 기저귀 차트
+      // 수면 차트 (영어)
+      case 'Daily sleep count':
+        return l10n.dailySleepCount;
+      case 'Daily sleep duration':
+        return l10n.dailySleepDuration;
+      
+      // 기저귀 차트 (한국어)
       case '일별 기저귀 교체 횟수':
         return l10n.dailyDiaperChangeCount;
       
-      // 투약 차트
+      // 기저귀 차트 (영어)
+      case 'Daily diaper changes':
+      case 'Daily diaper change count':
+        return l10n.dailyDiaperChangeCount;
+      
+      // 투약 차트 (한국어)
       case '일별 투약 횟수':
         return l10n.dailyMedicationCount;
       
-      // 유축 차트
+      // 투약 차트 (영어)
+      case 'Daily medication count':
+        return l10n.dailyMedicationCount;
+      
+      // 유축 차트 (한국어)
       case '일별 유축 횟수':
         return l10n.dailyMilkPumpingCount;
       case '일별 유축량':
         return l10n.dailyMilkPumpingAmount;
       
-      // 이유식 차트
+      // 유축 차트 (영어)
+      case 'Daily pumping count':
+      case 'Daily milk pumping count':
+        return l10n.dailyMilkPumpingCount;
+      case 'Daily pumping amount':
+      case 'Daily milk pumping amount':
+        return l10n.dailyMilkPumpingAmount;
+      
+      // 이유식 차트 (한국어)
       case '일별 이유식 횟수':
+        return l10n.dailySolidFoodCount;
+      
+      // 이유식 차트 (영어)
+      case 'Daily solid food count':
         return l10n.dailySolidFoodCount;
       
       // 기본값: 원래 제목 반환 (번역이 없는 경우)
       default:
         return originalTitle;
+    }
+  }
+  
+  String _getTranslatedUnit(BuildContext context, String originalUnit) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    // 기존 한국어 단위를 i18n으로 변환
+    switch (originalUnit) {
+      case '회':
+        return l10n.timesUnit;
+      case 'ml':
+        return l10n.milliliters;
+      case '분':
+        return l10n.minutesUnit;
+      case '시간':
+        return l10n.hoursUnit;
+      case '개':
+        return l10n.itemsUnit;
+      case 'kg':
+        return l10n.weightUnit;
+      case 'cm':
+        return l10n.heightUnit;
+      case '°C':
+        return l10n.temperatureUnit;
+      // 기본값: 원래 단위 반환 (번역이 없는 경우)
+      default:
+        return originalUnit;
     }
   }
 }

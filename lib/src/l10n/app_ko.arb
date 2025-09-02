@@ -1245,5 +1245,23 @@
   "colorWhenPoop": "색상 (대변 시)",
 
   "minutes": "분",
-  "minutesShort": "분"
+  "minutesShort": "분",
+
+  "dailyFeedingCount": "일별 수유 횟수",
+  "dailyDiaperChangeCount": "일별 기저귀 교체 횟수",
+  "dailyMedicationCount": "일별 투약 횟수",
+  "averageLabel": "평균: ",
+
+  "dailySleepCount": "일별 수면 횟수",
+  "dailySolidFoodCount": "일별 이유식 횟수",
+  "dailyMilkPumpingCount": "일별 유축 횟수",
+
+  "averageFeedingDuration": "평균 수유 시간",
+  "averageSleepDuration": "평균 수면 시간",
+  "dailyAverageDiaperChangeCount": "하루 평균 교체 횟수",
+  "medicationTypesUsed": "사용한 약물 종류",
+  "totalPumpedAmount": "총 유축량",
+  "averagePumpedAmount": "평균 유축량",
+  "dailyAverageSolidFoodCount": "하루 평균 이유식 횟수",
+  "triedFoodTypes": "시도한 음식 종류"
 }

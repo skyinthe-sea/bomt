@@ -2428,28 +2428,29 @@ class AppLocalizationsRu extends AppLocalizations {
       'Feeding time reminder notifications';
 
   @override
-  String get averageFeedingDuration => 'Average feeding duration';
+  String get averageFeedingDuration => 'Средняя продолжительность кормления';
 
   @override
-  String get averageSleepDuration => 'Average sleep duration';
+  String get averageSleepDuration => 'Средняя продолжительность сна';
 
   @override
   String get dailyTotalSleepDuration => 'Daily total sleep duration';
 
   @override
-  String get dailyAverageDiaperChangeCount => 'Daily average diaper changes';
+  String get dailyAverageDiaperChangeCount =>
+      'Ежедневная средняя смена подгузников';
 
   @override
   String get dailyAverageMedicationCount => 'Daily average medication count';
 
   @override
-  String get medicationTypesUsed => 'Types of medication used';
+  String get medicationTypesUsed => 'Типы используемых лекарств';
 
   @override
-  String get totalPumpedAmount => 'Total pumped amount';
+  String get totalPumpedAmount => 'Общее количество сцеженного';
 
   @override
-  String get averagePumpedAmount => 'Average pumped amount';
+  String get averagePumpedAmount => 'Среднее количество сцеженного';
 
   @override
   String get countTab => 'Count';
@@ -2467,7 +2468,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get chartDataNotAvailable => 'Chart data not available.';
 
   @override
-  String get averageLabel => 'Average: ';
+  String get averageLabel => 'Среднее: ';
 
   @override
   String get dailyFeedingCountTitle => 'Daily feeding count';
@@ -2481,7 +2482,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get dailyFeedingCount => 'Daily feeding count';
+  String get dailyFeedingCount => 'Ежедневное количество кормлений';
 
   @override
   String get dailyFeedingAmount => 'Daily feeding amount';
@@ -2490,31 +2491,32 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dailyFeedingDuration => 'Daily feeding duration';
 
   @override
-  String get dailySleepCount => 'Daily sleep count';
+  String get dailySleepCount => 'Ежедневное количество сна';
 
   @override
   String get dailySleepDuration => 'Daily sleep duration';
 
   @override
-  String get dailyDiaperChangeCount => 'Daily diaper changes';
+  String get dailyDiaperChangeCount => 'Ежедневная смена подгузников';
 
   @override
-  String get dailyMedicationCount => 'Daily medication count';
+  String get dailyMedicationCount => 'Ежедневное количество лекарств';
 
   @override
-  String get dailyMilkPumpingCount => 'Daily pumping count';
+  String get dailyMilkPumpingCount => 'Ежедневное количество сцеживаний';
 
   @override
   String get dailyMilkPumpingAmount => 'Daily pumping amount';
 
   @override
-  String get dailySolidFoodCount => 'Daily solid food count';
+  String get dailySolidFoodCount => 'Ежедневное количество твердой пищи';
 
   @override
-  String get dailyAverageSolidFoodCount => 'Daily average solid food count';
+  String get dailyAverageSolidFoodCount =>
+      'Ежедневное среднее количество твердой пищи';
 
   @override
-  String get triedFoodTypes => 'Types of food tried';
+  String get triedFoodTypes => 'Типы пробованной пищи';
 
   @override
   String babyTemperatureRecord(String name) {

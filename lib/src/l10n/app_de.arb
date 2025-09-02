@@ -1004,5 +1004,23 @@
   "colorWhenPoop": "Farbe (Bei Stuhlgang)",
 
   "minutes": "Min",
-  "minutesShort": "m"
+  "minutesShort": "m",
+
+  "dailyFeedingCount": "Tägliche Stillanzahl",
+  "dailyDiaperChangeCount": "Tägliche Windelwechsel",
+  "dailyMedicationCount": "Tägliche Medikamentenanzahl",
+  "averageLabel": "Durchschnitt: ",
+
+  "dailySleepCount": "Tägliche Schlafanzahl",
+  "dailySolidFoodCount": "Tägliche Beikostanzahl",
+  "dailyMilkPumpingCount": "Tägliche Abpumpanzahl",
+
+  "averageFeedingDuration": "Durchschnittliche Stillzeit",
+  "averageSleepDuration": "Durchschnittliche Schlafdauer",
+  "dailyAverageDiaperChangeCount": "Tägliche durchschnittliche Windelwechsel",
+  "medicationTypesUsed": "Verwendete Medikamentenarten",
+  "totalPumpedAmount": "Gesamtmenge abgepumpt",
+  "averagePumpedAmount": "Durchschnittlich abgepumpte Menge",
+  "dailyAverageSolidFoodCount": "Tägliche durchschnittliche Beikostanzahl",
+  "triedFoodTypes": "Arten der probierten Nahrung"
 }

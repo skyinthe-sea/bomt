@@ -927,5 +927,23 @@
   "colorWhenPoop": "रंग (मल करते समय)",
 
   "minutes": "मिनट",
-  "minutesShort": "मिन"
+  "minutesShort": "मिन",
+
+  "dailyFeedingCount": "दैनिक फीडिंग संख्या",
+  "dailyDiaperChangeCount": "दैनिक डायपर परिवर्तन",
+  "dailyMedicationCount": "दैनिक दवा संख्या",
+  "averageLabel": "औसत: ",
+
+  "dailySleepCount": "दैनिक नींद संख्या",
+  "dailySolidFoodCount": "दैनिक ठोस भोजन संख्या",
+  "dailyMilkPumpingCount": "दैनिक पंपिंग संख्या",
+
+  "averageFeedingDuration": "औसत फीडिंग अवधि",
+  "averageSleepDuration": "औसत नींद अवधि",
+  "dailyAverageDiaperChangeCount": "दैनिक औसत डायपर परिवर्तन",
+  "medicationTypesUsed": "उपयोग की गई दवा के प्रकार",
+  "totalPumpedAmount": "कुल पंप की गई मात्रा",
+  "averagePumpedAmount": "औसत पंप की गई मात्रा",
+  "dailyAverageSolidFoodCount": "दैनिक औसत ठोस भोजन संख्या",
+  "triedFoodTypes": "आजमाए गए भोजन के प्रकार"
 }

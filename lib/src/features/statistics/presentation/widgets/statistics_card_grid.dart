@@ -299,9 +299,9 @@ class _StatisticsCard extends StatelessWidget {
   String _getTranslatedMetricLabel(BuildContext context, String originalLabel) {
     final l10n = AppLocalizations.of(context)!;
     
-    // 기존 한국어 라벨을 i18n으로 변환
+    // 기존 한국어와 영어 라벨을 i18n으로 변환
     switch (originalLabel) {
-      // 수유 관련
+      // 수유 관련 (한국어)
       case '평균 수유량':
         return l10n.averageFeedingAmount;
       case '평균 수유 시간':
@@ -309,7 +309,15 @@ class _StatisticsCard extends StatelessWidget {
       case '하루 평균 수유 횟수':
         return l10n.dailyAverageFeedingCount;
       
-      // 수면 관련
+      // 수유 관련 (영어)
+      case 'Average feeding amount':
+        return l10n.averageFeedingAmount;
+      case 'Average feeding duration':
+        return l10n.averageFeedingDuration;
+      case 'Daily average feeding count':
+        return l10n.dailyAverageFeedingCount;
+      
+      // 수면 관련 (한국어)
       case '평균 수면 시간':
         return l10n.averageSleepDuration;
       case '하루 평균 총 수면 시간':
@@ -317,26 +325,60 @@ class _StatisticsCard extends StatelessWidget {
       case '하루 평균 수면 횟수':
         return l10n.dailyAverageSleepCount;
       
-      // 기저귀 관련
+      // 수면 관련 (영어)
+      case 'Average sleep duration':
+        return l10n.averageSleepDuration;
+      case 'Daily total sleep duration':
+      case 'Daily average total sleep time':
+        return l10n.dailyTotalSleepDuration;
+      case 'Daily average sleep count':
+        return l10n.dailyAverageSleepCount;
+      
+      // 기저귀 관련 (한국어)
       case '하루 평균 교체 횟수':
         return l10n.dailyAverageDiaperChangeCount;
       
-      // 투약 관련
+      // 기저귀 관련 (영어)
+      case 'Daily average diaper change count':
+      case 'Daily average change count':
+        return l10n.dailyAverageDiaperChangeCount;
+      
+      // 투약 관련 (한국어)
       case '하루 평균 투약 횟수':
         return l10n.dailyAverageMedicationCount;
       case '사용한 약물 종류':
         return l10n.medicationTypesUsed;
       
-      // 유축 관련
+      // 투약 관련 (영어)
+      case 'Daily average medication count':
+        return l10n.dailyAverageMedicationCount;
+      case 'Types of medication used':
+      case 'Medication types used':
+        return l10n.medicationTypesUsed;
+      
+      // 유축 관련 (한국어)
       case '총 유축량':
         return l10n.totalPumpedAmount;
       case '평균 유축량':
         return l10n.averagePumpedAmount;
       
-      // 이유식 관련
+      // 유축 관련 (영어)
+      case 'Total pumped amount':
+        return l10n.totalPumpedAmount;
+      case 'Average pumped amount':
+        return l10n.averagePumpedAmount;
+      
+      // 이유식 관련 (한국어)
       case '하루 평균 이유식 횟수':
         return l10n.dailyAverageSolidFoodCount;
       case '시도한 음식 종류':
+        return l10n.triedFoodTypes;
+      
+      // 이유식 관련 (영어)
+      case 'Daily average solid food count':
+        return l10n.dailyAverageSolidFoodCount;
+      case 'Types of food tried':
+      case 'Tried food types':
         return l10n.triedFoodTypes;
       
       // 기본값: 원래 라벨 반환 (번역이 없는 경우)
@@ -675,32 +717,86 @@ class _StatisticsDetailDialog extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     
     switch (originalLabel) {
+      // 수유 관련 (한국어)
       case '평균 수유량':
         return l10n.averageFeedingAmount;
       case '평균 수유 시간':
         return l10n.averageFeedingDuration;
       case '하루 평균 수유 횟수':
         return l10n.dailyAverageFeedingCount;
+      
+      // 수유 관련 (영어)
+      case 'Average feeding amount':
+        return l10n.averageFeedingAmount;
+      case 'Average feeding duration':
+        return l10n.averageFeedingDuration;
+      case 'Daily average feeding count':
+        return l10n.dailyAverageFeedingCount;
+      
+      // 수면 관련 (한국어)
       case '평균 수면 시간':
         return l10n.averageSleepDuration;
       case '하루 평균 총 수면 시간':
         return l10n.dailyTotalSleepDuration;
       case '하루 평균 수면 횟수':
         return l10n.dailyAverageSleepCount;
+      
+      // 수면 관련 (영어)
+      case 'Average sleep duration':
+        return l10n.averageSleepDuration;
+      case 'Daily total sleep duration':
+      case 'Daily average total sleep time':
+        return l10n.dailyTotalSleepDuration;
+      case 'Daily average sleep count':
+        return l10n.dailyAverageSleepCount;
+      
+      // 기저귀 관련 (한국어)
       case '하루 평균 교체 횟수':
         return l10n.dailyAverageDiaperChangeCount;
+      
+      // 기저귀 관련 (영어)
+      case 'Daily average diaper change count':
+      case 'Daily average change count':
+        return l10n.dailyAverageDiaperChangeCount;
+      
+      // 투약 관련 (한국어)
       case '하루 평균 투약 횟수':
         return l10n.dailyAverageMedicationCount;
       case '사용한 약물 종류':
         return l10n.medicationTypesUsed;
+      
+      // 투약 관련 (영어)
+      case 'Daily average medication count':
+        return l10n.dailyAverageMedicationCount;
+      case 'Types of medication used':
+      case 'Medication types used':
+        return l10n.medicationTypesUsed;
+      
+      // 유축 관련 (한국어)
       case '총 유축량':
         return l10n.totalPumpedAmount;
       case '평균 유축량':
         return l10n.averagePumpedAmount;
+      
+      // 유축 관련 (영어)
+      case 'Total pumped amount':
+        return l10n.totalPumpedAmount;
+      case 'Average pumped amount':
+        return l10n.averagePumpedAmount;
+      
+      // 이유식 관련 (한국어)
       case '하루 평균 이유식 횟수':
         return l10n.dailyAverageSolidFoodCount;
       case '시도한 음식 종류':
         return l10n.triedFoodTypes;
+      
+      // 이유식 관련 (영어)
+      case 'Daily average solid food count':
+        return l10n.dailyAverageSolidFoodCount;
+      case 'Types of food tried':
+      case 'Tried food types':
+        return l10n.triedFoodTypes;
+      
       default:
         return originalLabel;
     }

@@ -936,5 +936,23 @@
   "colorWhenPoop": "Warna (Saat Buang Air Besar)",
 
   "minutes": "mnt",
-  "minutesShort": "m"
+  "minutesShort": "m",
+
+  "dailyFeedingCount": "Jumlah menyusui harian",
+  "dailyDiaperChangeCount": "Perubahan popok harian",
+  "dailyMedicationCount": "Jumlah obat harian",
+  "averageLabel": "Rata-rata: ",
+
+  "dailySleepCount": "Jumlah tidur harian",
+  "dailySolidFoodCount": "Jumlah makanan padat harian",
+  "dailyMilkPumpingCount": "Jumlah pompa ASI harian",
+
+  "averageFeedingDuration": "Durasi menyusui rata-rata",
+  "averageSleepDuration": "Durasi tidur rata-rata",
+  "dailyAverageDiaperChangeCount": "Rata-rata perubahan popok harian",
+  "medicationTypesUsed": "Jenis obat yang digunakan",
+  "totalPumpedAmount": "Total jumlah yang dipompa",
+  "averagePumpedAmount": "Rata-rata jumlah yang dipompa",
+  "dailyAverageSolidFoodCount": "Rata-rata jumlah makanan padat harian",
+  "triedFoodTypes": "Jenis makanan yang dicoba"
 }
