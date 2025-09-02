@@ -3081,4 +3081,55 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get dailyAverageMilkPumpingCount =>
       'Tägliche durchschnittliche Abpumpanzahl';
+
+  @override
+  String get growthInfoRecord => 'Wachstumsinformationen aufzeichnen';
+
+  @override
+  String get recordBabyCurrentWeight =>
+      'Bitte das aktuelle Gewicht des Babys aufzeichnen';
+
+  @override
+  String get recordBabyCurrentHeight =>
+      'Bitte die aktuelle Körpergröße des Babys aufzeichnen';
+
+  @override
+  String get measurementItems => 'Messelemente';
+
+  @override
+  String get memoOptional => 'Notiz (optional)';
+
+  @override
+  String get enterWeight => 'Gewicht eingeben';
+
+  @override
+  String get enterHeight => 'Körpergröße eingeben';
+
+  @override
+  String get recordSpecialNotesWeight =>
+      'Besonderheiten bei der Gewichtsmessung aufzeichnen (optional)';
+
+  @override
+  String get recordSpecialNotesHeight =>
+      'Besonderheiten bei der Körpergrößenmessung aufzeichnen (optional)';
+
+  @override
+  String get weightInvalidNumber =>
+      'Bitte eine gültige Zahl für das Gewicht eingeben';
+
+  @override
+  String get weightRangeError => 'Gewicht sollte zwischen 0,1-50kg liegen';
+
+  @override
+  String get heightInvalidNumber =>
+      'Bitte eine gültige Zahl für die Körpergröße eingeben';
+
+  @override
+  String get heightRangeError => 'Körpergröße sollte zwischen 1-200cm liegen';
+
+  @override
+  String get enterWeightOrHeight => 'Bitte Gewicht oder Körpergröße eingeben';
+
+  @override
+  String get saveError => 'Fehler beim Speichern aufgetreten';
 }

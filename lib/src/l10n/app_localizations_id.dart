@@ -3061,4 +3061,56 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get dailyAverageMilkPumpingCount =>
       'Rata-rata jumlah pompa ASI harian';
+
+  @override
+  String get growthInfoRecord => 'Catatan Informasi Pertumbuhan';
+
+  @override
+  String get recordBabyCurrentWeight =>
+      'Silakan catat berat badan bayi saat ini';
+
+  @override
+  String get recordBabyCurrentHeight =>
+      'Silakan catat tinggi badan bayi saat ini';
+
+  @override
+  String get measurementItems => 'Item Pengukuran';
+
+  @override
+  String get memoOptional => 'Catatan (Opsional)';
+
+  @override
+  String get enterWeight => 'Masukkan berat badan';
+
+  @override
+  String get enterHeight => 'Masukkan tinggi badan';
+
+  @override
+  String get recordSpecialNotesWeight =>
+      'Catat catatan khusus saat mengukur berat badan (opsional)';
+
+  @override
+  String get recordSpecialNotesHeight =>
+      'Catat catatan khusus saat mengukur tinggi badan (opsional)';
+
+  @override
+  String get weightInvalidNumber =>
+      'Silakan masukkan angka yang valid untuk berat badan';
+
+  @override
+  String get weightRangeError => 'Berat badan harus antara 0,1-50kg';
+
+  @override
+  String get heightInvalidNumber =>
+      'Silakan masukkan angka yang valid untuk tinggi badan';
+
+  @override
+  String get heightRangeError => 'Tinggi badan harus antara 1-200cm';
+
+  @override
+  String get enterWeightOrHeight =>
+      'Silakan masukkan berat badan atau tinggi badan';
+
+  @override
+  String get saveError => 'Terjadi kesalahan saat menyimpan';
 }

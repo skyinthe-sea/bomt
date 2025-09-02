@@ -3015,4 +3015,49 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get dailyAverageMilkPumpingCount => '하루 평균 유축 횟수';
+
+  @override
+  String get growthInfoRecord => '성장 정보 기록';
+
+  @override
+  String get recordBabyCurrentWeight => '아기의 현재 체중을 기록해주세요';
+
+  @override
+  String get recordBabyCurrentHeight => '아기의 현재 키를 기록해주세요';
+
+  @override
+  String get measurementItems => '측정 항목';
+
+  @override
+  String get memoOptional => '메모 (선택사항)';
+
+  @override
+  String get enterWeight => '체중 입력';
+
+  @override
+  String get enterHeight => '키 입력';
+
+  @override
+  String get recordSpecialNotesWeight => '체중 측정 시 특이사항을 기록해주세요 (선택사항)';
+
+  @override
+  String get recordSpecialNotesHeight => '키 측정 시 특이사항을 기록해주세요 (선택사항)';
+
+  @override
+  String get weightInvalidNumber => '체중은 올바른 숫자를 입력해주세요';
+
+  @override
+  String get weightRangeError => '체중은 0.1~50kg 사이로 입력해주세요';
+
+  @override
+  String get heightInvalidNumber => '키는 올바른 숫자를 입력해주세요';
+
+  @override
+  String get heightRangeError => '키는 1~200cm 사이로 입력해주세요';
+
+  @override
+  String get enterWeightOrHeight => '체중 또는 키를 입력해주세요';
+
+  @override
+  String get saveError => '저장 중 오류가 발생했습니다';
 }

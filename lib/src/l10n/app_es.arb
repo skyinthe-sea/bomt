@@ -970,5 +970,21 @@
   "maximumSleepDuration": "Duración máxima del sueño",
   "minimumSleepDuration": "Duración mínima del sueño",
   "allergicReactionCount": "Conteo de reacciones alérgicas",
-  "dailyAverageMilkPumpingCount": "Conteo promedio diario de extracción de leche"
+  "dailyAverageMilkPumpingCount": "Conteo promedio diario de extracción de leche",
+
+  "growthInfoRecord": "Registro de información de crecimiento",
+  "recordBabyCurrentWeight": "Por favor registre el peso actual del bebé",
+  "recordBabyCurrentHeight": "Por favor registre la altura actual del bebé",
+  "measurementItems": "Elementos de medición",
+  "memoOptional": "Nota (Opcional)",
+  "enterWeight": "Ingresar peso",
+  "enterHeight": "Ingresar altura",
+  "recordSpecialNotesWeight": "Registrar notas especiales al medir el peso (opcional)",
+  "recordSpecialNotesHeight": "Registrar notas especiales al medir la altura (opcional)",
+  "weightInvalidNumber": "Por favor ingrese un número válido para el peso",
+  "weightRangeError": "El peso debe estar entre 0.1-50kg",
+  "heightInvalidNumber": "Por favor ingrese un número válido para la altura",
+  "heightRangeError": "La altura debe estar entre 1-200cm",
+  "enterWeightOrHeight": "Por favor ingrese peso o altura",
+  "saveError": "Ocurrió un error al guardar"
 }

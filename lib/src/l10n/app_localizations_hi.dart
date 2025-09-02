@@ -3057,4 +3057,53 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get dailyAverageMilkPumpingCount => 'दैनिक औसत दूध पंप संख्या';
+
+  @override
+  String get growthInfoRecord => 'वृद्धि जानकारी रिकॉर्ड';
+
+  @override
+  String get recordBabyCurrentWeight => 'कृपया बच्चे का वर्तमान वजन दर्ज करें';
+
+  @override
+  String get recordBabyCurrentHeight =>
+      'कृपया बच्चे की वर्तमान लंबाई दर्ज करें';
+
+  @override
+  String get measurementItems => 'मापें आइटम्स';
+
+  @override
+  String get memoOptional => 'मेमो (वैकल्पिक)';
+
+  @override
+  String get enterWeight => 'वजन दाखिल करें';
+
+  @override
+  String get enterHeight => 'लंबाई दाखिल करें';
+
+  @override
+  String get recordSpecialNotesWeight =>
+      'वजन मापते समय विशेष नोट्स दर्ज करें (वैकल्पिक)';
+
+  @override
+  String get recordSpecialNotesHeight =>
+      'लंबाई मापते समय विशेष नोट्स दर्ज करें (वैकल्पिक)';
+
+  @override
+  String get weightInvalidNumber => 'कृपया वजन के लिए एक वैध संख्या दाखिल करें';
+
+  @override
+  String get weightRangeError => 'वजन 0.1-50kg के बीच होना चाहिए';
+
+  @override
+  String get heightInvalidNumber =>
+      'कृपया लंबाई के लिए एक वैध संख्या दाखिल करें';
+
+  @override
+  String get heightRangeError => 'लंबाई 1-200cm के बीच होनी चाहिए';
+
+  @override
+  String get enterWeightOrHeight => 'कृपया वजन या लंबाई दाखिल करें';
+
+  @override
+  String get saveError => 'सेव करते समय त्रुटि आई';
 }

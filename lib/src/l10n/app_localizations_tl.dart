@@ -3076,4 +3076,56 @@ class AppLocalizationsTl extends AppLocalizations {
   @override
   String get dailyAverageMilkPumpingCount =>
       'Araw-araw na karaniwang bilang ng pag-pump ng gatas';
+
+  @override
+  String get growthInfoRecord => 'Pagtatala ng Impormasyon sa Paglaki';
+
+  @override
+  String get recordBabyCurrentWeight =>
+      'Pakitala ang kasalukuyang timbang ng sanggol';
+
+  @override
+  String get recordBabyCurrentHeight =>
+      'Pakitala ang kasalukuyang taas ng sanggol';
+
+  @override
+  String get measurementItems => 'Mga Panukat na Item';
+
+  @override
+  String get memoOptional => 'Tala (Opsyonal)';
+
+  @override
+  String get enterWeight => 'Ilagay ang timbang';
+
+  @override
+  String get enterHeight => 'Ilagay ang taas';
+
+  @override
+  String get recordSpecialNotesWeight =>
+      'Itala ang mga espesyal na tala sa pagsukat ng timbang (opsyonal)';
+
+  @override
+  String get recordSpecialNotesHeight =>
+      'Itala ang mga espesyal na tala sa pagsukat ng taas (opsyonal)';
+
+  @override
+  String get weightInvalidNumber =>
+      'Pakipackay ang wastong numero para sa timbang';
+
+  @override
+  String get weightRangeError =>
+      'Ang timbang ay dapat nasa pagitan ng 0.1-50kg';
+
+  @override
+  String get heightInvalidNumber =>
+      'Pakipackay ang wastong numero para sa taas';
+
+  @override
+  String get heightRangeError => 'Ang taas ay dapat nasa pagitan ng 1-200cm';
+
+  @override
+  String get enterWeightOrHeight => 'Pakipackay ang timbang o taas';
+
+  @override
+  String get saveError => 'Nagkaroon ng error sa pag-save';
 }

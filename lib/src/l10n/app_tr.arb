@@ -970,5 +970,21 @@
   "maximumSleepDuration": "Maksimum uyku süresi",
   "minimumSleepDuration": "Minimum uyku süresi",
   "allergicReactionCount": "Alerjik reaksiyon sayısı",
-  "dailyAverageMilkPumpingCount": "Günlük ortalama süt pompalama sayısı"
+  "dailyAverageMilkPumpingCount": "Günlük ortalama süt pompalama sayısı",
+
+  "growthInfoRecord": "Büyüme Bilgisi Kaydı",
+  "recordBabyCurrentWeight": "Lütfen bebeğin şu anki ağırlığını kaydedin",
+  "recordBabyCurrentHeight": "Lütfen bebeğin şu anki boyunu kaydedin",
+  "measurementItems": "Ölçüm Öğeleri",
+  "memoOptional": "Not (Opsiyonel)",
+  "enterWeight": "Ağırlık girin",
+  "enterHeight": "Boy girin",
+  "recordSpecialNotesWeight": "Ağırlık ölçerken özel notları kaydedin (opsiyonel)",
+  "recordSpecialNotesHeight": "Boy ölçerken özel notları kaydedin (opsiyonel)",
+  "weightInvalidNumber": "Ağırlık için lütfen geçerli bir sayı girin",
+  "weightRangeError": "Ağırlık 0,1-50kg arasında olmalıdır",
+  "heightInvalidNumber": "Boy için lütfen geçerli bir sayı girin",
+  "heightRangeError": "Boy 1-200cm arasında olmalıdır",
+  "enterWeightOrHeight": "Lütfen ağırlık veya boy girin",
+  "saveError": "Kaydederken hata oluştu"
 }

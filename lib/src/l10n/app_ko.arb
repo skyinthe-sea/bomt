@@ -1276,5 +1276,21 @@
   "maximumSleepDuration": "최대 수면 시간",
   "minimumSleepDuration": "최소 수면 시간",
   "allergicReactionCount": "알레르기 반응 횟수",
-  "dailyAverageMilkPumpingCount": "하루 평균 유축 횟수"
+  "dailyAverageMilkPumpingCount": "하루 평균 유축 횟수",
+
+  "growthInfoRecord": "성장 정보 기록",
+  "recordBabyCurrentWeight": "아기의 현재 체중을 기록해주세요",
+  "recordBabyCurrentHeight": "아기의 현재 키를 기록해주세요",
+  "measurementItems": "측정 항목",
+  "memoOptional": "메모 (선택사항)",
+  "enterWeight": "체중 입력",
+  "enterHeight": "키 입력",
+  "recordSpecialNotesWeight": "체중 측정 시 특이사항을 기록해주세요 (선택사항)",
+  "recordSpecialNotesHeight": "키 측정 시 특이사항을 기록해주세요 (선택사항)",
+  "weightInvalidNumber": "체중은 올바른 숫자를 입력해주세요",
+  "weightRangeError": "체중은 0.1~50kg 사이로 입력해주세요",
+  "heightInvalidNumber": "키는 올바른 숫자를 입력해주세요",
+  "heightRangeError": "키는 1~200cm 사이로 입력해주세요",
+  "enterWeightOrHeight": "체중 또는 키를 입력해주세요",
+  "saveError": "저장 중 오류가 발생했습니다"
 }

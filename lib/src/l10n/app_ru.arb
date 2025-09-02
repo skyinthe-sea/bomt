@@ -970,5 +970,21 @@
   "maximumSleepDuration": "Максимальная продолжительность сна",
   "minimumSleepDuration": "Минимальная продолжительность сна",
   "allergicReactionCount": "Количество аллергических реакций",
-  "dailyAverageMilkPumpingCount": "Ежедневное среднее количество сцеживаний"
+  "dailyAverageMilkPumpingCount": "Ежедневное среднее количество сцеживаний",
+
+  "growthInfoRecord": "Запись информации о росте",
+  "recordBabyCurrentWeight": "Пожалуйста, запишите текущий вес ребёнка",
+  "recordBabyCurrentHeight": "Пожалуйста, запишите текущий рост ребёнка",
+  "measurementItems": "Параметры для измерения",
+  "memoOptional": "Заметка (опционально)",
+  "enterWeight": "Введите вес",
+  "enterHeight": "Введите рост",
+  "recordSpecialNotesWeight": "Запишите особые примечания при измерении веса (опционально)",
+  "recordSpecialNotesHeight": "Запишите особые примечания при измерении роста (опционально)",
+  "weightInvalidNumber": "Пожалуйста, введите допустимое число для веса",
+  "weightRangeError": "Вес должен быть между 0,1-50кг",
+  "heightInvalidNumber": "Пожалуйста, введите допустимое число для роста",
+  "heightRangeError": "Рост должен быть между 1-200см",
+  "enterWeightOrHeight": "Пожалуйста, введите вес или рост",
+  "saveError": "Произошла ошибка при сохранении"
 }

@@ -3060,4 +3060,54 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get dailyAverageMilkPumpingCount =>
       'Günlük ortalama süt pompalama sayısı';
+
+  @override
+  String get growthInfoRecord => 'Büyüme Bilgisi Kaydı';
+
+  @override
+  String get recordBabyCurrentWeight =>
+      'Lütfen bebeğin şu anki ağırlığını kaydedin';
+
+  @override
+  String get recordBabyCurrentHeight =>
+      'Lütfen bebeğin şu anki boyunu kaydedin';
+
+  @override
+  String get measurementItems => 'Ölçüm Öğeleri';
+
+  @override
+  String get memoOptional => 'Not (Opsiyonel)';
+
+  @override
+  String get enterWeight => 'Ağırlık girin';
+
+  @override
+  String get enterHeight => 'Boy girin';
+
+  @override
+  String get recordSpecialNotesWeight =>
+      'Ağırlık ölçerken özel notları kaydedin (opsiyonel)';
+
+  @override
+  String get recordSpecialNotesHeight =>
+      'Boy ölçerken özel notları kaydedin (opsiyonel)';
+
+  @override
+  String get weightInvalidNumber =>
+      'Ağırlık için lütfen geçerli bir sayı girin';
+
+  @override
+  String get weightRangeError => 'Ağırlık 0,1-50kg arasında olmalıdır';
+
+  @override
+  String get heightInvalidNumber => 'Boy için lütfen geçerli bir sayı girin';
+
+  @override
+  String get heightRangeError => 'Boy 1-200cm arasında olmalıdır';
+
+  @override
+  String get enterWeightOrHeight => 'Lütfen ağırlık veya boy girin';
+
+  @override
+  String get saveError => 'Kaydederken hata oluştu';
 }

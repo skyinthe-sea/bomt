@@ -3067,4 +3067,55 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get dailyAverageMilkPumpingCount =>
       'Ежедневное среднее количество сцеживаний';
+
+  @override
+  String get growthInfoRecord => 'Запись информации о росте';
+
+  @override
+  String get recordBabyCurrentWeight =>
+      'Пожалуйста, запишите текущий вес ребёнка';
+
+  @override
+  String get recordBabyCurrentHeight =>
+      'Пожалуйста, запишите текущий рост ребёнка';
+
+  @override
+  String get measurementItems => 'Параметры для измерения';
+
+  @override
+  String get memoOptional => 'Заметка (опционально)';
+
+  @override
+  String get enterWeight => 'Введите вес';
+
+  @override
+  String get enterHeight => 'Введите рост';
+
+  @override
+  String get recordSpecialNotesWeight =>
+      'Запишите особые примечания при измерении веса (опционально)';
+
+  @override
+  String get recordSpecialNotesHeight =>
+      'Запишите особые примечания при измерении роста (опционально)';
+
+  @override
+  String get weightInvalidNumber =>
+      'Пожалуйста, введите допустимое число для веса';
+
+  @override
+  String get weightRangeError => 'Вес должен быть между 0,1-50кг';
+
+  @override
+  String get heightInvalidNumber =>
+      'Пожалуйста, введите допустимое число для роста';
+
+  @override
+  String get heightRangeError => 'Рост должен быть между 1-200см';
+
+  @override
+  String get enterWeightOrHeight => 'Пожалуйста, введите вес или рост';
+
+  @override
+  String get saveError => 'Произошла ошибка при сохранении';
 }

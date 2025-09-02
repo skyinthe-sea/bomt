@@ -959,5 +959,21 @@
   "maximumSleepDuration": "अधिकतम नींद अवधि",
   "minimumSleepDuration": "न्यूनतम नींद अवधि",
   "allergicReactionCount": "एलर्जी की प्रतिक्रिया संख्या",
-  "dailyAverageMilkPumpingCount": "दैनिक औसत दूध पंप संख्या"
+  "dailyAverageMilkPumpingCount": "दैनिक औसत दूध पंप संख्या",
+
+  "growthInfoRecord": "वृद्धि जानकारी रिकॉर्ड",
+  "recordBabyCurrentWeight": "कृपया बच्चे का वर्तमान वजन दर्ज करें",
+  "recordBabyCurrentHeight": "कृपया बच्चे की वर्तमान लंबाई दर्ज करें",
+  "measurementItems": "मापें आइटम्स",
+  "memoOptional": "मेमो (वैकल्पिक)",
+  "enterWeight": "वजन दाखिल करें",
+  "enterHeight": "लंबाई दाखिल करें",
+  "recordSpecialNotesWeight": "वजन मापते समय विशेष नोट्स दर्ज करें (वैकल्पिक)",
+  "recordSpecialNotesHeight": "लंबाई मापते समय विशेष नोट्स दर्ज करें (वैकल्पिक)",
+  "weightInvalidNumber": "कृपया वजन के लिए एक वैध संख्या दाखिल करें",
+  "weightRangeError": "वजन 0.1-50kg के बीच होना चाहिए",
+  "heightInvalidNumber": "कृपया लंबाई के लिए एक वैध संख्या दाखिल करें",
+  "heightRangeError": "लंबाई 1-200cm के बीच होनी चाहिए",
+  "enterWeightOrHeight": "कृपया वजन या लंबाई दाखिल करें",
+  "saveError": "सेव करते समय त्रुटि आई"
 }

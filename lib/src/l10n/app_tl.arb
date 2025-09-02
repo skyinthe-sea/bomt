@@ -970,5 +970,21 @@
   "maximumSleepDuration": "Pinakamataas na tagal ng tulog",
   "minimumSleepDuration": "Pinakamababa na tagal ng tulog",
   "allergicReactionCount": "Bilang ng allergic reaction",
-  "dailyAverageMilkPumpingCount": "Araw-araw na karaniwang bilang ng pag-pump ng gatas"
+  "dailyAverageMilkPumpingCount": "Araw-araw na karaniwang bilang ng pag-pump ng gatas",
+
+  "growthInfoRecord": "Pagtatala ng Impormasyon sa Paglaki",
+  "recordBabyCurrentWeight": "Pakitala ang kasalukuyang timbang ng sanggol",
+  "recordBabyCurrentHeight": "Pakitala ang kasalukuyang taas ng sanggol",
+  "measurementItems": "Mga Panukat na Item",
+  "memoOptional": "Tala (Opsyonal)",
+  "enterWeight": "Ilagay ang timbang",
+  "enterHeight": "Ilagay ang taas",
+  "recordSpecialNotesWeight": "Itala ang mga espesyal na tala sa pagsukat ng timbang (opsyonal)",
+  "recordSpecialNotesHeight": "Itala ang mga espesyal na tala sa pagsukat ng taas (opsyonal)",
+  "weightInvalidNumber": "Pakipackay ang wastong numero para sa timbang",
+  "weightRangeError": "Ang timbang ay dapat nasa pagitan ng 0.1-50kg",
+  "heightInvalidNumber": "Pakipackay ang wastong numero para sa taas",
+  "heightRangeError": "Ang taas ay dapat nasa pagitan ng 1-200cm",
+  "enterWeightOrHeight": "Pakipackay ang timbang o taas",
+  "saveError": "Nagkaroon ng error sa pag-save"
 }

@@ -2121,5 +2121,80 @@
   "maximumSleepDuration": "Maximum sleep duration",
   "minimumSleepDuration": "Minimum sleep duration",
   "allergicReactionCount": "Allergic reaction count",
-  "dailyAverageMilkPumpingCount": "Daily average milk pumping count"
+  "dailyAverageMilkPumpingCount": "Daily average milk pumping count",
+
+  "growthInfoRecord": "Growth Information Record",
+  "@growthInfoRecord": {
+    "description": "Title for growth information record dialog"
+  },
+
+  "recordBabyCurrentWeight": "Please record baby's current weight",
+  "@recordBabyCurrentWeight": {
+    "description": "Instructions to record baby's current weight"
+  },
+
+  "recordBabyCurrentHeight": "Please record baby's current height",
+  "@recordBabyCurrentHeight": {
+    "description": "Instructions to record baby's current height"
+  },
+
+  "measurementItems": "Measurement Items",
+  "@measurementItems": {
+    "description": "Label for measurement items section"
+  },
+
+  "memoOptional": "Memo (Optional)",
+  "@memoOptional": {
+    "description": "Label for optional memo field"
+  },
+
+  "enterWeight": "Enter weight",
+  "@enterWeight": {
+    "description": "Placeholder text for weight input"
+  },
+
+  "enterHeight": "Enter height",
+  "@enterHeight": {
+    "description": "Placeholder text for height input"
+  },
+
+  "recordSpecialNotesWeight": "Record special notes when measuring weight (optional)",
+  "@recordSpecialNotesWeight": {
+    "description": "Hint text for weight measurement notes"
+  },
+
+  "recordSpecialNotesHeight": "Record special notes when measuring height (optional)",
+  "@recordSpecialNotesHeight": {
+    "description": "Hint text for height measurement notes"
+  },
+
+  "weightInvalidNumber": "Please enter a valid number for weight",
+  "@weightInvalidNumber": {
+    "description": "Validation error for invalid weight number"
+  },
+
+  "weightRangeError": "Weight should be between 0.1~50kg",
+  "@weightRangeError": {
+    "description": "Validation error for weight out of range"
+  },
+
+  "heightInvalidNumber": "Please enter a valid number for height",
+  "@heightInvalidNumber": {
+    "description": "Validation error for invalid height number"
+  },
+
+  "heightRangeError": "Height should be between 1~200cm",
+  "@heightRangeError": {
+    "description": "Validation error for height out of range"
+  },
+
+  "enterWeightOrHeight": "Please enter weight or height",
+  "@enterWeightOrHeight": {
+    "description": "Validation error when neither weight nor height is entered"
+  },
+
+  "saveError": "An error occurred while saving",
+  "@saveError": {
+    "description": "Error message when saving fails"
+  }
 }

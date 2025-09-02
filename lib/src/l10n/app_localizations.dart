@@ -5639,6 +5639,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Daily average milk pumping count'**
   String get dailyAverageMilkPumpingCount;
+
+  /// Title for growth information record dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Growth Information Record'**
+  String get growthInfoRecord;
+
+  /// Instructions to record baby's current weight
+  ///
+  /// In en, this message translates to:
+  /// **'Please record baby\'s current weight'**
+  String get recordBabyCurrentWeight;
+
+  /// Instructions to record baby's current height
+  ///
+  /// In en, this message translates to:
+  /// **'Please record baby\'s current height'**
+  String get recordBabyCurrentHeight;
+
+  /// Label for measurement items section
+  ///
+  /// In en, this message translates to:
+  /// **'Measurement Items'**
+  String get measurementItems;
+
+  /// Label for optional memo field
+  ///
+  /// In en, this message translates to:
+  /// **'Memo (Optional)'**
+  String get memoOptional;
+
+  /// Placeholder text for weight input
+  ///
+  /// In en, this message translates to:
+  /// **'Enter weight'**
+  String get enterWeight;
+
+  /// Placeholder text for height input
+  ///
+  /// In en, this message translates to:
+  /// **'Enter height'**
+  String get enterHeight;
+
+  /// Hint text for weight measurement notes
+  ///
+  /// In en, this message translates to:
+  /// **'Record special notes when measuring weight (optional)'**
+  String get recordSpecialNotesWeight;
+
+  /// Hint text for height measurement notes
+  ///
+  /// In en, this message translates to:
+  /// **'Record special notes when measuring height (optional)'**
+  String get recordSpecialNotesHeight;
+
+  /// Validation error for invalid weight number
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid number for weight'**
+  String get weightInvalidNumber;
+
+  /// Validation error for weight out of range
+  ///
+  /// In en, this message translates to:
+  /// **'Weight should be between 0.1~50kg'**
+  String get weightRangeError;
+
+  /// Validation error for invalid height number
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid number for height'**
+  String get heightInvalidNumber;
+
+  /// Validation error for height out of range
+  ///
+  /// In en, this message translates to:
+  /// **'Height should be between 1~200cm'**
+  String get heightRangeError;
+
+  /// Validation error when neither weight nor height is entered
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter weight or height'**
+  String get enterWeightOrHeight;
+
+  /// Error message when saving fails
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while saving'**
+  String get saveError;
 }
 
 class _AppLocalizationsDelegate

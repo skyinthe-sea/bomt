@@ -1207,5 +1207,21 @@
   "maximumSleepDuration": "最大睡眠時間",
   "minimumSleepDuration": "最小睡眠時間",
   "allergicReactionCount": "アレルギー反応回数",
-  "dailyAverageMilkPumpingCount": "日別平均搾乳回数"
+  "dailyAverageMilkPumpingCount": "日別平均搾乳回数",
+
+  "growthInfoRecord": "成長情報記録",
+  "recordBabyCurrentWeight": "赤ちゃんの現在の体重を記録してください",
+  "recordBabyCurrentHeight": "赤ちゃんの現在の身長を記録してください",
+  "measurementItems": "測定項目",
+  "memoOptional": "メモ（任意）",
+  "enterWeight": "体重を入力",
+  "enterHeight": "身長を入力",
+  "recordSpecialNotesWeight": "体重測定時の特記事項を記録してください（任意）",
+  "recordSpecialNotesHeight": "身長測定時の特記事項を記録してください（任意）",
+  "weightInvalidNumber": "体重に有効な数値を入力してください",
+  "weightRangeError": "体重は0.1〜50kgの範囲で入力してください",
+  "heightInvalidNumber": "身長に有効な数値を入力してください",
+  "heightRangeError": "身長は1〜200cmの範囲で入力してください",
+  "enterWeightOrHeight": "体重または身長を入力してください",
+  "saveError": "保存中にエラーが発生しました"
 }

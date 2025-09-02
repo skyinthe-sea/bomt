@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 
 class GrowthRecordInputDialog extends StatefulWidget {
   final String? initialType; // 'weight' 또는 'height'
@@ -107,8 +108,9 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
     super.dispose();
   }
 
-  String get _typeLabel {
-    return _selectedType == 'weight' ? '체중' : '키';
+  String _typeLabel(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return _selectedType == 'weight' ? l10n.weight : l10n.height;
   }
 
   String get _unit {
@@ -183,6 +185,8 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
   }
 
   void _handleSave() async {
+    final l10n = AppLocalizations.of(context)!;
+    
     // 현재 입력값 저장
     _saveCurrentValue();
     
@@ -193,11 +197,11 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
     if (_weightValue != null && _weightValue!.isNotEmpty) {
       final weight = double.tryParse(_weightValue!);
       if (weight == null) {
-        _showErrorSnackBar('체중은 올바른 숫자를 입력해주세요');
+        _showErrorSnackBar(l10n.weightInvalidNumber);
         return;
       }
       if (weight <= 0 || weight > 50) {
-        _showErrorSnackBar('체중은 0.1~50kg 사이로 입력해주세요');
+        _showErrorSnackBar(l10n.weightRangeError);
         return;
       }
       measurements['weight'] = weight;
@@ -207,11 +211,11 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
     if (_heightValue != null && _heightValue!.isNotEmpty) {
       final height = double.tryParse(_heightValue!);
       if (height == null) {
-        _showErrorSnackBar('키는 올바른 숫자를 입력해주세요');
+        _showErrorSnackBar(l10n.heightInvalidNumber);
         return;
       }
       if (height <= 0 || height > 200) {
-        _showErrorSnackBar('키는 1~200cm 사이로 입력해주세요');
+        _showErrorSnackBar(l10n.heightRangeError);
         return;
       }
       measurements['height'] = height;
@@ -219,7 +223,7 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
     
     // 입력된 값이 없으면 에러
     if (measurements.isEmpty) {
-      _showErrorSnackBar('체중 또는 키를 입력해주세요');
+      _showErrorSnackBar(l10n.enterWeightOrHeight);
       return;
     }
 
@@ -255,7 +259,7 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
       }
     } catch (e) {
       debugPrint('Error saving growth record: $e');
-      _showErrorSnackBar('저장 중 오류가 발생했습니다');
+      _showErrorSnackBar(l10n.saveError);
     } finally {
       if (mounted) {
         setState(() {
@@ -281,6 +285,7 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     
     return AnimatedBuilder(
       animation: _animationController,
@@ -351,14 +356,16 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '성장 정보 기록',
+                                l10n.growthInfoRecord,
                                 style: theme.textTheme.titleLarge?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                '아기의 현재 ${_typeLabel}을 기록해주세요',
+                                _selectedType == 'weight' 
+                                    ? l10n.recordBabyCurrentWeight
+                                    : l10n.recordBabyCurrentHeight,
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   color: theme.colorScheme.onSurfaceVariant,
                                 ),
@@ -372,23 +379,23 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
                     const SizedBox(height: 32),
                     
                     // 타입 선택
-                    _buildSectionTitle('측정 항목'),
+                    _buildSectionTitle(l10n.measurementItems),
                     const SizedBox(height: 12),
-                    _buildTypeSelector(),
+                    _buildTypeSelector(context),
                     
                     const SizedBox(height: 24),
                     
                     // 값 입력
-                    _buildSectionTitle('$_typeLabel ($_unit)'),
+                    _buildSectionTitle('${_typeLabel(context)} ($_unit)'),
                     const SizedBox(height: 12),
-                    _buildValueField(),
+                    _buildValueField(context),
                     
                     const SizedBox(height: 24),
                     
                     // 메모 입력
-                    _buildSectionTitle('메모 (선택사항)'),
+                    _buildSectionTitle(l10n.memoOptional),
                     const SizedBox(height: 12),
-                    _buildNotesField(),
+                    _buildNotesField(context),
                     
                     const SizedBox(height: 32),
                     
@@ -404,7 +411,7 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            child: const Text('취소'),
+                            child: Text(l10n.cancel),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -439,9 +446,9 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
                                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                           ),
                                         )
-                                      : const Text(
-                                          '저장',
-                                          style: TextStyle(
+                                      : Text(
+                                          l10n.save,
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.w600,
                                             color: Colors.white,
                                           ),
@@ -473,11 +480,12 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
     );
   }
 
-  Widget _buildTypeSelector() {
+  Widget _buildTypeSelector(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final types = [
       {
         'value': 'weight', 
-        'label': '체중', 
+        'label': l10n.weight, 
         'icon': Icons.monitor_weight, 
         'color': const Color(0xFF8B7EC8),
         'lightColor': const Color(0xFFE8E4F6),
@@ -494,7 +502,7 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
       },
       {
         'value': 'height', 
-        'label': '키', 
+        'label': l10n.height, 
         'icon': Icons.height, 
         'color': const Color(0xFF6B8BB5),
         'lightColor': const Color(0xFFE3E9F3),
@@ -581,7 +589,8 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
     );
   }
 
-  Widget _buildValueField() {
+  Widget _buildValueField(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5),
@@ -614,7 +623,7 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
         decoration: InputDecoration(
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(16),
-          hintText: _selectedType == 'weight' ? '체중 입력' : '키 입력',
+          hintText: _selectedType == 'weight' ? l10n.enterWeight : l10n.enterHeight,
           hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.6),
           ),
@@ -636,7 +645,8 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
     );
   }
 
-  Widget _buildNotesField() {
+  Widget _buildNotesField(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5),
@@ -648,7 +658,9 @@ class _GrowthRecordInputDialogState extends State<GrowthRecordInputDialog>
         decoration: InputDecoration(
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(16),
-          hintText: '${_typeLabel} 측정 시 특이사항을 기록해주세요 (선택사항)',
+          hintText: _selectedType == 'weight' 
+              ? l10n.recordSpecialNotesWeight
+              : l10n.recordSpecialNotesHeight,
           hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
           ),

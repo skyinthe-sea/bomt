@@ -3083,4 +3083,56 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get dailyAverageMilkPumpingCount =>
       'Nombre moyen quotidien de tirages de lait';
+
+  @override
+  String get growthInfoRecord =>
+      'Enregistrement des informations de croissance';
+
+  @override
+  String get recordBabyCurrentWeight =>
+      'Veuillez enregistrer le poids actuel du bébé';
+
+  @override
+  String get recordBabyCurrentHeight =>
+      'Veuillez enregistrer la taille actuelle du bébé';
+
+  @override
+  String get measurementItems => 'Éléments de mesure';
+
+  @override
+  String get memoOptional => 'Mémo (optionnel)';
+
+  @override
+  String get enterWeight => 'Entrer le poids';
+
+  @override
+  String get enterHeight => 'Entrer la taille';
+
+  @override
+  String get recordSpecialNotesWeight =>
+      'Enregistrer des notes spéciales lors de la mesure du poids (optionnel)';
+
+  @override
+  String get recordSpecialNotesHeight =>
+      'Enregistrer des notes spéciales lors de la mesure de la taille (optionnel)';
+
+  @override
+  String get weightInvalidNumber =>
+      'Veuillez entrer un nombre valide pour le poids';
+
+  @override
+  String get weightRangeError => 'Le poids doit être entre 0.1-50kg';
+
+  @override
+  String get heightInvalidNumber =>
+      'Veuillez entrer un nombre valide pour la taille';
+
+  @override
+  String get heightRangeError => 'La taille doit être entre 1-200cm';
+
+  @override
+  String get enterWeightOrHeight => 'Veuillez entrer le poids ou la taille';
+
+  @override
+  String get saveError => 'Une erreur s\'est produite lors de la sauvegarde';
 }

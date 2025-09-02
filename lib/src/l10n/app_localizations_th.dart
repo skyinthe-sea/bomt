@@ -3053,4 +3053,51 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get dailyAverageMilkPumpingCount => 'จำนวนการปั้มนมเฉลี่ยรายวัน';
+
+  @override
+  String get growthInfoRecord => 'บันทึกข้อมูลการเจริญเติบโต';
+
+  @override
+  String get recordBabyCurrentWeight => 'กรุณาบันทึกน้ำหนักปัจจุบันของทารก';
+
+  @override
+  String get recordBabyCurrentHeight => 'กรุณาบันทึกส่วนสูงปัจจุบันของทารก';
+
+  @override
+  String get measurementItems => 'รายการวัด';
+
+  @override
+  String get memoOptional => 'บันทึก (เลือกได้)';
+
+  @override
+  String get enterWeight => 'กรอกน้ำหนัก';
+
+  @override
+  String get enterHeight => 'กรอกส่วนสูง';
+
+  @override
+  String get recordSpecialNotesWeight =>
+      'บันทึกหมายเหตุพิเศษเมื่อวัดน้ำหนัก (เลือกได้)';
+
+  @override
+  String get recordSpecialNotesHeight =>
+      'บันทึกหมายเหตุพิเศษเมื่อวัดส่วนสูง (เลือกได้)';
+
+  @override
+  String get weightInvalidNumber => 'กรุณากรอกตัวเลขที่ถูกต้องสำหรับน้ำหนัก';
+
+  @override
+  String get weightRangeError => 'น้ำหนักต้องอยู่ระหว่าง 0.1-50kg';
+
+  @override
+  String get heightInvalidNumber => 'กรุณากรอกตัวเลขที่ถูกต้องสำหรับส่วนสูง';
+
+  @override
+  String get heightRangeError => 'ส่วนสูงต้องอยู่ระหว่าง 1-200cm';
+
+  @override
+  String get enterWeightOrHeight => 'กรุณากรอกน้ำหนักหรือส่วนสูง';
+
+  @override
+  String get saveError => 'เกิดข้อผิดพลาดในการบันทึก';
 }

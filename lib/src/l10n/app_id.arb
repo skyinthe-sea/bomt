@@ -970,5 +970,21 @@
   "maximumSleepDuration": "Durasi tidur maksimum",
   "minimumSleepDuration": "Durasi tidur minimum",
   "allergicReactionCount": "Jumlah reaksi alergi",
-  "dailyAverageMilkPumpingCount": "Rata-rata jumlah pompa ASI harian"
+  "dailyAverageMilkPumpingCount": "Rata-rata jumlah pompa ASI harian",
+
+  "growthInfoRecord": "Catatan Informasi Pertumbuhan",
+  "recordBabyCurrentWeight": "Silakan catat berat badan bayi saat ini",
+  "recordBabyCurrentHeight": "Silakan catat tinggi badan bayi saat ini",
+  "measurementItems": "Item Pengukuran",
+  "memoOptional": "Catatan (Opsional)",
+  "enterWeight": "Masukkan berat badan",
+  "enterHeight": "Masukkan tinggi badan",
+  "recordSpecialNotesWeight": "Catat catatan khusus saat mengukur berat badan (opsional)",
+  "recordSpecialNotesHeight": "Catat catatan khusus saat mengukur tinggi badan (opsional)",
+  "weightInvalidNumber": "Silakan masukkan angka yang valid untuk berat badan",
+  "weightRangeError": "Berat badan harus antara 0,1-50kg",
+  "heightInvalidNumber": "Silakan masukkan angka yang valid untuk tinggi badan",
+  "heightRangeError": "Tinggi badan harus antara 1-200cm",
+  "enterWeightOrHeight": "Silakan masukkan berat badan atau tinggi badan",
+  "saveError": "Terjadi kesalahan saat menyimpan"
 }

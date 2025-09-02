@@ -3007,4 +3007,49 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dailyAverageMilkPumpingCount => '日別平均搾乳回数';
+
+  @override
+  String get growthInfoRecord => '成長情報記録';
+
+  @override
+  String get recordBabyCurrentWeight => '赤ちゃんの現在の体重を記録してください';
+
+  @override
+  String get recordBabyCurrentHeight => '赤ちゃんの現在の身長を記録してください';
+
+  @override
+  String get measurementItems => '測定項目';
+
+  @override
+  String get memoOptional => 'メモ（任意）';
+
+  @override
+  String get enterWeight => '体重を入力';
+
+  @override
+  String get enterHeight => '身長を入力';
+
+  @override
+  String get recordSpecialNotesWeight => '体重測定時の特記事項を記録してください（任意）';
+
+  @override
+  String get recordSpecialNotesHeight => '身長測定時の特記事項を記録してください（任意）';
+
+  @override
+  String get weightInvalidNumber => '体重に有効な数値を入力してください';
+
+  @override
+  String get weightRangeError => '体重は0.1〜50kgの範囲で入力してください';
+
+  @override
+  String get heightInvalidNumber => '身長に有効な数値を入力してください';
+
+  @override
+  String get heightRangeError => '身長は1〜200cmの範囲で入力してください';
+
+  @override
+  String get enterWeightOrHeight => '体重または身長を入力してください';
+
+  @override
+  String get saveError => '保存中にエラーが発生しました';
 }
