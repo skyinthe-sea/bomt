@@ -9,34 +9,34 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get user => 'Пользователь';
+  String get user => 'User';
 
   @override
   String userInfoLoadFailed(String error) {
-    return 'Ошибка загрузки информации пользователя: $error';
+    return 'Failed to load user info: $error';
   }
 
   @override
   String babyListLoadError(String error) {
-    return 'Ошибка загрузки списка детей: $error';
+    return 'An error occurred while loading the baby list: $error';
   }
 
   @override
   String welcomeUser(String userName, Object nickname) {
-    return 'Привет, $userName!';
+    return 'Welcome, $nickname! 🎉';
   }
 
   @override
-  String get registerBaby => 'Зарегистрировать ребёнка';
+  String get registerBaby => 'Register Baby';
 
   @override
-  String get noBabiesRegistered => 'Дети не зарегистрированы';
+  String get noBabiesRegistered => 'No babies registered';
 
   @override
-  String get registerFirstBaby => 'Зарегистрируйте вашего первого ребёнка!';
+  String get registerFirstBaby => 'Register your first baby!';
 
   @override
-  String get registerBabyButton => 'Зарегистрировать ребенка';
+  String get registerBabyButton => 'Register Baby';
 
   @override
   String birthday(int year, int month, int day) {
@@ -50,17 +50,17 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String gender(String gender) {
-    return 'Пол';
+    return 'Gender';
   }
 
   @override
-  String get male => 'Мальчик';
+  String get male => 'Male';
 
   @override
-  String get female => 'Девочка';
+  String get female => 'Female';
 
   @override
-  String get other => 'Другое';
+  String get other => 'Other';
 
   @override
   String babyDetailScreen(String name) {
@@ -81,33 +81,33 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get enterBabyInfo => 'Введите информацию о ребёнке';
+  String get enterBabyInfo => 'Please enter baby information';
 
   @override
-  String get babyName => 'Имя ребёнка';
+  String get babyName => 'Baby Name';
 
   @override
-  String get babyNameHint => 'например: Анна';
+  String get babyNameHint => 'e.g. Emma';
 
   @override
-  String get babyNameRequired => 'Введите имя ребёнка';
+  String get babyNameRequired => 'Please enter baby\'s name';
 
   @override
-  String get babyNameMinLength => 'Имя должно содержать минимум 2 символа';
+  String get babyNameMinLength => 'Name must be at least 2 characters';
 
   @override
-  String get selectBirthdateButton => 'Выберите дату рождения';
+  String get selectBirthdateButton => 'Select Birthdate';
 
   @override
   String selectedDate(int year, int month, int day) {
-    return '$day.$month.$year';
+    return '$year/$month/$day';
   }
 
   @override
   String get genderOptional => 'Gender (Optional)';
 
   @override
-  String get cancel => 'Отмена';
+  String get cancel => 'Cancel';
 
   @override
   String get loginFailed => 'Login failed';
@@ -128,10 +128,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get loginWithKakao => 'Login with Kakao';
 
   @override
-  String get settings => 'Настройки';
+  String get settings => 'Settings';
 
   @override
-  String get language => 'Язык';
+  String get language => 'Language';
 
   @override
   String get selectBirthDate => 'Select Birthdate';
@@ -140,7 +140,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get pleasSelectBirthDate => 'Please select birthdate';
 
   @override
-  String get pleaseEnterBabyName => 'Введите имя ребёнка';
+  String get pleaseEnterBabyName => 'Please enter baby\'s name';
 
   @override
   String get nameMinLength => 'Name must be at least 2 characters';
@@ -154,40 +154,40 @@ class AppLocalizationsRu extends AppLocalizations {
   String get autoLogin => 'Stay logged in';
 
   @override
-  String get logout => 'Выйти';
+  String get logout => 'Logout';
 
   @override
-  String get logoutConfirm => 'Вы уверены, что хотите выйти?';
+  String get logoutConfirm => 'Are you sure you want to logout?';
 
   @override
-  String get yes => 'Да';
+  String get yes => 'Yes';
 
   @override
-  String get no => 'Нет';
+  String get no => 'No';
 
   @override
-  String get darkMode => 'Тёмная тема';
+  String get darkMode => 'Dark Mode';
 
   @override
-  String get appearance => 'Оформление';
+  String get appearance => 'Appearance';
 
   @override
-  String get home => 'Главная';
+  String get home => 'Home';
 
   @override
-  String get timeline => 'Хронология';
+  String get timeline => 'Timeline';
 
   @override
-  String get record => 'Записать';
+  String get record => 'Record';
 
   @override
-  String get statistics => 'Статистика';
+  String get statistics => 'Statistics';
 
   @override
-  String get community => 'Сообщество';
+  String get community => 'Community';
 
   @override
-  String get comingSoon => 'Скоро';
+  String get comingSoon => 'Coming Soon';
 
   @override
   String get timelineUpdateMessage => 'Timeline feature will be updated soon';
@@ -206,7 +206,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get todaySummary => 'Today\'s Summary';
 
   @override
-  String get growthInfo => 'Информация о росте';
+  String get growthInfo => 'Growth Info';
 
   @override
   String get lastFeeding => 'Last Feeding';
@@ -215,13 +215,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get healthy => 'Healthy';
 
   @override
-  String get feeding => 'Кормление';
+  String get feeding => 'Feeding';
 
   @override
   String get totalFeeding => 'Total Feeding';
 
   @override
-  String get sleep => 'Сон';
+  String get sleep => 'Sleep';
 
   @override
   String get totalSleepTime => 'Total Sleep Time';
@@ -264,19 +264,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get exit => 'Exit';
 
   @override
-  String get diaper => 'Подгузник';
+  String get diaper => 'Diaper';
 
   @override
-  String get solidFood => 'Твердая Пища';
+  String get solidFood => 'Solid Food';
 
   @override
-  String get medication => 'Лекарство';
+  String get medication => 'Medication';
 
   @override
-  String get milkPumping => 'Сцеживание Молока';
+  String get milkPumping => 'Milk Pumping';
 
   @override
-  String get temperature => 'Температура';
+  String get temperature => 'Temperature';
 
   @override
   String get growth => 'Growth';
@@ -290,7 +290,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get feedingAmount => 'Количество кормления';
+  String get feedingAmount => 'Feeding Amount';
 
   @override
   String get feedingRecordAdded => 'Feeding record added successfully';
@@ -336,7 +336,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sleepEnded => 'Sleep ended';
 
   @override
-  String get sleepInProgress => 'Спит';
+  String get sleepInProgress => 'Sleeping';
 
   @override
   String get sleepRecordFailed => 'Failed to process sleep record';
@@ -407,10 +407,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get diaperChangeTime => 'Change Time';
 
   @override
-  String get weight => 'Вес';
+  String get weight => 'Weight';
 
   @override
-  String get height => 'Рост';
+  String get height => 'Height';
 
   @override
   String get growthRecord => 'Growth Record';
@@ -422,7 +422,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get growthRecordFailed => 'Failed to save growth record';
 
   @override
-  String get weightUnit => 'кг';
+  String get weightUnit => 'kg';
 
   @override
   String get heightUnit => 'cm';
@@ -453,7 +453,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get heightRange => 'Height must be between 1cm and 200cm';
 
   @override
-  String get enterValidNumber => 'Пожалуйста, введите действительное число';
+  String get enterValidNumber => 'Please enter a valid number';
 
   @override
   String get recordGrowthInfo => 'Record Growth Information';
@@ -471,10 +471,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get communityTitle => 'Community';
 
   @override
-  String get writePost => 'Написать пост';
+  String get writePost => 'Write Post';
 
   @override
-  String get post => 'Опубликовать';
+  String get post => 'Post';
 
   @override
   String get postTitle => 'Post Title';
@@ -490,7 +490,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Enter content...\n\nFeel free to share your story.';
 
   @override
-  String get selectCategory => 'Выберите категорию';
+  String get selectCategory => 'Select Category';
 
   @override
   String get postCreated => 'Post created successfully!';
@@ -549,7 +549,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String contentCharacterCount(Object count) {
-    return 'Содержание: $count/10000';
+    return 'Content: $count/10000';
   }
 
   @override
@@ -602,7 +602,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get viewOtherPeriod => 'View Other Period';
 
   @override
-  String get refresh => 'Обновить';
+  String get refresh => 'Refresh';
 
   @override
   String get statisticsTips => 'To view statistics?';
@@ -661,7 +661,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get viewOtherPeriodTitle => 'View Other Period';
 
   @override
-  String get familyInvitation => 'Семейное приглашение';
+  String get familyInvitation => 'Family Invitation';
 
   @override
   String get invitationDescription =>
@@ -740,7 +740,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get edit => 'Edit';
 
   @override
-  String get delete => 'Удалить';
+  String get delete => 'Delete';
 
   @override
   String get add => 'Add';
@@ -749,7 +749,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get remove => 'Remove';
 
   @override
-  String get confirm => 'Подтвердить';
+  String get confirm => 'Confirm';
 
   @override
   String get back => 'Back';
@@ -853,14 +853,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String minutesAgo(Object minutes) {
-    return '$minutes минут назад';
+    return '$minutes minutes ago';
   }
 
   @override
   String get justNow => 'Just now';
 
   @override
-  String get today => 'Сегодня';
+  String get today => 'Today';
 
   @override
   String get yesterday => 'Yesterday';
@@ -878,7 +878,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get medicationDose => 'Dose';
 
   @override
-  String get medicationTime => 'Лекарство';
+  String get medicationTime => 'Medication';
 
   @override
   String get medicationAdded => 'Medication record added';
@@ -925,10 +925,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get selectPhotoSource => 'How would you like to select a photo?';
 
   @override
-  String get camera => 'Камера';
+  String get camera => 'Camera';
 
   @override
-  String get gallery => 'Галерея';
+  String get gallery => 'Gallery';
 
   @override
   String get photoUpdated => 'Profile photo updated';
@@ -960,15 +960,15 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String ageMonthsAndDays(Object days, Object months) {
-    return '$months месяцев $days дней';
+    return '$months months $days days';
   }
 
   @override
-  String get lastFeedingTime => 'Время последнего кормления';
+  String get lastFeedingTime => 'Last feeding time';
 
   @override
   String hoursAndMinutesAgo(Object hours, Object minutes) {
-    return '$hours часов $minutes минут назад';
+    return '$hours hours $minutes minutes ago';
   }
 
   @override
@@ -1015,19 +1015,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get centimeters => 'cm';
 
   @override
-  String get milliliters => 'мл';
+  String get milliliters => 'ml';
 
   @override
   String get grams => 'g';
 
   @override
-  String get hoursUnit => 'часов';
+  String get hoursUnit => 'hours';
 
   @override
   String get minutesUnit => 'minutes';
 
   @override
-  String get viewDetails => 'Посмотреть подробности';
+  String get viewDetails => 'View Details';
 
   @override
   String get firstRecord => 'First Record';
@@ -1049,19 +1049,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get registerBabyNow => 'Register Baby';
 
   @override
-  String get joinWithInviteCode => 'Присоединиться по коду приглашения';
+  String get joinWithInviteCode => 'Join with Invitation Code';
 
   @override
-  String get loadingBabyInfo => 'Загрузка информации о ребёнке...';
+  String get loadingBabyInfo => 'Loading baby information...';
 
   @override
   String get pleaseRegisterBaby => 'Please register a baby in settings';
 
   @override
-  String get goToSettings => 'Перейти к настройкам';
+  String get goToSettings => 'Go to Settings';
 
   @override
-  String get profilePhotoUpdated => 'Фотография профиля обновлена.';
+  String get profilePhotoUpdated => 'Profile photo has been updated.';
 
   @override
   String get profilePhotoUpdateFailed => 'Failed to update profile photo';
@@ -1104,7 +1104,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sleepRecordProcessFailed => 'Failed to process sleep record';
 
   @override
-  String get hourActivityPattern => '24-часовая модель активности';
+  String get hourActivityPattern => '24-Hour Activity Pattern';
 
   @override
   String get touchClockInstruction =>
@@ -1120,7 +1120,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get activityPatternAnalysis => 'Activity Pattern Analysis';
 
   @override
-  String get todaysStory => 'История сегодняшнего дня';
+  String get todaysStory => 'Today\'s Story';
 
   @override
   String preciousMoments(Object count) {
@@ -1129,7 +1129,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get firstMomentMessage =>
-      'Запишите свой первый драгоценный момент.\nНебольшие ежедневные изменения складываются в большой рост.';
+      'Record your first precious moment.\nSmall daily changes add up to great growth.';
 
   @override
   String get pattern => 'Pattern';
@@ -1160,22 +1160,22 @@ class AppLocalizationsRu extends AppLocalizations {
       'Times of concentrated activity throughout the day';
 
   @override
-  String get formula => 'Смесь';
+  String get formula => 'Formula';
 
   @override
-  String get breastMilk => 'Грудное молоко';
+  String get breastMilk => 'Breast Milk';
 
   @override
-  String get babyFood => 'Детское питание';
+  String get babyFood => 'Baby Food';
 
   @override
-  String get left => 'Левая';
+  String get left => 'Left';
 
   @override
-  String get right => 'Правая';
+  String get right => 'Right';
 
   @override
-  String get both => 'Обе';
+  String get both => 'Both';
 
   @override
   String get sleeping => 'Sleeping';
@@ -1205,13 +1205,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get consistency => 'Consistency';
 
   @override
-  String get diaperChange => 'Смена Подгузника';
+  String get diaperChange => 'Diaper Change';
 
   @override
-  String get oralMedication => 'Пероральное Лекарство';
+  String get oralMedication => 'Oral Medication';
 
   @override
-  String get topical => 'Наружный';
+  String get topical => 'Topical';
 
   @override
   String get inhaled => 'Inhaled';
@@ -1220,22 +1220,22 @@ class AppLocalizationsRu extends AppLocalizations {
   String get pumping => 'Pumping';
 
   @override
-  String get temperatureMeasurement => 'Измерение Температуры';
+  String get temperatureMeasurement => 'Temperature Measurement';
 
   @override
-  String get fever => 'Лихорадка';
+  String get fever => 'Fever';
 
   @override
-  String get lowFever => 'Легкая лихорадка';
+  String get lowFever => 'Low Fever';
 
   @override
-  String get hypothermia => 'Гипотермия';
+  String get hypothermia => 'Hypothermia';
 
   @override
-  String get normal => 'Нормально';
+  String get normal => 'Normal';
 
   @override
-  String get quality => 'Качество';
+  String get quality => 'Quality';
 
   @override
   String get weekly => 'Weekly';
@@ -1281,7 +1281,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lastUpdated => 'Last updated:';
 
   @override
-  String get periodSelection => 'Выбор периода:';
+  String get periodSelection => 'Period selection:';
 
   @override
   String get daily => 'Daily';
@@ -1299,22 +1299,22 @@ class AppLocalizationsRu extends AppLocalizations {
   String get pleaseSelectDate => 'Please select a date';
 
   @override
-  String get detailedStatistics => 'Подробная статистика';
+  String get detailedStatistics => 'Detailed Statistics';
 
   @override
   String get chartAnalysis => 'Chart Analysis';
 
   @override
-  String get overallActivityOverview => 'Общий обзор активности';
+  String get overallActivityOverview => 'Overall Activity Overview';
 
   @override
-  String get totalActivities => 'Общее количество активностей';
+  String get totalActivities => 'Total Activities';
 
   @override
-  String get activeCards => 'Активные карточки';
+  String get activeCards => 'Active Cards';
 
   @override
-  String get dailyAverage => 'Дневное среднее';
+  String get dailyAverage => 'Daily Average';
 
   @override
   String get activityDistributionByCard => 'Activity Distribution by Card';
@@ -1323,7 +1323,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cannotLoadData => 'Cannot load data';
 
   @override
-  String get tryAgain => 'Попробовать снова';
+  String get tryAgain => 'Try Again';
 
   @override
   String get details => 'Details';
@@ -1341,10 +1341,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get communitySubtitle => 'Sharing Parenting Stories Together';
 
   @override
-  String get search => 'Поиск';
+  String get search => 'Search';
 
   @override
-  String get notification => 'Уведомление';
+  String get notification => 'Notification';
 
   @override
   String get searchFeatureComingSoon => 'Search feature coming soon';
@@ -1354,463 +1354,463 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get communityWelcomeDescription =>
-      'Делитесь родительским опытом и ценной информацией с другими родителями';
+      'Share parenting experiences and valuable information with other parents';
 
   @override
   String get categorySelection => 'Category Selection';
 
   @override
-  String get categoryAll => 'Все';
+  String get categoryAll => 'All';
 
   @override
-  String get categoryPopular => 'Популярные';
+  String get categoryPopular => 'Popular';
 
   @override
-  String get categoryClinical => 'Клинические';
+  String get categoryClinical => 'Clinical';
 
   @override
-  String get categoryInfoSharing => 'Обмен информацией';
+  String get categoryInfoSharing => 'Info Sharing';
 
   @override
   String get categorySleepIssues => 'Sleep Issues';
 
   @override
-  String get categoryBabyFood => 'Детское питание';
+  String get categoryBabyFood => 'Baby Food';
 
   @override
-  String get categoryDevelopment => 'Развитие';
+  String get categoryDevelopment => 'Development';
 
   @override
-  String get categoryVaccination => 'Вакцинация';
+  String get categoryVaccination => 'Vaccination';
 
   @override
-  String get categoryPostpartum => 'Послеродовой период';
+  String get categoryPostpartum => 'Postpartum';
 
   @override
-  String get sortByLikes => 'Сортировать по лайкам';
+  String get sortByLikes => 'Sort by Likes';
 
   @override
-  String get sortByLatest => 'Сортировать по новизне';
+  String get sortByLatest => 'Sort by Latest';
 
   @override
-  String get edited => '(отредактировано)';
+  String get edited => '(edited)';
 
   @override
   String commentsCount(Object count) {
-    return '$count комментариев';
+    return '$count comments';
   }
 
   @override
-  String get deletePost => 'Удалить пост';
+  String get deletePost => 'Delete Post';
 
   @override
   String get deletePostConfirm =>
-      'Вы уверены, что хотите удалить этот пост?\\nУдалённые посты нельзя восстановить.';
+      'Are you sure you want to delete this post?\nDeleted posts cannot be recovered.';
 
   @override
-  String get deletePostSuccess => 'Пост удалён.';
+  String get deletePostSuccess => 'Post has been deleted.';
 
   @override
   String deletePostError(Object error) {
-    return 'Ошибка удаления: $error';
+    return 'Delete failed: $error';
   }
 
   @override
-  String get postNotFound => 'Пост не найден';
+  String get postNotFound => 'Post not found';
 
   @override
-  String get shareFeatureComingSoon => 'Функция публикации скоро';
+  String get shareFeatureComingSoon => 'Share feature coming soon';
 
   @override
-  String get loadingComments => 'Загрузка комментариев...';
+  String get loadingComments => 'Loading comments...';
 
   @override
-  String get loadMoreComments => 'Загрузить больше комментариев';
+  String get loadMoreComments => 'Load more comments';
 
   @override
-  String get editComment => 'Редактировать комментарий';
+  String get editComment => 'Edit Comment';
 
   @override
-  String get editCommentHint => 'Редактируйте ваш комментарий...';
+  String get editCommentHint => 'Edit your comment...';
 
   @override
-  String get editCommentSuccess => 'Комментарий обновлён.';
+  String get editCommentSuccess => 'Comment has been updated.';
 
   @override
   String editCommentError(Object error) {
-    return 'Ошибка редактирования: $error';
+    return 'Edit failed: $error';
   }
 
   @override
-  String get deleteComment => 'Удалить комментарий';
+  String get deleteComment => 'Delete Comment';
 
   @override
   String get deleteCommentConfirm =>
-      'Вы уверены, что хотите удалить этот комментарий?\\nУдалённые комментарии нельзя восстановить.';
+      'Are you sure you want to delete this comment?\nDeleted comments cannot be recovered.';
 
   @override
-  String get deleteCommentSuccess => 'Комментарий удалён.';
+  String get deleteCommentSuccess => 'Comment has been deleted.';
 
   @override
-  String get replySuccess => 'Ответ опубликован.';
+  String get replySuccess => 'Reply has been posted.';
 
   @override
-  String get commentSuccess => 'Комментарий опубликован.';
+  String get commentSuccess => 'Comment has been posted.';
 
   @override
-  String get commentError => 'Ошибка публикации комментария.';
+  String get commentError => 'Failed to post comment.';
 
   @override
-  String get titlePlaceholder => 'Введите заголовок';
+  String get titlePlaceholder => 'Enter title';
 
   @override
   String get contentPlaceholder =>
-      'Поделитесь своими мыслями...\\n\\nПишите свободно о своём родительском опыте.';
+      'Share your thoughts...\n\nFeel free to write about your parenting experiences.';
 
   @override
   String imageSelectionError(Object error) {
-    return 'Ошибка выбора изображения: $error';
+    return 'Image selection failed: $error';
   }
 
   @override
-  String get userNotFoundError => 'Информация пользователя не найдена.';
+  String get userNotFoundError => 'User information not found.';
 
   @override
-  String get postCreateSuccess => 'Пост успешно создан!';
+  String get postCreateSuccess => 'Post has been created successfully!';
 
   @override
   String postCreateError(Object error) {
-    return 'Ошибка создания поста: $error';
+    return 'Post creation failed: $error';
   }
 
   @override
   String titleCharacterCount(Object count) {
-    return 'Заголовок: $count/200';
+    return 'Title: $count/200';
   }
 
   @override
   String imageCountDisplay(Object count) {
-    return 'Изображения: $count/5';
+    return 'Images: $count/5';
   }
 
   @override
-  String get addImageTooltip => 'Добавить изображение';
+  String get addImageTooltip => 'Add Image';
 
   @override
-  String get allPostsChecked => 'Все посты проверены! 👍';
+  String get allPostsChecked => 'All posts have been checked! 👍';
 
   @override
-  String get waitForNewPosts => 'Ждите новые посты';
+  String get waitForNewPosts => 'Please wait until new posts are uploaded';
 
   @override
-  String get noPostsYet => 'Пока нет постов';
+  String get noPostsYet => 'No posts yet';
 
   @override
-  String get writeFirstPost => 'Напишите первый пост!';
+  String get writeFirstPost => 'Write the first post!';
 
   @override
-  String get loadingNewPosts => 'Загрузка новых постов...';
+  String get loadingNewPosts => 'Loading new posts...';
 
   @override
-  String get failedToLoadPosts => 'Ошибка загрузки постов';
+  String get failedToLoadPosts => 'Failed to load posts';
 
   @override
-  String get checkNetworkAndRetry => 'Проверьте соединение и попробуйте снова';
+  String get checkNetworkAndRetry =>
+      'Please check your network connection and try again';
 
   @override
-  String get categoryDailyLife => 'Повседневная жизнь';
+  String get categoryDailyLife => 'Daily Life';
 
   @override
-  String get preparingTimeline => 'Подготовка временной шкалы...';
+  String get preparingTimeline => 'Preparing timeline...';
 
   @override
-  String get noRecordedMoments => 'Пока нет записанных моментов';
+  String get noRecordedMoments => 'No recorded moments yet';
 
   @override
-  String get loadingTimeline => 'Загрузка временной шкалы...';
+  String get loadingTimeline => 'Loading timeline...';
 
   @override
-  String get noRecordsYet => 'Пока нет записей';
+  String get noRecordsYet => 'No records yet';
 
   @override
   String noRecordsForDate(Object date) {
-    return 'Нет записей для $date';
+    return 'No records for $date';
   }
 
   @override
   String noRecordsForDateAndFilter(Object date, Object filter) {
-    return 'Нет записей $filter для $date';
+    return 'No $filter records for $date';
   }
 
   @override
-  String get cannotRecordFuture => 'Пока нельзя записывать будущие активности';
+  String get cannotRecordFuture => 'Cannot record future activities yet';
 
   @override
-  String get addFirstRecord => 'Добавьте вашу первую запись!';
+  String get addFirstRecord => 'Add your first record!';
 
   @override
-  String get canAddPastRecord => 'Вы можете добавлять прошлые записи';
+  String get canAddPastRecord => 'You can add past records';
 
   @override
-  String get addRecord => 'Добавить запись';
+  String get addRecord => 'Add Record';
 
   @override
-  String get viewOtherDates => 'Посмотреть другие даты';
+  String get viewOtherDates => 'View Other Dates';
 
   @override
-  String get goToToday => 'Перейти к сегодня';
+  String get goToToday => 'Go to Today';
 
   @override
   String get quickRecordFromHome =>
-      'Вы можете быстро добавлять записи с главного экрана';
+      'You can quickly add records from the home screen';
 
   @override
   String detailViewComingSoon(String title) {
-    return 'Детали $title (Скоро)';
+    return '$title Details (Coming Soon)';
   }
 
   @override
   String get familyInvitationDescription =>
-      'Управляйте записями ухода за ребёнком вместе с семьёй через коды приглашений';
+      'Manage baby care records together with family using invitation codes';
 
   @override
-  String get babyManagement => 'Управление ребёнком';
+  String get babyManagement => 'Baby Management';
 
   @override
-  String get addBaby => 'Добавить ребенка';
+  String get addBaby => 'Add Baby';
 
   @override
-  String get noBabiesMessage =>
-      'Дети не зарегистрированы.\\nПожалуйста, добавьте ребёнка.';
+  String get noBabiesMessage => 'No babies registered.\nPlease add a baby.';
 
   @override
-  String get switchToNextBaby => 'Переключиться на следующего ребёнка';
+  String get switchToNextBaby => 'Switch to Next Baby';
 
   @override
-  String get birthDate => 'Дата рождения';
+  String get birthDate => 'Birth Date';
 
   @override
-  String get registering => 'Регистрация...';
+  String get registering => 'Registering...';
 
   @override
-  String get register => 'Зарегистрировать';
+  String get register => 'Register';
 
   @override
   String careTogetherWith(String name) {
-    return 'Ухаживать за ребёнком вместе с $name';
+    return 'Take care of babies together with $name';
   }
 
   @override
   String get inviteFamilyDescription =>
-      'Пригласите семью или партнёра\\nдля совместного управления записями ухода за ребёнком';
+      'Invite family or partners to\nmanage baby care records together';
 
   @override
-  String get generateInviteCode => 'Создать код приглашения';
+  String get generateInviteCode => 'Generate Invitation Code';
 
   @override
   String get generateInviteCodeDescription =>
-      'Создать новый код приглашения и скопировать';
+      'Generate a new invitation code and copy it';
 
   @override
-  String get generateInviteCodeButton => 'Создать код приглашения';
+  String get generateInviteCodeButton => 'Generate Invitation Code';
 
   @override
-  String get orText => 'Или';
+  String get orText => 'Or';
 
   @override
-  String get enterInviteCodeDescription => 'Введите полученный код приглашения';
+  String get enterInviteCodeDescription =>
+      'Please enter the invitation code you received';
 
   @override
-  String get inviteCodePlaceholder => 'Код приглашения (6 цифр)';
+  String get inviteCodePlaceholder => 'Invitation Code (6 digits)';
 
   @override
-  String get acceptInvite => 'Принять приглашение';
+  String get acceptInvite => 'Accept Invitation';
 
   @override
   String babyRegistrationSuccess(String name) {
-    return '$name успешно зарегистрирован';
+    return '$name has been registered successfully';
   }
 
   @override
-  String get babyRegistrationFailed => 'Ошибка регистрации ребёнка';
+  String get babyRegistrationFailed => 'Baby registration failed';
 
   @override
   String babyRegistrationError(String error) {
-    return 'Произошла ошибка: $error';
+    return 'Error occurred: $error';
   }
 
   @override
   String babySelected(String name) {
-    return '$name выбран';
+    return '$name has been selected';
   }
 
   @override
-  String get inviteCodeGenerated => 'Код приглашения создан!';
+  String get inviteCodeGenerated => 'Invitation code generated successfully!';
 
   @override
   String remainingTime(String time) {
-    return 'Оставшееся время: $time';
+    return 'Remaining time: $time';
   }
 
   @override
-  String get validTime => 'Время действия: 5 минут';
+  String get validTime => 'Valid time: 5 minutes';
 
   @override
-  String get generating => 'Создание...';
+  String get generating => 'Generating...';
 
   @override
-  String get joining => 'Присоединение...';
+  String get joining => 'Joining...';
 
   @override
-  String get noBabyInfo => 'Нет информации о ребёнке';
+  String get noBabyInfo => 'No Baby Information';
 
   @override
   String get noBabyInfoDescription =>
-      'Информация о ребёнке не найдена.\\nХотите создать тестового ребёнка?';
+      'No baby information found.\nWould you like to create a test baby?';
 
   @override
-  String get create => 'Создать';
+  String get create => 'Create';
 
   @override
-  String get generateNewInviteCode => 'Создать новый код приглашения';
+  String get generateNewInviteCode => 'Generate New Invitation Code';
 
   @override
   String get replaceExistingCode =>
-      'Это заменит существующий код приглашения.\\nХотите продолжить?';
+      'This will replace the existing invitation code.\nDo you want to continue?';
 
   @override
-  String get acceptInvitation => 'Принять приглашение';
+  String get acceptInvitation => 'Accept Invitation';
 
   @override
   String get acceptInvitationDescription =>
-      'Хотите принять приглашение и присоединиться к семье?';
+      'Do you want to accept the invitation and join the family?';
 
   @override
   String acceptInvitationWarning(String babyName) {
-    return 'Существующие записи ребёнка будут удалены и заменены приглашённым ребёнком ($babyName).\\n\\nХотите продолжить?';
+    return 'Existing baby records will be deleted and replaced with the invited baby ($babyName).\n\nDo you want to continue?';
   }
 
   @override
-  String get pleaseEnterInviteCode => 'Введите код приглашения';
+  String get pleaseEnterInviteCode => 'Please enter the invitation code';
 
   @override
-  String get inviteCodeMustBe6Digits =>
-      'Код приглашения должен содержать 6 цифр';
+  String get inviteCodeMustBe6Digits => 'Invitation code must be 6 digits';
 
   @override
   String get pleaseLoginFirst =>
-      'Информация для входа не найдена. Сначала войдите в систему.';
+      'No login information found. Please login first.';
 
   @override
-  String get copiedToClipboard => 'Код приглашения скопирован!';
+  String get copiedToClipboard => 'Invitation code copied to clipboard!';
 
   @override
-  String get joinedSuccessfully => 'Успешно присоединились к семье!';
+  String get joinedSuccessfully => 'Successfully joined the family!';
 
   @override
-  String get inviteCodeExpired => 'Срок действия кода приглашения истёк';
+  String get inviteCodeExpired => 'Invitation code has expired';
 
   @override
-  String get invalidInviteCode => 'Неверный код приглашения';
+  String get invalidInviteCode => 'Invalid invitation code';
 
   @override
-  String get alreadyMember => 'Вы уже член этой семьи';
+  String get alreadyMember => 'You are already a member of this family';
 
   @override
-  String get cannotInviteSelf => 'Вы не можете пригласить самого себя';
+  String get cannotInviteSelf => 'You cannot invite yourself';
 
   @override
   String minutesAndSeconds(int minutes, int seconds) {
-    return '$minutesмин $secondsсек';
+    return '${minutes}m ${seconds}s';
   }
 
   @override
   String babyGuideTitle(String name) {
-    return 'Руководство по уходу за $name';
+    return '$name\'s Baby Care Guide';
   }
 
   @override
-  String get babyGuide => 'Детское руководство';
+  String get babyGuide => 'Baby Care Guide';
 
   @override
-  String get noAvailableGuides => 'Нет доступных руководств';
+  String get noAvailableGuides => 'No available guides';
 
   @override
-  String get current => 'Текущий';
+  String get current => 'Current';
 
   @override
-  String get past => 'Прошедший';
+  String get past => 'Past';
 
   @override
-  String get upcoming => 'Предстоящий';
+  String get upcoming => 'Upcoming';
 
   @override
   String babysGuide(String name) {
-    return '$name';
+    return '$name\'s';
   }
 
   @override
   String weekGuide(String weekText) {
-    return 'Руководство $weekText';
+    return '$weekText Guide';
   }
 
   @override
-  String get feedingGuide => '💡 Руководство по кормлению';
+  String get feedingGuide => '💡 Feeding Guide';
 
   @override
-  String get feedingFrequency => 'Частота кормления';
+  String get feedingFrequency => 'Feeding Frequency';
 
   @override
-  String get singleFeedingAmount => 'Количество за одно кормление';
+  String get singleFeedingAmount => 'Feeding Amount';
 
   @override
-  String get dailyTotal => 'Общее количество в день';
+  String get dailyTotal => 'Daily Total';
 
   @override
-  String get additionalTips => '📋 Дополнительные советы';
+  String get additionalTips => '📋 Additional Tips';
 
   @override
-  String get understood => 'Понятно!';
+  String get understood => 'Got it!';
 
   @override
-  String get newborn => 'Новорождённый';
+  String get newborn => 'Newborn';
 
   @override
   String weekNumber(int number) {
-    return 'Неделя $number';
+    return 'Week $number';
   }
 
   @override
-  String get newbornWeek0 => 'Новорождённый (Неделя 0)';
+  String get newbornWeek0 => 'Newborn (Week 0)';
 
   @override
   String dailyFrequencyRange(int min, int max) {
-    return 'Ежедневно $min - $max раз';
+    return 'Daily $min - $max times';
   }
 
   @override
   String dailyFrequencyMin(int min) {
-    return 'Ежедневно $min+ раз';
+    return 'Daily $min+ times';
   }
 
   @override
   String dailyFrequencyMax(int max) {
-    return 'Ежедневно до $max раз';
+    return 'Daily up to $max times';
   }
 
   @override
   String amountRangeML(int min, int max) {
-    return '$minмл - $maxмл';
+    return '${min}ml - ${max}ml';
   }
 
   @override
   String amountMinML(int min) {
-    return '$minмл или больше';
+    return '${min}ml or more';
   }
 
   @override
   String amountMaxML(int max) {
-    return 'До $maxмл';
+    return 'Up to ${max}ml';
   }
 
   @override
@@ -1820,276 +1820,276 @@ class AppLocalizationsRu extends AppLocalizations {
   String get noRecentFeeding => 'No recent feeding records';
 
   @override
-  String get languageSelection => 'Выбор языка';
+  String get languageSelection => 'Language Selection';
 
   @override
-  String get selectLanguage => 'Выберите язык';
+  String get selectLanguage => 'Select a language';
 
   @override
-  String get currentLanguage => 'Текущий язык';
+  String get currentLanguage => 'Current Language';
 
   @override
-  String get searchCommunityPosts => 'Поиск публикаций сообщества';
+  String get searchCommunityPosts => 'Search community posts';
 
   @override
-  String get temperatureRecord => 'Запись температуры';
+  String get temperatureRecord => 'Temperature Record';
 
   @override
-  String get temperatureTrend => 'Тренд Температуры';
+  String get temperatureTrend => 'Temperature Trend';
 
   @override
-  String get profilePhotoSetup => 'Настройка фото профиля';
+  String get profilePhotoSetup => 'Profile Photo Setup';
 
   @override
-  String get howToSelectPhoto => 'Как вы хотите выбрать фото?';
+  String get howToSelectPhoto => 'How would you like to select a photo?';
 
   @override
-  String get send => 'Отправить';
+  String get send => 'Send';
 
   @override
-  String get emailVerificationRequired => 'Требуется подтверждение email';
+  String get emailVerificationRequired => 'Email Verification Required';
 
   @override
-  String get passwordReset => 'Сброс пароля';
+  String get passwordReset => 'Password Reset';
 
   @override
   String get enterEmailForReset =>
-      'Введите ваш зарегистрированный email-адрес.\nМы отправим вам ссылку для сброса пароля.';
+      'Enter your registered email address.\nWe\'ll send you a password reset link.';
 
   @override
-  String get accountWithdrawalComplete => 'Удаление аккаунта завершено';
+  String get accountWithdrawalComplete => 'Account Withdrawal Complete';
 
   @override
-  String get genderLabel => 'Пол: ';
+  String get genderLabel => 'Gender: ';
 
   @override
-  String get birthdateLabel => 'Дата рождения: ';
+  String get birthdateLabel => 'Birthdate: ';
 
   @override
-  String get maleGender => 'Мужской';
+  String get maleGender => 'Male';
 
   @override
-  String get femaleGender => 'Женский';
+  String get femaleGender => 'Female';
 
   @override
-  String get joinWithInviteCodeButton => 'Присоединиться по коду приглашения';
+  String get joinWithInviteCodeButton => 'Join with Invite Code';
 
   @override
-  String get temperatureRecorded => 'Температура записана';
+  String get temperatureRecorded => 'Temperature recorded';
 
   @override
   String recordFailed(String error) {
-    return 'Ошибка записи';
+    return 'Record failed';
   }
 
   @override
-  String get temperatureSettingsSaved => 'Настройки температуры сохранены';
+  String get temperatureSettingsSaved => 'Temperature settings have been saved';
 
   @override
   String get loadingUserInfo =>
-      'Загрузка информации о пользователе. Пожалуйста, попробуйте ещё раз через момент.';
+      'Loading user information. Please try again in a moment.';
 
   @override
-  String get continueWithSeparateAccount => 'Продолжить с отдельным аккаунтом';
+  String get continueWithSeparateAccount => 'Continue with separate account';
 
   @override
-  String get linkWithExistingAccount => 'Связать с существующим аккаунтом';
+  String get linkWithExistingAccount => 'Link with existing account';
 
   @override
-  String get linkAccount => 'Связать аккаунт';
+  String get linkAccount => 'Link Account';
 
   @override
-  String get accountLinkingComplete => 'Связывание аккаунта завершено';
+  String get accountLinkingComplete => 'Account Linking Complete';
 
   @override
-  String get deleteConfirmation => 'Подтверждение удаления';
+  String get deleteConfirmation => 'Delete Confirmation';
 
   @override
   String get emailLabel => 'Email';
 
   @override
-  String get passwordLabel => 'Пароль';
+  String get passwordLabel => 'Password';
 
   @override
-  String get babyNameLabel => 'Имя ребенка';
+  String get babyNameLabel => 'Baby Name';
 
   @override
-  String get weightInput => 'Ввести вес';
+  String get weightInput => 'Enter weight';
 
   @override
-  String get heightInput => 'Ввести рост';
+  String get heightInput => 'Enter height';
 
   @override
   String get measurementNotes =>
-      'Записать условия измерения или особые заметки (необязательно)';
+      'Record measurement conditions or special notes (optional)';
 
   @override
-  String get urine => 'Моча';
+  String get urine => 'Urine';
 
   @override
-  String get stool => 'Стул';
+  String get stool => 'Stool';
 
   @override
-  String get yellow => 'Желтый';
+  String get yellow => 'Yellow';
 
   @override
-  String get brown => 'Коричневый';
+  String get brown => 'Brown';
 
   @override
-  String get green => 'Зеленый';
+  String get green => 'Green';
 
   @override
-  String get bottle => 'Бутылочка';
+  String get bottle => 'Bottle';
 
   @override
-  String get good => 'Хорошо';
+  String get good => 'Good';
 
   @override
-  String get average => 'Среднее';
+  String get average => 'Average';
 
   @override
-  String get poor => 'Плохо';
+  String get poor => 'Poor';
 
   @override
-  String get vaccination => 'Вакцинация';
+  String get vaccination => 'Vaccination';
 
   @override
-  String get illness => 'Болезнь';
+  String get illness => 'Illness';
 
   @override
-  String get highFever => 'Высокая Лихорадка';
+  String get highFever => 'High Fever';
 
   @override
-  String get oral => 'Оральный';
+  String get oral => 'Oral';
 
   @override
-  String get inhalation => 'Ингаляция';
+  String get inhalation => 'Inhalation';
 
   @override
-  String get injection => 'Инъекция';
+  String get injection => 'Injection';
 
   @override
-  String get tablet => 'Таблетка';
+  String get tablet => 'Tablet';
 
   @override
-  String get drops => 'Капли';
+  String get drops => 'Drops';
 
   @override
-  String get teaspoon => 'Чайная ложка';
+  String get teaspoon => 'Teaspoon';
 
   @override
-  String get tablespoon => 'Столовая ложка';
+  String get tablespoon => 'Tablespoon';
 
   @override
-  String get sleepQuality => 'Качество';
+  String get sleepQuality => 'Quality';
 
   @override
-  String get pumpingTime => 'Сцеживание';
+  String get pumpingTime => 'Pumping';
 
   @override
-  String get solidFoodTime => 'Твердая пища';
+  String get solidFoodTime => 'Solid Food';
 
   @override
-  String get totalFeedingAmount => 'Общее количество кормления';
+  String get totalFeedingAmount => 'Total feeding amount';
 
   @override
-  String get averageFeedingAmount => 'Среднее количество кормления';
+  String get averageFeedingAmount => 'Average feeding amount';
 
   @override
-  String get dailyAverageFeedingCount => 'Дневное среднее количество кормлений';
+  String get dailyAverageFeedingCount => 'Daily average feeding count';
 
   @override
-  String get clinical => 'Клинический';
+  String get clinical => 'Clinical';
 
   @override
-  String get infoSharing => 'Обмен информацией';
+  String get infoSharing => 'Info Sharing';
 
   @override
-  String get sleepIssues => 'Проблемы со сном';
+  String get sleepIssues => 'Sleep Issues';
 
   @override
-  String get babyFoodCategory => 'Детское питание';
+  String get babyFoodCategory => 'Baby Food';
 
   @override
-  String get developmentStage => 'Стадия развития';
+  String get developmentStage => 'Development Stage';
 
   @override
-  String get vaccinationCategory => 'Вакцинация';
+  String get vaccinationCategory => 'Vaccination';
 
   @override
-  String get postpartumRecovery => 'Послеродовое восстановление';
+  String get postpartumRecovery => 'Postpartum Recovery';
 
   @override
-  String get dailyLife => 'Повседневная жизнь';
+  String get dailyLife => 'Daily Life';
 
   @override
-  String get likes => 'Лайки';
+  String get likes => 'Likes';
 
   @override
-  String get comments => 'Комментарии';
+  String get comments => 'Comments';
 
   @override
-  String get anonymous => 'Анонимно';
+  String get anonymous => 'Anonymous';
 
   @override
-  String get minutes => 'мин';
+  String get minutes => 'min';
 
   @override
-  String get armpit => 'Подмышка';
+  String get armpit => 'Armpit';
 
   @override
-  String get forehead => 'Лоб';
+  String get forehead => 'Forehead';
 
   @override
-  String get ear => 'Ухо';
+  String get ear => 'Ear';
 
   @override
-  String get mouth => 'Рот';
+  String get mouth => 'Mouth';
 
   @override
-  String get rectal => 'Ректально';
+  String get rectal => 'Rectal';
 
   @override
-  String get otherLocation => 'Другое';
+  String get otherLocation => 'Other';
 
   @override
-  String get searchError => 'Ошибка поиска';
+  String get searchError => 'Search error';
 
   @override
-  String get question => 'Вопрос';
+  String get question => 'Question';
 
   @override
-  String get information => 'Информация';
+  String get information => 'Information';
 
   @override
-  String get relevance => 'Релевантность';
+  String get relevance => 'Relevance';
 
   @override
-  String get searchSuggestions => 'Предложения поиска';
+  String get searchSuggestions => 'Search suggestions';
 
   @override
-  String get noSearchResults => 'Нет результатов поиска';
+  String get noSearchResults => 'No search results';
 
   @override
-  String get tryDifferentSearchTerm => 'Попробуйте другой поисковый запрос';
+  String get tryDifferentSearchTerm => 'Try a different search term';
 
   @override
-  String get likeFeatureComingSoon => 'Функция лайков скоро';
+  String get likeFeatureComingSoon => 'Like feature coming soon';
 
   @override
-  String get popularSearchTerms => 'Популярные поисковые запросы';
+  String get popularSearchTerms => 'Popular search terms';
 
   @override
-  String get recentSearches => 'Недавние поиски';
+  String get recentSearches => 'Recent searches';
 
   @override
-  String get deleteAll => 'Удалить все';
+  String get deleteAll => 'Delete All';
 
   @override
-  String get sortByComments => 'Сортировать по комментариям';
+  String get sortByComments => 'Sort by comments';
 
   @override
-  String get detailInformation => 'Детальная Информация';
+  String get detailInformation => 'Detail Information';
 
   @override
   String get quickActions => 'Quick Actions';
@@ -2126,10 +2126,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get time => 'Time';
 
   @override
-  String get amount => 'Количество';
+  String get amount => 'Amount';
 
   @override
-  String get duration => 'Продолжительность';
+  String get duration => 'Duration';
 
   @override
   String get dosage => 'Dosage';
@@ -2138,7 +2138,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get unit => 'Unit';
 
   @override
-  String get side => 'Сторона';
+  String get side => 'Side';
 
   @override
   String get fair => 'Fair';
@@ -2162,21 +2162,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changesSaved => 'Changes saved';
 
   @override
-  String get smartInsights => 'Умные Выводы';
+  String get smartInsights => 'Smart Insights';
 
   @override
-  String get analyzingPatterns => 'Анализ закономерностей...';
+  String get analyzingPatterns => 'Analyzing patterns...';
 
   @override
   String insightsFound(int count) {
-    return '$count выводов найдено';
+    return '$count insights found';
   }
 
   @override
   String get noInsightsYet => 'Not enough data to analyze patterns yet';
 
   @override
-  String get confidence => 'Уверенность';
+  String get confidence => 'Confidence';
 
   @override
   String sleepProgressMinutes(int minutes) {
@@ -2213,7 +2213,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String hoursMinutesFormat(int hours, int minutes) {
-    return '$hoursч $minutesм';
+    return '${hours}h ${minutes}m';
   }
 
   @override
@@ -2227,107 +2227,106 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get longPressForDetails => 'Длительное нажатие для подробностей';
+  String get longPressForDetails => 'Long press for details';
 
   @override
-  String get todaysSummary => 'Сводка за сегодня';
+  String get todaysSummary => 'Today\'s Summary';
 
   @override
-  String get future => 'Будущее';
+  String get future => 'Future';
 
   @override
-  String get previousDate => 'Предыдущая дата';
+  String get previousDate => 'Previous date';
 
   @override
-  String get nextDate => 'Следующая дата';
+  String get nextDate => 'Next date';
 
   @override
-  String get selectDate => 'Выбрать дату';
+  String get selectDate => 'Select date';
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
 
   @override
-  String get registerBabyFirst =>
-      'Пожалуйста, сначала зарегистрируйте вашего ребёнка';
+  String get registerBabyFirst => 'Please register your baby';
 
   @override
   String get registerBabyToRecordMoments =>
-      'Чтобы записывать драгоценные моменты вашего ребёнка,\nпожалуйста, сначала зарегистрируйте информацию о ребёнке.';
+      'To record your baby\'s precious moments,\nplease register baby information first.';
 
   @override
-  String get addBabyFromHome => 'Добавить ребёнка с главного экрана';
+  String get addBabyFromHome => 'Add baby from home';
 
   @override
-  String get timesUnit => 'раз';
+  String get timesUnit => 'times';
 
   @override
-  String get itemsUnit => 'элементов';
+  String get itemsUnit => 'items';
 
   @override
-  String get timesPerDay => 'раз/день';
+  String get timesPerDay => 'times/day';
 
   @override
   String get activityDistributionByCategory =>
-      'Распределение активности по категориям';
+      'Activity Distribution by Category';
 
   @override
   String itemsCount(int count) {
-    return '$count элементов';
+    return '$count items';
   }
 
   @override
-  String get totalCount => 'Общее количество';
+  String get totalCount => 'Total count';
 
   @override
   String timesCount(int count) {
-    return '$count раз';
+    return '$count times';
   }
 
   @override
-  String get noDetailedData => 'Нет подробных данных';
+  String get noDetailedData => 'No detailed data';
 
   @override
-  String get averageFeedingTime => 'Среднее время кормления';
+  String get averageFeedingTime => 'Average feeding time';
 
   @override
-  String get averageSleepTime => 'Среднее время сна';
+  String get averageSleepTime => 'Average sleep time';
 
   @override
-  String get dailyAverageTotalSleepTime => 'Дневное среднее общее время сна';
+  String get dailyAverageTotalSleepTime => 'Daily average total sleep time';
 
   @override
-  String get dailyAverageSleepCount => 'Дневное среднее количество снов';
+  String get dailyAverageSleepCount => 'Daily average sleep count';
 
   @override
-  String get dailyAverageChangeCount => 'Дневное среднее количество смен';
+  String get dailyAverageChangeCount => 'Daily average change count';
 
   @override
-  String get sharingParentingStories => 'Обмен родительскими историями';
+  String get sharingParentingStories => 'Sharing Parenting Stories';
 
   @override
-  String get myActivity => 'Моя активность';
+  String get myActivity => 'My Activity';
 
   @override
-  String get categories => 'Категории';
+  String get categories => 'Categories';
 
   @override
-  String get menu => 'Меню';
+  String get menu => 'Menu';
 
   @override
-  String get seeMore => 'Посмотреть ещё';
+  String get seeMore => 'See More';
 
   @override
-  String get midnight => 'Полночь';
+  String get midnight => 'Midnight';
 
   @override
-  String get morning => 'Утро';
+  String get morning => 'AM';
 
   @override
-  String get noon => 'Полдень';
+  String get noon => 'Noon';
 
   @override
-  String get afternoon => 'Вечер';
+  String get afternoon => 'PM';
 
   @override
   String get quickSelection => 'Quick Selection';
@@ -2428,30 +2427,28 @@ class AppLocalizationsRu extends AppLocalizations {
       'Feeding time reminder notifications';
 
   @override
-  String get averageFeedingDuration => 'Средняя продолжительность кормления';
+  String get averageFeedingDuration => 'Average feeding duration';
 
   @override
-  String get averageSleepDuration => 'Средняя продолжительность сна';
+  String get averageSleepDuration => 'Average sleep duration';
 
   @override
   String get dailyTotalSleepDuration => 'Daily total sleep duration';
 
   @override
-  String get dailyAverageDiaperChangeCount =>
-      'Ежедневная средняя смена подгузников';
+  String get dailyAverageDiaperChangeCount => 'Daily average diaper changes';
 
   @override
-  String get dailyAverageMedicationCount =>
-      'Ежедневное среднее количество лекарств';
+  String get dailyAverageMedicationCount => 'Daily average medication count';
 
   @override
-  String get medicationTypesUsed => 'Типы используемых лекарств';
+  String get medicationTypesUsed => 'Types of medication used';
 
   @override
-  String get totalPumpedAmount => 'Общее количество сцеженного';
+  String get totalPumpedAmount => 'Total pumped amount';
 
   @override
-  String get averagePumpedAmount => 'Среднее количество сцеженного';
+  String get averagePumpedAmount => 'Average pumped amount';
 
   @override
   String get countTab => 'Count';
@@ -2469,7 +2466,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get chartDataNotAvailable => 'Chart data not available.';
 
   @override
-  String get averageLabel => 'Среднее: ';
+  String get averageLabel => 'Average: ';
 
   @override
   String get dailyFeedingCountTitle => 'Daily feeding count';
@@ -2483,7 +2480,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get dailyFeedingCount => 'Ежедневное количество кормлений';
+  String get dailyFeedingCount => 'Daily feeding count';
 
   @override
   String get dailyFeedingAmount => 'Daily feeding amount';
@@ -2492,630 +2489,780 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dailyFeedingDuration => 'Daily feeding duration';
 
   @override
-  String get dailySleepCount => 'Ежедневное количество сна';
+  String get dailySleepCount => 'Daily sleep count';
 
   @override
   String get dailySleepDuration => 'Daily sleep duration';
 
   @override
-  String get dailyDiaperChangeCount => 'Ежедневная смена подгузников';
+  String get dailyDiaperChangeCount => 'Daily diaper changes';
 
   @override
-  String get dailyMedicationCount => 'Ежедневное количество лекарств';
+  String get dailyMedicationCount => 'Daily medication count';
 
   @override
-  String get dailyMilkPumpingCount => 'Ежедневное количество сцеживаний';
+  String get dailyMilkPumpingCount => 'Daily pumping count';
 
   @override
   String get dailyMilkPumpingAmount => 'Daily pumping amount';
 
   @override
-  String get dailySolidFoodCount => 'Ежедневное количество твердой пищи';
+  String get dailySolidFoodCount => 'Daily solid food count';
 
   @override
-  String get dailyAverageSolidFoodCount =>
-      'Ежедневное среднее количество твердой пищи';
+  String get dailyAverageSolidFoodCount => 'Daily average solid food count';
 
   @override
-  String get triedFoodTypes => 'Типы пробованной пищи';
+  String get triedFoodTypes => 'Types of food tried';
 
   @override
   String babyTemperatureRecord(String name) {
-    return 'Запись температуры $name';
+    return '$name\'s Temperature Record';
   }
 
   @override
-  String get adjustWithSlider => 'Настроить с помощью ползунка';
+  String get adjustWithSlider => 'Adjust with slider';
 
   @override
-  String get measurementMethod => 'Метод измерения';
+  String get measurementMethod => 'Measurement method';
 
   @override
-  String get normalRange => 'Нормальный диапазон';
+  String get normalRange => 'Normal range';
 
   @override
   String normalRangeForAgeGroup(String ageGroup, String min, String max) {
-    return 'Нормальный диапазон ($ageGroup): $min°C - $max°C';
+    return 'Normal range ($ageGroup): $min°C - $max°C';
   }
 
   @override
-  String get saveTemperatureRecord => 'Сохранить запись температуры';
+  String get saveTemperatureRecord => 'Save Temperature Record';
 
   @override
-  String get enterTemperature => 'Пожалуйста, введите температуру';
+  String get enterTemperature => 'Please enter temperature';
 
   @override
   String get temperatureRangeValidation =>
-      'Температура должна быть в диапазоне 34,0°C ~ 42,0°C';
+      'Temperature must be between 34.0°C ~ 42.0°C';
 
   @override
-  String get recordSymptomsHint =>
-      'Пожалуйста, запишите симптомы или особые заметки';
+  String get recordSymptomsHint => 'Please record symptoms or special notes';
 
   @override
-  String get oralMethod => 'Оральный';
+  String get oralMethod => 'Oral';
 
   @override
-  String get analMethod => 'Анальный';
+  String get analMethod => 'Anal';
 
   @override
   String recentDaysTrend(int days) {
-    return 'Тренд за последние $days дней';
+    return 'Recent $days days trend';
   }
 
   @override
-  String get days3 => '3 дня';
+  String get days3 => '3 days';
 
   @override
-  String get days7 => '7 дней';
+  String get days7 => '7 days';
 
   @override
-  String get weeks2 => '2 недели';
+  String get weeks2 => '2 weeks';
 
   @override
-  String get month1 => '1 месяц';
+  String get month1 => '1 month';
 
   @override
   String get noTemperatureRecordsInPeriod =>
-      'Нет записей температуры за выбранный период';
+      'No temperature records in selected period';
 
   @override
-  String get temperatureChangeTrend => 'Тренд Изменения Температуры';
+  String get temperatureChangeTrend => 'Temperature Change Trend';
 
   @override
-  String get averageTemperature => 'Средняя Температура';
+  String get averageTemperature => 'Average Temperature';
 
   @override
-  String get highestTemperature => 'Самая Высокая Температура';
+  String get highestTemperature => 'Highest Temperature';
 
   @override
-  String get lowestTemperature => 'Самая Низкая Температура';
+  String get lowestTemperature => 'Lowest Temperature';
 
   @override
-  String get noteAvailableTapToView =>
-      '📝 Заметка доступна (нажмите для просмотра)';
+  String get noteAvailableTapToView => '📝 Note available (tap to view)';
 
   @override
-  String get temperatureRisingTrend =>
-      'Температура показывает восходящий тренд';
+  String get temperatureRisingTrend => 'Temperature is showing a rising trend';
 
   @override
   String get temperatureFallingTrend =>
-      'Температура показывает нисходящий тренд';
+      'Temperature is showing a falling trend';
 
   @override
-  String get temperatureStableTrend => 'Температура стабильна';
+  String get temperatureStableTrend => 'Temperature is stable';
 
   @override
-  String get trendAnalysis => 'Анализ Тренда';
+  String get trendAnalysis => 'Trend Analysis';
 
   @override
   String totalMeasurements(int count) {
-    return 'Всего $count измерений';
+    return 'Total $count measurements';
   }
 
   @override
-  String get temperatureRecordMemo => 'Заметка Записи Температуры';
+  String get temperatureRecordMemo => 'Temperature Record Memo';
 
   @override
   String babyGrowthChart(String name) {
-    return 'График Роста $name';
+    return '$name\'s Growth Chart';
   }
 
   @override
-  String get noGrowthRecords => 'Нет записей роста';
+  String get noGrowthRecords => 'No growth records';
 
   @override
   String get enterWeightAndHeightFromHome =>
-      'Пожалуйста, введите вес и рост с главного экрана';
+      'Please enter weight and height from home screen';
 
   @override
-  String get all => 'Все';
+  String get all => 'All';
 
   @override
-  String get growthInsights => 'Анализ Роста';
+  String get growthInsights => 'Growth Insights';
 
   @override
-  String get growthRate => 'Темп Роста';
+  String get growthRate => 'Growth Rate';
 
   @override
-  String get monthlyAverageGrowth => 'Средний Месячный Рост';
+  String get monthlyAverageGrowth => 'Monthly Average Growth';
 
   @override
-  String get dataInsufficient => 'Недостаточно Данных';
+  String get dataInsufficient => 'Data Insufficient';
 
   @override
-  String get twoOrMoreRequired => 'Требуется 2 или больше';
+  String get twoOrMoreRequired => '2 or more required';
 
   @override
   String recentDaysBasis(int days) {
-    return 'На основе последних $days дней';
+    return 'Based on recent $days days';
   }
 
   @override
-  String get entireBasis => 'На основе всего периода';
+  String get entireBasis => 'Based on entire period';
 
   @override
-  String get oneMonthPrediction => 'Прогноз на 1 Месяц';
+  String get oneMonthPrediction => '1 Month Prediction';
 
   @override
-  String get currentTrendBasis => 'На основе текущей тенденции';
+  String get currentTrendBasis => 'Based on current trend';
 
   @override
-  String get predictionNotPossible => 'Прогноз невозможен';
+  String get predictionNotPossible => 'Prediction not possible';
 
   @override
-  String get trendInsufficient => 'Недостаточная тенденция';
+  String get trendInsufficient => 'Trend insufficient';
 
   @override
-  String get recordFrequency => 'Частота Записей';
+  String get recordFrequency => 'Record Frequency';
 
   @override
-  String get veryConsistent => 'Очень Стабильно';
+  String get veryConsistent => 'Very Consistent';
 
   @override
-  String get consistent => 'Стабильно';
+  String get consistent => 'Consistent';
 
   @override
-  String get irregular => 'Нерегулярно';
+  String get irregular => 'Irregular';
 
   @override
   String averageDaysInterval(String days) {
-    return 'Средний интервал $days дней';
+    return 'Average $days days interval';
   }
 
   @override
-  String get nextRecord => 'Следующая Запись';
+  String get nextRecord => 'Next Record';
 
   @override
-  String get now => 'Сейчас';
+  String get now => 'Now';
 
   @override
-  String get soon => 'Скоро';
+  String get soon => 'Soon';
 
   @override
   String daysLater(int days) {
-    return 'через $days дней';
+    return '$days days later';
   }
 
   @override
   String daysAgoRecorded(int days) {
-    return 'Записано $days дней назад';
+    return 'Recorded $days days ago';
   }
 
   @override
-  String get weeklyRecordRecommended => 'Рекомендуется еженедельная запись';
+  String get weeklyRecordRecommended => 'Weekly record recommended';
 
   @override
-  String get nextMilestone => 'Следующая Веха';
+  String get nextMilestone => 'Next Milestone';
 
   @override
   String targetValue(String value, String unit) {
-    return 'Цель $value$unit';
+    return '$value$unit target';
   }
 
   @override
   String remainingProgress(String remaining, String unit, String progress) {
-    return 'Осталось $remaining$unit ($progress% достигнуто)';
+    return '$remaining$unit remaining ($progress% achieved)';
   }
 
   @override
-  String get calculationNotPossible => 'Расчет невозможен';
+  String get calculationNotPossible => 'Calculation not possible';
 
   @override
-  String get periodInsufficient => 'Недостаточный период';
+  String get periodInsufficient => 'Period insufficient';
 
   @override
-  String get noDataAvailable => 'Нет доступных данных';
+  String get noDataAvailable => 'No data available';
 
   @override
-  String get weightRecordRequired => 'Требуется запись веса';
+  String get weightRecordRequired => 'Weight record required';
 
   @override
-  String get heightRecordRequired => 'Требуется запись роста';
+  String get heightRecordRequired => 'Height record required';
 
   @override
-  String get currentRecordMissing => 'Текущая запись отсутствует';
+  String get currentRecordMissing => 'Current record missing';
 
   @override
-  String get noRecord => 'Нет записи';
+  String get noRecord => 'No record';
 
   @override
-  String get firstRecordStart => 'Начать первую запись';
+  String get firstRecordStart => 'Start your first record';
 
   @override
-  String get oneRecord => '1 запись';
+  String get oneRecord => '1 record';
 
   @override
-  String get moreRecordsNeeded => 'Требуется больше записей';
+  String get moreRecordsNeeded => 'More records needed';
 
   @override
-  String get sameDayRecord => 'Запись в тот же день';
+  String get sameDayRecord => 'Same day record';
 
   @override
   String recordedTimes(int count) {
-    return 'Записано $count раз';
+    return '$count times recorded';
   }
 
   @override
-  String get storageMethod => 'Способ хранения';
+  String get storageMethod => 'Storage Method';
 
   @override
-  String get pumpingType => 'Тип сцеживания';
+  String get pumpingType => 'Pumping Type';
 
   @override
-  String get foodName => 'Название продукта';
+  String get foodName => 'Food Name';
 
   @override
-  String get mealType => 'Тип приема пищи';
+  String get mealType => 'Meal Type';
 
   @override
-  String get texture => 'Текстура';
+  String get texture => 'Texture';
 
   @override
-  String get reaction => 'Реакция';
+  String get reaction => 'Reaction';
 
   @override
-  String get measurementLocation => 'Место измерения';
+  String get measurementLocation => 'Measurement Location';
 
   @override
-  String get feverReducerGiven => 'Жаропонижающее дано';
+  String get feverReducerGiven => 'Fever Reducer Given';
 
   @override
-  String get given => 'Дано';
+  String get given => 'Given';
 
   @override
-  String get hours => 'часов';
+  String get hours => 'hours';
 
   @override
-  String get refrigerator => 'Холодильник';
+  String get refrigerator => 'Refrigerator';
 
   @override
-  String get freezer => 'Морозилка';
+  String get freezer => 'Freezer';
 
   @override
-  String get roomTemperature => 'Комнатная температура';
+  String get roomTemperature => 'Room Temperature';
 
   @override
-  String get fedImmediately => 'Накормлен сразу';
+  String get fedImmediately => 'Fed Immediately';
 
   @override
-  String get breakfast => 'Завтрак';
+  String get breakfast => 'Breakfast';
 
   @override
-  String get lunch => 'Обед';
+  String get lunch => 'Lunch';
 
   @override
-  String get dinner => 'Ужин';
+  String get dinner => 'Dinner';
 
   @override
-  String get snack => 'Перекус';
+  String get snack => 'Snack';
 
   @override
-  String get monday => 'Понедельник';
+  String get monday => 'Monday';
 
   @override
-  String get tuesday => 'Вторник';
+  String get tuesday => 'Tuesday';
 
   @override
-  String get wednesday => 'Среда';
+  String get wednesday => 'Wednesday';
 
   @override
-  String get thursday => 'Четверг';
+  String get thursday => 'Thursday';
 
   @override
-  String get friday => 'Пятница';
+  String get friday => 'Friday';
 
   @override
-  String get saturday => 'Суббота';
+  String get saturday => 'Saturday';
 
   @override
-  String get sunday => 'Воскресенье';
+  String get sunday => 'Sunday';
 
   @override
-  String get on => 'Вкл';
+  String get on => 'On';
 
   @override
-  String get off => 'Выкл';
+  String get off => 'Off';
 
   @override
-  String get weightChange => 'Изменение Веса';
+  String get weightChange => 'Weight Change';
 
   @override
-  String get heightChange => 'Изменение Роста';
+  String get heightChange => 'Height Change';
 
   @override
-  String get totalRecords => 'Общее Количество Записей';
+  String get totalRecords => 'Total Records';
 
   @override
-  String get totalChange => 'Общее Изменение';
+  String get totalChange => 'Total Change';
 
   @override
-  String get start => 'Начало';
+  String get start => 'Start';
 
   @override
-  String get memo => 'Заметка';
+  String get memo => 'Memo';
 
   @override
-  String get weightDataEmpty => 'Нет данных о весе';
+  String get weightDataEmpty => 'No weight data available';
 
   @override
-  String get heightDataEmpty => 'Нет данных о росте';
+  String get heightDataEmpty => 'No height data available';
 
   @override
-  String get undoAction => 'Отменить';
+  String get undoAction => 'Undo';
 
   @override
-  String get feedingRecordDeleted => 'Запись кормления удалена';
+  String get feedingRecordDeleted => 'Feeding record deleted';
 
   @override
-  String get sleepRecordDeleted => 'Запись сна удалена';
+  String get sleepRecordDeleted => 'Sleep record deleted';
 
   @override
-  String get diaperRecordDeleted => 'Запись подгузника удалена';
+  String get diaperRecordDeleted => 'Diaper record deleted';
 
   @override
-  String get healthRecordDeleted => 'Запись здоровья удалена';
+  String get healthRecordDeleted => 'Health record deleted';
 
   @override
-  String get deletionError => 'Произошла ошибка при удалении';
+  String get deletionError => 'Error occurred during deletion';
 
   @override
-  String get duplicateInputDetected => 'Обнаружен дублированный ввод';
+  String get duplicateInputDetected => 'Duplicate input detected';
 
   @override
   String get solidFoodDuplicateConfirm =>
-      'Вы только что записали твердую пищу.\\nДействительно хотите записать ещё раз?';
+      'You just recorded solid food.\\nDo you really want to record it again?';
 
   @override
-  String get cannotOpenSettings => 'Не удается открыть экран настроек';
+  String get cannotOpenSettings => 'Cannot open settings screen';
 
   @override
-  String get sleepQualityGood => 'Хороший';
+  String get sleepQualityGood => 'Good';
 
   @override
-  String get sleepQualityFair => 'Нормальный';
+  String get sleepQualityFair => 'Fair';
 
   @override
-  String get sleepQualityPoor => 'Плохой';
+  String get sleepQualityPoor => 'Poor';
 
   @override
   String sleepInProgressDuration(Object minutes) {
-    return 'Спит - $minutesм прошло';
+    return 'Sleeping - ${minutes}m elapsed';
   }
 
   @override
-  String get wetOnly => 'Только Мокрый';
+  String get wetOnly => 'Wet Only';
 
   @override
-  String get dirtyOnly => 'Только Грязный';
+  String get dirtyOnly => 'Dirty Only';
 
   @override
-  String get wetAndDirty => 'Мокрый + Грязный';
+  String get wetAndDirty => 'Wet + Dirty';
 
   @override
-  String get colorLabel => 'Цвет';
+  String get colorLabel => 'Color';
 
   @override
-  String get consistencyLabel => 'Консистенция';
+  String get consistencyLabel => 'Consistency';
 
   @override
-  String get topicalMedication => 'Наружное';
+  String get topicalMedication => 'Topical';
 
   @override
-  String get inhaledMedication => 'Ингаляционное';
+  String get inhaledMedication => 'Inhaled';
 
   @override
-  String get milkPumpingInProgress => 'Сцеживание';
+  String get milkPumpingInProgress => 'Pumping';
 
   @override
   String pumpingInProgressDuration(Object minutes) {
-    return 'Сцеживание - $minutesм прошло';
+    return 'Pumping - ${minutes}m elapsed';
   }
 
   @override
-  String get lowGradeFever => 'Легкая Лихорадка';
+  String get lowGradeFever => 'Low Grade Fever';
 
   @override
-  String get normalTemperature => 'Нормальная';
+  String get normalTemperature => 'Temperature is normal';
 
   @override
-  String get allActivities => 'Все';
+  String get allActivities => 'All';
 
   @override
-  String get temperatureFilter => 'Температура';
+  String get temperatureFilter => 'Temperature';
 
   @override
-  String get deleteRecordTitle => 'Удалить запись';
+  String get deleteRecordTitle => 'Delete Record';
 
   @override
   String get deleteRecordMessage =>
-      'Вы уверены, что хотите удалить эту запись?\nУдаленные записи не могут быть восстановлены.';
+      'Are you sure you want to delete this record?\nDeleted records cannot be recovered.';
 
   @override
-  String get recordDeletedSuccess => 'Запись была удалена';
+  String get recordDeletedSuccess => 'Record has been deleted';
 
   @override
-  String get recordDeleteFailed => 'Не удалось удалить запись';
+  String get recordDeleteFailed => 'Failed to delete record';
 
   @override
-  String get recordDeleteError => 'Произошла ошибка при удалении записи';
+  String get recordDeleteError => 'An error occurred while deleting the record';
 
   @override
-  String get recordUpdatedSuccess => 'Запись была обновлена';
+  String get recordUpdatedSuccess => 'Record has been updated';
 
   @override
-  String get recordUpdateFailed => 'Не удалось обновить запись';
+  String get recordUpdateFailed => 'Failed to update record';
 
   @override
-  String get recordUpdateError => 'Произошла ошибка при обновлении записи';
+  String get recordUpdateError => 'An error occurred while updating the record';
 
   @override
   String noRecordsToday(Object recordType) {
-    return 'Сегодня нет записей $recordType';
+    return 'No $recordType records today';
   }
 
   @override
-  String get healthRecordRestored => 'Медицинские записи восстановлены';
+  String get healthRecordRestored => 'Health record has been restored';
 
   @override
   String get deleteTemperatureConfirm =>
-      'Хотите удалить недавнюю запись температуры?';
+      'Do you want to delete the recent temperature record?';
 
   @override
-  String get minimum => 'Минимум';
+  String get minimum => 'Minimum';
 
   @override
-  String get maximum => 'Максимум';
+  String get maximum => 'Maximum';
 
   @override
-  String get duplicateEntryDetected => 'Обнаружена дублированная запись';
+  String get duplicateEntryDetected => 'Duplicate Entry Detected';
 
   @override
   String get feedingDuplicateConfirm =>
-      'Вы только что добавили запись о кормлении.\\nДействительно хотите записать снова?';
+      'You just added a feeding record.\\nDo you really want to record again?';
 
   @override
   String get milkPumpingDuplicateConfirm =>
-      'Вы только что добавили запись о сцеживании молока.\\nДействительно хотите записать снова?';
+      'You just added a milk pumping record.\\nDo you really want to record again?';
 
   @override
   String get medicationDuplicateConfirm =>
-      'Вы только что записали лекарство.\\nДействительно хотите записать снова?';
+      'You just recorded medication.\\nDo you really want to record again?';
 
   @override
   String get diaperDuplicateConfirm =>
-      'Вы только что записали смену подгузника.\\nДействительно хотите записать снова?';
+      'You just recorded a diaper change.\\nDo you really want to record again?';
 
   @override
   String get sleepStartDuplicateConfirm =>
-      'Вы только что управляли сном.\\nДействительно хотите начать сон?';
+      'You just manipulated sleep.\\nDo you really want to start sleeping?';
 
   @override
   String get sleepEndDuplicateConfirm =>
-      'Вы только что управляли сном.\\nДействительно хотите закончить сон?';
+      'You just manipulated sleep.\\nDo you really want to end sleeping?';
 
   @override
-  String get recordAction => 'Записать';
+  String get recordAction => 'Record';
 
   @override
-  String get end => 'Конец';
+  String get end => 'End';
 
   @override
-  String get whatTypeChanged => 'Какой тип вы поменяли?';
+  String get whatTypeChanged => 'What type did you change?';
 
   @override
-  String get poop => 'Кал';
+  String get poop => 'Poop';
 
   @override
-  String get urinePoop => 'Моча+Кал';
+  String get urinePoop => 'Urine+Poop';
 
   @override
-  String get changeType => 'Тип Смены';
+  String get changeType => 'Change Type';
 
   @override
-  String get colorWhenPoop => 'Цвет (При Дефекации)';
+  String get colorWhenPoop => 'Color (When Poop)';
 
   @override
-  String get minutesShort => 'м';
+  String get minutesShort => 'm';
 
   @override
-  String get totalFeedingDuration => 'Общая продолжительность кормления';
+  String get totalFeedingDuration => 'Total feeding duration';
 
   @override
-  String get maximumFeedingAmount => 'Максимальное количество кормления';
+  String get maximumFeedingAmount => 'Maximum feeding amount';
 
   @override
-  String get minimumFeedingAmount => 'Минимальное количество кормления';
+  String get minimumFeedingAmount => 'Minimum feeding amount';
 
   @override
-  String get totalSleepDuration => 'Общая продолжительность сна';
+  String get totalSleepDuration => 'Total sleep duration';
 
   @override
-  String get dailyTotalMilkPumpingAmount =>
-      'Ежедневное общее количество сцеженного';
+  String get dailyTotalMilkPumpingAmount => 'Daily total pumped amount';
 
   @override
-  String get maximumSleepDuration => 'Максимальная продолжительность сна';
+  String get maximumSleepDuration => 'Maximum sleep duration';
 
   @override
-  String get minimumSleepDuration => 'Минимальная продолжительность сна';
+  String get minimumSleepDuration => 'Minimum sleep duration';
 
   @override
-  String get allergicReactionCount => 'Количество аллергических реакций';
+  String get allergicReactionCount => 'Allergic reaction count';
 
   @override
-  String get dailyAverageMilkPumpingCount =>
-      'Ежедневное среднее количество сцеживаний';
+  String get dailyAverageMilkPumpingCount => 'Daily average milk pumping count';
 
   @override
-  String get growthInfoRecord => 'Запись информации о росте';
+  String get growthInfoRecord => 'Growth Information Record';
 
   @override
-  String get recordBabyCurrentWeight =>
-      'Пожалуйста, запишите текущий вес ребёнка';
+  String get recordBabyCurrentWeight => 'Please record baby\'s current weight';
 
   @override
-  String get recordBabyCurrentHeight =>
-      'Пожалуйста, запишите текущий рост ребёнка';
+  String get recordBabyCurrentHeight => 'Please record baby\'s current height';
 
   @override
-  String get measurementItems => 'Параметры для измерения';
+  String get measurementItems => 'Measurement Items';
 
   @override
-  String get memoOptional => 'Заметка (опционально)';
+  String get memoOptional => 'Memo (Optional)';
 
   @override
-  String get enterWeight => 'Введите вес';
+  String get enterWeight => 'Enter weight';
 
   @override
-  String get enterHeight => 'Введите рост';
+  String get enterHeight => 'Enter height';
 
   @override
   String get recordSpecialNotesWeight =>
-      'Запишите особые примечания при измерении веса (опционально)';
+      'Record special notes when measuring weight (optional)';
 
   @override
   String get recordSpecialNotesHeight =>
-      'Запишите особые примечания при измерении роста (опционально)';
+      'Record special notes when measuring height (optional)';
 
   @override
-  String get weightInvalidNumber =>
-      'Пожалуйста, введите допустимое число для веса';
+  String get weightInvalidNumber => 'Please enter a valid number for weight';
 
   @override
-  String get weightRangeError => 'Вес должен быть между 0,1-50кг';
+  String get weightRangeError => 'Weight should be between 0.1~50kg';
 
   @override
-  String get heightInvalidNumber =>
-      'Пожалуйста, введите допустимое число для роста';
+  String get heightInvalidNumber => 'Please enter a valid number for height';
 
   @override
-  String get heightRangeError => 'Рост должен быть между 1-200см';
+  String get heightRangeError => 'Height should be between 1~200cm';
 
   @override
-  String get enterWeightOrHeight => 'Пожалуйста, введите вес или рост';
+  String get enterWeightOrHeight => 'Please enter weight or height';
 
   @override
-  String get saveError => 'Произошла ошибка при сохранении';
+  String get saveError => 'An error occurred while saving';
+
+  @override
+  String get sufficientFeedingAmount =>
+      'You had a sufficient amount of feeding';
+
+  @override
+  String get expectedSatisfaction =>
+      'This amount is expected to provide sufficient satisfaction for the baby.';
+
+  @override
+  String get nightFeedingTime => 'It\'s nighttime feeding time';
+
+  @override
+  String get nightFeedingImpact =>
+      'Nighttime feeding helps baby\'s growth, but may affect parents\' sleep patterns.';
+
+  @override
+  String get nextExpectedFeedingTime => 'Next expected feeding time';
+
+  @override
+  String get nextFeedingIn2to3Hours =>
+      'Generally, the next feeding may be needed in 2-3 hours.';
+
+  @override
+  String get longSleepDuration => 'It was a long sleep duration';
+
+  @override
+  String goodSleepForGrowth(String duration) {
+    return 'Slept for $duration hours. This is a good sign for baby\'s growth and development.';
+  }
+
+  @override
+  String get shortSleepDuration => 'It was a short sleep';
+
+  @override
+  String get checkSleepEnvironment =>
+      'Check the environment so that short naps or sleep interruptions don\'t occur.';
+
+  @override
+  String get goodSleepQuality => 'It was good sleep quality';
+
+  @override
+  String get goodSleepBenefits =>
+      'Good sleep helps baby\'s brain development and immune system improvement.';
+
+  @override
+  String get diaperChangeDirty => 'Dirty diaper change';
+
+  @override
+  String get normalDigestionSign =>
+      'This is a good sign that baby\'s digestive function is working normally.';
+
+  @override
+  String get diaperChangeFrequency => 'Diaper change frequency';
+
+  @override
+  String goodDiaperChangeFrequency(int hours) {
+    return 'It\'s been $hours hours since the last change. You\'re maintaining a good change frequency.';
+  }
+
+  @override
+  String get medicationRecordComplete => 'Medication record completed';
+
+  @override
+  String medicationRecorded(String medicationName) {
+    return '$medicationName medication has been recorded. Accurate recording helps improve treatment effectiveness.';
+  }
+
+  @override
+  String get medicationRecordCompleteGeneric =>
+      'Medication record has been completed.';
+
+  @override
+  String get morningMedicationTime => 'Morning medication time';
+
+  @override
+  String get morningMedicationBenefit =>
+      'Morning medication helps maintain drug effectiveness throughout the day.';
+
+  @override
+  String get effectivePumping => 'It was effective pumping';
+
+  @override
+  String goodPumpingAmount(int amount) {
+    return 'Pumped ${amount}ml. This is a good amount that helps with breast milk storage.';
+  }
+
+  @override
+  String get pumpingImprovementTip => 'Pumping improvement tip';
+
+  @override
+  String get lowPumpingAdvice =>
+      'The pumping amount is low. Adequate water intake and stress management can help.';
+
+  @override
+  String get morningPumpingTime => 'Morning pumping time';
+
+  @override
+  String get morningPumpingBenefit =>
+      'Morning time is the best time for pumping due to high prolactin levels.';
+
+  @override
+  String get babyLikesFood => 'Baby likes the food';
+
+  @override
+  String goodFoodReaction(String foodName) {
+    return 'Had a good reaction to $foodName. Consider adding this food to the diet.';
+  }
+
+  @override
+  String get goodFoodReactionGeneric => 'Had a good reaction to the food.';
+
+  @override
+  String get lunchTimeSolidFood => 'Lunchtime solid food';
+
+  @override
+  String get lunchTimeFoodBenefit =>
+      'Lunchtime solid food helps establish baby\'s eating habits.';
+
+  @override
+  String get nutritionalBalance => 'Nutritional balance management';
+
+  @override
+  String get varietyFoodBenefit =>
+      'Alternating solid food made with various ingredients helps with nutritional balance.';
+
+  @override
+  String get highTemperature => 'Temperature is high';
+
+  @override
+  String highTemperatureWarning(String temperature) {
+    return 'Temperature is $temperature°C, which is relatively high. Continuous observation is needed.';
+  }
+
+  @override
+  String get lowTemperature => 'Temperature is low';
+
+  @override
+  String lowTemperatureWarning(String temperature) {
+    return 'Temperature is $temperature°C, which is relatively low. Please pay attention to keeping warm.';
+  }
+
+  @override
+  String normalTemperatureRange(String temperature) {
+    return 'Temperature is $temperature°C, which is within the normal range.';
+  }
+
+  @override
+  String get regularTemperatureCheck => 'Regular temperature check';
+
+  @override
+  String get regularTemperatureCheckBenefit =>
+      'Regular temperature checks are recommended to monitor baby\'s health condition.';
+
+  @override
+  String get consistentRecording => 'Records are being kept consistently well';
+
+  @override
+  String get regularRecordingBenefit =>
+      'Regular recording helps with baby health management.';
 }

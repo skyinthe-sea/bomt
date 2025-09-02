@@ -5400,10 +5400,10 @@ abstract class AppLocalizations {
   /// **'Low Grade Fever'**
   String get lowGradeFever;
 
-  /// No description provided for @normalTemperature.
+  /// Smart insight message for normal temperature
   ///
   /// In en, this message translates to:
-  /// **'Normal'**
+  /// **'Temperature is normal'**
   String get normalTemperature;
 
   /// No description provided for @allActivities.
@@ -5729,6 +5729,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred while saving'**
   String get saveError;
+
+  /// Smart insight message for sufficient feeding amount
+  ///
+  /// In en, this message translates to:
+  /// **'You had a sufficient amount of feeding'**
+  String get sufficientFeedingAmount;
+
+  /// Smart insight message about expected feeding satisfaction
+  ///
+  /// In en, this message translates to:
+  /// **'This amount is expected to provide sufficient satisfaction for the baby.'**
+  String get expectedSatisfaction;
+
+  /// Smart insight message for nighttime feeding
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s nighttime feeding time'**
+  String get nightFeedingTime;
+
+  /// Smart insight message about nighttime feeding impact
+  ///
+  /// In en, this message translates to:
+  /// **'Nighttime feeding helps baby\'s growth, but may affect parents\' sleep patterns.'**
+  String get nightFeedingImpact;
+
+  /// Smart insight label for next expected feeding time
+  ///
+  /// In en, this message translates to:
+  /// **'Next expected feeding time'**
+  String get nextExpectedFeedingTime;
+
+  /// Smart insight message about next feeding timing
+  ///
+  /// In en, this message translates to:
+  /// **'Generally, the next feeding may be needed in 2-3 hours.'**
+  String get nextFeedingIn2to3Hours;
+
+  /// Smart insight message for long sleep
+  ///
+  /// In en, this message translates to:
+  /// **'It was a long sleep duration'**
+  String get longSleepDuration;
+
+  /// Smart insight message for good sleep duration with parameter
+  ///
+  /// In en, this message translates to:
+  /// **'Slept for {duration} hours. This is a good sign for baby\'s growth and development.'**
+  String goodSleepForGrowth(String duration);
+
+  /// Smart insight message for short sleep
+  ///
+  /// In en, this message translates to:
+  /// **'It was a short sleep'**
+  String get shortSleepDuration;
+
+  /// Smart insight advice for sleep environment
+  ///
+  /// In en, this message translates to:
+  /// **'Check the environment so that short naps or sleep interruptions don\'t occur.'**
+  String get checkSleepEnvironment;
+
+  /// Smart insight message for good sleep quality
+  ///
+  /// In en, this message translates to:
+  /// **'It was good sleep quality'**
+  String get goodSleepQuality;
+
+  /// Smart insight message about good sleep benefits
+  ///
+  /// In en, this message translates to:
+  /// **'Good sleep helps baby\'s brain development and immune system improvement.'**
+  String get goodSleepBenefits;
+
+  /// Smart insight message for dirty diaper change
+  ///
+  /// In en, this message translates to:
+  /// **'Dirty diaper change'**
+  String get diaperChangeDirty;
+
+  /// Smart insight message about normal digestion
+  ///
+  /// In en, this message translates to:
+  /// **'This is a good sign that baby\'s digestive function is working normally.'**
+  String get normalDigestionSign;
+
+  /// Smart insight label for diaper change frequency
+  ///
+  /// In en, this message translates to:
+  /// **'Diaper change frequency'**
+  String get diaperChangeFrequency;
+
+  /// Smart insight message about good diaper change frequency
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s been {hours} hours since the last change. You\'re maintaining a good change frequency.'**
+  String goodDiaperChangeFrequency(int hours);
+
+  /// Smart insight message for medication record completion
+  ///
+  /// In en, this message translates to:
+  /// **'Medication record completed'**
+  String get medicationRecordComplete;
+
+  /// Smart insight message about medication being recorded with parameter
+  ///
+  /// In en, this message translates to:
+  /// **'{medicationName} medication has been recorded. Accurate recording helps improve treatment effectiveness.'**
+  String medicationRecorded(String medicationName);
+
+  /// Generic smart insight message for medication record completion
+  ///
+  /// In en, this message translates to:
+  /// **'Medication record has been completed.'**
+  String get medicationRecordCompleteGeneric;
+
+  /// Smart insight message for morning medication
+  ///
+  /// In en, this message translates to:
+  /// **'Morning medication time'**
+  String get morningMedicationTime;
+
+  /// Smart insight message about morning medication benefits
+  ///
+  /// In en, this message translates to:
+  /// **'Morning medication helps maintain drug effectiveness throughout the day.'**
+  String get morningMedicationBenefit;
+
+  /// Smart insight message for effective pumping
+  ///
+  /// In en, this message translates to:
+  /// **'It was effective pumping'**
+  String get effectivePumping;
+
+  /// Smart insight message about good pumping amount with parameter
+  ///
+  /// In en, this message translates to:
+  /// **'Pumped {amount}ml. This is a good amount that helps with breast milk storage.'**
+  String goodPumpingAmount(int amount);
+
+  /// Smart insight label for pumping improvement tip
+  ///
+  /// In en, this message translates to:
+  /// **'Pumping improvement tip'**
+  String get pumpingImprovementTip;
+
+  /// Smart insight advice for low pumping amount
+  ///
+  /// In en, this message translates to:
+  /// **'The pumping amount is low. Adequate water intake and stress management can help.'**
+  String get lowPumpingAdvice;
+
+  /// Smart insight message for morning pumping
+  ///
+  /// In en, this message translates to:
+  /// **'Morning pumping time'**
+  String get morningPumpingTime;
+
+  /// Smart insight message about morning pumping benefits
+  ///
+  /// In en, this message translates to:
+  /// **'Morning time is the best time for pumping due to high prolactin levels.'**
+  String get morningPumpingBenefit;
+
+  /// Smart insight message when baby likes food
+  ///
+  /// In en, this message translates to:
+  /// **'Baby likes the food'**
+  String get babyLikesFood;
+
+  /// Smart insight message about good food reaction with parameter
+  ///
+  /// In en, this message translates to:
+  /// **'Had a good reaction to {foodName}. Consider adding this food to the diet.'**
+  String goodFoodReaction(String foodName);
+
+  /// Generic smart insight message about good food reaction
+  ///
+  /// In en, this message translates to:
+  /// **'Had a good reaction to the food.'**
+  String get goodFoodReactionGeneric;
+
+  /// Smart insight message for lunchtime solid food
+  ///
+  /// In en, this message translates to:
+  /// **'Lunchtime solid food'**
+  String get lunchTimeSolidFood;
+
+  /// Smart insight message about lunchtime food benefits
+  ///
+  /// In en, this message translates to:
+  /// **'Lunchtime solid food helps establish baby\'s eating habits.'**
+  String get lunchTimeFoodBenefit;
+
+  /// Smart insight label for nutritional balance
+  ///
+  /// In en, this message translates to:
+  /// **'Nutritional balance management'**
+  String get nutritionalBalance;
+
+  /// Smart insight message about variety food benefits
+  ///
+  /// In en, this message translates to:
+  /// **'Alternating solid food made with various ingredients helps with nutritional balance.'**
+  String get varietyFoodBenefit;
+
+  /// Smart insight message for high temperature
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature is high'**
+  String get highTemperature;
+
+  /// Smart insight warning message for high temperature with parameter
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature is {temperature}°C, which is relatively high. Continuous observation is needed.'**
+  String highTemperatureWarning(String temperature);
+
+  /// Smart insight message for low temperature
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature is low'**
+  String get lowTemperature;
+
+  /// Smart insight warning message for low temperature with parameter
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature is {temperature}°C, which is relatively low. Please pay attention to keeping warm.'**
+  String lowTemperatureWarning(String temperature);
+
+  /// Smart insight message for normal temperature range with parameter
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature is {temperature}°C, which is within the normal range.'**
+  String normalTemperatureRange(String temperature);
+
+  /// Smart insight label for regular temperature check
+  ///
+  /// In en, this message translates to:
+  /// **'Regular temperature check'**
+  String get regularTemperatureCheck;
+
+  /// Smart insight message about regular temperature check benefits
+  ///
+  /// In en, this message translates to:
+  /// **'Regular temperature checks are recommended to monitor baby\'s health condition.'**
+  String get regularTemperatureCheckBenefit;
+
+  /// Smart insight message for consistent recording
+  ///
+  /// In en, this message translates to:
+  /// **'Records are being kept consistently well'**
+  String get consistentRecording;
+
+  /// Smart insight message about regular recording benefits
+  ///
+  /// In en, this message translates to:
+  /// **'Regular recording helps with baby health management.'**
+  String get regularRecordingBenefit;
 }
 
 class _AppLocalizationsDelegate

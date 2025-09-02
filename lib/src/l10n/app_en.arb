@@ -2196,5 +2196,265 @@
   "saveError": "An error occurred while saving",
   "@saveError": {
     "description": "Error message when saving fails"
+  },
+
+  "sufficientFeedingAmount": "You had a sufficient amount of feeding",
+  "@sufficientFeedingAmount": {
+    "description": "Smart insight message for sufficient feeding amount"
+  },
+
+  "expectedSatisfaction": "This amount is expected to provide sufficient satisfaction for the baby.",
+  "@expectedSatisfaction": {
+    "description": "Smart insight message about expected feeding satisfaction"
+  },
+
+  "nightFeedingTime": "It's nighttime feeding time",
+  "@nightFeedingTime": {
+    "description": "Smart insight message for nighttime feeding"
+  },
+
+  "nightFeedingImpact": "Nighttime feeding helps baby's growth, but may affect parents' sleep patterns.",
+  "@nightFeedingImpact": {
+    "description": "Smart insight message about nighttime feeding impact"
+  },
+
+  "nextExpectedFeedingTime": "Next expected feeding time",
+  "@nextExpectedFeedingTime": {
+    "description": "Smart insight label for next expected feeding time"
+  },
+
+  "nextFeedingIn2to3Hours": "Generally, the next feeding may be needed in 2-3 hours.",
+  "@nextFeedingIn2to3Hours": {
+    "description": "Smart insight message about next feeding timing"
+  },
+
+  "longSleepDuration": "It was a long sleep duration",
+  "@longSleepDuration": {
+    "description": "Smart insight message for long sleep"
+  },
+
+  "goodSleepForGrowth": "Slept for {duration} hours. This is a good sign for baby's growth and development.",
+  "@goodSleepForGrowth": {
+    "description": "Smart insight message for good sleep duration with parameter",
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+
+  "shortSleepDuration": "It was a short sleep",
+  "@shortSleepDuration": {
+    "description": "Smart insight message for short sleep"
+  },
+
+  "checkSleepEnvironment": "Check the environment so that short naps or sleep interruptions don't occur.",
+  "@checkSleepEnvironment": {
+    "description": "Smart insight advice for sleep environment"
+  },
+
+  "goodSleepQuality": "It was good sleep quality",
+  "@goodSleepQuality": {
+    "description": "Smart insight message for good sleep quality"
+  },
+
+  "goodSleepBenefits": "Good sleep helps baby's brain development and immune system improvement.",
+  "@goodSleepBenefits": {
+    "description": "Smart insight message about good sleep benefits"
+  },
+
+  "diaperChangeDirty": "Dirty diaper change",
+  "@diaperChangeDirty": {
+    "description": "Smart insight message for dirty diaper change"
+  },
+
+  "normalDigestionSign": "This is a good sign that baby's digestive function is working normally.",
+  "@normalDigestionSign": {
+    "description": "Smart insight message about normal digestion"
+  },
+
+  "diaperChangeFrequency": "Diaper change frequency",
+  "@diaperChangeFrequency": {
+    "description": "Smart insight label for diaper change frequency"
+  },
+
+  "goodDiaperChangeFrequency": "It's been {hours} hours since the last change. You're maintaining a good change frequency.",
+  "@goodDiaperChangeFrequency": {
+    "description": "Smart insight message about good diaper change frequency",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+
+  "medicationRecordComplete": "Medication record completed",
+  "@medicationRecordComplete": {
+    "description": "Smart insight message for medication record completion"
+  },
+
+  "medicationRecorded": "{medicationName} medication has been recorded. Accurate recording helps improve treatment effectiveness.",
+  "@medicationRecorded": {
+    "description": "Smart insight message about medication being recorded with parameter",
+    "placeholders": {
+      "medicationName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "medicationRecordCompleteGeneric": "Medication record has been completed.",
+  "@medicationRecordCompleteGeneric": {
+    "description": "Generic smart insight message for medication record completion"
+  },
+
+  "morningMedicationTime": "Morning medication time",
+  "@morningMedicationTime": {
+    "description": "Smart insight message for morning medication"
+  },
+
+  "morningMedicationBenefit": "Morning medication helps maintain drug effectiveness throughout the day.",
+  "@morningMedicationBenefit": {
+    "description": "Smart insight message about morning medication benefits"
+  },
+
+  "effectivePumping": "It was effective pumping",
+  "@effectivePumping": {
+    "description": "Smart insight message for effective pumping"
+  },
+
+  "goodPumpingAmount": "Pumped {amount}ml. This is a good amount that helps with breast milk storage.",
+  "@goodPumpingAmount": {
+    "description": "Smart insight message about good pumping amount with parameter",
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+
+  "pumpingImprovementTip": "Pumping improvement tip",
+  "@pumpingImprovementTip": {
+    "description": "Smart insight label for pumping improvement tip"
+  },
+
+  "lowPumpingAdvice": "The pumping amount is low. Adequate water intake and stress management can help.",
+  "@lowPumpingAdvice": {
+    "description": "Smart insight advice for low pumping amount"
+  },
+
+  "morningPumpingTime": "Morning pumping time",
+  "@morningPumpingTime": {
+    "description": "Smart insight message for morning pumping"
+  },
+
+  "morningPumpingBenefit": "Morning time is the best time for pumping due to high prolactin levels.",
+  "@morningPumpingBenefit": {
+    "description": "Smart insight message about morning pumping benefits"
+  },
+
+  "babyLikesFood": "Baby likes the food",
+  "@babyLikesFood": {
+    "description": "Smart insight message when baby likes food"
+  },
+
+  "goodFoodReaction": "Had a good reaction to {foodName}. Consider adding this food to the diet.",
+  "@goodFoodReaction": {
+    "description": "Smart insight message about good food reaction with parameter",
+    "placeholders": {
+      "foodName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "goodFoodReactionGeneric": "Had a good reaction to the food.",
+  "@goodFoodReactionGeneric": {
+    "description": "Generic smart insight message about good food reaction"
+  },
+
+  "lunchTimeSolidFood": "Lunchtime solid food",
+  "@lunchTimeSolidFood": {
+    "description": "Smart insight message for lunchtime solid food"
+  },
+
+  "lunchTimeFoodBenefit": "Lunchtime solid food helps establish baby's eating habits.",
+  "@lunchTimeFoodBenefit": {
+    "description": "Smart insight message about lunchtime food benefits"
+  },
+
+  "nutritionalBalance": "Nutritional balance management",
+  "@nutritionalBalance": {
+    "description": "Smart insight label for nutritional balance"
+  },
+
+  "varietyFoodBenefit": "Alternating solid food made with various ingredients helps with nutritional balance.",
+  "@varietyFoodBenefit": {
+    "description": "Smart insight message about variety food benefits"
+  },
+
+  "highTemperature": "Temperature is high",
+  "@highTemperature": {
+    "description": "Smart insight message for high temperature"
+  },
+
+  "highTemperatureWarning": "Temperature is {temperature}°C, which is relatively high. Continuous observation is needed.",
+  "@highTemperatureWarning": {
+    "description": "Smart insight warning message for high temperature with parameter",
+    "placeholders": {
+      "temperature": {
+        "type": "String"
+      }
+    }
+  },
+
+  "lowTemperature": "Temperature is low",
+  "@lowTemperature": {
+    "description": "Smart insight message for low temperature"
+  },
+
+  "lowTemperatureWarning": "Temperature is {temperature}°C, which is relatively low. Please pay attention to keeping warm.",
+  "@lowTemperatureWarning": {
+    "description": "Smart insight warning message for low temperature with parameter",
+    "placeholders": {
+      "temperature": {
+        "type": "String"
+      }
+    }
+  },
+
+  "normalTemperature": "Temperature is normal",
+  "@normalTemperature": {
+    "description": "Smart insight message for normal temperature"
+  },
+
+  "normalTemperatureRange": "Temperature is {temperature}°C, which is within the normal range.",
+  "@normalTemperatureRange": {
+    "description": "Smart insight message for normal temperature range with parameter",
+    "placeholders": {
+      "temperature": {
+        "type": "String"
+      }
+    }
+  },
+
+  "regularTemperatureCheck": "Regular temperature check",
+  "@regularTemperatureCheck": {
+    "description": "Smart insight label for regular temperature check"
+  },
+
+  "regularTemperatureCheckBenefit": "Regular temperature checks are recommended to monitor baby's health condition.",
+  "@regularTemperatureCheckBenefit": {
+    "description": "Smart insight message about regular temperature check benefits"
+  },
+
+  "consistentRecording": "Records are being kept consistently well",
+  "@consistentRecording": {
+    "description": "Smart insight message for consistent recording"
+  },
+
+  "regularRecordingBenefit": "Regular recording helps with baby health management.",
+  "@regularRecordingBenefit": {
+    "description": "Smart insight message about regular recording benefits"
   }
 }

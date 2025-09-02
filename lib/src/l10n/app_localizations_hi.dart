@@ -9,225 +9,225 @@ class AppLocalizationsHi extends AppLocalizations {
   AppLocalizationsHi([String locale = 'hi']) : super(locale);
 
   @override
-  String get user => 'उपयोगकर्ता';
+  String get user => 'User';
 
   @override
   String userInfoLoadFailed(String error) {
-    return 'उपयोगकर्ता जानकारी लोड करने में विफल: $error';
+    return 'Failed to load user info: $error';
   }
 
   @override
   String babyListLoadError(String error) {
-    return 'बच्चों की सूची लोड करते समय त्रुटि हुई: $error';
+    return 'An error occurred while loading the baby list: $error';
   }
 
   @override
   String welcomeUser(String userName, Object nickname) {
-    return '$userName जी';
+    return 'Welcome, $nickname! 🎉';
   }
 
   @override
-  String get registerBaby => 'बच्चा पंजीकरण';
+  String get registerBaby => 'Register Baby';
 
   @override
-  String get noBabiesRegistered => 'कोई बच्चा पंजीकृत नहीं है';
+  String get noBabiesRegistered => 'No babies registered';
 
   @override
-  String get registerFirstBaby => 'अपना पहला बच्चा पंजीकृत करें!';
+  String get registerFirstBaby => 'Register your first baby!';
 
   @override
-  String get registerBabyButton => 'बच्चा पंजीकृत करें';
+  String get registerBabyButton => 'Register Baby';
 
   @override
   String birthday(int year, int month, int day) {
-    return 'जन्मदिन: $day/$month/$year';
+    return 'Birthday: $year/$month/$day';
   }
 
   @override
   String age(int days) {
-    return 'आयु: $days दिन';
+    return 'Age: $days days';
   }
 
   @override
   String gender(String gender) {
-    return 'लिंग';
+    return 'Gender';
   }
 
   @override
-  String get male => 'लड़का';
+  String get male => 'Male';
 
   @override
-  String get female => 'लड़की';
+  String get female => 'Female';
 
   @override
-  String get other => 'अन्य';
+  String get other => 'Other';
 
   @override
   String babyDetailScreen(String name) {
-    return '$name विवरण स्क्रीन (जल्द आ रहा है)';
+    return '$name Detail Screen (Coming Soon)';
   }
 
   @override
-  String get selectBirthdate => 'कृपया जन्मतिथि चुनें';
+  String get selectBirthdate => 'Please select birthdate';
 
   @override
   String babyRegistered(String name) {
-    return '$name सफलतापूर्वक पंजीकृत हो गया है!';
+    return '$name has been registered!';
   }
 
   @override
   String registrationError(String error) {
-    return 'पंजीकरण के दौरान त्रुटि हुई: $error';
+    return 'An error occurred during registration: $error';
   }
 
   @override
-  String get enterBabyInfo => 'कृपया बच्चे की जानकारी दर्ज करें';
+  String get enterBabyInfo => 'Please enter baby information';
 
   @override
-  String get babyName => 'बच्चे का नाम';
+  String get babyName => 'Baby Name';
 
   @override
-  String get babyNameHint => 'उदाहरण: राहुल';
+  String get babyNameHint => 'e.g. Emma';
 
   @override
-  String get babyNameRequired => 'कृपया बच्चे का नाम दर्ज करें';
+  String get babyNameRequired => 'Please enter baby\'s name';
 
   @override
-  String get babyNameMinLength => 'नाम कम से कम 2 अक्षर का होना चाहिए';
+  String get babyNameMinLength => 'Name must be at least 2 characters';
 
   @override
-  String get selectBirthdateButton => 'जन्मतिथि चुनें';
+  String get selectBirthdateButton => 'Select Birthdate';
 
   @override
   String selectedDate(int year, int month, int day) {
-    return '$day/$month/$year';
+    return '$year/$month/$day';
   }
 
   @override
-  String get genderOptional => 'लिंग (वैकल्पिक)';
+  String get genderOptional => 'Gender (Optional)';
 
   @override
-  String get cancel => 'रद्द करें';
+  String get cancel => 'Cancel';
 
   @override
-  String get loginFailed => 'लॉगिन विफल';
+  String get loginFailed => 'Login failed';
 
   @override
   String loginError(String error) {
-    return 'लॉगिन के दौरान त्रुटि हुई: $error';
+    return 'An error occurred during login: $error';
   }
 
   @override
-  String get appTagline =>
-      'अपने बच्चे के विकास रिकॉर्ड को आसानी से प्रबंधित करें';
+  String get appTagline => 'Easily manage your baby\'s growth records';
 
   @override
   String get termsNotice =>
-      'लॉगिन करके, आप हमारी सेवा की शर्तों और गोपनीयता नीति से सहमत हैं';
+      'By logging in, you agree to our Terms of Service and Privacy Policy';
 
   @override
-  String get loginWithKakao => 'Kakao से लॉगिन करें';
+  String get loginWithKakao => 'Login with Kakao';
 
   @override
-  String get settings => 'सेटिंग्स';
+  String get settings => 'Settings';
 
   @override
-  String get language => 'भाषा';
+  String get language => 'Language';
 
   @override
-  String get selectBirthDate => 'जन्मतिथि चुनें';
+  String get selectBirthDate => 'Select Birthdate';
 
   @override
-  String get pleasSelectBirthDate => 'कृपया जन्मतिथि चुनें';
+  String get pleasSelectBirthDate => 'Please select birthdate';
 
   @override
-  String get pleaseEnterBabyName => 'कृपया बच्चे का नाम दर्ज करें';
+  String get pleaseEnterBabyName => 'Please enter baby\'s name';
 
   @override
-  String get nameMinLength => 'नाम कम से कम 2 अक्षर का होना चाहिए';
+  String get nameMinLength => 'Name must be at least 2 characters';
 
   @override
   String dateFormat(String year, String month, String day) {
-    return '$day/$month/$year';
+    return '$year/$month/$day';
   }
 
   @override
-  String get autoLogin => 'स्वचालित लॉगिन';
+  String get autoLogin => 'Stay logged in';
 
   @override
-  String get logout => 'लॉग आउट';
+  String get logout => 'Logout';
 
   @override
-  String get logoutConfirm => 'क्या आप वाकई लॉग आउट करना चाहते हैं?';
+  String get logoutConfirm => 'Are you sure you want to logout?';
 
   @override
-  String get yes => 'हाँ';
+  String get yes => 'Yes';
 
   @override
-  String get no => 'नहीं';
+  String get no => 'No';
 
   @override
-  String get darkMode => 'डार्क मोड';
+  String get darkMode => 'Dark Mode';
 
   @override
-  String get appearance => 'दिखावट';
+  String get appearance => 'Appearance';
 
   @override
-  String get home => 'होम';
+  String get home => 'Home';
 
   @override
-  String get timeline => 'टाइमलाइन';
+  String get timeline => 'Timeline';
 
   @override
-  String get record => 'रिकॉर्ड करें';
+  String get record => 'Record';
 
   @override
-  String get statistics => 'आंकड़े';
+  String get statistics => 'Statistics';
 
   @override
-  String get community => 'समुदाय';
+  String get community => 'Community';
 
   @override
-  String get comingSoon => 'जल्द आ रहा है';
+  String get comingSoon => 'Coming Soon';
 
   @override
-  String get timelineUpdateMessage => 'टाइमलाइन सुविधा जल्द ही अपडेट होगी';
+  String get timelineUpdateMessage => 'Timeline feature will be updated soon';
 
   @override
-  String get recordUpdateMessage => 'रिकॉर्ड सुविधा जल्द ही अपडेट होगी';
+  String get recordUpdateMessage => 'Record feature will be updated soon';
 
   @override
-  String get statisticsUpdateMessage => 'आंकड़े सुविधा जल्द ही अपडेट होगी';
+  String get statisticsUpdateMessage =>
+      'Statistics feature will be updated soon';
 
   @override
-  String get communityUpdateMessage => 'समुदाय सुविधा जल्द ही अपडेट होगी';
+  String get communityUpdateMessage => 'Community feature will be updated soon';
 
   @override
-  String get todaySummary => 'आज का सारांश';
+  String get todaySummary => 'Today\'s Summary';
 
   @override
-  String get growthInfo => 'विकास जानकारी';
+  String get growthInfo => 'Growth Info';
 
   @override
-  String get lastFeeding => 'आखिरी बार दूध पिलाना';
+  String get lastFeeding => 'Last Feeding';
 
   @override
-  String get healthy => 'स्वस्थ';
+  String get healthy => 'Healthy';
 
   @override
-  String get feeding => 'दूध पिलाना';
+  String get feeding => 'Feeding';
 
   @override
-  String get totalFeeding => 'कुल दूध की मात्रा';
+  String get totalFeeding => 'Total Feeding';
 
   @override
-  String get sleep => 'नींद';
+  String get sleep => 'Sleep';
 
   @override
-  String get totalSleepTime => 'कुल नींद का समय';
+  String get totalSleepTime => 'Total Sleep Time';
 
   @override
-  String get cardSettings => 'कार्ड सेटिंग्स';
+  String get cardSettings => 'Card Settings';
 
   @override
   String get cardSettingsGuide => 'Card Settings Guide';
@@ -243,7 +243,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get cardHidden => 'Hidden';
 
   @override
-  String get save => 'सेव करें';
+  String get save => 'Save';
 
   @override
   String get cardSettingsSaved => 'Card settings saved';
@@ -261,28 +261,28 @@ class AppLocalizationsHi extends AppLocalizations {
   String get discardChangesExit => 'Exit without saving changes?';
 
   @override
-  String get exit => 'बाहर निकलें';
+  String get exit => 'Exit';
 
   @override
-  String get diaper => 'डायपर';
+  String get diaper => 'Diaper';
 
   @override
-  String get solidFood => 'ठोस आहार';
+  String get solidFood => 'Solid Food';
 
   @override
-  String get medication => 'दवा';
+  String get medication => 'Medication';
 
   @override
-  String get milkPumping => 'दूध निकालना';
+  String get milkPumping => 'Milk Pumping';
 
   @override
-  String get temperature => 'तापमान';
+  String get temperature => 'Temperature';
 
   @override
-  String get growth => 'विकास';
+  String get growth => 'Growth';
 
   @override
-  String get health => 'स्वास्थ्य';
+  String get health => 'Health';
 
   @override
   String feedingCount(Object count) {
@@ -290,7 +290,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get feedingAmount => 'फीडिंग मात्रा';
+  String get feedingAmount => 'Feeding Amount';
 
   @override
   String get feedingRecordAdded => 'Feeding record added successfully';
@@ -336,7 +336,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sleepEnded => 'Sleep ended';
 
   @override
-  String get sleepInProgress => 'सो रहा है';
+  String get sleepInProgress => 'Sleeping';
 
   @override
   String get sleepRecordFailed => 'Failed to process sleep record';
@@ -407,10 +407,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get diaperChangeTime => 'Change Time';
 
   @override
-  String get weight => 'वजन';
+  String get weight => 'Weight';
 
   @override
-  String get height => 'कद';
+  String get height => 'Height';
 
   @override
   String get growthRecord => 'Growth Record';
@@ -422,7 +422,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get growthRecordFailed => 'Failed to save growth record';
 
   @override
-  String get weightUnit => 'किग्रा';
+  String get weightUnit => 'kg';
 
   @override
   String get heightUnit => 'cm';
@@ -453,7 +453,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get heightRange => 'Height must be between 1cm and 200cm';
 
   @override
-  String get enterValidNumber => 'कृपया एक वैध संख्या दर्ज करें';
+  String get enterValidNumber => 'Please enter a valid number';
 
   @override
   String get recordGrowthInfo => 'Record Growth Information';
@@ -468,13 +468,13 @@ class AppLocalizationsHi extends AppLocalizations {
       'Record measurement situation or special notes (optional)';
 
   @override
-  String get communityTitle => 'समुदाय';
+  String get communityTitle => 'Community';
 
   @override
-  String get writePost => 'पोस्ट लिखें';
+  String get writePost => 'Write Post';
 
   @override
-  String get post => 'पोस्ट';
+  String get post => 'Post';
 
   @override
   String get postTitle => 'Post Title';
@@ -490,7 +490,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'Enter content...\n\nFeel free to share your story.';
 
   @override
-  String get selectCategory => 'कैटेगरी चुनें';
+  String get selectCategory => 'Select Category';
 
   @override
   String get postCreated => 'Post created successfully!';
@@ -549,7 +549,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String contentCharacterCount(Object count) {
-    return 'सामग्री: $count/10000';
+    return 'Content: $count/10000';
   }
 
   @override
@@ -569,11 +569,11 @@ class AppLocalizationsHi extends AppLocalizations {
   String get featureInDevelopment => 'Feature in development';
 
   @override
-  String get liveQA => '🔥 बाल रोग विशेषज्ञ लाइव Q&A';
+  String get liveQA => '🔥 Pediatrician Live Q&A';
 
   @override
   String get liveQADescription =>
-      'आज शाम 7 बजे! सभी प्रश्नों का जवाब देंगे विशेषज्ञ';
+      'Today at 7 PM! Our specialists will answer all your questions';
 
   @override
   String get likeOrder => 'Most Liked';
@@ -585,10 +585,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get userNotFound => 'User information not found';
 
   @override
-  String get statisticsTitle => 'आंकड़े';
+  String get statisticsTitle => 'Statistics';
 
   @override
-  String get noStatisticsData => 'कोई आंकड़े उपलब्ध नहीं';
+  String get noStatisticsData => 'No Statistics Data';
 
   @override
   String statisticsDescription(Object period) {
@@ -596,13 +596,13 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get recordActivity => 'गतिविधि रिकॉर्ड करें';
+  String get recordActivity => 'Record Activity';
 
   @override
-  String get viewOtherPeriod => 'अन्य अवधि देखें';
+  String get viewOtherPeriod => 'View Other Period';
 
   @override
-  String get refresh => 'रीफ्रेश';
+  String get refresh => 'Refresh';
 
   @override
   String get statisticsTips => 'To view statistics?';
@@ -619,13 +619,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get statisticsTip3 => 'You can record easily from the home screen';
 
   @override
-  String get saveAsImage => 'छवि के रूप में सहेजें';
+  String get saveAsImage => 'Save as Image';
 
   @override
   String get saveAsImageDescription => 'Save statistics as image';
 
   @override
-  String get shareAsText => 'टेक्स्ट के रूप में साझा करें';
+  String get shareAsText => 'Share as Text';
 
   @override
   String get shareAsTextDescription => 'Share statistics summary as text';
@@ -661,7 +661,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get viewOtherPeriodTitle => 'View Other Period';
 
   @override
-  String get familyInvitation => 'पारिवारिक निमंत्रण';
+  String get familyInvitation => 'Family Invitation';
 
   @override
   String get invitationDescription =>
@@ -734,81 +734,81 @@ class AppLocalizationsHi extends AppLocalizations {
       'Test Mode: Creating invitation with temporary user information';
 
   @override
-  String get ok => 'ठीक है';
+  String get ok => 'OK';
 
   @override
-  String get edit => 'संपादित करें';
+  String get edit => 'Edit';
 
   @override
-  String get delete => 'हटाएं';
+  String get delete => 'Delete';
 
   @override
-  String get add => 'जोड़ें';
+  String get add => 'Add';
 
   @override
-  String get remove => 'हटाएं';
+  String get remove => 'Remove';
 
   @override
-  String get confirm => 'पुष्टि करें';
+  String get confirm => 'Confirm';
 
   @override
-  String get back => 'वापस';
+  String get back => 'Back';
 
   @override
-  String get next => 'अगला';
+  String get next => 'Next';
 
   @override
-  String get done => 'पूर्ण';
+  String get done => 'Done';
 
   @override
-  String get loading => 'लोड हो रहा है...';
+  String get loading => 'Loading...';
 
   @override
-  String get retry => 'फिर से कोशिश करें';
+  String get retry => 'Retry';
 
   @override
-  String get error => 'त्रुटि';
+  String get error => 'Error';
 
   @override
-  String get success => 'सफलता';
+  String get success => 'Success';
 
   @override
-  String get warning => 'चेतावनी';
+  String get warning => 'Warning';
 
   @override
-  String get info => 'जानकारी';
+  String get info => 'Information';
 
   @override
   String errorOccurred(Object error) {
-    return 'त्रुटि हुई: $error';
+    return 'An error occurred: $error';
   }
 
   @override
-  String get networkError => 'नेटवर्क कनेक्शन त्रुटि';
+  String get networkError => 'Network connection error';
 
   @override
-  String get serverError => 'सर्वर त्रुटि हुई';
+  String get serverError => 'Server error occurred';
 
   @override
-  String get validationError => 'कृपया अपना इनपुट जांचें';
+  String get validationError => 'Please check your input';
 
   @override
-  String get requiredField => 'यह फील्ड आवश्यक है';
+  String get requiredField => 'This field is required';
 
   @override
-  String get invalidInput => 'अमान्य इनपुट';
+  String get invalidInput => 'Invalid input';
 
   @override
-  String get saveFailed => 'सेव करने में विफल';
+  String get saveFailed => 'Save failed';
 
   @override
-  String get loadFailed => 'लोड करने में विफल';
+  String get loadFailed => 'Load failed';
 
   @override
-  String get updateFailed => 'अपडेट करने में विफल';
+  String get updateFailed => 'Update failed';
 
   @override
-  String get deleteFailed => 'हटाने में विफल';
+  String get deleteFailed => 'Delete failed';
 
   @override
   String timeFormat(Object hour, Object minute) {
@@ -828,116 +828,116 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String durationMinutes(Object minutes) {
-    return '$minutesमिनट';
+    return '${minutes}m';
   }
 
   @override
   String durationHours(Object hours) {
-    return '$hoursघंटे';
+    return '${hours}h';
   }
 
   @override
   String durationHoursMinutes(Object hours, Object minutes) {
-    return '$hoursघंटे $minutesमिनट';
+    return '${hours}h ${minutes}m';
   }
 
   @override
   String daysAgo(Object days) {
-    return '$days दिन पहले';
+    return '$days days ago';
   }
 
   @override
   String hoursAgo(Object hours) {
-    return '$hours घंटे पहले';
+    return '$hours hours ago';
   }
 
   @override
   String minutesAgo(Object minutes) {
-    return '$minutes मिनट पहले';
+    return '$minutes minutes ago';
   }
 
   @override
-  String get justNow => 'अभी';
+  String get justNow => 'Just now';
 
   @override
-  String get today => 'आज';
+  String get today => 'Today';
 
   @override
-  String get yesterday => 'कल';
+  String get yesterday => 'Yesterday';
 
   @override
-  String get thisWeek => 'इस सप्ताह';
+  String get thisWeek => 'This Week';
 
   @override
-  String get thisMonth => 'इस महीने';
+  String get thisMonth => 'This Month';
 
   @override
-  String get medicationName => 'दवा का नाम';
+  String get medicationName => 'Medication Name';
 
   @override
-  String get medicationDose => 'खुराक';
+  String get medicationDose => 'Dose';
 
   @override
-  String get medicationTime => 'दवा';
+  String get medicationTime => 'Medication';
 
   @override
-  String get medicationAdded => 'दवा रिकॉर्ड जोड़ा गया';
+  String get medicationAdded => 'Medication record added';
 
   @override
-  String get solidFoodType => 'भोजन का प्रकार';
+  String get solidFoodType => 'Food Type';
 
   @override
   String solidFoodAmount(Object amount) {
-    return 'मात्रा';
+    return '${amount}g';
   }
 
   @override
-  String get solidFoodAdded => 'ठोस आहार रिकॉर्ड जोड़ा गया';
+  String get solidFoodAdded => 'Solid food record added';
 
   @override
-  String get milkPumpingAmount => 'दूध की मात्रा';
+  String get milkPumpingAmount => 'Pumping Amount';
 
   @override
-  String get milkPumpingTime => 'समय';
+  String get milkPumpingTime => 'Pumping Time';
 
   @override
-  String get milkPumpingAdded => 'दूध निकालने का रिकॉर्ड जोड़ा गया';
+  String get milkPumpingAdded => 'Milk pumping record added';
 
   @override
-  String get temperatureReading => 'तापमान रीडिंग';
+  String get temperatureReading => 'Temperature Reading';
 
   @override
-  String get temperatureNormal => 'सामान्य';
+  String get temperatureNormal => 'Normal';
 
   @override
-  String get temperatureHigh => 'उच्च';
+  String get temperatureHigh => 'High';
 
   @override
-  String get temperatureLow => 'कम';
+  String get temperatureLow => 'Low';
 
   @override
-  String get profilePhoto => 'प्रोफाइल फोटो';
+  String get profilePhoto => 'Profile Photo';
 
   @override
-  String get profilePhotoUpdate => 'प्रोफाइल फोटो अपडेट करें';
+  String get profilePhotoUpdate => 'Update Profile Photo';
 
   @override
-  String get selectPhotoSource => 'आप फोटो कैसे चुनना चाहते हैं?';
+  String get selectPhotoSource => 'How would you like to select a photo?';
 
   @override
-  String get camera => 'कैमरा';
+  String get camera => 'Camera';
 
   @override
-  String get gallery => 'गैलरी';
+  String get gallery => 'Gallery';
 
   @override
-  String get photoUpdated => 'प्रोफाइल फोटो अपडेट की गई';
+  String get photoUpdated => 'Profile photo updated';
 
   @override
-  String get photoUploadFailed => 'प्रोफाइल फोटो अपडेट विफल';
+  String get photoUploadFailed => 'Profile photo update failed';
 
   @override
-  String get photoUploading => 'फोटो अपलोड हो रही है...';
+  String get photoUploading => 'Uploading photo...';
 
   @override
   String get cameraNotAvailable =>
@@ -948,120 +948,120 @@ class AppLocalizationsHi extends AppLocalizations {
       'Camera access error occurred.\nPlease try from gallery.';
 
   @override
-  String get addImage => 'इमेज जोड़ें';
+  String get addImage => 'Add Image';
 
   @override
-  String get removeImage => 'इमेज हटाएं';
+  String get removeImage => 'Remove Image';
 
   @override
   String maxImagesReached(Object count) {
-    return 'अधिकतम $count छवियों की अनुमति है';
+    return 'Maximum $count images allowed';
   }
 
   @override
   String ageMonthsAndDays(Object days, Object months) {
-    return '$months महीने $days दिन';
+    return '$months months $days days';
   }
 
   @override
-  String get lastFeedingTime => 'अंतिम दूध पिलाने का समय';
+  String get lastFeedingTime => 'Last feeding time';
 
   @override
   String hoursAndMinutesAgo(Object hours, Object minutes) {
-    return '$hours घंटे $minutes मिनट पहले';
+    return '$hours hours $minutes minutes ago';
   }
 
   @override
   String nextFeedingSchedule(Object hours, Object minutes) {
-    return 'लगभग $hours घंटे $minutes मिनट बाद दूध पिलाना';
+    return 'Next feeding in about ${hours}h ${minutes}m';
   }
 
   @override
   String nextFeedingScheduleMinutes(Object minutes) {
-    return 'लगभग $minutes मिनट बाद दूध पिलाना';
+    return 'Next feeding in about $minutes minutes';
   }
 
   @override
-  String get feedingTimeNow => 'अभी दूध पिलाने का समय है 🍼';
+  String get feedingTimeNow => 'It\'s feeding time now 🍼';
 
   @override
   String feedingTimeSoon(Object minutes) {
-    return 'जल्द ही दूध पिलाने का समय ($minutes मिनट बाद)';
+    return 'Feeding time soon ($minutes minutes)';
   }
 
   @override
-  String get feedingTimeOverdue => 'दूध पिलाने का समय बीत गया';
+  String get feedingTimeOverdue => 'Feeding time overdue';
 
   @override
   String feedingAlarm(Object hours, Object minutes) {
-    return '$hours घंटे $minutes मिनट बाद दूध पिलाने का अलार्म';
+    return 'Feeding alarm in ${hours}h ${minutes}m';
   }
 
   @override
   String feedingAlarmMinutes(Object minutes) {
-    return '$minutes मिनट बाद दूध पिलाने का अलार्म';
+    return 'Feeding alarm in $minutes minutes';
   }
 
   @override
-  String get times => 'बार';
+  String get times => 'times';
 
   @override
-  String get meals => 'बार';
+  String get meals => 'meals';
 
   @override
-  String get kilograms => 'किग्रा';
+  String get kilograms => 'kg';
 
   @override
-  String get centimeters => 'सेमी';
+  String get centimeters => 'cm';
 
   @override
-  String get milliliters => 'मिली';
+  String get milliliters => 'ml';
 
   @override
-  String get grams => 'ग्राम';
+  String get grams => 'g';
 
   @override
-  String get hoursUnit => 'घंटे';
+  String get hoursUnit => 'hours';
 
   @override
-  String get minutesUnit => 'मिनट';
+  String get minutesUnit => 'minutes';
 
   @override
-  String get viewDetails => 'विवरण देखें';
+  String get viewDetails => 'View Details';
 
   @override
-  String get firstRecord => 'पहला रिकॉर्ड';
+  String get firstRecord => 'First Record';
 
   @override
-  String get noChange => 'कोई बदलाव नहीं';
+  String get noChange => 'No Change';
 
   @override
-  String get inProgress => 'चल रहा है';
+  String get inProgress => 'In Progress';
 
   @override
-  String get scheduled => 'निर्धारित';
+  String get scheduled => 'Scheduled';
 
   @override
   String get startBabyRecording =>
-      'अपना बच्चा पंजीकृत करें और ट्रैकिंग शुरू करें';
+      'Register your baby and start tracking growth';
 
   @override
-  String get registerBabyNow => 'बच्चा पंजीकृत करें';
+  String get registerBabyNow => 'Register Baby';
 
   @override
-  String get joinWithInviteCode => 'निमंत्रण कोड के साथ शामिल हों';
+  String get joinWithInviteCode => 'Join with Invitation Code';
 
   @override
-  String get loadingBabyInfo => 'बच्चे की जानकारी लोड हो रही है...';
+  String get loadingBabyInfo => 'Loading baby information...';
 
   @override
-  String get pleaseRegisterBaby => 'कृपया सेटिंग्स में बच्चा पंजीकृत करें';
+  String get pleaseRegisterBaby => 'Please register a baby in settings';
 
   @override
-  String get goToSettings => 'सेटिंग्स पर जाएं';
+  String get goToSettings => 'Go to Settings';
 
   @override
-  String get profilePhotoUpdated => 'प्रोफाइल फोटो अपडेट कर दिया गया।';
+  String get profilePhotoUpdated => 'Profile photo has been updated.';
 
   @override
   String get profilePhotoUpdateFailed => 'Failed to update profile photo';
@@ -1104,699 +1104,698 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sleepRecordProcessFailed => 'Failed to process sleep record';
 
   @override
-  String get hourActivityPattern => '24 घंटे की गतिविधि पैटर्न';
+  String get hourActivityPattern => '24-Hour Activity Pattern';
 
   @override
   String get touchClockInstruction =>
-      'समय के अनुसार गतिविधियों को देखने के लिए घड़ी को छूएं';
+      'Touch the clock to check activities by time period';
 
   @override
-  String get touch => 'छूएं';
+  String get touch => 'Touch';
 
   @override
-  String get noActivitiesInTimeframe => 'इस समय में कोई गतिविधि नहीं थी';
+  String get noActivitiesInTimeframe => 'No activities during this time';
 
   @override
-  String get activityPatternAnalysis => 'गतिविधि पैटर्न विश्लेषण';
+  String get activityPatternAnalysis => 'Activity Pattern Analysis';
 
   @override
-  String get todaysStory => 'आज की कहानी';
+  String get todaysStory => 'Today\'s Story';
 
   @override
   String preciousMoments(Object count) {
-    return '$count मूल्यवान पल';
+    return '$count precious moments';
   }
 
   @override
   String get firstMomentMessage =>
-      'अपना पहला मूल्यवान पल रिकॉर्ड करें।\nरोज के छोटे बदलाव मिलकर बड़े विकास बनते हैं।';
+      'Record your first precious moment.\nSmall daily changes add up to great growth.';
 
   @override
-  String get pattern => 'पैटर्न';
+  String get pattern => 'Pattern';
 
   @override
-  String get qualityGood => 'अच्छा';
+  String get qualityGood => 'Good';
 
   @override
-  String get qualityExcellent => 'उत्कृष्ट';
+  String get qualityExcellent => 'Excellent';
 
   @override
-  String get qualityFair => 'ठीक';
+  String get qualityFair => 'Fair';
 
   @override
-  String get qualityPoor => 'खराब';
+  String get qualityPoor => 'Poor';
 
   @override
-  String get timeSlot => 'बजे का समयावधि';
+  String get timeSlot => 'o\'clock time slot';
 
   @override
-  String get am => 'पूर्वाह्न';
+  String get am => 'AM';
 
   @override
-  String get pm => 'अपराह्न';
+  String get pm => 'PM';
 
   @override
-  String get activityConcentrationTime => 'दिन में गतिविधियों के केंद्रित समय';
+  String get activityConcentrationTime =>
+      'Times of concentrated activity throughout the day';
 
   @override
-  String get formula => 'फॉर्मूला';
+  String get formula => 'Formula';
 
   @override
-  String get breastMilk => 'स्तन का दूध';
+  String get breastMilk => 'Breast Milk';
 
   @override
-  String get babyFood => 'बेबी फूड';
+  String get babyFood => 'Baby Food';
 
   @override
-  String get left => 'बाएं';
+  String get left => 'Left';
 
   @override
-  String get right => 'दाएं';
+  String get right => 'Right';
 
   @override
-  String get both => 'दोनों';
+  String get both => 'Both';
 
   @override
-  String get sleeping => 'सो रहा है';
+  String get sleeping => 'Sleeping';
 
   @override
-  String get hoursText => 'घंटे';
+  String get hoursText => 'hours';
 
   @override
-  String get minutesText => 'मिनट';
+  String get minutesText => 'minutes';
 
   @override
-  String get elapsed => 'बीता';
+  String get elapsed => 'elapsed';
 
   @override
-  String get urineOnly => 'केवल पेशाब';
+  String get urineOnly => 'Urine only';
 
   @override
-  String get stoolOnly => 'केवल मल';
+  String get stoolOnly => 'Stool only';
 
   @override
-  String get urineAndStool => 'पेशाब + मल';
+  String get urineAndStool => 'Urine + Stool';
 
   @override
-  String get color => 'रंग';
+  String get color => 'Color';
 
   @override
-  String get consistency => 'स्थिरता';
+  String get consistency => 'Consistency';
 
   @override
-  String get diaperChange => 'डाइपर बदलना';
+  String get diaperChange => 'Diaper Change';
 
   @override
-  String get oralMedication => 'मौखिक दवा';
+  String get oralMedication => 'Oral Medication';
 
   @override
-  String get topical => 'बाहरी';
+  String get topical => 'Topical';
 
   @override
-  String get inhaled => 'सांस';
+  String get inhaled => 'Inhaled';
 
   @override
-  String get pumping => 'पंप कर रहा है';
+  String get pumping => 'Pumping';
 
   @override
-  String get temperatureMeasurement => 'तापमान मापना';
+  String get temperatureMeasurement => 'Temperature Measurement';
 
   @override
-  String get fever => 'बुखार';
+  String get fever => 'Fever';
 
   @override
-  String get lowFever => 'हल्का बुखार';
+  String get lowFever => 'Low Fever';
 
   @override
-  String get hypothermia => 'हाइपोथर्मिया';
+  String get hypothermia => 'Hypothermia';
 
   @override
-  String get normal => 'सामान्य';
+  String get normal => 'Normal';
 
   @override
-  String get quality => 'गुणवत्ता';
+  String get quality => 'Quality';
 
   @override
-  String get weekly => 'साप्ताहिक';
+  String get weekly => 'Weekly';
 
   @override
-  String get monthly => 'मासिक';
+  String get monthly => 'Monthly';
 
   @override
-  String get custom => 'कस्टम';
+  String get custom => 'Custom';
 
   @override
   String daysCount(Object count) {
-    return '$count दिन';
+    return '$count days';
   }
 
   @override
   String noActivitiesRecordedInPeriod(Object period) {
-    return '$period अवधि के दौरान कोई गतिविधि रिकॉर्ड नहीं की गई।';
+    return 'No activities were recorded during $period.';
   }
 
   @override
-  String get recordBabyActivities =>
-      'अपने बच्चे की गतिविधियों को रिकॉर्ड करें!';
+  String get recordBabyActivities => 'Record your baby\'s activities!';
 
   @override
-  String get howToViewStatistics => 'आंकड़े कैसे देखें?';
+  String get howToViewStatistics => 'How to view statistics?';
 
   @override
   String get recordActivitiesLikeFeedingSleep =>
-      'दूध पिलाना, सोना, डायपर बदलना जैसी गतिविधियों को रिकॉर्ड करें';
+      'Record activities like feeding, sleep, diaper changes, etc.';
 
   @override
   String get atLeastOneDayDataRequired =>
-      'आंकड़े दिखाने के लिए कम से कम एक दिन का डेटा चाहिए';
+      'At least one day of data is required to display statistics.';
 
   @override
   String get canRecordEasilyFromHome =>
-      'आप होम स्क्रीन से आसानी से रिकॉर्ड कर सकते हैं';
+      'You can easily record activities from the home screen.';
 
   @override
-  String get updating => 'अपडेट हो रहा है...';
+  String get updating => 'Updating...';
 
   @override
-  String get lastUpdated => 'अंतिम अपडेट:';
+  String get lastUpdated => 'Last updated:';
 
   @override
-  String get periodSelection => 'अवधि चयन:';
+  String get periodSelection => 'Period selection:';
 
   @override
-  String get daily => 'दैनिक';
+  String get daily => 'Daily';
 
   @override
-  String get startDate => 'प्रारंभ तिथि';
+  String get startDate => 'Start Date';
 
   @override
-  String get endDate => 'समाप्ति तिथि';
+  String get endDate => 'End Date';
 
   @override
-  String get apply => 'लागू करें';
+  String get apply => 'Apply';
 
   @override
-  String get pleaseSelectDate => 'कृपया तारीख चुनें';
+  String get pleaseSelectDate => 'Please select a date';
 
   @override
-  String get detailedStatistics => 'विस्तृत आँकड़े';
+  String get detailedStatistics => 'Detailed Statistics';
 
   @override
-  String get chartAnalysis => 'चार्ट विश्लेषण';
+  String get chartAnalysis => 'Chart Analysis';
 
   @override
-  String get overallActivityOverview => 'समग्र गतिविधि अवलोकन';
+  String get overallActivityOverview => 'Overall Activity Overview';
 
   @override
-  String get totalActivities => 'कुल गतिविधियाँ';
+  String get totalActivities => 'Total Activities';
 
   @override
-  String get activeCards => 'सक्रिय कार्ड';
+  String get activeCards => 'Active Cards';
 
   @override
-  String get dailyAverage => 'दैनिक औसत';
+  String get dailyAverage => 'Daily Average';
 
   @override
-  String get activityDistributionByCard => 'कार्ड के अनुसार गतिविधि वितरण';
+  String get activityDistributionByCard => 'Activity Distribution by Card';
 
   @override
-  String get cannotLoadData => 'डेटा लोड नहीं कर सकते';
+  String get cannotLoadData => 'Cannot load data';
 
   @override
-  String get tryAgain => 'फिर कोशिश करें';
+  String get tryAgain => 'Try Again';
 
   @override
-  String get details => 'विवरण';
+  String get details => 'Details';
 
   @override
-  String get goToHome => 'होम पर जाएं';
+  String get goToHome => 'Go to Home';
 
   @override
-  String get troubleshootingMethods => 'समस्या निवारण तरीके';
+  String get troubleshootingMethods => 'Troubleshooting Methods';
 
   @override
-  String get shareStatistics => 'आंकड़े साझा करें';
+  String get shareStatistics => 'Share Statistics';
 
   @override
-  String get communitySubtitle => 'मिलकर शेयर करें पेरेंटिंग की कहानियां';
+  String get communitySubtitle => 'Sharing Parenting Stories Together';
 
   @override
-  String get search => 'खोजें';
+  String get search => 'Search';
 
   @override
-  String get notification => 'सूचना';
+  String get notification => 'Notification';
 
   @override
-  String get searchFeatureComingSoon => 'खोज सुविधा जल्द आ रही';
+  String get searchFeatureComingSoon => 'Search feature coming soon';
 
   @override
   String get communityWelcome => '💕 Parenting Community';
 
   @override
   String get communityWelcomeDescription =>
-      'अन्य माता-पिता के साथ पालन-पोषण के अनुभव और मूल्यवान जानकारी साझा करें';
+      'Share parenting experiences and valuable information with other parents';
 
   @override
-  String get categorySelection => 'श्रेणी चयन';
+  String get categorySelection => 'Category Selection';
 
   @override
-  String get categoryAll => 'सभी';
+  String get categoryAll => 'All';
 
   @override
-  String get categoryPopular => 'लोकप्रिय';
+  String get categoryPopular => 'Popular';
 
   @override
-  String get categoryClinical => 'क्लिनिकल';
+  String get categoryClinical => 'Clinical';
 
   @override
-  String get categoryInfoSharing => 'जानकारी साझाकरण';
+  String get categoryInfoSharing => 'Info Sharing';
 
   @override
-  String get categorySleepIssues => 'नींद की समस्याएं';
+  String get categorySleepIssues => 'Sleep Issues';
 
   @override
-  String get categoryBabyFood => 'बेबी फूड';
+  String get categoryBabyFood => 'Baby Food';
 
   @override
-  String get categoryDevelopment => 'विकास के चरण';
+  String get categoryDevelopment => 'Development';
 
   @override
-  String get categoryVaccination => 'टीकाकरण';
+  String get categoryVaccination => 'Vaccination';
 
   @override
-  String get categoryPostpartum => 'प्रसवोत्तर रिकवरी';
+  String get categoryPostpartum => 'Postpartum';
 
   @override
-  String get sortByLikes => 'पसंदीदा क्रम';
+  String get sortByLikes => 'Sort by Likes';
 
   @override
-  String get sortByLatest => 'नवीनतम क्रम';
+  String get sortByLatest => 'Sort by Latest';
 
   @override
-  String get edited => '(संपादित)';
+  String get edited => '(edited)';
 
   @override
   String commentsCount(Object count) {
-    return '$count टिप्पणियां';
+    return '$count comments';
   }
 
   @override
-  String get deletePost => 'पोस्ट हटाएं';
+  String get deletePost => 'Delete Post';
 
   @override
   String get deletePostConfirm =>
-      'क्या आप वाकई इस पोस्ट को हटाना चाहते हैं?\nहटाई गई पोस्ट वापस नहीं आ सकती।';
+      'Are you sure you want to delete this post?\nDeleted posts cannot be recovered.';
 
   @override
-  String get deletePostSuccess => 'पोस्ट हटा दी गई।';
+  String get deletePostSuccess => 'Post has been deleted.';
 
   @override
   String deletePostError(Object error) {
-    return 'हटाने में विफल: $error';
+    return 'Delete failed: $error';
   }
 
   @override
-  String get postNotFound => 'पोस्ट नहीं मिली';
+  String get postNotFound => 'Post not found';
 
   @override
-  String get shareFeatureComingSoon => 'शेयर सुविधा जल्द आ रही';
+  String get shareFeatureComingSoon => 'Share feature coming soon';
 
   @override
-  String get loadingComments => 'टिप्पणियां लोड हो रहीं...';
+  String get loadingComments => 'Loading comments...';
 
   @override
-  String get loadMoreComments => 'और टिप्पणियां देखें';
+  String get loadMoreComments => 'Load more comments';
 
   @override
-  String get editComment => 'टिप्पणी संपादित करें';
+  String get editComment => 'Edit Comment';
 
   @override
-  String get editCommentHint => 'अपनी टिप्पणी संपादित करें...';
+  String get editCommentHint => 'Edit your comment...';
 
   @override
-  String get editCommentSuccess => 'टिप्पणी अपडेट हो गई।';
+  String get editCommentSuccess => 'Comment has been updated.';
 
   @override
   String editCommentError(Object error) {
-    return 'संपादन विफल: $error';
+    return 'Edit failed: $error';
   }
 
   @override
-  String get deleteComment => 'टिप्पणी हटाएं';
+  String get deleteComment => 'Delete Comment';
 
   @override
   String get deleteCommentConfirm =>
-      'क्या आप वाकई इस टिप्पणी को हटाना चाहते हैं?\nहटाई गई टिप्पणी वापस नहीं आ सकती।';
+      'Are you sure you want to delete this comment?\nDeleted comments cannot be recovered.';
 
   @override
-  String get deleteCommentSuccess => 'टिप्पणी हटा दी गई।';
+  String get deleteCommentSuccess => 'Comment has been deleted.';
 
   @override
-  String get replySuccess => 'जवाब पोस्ट कर दिया गया।';
+  String get replySuccess => 'Reply has been posted.';
 
   @override
-  String get commentSuccess => 'टिप्पणी पोस्ट कर दी गई।';
+  String get commentSuccess => 'Comment has been posted.';
 
   @override
-  String get commentError => 'टिप्पणी पोस्ट करने में विफल।';
+  String get commentError => 'Failed to post comment.';
 
   @override
-  String get titlePlaceholder => 'शीर्षक दर्ज करें';
+  String get titlePlaceholder => 'Enter title';
 
   @override
   String get contentPlaceholder =>
-      'अपना विचार साझा करें...\n\nपेरेंटिंग के अनुभव के बारे में स्वतंत्र रूप से लिखें।';
+      'Share your thoughts...\n\nFeel free to write about your parenting experiences.';
 
   @override
   String imageSelectionError(Object error) {
-    return 'छवि चयन विफल: $error';
+    return 'Image selection failed: $error';
   }
 
   @override
-  String get userNotFoundError => 'उपयोगकर्ता की जानकारी नहीं मिली।';
+  String get userNotFoundError => 'User information not found.';
 
   @override
-  String get postCreateSuccess => 'पोस्ट सफलतापूर्वक बनाई गई!';
+  String get postCreateSuccess => 'Post has been created successfully!';
 
   @override
   String postCreateError(Object error) {
-    return 'पोस्ट बनाने में विफल: $error';
+    return 'Post creation failed: $error';
   }
 
   @override
   String titleCharacterCount(Object count) {
-    return 'शीर्षक: $count/200';
+    return 'Title: $count/200';
   }
 
   @override
   String imageCountDisplay(Object count) {
-    return 'छवियां: $count/5';
+    return 'Images: $count/5';
   }
 
   @override
-  String get addImageTooltip => 'छवि जोड़ें';
+  String get addImageTooltip => 'Add Image';
 
   @override
-  String get allPostsChecked => 'सभी पोस्ट चेक कर ली गईं! 👍';
+  String get allPostsChecked => 'All posts have been checked! 👍';
 
   @override
-  String get waitForNewPosts => 'नए पोस्ट आने तक प्रतीक्षा करें';
+  String get waitForNewPosts => 'Please wait until new posts are uploaded';
 
   @override
-  String get noPostsYet => 'अभी तक कोई पोस्ट नहीं';
+  String get noPostsYet => 'No posts yet';
 
   @override
-  String get writeFirstPost => 'पहली पोस्ट लिखें!';
+  String get writeFirstPost => 'Write the first post!';
 
   @override
-  String get loadingNewPosts => 'नए पोस्ट लोड हो रहे हैं...';
+  String get loadingNewPosts => 'Loading new posts...';
 
   @override
-  String get failedToLoadPosts => 'पोस्ट लोड करने में विफल';
+  String get failedToLoadPosts => 'Failed to load posts';
 
   @override
   String get checkNetworkAndRetry =>
-      'कृपया नेटवर्क कनेक्शन जाँचें और फिर कोशिश करें';
+      'Please check your network connection and try again';
 
   @override
-  String get categoryDailyLife => 'दैनिक जीवन';
+  String get categoryDailyLife => 'Daily Life';
 
   @override
-  String get preparingTimeline => 'टाइमलाइन तैयार कर रहे हैं...';
+  String get preparingTimeline => 'Preparing timeline...';
 
   @override
-  String get noRecordedMoments => 'अभी तक कोई रिकॉर्ड किए गए पल नहीं';
+  String get noRecordedMoments => 'No recorded moments yet';
 
   @override
-  String get loadingTimeline => 'टाइमलाइन लोड हो रही है...';
+  String get loadingTimeline => 'Loading timeline...';
 
   @override
-  String get noRecordsYet => 'अभी तक कोई रिकॉर्ड नहीं';
+  String get noRecordsYet => 'No records yet';
 
   @override
   String noRecordsForDate(Object date) {
-    return '$date के लिए अभी तक कोई रिकॉर्ड नहीं';
+    return 'No records for $date';
   }
 
   @override
   String noRecordsForDateAndFilter(Object date, Object filter) {
-    return '$date के लिए $filter रिकॉर्ड नहीं';
+    return 'No $filter records for $date';
   }
 
   @override
-  String get cannotRecordFuture => 'भविष्य के रिकॉर्ड अभी बनाए नहीं जा सकते';
+  String get cannotRecordFuture => 'Cannot record future activities yet';
 
   @override
-  String get addFirstRecord => 'अपना पहला रिकॉर्ड जोड़ें!';
+  String get addFirstRecord => 'Add your first record!';
 
   @override
-  String get canAddPastRecord => 'आप पिछले रिकॉर्ड जोड़ सकते हैं';
+  String get canAddPastRecord => 'You can add past records';
 
   @override
-  String get addRecord => 'रिकॉर्ड जोड़ें';
+  String get addRecord => 'Add Record';
 
   @override
-  String get viewOtherDates => 'अन्य तारीखें देखें';
+  String get viewOtherDates => 'View Other Dates';
 
   @override
-  String get goToToday => 'आज पर जाएं';
+  String get goToToday => 'Go to Today';
 
   @override
   String get quickRecordFromHome =>
-      'होम स्क्रीन से जल्दी रिकॉर्ड जोड़ सकते हैं';
+      'You can quickly add records from the home screen';
 
   @override
   String detailViewComingSoon(String title) {
-    return '$title विवरण (जल्द आ रहा है)';
+    return '$title Details (Coming Soon)';
   }
 
   @override
   String get familyInvitationDescription =>
-      'निमंत्रण कोड के साथ परिवार के साथ बच्चे की देखभाल के रिकॉर्ड प्रबंधित करें';
+      'Manage baby care records together with family using invitation codes';
 
   @override
-  String get babyManagement => 'बेबी प्रबंधन';
+  String get babyManagement => 'Baby Management';
 
   @override
-  String get addBaby => 'बच्चा जोड़ें';
+  String get addBaby => 'Add Baby';
 
   @override
-  String get noBabiesMessage =>
-      'कोई बच्चा पंजीकृत नहीं है।\nकृपया एक बच्चा जोड़ें।';
+  String get noBabiesMessage => 'No babies registered.\nPlease add a baby.';
 
   @override
-  String get switchToNextBaby => 'अगले बच्चे पर स्विच करें';
+  String get switchToNextBaby => 'Switch to Next Baby';
 
   @override
-  String get birthDate => 'जन्म तिथि';
+  String get birthDate => 'Birth Date';
 
   @override
-  String get registering => 'पंजीकरण कर रहे हैं...';
+  String get registering => 'Registering...';
 
   @override
-  String get register => 'पंजीकरण';
+  String get register => 'Register';
 
   @override
   String careTogetherWith(String name) {
-    return '$name के साथ बच्चे की देखभाल करें';
+    return 'Take care of babies together with $name';
   }
 
   @override
   String get inviteFamilyDescription =>
-      'परिवार या साथी को आमंत्रित करें\nएक साथ बच्चे की देखभाल के रिकॉर्ड प्रबंधित करने के लिए';
+      'Invite family or partners to\nmanage baby care records together';
 
   @override
-  String get generateInviteCode => 'निमंत्रण कोड जेनरेट करें';
+  String get generateInviteCode => 'Generate Invitation Code';
 
   @override
   String get generateInviteCodeDescription =>
-      'नया निमंत्रण कोड जेनरेट करें और कॉपी करें';
+      'Generate a new invitation code and copy it';
 
   @override
-  String get generateInviteCodeButton => 'निमंत्रण कोड जेनरेट करें';
+  String get generateInviteCodeButton => 'Generate Invitation Code';
 
   @override
-  String get orText => 'या';
+  String get orText => 'Or';
 
   @override
   String get enterInviteCodeDescription =>
-      'कृपया प्राप्त निमंत्रण कोड दर्ज करें';
+      'Please enter the invitation code you received';
 
   @override
-  String get inviteCodePlaceholder => 'निमंत्रण कोड (6 अंक)';
+  String get inviteCodePlaceholder => 'Invitation Code (6 digits)';
 
   @override
-  String get acceptInvite => 'निमंत्रण स्वीकार करें';
+  String get acceptInvite => 'Accept Invitation';
 
   @override
   String babyRegistrationSuccess(String name) {
-    return '$name सफलतापूर्वक पंजीकृत हो गया है';
+    return '$name has been registered successfully';
   }
 
   @override
-  String get babyRegistrationFailed => 'बच्चे का पंजीकरण विफल हुआ';
+  String get babyRegistrationFailed => 'Baby registration failed';
 
   @override
   String babyRegistrationError(String error) {
-    return 'त्रुटि हुई: $error';
+    return 'Error occurred: $error';
   }
 
   @override
   String babySelected(String name) {
-    return '$name चुना गया है';
+    return '$name has been selected';
   }
 
   @override
-  String get inviteCodeGenerated => 'निमंत्रण कोड जेनरेट किया गया!';
+  String get inviteCodeGenerated => 'Invitation code generated successfully!';
 
   @override
   String remainingTime(String time) {
-    return 'बचा हुआ समय: $time';
+    return 'Remaining time: $time';
   }
 
   @override
-  String get validTime => 'वैध समय: 5 मिनट';
+  String get validTime => 'Valid time: 5 minutes';
 
   @override
-  String get generating => 'जेनरेट कर रहे हैं...';
+  String get generating => 'Generating...';
 
   @override
-  String get joining => 'शामिल हो रहे हैं...';
+  String get joining => 'Joining...';
 
   @override
-  String get noBabyInfo => 'बच्चे की जानकारी नहीं';
+  String get noBabyInfo => 'No Baby Information';
 
   @override
   String get noBabyInfoDescription =>
-      'बच्चे की जानकारी नहीं मिली।\nक्या आप परीक्षण बच्चा बनाना चाहते हैं?';
+      'No baby information found.\nWould you like to create a test baby?';
 
   @override
-  String get create => 'बनाएं';
+  String get create => 'Create';
 
   @override
-  String get generateNewInviteCode => 'नया निमंत्रण कोड जेनरेट करें';
+  String get generateNewInviteCode => 'Generate New Invitation Code';
 
   @override
   String get replaceExistingCode =>
-      'यह मौजूदा निमंत्रण कोड को बदल देगा।\nक्या आप जारी रखना चाहते हैं?';
+      'This will replace the existing invitation code.\nDo you want to continue?';
 
   @override
-  String get acceptInvitation => 'निमंत्रण स्वीकार करें';
+  String get acceptInvitation => 'Accept Invitation';
 
   @override
   String get acceptInvitationDescription =>
-      'क्या आप निमंत्रण स्वीकार करना चाहते हैं और परिवार में शामिल होना चाहते हैं?';
+      'Do you want to accept the invitation and join the family?';
 
   @override
   String acceptInvitationWarning(String babyName) {
-    return 'मौजूदा बच्चे के रिकॉर्ड हटा दिए जाएंगे और\nआमंत्रित बच्चे ($babyName) से बदल दिए जाएंगे।\n\nक्या आप जारी रखना चाहते हैं?';
+    return 'Existing baby records will be deleted and replaced with the invited baby ($babyName).\n\nDo you want to continue?';
   }
 
   @override
-  String get pleaseEnterInviteCode => 'कृपया निमंत्रण कोड दर्ज करें';
+  String get pleaseEnterInviteCode => 'Please enter the invitation code';
 
   @override
-  String get inviteCodeMustBe6Digits => 'निमंत्रण कोड 6 अंक का होना चाहिए';
+  String get inviteCodeMustBe6Digits => 'Invitation code must be 6 digits';
 
   @override
   String get pleaseLoginFirst =>
-      'लॉगइन जानकारी नहीं मिली। कृपया पहले लॉगइन करें।';
+      'No login information found. Please login first.';
 
   @override
-  String get copiedToClipboard => 'निमंत्रण कोड क्लिपबोर्ड में कॉपी किया गया!';
+  String get copiedToClipboard => 'Invitation code copied to clipboard!';
 
   @override
-  String get joinedSuccessfully => 'परिवार में सफलतापूर्वक शामिल हुए!';
+  String get joinedSuccessfully => 'Successfully joined the family!';
 
   @override
-  String get inviteCodeExpired => 'निमंत्रण कोड का समय समाप्त हो गया है';
+  String get inviteCodeExpired => 'Invitation code has expired';
 
   @override
-  String get invalidInviteCode => 'अमान्य निमंत्रण कोड';
+  String get invalidInviteCode => 'Invalid invitation code';
 
   @override
-  String get alreadyMember => 'आप पहले से ही इस परिवार के सदस्य हैं';
+  String get alreadyMember => 'You are already a member of this family';
 
   @override
-  String get cannotInviteSelf => 'आप अपने आप को आमंत्रित नहीं कर सकते';
+  String get cannotInviteSelf => 'You cannot invite yourself';
 
   @override
   String minutesAndSeconds(int minutes, int seconds) {
-    return '$minutesमिनट $secondsसेकंड';
+    return '${minutes}m ${seconds}s';
   }
 
   @override
   String babyGuideTitle(String name) {
-    return '$name की बेबी केयर गाइड';
+    return '$name\'s Baby Care Guide';
   }
 
   @override
-  String get babyGuide => 'बेबी केयर गाइड';
+  String get babyGuide => 'Baby Care Guide';
 
   @override
-  String get noAvailableGuides => 'कोई उपलब्ध गाइड नहीं';
+  String get noAvailableGuides => 'No available guides';
 
   @override
-  String get current => 'वर्तमान';
+  String get current => 'Current';
 
   @override
-  String get past => 'बीत गया';
+  String get past => 'Past';
 
   @override
-  String get upcoming => 'आगामी';
+  String get upcoming => 'Upcoming';
 
   @override
   String babysGuide(String name) {
-    return '$name की';
+    return '$name\'s';
   }
 
   @override
   String weekGuide(String weekText) {
-    return '$weekText गाइड';
+    return '$weekText Guide';
   }
 
   @override
-  String get feedingGuide => '💡 फीडिंग गाइड';
+  String get feedingGuide => '💡 Feeding Guide';
 
   @override
-  String get feedingFrequency => 'फीडिंग आवृत्ति';
+  String get feedingFrequency => 'Feeding Frequency';
 
   @override
-  String get singleFeedingAmount => 'एक बार फीडिंग मात्रा';
+  String get singleFeedingAmount => 'Feeding Amount';
 
   @override
-  String get dailyTotal => 'दैनिक कुल';
+  String get dailyTotal => 'Daily Total';
 
   @override
-  String get additionalTips => '📋 अतिरिक्त टिप्स';
+  String get additionalTips => '📋 Additional Tips';
 
   @override
-  String get understood => 'समझ गया!';
+  String get understood => 'Got it!';
 
   @override
-  String get newborn => 'नवजात';
+  String get newborn => 'Newborn';
 
   @override
   String weekNumber(int number) {
-    return 'सप्ताह $number';
+    return 'Week $number';
   }
 
   @override
-  String get newbornWeek0 => 'नवजात (सप्ताह 0)';
+  String get newbornWeek0 => 'Newborn (Week 0)';
 
   @override
   String dailyFrequencyRange(int min, int max) {
-    return 'दैनिक $min - $max बार';
+    return 'Daily $min - $max times';
   }
 
   @override
   String dailyFrequencyMin(int min) {
-    return 'दैनिक $min बार या अधिक';
+    return 'Daily $min+ times';
   }
 
   @override
   String dailyFrequencyMax(int max) {
-    return 'दैनिक $max बार तक';
+    return 'Daily up to $max times';
   }
 
   @override
@@ -1806,12 +1805,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String amountMinML(int min) {
-    return '${min}ml या अधिक';
+    return '${min}ml or more';
   }
 
   @override
   String amountMaxML(int max) {
-    return '${max}ml तक';
+    return 'Up to ${max}ml';
   }
 
   @override
@@ -1821,276 +1820,276 @@ class AppLocalizationsHi extends AppLocalizations {
   String get noRecentFeeding => 'No recent feeding records';
 
   @override
-  String get languageSelection => 'भाषा चयन';
+  String get languageSelection => 'Language Selection';
 
   @override
-  String get selectLanguage => 'एक भाषा चुनें';
+  String get selectLanguage => 'Select a language';
 
   @override
-  String get currentLanguage => 'वर्तमान भाषा';
+  String get currentLanguage => 'Current Language';
 
   @override
-  String get searchCommunityPosts => 'समुदाय पोस्ट खोजें';
+  String get searchCommunityPosts => 'Search community posts';
 
   @override
-  String get temperatureRecord => 'तापमान रिकॉर्ड';
+  String get temperatureRecord => 'Temperature Record';
 
   @override
-  String get temperatureTrend => 'तापमान की प्रवृत्ति';
+  String get temperatureTrend => 'Temperature Trend';
 
   @override
-  String get profilePhotoSetup => 'प्रोफाइल फोटो सेटअप';
+  String get profilePhotoSetup => 'Profile Photo Setup';
 
   @override
-  String get howToSelectPhoto => 'आप फोटो कैसे चुनना चाहते हैं?';
+  String get howToSelectPhoto => 'How would you like to select a photo?';
 
   @override
-  String get send => 'भेजें';
+  String get send => 'Send';
 
   @override
-  String get emailVerificationRequired => 'ईमेल सत्यापन आवश्यक';
+  String get emailVerificationRequired => 'Email Verification Required';
 
   @override
-  String get passwordReset => 'पासवर्ड रीसेट';
+  String get passwordReset => 'Password Reset';
 
   @override
   String get enterEmailForReset =>
-      'अपना पंजीकृत ईमेल पता दर्ज करें।\nहम आपको पासवर्ड रीसेट लिंक भेजेंगे।';
+      'Enter your registered email address.\nWe\'ll send you a password reset link.';
 
   @override
-  String get accountWithdrawalComplete => 'खाता निकासी पूर्ण';
+  String get accountWithdrawalComplete => 'Account Withdrawal Complete';
 
   @override
-  String get genderLabel => 'लिंग: ';
+  String get genderLabel => 'Gender: ';
 
   @override
-  String get birthdateLabel => 'जन्मतिथि: ';
+  String get birthdateLabel => 'Birthdate: ';
 
   @override
-  String get maleGender => 'लड़का';
+  String get maleGender => 'Male';
 
   @override
-  String get femaleGender => 'लड़की';
+  String get femaleGender => 'Female';
 
   @override
-  String get joinWithInviteCodeButton => 'निमंत्रण कोड से जुड़ें';
+  String get joinWithInviteCodeButton => 'Join with Invite Code';
 
   @override
-  String get temperatureRecorded => 'तापमान दर्ज किया गया';
+  String get temperatureRecorded => 'Temperature recorded';
 
   @override
   String recordFailed(String error) {
-    return 'रिकॉर्ड असफल';
+    return 'Record failed';
   }
 
   @override
-  String get temperatureSettingsSaved => 'तापमान सेटिंग्स सहेजी गईं';
+  String get temperatureSettingsSaved => 'Temperature settings have been saved';
 
   @override
   String get loadingUserInfo =>
-      'उपयोगकर्ता की जानकारी लोड कर रहे हैं। कृपया थोड़ी देर बाद पुनः प्रयास करें।';
+      'Loading user information. Please try again in a moment.';
 
   @override
-  String get continueWithSeparateAccount => 'अलग खाते के साथ जारी रखें';
+  String get continueWithSeparateAccount => 'Continue with separate account';
 
   @override
-  String get linkWithExistingAccount => 'मौजूदा खाते से लिंक करें';
+  String get linkWithExistingAccount => 'Link with existing account';
 
   @override
-  String get linkAccount => 'खाता लिंक करें';
+  String get linkAccount => 'Link Account';
 
   @override
-  String get accountLinkingComplete => 'खाता लिंकिंग पूर्ण';
+  String get accountLinkingComplete => 'Account Linking Complete';
 
   @override
-  String get deleteConfirmation => 'हटाने की पुष्टि';
+  String get deleteConfirmation => 'Delete Confirmation';
 
   @override
-  String get emailLabel => 'ईमेल';
+  String get emailLabel => 'Email';
 
   @override
-  String get passwordLabel => 'पासवर्ड';
+  String get passwordLabel => 'Password';
 
   @override
-  String get babyNameLabel => 'बच्चे का नाम';
+  String get babyNameLabel => 'Baby Name';
 
   @override
-  String get weightInput => 'वजन दर्ज करें';
+  String get weightInput => 'Enter weight';
 
   @override
-  String get heightInput => 'ऊंचाई दर्ज करें';
+  String get heightInput => 'Enter height';
 
   @override
   String get measurementNotes =>
-      'माप की स्थिति या विशेष नोट्स दर्ज करें (वैकल्पिक)';
+      'Record measurement conditions or special notes (optional)';
 
   @override
-  String get urine => 'पेशाब';
+  String get urine => 'Urine';
 
   @override
-  String get stool => 'मल';
+  String get stool => 'Stool';
 
   @override
-  String get yellow => 'पीला';
+  String get yellow => 'Yellow';
 
   @override
-  String get brown => 'भूरा';
+  String get brown => 'Brown';
 
   @override
-  String get green => 'हरा';
+  String get green => 'Green';
 
   @override
-  String get bottle => 'बोतल';
+  String get bottle => 'Bottle';
 
   @override
-  String get good => 'अच्छा';
+  String get good => 'Good';
 
   @override
-  String get average => 'औसत';
+  String get average => 'Average';
 
   @override
-  String get poor => 'खराब';
+  String get poor => 'Poor';
 
   @override
-  String get vaccination => 'टीकाकरण';
+  String get vaccination => 'Vaccination';
 
   @override
-  String get illness => 'बीमारी';
+  String get illness => 'Illness';
 
   @override
-  String get highFever => 'तेज बुखार';
+  String get highFever => 'High Fever';
 
   @override
-  String get oral => 'मौखिक';
+  String get oral => 'Oral';
 
   @override
-  String get inhalation => 'सांस द्वारा';
+  String get inhalation => 'Inhalation';
 
   @override
-  String get injection => 'इंजेक्शन';
+  String get injection => 'Injection';
 
   @override
-  String get tablet => 'गोली';
+  String get tablet => 'Tablet';
 
   @override
-  String get drops => 'बूंदें';
+  String get drops => 'Drops';
 
   @override
-  String get teaspoon => 'चम्मच';
+  String get teaspoon => 'Teaspoon';
 
   @override
-  String get tablespoon => 'बड़ा चम्मच';
+  String get tablespoon => 'Tablespoon';
 
   @override
-  String get sleepQuality => 'गुणवत्ता';
+  String get sleepQuality => 'Quality';
 
   @override
-  String get pumpingTime => 'पंपिंग';
+  String get pumpingTime => 'Pumping';
 
   @override
-  String get solidFoodTime => 'ठोस आहार';
+  String get solidFoodTime => 'Solid Food';
 
   @override
-  String get totalFeedingAmount => 'कुल फीडिंग मात्रा';
+  String get totalFeedingAmount => 'Total feeding amount';
 
   @override
-  String get averageFeedingAmount => 'औसत भोजन की मात्रा';
+  String get averageFeedingAmount => 'Average feeding amount';
 
   @override
-  String get dailyAverageFeedingCount => 'दैनिक औसत भोजन की संख्या';
+  String get dailyAverageFeedingCount => 'Daily average feeding count';
 
   @override
-  String get clinical => 'क्लिनिकल';
+  String get clinical => 'Clinical';
 
   @override
-  String get infoSharing => 'जानकारी साझाकरण';
+  String get infoSharing => 'Info Sharing';
 
   @override
-  String get sleepIssues => 'नींद की समस्याएं';
+  String get sleepIssues => 'Sleep Issues';
 
   @override
-  String get babyFoodCategory => 'बेबी फूड';
+  String get babyFoodCategory => 'Baby Food';
 
   @override
-  String get developmentStage => 'विकास चरण';
+  String get developmentStage => 'Development Stage';
 
   @override
-  String get vaccinationCategory => 'टीकाकरण';
+  String get vaccinationCategory => 'Vaccination';
 
   @override
-  String get postpartumRecovery => 'प्रसवोत्तर रिकवरी';
+  String get postpartumRecovery => 'Postpartum Recovery';
 
   @override
-  String get dailyLife => 'दैनिक जीवन';
+  String get dailyLife => 'Daily Life';
 
   @override
-  String get likes => 'पसंद';
+  String get likes => 'Likes';
 
   @override
-  String get comments => 'टिप्पणियां';
+  String get comments => 'Comments';
 
   @override
-  String get anonymous => 'गुमनाम';
+  String get anonymous => 'Anonymous';
 
   @override
-  String get minutes => 'मिनट';
+  String get minutes => 'min';
 
   @override
-  String get armpit => 'बगल';
+  String get armpit => 'Armpit';
 
   @override
-  String get forehead => 'माथा';
+  String get forehead => 'Forehead';
 
   @override
-  String get ear => 'कान';
+  String get ear => 'Ear';
 
   @override
-  String get mouth => 'मुंह';
+  String get mouth => 'Mouth';
 
   @override
-  String get rectal => 'गुदा';
+  String get rectal => 'Rectal';
 
   @override
-  String get otherLocation => 'अन्य';
+  String get otherLocation => 'Other';
 
   @override
-  String get searchError => 'खोज त्रुटि';
+  String get searchError => 'Search error';
 
   @override
-  String get question => 'प्रश्न';
+  String get question => 'Question';
 
   @override
-  String get information => 'जानकारी';
+  String get information => 'Information';
 
   @override
-  String get relevance => 'प्रासंगिकता';
+  String get relevance => 'Relevance';
 
   @override
-  String get searchSuggestions => 'खोज सुझाव';
+  String get searchSuggestions => 'Search suggestions';
 
   @override
-  String get noSearchResults => 'कोई खोज परिणाम नहीं';
+  String get noSearchResults => 'No search results';
 
   @override
-  String get tryDifferentSearchTerm => 'अलग खोज शब्द आज़माएं';
+  String get tryDifferentSearchTerm => 'Try a different search term';
 
   @override
-  String get likeFeatureComingSoon => 'लाइक सुविधा जल्द ही आ रही है';
+  String get likeFeatureComingSoon => 'Like feature coming soon';
 
   @override
-  String get popularSearchTerms => 'लोकप्रिय खोज शब्द';
+  String get popularSearchTerms => 'Popular search terms';
 
   @override
-  String get recentSearches => 'हाल की खोजें';
+  String get recentSearches => 'Recent searches';
 
   @override
-  String get deleteAll => 'सभी हटाएं';
+  String get deleteAll => 'Delete All';
 
   @override
-  String get sortByComments => 'टिप्पणियों के अनुसार क्रमबद्ध करें';
+  String get sortByComments => 'Sort by comments';
 
   @override
-  String get detailInformation => 'विस्तृत जानकारी';
+  String get detailInformation => 'Detail Information';
 
   @override
   String get quickActions => 'Quick Actions';
@@ -2127,10 +2126,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get time => 'Time';
 
   @override
-  String get amount => 'मात्रा';
+  String get amount => 'Amount';
 
   @override
-  String get duration => 'अवधि';
+  String get duration => 'Duration';
 
   @override
   String get dosage => 'Dosage';
@@ -2139,7 +2138,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get unit => 'Unit';
 
   @override
-  String get side => 'तरफ';
+  String get side => 'Side';
 
   @override
   String get fair => 'Fair';
@@ -2163,21 +2162,21 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changesSaved => 'Changes saved';
 
   @override
-  String get smartInsights => 'स्मार्ट अंतर्दृष्टि';
+  String get smartInsights => 'Smart Insights';
 
   @override
-  String get analyzingPatterns => 'पैटर्न का विश्लेषण...';
+  String get analyzingPatterns => 'Analyzing patterns...';
 
   @override
   String insightsFound(int count) {
-    return '$count अंतर्दृष्टि मिली';
+    return '$count insights found';
   }
 
   @override
   String get noInsightsYet => 'Not enough data to analyze patterns yet';
 
   @override
-  String get confidence => 'विश्वास';
+  String get confidence => 'Confidence';
 
   @override
   String sleepProgressMinutes(int minutes) {
@@ -2214,7 +2213,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String hoursMinutesFormat(int hours, int minutes) {
-    return '$hoursघंटे $minutesमिनट';
+    return '${hours}h ${minutes}m';
   }
 
   @override
@@ -2228,10 +2227,10 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get longPressForDetails => 'विवरण के लिए दबाकर रखें';
+  String get longPressForDetails => 'Long press for details';
 
   @override
-  String get todaysSummary => 'आज का सारांश';
+  String get todaysSummary => 'Today\'s Summary';
 
   @override
   String get future => 'Future';
@@ -2249,84 +2248,85 @@ class AppLocalizationsHi extends AppLocalizations {
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
 
   @override
-  String get registerBabyFirst => 'कृपया पहले अपने बच्चे को पंजीकृत करें';
+  String get registerBabyFirst => 'Please register your baby';
 
   @override
   String get registerBabyToRecordMoments =>
-      'अपने बच्चे के कीमती पलों को रिकॉर्ड करने के लिए,\nकृपया पहले बच्चे की जानकारी दर्ज करें।';
+      'To record your baby\'s precious moments,\nplease register baby information first.';
 
   @override
-  String get addBabyFromHome => 'होम से बच्चा जोड़ें';
+  String get addBabyFromHome => 'Add baby from home';
 
   @override
-  String get timesUnit => 'बार';
+  String get timesUnit => 'times';
 
   @override
-  String get itemsUnit => 'आइटम';
+  String get itemsUnit => 'items';
 
   @override
-  String get timesPerDay => 'बार/दिन';
+  String get timesPerDay => 'times/day';
 
   @override
-  String get activityDistributionByCategory => 'श्रेणी के अनुसार गतिविधि वितरण';
+  String get activityDistributionByCategory =>
+      'Activity Distribution by Category';
 
   @override
   String itemsCount(int count) {
-    return '$count आइटम';
+    return '$count items';
   }
 
   @override
-  String get totalCount => 'कुल संख्या';
+  String get totalCount => 'Total count';
 
   @override
   String timesCount(int count) {
-    return '$count बार';
+    return '$count times';
   }
 
   @override
-  String get noDetailedData => 'कोई विस्तृत डेटा नहीं';
+  String get noDetailedData => 'No detailed data';
 
   @override
-  String get averageFeedingTime => 'औसत भोजन का समय';
+  String get averageFeedingTime => 'Average feeding time';
 
   @override
-  String get averageSleepTime => 'औसत नींद का समय';
+  String get averageSleepTime => 'Average sleep time';
 
   @override
-  String get dailyAverageTotalSleepTime => 'दैनिक औसत कुल नींद का समय';
+  String get dailyAverageTotalSleepTime => 'Daily average total sleep time';
 
   @override
-  String get dailyAverageSleepCount => 'दैनिक औसत नींद की संख्या';
+  String get dailyAverageSleepCount => 'Daily average sleep count';
 
   @override
-  String get dailyAverageChangeCount => 'दैनिक औसत परिवर्तन की संख्या';
+  String get dailyAverageChangeCount => 'Daily average change count';
 
   @override
-  String get sharingParentingStories => 'पेरेंटिंग की कहानियां साझा करना';
+  String get sharingParentingStories => 'Sharing Parenting Stories';
 
   @override
-  String get myActivity => 'मेरी गतिविधि';
+  String get myActivity => 'My Activity';
 
   @override
-  String get categories => 'श्रेणियां';
+  String get categories => 'Categories';
 
   @override
-  String get menu => 'मेनू';
+  String get menu => 'Menu';
 
   @override
-  String get seeMore => 'और देखें';
+  String get seeMore => 'See More';
 
   @override
-  String get midnight => 'मध्यरात्रि';
+  String get midnight => 'Midnight';
 
   @override
-  String get morning => 'पूर्वाह्न';
+  String get morning => 'AM';
 
   @override
-  String get noon => 'दोपहर';
+  String get noon => 'Noon';
 
   @override
-  String get afternoon => 'अपराह्न';
+  String get afternoon => 'PM';
 
   @override
   String get quickSelection => 'Quick Selection';
@@ -2427,28 +2427,28 @@ class AppLocalizationsHi extends AppLocalizations {
       'Feeding time reminder notifications';
 
   @override
-  String get averageFeedingDuration => 'औसत फीडिंग अवधि';
+  String get averageFeedingDuration => 'Average feeding duration';
 
   @override
-  String get averageSleepDuration => 'औसत नींद अवधि';
+  String get averageSleepDuration => 'Average sleep duration';
 
   @override
   String get dailyTotalSleepDuration => 'Daily total sleep duration';
 
   @override
-  String get dailyAverageDiaperChangeCount => 'दैनिक औसत डायपर परिवर्तन';
+  String get dailyAverageDiaperChangeCount => 'Daily average diaper changes';
 
   @override
-  String get dailyAverageMedicationCount => 'दैनिक औसत दवा संख्या';
+  String get dailyAverageMedicationCount => 'Daily average medication count';
 
   @override
-  String get medicationTypesUsed => 'उपयोग की गई दवा के प्रकार';
+  String get medicationTypesUsed => 'Types of medication used';
 
   @override
-  String get totalPumpedAmount => 'कुल पंप की गई मात्रा';
+  String get totalPumpedAmount => 'Total pumped amount';
 
   @override
-  String get averagePumpedAmount => 'औसत पंप की गई मात्रा';
+  String get averagePumpedAmount => 'Average pumped amount';
 
   @override
   String get countTab => 'Count';
@@ -2466,7 +2466,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get chartDataNotAvailable => 'Chart data not available.';
 
   @override
-  String get averageLabel => 'औसत: ';
+  String get averageLabel => 'Average: ';
 
   @override
   String get dailyFeedingCountTitle => 'Daily feeding count';
@@ -2480,7 +2480,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get dailyFeedingCount => 'दैनिक फीडिंग संख्या';
+  String get dailyFeedingCount => 'Daily feeding count';
 
   @override
   String get dailyFeedingAmount => 'Daily feeding amount';
@@ -2489,621 +2489,780 @@ class AppLocalizationsHi extends AppLocalizations {
   String get dailyFeedingDuration => 'Daily feeding duration';
 
   @override
-  String get dailySleepCount => 'दैनिक नींद संख्या';
+  String get dailySleepCount => 'Daily sleep count';
 
   @override
   String get dailySleepDuration => 'Daily sleep duration';
 
   @override
-  String get dailyDiaperChangeCount => 'दैनिक डायपर परिवर्तन';
+  String get dailyDiaperChangeCount => 'Daily diaper changes';
 
   @override
-  String get dailyMedicationCount => 'दैनिक दवा संख्या';
+  String get dailyMedicationCount => 'Daily medication count';
 
   @override
-  String get dailyMilkPumpingCount => 'दैनिक पंपिंग संख्या';
+  String get dailyMilkPumpingCount => 'Daily pumping count';
 
   @override
   String get dailyMilkPumpingAmount => 'Daily pumping amount';
 
   @override
-  String get dailySolidFoodCount => 'दैनिक ठोस भोजन संख्या';
+  String get dailySolidFoodCount => 'Daily solid food count';
 
   @override
-  String get dailyAverageSolidFoodCount => 'दैनिक औसत ठोस भोजन संख्या';
+  String get dailyAverageSolidFoodCount => 'Daily average solid food count';
 
   @override
-  String get triedFoodTypes => 'आजमाए गए भोजन के प्रकार';
+  String get triedFoodTypes => 'Types of food tried';
 
   @override
   String babyTemperatureRecord(String name) {
-    return '$name का तापमान रिकॉर्ड';
+    return '$name\'s Temperature Record';
   }
 
   @override
-  String get adjustWithSlider => 'स्लाइडर से समायोजित करें';
+  String get adjustWithSlider => 'Adjust with slider';
 
   @override
-  String get measurementMethod => 'माप विधि';
+  String get measurementMethod => 'Measurement method';
 
   @override
-  String get normalRange => 'सामान्य सीमा';
+  String get normalRange => 'Normal range';
 
   @override
   String normalRangeForAgeGroup(String ageGroup, String min, String max) {
-    return 'सामान्य सीमा ($ageGroup): $min°C - $max°C';
+    return 'Normal range ($ageGroup): $min°C - $max°C';
   }
 
   @override
-  String get saveTemperatureRecord => 'तापमान रिकॉर्ड सेव करें';
+  String get saveTemperatureRecord => 'Save Temperature Record';
 
   @override
-  String get enterTemperature => 'कृपया तापमान दर्ज करें';
+  String get enterTemperature => 'Please enter temperature';
 
   @override
   String get temperatureRangeValidation =>
-      'तापमान 34.0°C ~ 42.0°C के बीच होना चाहिए';
+      'Temperature must be between 34.0°C ~ 42.0°C';
 
   @override
-  String get recordSymptomsHint => 'कृपया लक्षण या विशेष नोट्स दर्ज करें';
+  String get recordSymptomsHint => 'Please record symptoms or special notes';
 
   @override
-  String get oralMethod => 'मौखिक';
+  String get oralMethod => 'Oral';
 
   @override
-  String get analMethod => 'गुदा';
+  String get analMethod => 'Anal';
 
   @override
   String recentDaysTrend(int days) {
-    return 'पिछले $days दिनों की प्रवृत्ति';
+    return 'Recent $days days trend';
   }
 
   @override
-  String get days3 => '3 दिन';
+  String get days3 => '3 days';
 
   @override
-  String get days7 => '7 दिन';
+  String get days7 => '7 days';
 
   @override
-  String get weeks2 => '2 सप्ताह';
+  String get weeks2 => '2 weeks';
 
   @override
-  String get month1 => '1 महीना';
+  String get month1 => '1 month';
 
   @override
   String get noTemperatureRecordsInPeriod =>
-      'चयनित अवधि में कोई तापमान रिकॉर्ड नहीं';
+      'No temperature records in selected period';
 
   @override
-  String get temperatureChangeTrend => 'तापमान परिवर्तन की प्रवृत्ति';
+  String get temperatureChangeTrend => 'Temperature Change Trend';
 
   @override
-  String get averageTemperature => 'औसत तापमान';
+  String get averageTemperature => 'Average Temperature';
 
   @override
-  String get highestTemperature => 'सबसे ऊंचा तापमान';
+  String get highestTemperature => 'Highest Temperature';
 
   @override
-  String get lowestTemperature => 'सबसे कम तापमान';
+  String get lowestTemperature => 'Lowest Temperature';
 
   @override
-  String get noteAvailableTapToView => '📝 नोट उपलब्ध (देखने के लिए दबाएं)';
+  String get noteAvailableTapToView => '📝 Note available (tap to view)';
 
   @override
-  String get temperatureRisingTrend => 'तापमान बढ़ती प्रवृत्ति दिखा रहा है';
+  String get temperatureRisingTrend => 'Temperature is showing a rising trend';
 
   @override
-  String get temperatureFallingTrend => 'तापमान गिरती प्रवृत्ति दिखा रहा है';
+  String get temperatureFallingTrend =>
+      'Temperature is showing a falling trend';
 
   @override
-  String get temperatureStableTrend => 'तापमान स्थिर है';
+  String get temperatureStableTrend => 'Temperature is stable';
 
   @override
-  String get trendAnalysis => 'प्रवृत्ति विश्लेषण';
+  String get trendAnalysis => 'Trend Analysis';
 
   @override
   String totalMeasurements(int count) {
-    return 'कुल $count मापन';
+    return 'Total $count measurements';
   }
 
   @override
-  String get temperatureRecordMemo => 'तापमान रिकॉर्ड मेमो';
+  String get temperatureRecordMemo => 'Temperature Record Memo';
 
   @override
   String babyGrowthChart(String name) {
-    return '$name का विकास चार्ट';
+    return '$name\'s Growth Chart';
   }
 
   @override
-  String get noGrowthRecords => 'कोई विकास रिकॉर्ड नहीं';
+  String get noGrowthRecords => 'No growth records';
 
   @override
   String get enterWeightAndHeightFromHome =>
-      'कृपया होम स्क्रीन से वजन और आर्म दर्ज करें';
+      'Please enter weight and height from home screen';
 
   @override
-  String get all => 'सभी';
+  String get all => 'All';
 
   @override
-  String get growthInsights => 'विकास की जानकारी';
+  String get growthInsights => 'Growth Insights';
 
   @override
-  String get growthRate => 'विकास दर';
+  String get growthRate => 'Growth Rate';
 
   @override
-  String get monthlyAverageGrowth => 'मासिक औसत विकास';
+  String get monthlyAverageGrowth => 'Monthly Average Growth';
 
   @override
-  String get dataInsufficient => 'डेटा अपर्याप्त';
+  String get dataInsufficient => 'Data Insufficient';
 
   @override
-  String get twoOrMoreRequired => '2 या अधिक आवश्यक';
+  String get twoOrMoreRequired => '2 or more required';
 
   @override
   String recentDaysBasis(int days) {
-    return 'पिछले $days दिनों के आधार पर';
+    return 'Based on recent $days days';
   }
 
   @override
-  String get entireBasis => 'पूरी अवधि के आधार पर';
+  String get entireBasis => 'Based on entire period';
 
   @override
-  String get oneMonthPrediction => '1 महीने की भविष्यवाणी';
+  String get oneMonthPrediction => '1 Month Prediction';
 
   @override
-  String get currentTrendBasis => 'मौजूदा ट्रेंड के आधार पर';
+  String get currentTrendBasis => 'Based on current trend';
 
   @override
-  String get predictionNotPossible => 'भविष्यवाणी संभव नहीं';
+  String get predictionNotPossible => 'Prediction not possible';
 
   @override
-  String get trendInsufficient => 'ट्रेंड अपर्याप्त';
+  String get trendInsufficient => 'Trend insufficient';
 
   @override
-  String get recordFrequency => 'रिकॉर्ड आवृत्ति';
+  String get recordFrequency => 'Record Frequency';
 
   @override
-  String get veryConsistent => 'बहुत निरंतर';
+  String get veryConsistent => 'Very Consistent';
 
   @override
-  String get consistent => 'निरंतर';
+  String get consistent => 'Consistent';
 
   @override
-  String get irregular => 'अनियमित';
+  String get irregular => 'Irregular';
 
   @override
   String averageDaysInterval(String days) {
-    return 'ौसत $days दिन का अंतराल';
+    return 'Average $days days interval';
   }
 
   @override
-  String get nextRecord => 'अगला रिकॉर्ड';
+  String get nextRecord => 'Next Record';
 
   @override
-  String get now => 'अभी';
+  String get now => 'Now';
 
   @override
-  String get soon => 'जल्द ही';
+  String get soon => 'Soon';
 
   @override
   String daysLater(int days) {
-    return '$days दिन बाद';
+    return '$days days later';
   }
 
   @override
   String daysAgoRecorded(int days) {
-    return '$days दिन पहले रिकॉर्ड किया गया';
+    return 'Recorded $days days ago';
   }
 
   @override
-  String get weeklyRecordRecommended => 'साप्ताहिक रिकॉर्ड की सिफारिश';
+  String get weeklyRecordRecommended => 'Weekly record recommended';
 
   @override
-  String get nextMilestone => 'अगला मील का पत्थर';
+  String get nextMilestone => 'Next Milestone';
 
   @override
   String targetValue(String value, String unit) {
-    return '$value$unit लक्ष्य';
+    return '$value$unit target';
   }
 
   @override
   String remainingProgress(String remaining, String unit, String progress) {
-    return '$remaining$unit बाकी ($progress% हासिल)';
+    return '$remaining$unit remaining ($progress% achieved)';
   }
 
   @override
-  String get calculationNotPossible => 'गणना संभव नहीं';
+  String get calculationNotPossible => 'Calculation not possible';
 
   @override
-  String get periodInsufficient => 'अवधि अपर्याप्त';
+  String get periodInsufficient => 'Period insufficient';
 
   @override
-  String get noDataAvailable => 'कोई डेटा उपलब्ध नहीं';
+  String get noDataAvailable => 'No data available';
 
   @override
-  String get weightRecordRequired => 'वजन रिकॉर्ड आवश्यक';
+  String get weightRecordRequired => 'Weight record required';
 
   @override
-  String get heightRecordRequired => 'कद का रिकॉर्ड आवश्यक';
+  String get heightRecordRequired => 'Height record required';
 
   @override
-  String get currentRecordMissing => 'मौजूदा रिकॉर्ड गुम';
+  String get currentRecordMissing => 'Current record missing';
 
   @override
-  String get noRecord => 'कोई रिकॉर्ड नहीं';
+  String get noRecord => 'No record';
 
   @override
-  String get firstRecordStart => 'पहला रिकॉर्ड शुरू करें';
+  String get firstRecordStart => 'Start your first record';
 
   @override
-  String get oneRecord => '1 रिकॉर्ड';
+  String get oneRecord => '1 record';
 
   @override
-  String get moreRecordsNeeded => 'और रिकॉर्ड चाहिए';
+  String get moreRecordsNeeded => 'More records needed';
 
   @override
-  String get sameDayRecord => 'उसी दिन का रिकॉर्ड';
+  String get sameDayRecord => 'Same day record';
 
   @override
   String recordedTimes(int count) {
-    return '$count बार रिकॉर्ड किया गया';
+    return '$count times recorded';
   }
 
   @override
-  String get storageMethod => 'भंडारण विधि';
+  String get storageMethod => 'Storage Method';
 
   @override
-  String get pumpingType => 'पंपिंग प्रकार';
+  String get pumpingType => 'Pumping Type';
 
   @override
-  String get foodName => 'भोजन का नाम';
+  String get foodName => 'Food Name';
 
   @override
-  String get mealType => 'भोजन का प्रकार';
+  String get mealType => 'Meal Type';
 
   @override
-  String get texture => 'बनावट';
+  String get texture => 'Texture';
 
   @override
-  String get reaction => 'प्रतिक्रिया';
+  String get reaction => 'Reaction';
 
   @override
-  String get measurementLocation => 'माप स्थान';
+  String get measurementLocation => 'Measurement Location';
 
   @override
-  String get feverReducerGiven => 'बुखार कम करने वाली दवा दी गई';
+  String get feverReducerGiven => 'Fever Reducer Given';
 
   @override
-  String get given => 'दिया गया';
+  String get given => 'Given';
 
   @override
-  String get hours => 'घंटे';
+  String get hours => 'hours';
 
   @override
-  String get refrigerator => 'रेफ्रिजरेटर';
+  String get refrigerator => 'Refrigerator';
 
   @override
-  String get freezer => 'फ्रीजर';
+  String get freezer => 'Freezer';
 
   @override
-  String get roomTemperature => 'कमरे का तापमान';
+  String get roomTemperature => 'Room Temperature';
 
   @override
-  String get fedImmediately => 'तुरंत खिलाया गया';
+  String get fedImmediately => 'Fed Immediately';
 
   @override
-  String get breakfast => 'नाश्ता';
+  String get breakfast => 'Breakfast';
 
   @override
-  String get lunch => 'दोपहर का खाना';
+  String get lunch => 'Lunch';
 
   @override
-  String get dinner => 'रात का खाना';
+  String get dinner => 'Dinner';
 
   @override
-  String get snack => 'नाश्ता';
+  String get snack => 'Snack';
 
   @override
-  String get monday => 'सोमवार';
+  String get monday => 'Monday';
 
   @override
-  String get tuesday => 'मंगलवार';
+  String get tuesday => 'Tuesday';
 
   @override
-  String get wednesday => 'बुधवार';
+  String get wednesday => 'Wednesday';
 
   @override
-  String get thursday => 'गुरुवार';
+  String get thursday => 'Thursday';
 
   @override
-  String get friday => 'शुक्रवार';
+  String get friday => 'Friday';
 
   @override
-  String get saturday => 'शनिवार';
+  String get saturday => 'Saturday';
 
   @override
-  String get sunday => 'रविवार';
+  String get sunday => 'Sunday';
 
   @override
-  String get on => 'चालू';
+  String get on => 'On';
 
   @override
-  String get off => 'बंद';
+  String get off => 'Off';
 
   @override
-  String get weightChange => 'वजन परिवर्तन';
+  String get weightChange => 'Weight Change';
 
   @override
-  String get heightChange => 'ऊंचाई परिवर्तन';
+  String get heightChange => 'Height Change';
 
   @override
-  String get totalRecords => 'कुल रिकॉर्ड';
+  String get totalRecords => 'Total Records';
 
   @override
-  String get totalChange => 'कुल परिवर्तन';
+  String get totalChange => 'Total Change';
 
   @override
-  String get start => 'शुरू';
+  String get start => 'Start';
 
   @override
-  String get memo => 'मेमो';
+  String get memo => 'Memo';
 
   @override
-  String get weightDataEmpty => 'कोई वजन डेटा उपलब्ध नहीं';
+  String get weightDataEmpty => 'No weight data available';
 
   @override
-  String get heightDataEmpty => 'कोई ऊंचाई डेटा उपलब्ध नहीं';
+  String get heightDataEmpty => 'No height data available';
 
   @override
-  String get undoAction => 'पूर्ववत करें';
+  String get undoAction => 'Undo';
 
   @override
-  String get feedingRecordDeleted => 'आहार रिकॉर्ड हटा दिया गया';
+  String get feedingRecordDeleted => 'Feeding record deleted';
 
   @override
-  String get sleepRecordDeleted => 'नींद का रिकॉर्ड हटा दिया गया';
+  String get sleepRecordDeleted => 'Sleep record deleted';
 
   @override
-  String get diaperRecordDeleted => 'डायपर रिकॉर्ड हटा दिया गया';
+  String get diaperRecordDeleted => 'Diaper record deleted';
 
   @override
-  String get healthRecordDeleted => 'स्वास्थ्य रिकॉर्ड हटा दिया गया';
+  String get healthRecordDeleted => 'Health record deleted';
 
   @override
-  String get deletionError => 'हटाने में त्रुटि हुई';
+  String get deletionError => 'Error occurred during deletion';
 
   @override
-  String get duplicateInputDetected => 'डुप्लिकेट इनपुट मिला';
+  String get duplicateInputDetected => 'Duplicate input detected';
 
   @override
   String get solidFoodDuplicateConfirm =>
-      'आपने अभी-अभी ठोस आहार रिकॉर्ड किया है।\\nक्या आप वास्तव में फिर से रिकॉर्ड करना चाहते हैं?';
+      'You just recorded solid food.\\nDo you really want to record it again?';
 
   @override
-  String get cannotOpenSettings => 'सेटिंग्स स्क्रीन खोल नहीं पा रहे';
+  String get cannotOpenSettings => 'Cannot open settings screen';
 
   @override
-  String get sleepQualityGood => 'अच्छी';
+  String get sleepQualityGood => 'Good';
 
   @override
-  String get sleepQualityFair => 'ठीक';
+  String get sleepQualityFair => 'Fair';
 
   @override
-  String get sleepQualityPoor => 'खराब';
+  String get sleepQualityPoor => 'Poor';
 
   @override
   String sleepInProgressDuration(Object minutes) {
-    return 'सो रहा है - $minutesमिनट बीते';
+    return 'Sleeping - ${minutes}m elapsed';
   }
 
   @override
-  String get wetOnly => 'केवल गीला';
+  String get wetOnly => 'Wet Only';
 
   @override
-  String get dirtyOnly => 'केवल गंदा';
+  String get dirtyOnly => 'Dirty Only';
 
   @override
-  String get wetAndDirty => 'गीला + गंदा';
+  String get wetAndDirty => 'Wet + Dirty';
 
   @override
-  String get colorLabel => 'रंग';
+  String get colorLabel => 'Color';
 
   @override
-  String get consistencyLabel => 'स्थिरता';
+  String get consistencyLabel => 'Consistency';
 
   @override
-  String get topicalMedication => 'लागू करने वाली';
+  String get topicalMedication => 'Topical';
 
   @override
-  String get inhaledMedication => 'साँस से लेने वाली';
+  String get inhaledMedication => 'Inhaled';
 
   @override
-  String get milkPumpingInProgress => 'दूध निकाल रहा है';
+  String get milkPumpingInProgress => 'Pumping';
 
   @override
   String pumpingInProgressDuration(Object minutes) {
-    return 'दूध निकाल रहा है - $minutesमिनट बीते';
+    return 'Pumping - ${minutes}m elapsed';
   }
 
   @override
-  String get lowGradeFever => 'हल्का बुखार';
+  String get lowGradeFever => 'Low Grade Fever';
 
   @override
-  String get normalTemperature => 'सामान्य';
+  String get normalTemperature => 'Temperature is normal';
 
   @override
-  String get allActivities => 'सभी';
+  String get allActivities => 'All';
 
   @override
-  String get temperatureFilter => 'तापमान';
+  String get temperatureFilter => 'Temperature';
 
   @override
-  String get deleteRecordTitle => 'रिकॉर्ड हटाएं';
+  String get deleteRecordTitle => 'Delete Record';
 
   @override
   String get deleteRecordMessage =>
-      'क्या आप वाकई इस रिकॉर्ड को हटाना चाहते हैं?\nहटाए गए रिकॉर्ड पुन:प्राप्त नहीं किए जा सकते।';
+      'Are you sure you want to delete this record?\nDeleted records cannot be recovered.';
 
   @override
-  String get recordDeletedSuccess => 'रिकॉर्ड हटा दिया गया है';
+  String get recordDeletedSuccess => 'Record has been deleted';
 
   @override
-  String get recordDeleteFailed => 'रिकॉर्ड हटाने में असफल';
+  String get recordDeleteFailed => 'Failed to delete record';
 
   @override
-  String get recordDeleteError => 'रिकॉर्ड हटाते समय एक त्रुटि आई';
+  String get recordDeleteError => 'An error occurred while deleting the record';
 
   @override
-  String get recordUpdatedSuccess => 'रिकॉर्ड अपडेट कर दिया गया है';
+  String get recordUpdatedSuccess => 'Record has been updated';
 
   @override
-  String get recordUpdateFailed => 'रिकॉर्ड अपडेट करने में असफल';
+  String get recordUpdateFailed => 'Failed to update record';
 
   @override
-  String get recordUpdateError => 'रिकॉर्ड अपडेट करते समय एक त्रुटि आई';
+  String get recordUpdateError => 'An error occurred while updating the record';
 
   @override
   String noRecordsToday(Object recordType) {
-    return 'आज कोई $recordType रिकॉर्ड नहीं';
+    return 'No $recordType records today';
   }
 
   @override
-  String get healthRecordRestored => 'स्वास्थ्य रिकॉर्ड बहाल हो गया है';
+  String get healthRecordRestored => 'Health record has been restored';
 
   @override
   String get deleteTemperatureConfirm =>
-      'क्या आप हालिया तापमान रिकॉर्ड को हटाना चाहते हैं?';
+      'Do you want to delete the recent temperature record?';
 
   @override
-  String get minimum => 'न्यूनतम';
+  String get minimum => 'Minimum';
 
   @override
-  String get maximum => 'अधिकतम';
+  String get maximum => 'Maximum';
 
   @override
-  String get duplicateEntryDetected => 'डुप्लिकेट एंट्री का पता चला';
+  String get duplicateEntryDetected => 'Duplicate Entry Detected';
 
   @override
   String get feedingDuplicateConfirm =>
-      'आपने अभी एक फीडिंग रिकॉर्ड जोड़ा है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?';
+      'You just added a feeding record.\\nDo you really want to record again?';
 
   @override
   String get milkPumpingDuplicateConfirm =>
-      'आपने अभी दूध निकालने का रिकॉर्ड जोड़ा है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?';
+      'You just added a milk pumping record.\\nDo you really want to record again?';
 
   @override
   String get medicationDuplicateConfirm =>
-      'आपने अभी दवा का रिकॉर्ड किया है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?';
+      'You just recorded medication.\\nDo you really want to record again?';
 
   @override
   String get diaperDuplicateConfirm =>
-      'आपने अभी डायपर बदलने का रिकॉर्ड किया है।\\nक्या आप वाकई फिर से रिकॉर्ड करना चाहते हैं?';
+      'You just recorded a diaper change.\\nDo you really want to record again?';
 
   @override
   String get sleepStartDuplicateConfirm =>
-      'आपने अभी नींद में हेरफेर किया है।\\nक्या आप वाकई सोना शुरू करना चाहते हैं?';
+      'You just manipulated sleep.\\nDo you really want to start sleeping?';
 
   @override
   String get sleepEndDuplicateConfirm =>
-      'आपने अभी नींद में हेरफेर किया है।\\nक्या आप वाकई सोना बंद करना चाहते हैं?';
+      'You just manipulated sleep.\\nDo you really want to end sleeping?';
 
   @override
-  String get recordAction => 'रिकॉर्ड करें';
+  String get recordAction => 'Record';
 
   @override
-  String get end => 'अंत';
+  String get end => 'End';
 
   @override
-  String get whatTypeChanged => 'आपने कौन सा प्रकार बदला?';
+  String get whatTypeChanged => 'What type did you change?';
 
   @override
-  String get poop => 'मल';
+  String get poop => 'Poop';
 
   @override
-  String get urinePoop => 'पेशाब+मल';
+  String get urinePoop => 'Urine+Poop';
 
   @override
-  String get changeType => 'परिवर्तन प्रकार';
+  String get changeType => 'Change Type';
 
   @override
-  String get colorWhenPoop => 'रंग (मल करते समय)';
+  String get colorWhenPoop => 'Color (When Poop)';
 
   @override
-  String get minutesShort => 'मिन';
+  String get minutesShort => 'm';
 
   @override
-  String get totalFeedingDuration => 'कुल फीडिंग अवधि';
+  String get totalFeedingDuration => 'Total feeding duration';
 
   @override
-  String get maximumFeedingAmount => 'अधिकतम फीडिंग मात्रा';
+  String get maximumFeedingAmount => 'Maximum feeding amount';
 
   @override
-  String get minimumFeedingAmount => 'न्यूनतम फीडिंग मात्रा';
+  String get minimumFeedingAmount => 'Minimum feeding amount';
 
   @override
-  String get totalSleepDuration => 'कुल नींद अवधि';
+  String get totalSleepDuration => 'Total sleep duration';
 
   @override
-  String get dailyTotalMilkPumpingAmount => 'दैनिक कुल पंप की गई मात्रा';
+  String get dailyTotalMilkPumpingAmount => 'Daily total pumped amount';
 
   @override
-  String get maximumSleepDuration => 'अधिकतम नींद अवधि';
+  String get maximumSleepDuration => 'Maximum sleep duration';
 
   @override
-  String get minimumSleepDuration => 'न्यूनतम नींद अवधि';
+  String get minimumSleepDuration => 'Minimum sleep duration';
 
   @override
-  String get allergicReactionCount => 'एलर्जी की प्रतिक्रिया संख्या';
+  String get allergicReactionCount => 'Allergic reaction count';
 
   @override
-  String get dailyAverageMilkPumpingCount => 'दैनिक औसत दूध पंप संख्या';
+  String get dailyAverageMilkPumpingCount => 'Daily average milk pumping count';
 
   @override
-  String get growthInfoRecord => 'वृद्धि जानकारी रिकॉर्ड';
+  String get growthInfoRecord => 'Growth Information Record';
 
   @override
-  String get recordBabyCurrentWeight => 'कृपया बच्चे का वर्तमान वजन दर्ज करें';
+  String get recordBabyCurrentWeight => 'Please record baby\'s current weight';
 
   @override
-  String get recordBabyCurrentHeight =>
-      'कृपया बच्चे की वर्तमान लंबाई दर्ज करें';
+  String get recordBabyCurrentHeight => 'Please record baby\'s current height';
 
   @override
-  String get measurementItems => 'मापें आइटम्स';
+  String get measurementItems => 'Measurement Items';
 
   @override
-  String get memoOptional => 'मेमो (वैकल्पिक)';
+  String get memoOptional => 'Memo (Optional)';
 
   @override
-  String get enterWeight => 'वजन दाखिल करें';
+  String get enterWeight => 'Enter weight';
 
   @override
-  String get enterHeight => 'लंबाई दाखिल करें';
+  String get enterHeight => 'Enter height';
 
   @override
   String get recordSpecialNotesWeight =>
-      'वजन मापते समय विशेष नोट्स दर्ज करें (वैकल्पिक)';
+      'Record special notes when measuring weight (optional)';
 
   @override
   String get recordSpecialNotesHeight =>
-      'लंबाई मापते समय विशेष नोट्स दर्ज करें (वैकल्पिक)';
+      'Record special notes when measuring height (optional)';
 
   @override
-  String get weightInvalidNumber => 'कृपया वजन के लिए एक वैध संख्या दाखिल करें';
+  String get weightInvalidNumber => 'Please enter a valid number for weight';
 
   @override
-  String get weightRangeError => 'वजन 0.1-50kg के बीच होना चाहिए';
+  String get weightRangeError => 'Weight should be between 0.1~50kg';
 
   @override
-  String get heightInvalidNumber =>
-      'कृपया लंबाई के लिए एक वैध संख्या दाखिल करें';
+  String get heightInvalidNumber => 'Please enter a valid number for height';
 
   @override
-  String get heightRangeError => 'लंबाई 1-200cm के बीच होनी चाहिए';
+  String get heightRangeError => 'Height should be between 1~200cm';
 
   @override
-  String get enterWeightOrHeight => 'कृपया वजन या लंबाई दाखिल करें';
+  String get enterWeightOrHeight => 'Please enter weight or height';
 
   @override
-  String get saveError => 'सेव करते समय त्रुटि आई';
+  String get saveError => 'An error occurred while saving';
+
+  @override
+  String get sufficientFeedingAmount =>
+      'You had a sufficient amount of feeding';
+
+  @override
+  String get expectedSatisfaction =>
+      'This amount is expected to provide sufficient satisfaction for the baby.';
+
+  @override
+  String get nightFeedingTime => 'It\'s nighttime feeding time';
+
+  @override
+  String get nightFeedingImpact =>
+      'Nighttime feeding helps baby\'s growth, but may affect parents\' sleep patterns.';
+
+  @override
+  String get nextExpectedFeedingTime => 'Next expected feeding time';
+
+  @override
+  String get nextFeedingIn2to3Hours =>
+      'Generally, the next feeding may be needed in 2-3 hours.';
+
+  @override
+  String get longSleepDuration => 'It was a long sleep duration';
+
+  @override
+  String goodSleepForGrowth(String duration) {
+    return 'Slept for $duration hours. This is a good sign for baby\'s growth and development.';
+  }
+
+  @override
+  String get shortSleepDuration => 'It was a short sleep';
+
+  @override
+  String get checkSleepEnvironment =>
+      'Check the environment so that short naps or sleep interruptions don\'t occur.';
+
+  @override
+  String get goodSleepQuality => 'It was good sleep quality';
+
+  @override
+  String get goodSleepBenefits =>
+      'Good sleep helps baby\'s brain development and immune system improvement.';
+
+  @override
+  String get diaperChangeDirty => 'Dirty diaper change';
+
+  @override
+  String get normalDigestionSign =>
+      'This is a good sign that baby\'s digestive function is working normally.';
+
+  @override
+  String get diaperChangeFrequency => 'Diaper change frequency';
+
+  @override
+  String goodDiaperChangeFrequency(int hours) {
+    return 'It\'s been $hours hours since the last change. You\'re maintaining a good change frequency.';
+  }
+
+  @override
+  String get medicationRecordComplete => 'Medication record completed';
+
+  @override
+  String medicationRecorded(String medicationName) {
+    return '$medicationName medication has been recorded. Accurate recording helps improve treatment effectiveness.';
+  }
+
+  @override
+  String get medicationRecordCompleteGeneric =>
+      'Medication record has been completed.';
+
+  @override
+  String get morningMedicationTime => 'Morning medication time';
+
+  @override
+  String get morningMedicationBenefit =>
+      'Morning medication helps maintain drug effectiveness throughout the day.';
+
+  @override
+  String get effectivePumping => 'It was effective pumping';
+
+  @override
+  String goodPumpingAmount(int amount) {
+    return 'Pumped ${amount}ml. This is a good amount that helps with breast milk storage.';
+  }
+
+  @override
+  String get pumpingImprovementTip => 'Pumping improvement tip';
+
+  @override
+  String get lowPumpingAdvice =>
+      'The pumping amount is low. Adequate water intake and stress management can help.';
+
+  @override
+  String get morningPumpingTime => 'Morning pumping time';
+
+  @override
+  String get morningPumpingBenefit =>
+      'Morning time is the best time for pumping due to high prolactin levels.';
+
+  @override
+  String get babyLikesFood => 'Baby likes the food';
+
+  @override
+  String goodFoodReaction(String foodName) {
+    return 'Had a good reaction to $foodName. Consider adding this food to the diet.';
+  }
+
+  @override
+  String get goodFoodReactionGeneric => 'Had a good reaction to the food.';
+
+  @override
+  String get lunchTimeSolidFood => 'Lunchtime solid food';
+
+  @override
+  String get lunchTimeFoodBenefit =>
+      'Lunchtime solid food helps establish baby\'s eating habits.';
+
+  @override
+  String get nutritionalBalance => 'Nutritional balance management';
+
+  @override
+  String get varietyFoodBenefit =>
+      'Alternating solid food made with various ingredients helps with nutritional balance.';
+
+  @override
+  String get highTemperature => 'Temperature is high';
+
+  @override
+  String highTemperatureWarning(String temperature) {
+    return 'Temperature is $temperature°C, which is relatively high. Continuous observation is needed.';
+  }
+
+  @override
+  String get lowTemperature => 'Temperature is low';
+
+  @override
+  String lowTemperatureWarning(String temperature) {
+    return 'Temperature is $temperature°C, which is relatively low. Please pay attention to keeping warm.';
+  }
+
+  @override
+  String normalTemperatureRange(String temperature) {
+    return 'Temperature is $temperature°C, which is within the normal range.';
+  }
+
+  @override
+  String get regularTemperatureCheck => 'Regular temperature check';
+
+  @override
+  String get regularTemperatureCheckBenefit =>
+      'Regular temperature checks are recommended to monitor baby\'s health condition.';
+
+  @override
+  String get consistentRecording => 'Records are being kept consistently well';
+
+  @override
+  String get regularRecordingBenefit =>
+      'Regular recording helps with baby health management.';
 }

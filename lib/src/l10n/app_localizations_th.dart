@@ -9,34 +9,34 @@ class AppLocalizationsTh extends AppLocalizations {
   AppLocalizationsTh([String locale = 'th']) : super(locale);
 
   @override
-  String get user => 'ผู้ใช้';
+  String get user => 'User';
 
   @override
   String userInfoLoadFailed(String error) {
-    return 'โหลดข้อมูลผู้ใช้ไม่สำเร็จ: $error';
+    return 'Failed to load user info: $error';
   }
 
   @override
   String babyListLoadError(String error) {
-    return 'ข้อผิดพลาดในการโหลดรายการลูก: $error';
+    return 'An error occurred while loading the baby list: $error';
   }
 
   @override
   String welcomeUser(String userName, Object nickname) {
-    return 'สวัสดี $userName!';
+    return 'Welcome, $nickname! 🎉';
   }
 
   @override
-  String get registerBaby => 'ลงทะเบียนลูก';
+  String get registerBaby => 'Register Baby';
 
   @override
-  String get noBabiesRegistered => 'ยังไม่มีลูกที่ลงทะเบียน';
+  String get noBabiesRegistered => 'No babies registered';
 
   @override
-  String get registerFirstBaby => 'ลงทะเบียนลูกคนแรกของคุณ!';
+  String get registerFirstBaby => 'Register your first baby!';
 
   @override
-  String get registerBabyButton => 'ลงทะเบียนเด็ก';
+  String get registerBabyButton => 'Register Baby';
 
   @override
   String birthday(int year, int month, int day) {
@@ -50,17 +50,17 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String gender(String gender) {
-    return 'เพศ';
+    return 'Gender';
   }
 
   @override
-  String get male => 'ชาย';
+  String get male => 'Male';
 
   @override
-  String get female => 'หญิง';
+  String get female => 'Female';
 
   @override
-  String get other => 'อื่นๆ';
+  String get other => 'Other';
 
   @override
   String babyDetailScreen(String name) {
@@ -81,33 +81,33 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get enterBabyInfo => 'กรุณากรอกข้อมูลลูก';
+  String get enterBabyInfo => 'Please enter baby information';
 
   @override
-  String get babyName => 'ชื่อลูก';
+  String get babyName => 'Baby Name';
 
   @override
-  String get babyNameHint => 'เช่น: น้องมิ้น';
+  String get babyNameHint => 'e.g. Emma';
 
   @override
-  String get babyNameRequired => 'กรุณากรอกชื่อลูก';
+  String get babyNameRequired => 'Please enter baby\'s name';
 
   @override
-  String get babyNameMinLength => 'ชื่อต้องมีอย่างน้อย 2 ตัวอักษร';
+  String get babyNameMinLength => 'Name must be at least 2 characters';
 
   @override
-  String get selectBirthdateButton => 'เลือกวันเกิด';
+  String get selectBirthdateButton => 'Select Birthdate';
 
   @override
   String selectedDate(int year, int month, int day) {
-    return '$day/$month/$year';
+    return '$year/$month/$day';
   }
 
   @override
   String get genderOptional => 'Gender (Optional)';
 
   @override
-  String get cancel => 'ยกเลิก';
+  String get cancel => 'Cancel';
 
   @override
   String get loginFailed => 'Login failed';
@@ -128,10 +128,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get loginWithKakao => 'Login with Kakao';
 
   @override
-  String get settings => 'การตั้งค่า';
+  String get settings => 'Settings';
 
   @override
-  String get language => 'ภาษา';
+  String get language => 'Language';
 
   @override
   String get selectBirthDate => 'Select Birthdate';
@@ -140,7 +140,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get pleasSelectBirthDate => 'Please select birthdate';
 
   @override
-  String get pleaseEnterBabyName => 'กรุณากรอกชื่อลูก';
+  String get pleaseEnterBabyName => 'Please enter baby\'s name';
 
   @override
   String get nameMinLength => 'Name must be at least 2 characters';
@@ -154,40 +154,40 @@ class AppLocalizationsTh extends AppLocalizations {
   String get autoLogin => 'Stay logged in';
 
   @override
-  String get logout => 'ออกจากระบบ';
+  String get logout => 'Logout';
 
   @override
-  String get logoutConfirm => 'คุณแน่ใจว่าต้องการออกจากระบบ?';
+  String get logoutConfirm => 'Are you sure you want to logout?';
 
   @override
-  String get yes => 'ใช่';
+  String get yes => 'Yes';
 
   @override
-  String get no => 'ไม่';
+  String get no => 'No';
 
   @override
-  String get darkMode => 'โหมดมืด';
+  String get darkMode => 'Dark Mode';
 
   @override
-  String get appearance => 'รูปลักษณ์';
+  String get appearance => 'Appearance';
 
   @override
-  String get home => 'หน้าหลัก';
+  String get home => 'Home';
 
   @override
-  String get timeline => 'ไทม์ไลน์';
+  String get timeline => 'Timeline';
 
   @override
-  String get record => 'บันทึก';
+  String get record => 'Record';
 
   @override
-  String get statistics => 'สถิติ';
+  String get statistics => 'Statistics';
 
   @override
-  String get community => 'ชุมชน';
+  String get community => 'Community';
 
   @override
-  String get comingSoon => 'เร็วๆ นี้';
+  String get comingSoon => 'Coming Soon';
 
   @override
   String get timelineUpdateMessage => 'Timeline feature will be updated soon';
@@ -206,7 +206,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get todaySummary => 'Today\'s Summary';
 
   @override
-  String get growthInfo => 'ข้อมูลการเจริญเติบโต';
+  String get growthInfo => 'Growth Info';
 
   @override
   String get lastFeeding => 'Last Feeding';
@@ -215,22 +215,22 @@ class AppLocalizationsTh extends AppLocalizations {
   String get healthy => 'Healthy';
 
   @override
-  String get feeding => 'ให้นม';
+  String get feeding => 'Feeding';
 
   @override
   String get totalFeeding => 'Total Feeding';
 
   @override
-  String get sleep => 'การนอน';
+  String get sleep => 'Sleep';
 
   @override
   String get totalSleepTime => 'Total Sleep Time';
 
   @override
-  String get cardSettings => 'การตั้งค่าการ์ด';
+  String get cardSettings => 'Card Settings';
 
   @override
-  String get cardSettingsGuide => 'คู่มือการตั้งค่าการ์ด';
+  String get cardSettingsGuide => 'Card Settings Guide';
 
   @override
   String get cardSettingsDescription =>
@@ -255,7 +255,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get discardChanges => 'Discard changes and return to previous state?';
 
   @override
-  String get continueEditing => 'แก้ไขต่อ';
+  String get continueEditing => 'Continue Editing';
 
   @override
   String get discardChangesExit => 'Exit without saving changes?';
@@ -264,19 +264,19 @@ class AppLocalizationsTh extends AppLocalizations {
   String get exit => 'Exit';
 
   @override
-  String get diaper => 'ผ้าอ้อม';
+  String get diaper => 'Diaper';
 
   @override
-  String get solidFood => 'อาหารแข็ง';
+  String get solidFood => 'Solid Food';
 
   @override
-  String get medication => 'ยา';
+  String get medication => 'Medication';
 
   @override
-  String get milkPumping => 'ปั๊มนม';
+  String get milkPumping => 'Milk Pumping';
 
   @override
-  String get temperature => 'อุณหภูมิ';
+  String get temperature => 'Temperature';
 
   @override
   String get growth => 'Growth';
@@ -290,7 +290,7 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get feedingAmount => 'ปริมาณการให้อาหาร';
+  String get feedingAmount => 'Feeding Amount';
 
   @override
   String get feedingRecordAdded => 'Feeding record added successfully';
@@ -336,7 +336,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get sleepEnded => 'Sleep ended';
 
   @override
-  String get sleepInProgress => 'กำลังนอน';
+  String get sleepInProgress => 'Sleeping';
 
   @override
   String get sleepRecordFailed => 'Failed to process sleep record';
@@ -407,10 +407,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get diaperChangeTime => 'Change Time';
 
   @override
-  String get weight => 'น้ำหนัก';
+  String get weight => 'Weight';
 
   @override
-  String get height => 'ส่วนสูง';
+  String get height => 'Height';
 
   @override
   String get growthRecord => 'Growth Record';
@@ -422,7 +422,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get growthRecordFailed => 'Failed to save growth record';
 
   @override
-  String get weightUnit => 'กก.';
+  String get weightUnit => 'kg';
 
   @override
   String get heightUnit => 'cm';
@@ -453,7 +453,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get heightRange => 'Height must be between 1cm and 200cm';
 
   @override
-  String get enterValidNumber => 'กรุณากรอกตัวเลขที่ถูกต้อง';
+  String get enterValidNumber => 'Please enter a valid number';
 
   @override
   String get recordGrowthInfo => 'Record Growth Information';
@@ -471,10 +471,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get communityTitle => 'Community';
 
   @override
-  String get writePost => 'เขียนโพสต์';
+  String get writePost => 'Write Post';
 
   @override
-  String get post => 'โพสต์';
+  String get post => 'Post';
 
   @override
   String get postTitle => 'Post Title';
@@ -490,7 +490,7 @@ class AppLocalizationsTh extends AppLocalizations {
       'Enter content...\n\nFeel free to share your story.';
 
   @override
-  String get selectCategory => 'เลือกหมวดหมู่';
+  String get selectCategory => 'Select Category';
 
   @override
   String get postCreated => 'Post created successfully!';
@@ -549,7 +549,7 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String contentCharacterCount(Object count) {
-    return 'เนื้อหา: $count/10000';
+    return 'Content: $count/10000';
   }
 
   @override
@@ -602,7 +602,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get viewOtherPeriod => 'View Other Period';
 
   @override
-  String get refresh => 'รีเฟรช';
+  String get refresh => 'Refresh';
 
   @override
   String get statisticsTips => 'To view statistics?';
@@ -661,7 +661,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get viewOtherPeriodTitle => 'View Other Period';
 
   @override
-  String get familyInvitation => 'การเชิญครอบครัว';
+  String get familyInvitation => 'Family Invitation';
 
   @override
   String get invitationDescription =>
@@ -740,7 +740,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get edit => 'Edit';
 
   @override
-  String get delete => 'ลบ';
+  String get delete => 'Delete';
 
   @override
   String get add => 'Add';
@@ -749,7 +749,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get remove => 'Remove';
 
   @override
-  String get confirm => 'ยืนยัน';
+  String get confirm => 'Confirm';
 
   @override
   String get back => 'Back';
@@ -764,7 +764,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get loading => 'Loading...';
 
   @override
-  String get retry => 'ลองใหม่';
+  String get retry => 'Retry';
 
   @override
   String get error => 'Error';
@@ -853,14 +853,14 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String minutesAgo(Object minutes) {
-    return '$minutes นาทีที่แล้ว';
+    return '$minutes minutes ago';
   }
 
   @override
   String get justNow => 'Just now';
 
   @override
-  String get today => 'วันนี้';
+  String get today => 'Today';
 
   @override
   String get yesterday => 'Yesterday';
@@ -878,7 +878,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get medicationDose => 'Dose';
 
   @override
-  String get medicationTime => 'ยา';
+  String get medicationTime => 'Medication';
 
   @override
   String get medicationAdded => 'Medication record added';
@@ -925,10 +925,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get selectPhotoSource => 'How would you like to select a photo?';
 
   @override
-  String get camera => 'กล้อง';
+  String get camera => 'Camera';
 
   @override
-  String get gallery => 'แกลเลอรี';
+  String get gallery => 'Gallery';
 
   @override
   String get photoUpdated => 'Profile photo updated';
@@ -960,15 +960,15 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String ageMonthsAndDays(Object days, Object months) {
-    return '$months เดือน $days วัน';
+    return '$months months $days days';
   }
 
   @override
-  String get lastFeedingTime => 'เวลาการให้อาหารครั้งสุดท้าย';
+  String get lastFeedingTime => 'Last feeding time';
 
   @override
   String hoursAndMinutesAgo(Object hours, Object minutes) {
-    return '$hours ชั่วโมง $minutes นาทีที่แล้ว';
+    return '$hours hours $minutes minutes ago';
   }
 
   @override
@@ -1015,19 +1015,19 @@ class AppLocalizationsTh extends AppLocalizations {
   String get centimeters => 'cm';
 
   @override
-  String get milliliters => 'มล.';
+  String get milliliters => 'ml';
 
   @override
   String get grams => 'g';
 
   @override
-  String get hoursUnit => 'ชั่วโมง';
+  String get hoursUnit => 'hours';
 
   @override
   String get minutesUnit => 'minutes';
 
   @override
-  String get viewDetails => 'ดูรายละเอียด';
+  String get viewDetails => 'View Details';
 
   @override
   String get firstRecord => 'First Record';
@@ -1049,19 +1049,19 @@ class AppLocalizationsTh extends AppLocalizations {
   String get registerBabyNow => 'Register Baby';
 
   @override
-  String get joinWithInviteCode => 'เข้าร่วมด้วยรหัสเชิญ';
+  String get joinWithInviteCode => 'Join with Invitation Code';
 
   @override
-  String get loadingBabyInfo => 'กำลังโหลดข้อมูลลูก...';
+  String get loadingBabyInfo => 'Loading baby information...';
 
   @override
   String get pleaseRegisterBaby => 'Please register a baby in settings';
 
   @override
-  String get goToSettings => 'ไปที่การตั้งค่า';
+  String get goToSettings => 'Go to Settings';
 
   @override
-  String get profilePhotoUpdated => 'รูปโปรไฟล์ได้รับการอัพเดตแล้ว';
+  String get profilePhotoUpdated => 'Profile photo has been updated.';
 
   @override
   String get profilePhotoUpdateFailed => 'Failed to update profile photo';
@@ -1104,7 +1104,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get sleepRecordProcessFailed => 'Failed to process sleep record';
 
   @override
-  String get hourActivityPattern => 'รูปแบบกิจกรรม 24 ชั่วโมง';
+  String get hourActivityPattern => '24-Hour Activity Pattern';
 
   @override
   String get touchClockInstruction =>
@@ -1120,7 +1120,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get activityPatternAnalysis => 'Activity Pattern Analysis';
 
   @override
-  String get todaysStory => 'เรื่องราวของวันนี้';
+  String get todaysStory => 'Today\'s Story';
 
   @override
   String preciousMoments(Object count) {
@@ -1129,7 +1129,7 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get firstMomentMessage =>
-      'บันทึกช่วงเวลาอันบริชุดแรกของคุณ\nการเปลี่ยนแปลงเล็กๆ ในแต่ละวันจะรวมกันเป็นการเติบโตอย่างยิ่งใหญ่';
+      'Record your first precious moment.\nSmall daily changes add up to great growth.';
 
   @override
   String get pattern => 'Pattern';
@@ -1160,22 +1160,22 @@ class AppLocalizationsTh extends AppLocalizations {
       'Times of concentrated activity throughout the day';
 
   @override
-  String get formula => 'นมผง';
+  String get formula => 'Formula';
 
   @override
-  String get breastMilk => 'น้ำนมแม่';
+  String get breastMilk => 'Breast Milk';
 
   @override
-  String get babyFood => 'อาหารเด็ก';
+  String get babyFood => 'Baby Food';
 
   @override
-  String get left => 'ซ้าย';
+  String get left => 'Left';
 
   @override
-  String get right => 'ขวา';
+  String get right => 'Right';
 
   @override
-  String get both => 'ทั้งสอง';
+  String get both => 'Both';
 
   @override
   String get sleeping => 'Sleeping';
@@ -1205,13 +1205,13 @@ class AppLocalizationsTh extends AppLocalizations {
   String get consistency => 'Consistency';
 
   @override
-  String get diaperChange => 'เปลี่ยนผ้าอ้อม';
+  String get diaperChange => 'Diaper Change';
 
   @override
-  String get oralMedication => 'ยารับประทาน';
+  String get oralMedication => 'Oral Medication';
 
   @override
-  String get topical => 'ทางผิวหนัง';
+  String get topical => 'Topical';
 
   @override
   String get inhaled => 'Inhaled';
@@ -1220,22 +1220,22 @@ class AppLocalizationsTh extends AppLocalizations {
   String get pumping => 'Pumping';
 
   @override
-  String get temperatureMeasurement => 'การวัดอุณหภูมิ';
+  String get temperatureMeasurement => 'Temperature Measurement';
 
   @override
-  String get fever => 'ไข้';
+  String get fever => 'Fever';
 
   @override
-  String get lowFever => 'ไข้เล็กน้อย';
+  String get lowFever => 'Low Fever';
 
   @override
-  String get hypothermia => 'ภาวะอุณหภูมิกายต่ำ';
+  String get hypothermia => 'Hypothermia';
 
   @override
-  String get normal => 'ปกติ';
+  String get normal => 'Normal';
 
   @override
-  String get quality => 'คุณภาพ';
+  String get quality => 'Quality';
 
   @override
   String get weekly => 'Weekly';
@@ -1281,7 +1281,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get lastUpdated => 'Last updated:';
 
   @override
-  String get periodSelection => 'การเลือกช่วงเวลา:';
+  String get periodSelection => 'Period selection:';
 
   @override
   String get daily => 'Daily';
@@ -1299,22 +1299,22 @@ class AppLocalizationsTh extends AppLocalizations {
   String get pleaseSelectDate => 'Please select a date';
 
   @override
-  String get detailedStatistics => 'สถิติรายละเอียด';
+  String get detailedStatistics => 'Detailed Statistics';
 
   @override
-  String get chartAnalysis => 'การวิเคราะห์แผนภูมิ';
+  String get chartAnalysis => 'Chart Analysis';
 
   @override
-  String get overallActivityOverview => 'ภาพรวมกิจกรรมทั้งหมด';
+  String get overallActivityOverview => 'Overall Activity Overview';
 
   @override
-  String get totalActivities => 'กิจกรรมทั้งหมด';
+  String get totalActivities => 'Total Activities';
 
   @override
-  String get activeCards => 'การ์ดที่ใช้งานอยู่';
+  String get activeCards => 'Active Cards';
 
   @override
-  String get dailyAverage => 'เฉลี่ยต่อวัน';
+  String get dailyAverage => 'Daily Average';
 
   @override
   String get activityDistributionByCard => 'Activity Distribution by Card';
@@ -1323,7 +1323,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get cannotLoadData => 'Cannot load data';
 
   @override
-  String get tryAgain => 'ลองใหม่';
+  String get tryAgain => 'Try Again';
 
   @override
   String get details => 'Details';
@@ -1341,10 +1341,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get communitySubtitle => 'Sharing Parenting Stories Together';
 
   @override
-  String get search => 'ค้นหา';
+  String get search => 'Search';
 
   @override
-  String get notification => 'การแจ้งเตือน';
+  String get notification => 'Notification';
 
   @override
   String get searchFeatureComingSoon => 'Search feature coming soon';
@@ -1354,460 +1354,463 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get communityWelcomeDescription =>
-      'แบ่งปันประสบการณ์การเลี้ยงดูลูกและข้อมูลที่มีค่ากับพ่อแม่คนอื่น';
+      'Share parenting experiences and valuable information with other parents';
 
   @override
   String get categorySelection => 'Category Selection';
 
   @override
-  String get categoryAll => 'ทั้งหมด';
+  String get categoryAll => 'All';
 
   @override
-  String get categoryPopular => 'ยอดนิยม';
+  String get categoryPopular => 'Popular';
 
   @override
-  String get categoryClinical => 'คลินิก';
+  String get categoryClinical => 'Clinical';
 
   @override
-  String get categoryInfoSharing => 'แบ่งปันข้อมูล';
+  String get categoryInfoSharing => 'Info Sharing';
 
   @override
   String get categorySleepIssues => 'Sleep Issues';
 
   @override
-  String get categoryBabyFood => 'อาหารเด็ก';
+  String get categoryBabyFood => 'Baby Food';
 
   @override
-  String get categoryDevelopment => 'พัฒนาการ';
+  String get categoryDevelopment => 'Development';
 
   @override
-  String get categoryVaccination => 'การฉีดวัคซีน';
+  String get categoryVaccination => 'Vaccination';
 
   @override
-  String get categoryPostpartum => 'หลังคลอด';
+  String get categoryPostpartum => 'Postpartum';
 
   @override
-  String get sortByLikes => 'เรียงตามไลค์';
+  String get sortByLikes => 'Sort by Likes';
 
   @override
-  String get sortByLatest => 'เรียงตามล่าสุด';
+  String get sortByLatest => 'Sort by Latest';
 
   @override
-  String get edited => '(แก้ไขแล้ว)';
+  String get edited => '(edited)';
 
   @override
   String commentsCount(Object count) {
-    return '$count ความคิดเห็น';
+    return '$count comments';
   }
 
   @override
-  String get deletePost => 'ลบโพสต์';
+  String get deletePost => 'Delete Post';
 
   @override
   String get deletePostConfirm =>
-      'คุณแน่ใจว่าต้องการลบโพสต์นี้?\\nโพสต์ที่ลบแล้วไม่สามารถกู้คืนได้';
+      'Are you sure you want to delete this post?\nDeleted posts cannot be recovered.';
 
   @override
-  String get deletePostSuccess => 'ลบโพสต์แล้ว';
+  String get deletePostSuccess => 'Post has been deleted.';
 
   @override
   String deletePostError(Object error) {
-    return 'ลบไม่สำเร็จ: $error';
+    return 'Delete failed: $error';
   }
 
   @override
-  String get postNotFound => 'ไม่พบโพสต์';
+  String get postNotFound => 'Post not found';
 
   @override
-  String get shareFeatureComingSoon => 'ฟีเจอร์แชร์เร็วๆ นี้';
+  String get shareFeatureComingSoon => 'Share feature coming soon';
 
   @override
-  String get loadingComments => 'กำลังโหลดความคิดเห็น...';
+  String get loadingComments => 'Loading comments...';
 
   @override
-  String get loadMoreComments => 'โหลดความคิดเห็นเพิ่มเติม';
+  String get loadMoreComments => 'Load more comments';
 
   @override
-  String get editComment => 'แก้ไขความคิดเห็น';
+  String get editComment => 'Edit Comment';
 
   @override
-  String get editCommentHint => 'แก้ไขความคิดเห็นของคุณ...';
+  String get editCommentHint => 'Edit your comment...';
 
   @override
-  String get editCommentSuccess => 'อัปเดตความคิดเห็นแล้ว';
+  String get editCommentSuccess => 'Comment has been updated.';
 
   @override
   String editCommentError(Object error) {
-    return 'แก้ไขไม่สำเร็จ: $error';
+    return 'Edit failed: $error';
   }
 
   @override
-  String get deleteComment => 'ลบความคิดเห็น';
+  String get deleteComment => 'Delete Comment';
 
   @override
   String get deleteCommentConfirm =>
-      'คุณแน่ใจว่าต้องการลบความคิดเห็นนี้?\\nความคิดเห็นที่ลบแล้วไม่สามารถกู้คืนได้';
+      'Are you sure you want to delete this comment?\nDeleted comments cannot be recovered.';
 
   @override
-  String get deleteCommentSuccess => 'ลบความคิดเห็นแล้ว';
+  String get deleteCommentSuccess => 'Comment has been deleted.';
 
   @override
-  String get replySuccess => 'โพสต์การตอบกลับแล้ว';
+  String get replySuccess => 'Reply has been posted.';
 
   @override
-  String get commentSuccess => 'โพสต์ความคิดเห็นแล้ว';
+  String get commentSuccess => 'Comment has been posted.';
 
   @override
-  String get commentError => 'โพสต์ความคิดเห็นไม่สำเร็จ';
+  String get commentError => 'Failed to post comment.';
 
   @override
-  String get titlePlaceholder => 'กรอกหัวข้อ';
+  String get titlePlaceholder => 'Enter title';
 
   @override
   String get contentPlaceholder =>
-      'แบ่งปันความคิดของคุณ...\\n\\nเขียนเกี่ยวกับประสบการณ์การเป็นพ่อแม่ได้อย่างอิสระ';
+      'Share your thoughts...\n\nFeel free to write about your parenting experiences.';
 
   @override
   String imageSelectionError(Object error) {
-    return 'เลือกรูปภาพไม่สำเร็จ: $error';
+    return 'Image selection failed: $error';
   }
 
   @override
-  String get userNotFoundError => 'ไม่พบข้อมูลผู้ใช้';
+  String get userNotFoundError => 'User information not found.';
 
   @override
-  String get postCreateSuccess => 'สร้างโพสต์สำเร็จ!';
+  String get postCreateSuccess => 'Post has been created successfully!';
 
   @override
   String postCreateError(Object error) {
-    return 'สร้างโพสต์ไม่สำเร็จ: $error';
+    return 'Post creation failed: $error';
   }
 
   @override
   String titleCharacterCount(Object count) {
-    return 'หัวข้อ: $count/200';
+    return 'Title: $count/200';
   }
 
   @override
   String imageCountDisplay(Object count) {
-    return 'รูปภาพ: $count/5';
+    return 'Images: $count/5';
   }
 
   @override
-  String get addImageTooltip => 'เพิ่มรูปภาพ';
+  String get addImageTooltip => 'Add Image';
 
   @override
-  String get allPostsChecked => 'ตรวจสอบโพสต์ทั้งหมดแล้ว! 👍';
+  String get allPostsChecked => 'All posts have been checked! 👍';
 
   @override
-  String get waitForNewPosts => 'รอโพสต์ใหม่';
+  String get waitForNewPosts => 'Please wait until new posts are uploaded';
 
   @override
-  String get noPostsYet => 'ยังไม่มีโพสต์';
+  String get noPostsYet => 'No posts yet';
 
   @override
-  String get writeFirstPost => 'เขียนโพสต์แรก!';
+  String get writeFirstPost => 'Write the first post!';
 
   @override
-  String get loadingNewPosts => 'กำลังโหลดโพสต์ใหม่...';
+  String get loadingNewPosts => 'Loading new posts...';
 
   @override
-  String get failedToLoadPosts => 'โหลดโพสต์ไม่สำเร็จ';
+  String get failedToLoadPosts => 'Failed to load posts';
 
   @override
-  String get checkNetworkAndRetry => 'ตรวจสอบการเชื่อมต่อและลองใหม่';
+  String get checkNetworkAndRetry =>
+      'Please check your network connection and try again';
 
   @override
-  String get categoryDailyLife => 'ชีวิตประจำวัน';
+  String get categoryDailyLife => 'Daily Life';
 
   @override
-  String get preparingTimeline => 'กำลังเตรียมไทม์ไลน์...';
+  String get preparingTimeline => 'Preparing timeline...';
 
   @override
-  String get noRecordedMoments => 'ยังไม่มีช่วงเวลาที่บันทึกไว้';
+  String get noRecordedMoments => 'No recorded moments yet';
 
   @override
-  String get loadingTimeline => 'กำลังโหลดไทม์ไลน์...';
+  String get loadingTimeline => 'Loading timeline...';
 
   @override
-  String get noRecordsYet => 'ยังไม่มีบันทึก';
+  String get noRecordsYet => 'No records yet';
 
   @override
   String noRecordsForDate(Object date) {
-    return 'ไม่มีบันทึกสำหรับ $date';
+    return 'No records for $date';
   }
 
   @override
   String noRecordsForDateAndFilter(Object date, Object filter) {
-    return 'ไม่มีบันทึก $filter สำหรับ $date';
+    return 'No $filter records for $date';
   }
 
   @override
-  String get cannotRecordFuture => 'ยังไม่สามารถบันทึกกิจกรรมอนาคตได้';
+  String get cannotRecordFuture => 'Cannot record future activities yet';
 
   @override
-  String get addFirstRecord => 'เพิ่มบันทึกแรกของคุณ!';
+  String get addFirstRecord => 'Add your first record!';
 
   @override
-  String get canAddPastRecord => 'คุณสามารถเพิ่มบันทึกในอดีตได้';
+  String get canAddPastRecord => 'You can add past records';
 
   @override
-  String get addRecord => 'เพิ่มบันทึก';
+  String get addRecord => 'Add Record';
 
   @override
-  String get viewOtherDates => 'ดูวันที่อื่น';
+  String get viewOtherDates => 'View Other Dates';
 
   @override
-  String get goToToday => 'ไปยังวันนี้';
+  String get goToToday => 'Go to Today';
 
   @override
   String get quickRecordFromHome =>
-      'คุณสามารถเพิ่มบันทึกได้อย่างรวดเร็วจากหน้าหลัก';
+      'You can quickly add records from the home screen';
 
   @override
   String detailViewComingSoon(String title) {
-    return 'รายละเอียด $title (เร็วๆ นี้)';
+    return '$title Details (Coming Soon)';
   }
 
   @override
   String get familyInvitationDescription =>
-      'จัดการบันทึกการดูแลลูกร่วมกับครอบครัวผ่านรหัสเชิญ';
+      'Manage baby care records together with family using invitation codes';
 
   @override
-  String get babyManagement => 'การจัดการลูก';
+  String get babyManagement => 'Baby Management';
 
   @override
-  String get addBaby => 'เพิ่มเด็ก';
+  String get addBaby => 'Add Baby';
 
   @override
-  String get noBabiesMessage => 'ยังไม่มีลูกที่ลงทะเบียน\\nกรุณาเพิ่มลูก';
+  String get noBabiesMessage => 'No babies registered.\nPlease add a baby.';
 
   @override
-  String get switchToNextBaby => 'เปลี่ยนไปลูกคนต่อไป';
+  String get switchToNextBaby => 'Switch to Next Baby';
 
   @override
-  String get birthDate => 'วันเกิด';
+  String get birthDate => 'Birth Date';
 
   @override
-  String get registering => 'กำลังลงทะเบียน...';
+  String get registering => 'Registering...';
 
   @override
-  String get register => 'ลงทะเบียน';
+  String get register => 'Register';
 
   @override
   String careTogetherWith(String name) {
-    return 'ดูแลลูกร่วมกับ $name';
+    return 'Take care of babies together with $name';
   }
 
   @override
   String get inviteFamilyDescription =>
-      'เชิญครอบครัวหรือคู่ครอง\\nเพื่อจัดการบันทึกการดูแลลูกร่วมกัน';
+      'Invite family or partners to\nmanage baby care records together';
 
   @override
-  String get generateInviteCode => 'สร้างรหัสเชิญ';
+  String get generateInviteCode => 'Generate Invitation Code';
 
   @override
-  String get generateInviteCodeDescription => 'สร้างรหัสเชิญใหม่และคัดลอก';
+  String get generateInviteCodeDescription =>
+      'Generate a new invitation code and copy it';
 
   @override
-  String get generateInviteCodeButton => 'สร้างรหัสเชิญ';
+  String get generateInviteCodeButton => 'Generate Invitation Code';
 
   @override
-  String get orText => 'หรือ';
+  String get orText => 'Or';
 
   @override
-  String get enterInviteCodeDescription => 'กรุณากรอกรหัสเชิญที่ได้รับ';
+  String get enterInviteCodeDescription =>
+      'Please enter the invitation code you received';
 
   @override
-  String get inviteCodePlaceholder => 'รหัสเชิญ (6 หลัก)';
+  String get inviteCodePlaceholder => 'Invitation Code (6 digits)';
 
   @override
-  String get acceptInvite => 'ยอมรับคำเชิญ';
+  String get acceptInvite => 'Accept Invitation';
 
   @override
   String babyRegistrationSuccess(String name) {
-    return 'ลงทะเบียน $name สำเร็จแล้ว';
+    return '$name has been registered successfully';
   }
 
   @override
-  String get babyRegistrationFailed => 'ลงทะเบียนลูกไม่สำเร็จ';
+  String get babyRegistrationFailed => 'Baby registration failed';
 
   @override
   String babyRegistrationError(String error) {
-    return 'เกิดข้อผิดพลาด: $error';
+    return 'Error occurred: $error';
   }
 
   @override
   String babySelected(String name) {
-    return 'เลือก $name แล้ว';
+    return '$name has been selected';
   }
 
   @override
-  String get inviteCodeGenerated => 'สร้างรหัสเชิญแล้ว!';
+  String get inviteCodeGenerated => 'Invitation code generated successfully!';
 
   @override
   String remainingTime(String time) {
-    return 'เวลาที่เหลือ: $time';
+    return 'Remaining time: $time';
   }
 
   @override
-  String get validTime => 'เวลาที่ใช้ได้: 5 นาที';
+  String get validTime => 'Valid time: 5 minutes';
 
   @override
-  String get generating => 'กำลังสร้าง...';
+  String get generating => 'Generating...';
 
   @override
-  String get joining => 'กำลังเข้าร่วม...';
+  String get joining => 'Joining...';
 
   @override
-  String get noBabyInfo => 'ไม่มีข้อมูลลูก';
+  String get noBabyInfo => 'No Baby Information';
 
   @override
   String get noBabyInfoDescription =>
-      'ไม่พบข้อมูลลูก\\nต้องการสร้างลูกทดสอบหรือไม่?';
+      'No baby information found.\nWould you like to create a test baby?';
 
   @override
-  String get create => 'สร้าง';
+  String get create => 'Create';
 
   @override
-  String get generateNewInviteCode => 'สร้างรหัสเชิญใหม่';
+  String get generateNewInviteCode => 'Generate New Invitation Code';
 
   @override
   String get replaceExistingCode =>
-      'นี่จะแทนที่รหัสเชิญที่มีอยู่\\nต้องการดำเนินการต่อหรือไม่?';
+      'This will replace the existing invitation code.\nDo you want to continue?';
 
   @override
-  String get acceptInvitation => 'ยอมรับคำเชิญ';
+  String get acceptInvitation => 'Accept Invitation';
 
   @override
   String get acceptInvitationDescription =>
-      'ต้องการยอมรับคำเชิญและเข้าร่วมครอบครัวหรือไม่?';
+      'Do you want to accept the invitation and join the family?';
 
   @override
   String acceptInvitationWarning(String babyName) {
-    return 'บันทึกลูกที่มีอยู่จะถูกลบและแทนที่ด้วยลูกที่เชิญ ($babyName)\\n\\nต้องการดำเนินการต่อหรือไม่?';
+    return 'Existing baby records will be deleted and replaced with the invited baby ($babyName).\n\nDo you want to continue?';
   }
 
   @override
-  String get pleaseEnterInviteCode => 'กรุณากรอกรหัสเชิญ';
+  String get pleaseEnterInviteCode => 'Please enter the invitation code';
 
   @override
-  String get inviteCodeMustBe6Digits => 'รหัสเชิญต้องมี 6 หลัก';
+  String get inviteCodeMustBe6Digits => 'Invitation code must be 6 digits';
 
   @override
   String get pleaseLoginFirst =>
-      'ไม่พบข้อมูลการเข้าสู่ระบบ กรุณาเข้าสู่ระบบก่อน';
+      'No login information found. Please login first.';
 
   @override
-  String get copiedToClipboard => 'คัดลอกรหัสเชิญแล้ว!';
+  String get copiedToClipboard => 'Invitation code copied to clipboard!';
 
   @override
-  String get joinedSuccessfully => 'เข้าร่วมครอบครัวสำเร็จ!';
+  String get joinedSuccessfully => 'Successfully joined the family!';
 
   @override
-  String get inviteCodeExpired => 'รหัสเชิญหมดอายุแล้ว';
+  String get inviteCodeExpired => 'Invitation code has expired';
 
   @override
-  String get invalidInviteCode => 'รหัสเชิญไม่ถูกต้อง';
+  String get invalidInviteCode => 'Invalid invitation code';
 
   @override
-  String get alreadyMember => 'คุณเป็นสมาชิกของครอบครัวนี้แล้ว';
+  String get alreadyMember => 'You are already a member of this family';
 
   @override
-  String get cannotInviteSelf => 'คุณไม่สามารถเชิญตัวเองได้';
+  String get cannotInviteSelf => 'You cannot invite yourself';
 
   @override
   String minutesAndSeconds(int minutes, int seconds) {
-    return '$minutesนาที $secondsวินาที';
+    return '${minutes}m ${seconds}s';
   }
 
   @override
   String babyGuideTitle(String name) {
-    return 'คู่มือการดูแล $name';
+    return '$name\'s Baby Care Guide';
   }
 
   @override
-  String get babyGuide => 'คู่มือลูก';
+  String get babyGuide => 'Baby Care Guide';
 
   @override
-  String get noAvailableGuides => 'ไม่มีคู่มือที่พร้อมใช้งาน';
+  String get noAvailableGuides => 'No available guides';
 
   @override
-  String get current => 'ปัจจุบัน';
+  String get current => 'Current';
 
   @override
-  String get past => 'ผ่านมาแล้ว';
+  String get past => 'Past';
 
   @override
-  String get upcoming => 'กำลังจะมาถึง';
+  String get upcoming => 'Upcoming';
 
   @override
   String babysGuide(String name) {
-    return 'ของ $name';
+    return '$name\'s';
   }
 
   @override
   String weekGuide(String weekText) {
-    return 'คู่มือ $weekText';
+    return '$weekText Guide';
   }
 
   @override
-  String get feedingGuide => '💡 คู่มือการให้นม';
+  String get feedingGuide => '💡 Feeding Guide';
 
   @override
-  String get feedingFrequency => 'ความถี่ในการให้นม';
+  String get feedingFrequency => 'Feeding Frequency';
 
   @override
-  String get singleFeedingAmount => 'ปริมาณต่อมื้อ';
+  String get singleFeedingAmount => 'Feeding Amount';
 
   @override
-  String get dailyTotal => 'รวมต่อวัน';
+  String get dailyTotal => 'Daily Total';
 
   @override
-  String get additionalTips => '📋 เคล็ดลับเพิ่มเติม';
+  String get additionalTips => '📋 Additional Tips';
 
   @override
-  String get understood => 'เข้าใจแล้ว!';
+  String get understood => 'Got it!';
 
   @override
-  String get newborn => 'ทารกแรกเกิด';
+  String get newborn => 'Newborn';
 
   @override
   String weekNumber(int number) {
-    return 'สัปดาห์ที่ $number';
+    return 'Week $number';
   }
 
   @override
-  String get newbornWeek0 => 'ทารกแรกเกิด (สัปดาห์ที่ 0)';
+  String get newbornWeek0 => 'Newborn (Week 0)';
 
   @override
   String dailyFrequencyRange(int min, int max) {
-    return 'วันละ $min - $max ครั้ง';
+    return 'Daily $min - $max times';
   }
 
   @override
   String dailyFrequencyMin(int min) {
-    return 'วันละ $min+ ครั้ง';
+    return 'Daily $min+ times';
   }
 
   @override
   String dailyFrequencyMax(int max) {
-    return 'วันละสูงสุด $max ครั้ง';
+    return 'Daily up to $max times';
   }
 
   @override
   String amountRangeML(int min, int max) {
-    return '$minมล. - $maxมล.';
+    return '${min}ml - ${max}ml';
   }
 
   @override
   String amountMinML(int min) {
-    return '$minมล. หรือมากกว่า';
+    return '${min}ml or more';
   }
 
   @override
   String amountMaxML(int max) {
-    return 'สูงสุด $maxมล.';
+    return 'Up to ${max}ml';
   }
 
   @override
@@ -1817,277 +1820,276 @@ class AppLocalizationsTh extends AppLocalizations {
   String get noRecentFeeding => 'No recent feeding records';
 
   @override
-  String get languageSelection => 'การเลือกภาษา';
+  String get languageSelection => 'Language Selection';
 
   @override
-  String get selectLanguage => 'เลือกภาษา';
+  String get selectLanguage => 'Select a language';
 
   @override
-  String get currentLanguage => 'ภาษาปัจจุบัน';
+  String get currentLanguage => 'Current Language';
 
   @override
-  String get searchCommunityPosts => 'ค้นหาโพสต์ชุมชน';
+  String get searchCommunityPosts => 'Search community posts';
 
   @override
-  String get temperatureRecord => 'บันทึกอุณหภูมิ';
+  String get temperatureRecord => 'Temperature Record';
 
   @override
-  String get temperatureTrend => 'แนวโน้มอุณหภูมิ';
+  String get temperatureTrend => 'Temperature Trend';
 
   @override
-  String get profilePhotoSetup => 'การตั้งค่าภาพโปรไฟล์';
+  String get profilePhotoSetup => 'Profile Photo Setup';
 
   @override
-  String get howToSelectPhoto => 'คุณต้องการเลือกภาพอย่างไร?';
+  String get howToSelectPhoto => 'How would you like to select a photo?';
 
   @override
-  String get send => 'ส่ง';
+  String get send => 'Send';
 
   @override
-  String get emailVerificationRequired => 'ต้องการการยืนยันอีเมล';
+  String get emailVerificationRequired => 'Email Verification Required';
 
   @override
-  String get passwordReset => 'รีเซ็ตรหัสผ่าน';
+  String get passwordReset => 'Password Reset';
 
   @override
   String get enterEmailForReset =>
-      'ป้อนที่อยู่อีเมลที่ลงทะเบียนของคุณ\nเราจะส่งลิงค์รีเซ็ตรหัสผ่านให้คุณ';
+      'Enter your registered email address.\nWe\'ll send you a password reset link.';
 
   @override
-  String get accountWithdrawalComplete => 'การยกเลิกบัญชีเสร็จสิ้น';
+  String get accountWithdrawalComplete => 'Account Withdrawal Complete';
 
   @override
-  String get genderLabel => 'เพศ: ';
+  String get genderLabel => 'Gender: ';
 
   @override
-  String get birthdateLabel => 'วันเกิด: ';
+  String get birthdateLabel => 'Birthdate: ';
 
   @override
-  String get maleGender => 'ชาย';
+  String get maleGender => 'Male';
 
   @override
-  String get femaleGender => 'หญิง';
+  String get femaleGender => 'Female';
 
   @override
-  String get joinWithInviteCodeButton => 'เข้าร่วมด้วยรหัสเชิญ';
+  String get joinWithInviteCodeButton => 'Join with Invite Code';
 
   @override
-  String get temperatureRecorded => 'บันทึกอุณหภูมิแล้ว';
+  String get temperatureRecorded => 'Temperature recorded';
 
   @override
   String recordFailed(String error) {
-    return 'บันทึกล้มเหลว';
+    return 'Record failed';
   }
 
   @override
-  String get temperatureSettingsSaved =>
-      'การตั้งค่าอุณหภูมิได้รับการบันทึกแล้ว';
+  String get temperatureSettingsSaved => 'Temperature settings have been saved';
 
   @override
   String get loadingUserInfo =>
-      'กำลังโหลดข้อมูลผู้ใช้ กรุณาลองใหม่อีกครั้งในอีกสักครู่';
+      'Loading user information. Please try again in a moment.';
 
   @override
-  String get continueWithSeparateAccount => 'ดำเนินการต่อด้วยบัญชีแยกต่างหาก';
+  String get continueWithSeparateAccount => 'Continue with separate account';
 
   @override
-  String get linkWithExistingAccount => 'เชื่อมโยงกับบัญชีที่มีอยู่';
+  String get linkWithExistingAccount => 'Link with existing account';
 
   @override
-  String get linkAccount => 'เชื่อมโยงบัญชี';
+  String get linkAccount => 'Link Account';
 
   @override
-  String get accountLinkingComplete => 'การเชื่อมโยงบัญชีเสร็จสิ้น';
+  String get accountLinkingComplete => 'Account Linking Complete';
 
   @override
-  String get deleteConfirmation => 'การยืนยันการลบ';
+  String get deleteConfirmation => 'Delete Confirmation';
 
   @override
-  String get emailLabel => 'อีเมล';
+  String get emailLabel => 'Email';
 
   @override
-  String get passwordLabel => 'รหัสผ่าน';
+  String get passwordLabel => 'Password';
 
   @override
-  String get babyNameLabel => 'ชื่อเด็ก';
+  String get babyNameLabel => 'Baby Name';
 
   @override
-  String get weightInput => 'ป้อนน้ำหนัก';
+  String get weightInput => 'Enter weight';
 
   @override
-  String get heightInput => 'ป้อนส่วนสูง';
+  String get heightInput => 'Enter height';
 
   @override
   String get measurementNotes =>
-      'บันทึกเงื่อนไขการวัดหรือหมายเหตุพิเศษ (ไม่บังคับ)';
+      'Record measurement conditions or special notes (optional)';
 
   @override
-  String get urine => 'ปัสสาวะ';
+  String get urine => 'Urine';
 
   @override
-  String get stool => 'อุจจาระ';
+  String get stool => 'Stool';
 
   @override
-  String get yellow => 'เหลือง';
+  String get yellow => 'Yellow';
 
   @override
-  String get brown => 'น้ำตาล';
+  String get brown => 'Brown';
 
   @override
-  String get green => 'เขียว';
+  String get green => 'Green';
 
   @override
-  String get bottle => 'ขวดนม';
+  String get bottle => 'Bottle';
 
   @override
-  String get good => 'ดี';
+  String get good => 'Good';
 
   @override
-  String get average => 'เฉลี่ย';
+  String get average => 'Average';
 
   @override
-  String get poor => 'แย่';
+  String get poor => 'Poor';
 
   @override
-  String get vaccination => 'การฉีดวัคซีน';
+  String get vaccination => 'Vaccination';
 
   @override
-  String get illness => 'การเจ็บป่วย';
+  String get illness => 'Illness';
 
   @override
-  String get highFever => 'ไข้สูง';
+  String get highFever => 'High Fever';
 
   @override
-  String get oral => 'ทางปาก';
+  String get oral => 'Oral';
 
   @override
-  String get inhalation => 'ทางการหายใจ';
+  String get inhalation => 'Inhalation';
 
   @override
-  String get injection => 'ฉีด';
+  String get injection => 'Injection';
 
   @override
-  String get tablet => 'เม็ด';
+  String get tablet => 'Tablet';
 
   @override
-  String get drops => 'หยด';
+  String get drops => 'Drops';
 
   @override
-  String get teaspoon => 'ช้อนชา';
+  String get teaspoon => 'Teaspoon';
 
   @override
-  String get tablespoon => 'ช้อนโต๊ะ';
+  String get tablespoon => 'Tablespoon';
 
   @override
-  String get sleepQuality => 'คุณภาพ';
+  String get sleepQuality => 'Quality';
 
   @override
-  String get pumpingTime => 'การปั๊มนม';
+  String get pumpingTime => 'Pumping';
 
   @override
-  String get solidFoodTime => 'อาหารแข็ง';
+  String get solidFoodTime => 'Solid Food';
 
   @override
-  String get totalFeedingAmount => 'ปริมาณการให้นมทั้งหมด';
+  String get totalFeedingAmount => 'Total feeding amount';
 
   @override
-  String get averageFeedingAmount => 'ปริมาณนมเฉลี่ย';
+  String get averageFeedingAmount => 'Average feeding amount';
 
   @override
-  String get dailyAverageFeedingCount => 'จำนวนครั้งการให้นมเฉลี่ยต่อวัน';
+  String get dailyAverageFeedingCount => 'Daily average feeding count';
 
   @override
-  String get clinical => 'ทางคลินิก';
+  String get clinical => 'Clinical';
 
   @override
-  String get infoSharing => 'การแบ่งปันข้อมูล';
+  String get infoSharing => 'Info Sharing';
 
   @override
-  String get sleepIssues => 'ปัญหาการนอน';
+  String get sleepIssues => 'Sleep Issues';
 
   @override
-  String get babyFoodCategory => 'อาหารเด็ก';
+  String get babyFoodCategory => 'Baby Food';
 
   @override
-  String get developmentStage => 'ขั้นตอนการพัฒนา';
+  String get developmentStage => 'Development Stage';
 
   @override
-  String get vaccinationCategory => 'การฉีดวัคซีน';
+  String get vaccinationCategory => 'Vaccination';
 
   @override
-  String get postpartumRecovery => 'การฟื้นตัวหลังคลอด';
+  String get postpartumRecovery => 'Postpartum Recovery';
 
   @override
-  String get dailyLife => 'ชีวิตประจำวัน';
+  String get dailyLife => 'Daily Life';
 
   @override
-  String get likes => 'ไลค์';
+  String get likes => 'Likes';
 
   @override
-  String get comments => 'ความคิดเห็น';
+  String get comments => 'Comments';
 
   @override
-  String get anonymous => 'นิรนาม';
+  String get anonymous => 'Anonymous';
 
   @override
-  String get minutes => 'นาที';
+  String get minutes => 'min';
 
   @override
-  String get armpit => 'รักแร้';
+  String get armpit => 'Armpit';
 
   @override
-  String get forehead => 'หน้าผาก';
+  String get forehead => 'Forehead';
 
   @override
-  String get ear => 'หู';
+  String get ear => 'Ear';
 
   @override
-  String get mouth => 'ปาก';
+  String get mouth => 'Mouth';
 
   @override
-  String get rectal => 'ทางทวารหนัก';
+  String get rectal => 'Rectal';
 
   @override
-  String get otherLocation => 'อื่นๆ';
+  String get otherLocation => 'Other';
 
   @override
-  String get searchError => 'ข้อผิดพลาดในการค้นหา';
+  String get searchError => 'Search error';
 
   @override
-  String get question => 'คำถาม';
+  String get question => 'Question';
 
   @override
-  String get information => 'ข้อมูล';
+  String get information => 'Information';
 
   @override
-  String get relevance => 'ความเกี่ยวข้อง';
+  String get relevance => 'Relevance';
 
   @override
-  String get searchSuggestions => 'คำแนะนำการค้นหา';
+  String get searchSuggestions => 'Search suggestions';
 
   @override
-  String get noSearchResults => 'ไม่มีผลการค้นหา';
+  String get noSearchResults => 'No search results';
 
   @override
-  String get tryDifferentSearchTerm => 'ลองคำค้นหาอื่น';
+  String get tryDifferentSearchTerm => 'Try a different search term';
 
   @override
-  String get likeFeatureComingSoon => 'ฟีเจอร์ไลค์เร็วๆ นี้';
+  String get likeFeatureComingSoon => 'Like feature coming soon';
 
   @override
-  String get popularSearchTerms => 'คำค้นหายอดนิยม';
+  String get popularSearchTerms => 'Popular search terms';
 
   @override
-  String get recentSearches => 'การค้นหาล่าสุด';
+  String get recentSearches => 'Recent searches';
 
   @override
-  String get deleteAll => 'ลบทั้งหมด';
+  String get deleteAll => 'Delete All';
 
   @override
-  String get sortByComments => 'เรียงตามความคิดเห็น';
+  String get sortByComments => 'Sort by comments';
 
   @override
-  String get detailInformation => 'ข้อมูลรายละเอียด';
+  String get detailInformation => 'Detail Information';
 
   @override
   String get quickActions => 'Quick Actions';
@@ -2124,10 +2126,10 @@ class AppLocalizationsTh extends AppLocalizations {
   String get time => 'Time';
 
   @override
-  String get amount => 'จำนวน';
+  String get amount => 'Amount';
 
   @override
-  String get duration => 'ระยะเวลา';
+  String get duration => 'Duration';
 
   @override
   String get dosage => 'Dosage';
@@ -2136,7 +2138,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get unit => 'Unit';
 
   @override
-  String get side => 'ข้าง';
+  String get side => 'Side';
 
   @override
   String get fair => 'Fair';
@@ -2160,21 +2162,21 @@ class AppLocalizationsTh extends AppLocalizations {
   String get changesSaved => 'Changes saved';
 
   @override
-  String get smartInsights => 'ข้อมูลเชิงลึกอัจฉริยะ';
+  String get smartInsights => 'Smart Insights';
 
   @override
-  String get analyzingPatterns => 'กำลังวิเคราะห์รูปแบบ...';
+  String get analyzingPatterns => 'Analyzing patterns...';
 
   @override
   String insightsFound(int count) {
-    return 'พบข้อมูลเชิงลึก $count รายการ';
+    return '$count insights found';
   }
 
   @override
   String get noInsightsYet => 'Not enough data to analyze patterns yet';
 
   @override
-  String get confidence => 'ความเชื่อมั่น';
+  String get confidence => 'Confidence';
 
   @override
   String sleepProgressMinutes(int minutes) {
@@ -2211,7 +2213,7 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String hoursMinutesFormat(int hours, int minutes) {
-    return '$hoursชม. $minutesนา.';
+    return '${hours}h ${minutes}m';
   }
 
   @override
@@ -2225,250 +2227,252 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get longPressForDetails => 'กดค้างไว้เพื่อดูรายละเอียด';
+  String get longPressForDetails => 'Long press for details';
 
   @override
-  String get todaysSummary => 'สรุปวันนี้';
+  String get todaysSummary => 'Today\'s Summary';
 
   @override
-  String get future => 'อนาคต';
+  String get future => 'Future';
 
   @override
-  String get previousDate => 'วันที่ผ่านมา';
+  String get previousDate => 'Previous date';
 
   @override
-  String get nextDate => 'วันถัดไป';
+  String get nextDate => 'Next date';
 
   @override
-  String get selectDate => 'เลือกวันที่';
+  String get selectDate => 'Select date';
 
   @override
   String get checkStandardFeedingInterval => 'Check standard feeding interval';
 
   @override
-  String get registerBabyFirst => 'กรุณาลงทะเบียนลูกก่อน';
+  String get registerBabyFirst => 'Please register your baby';
 
   @override
   String get registerBabyToRecordMoments =>
-      'เพื่อบันทึกช่วงเวลาล้ำค่าของลูก\nกรุณาลงทะเบียนข้อมูลลูกก่อน';
+      'To record your baby\'s precious moments,\nplease register baby information first.';
 
   @override
-  String get addBabyFromHome => 'เพิ่มลูกจากหน้าหลัก';
+  String get addBabyFromHome => 'Add baby from home';
 
   @override
-  String get timesUnit => 'ครั้ง';
+  String get timesUnit => 'times';
 
   @override
-  String get itemsUnit => 'รายการ';
+  String get itemsUnit => 'items';
 
   @override
-  String get timesPerDay => 'ครั้ง/วัน';
+  String get timesPerDay => 'times/day';
 
   @override
-  String get activityDistributionByCategory => 'การกระจายกิจกรรมตามหมวดหมู่';
+  String get activityDistributionByCategory =>
+      'Activity Distribution by Category';
 
   @override
   String itemsCount(int count) {
-    return '$count รายการ';
+    return '$count items';
   }
 
   @override
-  String get totalCount => 'จำนวนทั้งหมด';
+  String get totalCount => 'Total count';
 
   @override
   String timesCount(int count) {
-    return '$count ครั้ง';
+    return '$count times';
   }
 
   @override
-  String get noDetailedData => 'ไม่มีข้อมูลรายละเอียด';
+  String get noDetailedData => 'No detailed data';
 
   @override
-  String get averageFeedingTime => 'เวลาการให้อาหารเฉลี่ย';
+  String get averageFeedingTime => 'Average feeding time';
 
   @override
-  String get averageSleepTime => 'เวลานอนเฉลี่ย';
+  String get averageSleepTime => 'Average sleep time';
 
   @override
-  String get dailyAverageTotalSleepTime => 'เวลานอนรวมเฉลี่ยต่อวัน';
+  String get dailyAverageTotalSleepTime => 'Daily average total sleep time';
 
   @override
-  String get dailyAverageSleepCount => 'จำนวนครั้งการนอนเฉลี่ยต่อวัน';
+  String get dailyAverageSleepCount => 'Daily average sleep count';
 
   @override
-  String get dailyAverageChangeCount => 'จำนวนการเปลี่ยนเฉลี่ยต่อวัน';
+  String get dailyAverageChangeCount => 'Daily average change count';
 
   @override
-  String get sharingParentingStories => 'แบ่งปันเรื่องราวการเลี้ยงลูก';
+  String get sharingParentingStories => 'Sharing Parenting Stories';
 
   @override
-  String get myActivity => 'กิจกรรมของฉัน';
+  String get myActivity => 'My Activity';
 
   @override
-  String get categories => 'หมวดหมู่';
+  String get categories => 'Categories';
 
   @override
-  String get menu => 'เมนู';
+  String get menu => 'Menu';
 
   @override
-  String get seeMore => 'ดูเพิ่มเติม';
+  String get seeMore => 'See More';
 
   @override
-  String get midnight => 'เที่ยงคืน';
+  String get midnight => 'Midnight';
 
   @override
-  String get morning => 'เช้า';
+  String get morning => 'AM';
 
   @override
-  String get noon => 'เที่ยงวัน';
+  String get noon => 'Noon';
 
   @override
-  String get afternoon => 'บ่าย';
+  String get afternoon => 'PM';
 
   @override
-  String get quickSelection => 'การเลือกด่วน';
+  String get quickSelection => 'Quick Selection';
 
   @override
-  String get customSettings => 'การตั้งค่าเอง';
+  String get customSettings => 'Custom Settings';
 
   @override
-  String get selectDateRange => 'เลือกช่วงวันที่';
+  String get selectDateRange => 'Select Date Range';
 
   @override
-  String get recent7Days => '7 วันที่ผ่านมา';
+  String get recent7Days => 'Recent 7 Days';
 
   @override
-  String get recent14Days => '14 วันที่ผ่านมา';
+  String get recent14Days => 'Recent 14 Days';
 
   @override
-  String get recent30Days => '30 วันที่ผ่านมา';
+  String get recent30Days => 'Recent 30 Days';
 
   @override
-  String get selectPeriodForAnalysis => 'กรุณาเลือกช่วงเวลาสำหรับการวิเคราะห์';
+  String get selectPeriodForAnalysis => 'Please select the period for analysis';
 
   @override
   String get cardSettingsInstructions =>
-      '• ใช้สวิตช์เปิด/ปิดเพื่อแสดง/ซ่อนการ์ด\n• ลากเพื่อเปลี่ยนลำดับการ์ด\n• การเปลี่ยนแปลงจะแสดงตัวอย่างแบบเรียลไทม์';
+      '• Toggle switches to show/hide cards\n• Drag to change card order\n• Changes are previewed in real time';
 
   @override
-  String get visible => 'แสดง';
+  String get visible => 'Visible';
 
   @override
-  String get hidden => 'ซ่อน';
+  String get hidden => 'Hidden';
 
   @override
-  String get touchToSetDefault => 'แตะเพื่อตั้งค่าเริ่มต้น';
+  String get touchToSetDefault => 'Touch to set default values';
 
   @override
   String get unsavedChangesMessage =>
-      'คุณต้องการยกเลิกการเปลี่ยนแปลงและกลับไปสู่สถานะเดิมหรือไม่?';
+      'Do you want to cancel changes and return to previous state?';
 
   @override
   String get unsavedChangesExitMessage =>
-      'คุณต้องการออกโดยไม่บันทึกการเปลี่ยนแปลงหรือไม่?';
+      'Do you want to exit without saving changes?';
 
   @override
-  String get exitWithoutSaving => 'ออก';
+  String get exitWithoutSaving => 'Exit';
 
   @override
   String get savingError =>
-      'เกิดข้อผิดพลาดขณะบันทึกการตั้งค่า กรุณาลองใหม่อีกครั้ง';
+      'An error occurred while saving settings. Please try again.';
 
   @override
-  String get familyMembers => 'สมาชิกครอบครัว';
+  String get familyMembers => 'Family Members';
 
   @override
   String get cannotLoadFamilyMembersInfo =>
-      'ไม่สามารถโหลดข้อมูลสมาชิกครอบครัวได้';
+      'Cannot load family member information';
 
   @override
-  String get administrator => 'ผู้ดูแล';
+  String get administrator => 'Administrator';
 
   @override
-  String get member => 'สมาชิก';
+  String get member => 'Member';
 
   @override
   String joinDate(String date) {
-    return 'วันที่เข้าร่วม: $date';
+    return 'Join date: $date';
   }
 
   @override
   String get inviteFamilyMembersDescription =>
-      'เชิญสมาชิกครอบครัวมาจัดการบันทึกของลูกด้วยกัน';
+      'Invite family members to manage baby records together';
 
   @override
   String joinFamilyGroupWarning(String familyName) {
-    return 'คุณต้องการเข้าร่วมครอบครัวของ $familyName หรือไม่?\n\nข้อมูลลูกที่มีอยู่จะถูกย้ายไปยังกลุ่มครอบครัวใหม่';
+    return 'Do you want to join $familyName\'s family?\n\nExisting baby data will be moved to the new family group.';
   }
 
   @override
   String get familyInvitationAccepted =>
-      'ได้รับการเชิญเข้าร่วมครอบครัว! ตอนนี้คุณสามารถจัดการบันทึกของลูกร่วมกันได้แล้ว';
+      'Family invitation accepted! Now you can manage baby records together.';
 
   @override
   String careTogetherWithFamily(String familyName) {
-    return 'เลี้ยงลูกร่วมกับ $familyName';
+    return 'Caring for baby together with $familyName';
   }
 
   @override
-  String get feedingTimeNotificationTitle => 'ถึงเวลาให้นมแล้ว! 🍼';
+  String get feedingTimeNotificationTitle => 'It\'s feeding time! 🍼';
 
   @override
-  String get feedingTimeNotificationBody => 'ลูกอาจจะหิวแล้วนะ';
+  String get feedingTimeNotificationBody => 'Baby might be hungry now.';
 
   @override
-  String get feedingAlarmChannelName => 'การแจ้งเตือนการให้นม';
+  String get feedingAlarmChannelName => 'Feeding Reminders';
 
   @override
-  String get feedingAlarmChannelDescription => 'การแจ้งเตือนเวลาให้นมลูก';
+  String get feedingAlarmChannelDescription =>
+      'Feeding time reminder notifications';
 
   @override
-  String get averageFeedingDuration => 'ระยะเวลาการให้นมเฉลี่ย';
+  String get averageFeedingDuration => 'Average feeding duration';
 
   @override
-  String get averageSleepDuration => 'ระยะเวลาการนอนเฉลี่ย';
+  String get averageSleepDuration => 'Average sleep duration';
 
   @override
-  String get dailyTotalSleepDuration => 'ระยะเวลานอนรวมต่อวัน';
+  String get dailyTotalSleepDuration => 'Daily total sleep duration';
 
   @override
-  String get dailyAverageDiaperChangeCount => 'การเปลี่ยนผ้าอ้อมเฉลี่ยรายวัน';
+  String get dailyAverageDiaperChangeCount => 'Daily average diaper changes';
 
   @override
-  String get dailyAverageMedicationCount => 'จำนวนยาเฉลี่ยรายวัน';
+  String get dailyAverageMedicationCount => 'Daily average medication count';
 
   @override
-  String get medicationTypesUsed => 'ประเภทของยาที่ใช้';
+  String get medicationTypesUsed => 'Types of medication used';
 
   @override
-  String get totalPumpedAmount => 'ปริมาณนมที่ปั้มทั้งหมด';
+  String get totalPumpedAmount => 'Total pumped amount';
 
   @override
-  String get averagePumpedAmount => 'ปริมาณนมที่ปั้มเฉลี่ย';
+  String get averagePumpedAmount => 'Average pumped amount';
 
   @override
-  String get countTab => 'จำนวนครั้ง';
+  String get countTab => 'Count';
 
   @override
-  String get amountTimeTab => 'ปริมาณ/เวลา';
+  String get amountTimeTab => 'Amount/Time';
 
   @override
-  String get durationTab => 'ระยะเวลา';
+  String get durationTab => 'Duration';
 
   @override
-  String get chartDataLoading => 'กำลังโหลดข้อมูลแผนภูมิ...';
+  String get chartDataLoading => 'Loading chart data...';
 
   @override
-  String get chartDataNotAvailable => 'ไม่มีข้อมูลแผนภูมิ';
+  String get chartDataNotAvailable => 'Chart data not available.';
 
   @override
-  String get averageLabel => 'เฉลี่ย: ';
+  String get averageLabel => 'Average: ';
 
   @override
-  String get dailyFeedingCountTitle => 'จำนวนครั้งการให้นมต่อวัน';
+  String get dailyFeedingCountTitle => 'Daily feeding count';
 
   @override
-  String get weekdaysSundayToSaturday => 'อาทิพาอังเสาร์พฤหัศุก';
+  String get weekdaysSundayToSaturday => 'SunMonTueWedThuFriSat';
 
   @override
   String dayFormat(int day) {
@@ -2476,628 +2480,789 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get dailyFeedingCount => 'จำนวนครั้งการให้นมต่อวัน';
+  String get dailyFeedingCount => 'Daily feeding count';
 
   @override
-  String get dailyFeedingAmount => 'ปริมาณนมต่อวัน';
+  String get dailyFeedingAmount => 'Daily feeding amount';
 
   @override
-  String get dailyFeedingDuration => 'ระยะเวลาให้นมต่อวัน';
+  String get dailyFeedingDuration => 'Daily feeding duration';
 
   @override
-  String get dailySleepCount => 'จำนวนการนอนรายวัน';
+  String get dailySleepCount => 'Daily sleep count';
 
   @override
-  String get dailySleepDuration => 'ระยะเวลานอนต่อวัน';
+  String get dailySleepDuration => 'Daily sleep duration';
 
   @override
-  String get dailyDiaperChangeCount => 'จำนวนครั้งการเปลี่ยนผ้าอ้อมต่อวัน';
+  String get dailyDiaperChangeCount => 'Daily diaper changes';
 
   @override
-  String get dailyMedicationCount => 'จำนวนครั้งการให้ยาต่อวัน';
+  String get dailyMedicationCount => 'Daily medication count';
 
   @override
-  String get dailyMilkPumpingCount => 'จำนวนการปั้มนมรายวัน';
+  String get dailyMilkPumpingCount => 'Daily pumping count';
 
   @override
-  String get dailyMilkPumpingAmount => 'ปริมาณนมปั๊มต่อวัน';
+  String get dailyMilkPumpingAmount => 'Daily pumping amount';
 
   @override
-  String get dailySolidFoodCount => 'จำนวนอาหารแข็งรายวัน';
+  String get dailySolidFoodCount => 'Daily solid food count';
 
   @override
-  String get dailyAverageSolidFoodCount => 'จำนวนอาหารแข็งเฉลี่ยรายวัน';
+  String get dailyAverageSolidFoodCount => 'Daily average solid food count';
 
   @override
-  String get triedFoodTypes => 'ประเภทของอาหารที่ลองแล้ว';
+  String get triedFoodTypes => 'Types of food tried';
 
   @override
   String babyTemperatureRecord(String name) {
-    return 'บันทึกอุณหภูมิของ$name';
+    return '$name\'s Temperature Record';
   }
 
   @override
-  String get adjustWithSlider => 'ปรับด้วยแถบเลื่อน';
+  String get adjustWithSlider => 'Adjust with slider';
 
   @override
-  String get measurementMethod => 'วิธีการวัด';
+  String get measurementMethod => 'Measurement method';
 
   @override
-  String get normalRange => 'ช่วงปกติ';
+  String get normalRange => 'Normal range';
 
   @override
   String normalRangeForAgeGroup(String ageGroup, String min, String max) {
-    return 'ช่วงปกติ ($ageGroup): $min°C - $max°C';
+    return 'Normal range ($ageGroup): $min°C - $max°C';
   }
 
   @override
-  String get saveTemperatureRecord => 'บันทึกข้อมูลอุณหภูมิ';
+  String get saveTemperatureRecord => 'Save Temperature Record';
 
   @override
-  String get enterTemperature => 'กรุณากรอกอุณหภูมิ';
+  String get enterTemperature => 'Please enter temperature';
 
   @override
   String get temperatureRangeValidation =>
-      'อุณหภูมิต้องอยู่ระหว่าง 34.0°C ~ 42.0°C';
+      'Temperature must be between 34.0°C ~ 42.0°C';
 
   @override
-  String get recordSymptomsHint => 'กรุณาบันทึกอาการหรือหมายเหตุพิเศษ';
+  String get recordSymptomsHint => 'Please record symptoms or special notes';
 
   @override
-  String get oralMethod => 'ทางปาก';
+  String get oralMethod => 'Oral';
 
   @override
-  String get analMethod => 'ทางทวารหนัก';
+  String get analMethod => 'Anal';
 
   @override
   String recentDaysTrend(int days) {
-    return 'แนวโน้ม $days วันที่ผ่านมา';
+    return 'Recent $days days trend';
   }
 
   @override
-  String get days3 => '3 วัน';
+  String get days3 => '3 days';
 
   @override
-  String get days7 => '7 วัน';
+  String get days7 => '7 days';
 
   @override
-  String get weeks2 => '2 สัปดาห์';
+  String get weeks2 => '2 weeks';
 
   @override
-  String get month1 => '1 เดือน';
+  String get month1 => '1 month';
 
   @override
   String get noTemperatureRecordsInPeriod =>
-      'ไม่มีบันทึกอุณหภูมิในช่วงเวลาที่เลือก';
+      'No temperature records in selected period';
 
   @override
-  String get temperatureChangeTrend => 'แนวโน้มการเปลี่ยนแปลงอุณหภูมิ';
+  String get temperatureChangeTrend => 'Temperature Change Trend';
 
   @override
-  String get averageTemperature => 'อุณหภูมิเฉลี่ย';
+  String get averageTemperature => 'Average Temperature';
 
   @override
-  String get highestTemperature => 'อุณหภูมิสูงสุด';
+  String get highestTemperature => 'Highest Temperature';
 
   @override
-  String get lowestTemperature => 'อุณหภูมิต่ำสุด';
+  String get lowestTemperature => 'Lowest Temperature';
 
   @override
-  String get noteAvailableTapToView => '📝 มีหมายเหตุ (แตะเพื่อดู)';
+  String get noteAvailableTapToView => '📝 Note available (tap to view)';
 
   @override
-  String get temperatureRisingTrend => 'อุณหภูมิมีแนวโน้มสูงขึ้น';
+  String get temperatureRisingTrend => 'Temperature is showing a rising trend';
 
   @override
-  String get temperatureFallingTrend => 'อุณหภูมิมีแนวโน้มลดลง';
+  String get temperatureFallingTrend =>
+      'Temperature is showing a falling trend';
 
   @override
-  String get temperatureStableTrend => 'อุณหภูมิคงที่';
+  String get temperatureStableTrend => 'Temperature is stable';
 
   @override
-  String get trendAnalysis => 'การวิเคราะห์แนวโน้ม';
+  String get trendAnalysis => 'Trend Analysis';
 
   @override
   String totalMeasurements(int count) {
-    return 'รวม $count ครั้งการวัด';
+    return 'Total $count measurements';
   }
 
   @override
-  String get temperatureRecordMemo => 'บันทึกหมายเหตุอุณหภูมิ';
+  String get temperatureRecordMemo => 'Temperature Record Memo';
 
   @override
   String babyGrowthChart(String name) {
-    return 'แผนภูมิการเจริญเติบโตของ $name';
+    return '$name\'s Growth Chart';
   }
 
   @override
-  String get noGrowthRecords => 'ไม่มีบันทึกการเจริญเติบโต';
+  String get noGrowthRecords => 'No growth records';
 
   @override
   String get enterWeightAndHeightFromHome =>
-      'กรุณาบันทึกน้ำหนักและส่วนสูงจากหน้าจอหลัก';
+      'Please enter weight and height from home screen';
 
   @override
-  String get all => 'ทั้งหมด';
+  String get all => 'All';
 
   @override
-  String get growthInsights => 'ข้อมูลเชิงลึกการเจริญเติบโต';
+  String get growthInsights => 'Growth Insights';
 
   @override
-  String get growthRate => 'อัตราการเจริญเติบโต';
+  String get growthRate => 'Growth Rate';
 
   @override
-  String get monthlyAverageGrowth => 'การเจริญเติบโตเฉลี่ยต่อเดือน';
+  String get monthlyAverageGrowth => 'Monthly Average Growth';
 
   @override
-  String get dataInsufficient => 'ข้อมูลไม่เพียงพอ';
+  String get dataInsufficient => 'Data Insufficient';
 
   @override
-  String get twoOrMoreRequired => 'ต้องการ 2 รายการขึ้นไป';
+  String get twoOrMoreRequired => '2 or more required';
 
   @override
   String recentDaysBasis(int days) {
-    return 'อิงจาก $days วันที่ผ่านมา';
+    return 'Based on recent $days days';
   }
 
   @override
-  String get entireBasis => 'อิงจากช่วงเวลาทั้งหมด';
+  String get entireBasis => 'Based on entire period';
 
   @override
-  String get oneMonthPrediction => 'คาดการณ์ 1 เดือน';
+  String get oneMonthPrediction => '1 Month Prediction';
 
   @override
-  String get currentTrendBasis => 'อิงจากแนวโน้มปัจจุบัน';
+  String get currentTrendBasis => 'Based on current trend';
 
   @override
-  String get predictionNotPossible => 'ไม่สามารถคาดการณ์ได้';
+  String get predictionNotPossible => 'Prediction not possible';
 
   @override
-  String get trendInsufficient => 'แนวโน้มไม่เพียงพอ';
+  String get trendInsufficient => 'Trend insufficient';
 
   @override
-  String get recordFrequency => 'ความถี่ในการบันทึก';
+  String get recordFrequency => 'Record Frequency';
 
   @override
-  String get veryConsistent => 'สม่ำเสมอมาก';
+  String get veryConsistent => 'Very Consistent';
 
   @override
-  String get consistent => 'สม่ำเสมอ';
+  String get consistent => 'Consistent';
 
   @override
-  String get irregular => 'ไม่สม่ำเสมอ';
+  String get irregular => 'Irregular';
 
   @override
   String averageDaysInterval(String days) {
-    return 'ช่วงห่างเฉลี่ย $days วัน';
+    return 'Average $days days interval';
   }
 
   @override
-  String get nextRecord => 'การบันทึกครั้งต่อไป';
+  String get nextRecord => 'Next Record';
 
   @override
-  String get now => 'ตอนนี้';
+  String get now => 'Now';
 
   @override
-  String get soon => 'เร็วๆ นี้';
+  String get soon => 'Soon';
 
   @override
   String daysLater(int days) {
-    return '$days วันต่อมา';
+    return '$days days later';
   }
 
   @override
   String daysAgoRecorded(int days) {
-    return 'บันทึกเมื่อ $days วันที่แล้ว';
+    return 'Recorded $days days ago';
   }
 
   @override
-  String get weeklyRecordRecommended => 'แนะนำให้บันทึกรายสัปดาห์';
+  String get weeklyRecordRecommended => 'Weekly record recommended';
 
   @override
-  String get nextMilestone => 'เป้าหมายหลักถัดไป';
+  String get nextMilestone => 'Next Milestone';
 
   @override
   String targetValue(String value, String unit) {
-    return 'เป้าหมาย $value$unit';
+    return '$value$unit target';
   }
 
   @override
   String remainingProgress(String remaining, String unit, String progress) {
-    return 'เหลือ $remaining$unit ($progress% บรรลุ)';
+    return '$remaining$unit remaining ($progress% achieved)';
   }
 
   @override
-  String get calculationNotPossible => 'ไม่สามารถคำนวณได้';
+  String get calculationNotPossible => 'Calculation not possible';
 
   @override
-  String get periodInsufficient => 'ช่วงเวลาไม่เพียงพอ';
+  String get periodInsufficient => 'Period insufficient';
 
   @override
-  String get noDataAvailable => 'ไม่มีข้อมูล';
+  String get noDataAvailable => 'No data available';
 
   @override
-  String get weightRecordRequired => 'ต้องการบันทึกน้ำหนัก';
+  String get weightRecordRequired => 'Weight record required';
 
   @override
-  String get heightRecordRequired => 'ต้องการบันทึกส่วนสูง';
+  String get heightRecordRequired => 'Height record required';
 
   @override
-  String get currentRecordMissing => 'ไม่มีบันทึกปัจจุบัน';
+  String get currentRecordMissing => 'Current record missing';
 
   @override
-  String get noRecord => 'ไม่มีบันทึก';
+  String get noRecord => 'No record';
 
   @override
-  String get firstRecordStart => 'เริ่มบันทึกครั้งแรก';
+  String get firstRecordStart => 'Start your first record';
 
   @override
-  String get oneRecord => '1 บันทึก';
+  String get oneRecord => '1 record';
 
   @override
-  String get moreRecordsNeeded => 'ต้องการบันทึกเพิ่มเติม';
+  String get moreRecordsNeeded => 'More records needed';
 
   @override
-  String get sameDayRecord => 'บันทึกวันเดียวกัน';
+  String get sameDayRecord => 'Same day record';
 
   @override
   String recordedTimes(int count) {
-    return 'บันทึกแล้ว $count ครั้ง';
+    return '$count times recorded';
   }
 
   @override
-  String get storageMethod => 'วิธีเก็บรักษา';
+  String get storageMethod => 'Storage Method';
 
   @override
-  String get pumpingType => 'ประเภทการปั๊มนม';
+  String get pumpingType => 'Pumping Type';
 
   @override
-  String get foodName => 'ชื่ออาหาร';
+  String get foodName => 'Food Name';
 
   @override
-  String get mealType => 'ประเภทอาหาร';
+  String get mealType => 'Meal Type';
 
   @override
-  String get texture => 'เนื้อสัมผัส';
+  String get texture => 'Texture';
 
   @override
-  String get reaction => 'ปฏิกิริยา';
+  String get reaction => 'Reaction';
 
   @override
-  String get measurementLocation => 'ตำแหน่งการวัด';
+  String get measurementLocation => 'Measurement Location';
 
   @override
-  String get feverReducerGiven => 'ให้ยาลดไข้แล้ว';
+  String get feverReducerGiven => 'Fever Reducer Given';
 
   @override
-  String get given => 'ให้แล้ว';
+  String get given => 'Given';
 
   @override
-  String get hours => 'ชั่วโมง';
+  String get hours => 'hours';
 
   @override
-  String get refrigerator => 'ตู้เย็น';
+  String get refrigerator => 'Refrigerator';
 
   @override
-  String get freezer => 'ตู้แช่แข็ง';
+  String get freezer => 'Freezer';
 
   @override
-  String get roomTemperature => 'อุณหภูมิห้อง';
+  String get roomTemperature => 'Room Temperature';
 
   @override
-  String get fedImmediately => 'ให้ทันที';
+  String get fedImmediately => 'Fed Immediately';
 
   @override
-  String get breakfast => 'อาหารเช้า';
+  String get breakfast => 'Breakfast';
 
   @override
-  String get lunch => 'อาหารกลางวัน';
+  String get lunch => 'Lunch';
 
   @override
-  String get dinner => 'อาหารเย็น';
+  String get dinner => 'Dinner';
 
   @override
-  String get snack => 'ของว่าง';
+  String get snack => 'Snack';
 
   @override
-  String get monday => 'วันจันทร์';
+  String get monday => 'Monday';
 
   @override
-  String get tuesday => 'วันอังคาร';
+  String get tuesday => 'Tuesday';
 
   @override
-  String get wednesday => 'วันพุธ';
+  String get wednesday => 'Wednesday';
 
   @override
-  String get thursday => 'วันพฤหัสบดี';
+  String get thursday => 'Thursday';
 
   @override
-  String get friday => 'วันศุกร์';
+  String get friday => 'Friday';
 
   @override
-  String get saturday => 'วันเสาร์';
+  String get saturday => 'Saturday';
 
   @override
-  String get sunday => 'วันอาทิตย์';
+  String get sunday => 'Sunday';
 
   @override
-  String get on => 'เปิด';
+  String get on => 'On';
 
   @override
-  String get off => 'ปิด';
+  String get off => 'Off';
 
   @override
-  String get weightChange => 'การเปลี่ยนแปลงน้ำหนัก';
+  String get weightChange => 'Weight Change';
 
   @override
-  String get heightChange => 'การเปลี่ยนแปลงส่วนสูง';
+  String get heightChange => 'Height Change';
 
   @override
-  String get totalRecords => 'บันทึกทั้งหมด';
+  String get totalRecords => 'Total Records';
 
   @override
-  String get totalChange => 'การเปลี่ยนแปลงทั้งหมด';
+  String get totalChange => 'Total Change';
 
   @override
-  String get start => 'เริ่มต้น';
+  String get start => 'Start';
 
   @override
-  String get memo => 'บันทึก';
+  String get memo => 'Memo';
 
   @override
-  String get weightDataEmpty => 'ไม่มีข้อมูลน้ำหนัก';
+  String get weightDataEmpty => 'No weight data available';
 
   @override
-  String get heightDataEmpty => 'ไม่มีข้อมูลส่วนสูง';
+  String get heightDataEmpty => 'No height data available';
 
   @override
-  String get undoAction => 'เลิกทำ';
+  String get undoAction => 'Undo';
 
   @override
-  String get feedingRecordDeleted => 'ลบบันทึกการให้อาหารแล้ว';
+  String get feedingRecordDeleted => 'Feeding record deleted';
 
   @override
-  String get sleepRecordDeleted => 'ลบบันทึกการนอนแล้ว';
+  String get sleepRecordDeleted => 'Sleep record deleted';
 
   @override
-  String get diaperRecordDeleted => 'ลบบันทึกผ้าอ้อมแล้ว';
+  String get diaperRecordDeleted => 'Diaper record deleted';
 
   @override
-  String get healthRecordDeleted => 'ลบบันทึกสุขภาพแล้ว';
+  String get healthRecordDeleted => 'Health record deleted';
 
   @override
-  String get deletionError => 'เกิดข้อผิดพลาดในการลบ';
+  String get deletionError => 'Error occurred during deletion';
 
   @override
-  String get duplicateInputDetected => 'พบข้อมูลที่ซ้ำกัน';
+  String get duplicateInputDetected => 'Duplicate input detected';
 
   @override
   String get solidFoodDuplicateConfirm =>
-      'คุณเพิ่งบันทึกอาหารแข็งไปแล้ว\\nต้องการบันทึกอีกครั้งจริงหรือไม่?';
+      'You just recorded solid food.\\nDo you really want to record it again?';
 
   @override
-  String get cannotOpenSettings => 'ไม่สามารถเปิดหน้าจอการตั้งค่าได้';
+  String get cannotOpenSettings => 'Cannot open settings screen';
 
   @override
-  String get sleepQualityGood => 'ดี';
+  String get sleepQualityGood => 'Good';
 
   @override
-  String get sleepQualityFair => 'ปานกลาง';
+  String get sleepQualityFair => 'Fair';
 
   @override
-  String get sleepQualityPoor => 'ไม่ดี';
+  String get sleepQualityPoor => 'Poor';
 
   @override
   String sleepInProgressDuration(Object minutes) {
-    return 'กำลังนอน - $minutesนา.ผ่านไป';
+    return 'Sleeping - ${minutes}m elapsed';
   }
 
   @override
-  String get wetOnly => 'เปียกอย่างเดียว';
+  String get wetOnly => 'Wet Only';
 
   @override
-  String get dirtyOnly => 'อุจจาระอย่างเดียว';
+  String get dirtyOnly => 'Dirty Only';
 
   @override
-  String get wetAndDirty => 'เปียก + อุจจาระ';
+  String get wetAndDirty => 'Wet + Dirty';
 
   @override
-  String get colorLabel => 'สี';
+  String get colorLabel => 'Color';
 
   @override
-  String get consistencyLabel => 'ความข้น';
+  String get consistencyLabel => 'Consistency';
 
   @override
-  String get topicalMedication => 'ทาภายนอก';
+  String get topicalMedication => 'Topical';
 
   @override
-  String get inhaledMedication => 'สูดดม';
+  String get inhaledMedication => 'Inhaled';
 
   @override
-  String get milkPumpingInProgress => 'กำลังปั๊มนม';
+  String get milkPumpingInProgress => 'Pumping';
 
   @override
   String pumpingInProgressDuration(Object minutes) {
-    return 'กำลังปั๊มนม - $minutesนา.ผ่านไป';
+    return 'Pumping - ${minutes}m elapsed';
   }
 
   @override
-  String get lowGradeFever => 'ไข้เล็กน้อย';
+  String get lowGradeFever => 'Low Grade Fever';
 
   @override
-  String get normalTemperature => 'ปกติ';
+  String get normalTemperature => 'Temperature is normal';
 
   @override
-  String get allActivities => 'ทั้งหมด';
+  String get allActivities => 'All';
 
   @override
-  String get temperatureFilter => 'อุณหภูมิ';
+  String get temperatureFilter => 'Temperature';
 
   @override
-  String get deleteRecordTitle => 'ลบบันทึก';
+  String get deleteRecordTitle => 'Delete Record';
 
   @override
   String get deleteRecordMessage =>
-      'คุณแน่ใจว่าต้องการลบบันทึกนี้หรือไม่?\nบันทึกที่ถูกลบจะไม่สามารถกู้คืนได้';
+      'Are you sure you want to delete this record?\nDeleted records cannot be recovered.';
 
   @override
-  String get recordDeletedSuccess => 'ลบบันทึกแล้ว';
+  String get recordDeletedSuccess => 'Record has been deleted';
 
   @override
-  String get recordDeleteFailed => 'ลบบันทึกไม่สำเร็จ';
+  String get recordDeleteFailed => 'Failed to delete record';
 
   @override
-  String get recordDeleteError => 'เกิดข้อผิดพลาดในการลบบันทึก';
+  String get recordDeleteError => 'An error occurred while deleting the record';
 
   @override
-  String get recordUpdatedSuccess => 'อัพเดทบันทึกแล้ว';
+  String get recordUpdatedSuccess => 'Record has been updated';
 
   @override
-  String get recordUpdateFailed => 'อัพเดทบันทึกไม่สำเร็จ';
+  String get recordUpdateFailed => 'Failed to update record';
 
   @override
-  String get recordUpdateError => 'เกิดข้อผิดพลาดในการอัพเดทบันทึก';
+  String get recordUpdateError => 'An error occurred while updating the record';
 
   @override
   String noRecordsToday(Object recordType) {
-    return 'วันนี้ไม่มีบันทึก$recordType';
+    return 'No $recordType records today';
   }
 
   @override
-  String get healthRecordRestored => 'ข้อมูลสุขภาพได้รับการกู้คืนแล้ว';
+  String get healthRecordRestored => 'Health record has been restored';
 
   @override
   String get deleteTemperatureConfirm =>
-      'คุณต้องการลบบันทึกอุณหภูมิล่าสุดหรือไม่?';
+      'Do you want to delete the recent temperature record?';
 
   @override
-  String get minimum => 'ต่ำสุด';
+  String get minimum => 'Minimum';
 
   @override
-  String get maximum => 'สูงสุด';
+  String get maximum => 'Maximum';
 
   @override
-  String get duplicateEntryDetected => 'ตรวจพบรายการซ้ำ';
+  String get duplicateEntryDetected => 'Duplicate Entry Detected';
 
   @override
   String get feedingDuplicateConfirm =>
-      'คุณเพิ่งเพิ่มบันทึกการให้นม\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?';
+      'You just added a feeding record.\\nDo you really want to record again?';
 
   @override
   String get milkPumpingDuplicateConfirm =>
-      'คุณเพิ่งเพิ่มบันทึกการปั๊มนม\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?';
+      'You just added a milk pumping record.\\nDo you really want to record again?';
 
   @override
   String get medicationDuplicateConfirm =>
-      'คุณเพิ่งบันทึกการให้ยา\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?';
+      'You just recorded medication.\\nDo you really want to record again?';
 
   @override
   String get diaperDuplicateConfirm =>
-      'คุณเพิ่งบันทึกการเปลี่ยนผ้าอ้อม\\nคุณต้องการบันทึกอีกครั้งจริงหรือ?';
+      'You just recorded a diaper change.\\nDo you really want to record again?';
 
   @override
   String get sleepStartDuplicateConfirm =>
-      'คุณเพิ่งจัดการการนอน\\nคุณต้องการเริ่มนอนจริงหรือ?';
+      'You just manipulated sleep.\\nDo you really want to start sleeping?';
 
   @override
   String get sleepEndDuplicateConfirm =>
-      'คุณเพิ่งจัดการการนอน\\nคุณต้องการสิ้นสุดการนอนจริงหรือ?';
+      'You just manipulated sleep.\\nDo you really want to end sleeping?';
 
   @override
-  String get recordAction => 'บันทึก';
+  String get recordAction => 'Record';
 
   @override
-  String get end => 'จบ';
+  String get end => 'End';
 
   @override
-  String get whatTypeChanged => 'คุณเปลี่ยนประเภทไหน?';
+  String get whatTypeChanged => 'What type did you change?';
 
   @override
-  String get poop => 'อุจจาระ';
+  String get poop => 'Poop';
 
   @override
-  String get urinePoop => 'ปัสสาวะ+อุจจาระ';
+  String get urinePoop => 'Urine+Poop';
 
   @override
-  String get changeType => 'ประเภทการเปลี่ยน';
+  String get changeType => 'Change Type';
 
   @override
-  String get colorWhenPoop => 'สี (ตอนถ่ายอุจจาระ)';
+  String get colorWhenPoop => 'Color (When Poop)';
 
   @override
-  String get minutesShort => 'น';
+  String get minutesShort => 'm';
 
   @override
-  String get totalFeedingDuration => 'ระยะเวลาการให้นมทั้งหมด';
+  String get totalFeedingDuration => 'Total feeding duration';
 
   @override
-  String get maximumFeedingAmount => 'ปริมาณการให้นมสูงสุด';
+  String get maximumFeedingAmount => 'Maximum feeding amount';
 
   @override
-  String get minimumFeedingAmount => 'ปริมาณการให้นมต่ำสุด';
+  String get minimumFeedingAmount => 'Minimum feeding amount';
 
   @override
-  String get totalSleepDuration => 'ระยะเวลาการนอนทั้งหมด';
+  String get totalSleepDuration => 'Total sleep duration';
 
   @override
-  String get dailyTotalMilkPumpingAmount => 'ปริมาณนมที่ปั้มทั้งหมดรายวัน';
+  String get dailyTotalMilkPumpingAmount => 'Daily total pumped amount';
 
   @override
-  String get maximumSleepDuration => 'ระยะเวลาการนอนสูงสุด';
+  String get maximumSleepDuration => 'Maximum sleep duration';
 
   @override
-  String get minimumSleepDuration => 'ระยะเวลาการนอนต่ำสุด';
+  String get minimumSleepDuration => 'Minimum sleep duration';
 
   @override
-  String get allergicReactionCount => 'จำนวนการแพ้';
+  String get allergicReactionCount => 'Allergic reaction count';
 
   @override
-  String get dailyAverageMilkPumpingCount => 'จำนวนการปั้มนมเฉลี่ยรายวัน';
+  String get dailyAverageMilkPumpingCount => 'Daily average milk pumping count';
 
   @override
-  String get growthInfoRecord => 'บันทึกข้อมูลการเจริญเติบโต';
+  String get growthInfoRecord => 'Growth Information Record';
 
   @override
-  String get recordBabyCurrentWeight => 'กรุณาบันทึกน้ำหนักปัจจุบันของทารก';
+  String get recordBabyCurrentWeight => 'Please record baby\'s current weight';
 
   @override
-  String get recordBabyCurrentHeight => 'กรุณาบันทึกส่วนสูงปัจจุบันของทารก';
+  String get recordBabyCurrentHeight => 'Please record baby\'s current height';
 
   @override
-  String get measurementItems => 'รายการวัด';
+  String get measurementItems => 'Measurement Items';
 
   @override
-  String get memoOptional => 'บันทึก (เลือกได้)';
+  String get memoOptional => 'Memo (Optional)';
 
   @override
-  String get enterWeight => 'กรอกน้ำหนัก';
+  String get enterWeight => 'Enter weight';
 
   @override
-  String get enterHeight => 'กรอกส่วนสูง';
+  String get enterHeight => 'Enter height';
 
   @override
   String get recordSpecialNotesWeight =>
-      'บันทึกหมายเหตุพิเศษเมื่อวัดน้ำหนัก (เลือกได้)';
+      'Record special notes when measuring weight (optional)';
 
   @override
   String get recordSpecialNotesHeight =>
-      'บันทึกหมายเหตุพิเศษเมื่อวัดส่วนสูง (เลือกได้)';
+      'Record special notes when measuring height (optional)';
 
   @override
-  String get weightInvalidNumber => 'กรุณากรอกตัวเลขที่ถูกต้องสำหรับน้ำหนัก';
+  String get weightInvalidNumber => 'Please enter a valid number for weight';
 
   @override
-  String get weightRangeError => 'น้ำหนักต้องอยู่ระหว่าง 0.1-50kg';
+  String get weightRangeError => 'Weight should be between 0.1~50kg';
 
   @override
-  String get heightInvalidNumber => 'กรุณากรอกตัวเลขที่ถูกต้องสำหรับส่วนสูง';
+  String get heightInvalidNumber => 'Please enter a valid number for height';
 
   @override
-  String get heightRangeError => 'ส่วนสูงต้องอยู่ระหว่าง 1-200cm';
+  String get heightRangeError => 'Height should be between 1~200cm';
 
   @override
-  String get enterWeightOrHeight => 'กรุณากรอกน้ำหนักหรือส่วนสูง';
+  String get enterWeightOrHeight => 'Please enter weight or height';
 
   @override
-  String get saveError => 'เกิดข้อผิดพลาดในการบันทึก';
+  String get saveError => 'An error occurred while saving';
+
+  @override
+  String get sufficientFeedingAmount =>
+      'You had a sufficient amount of feeding';
+
+  @override
+  String get expectedSatisfaction =>
+      'This amount is expected to provide sufficient satisfaction for the baby.';
+
+  @override
+  String get nightFeedingTime => 'It\'s nighttime feeding time';
+
+  @override
+  String get nightFeedingImpact =>
+      'Nighttime feeding helps baby\'s growth, but may affect parents\' sleep patterns.';
+
+  @override
+  String get nextExpectedFeedingTime => 'Next expected feeding time';
+
+  @override
+  String get nextFeedingIn2to3Hours =>
+      'Generally, the next feeding may be needed in 2-3 hours.';
+
+  @override
+  String get longSleepDuration => 'It was a long sleep duration';
+
+  @override
+  String goodSleepForGrowth(String duration) {
+    return 'Slept for $duration hours. This is a good sign for baby\'s growth and development.';
+  }
+
+  @override
+  String get shortSleepDuration => 'It was a short sleep';
+
+  @override
+  String get checkSleepEnvironment =>
+      'Check the environment so that short naps or sleep interruptions don\'t occur.';
+
+  @override
+  String get goodSleepQuality => 'It was good sleep quality';
+
+  @override
+  String get goodSleepBenefits =>
+      'Good sleep helps baby\'s brain development and immune system improvement.';
+
+  @override
+  String get diaperChangeDirty => 'Dirty diaper change';
+
+  @override
+  String get normalDigestionSign =>
+      'This is a good sign that baby\'s digestive function is working normally.';
+
+  @override
+  String get diaperChangeFrequency => 'Diaper change frequency';
+
+  @override
+  String goodDiaperChangeFrequency(int hours) {
+    return 'It\'s been $hours hours since the last change. You\'re maintaining a good change frequency.';
+  }
+
+  @override
+  String get medicationRecordComplete => 'Medication record completed';
+
+  @override
+  String medicationRecorded(String medicationName) {
+    return '$medicationName medication has been recorded. Accurate recording helps improve treatment effectiveness.';
+  }
+
+  @override
+  String get medicationRecordCompleteGeneric =>
+      'Medication record has been completed.';
+
+  @override
+  String get morningMedicationTime => 'Morning medication time';
+
+  @override
+  String get morningMedicationBenefit =>
+      'Morning medication helps maintain drug effectiveness throughout the day.';
+
+  @override
+  String get effectivePumping => 'It was effective pumping';
+
+  @override
+  String goodPumpingAmount(int amount) {
+    return 'Pumped ${amount}ml. This is a good amount that helps with breast milk storage.';
+  }
+
+  @override
+  String get pumpingImprovementTip => 'Pumping improvement tip';
+
+  @override
+  String get lowPumpingAdvice =>
+      'The pumping amount is low. Adequate water intake and stress management can help.';
+
+  @override
+  String get morningPumpingTime => 'Morning pumping time';
+
+  @override
+  String get morningPumpingBenefit =>
+      'Morning time is the best time for pumping due to high prolactin levels.';
+
+  @override
+  String get babyLikesFood => 'Baby likes the food';
+
+  @override
+  String goodFoodReaction(String foodName) {
+    return 'Had a good reaction to $foodName. Consider adding this food to the diet.';
+  }
+
+  @override
+  String get goodFoodReactionGeneric => 'Had a good reaction to the food.';
+
+  @override
+  String get lunchTimeSolidFood => 'Lunchtime solid food';
+
+  @override
+  String get lunchTimeFoodBenefit =>
+      'Lunchtime solid food helps establish baby\'s eating habits.';
+
+  @override
+  String get nutritionalBalance => 'Nutritional balance management';
+
+  @override
+  String get varietyFoodBenefit =>
+      'Alternating solid food made with various ingredients helps with nutritional balance.';
+
+  @override
+  String get highTemperature => 'Temperature is high';
+
+  @override
+  String highTemperatureWarning(String temperature) {
+    return 'Temperature is $temperature°C, which is relatively high. Continuous observation is needed.';
+  }
+
+  @override
+  String get lowTemperature => 'Temperature is low';
+
+  @override
+  String lowTemperatureWarning(String temperature) {
+    return 'Temperature is $temperature°C, which is relatively low. Please pay attention to keeping warm.';
+  }
+
+  @override
+  String normalTemperatureRange(String temperature) {
+    return 'Temperature is $temperature°C, which is within the normal range.';
+  }
+
+  @override
+  String get regularTemperatureCheck => 'Regular temperature check';
+
+  @override
+  String get regularTemperatureCheckBenefit =>
+      'Regular temperature checks are recommended to monitor baby\'s health condition.';
+
+  @override
+  String get consistentRecording => 'Records are being kept consistently well';
+
+  @override
+  String get regularRecordingBenefit =>
+      'Regular recording helps with baby health management.';
 }

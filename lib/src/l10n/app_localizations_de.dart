@@ -2951,7 +2951,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lowGradeFever => 'Leichtes Fieber';
 
   @override
-  String get normalTemperature => 'Normal';
+  String get normalTemperature => 'Temperature is normal';
 
   @override
   String get allActivities => 'Alle';
@@ -3132,4 +3132,164 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get saveError => 'Fehler beim Speichern aufgetreten';
+
+  @override
+  String get sufficientFeedingAmount =>
+      'You had a sufficient amount of feeding';
+
+  @override
+  String get expectedSatisfaction =>
+      'This amount is expected to provide sufficient satisfaction for the baby.';
+
+  @override
+  String get nightFeedingTime => 'It\'s nighttime feeding time';
+
+  @override
+  String get nightFeedingImpact =>
+      'Nighttime feeding helps baby\'s growth, but may affect parents\' sleep patterns.';
+
+  @override
+  String get nextExpectedFeedingTime => 'Next expected feeding time';
+
+  @override
+  String get nextFeedingIn2to3Hours =>
+      'Generally, the next feeding may be needed in 2-3 hours.';
+
+  @override
+  String get longSleepDuration => 'It was a long sleep duration';
+
+  @override
+  String goodSleepForGrowth(String duration) {
+    return 'Slept for $duration hours. This is a good sign for baby\'s growth and development.';
+  }
+
+  @override
+  String get shortSleepDuration => 'It was a short sleep';
+
+  @override
+  String get checkSleepEnvironment =>
+      'Check the environment so that short naps or sleep interruptions don\'t occur.';
+
+  @override
+  String get goodSleepQuality => 'It was good sleep quality';
+
+  @override
+  String get goodSleepBenefits =>
+      'Good sleep helps baby\'s brain development and immune system improvement.';
+
+  @override
+  String get diaperChangeDirty => 'Dirty diaper change';
+
+  @override
+  String get normalDigestionSign =>
+      'This is a good sign that baby\'s digestive function is working normally.';
+
+  @override
+  String get diaperChangeFrequency => 'Diaper change frequency';
+
+  @override
+  String goodDiaperChangeFrequency(int hours) {
+    return 'It\'s been $hours hours since the last change. You\'re maintaining a good change frequency.';
+  }
+
+  @override
+  String get medicationRecordComplete => 'Medication record completed';
+
+  @override
+  String medicationRecorded(String medicationName) {
+    return '$medicationName medication has been recorded. Accurate recording helps improve treatment effectiveness.';
+  }
+
+  @override
+  String get medicationRecordCompleteGeneric =>
+      'Medication record has been completed.';
+
+  @override
+  String get morningMedicationTime => 'Morning medication time';
+
+  @override
+  String get morningMedicationBenefit =>
+      'Morning medication helps maintain drug effectiveness throughout the day.';
+
+  @override
+  String get effectivePumping => 'It was effective pumping';
+
+  @override
+  String goodPumpingAmount(int amount) {
+    return 'Pumped ${amount}ml. This is a good amount that helps with breast milk storage.';
+  }
+
+  @override
+  String get pumpingImprovementTip => 'Pumping improvement tip';
+
+  @override
+  String get lowPumpingAdvice =>
+      'The pumping amount is low. Adequate water intake and stress management can help.';
+
+  @override
+  String get morningPumpingTime => 'Morning pumping time';
+
+  @override
+  String get morningPumpingBenefit =>
+      'Morning time is the best time for pumping due to high prolactin levels.';
+
+  @override
+  String get babyLikesFood => 'Baby likes the food';
+
+  @override
+  String goodFoodReaction(String foodName) {
+    return 'Had a good reaction to $foodName. Consider adding this food to the diet.';
+  }
+
+  @override
+  String get goodFoodReactionGeneric => 'Had a good reaction to the food.';
+
+  @override
+  String get lunchTimeSolidFood => 'Lunchtime solid food';
+
+  @override
+  String get lunchTimeFoodBenefit =>
+      'Lunchtime solid food helps establish baby\'s eating habits.';
+
+  @override
+  String get nutritionalBalance => 'Nutritional balance management';
+
+  @override
+  String get varietyFoodBenefit =>
+      'Alternating solid food made with various ingredients helps with nutritional balance.';
+
+  @override
+  String get highTemperature => 'Temperature is high';
+
+  @override
+  String highTemperatureWarning(String temperature) {
+    return 'Temperature is $temperature°C, which is relatively high. Continuous observation is needed.';
+  }
+
+  @override
+  String get lowTemperature => 'Temperature is low';
+
+  @override
+  String lowTemperatureWarning(String temperature) {
+    return 'Temperature is $temperature°C, which is relatively low. Please pay attention to keeping warm.';
+  }
+
+  @override
+  String normalTemperatureRange(String temperature) {
+    return 'Temperature is $temperature°C, which is within the normal range.';
+  }
+
+  @override
+  String get regularTemperatureCheck => 'Regular temperature check';
+
+  @override
+  String get regularTemperatureCheckBenefit =>
+      'Regular temperature checks are recommended to monitor baby\'s health condition.';
+
+  @override
+  String get consistentRecording => 'Records are being kept consistently well';
+
+  @override
+  String get regularRecordingBenefit =>
+      'Regular recording helps with baby health management.';
 }

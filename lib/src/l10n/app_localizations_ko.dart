@@ -2889,7 +2889,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lowGradeFever => '미열';
 
   @override
-  String get normalTemperature => '정상';
+  String get normalTemperature => '정상 체온입니다';
 
   @override
   String get allActivities => '전체';
@@ -3060,4 +3060,152 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get saveError => '저장 중 오류가 발생했습니다';
+
+  @override
+  String get sufficientFeedingAmount => '충분한 양의 수유를 했어요';
+
+  @override
+  String get expectedSatisfaction => '이 양은 아기에게 충분한 포만감을 줄 것으로 예상돼요.';
+
+  @override
+  String get nightFeedingTime => '새벽 수유 시간이에요';
+
+  @override
+  String get nightFeedingImpact =>
+      '새벽 수유는 아기의 성장에 도움이 되지만, 부모의 수면 패턴에 영향을 줄 수 있어요.';
+
+  @override
+  String get nextExpectedFeedingTime => '다음 수유 예상 시간';
+
+  @override
+  String get nextFeedingIn2to3Hours => '일반적으로 2-3시간 후에 다음 수유가 필요할 수 있어요.';
+
+  @override
+  String get longSleepDuration => '긴 시간 잔 수면이었어요';
+
+  @override
+  String goodSleepForGrowth(String duration) {
+    return '$duration시간 동안 잤어요. 이는 아기의 성장과 발달에 좋은 신호에요.';
+  }
+
+  @override
+  String get shortSleepDuration => '짧은 수면이었어요';
+
+  @override
+  String get checkSleepEnvironment => '짧은 낮잠이나 깨지 않을 수 있도록 환경을 체크해보세요.';
+
+  @override
+  String get goodSleepQuality => '좋은 수면 품질이었어요';
+
+  @override
+  String get goodSleepBenefits => '좋은 수면은 아기의 뇌 발달과 면역력 향상에 도움이 돼요.';
+
+  @override
+  String get diaperChangeDirty => '배변 기저귀 교체';
+
+  @override
+  String get normalDigestionSign => '아기의 소화 기능이 정상적으로 작동하고 있는 좋은 신호에요.';
+
+  @override
+  String get diaperChangeFrequency => '기저귀 교체 주기';
+
+  @override
+  String goodDiaperChangeFrequency(int hours) {
+    return '마지막 교체 후 $hours시간이 지났어요. 좋은 교체 주기를 유지하고 있어요.';
+  }
+
+  @override
+  String get medicationRecordComplete => '투약 기록 완료';
+
+  @override
+  String medicationRecorded(String medicationName) {
+    return '$medicationName 투약이 기록되었어요. 정확한 기록은 치료 효과를 높이는 데 도움이 돼요.';
+  }
+
+  @override
+  String get medicationRecordCompleteGeneric => '투약 기록이 완료되었어요.';
+
+  @override
+  String get morningMedicationTime => '아침 투약 시간';
+
+  @override
+  String get morningMedicationBenefit =>
+      '아침 시간대의 투약은 하루 종일 약물 효과를 유지하는 데 도움이 돼요.';
+
+  @override
+  String get effectivePumping => '효과적인 유축이었어요';
+
+  @override
+  String goodPumpingAmount(int amount) {
+    return '${amount}ml를 유축했어요. 이는 좋은 양으로 모유 저장에 도움이 돼요.';
+  }
+
+  @override
+  String get pumpingImprovementTip => '유축량 개선 팁';
+
+  @override
+  String get lowPumpingAdvice => '유축량이 적어요. 충분한 수분 섭취와 스트레스 관리가 도움이 될 수 있어요.';
+
+  @override
+  String get morningPumpingTime => '아침 유축 시간';
+
+  @override
+  String get morningPumpingBenefit => '아침 시간대는 프롤랙틴 수치가 높아 유축에 가장 좋은 시간이에요.';
+
+  @override
+  String get babyLikesFood => '아기가 음식을 좋아해요';
+
+  @override
+  String goodFoodReaction(String foodName) {
+    return '$foodName에 대한 반응이 좋았어요. 이 음식을 식단에 추가해보세요.';
+  }
+
+  @override
+  String get goodFoodReactionGeneric => '음식에 대한 반응이 좋았어요.';
+
+  @override
+  String get lunchTimeSolidFood => '점심 시간 이유식';
+
+  @override
+  String get lunchTimeFoodBenefit => '점심 시간대 이유식은 아기의 식습관 형성에 도움이 돼요.';
+
+  @override
+  String get nutritionalBalance => '영양 균형 관리';
+
+  @override
+  String get varietyFoodBenefit => '다양한 재료로 만든 이유식을 번갈아 주면 영양 균형에 도움이 돼요.';
+
+  @override
+  String get highTemperature => '체온이 높아요';
+
+  @override
+  String highTemperatureWarning(String temperature) {
+    return '체온이 $temperature°C로 비교적 높습니다. 지속적인 관찰이 필요해요.';
+  }
+
+  @override
+  String get lowTemperature => '체온이 낮아요';
+
+  @override
+  String lowTemperatureWarning(String temperature) {
+    return '체온이 $temperature°C로 비교적 낮습니다. 보온에 주의해주세요.';
+  }
+
+  @override
+  String normalTemperatureRange(String temperature) {
+    return '체온이 $temperature°C로 정상 범위내에 있어요.';
+  }
+
+  @override
+  String get regularTemperatureCheck => '정기적인 체온 체크';
+
+  @override
+  String get regularTemperatureCheckBenefit =>
+      '아기의 건강 상태를 파악하기 위해 정기적인 체온 체크를 권장해요.';
+
+  @override
+  String get consistentRecording => '기록이 꾸준히 잘 되고 있어요';
+
+  @override
+  String get regularRecordingBenefit => '정기적인 기록은 아기 건강 관리에 도움이 돼요.';
 }

@@ -2887,7 +2887,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lowGradeFever => '微熱';
 
   @override
-  String get normalTemperature => '正常';
+  String get normalTemperature => '正常な体温です';
 
   @override
   String get allActivities => 'すべて';
@@ -3052,4 +3052,151 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get saveError => '保存中にエラーが発生しました';
+
+  @override
+  String get sufficientFeedingAmount => '十分な授乳量でした';
+
+  @override
+  String get expectedSatisfaction => 'この量は赤ちゃんに十分な満腹感を与えると期待されます。';
+
+  @override
+  String get nightFeedingTime => '夜間授乳の時間です';
+
+  @override
+  String get nightFeedingImpact =>
+      '夜間授乳は赤ちゃんの成長に役立ちますが、両親の睡眠パターンに影響を与える可能性があります。';
+
+  @override
+  String get nextExpectedFeedingTime => '次の授乳予想時間';
+
+  @override
+  String get nextFeedingIn2to3Hours => '一般的に2〜3時間後に次の授乳が必要になる可能性があります。';
+
+  @override
+  String get longSleepDuration => '長時間の睡眠でした';
+
+  @override
+  String goodSleepForGrowth(String duration) {
+    return '$duration時間眠りました。これは赤ちゃんの成長と発達にとって良い兆候です。';
+  }
+
+  @override
+  String get shortSleepDuration => '短時間の睡眠でした';
+
+  @override
+  String get checkSleepEnvironment => '短時間の昼寝や睡眠が中断されないよう、環境をチェックしてください。';
+
+  @override
+  String get goodSleepQuality => '良い睡眠の質でした';
+
+  @override
+  String get goodSleepBenefits => '良い睡眠は赤ちゃんの脳の発達と免疫力向上に役立ちます。';
+
+  @override
+  String get diaperChangeDirty => '便のオムツ交換';
+
+  @override
+  String get normalDigestionSign => '赤ちゃんの消化機能が正常に動作している良い兆候です。';
+
+  @override
+  String get diaperChangeFrequency => 'オムツ交換頻度';
+
+  @override
+  String goodDiaperChangeFrequency(int hours) {
+    return '最後の交換から$hours時間が経ちました。良い交換頻度を維持しています。';
+  }
+
+  @override
+  String get medicationRecordComplete => '投薬記録完了';
+
+  @override
+  String medicationRecorded(String medicationName) {
+    return '$medicationNameの投薬が記録されました。正確な記録は治療効果を高めるのに役立ちます。';
+  }
+
+  @override
+  String get medicationRecordCompleteGeneric => '投薬記録が完了しました。';
+
+  @override
+  String get morningMedicationTime => '朝の投薬時間';
+
+  @override
+  String get morningMedicationBenefit => '朝の時間帯の投薬は一日中薬物効果を維持するのに役立ちます。';
+
+  @override
+  String get effectivePumping => '効果的な搾乳でした';
+
+  @override
+  String goodPumpingAmount(int amount) {
+    return '${amount}ml搾乳しました。これは良い量で、母乳の保存に役立ちます。';
+  }
+
+  @override
+  String get pumpingImprovementTip => '搾乳改善のコツ';
+
+  @override
+  String get lowPumpingAdvice => '搾乳量が少ないです。十分な水分摂取とストレス管理が役立つ可能性があります。';
+
+  @override
+  String get morningPumpingTime => '朝の搾乳時間';
+
+  @override
+  String get morningPumpingBenefit => '朝の時間帯はプロラクチン値が高く、搾乳に最適な時間です。';
+
+  @override
+  String get babyLikesFood => '赤ちゃんが食べ物を気に入りました';
+
+  @override
+  String goodFoodReaction(String foodName) {
+    return '$foodNameに対する反応が良好でした。この食べ物を食事に追加することを検討してください。';
+  }
+
+  @override
+  String get goodFoodReactionGeneric => '食べ物に対する反応が良好でした。';
+
+  @override
+  String get lunchTimeSolidFood => '昼食時間の離乳食';
+
+  @override
+  String get lunchTimeFoodBenefit => '昼食時間帯の離乳食は赤ちゃんの食習慣形成に役立ちます。';
+
+  @override
+  String get nutritionalBalance => '栄養バランス管理';
+
+  @override
+  String get varietyFoodBenefit => '様々な材料で作った離乳食を交互に与えることで栄養バランスに役立ちます。';
+
+  @override
+  String get highTemperature => '体温が高いです';
+
+  @override
+  String highTemperatureWarning(String temperature) {
+    return '体温が$temperature°Cと比較的高いです。継続的な観察が必要です。';
+  }
+
+  @override
+  String get lowTemperature => '体温が低いです';
+
+  @override
+  String lowTemperatureWarning(String temperature) {
+    return '体温が$temperature°Cと比較的低いです。保温にご注意ください。';
+  }
+
+  @override
+  String normalTemperatureRange(String temperature) {
+    return '体温が$temperature°Cで正常範囲内にあります。';
+  }
+
+  @override
+  String get regularTemperatureCheck => '定期的な体温チェック';
+
+  @override
+  String get regularTemperatureCheckBenefit =>
+      '赤ちゃんの健康状態を把握するため、定期的な体温チェックをお勧めします。';
+
+  @override
+  String get consistentRecording => '記録が継続的にうまく行われています';
+
+  @override
+  String get regularRecordingBenefit => '定期的な記録は赤ちゃんの健康管理に役立ちます。';
 }

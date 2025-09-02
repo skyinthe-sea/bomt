@@ -74,7 +74,9 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
       // 실제 패턴 분석 로직을 시뮬레이션
       await Future.delayed(const Duration(milliseconds: 1500));
       
-      _insights = _generateMockInsights();
+      if (mounted) {
+        _insights = _generateMockInsights(AppLocalizations.of(context)!);
+      }
       
       setState(() {
         _isLoading = false;
@@ -86,7 +88,7 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
     }
   }
 
-  List<PatternInsight> _generateMockInsights() {
+  List<PatternInsight> _generateMockInsights(AppLocalizations localizations) {
     final insights = <PatternInsight>[];
     final now = DateTime.now();
     final itemData = widget.item.data;
@@ -100,8 +102,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
             if (amount >= 150) {
               insights.add(PatternInsight(
                 type: InsightType.correlation,
-                title: '충분한 양의 수유를 했어요',
-                description: '이 양은 아기에게 충분한 포만감을 줄 것으로 예상돼요.',
+                title: localizations.sufficientFeedingAmount,
+                description: localizations.expectedSatisfaction,
                 confidence: 0.88,
                 icon: Icons.sentiment_satisfied_rounded,
                 color: const Color(0xFF10B981),
@@ -115,8 +117,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         if (hour >= 22 || hour < 6) {
           insights.add(PatternInsight(
             type: InsightType.timing,
-            title: '새벽 수유 시간이에요',
-            description: '새벽 수유는 아기의 성장에 도움이 되지만, 부모의 수면 패턴에 영향을 줄 수 있어요.',
+            title: localizations.nightFeedingTime,
+            description: localizations.nightFeedingImpact,
             confidence: 0.82,
             icon: Icons.nights_stay_rounded,
             color: const Color(0xFF8B5FBF),
@@ -125,8 +127,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         
         insights.add(PatternInsight(
           type: InsightType.suggestion,
-          title: '다음 수유 예상 시간',
-          description: '일반적으로 2-3시간 후에 다음 수유가 필요할 수 있어요.',
+          title: localizations.nextExpectedFeedingTime,
+          description: localizations.nextFeedingIn2to3Hours,
           confidence: 0.75,
           icon: Icons.schedule_rounded,
           color: const Color(0xFF06B6D4),
@@ -140,8 +142,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
             if (duration >= 180) { // 3시간 이상
               insights.add(PatternInsight(
                 type: InsightType.duration,
-                title: '긴 시간 잔 수면이었어요',
-                description: '${(duration / 60).toStringAsFixed(1)}시간 동안 잤어요. 이는 아기의 성장과 발달에 좋은 신호에요.',
+                title: localizations.longSleepDuration,
+                description: localizations.goodSleepForGrowth((duration / 60).toStringAsFixed(1)),
                 confidence: 0.92,
                 icon: Icons.bedtime_rounded,
                 color: const Color(0xFF10B981),
@@ -149,8 +151,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
             } else if (duration < 60) { // 1시간 미만
               insights.add(PatternInsight(
                 type: InsightType.quality,
-                title: '짧은 수면이었어요',
-                description: '짧은 낮잠이나 깨지 않을 수 있도록 환경을 체크해보세요.',
+                title: localizations.shortSleepDuration,
+                description: localizations.checkSleepEnvironment,
                 confidence: 0.78,
                 icon: Icons.timer_rounded,
                 color: const Color(0xFFFFB020),
@@ -165,8 +167,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
           if (quality == 'good') {
             insights.add(PatternInsight(
               type: InsightType.quality,
-              title: '좋은 수면 품질이었어요',
-              description: '좋은 수면은 아기의 뇌 발달과 면역력 향상에 도움이 돼요.',
+              title: localizations.goodSleepQuality,
+              description: localizations.goodSleepBenefits,
               confidence: 0.85,
               icon: Icons.sentiment_very_satisfied_rounded,
               color: const Color(0xFF10B981),
@@ -182,8 +184,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         if (diaperType == 'dirty') {
           insights.add(PatternInsight(
             type: InsightType.general,
-            title: '배변 기저귀 교체',
-            description: '아기의 소화 기능이 정상적으로 작동하고 있는 좋은 신호에요.',
+            title: localizations.diaperChangeDirty,
+            description: localizations.normalDigestionSign,
             confidence: 0.87,
             icon: Icons.check_circle_rounded,
             color: const Color(0xFF10B981),
@@ -193,8 +195,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         if (timeSinceChange.inHours >= 2) {
           insights.add(PatternInsight(
             type: InsightType.frequency,
-            title: '기저귀 교체 주기',
-            description: '마지막 교체 후 ${timeSinceChange.inHours}시간이 지났어요. 좋은 교체 주기를 유지하고 있어요.',
+            title: localizations.diaperChangeFrequency,
+            description: localizations.goodDiaperChangeFrequency(timeSinceChange.inHours),
             confidence: 0.80,
             icon: Icons.timer_rounded,
             color: const Color(0xFF06B6D4),
@@ -208,10 +210,10 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         
         insights.add(PatternInsight(
           type: InsightType.timing,
-          title: '투약 기록 완료',
+          title: localizations.medicationRecordComplete,
           description: medicationName != null 
-              ? '$medicationName 투약이 기록되었어요. 정확한 기록은 치료 효과를 높이는 데 도움이 돼요.'
-              : '투약 기록이 완료되었어요.',
+              ? localizations.medicationRecorded(medicationName)
+              : localizations.medicationRecordCompleteGeneric,
           confidence: 0.95,
           icon: Icons.medication_rounded,
           color: const Color(0xFFEF4444),
@@ -222,8 +224,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         if (medicationHour >= 8 && medicationHour <= 10) {
           insights.add(PatternInsight(
             type: InsightType.suggestion,
-            title: '아침 투약 시간',
-            description: '아침 시간대의 투약은 하루 종일 약물 효과를 유지하는 데 도움이 돼요.',
+            title: localizations.morningMedicationTime,
+            description: localizations.morningMedicationBenefit,
             confidence: 0.82,
             icon: Icons.wb_sunny_rounded,
             color: const Color(0xFF06B6D4),
@@ -238,8 +240,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
             if (amount >= 100) {
               insights.add(PatternInsight(
                 type: InsightType.correlation,
-                title: '효과적인 유축이었어요',
-                description: '${amount}ml를 유축했어요. 이는 좋은 양으로 모유 저장에 도움이 돼요.',
+                title: localizations.effectivePumping,
+                description: localizations.goodPumpingAmount(amount),
                 confidence: 0.88,
                 icon: Icons.local_drink_rounded,
                 color: const Color(0xFF06B6D4),
@@ -247,8 +249,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
             } else if (amount < 50) {
               insights.add(PatternInsight(
                 type: InsightType.suggestion,
-                title: '유축량 개선 팁',
-                description: '유축량이 적어요. 충분한 수분 섭취와 스트레스 관리가 도움이 될 수 있어요.',
+                title: localizations.pumpingImprovementTip,
+                description: localizations.lowPumpingAdvice,
                 confidence: 0.75,
                 icon: Icons.tips_and_updates_rounded,
                 color: const Color(0xFFFFB020),
@@ -262,8 +264,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         if (pumpingHour >= 6 && pumpingHour <= 10) {
           insights.add(PatternInsight(
             type: InsightType.timing,
-            title: '아침 유축 시간',
-            description: '아침 시간대는 프롬랙틴 수치가 높아 유축에 가장 좋은 시간이에요.',
+            title: localizations.morningPumpingTime,
+            description: localizations.morningPumpingBenefit,
             confidence: 0.90,
             icon: Icons.wb_sunny_rounded,
             color: const Color(0xFF10B981),
@@ -278,10 +280,10 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         if (reaction == 'good' || reaction == '좋음') {
           insights.add(PatternInsight(
             type: InsightType.quality,
-            title: '아기가 음식을 좋아해요',
+            title: localizations.babyLikesFood,
             description: foodName != null 
-                ? '$foodName에 대한 반응이 좋았어요. 이 음식을 식단에 추가해보세요.'
-                : '음식에 대한 반응이 좋았어요.',
+                ? localizations.goodFoodReaction(foodName)
+                : localizations.goodFoodReactionGeneric,
             confidence: 0.85,
             icon: Icons.sentiment_very_satisfied_rounded,
             color: const Color(0xFF10B981),
@@ -293,8 +295,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         if (foodHour >= 12 && foodHour <= 13) {
           insights.add(PatternInsight(
             type: InsightType.timing,
-            title: '점심 시간 이유식',
-            description: '점심 시간대 이유식은 아기의 식습관 형성에 도움이 돼요.',
+            title: localizations.lunchTimeSolidFood,
+            description: localizations.lunchTimeFoodBenefit,
             confidence: 0.80,
             icon: Icons.restaurant_rounded,
             color: const Color(0xFF10B981),
@@ -303,8 +305,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         
         insights.add(PatternInsight(
           type: InsightType.suggestion,
-          title: '영양 균형 관리',
-          description: '다양한 재료로 만든 이유식을 번갈아 주면 영양 균형에 도움이 돼요.',
+          title: localizations.nutritionalBalance,
+          description: localizations.varietyFoodBenefit,
           confidence: 0.75,
           icon: Icons.balance_rounded,
           color: const Color(0xFF06B6D4),
@@ -318,8 +320,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
             if (temperature >= 37.5) {
               insights.add(PatternInsight(
                 type: InsightType.general,
-                title: '체온이 높아요',
-                description: '체온이 ${temperature}°C로 비교적 높습니다. 지속적인 관찰이 필요해요.',
+                title: localizations.highTemperature,
+                description: localizations.highTemperatureWarning(temperature.toString()),
                 confidence: 0.92,
                 icon: Icons.thermostat_rounded,
                 color: const Color(0xFFEF4444),
@@ -327,8 +329,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
             } else if (temperature <= 36.0) {
               insights.add(PatternInsight(
                 type: InsightType.general,
-                title: '체온이 낮아요',
-                description: '체온이 ${temperature}°C로 비교적 낮습니다. 보온에 주의해주세요.',
+                title: localizations.lowTemperature,
+                description: localizations.lowTemperatureWarning(temperature.toString()),
                 confidence: 0.88,
                 icon: Icons.ac_unit_rounded,
                 color: const Color(0xFF06B6D4),
@@ -336,8 +338,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
             } else {
               insights.add(PatternInsight(
                 type: InsightType.quality,
-                title: '정상 인 체온입니다',
-                description: '체온이 ${temperature}°C로 정상 범위내에 있어요.',
+                title: localizations.normalTemperature,
+                description: localizations.normalTemperatureRange(temperature.toString()),
                 confidence: 0.95,
                 icon: Icons.check_circle_rounded,
                 color: const Color(0xFF10B981),
@@ -348,8 +350,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         
         insights.add(PatternInsight(
           type: InsightType.suggestion,
-          title: '정기적인 체온 체크',
-          description: '아기의 건강 상태를 파악하기 위해 정기적인 체온 체크를 권장해요.',
+          title: localizations.regularTemperatureCheck,
+          description: localizations.regularTemperatureCheckBenefit,
           confidence: 0.80,
           icon: Icons.health_and_safety_rounded,
           color: const Color(0xFF10B981),
@@ -360,8 +362,8 @@ class _TimelineItemPatternAnalysisState extends State<TimelineItemPatternAnalysi
         insights.add(
           PatternInsight(
             type: InsightType.general,
-            title: '기록이 꾸준히 잘 되고 있어요',
-            description: '정기적인 기록은 아기 건강 관리에 도움이 돼요.',
+            title: localizations.consistentRecording,
+            description: localizations.regularRecordingBenefit,
             confidence: 0.75,
             icon: Icons.favorite_rounded,
             color: const Color(0xFFEC4899),
