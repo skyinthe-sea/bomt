@@ -3199,4 +3199,70 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get regularRecordingBenefit => '定期的な記録は赤ちゃんの健康管理に役立ちます。';
+
+  @override
+  String get diaperColorYellow => '黄色';
+
+  @override
+  String get diaperColorBrown => '茶色';
+
+  @override
+  String get diaperColorGreen => '緑色';
+
+  @override
+  String get diaperColorBlack => '黒色';
+
+  @override
+  String get diaperColorOrange => 'オレンジ色';
+
+  @override
+  String get diaperConsistencyNormal => '普通';
+
+  @override
+  String get diaperConsistencyLoose => '軟便';
+
+  @override
+  String get diaperConsistencyHard => '硬便';
+
+  @override
+  String get diaperConsistencyWatery => '水様';
+
+  @override
+  String get foodRicePorridge => '重湯';
+
+  @override
+  String get foodBabyRiceCereal => 'お粥';
+
+  @override
+  String get foodBanana => 'バナナ';
+
+  @override
+  String get foodApple => 'りんご';
+
+  @override
+  String get foodCarrot => '人参';
+
+  @override
+  String get foodPumpkin => 'かぼちゃ';
+
+  @override
+  String get foodSweetPotato => 'さつまいも';
+
+  @override
+  String get medicationFeverReducer => '解熱剤';
+
+  @override
+  String get medicationColdMedicine => '風邪薬';
+
+  @override
+  String get medicationDigestiveAid => '消化剤';
+
+  @override
+  String get medicationPainReliever => '鎮痛剤';
+
+  @override
+  String get medicationAntibiotics => '抗生物質';
+
+  @override
+  String get medicationVitamins => 'ビタミン';
 }

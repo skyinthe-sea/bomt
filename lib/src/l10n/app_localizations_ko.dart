@@ -3208,4 +3208,70 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get regularRecordingBenefit => '정기적인 기록은 아기 건강 관리에 도움이 돼요.';
+
+  @override
+  String get diaperColorYellow => '노란색';
+
+  @override
+  String get diaperColorBrown => '갈색';
+
+  @override
+  String get diaperColorGreen => '초록색';
+
+  @override
+  String get diaperColorBlack => '검은색';
+
+  @override
+  String get diaperColorOrange => '주황색';
+
+  @override
+  String get diaperConsistencyNormal => '보통';
+
+  @override
+  String get diaperConsistencyLoose => '묽은';
+
+  @override
+  String get diaperConsistencyHard => '딱딱한';
+
+  @override
+  String get diaperConsistencyWatery => '물같은';
+
+  @override
+  String get foodRicePorridge => '미음';
+
+  @override
+  String get foodBabyRiceCereal => '쌀죽';
+
+  @override
+  String get foodBanana => '바나나';
+
+  @override
+  String get foodApple => '사과';
+
+  @override
+  String get foodCarrot => '당근';
+
+  @override
+  String get foodPumpkin => '호박';
+
+  @override
+  String get foodSweetPotato => '고구마';
+
+  @override
+  String get medicationFeverReducer => '해열제';
+
+  @override
+  String get medicationColdMedicine => '감기약';
+
+  @override
+  String get medicationDigestiveAid => '소화제';
+
+  @override
+  String get medicationPainReliever => '진통제';
+
+  @override
+  String get medicationAntibiotics => '항생제';
+
+  @override
+  String get medicationVitamins => '비타민';
 }

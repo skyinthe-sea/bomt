@@ -2456,5 +2456,115 @@
   "regularRecordingBenefit": "Regular recording helps with baby health management.",
   "@regularRecordingBenefit": {
     "description": "Smart insight message about regular recording benefits"
+  },
+
+  "diaperColorYellow": "Yellow",
+  "@diaperColorYellow": {
+    "description": "Diaper color: Yellow"
+  },
+
+  "diaperColorBrown": "Brown",
+  "@diaperColorBrown": {
+    "description": "Diaper color: Brown"
+  },
+
+  "diaperColorGreen": "Green",
+  "@diaperColorGreen": {
+    "description": "Diaper color: Green"
+  },
+
+  "diaperColorBlack": "Black",
+  "@diaperColorBlack": {
+    "description": "Diaper color: Black"
+  },
+
+  "diaperColorOrange": "Orange",
+  "@diaperColorOrange": {
+    "description": "Diaper color: Orange"
+  },
+
+  "diaperConsistencyNormal": "Normal",
+  "@diaperConsistencyNormal": {
+    "description": "Diaper consistency: Normal"
+  },
+
+  "diaperConsistencyLoose": "Loose",
+  "@diaperConsistencyLoose": {
+    "description": "Diaper consistency: Loose"
+  },
+
+  "diaperConsistencyHard": "Hard",
+  "@diaperConsistencyHard": {
+    "description": "Diaper consistency: Hard"
+  },
+
+  "diaperConsistencyWatery": "Watery",
+  "@diaperConsistencyWatery": {
+    "description": "Diaper consistency: Watery"
+  },
+
+  "foodRicePorridge": "Rice porridge",
+  "@foodRicePorridge": {
+    "description": "Food name: Rice porridge"
+  },
+
+  "foodBabyRiceCereal": "Rice cereal",
+  "@foodBabyRiceCereal": {
+    "description": "Food name: Rice cereal"
+  },
+
+  "foodBanana": "Banana",
+  "@foodBanana": {
+    "description": "Food name: Banana"
+  },
+
+  "foodApple": "Apple",
+  "@foodApple": {
+    "description": "Food name: Apple"
+  },
+
+  "foodCarrot": "Carrot",
+  "@foodCarrot": {
+    "description": "Food name: Carrot"
+  },
+
+  "foodPumpkin": "Pumpkin",
+  "@foodPumpkin": {
+    "description": "Food name: Pumpkin"
+  },
+
+  "foodSweetPotato": "Sweet potato",
+  "@foodSweetPotato": {
+    "description": "Food name: Sweet potato"
+  },
+
+  "medicationFeverReducer": "Fever reducer",
+  "@medicationFeverReducer": {
+    "description": "Medication name: Fever reducer"
+  },
+
+  "medicationColdMedicine": "Cold medicine",
+  "@medicationColdMedicine": {
+    "description": "Medication name: Cold medicine"
+  },
+
+  "medicationDigestiveAid": "Digestive aid",
+  "@medicationDigestiveAid": {
+    "description": "Medication name: Digestive aid"
+  },
+
+  "medicationPainReliever": "Pain reliever",
+  "@medicationPainReliever": {
+    "description": "Medication name: Pain reliever"
+  },
+
+  "medicationAntibiotics": "Antibiotics",
+  "@medicationAntibiotics": {
+    "description": "Medication name: Antibiotics"
+  },
+
+  "medicationVitamins": "Vitamins",
+  "@medicationVitamins": {
+    "description": "Medication name: Vitamins"
   }
 }

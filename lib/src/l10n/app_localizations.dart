@@ -5987,6 +5987,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Regular recording helps with baby health management.'**
   String get regularRecordingBenefit;
+
+  /// Diaper color: Yellow
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow'**
+  String get diaperColorYellow;
+
+  /// Diaper color: Brown
+  ///
+  /// In en, this message translates to:
+  /// **'Brown'**
+  String get diaperColorBrown;
+
+  /// Diaper color: Green
+  ///
+  /// In en, this message translates to:
+  /// **'Green'**
+  String get diaperColorGreen;
+
+  /// Diaper color: Black
+  ///
+  /// In en, this message translates to:
+  /// **'Black'**
+  String get diaperColorBlack;
+
+  /// Diaper color: Orange
+  ///
+  /// In en, this message translates to:
+  /// **'Orange'**
+  String get diaperColorOrange;
+
+  /// Diaper consistency: Normal
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get diaperConsistencyNormal;
+
+  /// Diaper consistency: Loose
+  ///
+  /// In en, this message translates to:
+  /// **'Loose'**
+  String get diaperConsistencyLoose;
+
+  /// Diaper consistency: Hard
+  ///
+  /// In en, this message translates to:
+  /// **'Hard'**
+  String get diaperConsistencyHard;
+
+  /// Diaper consistency: Watery
+  ///
+  /// In en, this message translates to:
+  /// **'Watery'**
+  String get diaperConsistencyWatery;
+
+  /// Food name: Rice porridge
+  ///
+  /// In en, this message translates to:
+  /// **'Rice porridge'**
+  String get foodRicePorridge;
+
+  /// Food name: Rice cereal
+  ///
+  /// In en, this message translates to:
+  /// **'Rice cereal'**
+  String get foodBabyRiceCereal;
+
+  /// Food name: Banana
+  ///
+  /// In en, this message translates to:
+  /// **'Banana'**
+  String get foodBanana;
+
+  /// Food name: Apple
+  ///
+  /// In en, this message translates to:
+  /// **'Apple'**
+  String get foodApple;
+
+  /// Food name: Carrot
+  ///
+  /// In en, this message translates to:
+  /// **'Carrot'**
+  String get foodCarrot;
+
+  /// Food name: Pumpkin
+  ///
+  /// In en, this message translates to:
+  /// **'Pumpkin'**
+  String get foodPumpkin;
+
+  /// Food name: Sweet potato
+  ///
+  /// In en, this message translates to:
+  /// **'Sweet potato'**
+  String get foodSweetPotato;
+
+  /// Medication name: Fever reducer
+  ///
+  /// In en, this message translates to:
+  /// **'Fever reducer'**
+  String get medicationFeverReducer;
+
+  /// Medication name: Cold medicine
+  ///
+  /// In en, this message translates to:
+  /// **'Cold medicine'**
+  String get medicationColdMedicine;
+
+  /// Medication name: Digestive aid
+  ///
+  /// In en, this message translates to:
+  /// **'Digestive aid'**
+  String get medicationDigestiveAid;
+
+  /// Medication name: Pain reliever
+  ///
+  /// In en, this message translates to:
+  /// **'Pain reliever'**
+  String get medicationPainReliever;
+
+  /// Medication name: Antibiotics
+  ///
+  /// In en, this message translates to:
+  /// **'Antibiotics'**
+  String get medicationAntibiotics;
+
+  /// Medication name: Vitamins
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamins'**
+  String get medicationVitamins;
 }
 
 class _AppLocalizationsDelegate

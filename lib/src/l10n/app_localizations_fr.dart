@@ -3295,4 +3295,70 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get regularRecordingBenefit =>
       'Regular recording helps with baby health management.';
+
+  @override
+  String get diaperColorYellow => 'Yellow';
+
+  @override
+  String get diaperColorBrown => 'Brown';
+
+  @override
+  String get diaperColorGreen => 'Green';
+
+  @override
+  String get diaperColorBlack => 'Black';
+
+  @override
+  String get diaperColorOrange => 'Orange';
+
+  @override
+  String get diaperConsistencyNormal => 'Normal';
+
+  @override
+  String get diaperConsistencyLoose => 'Loose';
+
+  @override
+  String get diaperConsistencyHard => 'Hard';
+
+  @override
+  String get diaperConsistencyWatery => 'Watery';
+
+  @override
+  String get foodRicePorridge => 'Rice porridge';
+
+  @override
+  String get foodBabyRiceCereal => 'Rice cereal';
+
+  @override
+  String get foodBanana => 'Banana';
+
+  @override
+  String get foodApple => 'Apple';
+
+  @override
+  String get foodCarrot => 'Carrot';
+
+  @override
+  String get foodPumpkin => 'Pumpkin';
+
+  @override
+  String get foodSweetPotato => 'Sweet potato';
+
+  @override
+  String get medicationFeverReducer => 'Fever reducer';
+
+  @override
+  String get medicationColdMedicine => 'Cold medicine';
+
+  @override
+  String get medicationDigestiveAid => 'Digestive aid';
+
+  @override
+  String get medicationPainReliever => 'Pain reliever';
+
+  @override
+  String get medicationAntibiotics => 'Antibiotics';
+
+  @override
+  String get medicationVitamins => 'Vitamins';
 }

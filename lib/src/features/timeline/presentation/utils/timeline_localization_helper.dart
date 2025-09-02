@@ -3,6 +3,86 @@ import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/timeline_item.dart';
 
 class TimelineLocalizationHelper {
+  // Helper method to get localized color
+  static String _getLocalizedColor(BuildContext context, String color) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (color) {
+      case '노란색':
+        return l10n.diaperColorYellow;
+      case '갈색':
+        return l10n.diaperColorBrown;
+      case '초록색':
+        return l10n.diaperColorGreen;
+      case '검은색':
+        return l10n.diaperColorBlack;
+      case '주황색':
+        return l10n.diaperColorOrange;
+      default:
+        return color;
+    }
+  }
+  
+  // Helper method to get localized consistency
+  static String _getLocalizedConsistency(BuildContext context, String consistency) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (consistency) {
+      case '보통':
+        return l10n.diaperConsistencyNormal;
+      case '묽은':
+        return l10n.diaperConsistencyLoose;
+      case '딱딱한':
+        return l10n.diaperConsistencyHard;
+      case '물같은':
+        return l10n.diaperConsistencyWatery;
+      default:
+        return consistency;
+    }
+  }
+  
+  // Helper method to get localized food name
+  static String _getLocalizedFood(BuildContext context, String food) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (food) {
+      case '미음':
+        return l10n.foodRicePorridge;
+      case '쌌죽':
+        return l10n.foodBabyRiceCereal;
+      case '바나나':
+        return l10n.foodBanana;
+      case '사과':
+        return l10n.foodApple;
+      case '당근':
+        return l10n.foodCarrot;
+      case '호박':
+        return l10n.foodPumpkin;
+      case '고구마':
+        return l10n.foodSweetPotato;
+      default:
+        return food;
+    }
+  }
+  
+  // Helper method to get localized medication name
+  static String _getLocalizedMedication(BuildContext context, String medication) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (medication) {
+      case '해열제':
+        return l10n.medicationFeverReducer;
+      case '감기약':
+        return l10n.medicationColdMedicine;
+      case '소화제':
+        return l10n.medicationDigestiveAid;
+      case '진통제':
+        return l10n.medicationPainReliever;
+      case '항생제':
+        return l10n.medicationAntibiotics;
+      case '비타민':
+        return l10n.medicationVitamins;
+      default:
+        return medication;
+    }
+  }
+
   // Helper method to get localized title
   static String getLocalizedTitle(BuildContext context, TimelineItem item) {
     final l10n = AppLocalizations.of(context)!;
@@ -164,13 +244,20 @@ class TimelineLocalizationHelper {
           processedParts.add('(${l10n.both})');
         } else if (part.startsWith('color:')) {
           final color = part.substring(6);
-          processedParts.add('(${l10n.colorLabel}: $color)');
+          final localizedColor = _getLocalizedColor(context, color);
+          processedParts.add('(${l10n.colorLabel}: $localizedColor)');
         } else if (part.startsWith('consistency:')) {
           final consistency = part.substring(12);
-          processedParts.add('(${l10n.consistencyLabel}: $consistency)');
+          final localizedConsistency = _getLocalizedConsistency(context, consistency);
+          processedParts.add('(${l10n.consistencyLabel}: $localizedConsistency)');
         } else if (part.isNotEmpty) {
-          // If it's a food name or medication name, keep it as is
-          processedParts.add(part);
+          // If it's a food name or medication name, localize it
+          final localizedFood = _getLocalizedFood(context, part);
+          final localizedMedication = _getLocalizedMedication(context, part);
+          // Use localized version if different from original, otherwise use original
+          final localizedPart = localizedFood != part ? localizedFood : 
+                               localizedMedication != part ? localizedMedication : part;
+          processedParts.add(localizedPart);
         }
       }
       
@@ -193,10 +280,12 @@ class TimelineLocalizationHelper {
           result += ' (${l10n.both})';
         } else if (part.startsWith('color:')) {
           final color = part.substring(6);
-          result += ' (${l10n.colorLabel}: $color)';
+          final localizedColor = _getLocalizedColor(context, color);
+          result += ' (${l10n.colorLabel}: $localizedColor)';
         } else if (part.startsWith('consistency:')) {
           final consistency = part.substring(12);
-          result += ' (${l10n.consistencyLabel}: $consistency)';
+          final localizedConsistency = _getLocalizedConsistency(context, consistency);
+          result += ' (${l10n.consistencyLabel}: $localizedConsistency)';
         }
       }
     }
