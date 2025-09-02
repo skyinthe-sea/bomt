@@ -3048,4 +3048,17 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get dailyTotalMilkPumpingAmount => 'Total jumlah harian yang dipompa';
+
+  @override
+  String get maximumSleepDuration => 'Durasi tidur maksimum';
+
+  @override
+  String get minimumSleepDuration => 'Durasi tidur minimum';
+
+  @override
+  String get allergicReactionCount => 'Jumlah reaksi alergi';
+
+  @override
+  String get dailyAverageMilkPumpingCount =>
+      'Rata-rata jumlah pompa ASI harian';
 }

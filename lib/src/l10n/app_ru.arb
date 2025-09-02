@@ -965,5 +965,10 @@
   "maximumFeedingAmount": "Максимальное количество кормления",
   "minimumFeedingAmount": "Минимальное количество кормления",
   "totalSleepDuration": "Общая продолжительность сна",
-  "dailyTotalMilkPumpingAmount": "Ежедневное общее количество сцеженного"
+  "dailyTotalMilkPumpingAmount": "Ежедневное общее количество сцеженного",
+  
+  "maximumSleepDuration": "Максимальная продолжительность сна",
+  "minimumSleepDuration": "Минимальная продолжительность сна",
+  "allergicReactionCount": "Количество аллергических реакций",
+  "dailyAverageMilkPumpingCount": "Ежедневное среднее количество сцеживаний"
 }

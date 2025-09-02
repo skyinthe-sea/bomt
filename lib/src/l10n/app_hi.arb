@@ -954,5 +954,10 @@
   "maximumFeedingAmount": "अधिकतम फीडिंग मात्रा",
   "minimumFeedingAmount": "न्यूनतम फीडिंग मात्रा",
   "totalSleepDuration": "कुल नींद अवधि",
-  "dailyTotalMilkPumpingAmount": "दैनिक कुल पंप की गई मात्रा"
+  "dailyTotalMilkPumpingAmount": "दैनिक कुल पंप की गई मात्रा",
+  
+  "maximumSleepDuration": "अधिकतम नींद अवधि",
+  "minimumSleepDuration": "न्यूनतम नींद अवधि",
+  "allergicReactionCount": "एलर्जी की प्रतिक्रिया संख्या",
+  "dailyAverageMilkPumpingCount": "दैनिक औसत दूध पंप संख्या"
 }

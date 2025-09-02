@@ -965,5 +965,10 @@
   "maximumFeedingAmount": "Cantidad máxima de alimentación",
   "minimumFeedingAmount": "Cantidad mínima de alimentación",
   "totalSleepDuration": "Duración total del sueño",
-  "dailyTotalMilkPumpingAmount": "Cantidad total diaria extraída"
+  "dailyTotalMilkPumpingAmount": "Cantidad total diaria extraída",
+  
+  "maximumSleepDuration": "Duración máxima del sueño",
+  "minimumSleepDuration": "Duración mínima del sueño",
+  "allergicReactionCount": "Conteo de reacciones alérgicas",
+  "dailyAverageMilkPumpingCount": "Conteo promedio diario de extracción de leche"
 }

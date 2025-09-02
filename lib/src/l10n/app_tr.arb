@@ -965,5 +965,10 @@
   "maximumFeedingAmount": "Maksimum emzirme miktarı",
   "minimumFeedingAmount": "Minimum emzirme miktarı",
   "totalSleepDuration": "Toplam uyku süresi",
-  "dailyTotalMilkPumpingAmount": "Günlük toplam pompalanan miktar"
+  "dailyTotalMilkPumpingAmount": "Günlük toplam pompalanan miktar",
+  
+  "maximumSleepDuration": "Maksimum uyku süresi",
+  "minimumSleepDuration": "Minimum uyku süresi",
+  "allergicReactionCount": "Alerjik reaksiyon sayısı",
+  "dailyAverageMilkPumpingCount": "Günlük ortalama süt pompalama sayısı"
 }

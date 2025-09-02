@@ -965,5 +965,10 @@
   "maximumFeedingAmount": "Pinakamataas na dami ng pagpapasuso",
   "minimumFeedingAmount": "Pinakamababa na dami ng pagpapasuso",
   "totalSleepDuration": "Kabuuang tagal ng tulog",
-  "dailyTotalMilkPumpingAmount": "Araw-araw na kabuuang naipong dami"
+  "dailyTotalMilkPumpingAmount": "Araw-araw na kabuuang naipong dami",
+  
+  "maximumSleepDuration": "Pinakamataas na tagal ng tulog",
+  "minimumSleepDuration": "Pinakamababa na tagal ng tulog",
+  "allergicReactionCount": "Bilang ng allergic reaction",
+  "dailyAverageMilkPumpingCount": "Araw-araw na karaniwang bilang ng pag-pump ng gatas"
 }

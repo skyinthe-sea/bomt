@@ -5615,6 +5615,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Daily total pumped amount'**
   String get dailyTotalMilkPumpingAmount;
+
+  /// No description provided for @maximumSleepDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum sleep duration'**
+  String get maximumSleepDuration;
+
+  /// No description provided for @minimumSleepDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum sleep duration'**
+  String get minimumSleepDuration;
+
+  /// No description provided for @allergicReactionCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Allergic reaction count'**
+  String get allergicReactionCount;
+
+  /// No description provided for @dailyAverageMilkPumpingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily average milk pumping count'**
+  String get dailyAverageMilkPumpingCount;
 }
 
 class _AppLocalizationsDelegate

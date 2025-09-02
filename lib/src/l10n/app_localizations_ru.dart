@@ -3054,4 +3054,17 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get dailyTotalMilkPumpingAmount =>
       'Ежедневное общее количество сцеженного';
+
+  @override
+  String get maximumSleepDuration => 'Максимальная продолжительность сна';
+
+  @override
+  String get minimumSleepDuration => 'Минимальная продолжительность сна';
+
+  @override
+  String get allergicReactionCount => 'Количество аллергических реакций';
+
+  @override
+  String get dailyAverageMilkPumpingCount =>
+      'Ежедневное среднее количество сцеживаний';
 }

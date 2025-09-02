@@ -3047,4 +3047,17 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get dailyTotalMilkPumpingAmount => 'Günlük toplam pompalanan miktar';
+
+  @override
+  String get maximumSleepDuration => 'Maksimum uyku süresi';
+
+  @override
+  String get minimumSleepDuration => 'Minimum uyku süresi';
+
+  @override
+  String get allergicReactionCount => 'Alerjik reaksiyon sayısı';
+
+  @override
+  String get dailyAverageMilkPumpingCount =>
+      'Günlük ortalama süt pompalama sayısı';
 }

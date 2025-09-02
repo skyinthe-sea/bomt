@@ -1033,5 +1033,10 @@
   "maximumFeedingAmount": "Maximale Stillmenge",
   "minimumFeedingAmount": "Minimale Stillmenge",
   "totalSleepDuration": "Gesamtschlafdauer",
-  "dailyTotalMilkPumpingAmount": "Tägliche Gesamtabpumpmenge"
+  "dailyTotalMilkPumpingAmount": "Tägliche Gesamtabpumpmenge",
+  
+  "maximumSleepDuration": "Maximale Schlafdauer",
+  "minimumSleepDuration": "Minimale Schlafdauer",
+  "allergicReactionCount": "Anzahl allergischer Reaktionen",
+  "dailyAverageMilkPumpingCount": "Tägliche durchschnittliche Abpumpanzahl"
 }

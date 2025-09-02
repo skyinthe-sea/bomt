@@ -1202,5 +1202,10 @@
   "maximumFeedingAmount": "最大授乳量",
   "minimumFeedingAmount": "最小授乳量",
   "totalSleepDuration": "総睡眠時間",
-  "dailyTotalMilkPumpingAmount": "日別総搮乳量"
+  "dailyTotalMilkPumpingAmount": "日別総搮乳量",
+  
+  "maximumSleepDuration": "最大睡眠時間",
+  "minimumSleepDuration": "最小睡眠時間",
+  "allergicReactionCount": "アレルギー反応回数",
+  "dailyAverageMilkPumpingCount": "日別平均搾乳回数"
 }

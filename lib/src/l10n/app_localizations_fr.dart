@@ -3070,4 +3070,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get dailyTotalMilkPumpingAmount => 'Quantité totale quotidienne tirée';
+
+  @override
+  String get maximumSleepDuration => 'Durée maximale de sommeil';
+
+  @override
+  String get minimumSleepDuration => 'Durée minimale de sommeil';
+
+  @override
+  String get allergicReactionCount => 'Nombre de réactions allergiques';
+
+  @override
+  String get dailyAverageMilkPumpingCount =>
+      'Nombre moyen quotidien de tirages de lait';
 }

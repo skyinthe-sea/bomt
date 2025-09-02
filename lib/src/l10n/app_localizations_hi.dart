@@ -3045,4 +3045,16 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get dailyTotalMilkPumpingAmount => 'दैनिक कुल पंप की गई मात्रा';
+
+  @override
+  String get maximumSleepDuration => 'अधिकतम नींद अवधि';
+
+  @override
+  String get minimumSleepDuration => 'न्यूनतम नींद अवधि';
+
+  @override
+  String get allergicReactionCount => 'एलर्जी की प्रतिक्रिया संख्या';
+
+  @override
+  String get dailyAverageMilkPumpingCount => 'दैनिक औसत दूध पंप संख्या';
 }

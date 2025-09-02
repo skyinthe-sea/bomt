@@ -341,6 +341,10 @@ class _StatisticsCard extends StatelessWidget {
       case 'Daily total sleep duration':
       case 'Daily average total sleep time':
         return l10n.dailyTotalSleepDuration;
+      case 'Maximum sleep duration':
+        return l10n.maximumSleepDuration;
+      case 'Minimum sleep duration':
+        return l10n.minimumSleepDuration;
       case 'Daily average sleep count':
         return l10n.dailyAverageSleepCount;
       
@@ -348,11 +352,11 @@ class _StatisticsCard extends StatelessWidget {
       case '하루 평균 교체 횟수':
         return l10n.dailyAverageDiaperChangeCount;
       case '소변 기저귀':
-        return '${l10n.wetDiaper} 기저귀';
+        return l10n.wetDiaper;
       case '대변 기저귀':
-        return '${l10n.dirtyDiaper} 기저귀';
+        return l10n.dirtyDiaper;
       case '소변+대변 기저귀':
-        return '${l10n.bothDiaper} 기저귀';
+        return l10n.bothDiaper;
       
       // 기저귀 관련 (영어)
       case 'Daily average diaper change count':
@@ -380,13 +384,15 @@ class _StatisticsCard extends StatelessWidget {
       case '하루 평균 총 유축량':
         return l10n.dailyTotalMilkPumpingAmount;
       case '하루 평균 유축 횟수':
-        return '하루 평균 유축 횟수'; // Fallback until key is created
+        return l10n.dailyAverageMilkPumpingCount;
       
       // 유축 관련 (영어)
       case 'Total pumped amount':
         return l10n.totalPumpedAmount;
       case 'Average pumped amount':
         return l10n.averagePumpedAmount;
+      case 'Daily average milk pumping count':
+        return l10n.dailyAverageMilkPumpingCount;
       
       // 이유식 관련 (한국어)
       case '하루 평균 이유식 횟수':
@@ -394,7 +400,7 @@ class _StatisticsCard extends StatelessWidget {
       case '시도한 음식 종류':
         return l10n.triedFoodTypes;
       case '알레르기 반응 횟수':
-        return '알레르기 반응 횟수'; // Fallback until key is created
+        return l10n.allergicReactionCount;
       
       // 이유식 관련 (영어)
       case 'Daily average solid food count':
@@ -402,6 +408,8 @@ class _StatisticsCard extends StatelessWidget {
       case 'Types of food tried':
       case 'Tried food types':
         return l10n.triedFoodTypes;
+      case 'Allergic reaction count':
+        return l10n.allergicReactionCount;
       
       // 기본값: 원래 라벨 반환 (번역이 없는 경우)
       default:
@@ -816,9 +824,9 @@ class _StatisticsDetailDialog extends StatelessWidget {
       case '하루 평균 수면 횟수':
         return l10n.dailyAverageSleepCount;
       case '최대 수면 시간':
-        return '최대 수면 시간'; // Fallback until key is created
+        return l10n.maximumSleepDuration;
       case '최소 수면 시간':
-        return '최소 수면 시간'; // Fallback until key is created
+        return l10n.minimumSleepDuration;
       
       // 수면 관련 (영어)
       case 'Average sleep duration':
@@ -826,6 +834,10 @@ class _StatisticsDetailDialog extends StatelessWidget {
       case 'Daily total sleep duration':
       case 'Daily average total sleep time':
         return l10n.dailyTotalSleepDuration;
+      case 'Maximum sleep duration':
+        return l10n.maximumSleepDuration;
+      case 'Minimum sleep duration':
+        return l10n.minimumSleepDuration;
       case 'Daily average sleep count':
         return l10n.dailyAverageSleepCount;
       
@@ -833,11 +845,11 @@ class _StatisticsDetailDialog extends StatelessWidget {
       case '하루 평균 교체 횟수':
         return l10n.dailyAverageDiaperChangeCount;
       case '소변 기저귀':
-        return '${l10n.wetDiaper} 기저귀';
+        return l10n.wetDiaper;
       case '대변 기저귀':
-        return '${l10n.dirtyDiaper} 기저귀';
+        return l10n.dirtyDiaper;
       case '소변+대변 기저귀':
-        return '${l10n.bothDiaper} 기저귀';
+        return l10n.bothDiaper;
       
       // 기저귀 관련 (영어)
       case 'Daily average diaper change count':
@@ -865,13 +877,15 @@ class _StatisticsDetailDialog extends StatelessWidget {
       case '하루 평균 총 유축량':
         return l10n.dailyTotalMilkPumpingAmount;
       case '하루 평균 유축 횟수':
-        return '하루 평균 유축 횟수'; // Fallback until key is created
+        return l10n.dailyAverageMilkPumpingCount;
       
       // 유축 관련 (영어)
       case 'Total pumped amount':
         return l10n.totalPumpedAmount;
       case 'Average pumped amount':
         return l10n.averagePumpedAmount;
+      case 'Daily average milk pumping count':
+        return l10n.dailyAverageMilkPumpingCount;
       
       // 이유식 관련 (한국어)
       case '하루 평균 이유식 횟수':
@@ -879,7 +893,7 @@ class _StatisticsDetailDialog extends StatelessWidget {
       case '시도한 음식 종류':
         return l10n.triedFoodTypes;
       case '알레르기 반응 횟수':
-        return '알레르기 반응 횟수'; // Fallback until key is created
+        return l10n.allergicReactionCount;
       
       // 이유식 관련 (영어)
       case 'Daily average solid food count':
@@ -887,6 +901,8 @@ class _StatisticsDetailDialog extends StatelessWidget {
       case 'Types of food tried':
       case 'Tried food types':
         return l10n.triedFoodTypes;
+      case 'Allergic reaction count':
+        return l10n.allergicReactionCount;
       
       default:
         return originalLabel;

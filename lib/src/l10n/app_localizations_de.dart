@@ -3068,4 +3068,17 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dailyTotalMilkPumpingAmount => 'Tägliche Gesamtabpumpmenge';
+
+  @override
+  String get maximumSleepDuration => 'Maximale Schlafdauer';
+
+  @override
+  String get minimumSleepDuration => 'Minimale Schlafdauer';
+
+  @override
+  String get allergicReactionCount => 'Anzahl allergischer Reaktionen';
+
+  @override
+  String get dailyAverageMilkPumpingCount =>
+      'Tägliche durchschnittliche Abpumpanzahl';
 }

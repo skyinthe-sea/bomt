@@ -3063,4 +3063,17 @@ class AppLocalizationsTl extends AppLocalizations {
   @override
   String get dailyTotalMilkPumpingAmount =>
       'Araw-araw na kabuuang naipong dami';
+
+  @override
+  String get maximumSleepDuration => 'Pinakamataas na tagal ng tulog';
+
+  @override
+  String get minimumSleepDuration => 'Pinakamababa na tagal ng tulog';
+
+  @override
+  String get allergicReactionCount => 'Bilang ng allergic reaction';
+
+  @override
+  String get dailyAverageMilkPumpingCount =>
+      'Araw-araw na karaniwang bilang ng pag-pump ng gatas';
 }

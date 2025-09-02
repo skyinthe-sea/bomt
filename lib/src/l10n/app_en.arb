@@ -2116,5 +2116,10 @@
   "maximumFeedingAmount": "Maximum feeding amount",
   "minimumFeedingAmount": "Minimum feeding amount",
   "totalSleepDuration": "Total sleep duration",
-  "dailyTotalMilkPumpingAmount": "Daily total pumped amount"
+  "dailyTotalMilkPumpingAmount": "Daily total pumped amount",
+  
+  "maximumSleepDuration": "Maximum sleep duration",
+  "minimumSleepDuration": "Minimum sleep duration",
+  "allergicReactionCount": "Allergic reaction count",
+  "dailyAverageMilkPumpingCount": "Daily average milk pumping count"
 }

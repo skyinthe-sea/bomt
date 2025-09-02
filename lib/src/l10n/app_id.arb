@@ -965,5 +965,10 @@
   "maximumFeedingAmount": "Jumlah menyusui maksimum",
   "minimumFeedingAmount": "Jumlah menyusui minimum",
   "totalSleepDuration": "Total durasi tidur",
-  "dailyTotalMilkPumpingAmount": "Total jumlah harian yang dipompa"
+  "dailyTotalMilkPumpingAmount": "Total jumlah harian yang dipompa",
+  
+  "maximumSleepDuration": "Durasi tidur maksimum",
+  "minimumSleepDuration": "Durasi tidur minimum",
+  "allergicReactionCount": "Jumlah reaksi alergi",
+  "dailyAverageMilkPumpingCount": "Rata-rata jumlah pompa ASI harian"
 }

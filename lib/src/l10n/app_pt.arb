@@ -1033,5 +1033,10 @@
   "maximumFeedingAmount": "Quantidade máxima de alimentação",
   "minimumFeedingAmount": "Quantidade mínima de alimentação",
   "totalSleepDuration": "Duração total do sono",
-  "dailyTotalMilkPumpingAmount": "Quantidade total diária ordenhada"
+  "dailyTotalMilkPumpingAmount": "Quantidade total diária ordenhada",
+  
+  "maximumSleepDuration": "Duração máxima do sono",
+  "minimumSleepDuration": "Duração mínima do sono",
+  "allergicReactionCount": "Contagem de reações alérgicas",
+  "dailyAverageMilkPumpingCount": "Contagem média diária de ordenha"
 }

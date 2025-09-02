@@ -2995,4 +2995,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dailyTotalMilkPumpingAmount => '日別総搮乳量';
+
+  @override
+  String get maximumSleepDuration => '最大睡眠時間';
+
+  @override
+  String get minimumSleepDuration => '最小睡眠時間';
+
+  @override
+  String get allergicReactionCount => 'アレルギー反応回数';
+
+  @override
+  String get dailyAverageMilkPumpingCount => '日別平均搾乳回数';
 }

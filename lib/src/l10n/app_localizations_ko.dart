@@ -3003,4 +3003,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get dailyTotalMilkPumpingAmount => '하루 평균 총 유축량';
+
+  @override
+  String get maximumSleepDuration => '최대 수면 시간';
+
+  @override
+  String get minimumSleepDuration => '최소 수면 시간';
+
+  @override
+  String get allergicReactionCount => '알레르기 반응 횟수';
+
+  @override
+  String get dailyAverageMilkPumpingCount => '하루 평균 유축 횟수';
 }

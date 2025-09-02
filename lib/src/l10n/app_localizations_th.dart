@@ -3041,4 +3041,16 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get dailyTotalMilkPumpingAmount => 'ปริมาณนมที่ปั้มทั้งหมดรายวัน';
+
+  @override
+  String get maximumSleepDuration => 'ระยะเวลาการนอนสูงสุด';
+
+  @override
+  String get minimumSleepDuration => 'ระยะเวลาการนอนต่ำสุด';
+
+  @override
+  String get allergicReactionCount => 'จำนวนการแพ้';
+
+  @override
+  String get dailyAverageMilkPumpingCount => 'จำนวนการปั้มนมเฉลี่ยรายวัน';
 }

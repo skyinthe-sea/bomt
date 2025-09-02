@@ -1305,5 +1305,10 @@
   "maximumFeedingAmount": "ปริมาณการให้นมสูงสุด",
   "minimumFeedingAmount": "ปริมาณการให้นมต่ำสุด",
   "totalSleepDuration": "ระยะเวลาการนอนทั้งหมด",
-  "dailyTotalMilkPumpingAmount": "ปริมาณนมที่ปั้มทั้งหมดรายวัน"
+  "dailyTotalMilkPumpingAmount": "ปริมาณนมที่ปั้มทั้งหมดรายวัน",
+  
+  "maximumSleepDuration": "ระยะเวลาการนอนสูงสุด",
+  "minimumSleepDuration": "ระยะเวลาการนอนต่ำสุด",
+  "allergicReactionCount": "จำนวนการแพ้",
+  "dailyAverageMilkPumpingCount": "จำนวนการปั้มนมเฉลี่ยรายวัน"
 }
