@@ -2566,5 +2566,265 @@
   "medicationVitamins": "Vitamins",
   "@medicationVitamins": {
     "description": "Medication name: Vitamins"
+  },
+
+  "defaultValueSettings": "Default Settings",
+  "@defaultValueSettings": {
+    "description": "Default value settings dialog title"
+  },
+
+  "setDefaultValuesForQuickRecording": "Set default values for quick recording",
+  "@setDefaultValuesForQuickRecording": {
+    "description": "Description for setting default values"
+  },
+
+  "feedingType": "Feeding Type",
+  "@feedingType": {
+    "description": "Label for feeding type selection"
+  },
+
+  "breastMilk": "Breast Milk",
+  "@breastMilk": {
+    "description": "Breast milk feeding option"
+  },
+
+  "bottle": "Bottle",
+  "@bottle": {
+    "description": "Bottle feeding option"
+  },
+
+  "formulaMilk": "Formula",
+  "@formulaMilk": {
+    "description": "Formula milk feeding option"
+  },
+
+  "solidFoodFeeding": "Solid Food",
+  "@solidFoodFeeding": {
+    "description": "Solid food feeding option"
+  },
+
+  "feedingAmountMl": "Feeding Amount (ml)",
+  "@feedingAmountMl": {
+    "description": "Label for feeding amount in milliliters"
+  },
+
+  "feedingTimeMinutes": "Feeding Time (minutes)",
+  "@feedingTimeMinutes": {
+    "description": "Label for feeding time in minutes"
+  },
+
+  "feedingPosition": "Feeding Position",
+  "@feedingPosition": {
+    "description": "Label for feeding position"
+  },
+
+  "sleepTimeMinutes": "Sleep Time (minutes)",
+  "@sleepTimeMinutes": {
+    "description": "Label for sleep time in minutes"
+  },
+
+  "sleepQuality": "Sleep Quality",
+  "@sleepQuality": {
+    "description": "Label for sleep quality"
+  },
+
+  "sleepQualityGood": "Good",
+  "@sleepQualityGood": {
+    "description": "Good sleep quality option"
+  },
+
+  "sleepQualityFair": "Fair",
+  "@sleepQualityFair": {
+    "description": "Fair sleep quality option"
+  },
+
+  "sleepQualityPoor": "Poor",
+  "@sleepQualityPoor": {
+    "description": "Poor sleep quality option"
+  },
+
+  "sleepLocation": "Sleep Location",
+  "@sleepLocation": {
+    "description": "Label for sleep location"
+  },
+
+  "bedroom": "Bedroom",
+  "@bedroom": {
+    "description": "Bedroom sleep location option"
+  },
+
+  "livingRoom": "Living Room",
+  "@livingRoom": {
+    "description": "Living room sleep location option"
+  },
+
+  "stroller": "Stroller",
+  "@stroller": {
+    "description": "Stroller sleep location option"
+  },
+
+  "car": "Car",
+  "@car": {
+    "description": "Car sleep location option"
+  },
+
+  "outdoors": "Outdoors",
+  "@outdoors": {
+    "description": "Outdoors sleep location option"
+  },
+
+  "other": "Other",
+  "@other": {
+    "description": "Other option"
+  },
+
+  "stoolColorWhenDirty": "Color (when dirty)",
+  "@stoolColorWhenDirty": {
+    "description": "Label for stool color when diaper is dirty"
+  },
+
+  "stoolConsistencyWhenDirty": "Consistency (when dirty)",
+  "@stoolConsistencyWhenDirty": {
+    "description": "Label for stool consistency when diaper is dirty"
+  },
+
+  "diaperColorGreenish": "Greenish",
+  "@diaperColorGreenish": {
+    "description": "Greenish diaper color option"
+  },
+
+  "diaperColorWhite": "White",
+  "@diaperColorWhite": {
+    "description": "White diaper color option"
+  },
+
+  "diaperConsistencyLooseAlt": "Loose",
+  "@diaperConsistencyLooseAlt": {
+    "description": "Loose diaper consistency option"
+  },
+
+  "diaperConsistencyHardAlt": "Hard",
+  "@diaperConsistencyHardAlt": {
+    "description": "Hard diaper consistency option"
+  },
+
+  "foodName": "Food Name",
+  "@foodName": {
+    "description": "Label for food name"
+  },
+
+  "amountGrams": "Amount (g)",
+  "@amountGrams": {
+    "description": "Label for amount in grams"
+  },
+
+  "allergicReaction": "Allergic Reaction",
+  "@allergicReaction": {
+    "description": "Label for allergic reaction"
+  },
+
+  "allergicReactionNone": "None",
+  "@allergicReactionNone": {
+    "description": "No allergic reaction option"
+  },
+
+  "allergicReactionMild": "Mild",
+  "@allergicReactionMild": {
+    "description": "Mild allergic reaction option"
+  },
+
+  "allergicReactionModerate": "Moderate",
+  "@allergicReactionModerate": {
+    "description": "Moderate allergic reaction option"
+  },
+
+  "allergicReactionSevere": "Severe",
+  "@allergicReactionSevere": {
+    "description": "Severe allergic reaction option"
+  },
+
+  "medicationName": "Medication Name",
+  "@medicationName": {
+    "description": "Label for medication name"
+  },
+
+  "dosage": "Dosage",
+  "@dosage": {
+    "description": "Label for medication dosage"
+  },
+
+  "unit": "Unit",
+  "@unit": {
+    "description": "Label for unit"
+  },
+
+  "tablets": "Tablets",
+  "@tablets": {
+    "description": "Tablets unit option"
+  },
+
+  "drops": "Drops",
+  "@drops": {
+    "description": "Drops unit option"
+  },
+
+  "administrationRoute": "Administration Route",
+  "@administrationRoute": {
+    "description": "Label for administration route"
+  },
+
+  "oral": "Oral",
+  "@oral": {
+    "description": "Oral administration route option"
+  },
+
+  "topical": "Topical",
+  "@topical": {
+    "description": "Topical administration route option"
+  },
+
+  "inhaled": "Inhaled",
+  "@inhaled": {
+    "description": "Inhaled administration route option"
+  },
+
+  "pumpingAmountMl": "Pumping Amount (ml)",
+  "@pumpingAmountMl": {
+    "description": "Label for pumping amount in milliliters"
+  },
+
+  "pumpingTimeMinutes": "Pumping Time (minutes)",
+  "@pumpingTimeMinutes": {
+    "description": "Label for pumping time in minutes"
+  },
+
+  "pumpingPosition": "Pumping Position",
+  "@pumpingPosition": {
+    "description": "Label for pumping position"
+  },
+
+  "storageLocation": "Storage Location",
+  "@storageLocation": {
+    "description": "Label for storage location"
+  },
+
+  "refrigerator": "Refrigerator",
+  "@refrigerator": {
+    "description": "Refrigerator storage option"
+  },
+
+  "freezer": "Freezer",
+  "@freezer": {
+    "description": "Freezer storage option"
+  },
+
+  "roomTemperature": "Room Temperature",
+  "@roomTemperature": {
+    "description": "Room temperature storage option"
+  },
+
+  "useImmediately": "Use Immediately",
+  "@useImmediately": {
+    "description": "Use immediately storage option"
   }
 }

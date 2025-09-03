@@ -53,12 +53,12 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
       case 'sleep':
         _settings.putIfAbsent('duration_minutes', () => 120);
         _settings.putIfAbsent('quality', () => 'good');
-        _settings.putIfAbsent('location', () => '침실');
+        _settings.putIfAbsent('location', () => 'bedroom');
         break;
       case 'diaper':
         _settings.putIfAbsent('type', () => 'wet');
-        _settings.putIfAbsent('color', () => '노란색');
-        _settings.putIfAbsent('consistency', () => '보통');
+        _settings.putIfAbsent('color', () => 'yellow');
+        _settings.putIfAbsent('consistency', () => 'normal');
         break;
       case 'solid_food':
         _settings.putIfAbsent('food_name', () => '미음');
@@ -83,6 +83,7 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -131,7 +132,7 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${widget.cardName} 기본값 설정',
+                          '${widget.cardName} ${l10n.defaultValueSettings}',
                           style: theme.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: theme.colorScheme.onSurface,
@@ -139,7 +140,7 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '빠른 기록을 위한 기본값을 설정하세요',
+                          l10n.setDefaultValuesForQuickRecording,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.onSurface.withOpacity(0.7),
                           ),
@@ -180,7 +181,7 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text('취소'),
+                      child: Text(l10n.cancel),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -195,7 +196,7 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text('저장'),
+                      child: Text(l10n.save),
                     ),
                   ),
                 ],
@@ -229,44 +230,45 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
   
   /// 수유 설정
   Widget _buildFeedingSettings(ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildDropdownField(
           theme: theme,
-          label: '수유 타입',
+          label: l10n.feedingType,
           value: _settings['type'],
           items: [
-            ('breast', '모유'),
-            ('bottle', '젖병'),
-            ('formula', '분유'),
-            ('solid', '이유식'),
+            ('breast', l10n.breastMilk),
+            ('bottle', l10n.bottle),
+            ('formula', l10n.formulaMilk),
+            ('solid', l10n.solidFoodFeeding),
           ],
           onChanged: (value) => setState(() => _settings['type'] = value),
         ),
         const SizedBox(height: 16),
         _buildNumberField(
           theme: theme,
-          label: '수유량 (ml)',
+          label: l10n.feedingAmountMl,
           value: _settings['amount_ml'],
           onChanged: (value) => setState(() => _settings['amount_ml'] = value),
         ),
         const SizedBox(height: 16),
         _buildNumberField(
           theme: theme,
-          label: '수유 시간 (분)',
+          label: l10n.feedingTimeMinutes,
           value: _settings['duration_minutes'],
           onChanged: (value) => setState(() => _settings['duration_minutes'] = value),
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
           theme: theme,
-          label: '수유 위치',
+          label: l10n.feedingPosition,
           value: _settings['side'],
           items: [
-            ('left', '왼쪽'),
-            ('right', '오른쪽'),
-            ('both', '양쪽'),
+            ('left', l10n.left),
+            ('right', l10n.right),
+            ('both', l10n.both),
           ],
           onChanged: (value) => setState(() => _settings['side'] = value),
         ),
@@ -276,39 +278,40 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
   
   /// 수면 설정
   Widget _buildSleepSettings(ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildNumberField(
           theme: theme,
-          label: '수면 시간 (분)',
+          label: l10n.sleepTimeMinutes,
           value: _settings['duration_minutes'],
           onChanged: (value) => setState(() => _settings['duration_minutes'] = value),
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
           theme: theme,
-          label: '수면 품질',
+          label: l10n.sleepQuality,
           value: _settings['quality'],
           items: [
-            ('good', '좋음'),
-            ('fair', '보통'),
-            ('poor', '나쁨'),
+            ('good', l10n.sleepQualityGood),
+            ('fair', l10n.sleepQualityFair),
+            ('poor', l10n.sleepQualityPoor),
           ],
           onChanged: (value) => setState(() => _settings['quality'] = value),
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
           theme: theme,
-          label: '수면 장소',
+          label: l10n.sleepLocation,
           value: _settings['location'],
           items: [
-            ('침실', '침실'),
-            ('거실', '거실'),
-            ('유모차', '유모차'),
-            ('차량', '차량'),
-            ('야외', '야외'),
-            ('기타', '기타'),
+            ('bedroom', l10n.bedroom),
+            ('living_room', l10n.livingRoom),
+            ('stroller', l10n.stroller),
+            ('car', l10n.car),
+            ('outdoors', l10n.outdoors),
+            ('other', l10n.other),
           ],
           onChanged: (value) => setState(() => _settings['location'] = value),
         ),
@@ -318,6 +321,7 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
   
   /// 기저귀 설정
   Widget _buildDiaperSettings(ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -335,27 +339,27 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
         const SizedBox(height: 16),
         _buildDropdownField(
           theme: theme,
-          label: '색상 (대변 시)',
+          label: l10n.stoolColorWhenDirty,
           value: _settings['color'],
           items: [
-            ('노란색', '노란색'),
-            ('갈색', '갈색'),
-            ('녹색', '녹색'),
-            ('주황색', '주황색'),
-            ('검은색', '검은색'),
-            ('하얀색', '하얀색'),
+            ('yellow', l10n.diaperColorYellow),
+            ('brown', l10n.diaperColorBrown),
+            ('green', l10n.diaperColorGreenish),
+            ('orange', l10n.diaperColorOrange),
+            ('black', l10n.diaperColorBlack),
+            ('white', l10n.diaperColorWhite),
           ],
           onChanged: (value) => setState(() => _settings['color'] = value),
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
           theme: theme,
-          label: '농도 (대변 시)',
+          label: l10n.stoolConsistencyWhenDirty,
           value: _settings['consistency'],
           items: [
-            ('묽음', '묽음'),
-            ('보통', '보통'),
-            ('딱딱함', '딱딱함'),
+            ('loose', l10n.diaperConsistencyLooseAlt),
+            ('normal', l10n.diaperConsistencyNormal),
+            ('hard', l10n.diaperConsistencyHardAlt),
           ],
           onChanged: (value) => setState(() => _settings['consistency'] = value),
         ),
@@ -365,32 +369,33 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
   
   /// 이유식 설정
   Widget _buildSolidFoodSettings(ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildTextField(
           theme: theme,
-          label: '음식 이름',
+          label: l10n.foodName,
           value: _settings['food_name'],
           onChanged: (value) => setState(() => _settings['food_name'] = value),
         ),
         const SizedBox(height: 16),
         _buildNumberField(
           theme: theme,
-          label: '양 (g)',
+          label: l10n.amountGrams,
           value: _settings['amount_grams'],
           onChanged: (value) => setState(() => _settings['amount_grams'] = value),
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
           theme: theme,
-          label: '알레르기 반응',
+          label: l10n.allergicReaction,
           value: _settings['allergic_reaction'],
           items: [
-            ('none', '없음'),
-            ('mild', '가벼움'),
-            ('moderate', '보통'),
-            ('severe', '심각함'),
+            ('none', l10n.allergicReactionNone),
+            ('mild', l10n.allergicReactionMild),
+            ('moderate', l10n.allergicReactionModerate),
+            ('severe', l10n.allergicReactionSevere),
           ],
           onChanged: (value) => setState(() => _settings['allergic_reaction'] = value),
         ),
@@ -400,44 +405,45 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
   
   /// 투약 설정
   Widget _buildMedicationSettings(ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildTextField(
           theme: theme,
-          label: '약물 이름',
+          label: l10n.medicationName,
           value: _settings['medication_name'],
           onChanged: (value) => setState(() => _settings['medication_name'] = value),
         ),
         const SizedBox(height: 16),
         _buildTextField(
           theme: theme,
-          label: '용량',
+          label: l10n.dosage,
           value: _settings['dosage'],
           onChanged: (value) => setState(() => _settings['dosage'] = value),
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
           theme: theme,
-          label: '단위',
+          label: l10n.unit,
           value: _settings['unit'],
           items: [
             ('ml', 'ml'),
             ('mg', 'mg'),
-            ('tablets', '정'),
-            ('drops', '방울'),
+            ('tablets', l10n.tablets),
+            ('drops', l10n.drops),
           ],
           onChanged: (value) => setState(() => _settings['unit'] = value),
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
           theme: theme,
-          label: '투여 경로',
+          label: l10n.administrationRoute,
           value: _settings['route'],
           items: [
-            ('oral', '경구'),
-            ('topical', '국소'),
-            ('inhaled', '흡입'),
+            ('oral', l10n.oral),
+            ('topical', l10n.topical),
+            ('inhaled', l10n.inhaled),
           ],
           onChanged: (value) => setState(() => _settings['route'] = value),
         ),
@@ -447,44 +453,45 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
   
   /// 유축 설정
   Widget _buildMilkPumpingSettings(ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildNumberField(
           theme: theme,
-          label: '유축량 (ml)',
+          label: l10n.pumpingAmountMl,
           value: _settings['amount_ml'],
           onChanged: (value) => setState(() => _settings['amount_ml'] = value),
         ),
         const SizedBox(height: 16),
         _buildNumberField(
           theme: theme,
-          label: '유축 시간 (분)',
+          label: l10n.pumpingTimeMinutes,
           value: _settings['duration_minutes'],
           onChanged: (value) => setState(() => _settings['duration_minutes'] = value),
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
           theme: theme,
-          label: '유축 위치',
+          label: l10n.pumpingPosition,
           value: _settings['side'],
           items: [
-            ('left', '왼쪽'),
-            ('right', '오른쪽'),
-            ('both', '양쪽'),
+            ('left', l10n.left),
+            ('right', l10n.right),
+            ('both', l10n.both),
           ],
           onChanged: (value) => setState(() => _settings['side'] = value),
         ),
         const SizedBox(height: 16),
         _buildDropdownField(
           theme: theme,
-          label: '보관 위치',
+          label: l10n.storageLocation,
           value: _settings['storage_location'],
           items: [
-            ('refrigerator', '냉장고'),
-            ('freezer', '냉동고'),
-            ('room_temp', '실온'),
-            ('fed_immediately', '즉시 사용'),
+            ('refrigerator', l10n.refrigerator),
+            ('freezer', l10n.freezer),
+            ('room_temp', l10n.roomTemperature),
+            ('fed_immediately', l10n.useImmediately),
           ],
           onChanged: (value) => setState(() => _settings['storage_location'] = value),
         ),

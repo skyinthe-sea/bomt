@@ -306,7 +306,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get feedingTime => '授乳時間';
 
   @override
-  String get feedingType => '授乳方法';
+  String get feedingType => '授乳タイプ';
 
   @override
   String get breastfeeding => '母乳';
@@ -860,7 +860,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get thisMonth => '今月';
 
   @override
-  String get medicationName => '薬品名';
+  String get medicationName => '薬物名';
 
   @override
   String get medicationDose => '用量';
@@ -1944,7 +1944,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tablespoon => '大さじ';
 
   @override
-  String get sleepQuality => '質';
+  String get sleepQuality => '睡眠の質';
 
   @override
   String get pumpingTime => '搾乳';
@@ -2095,10 +2095,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get duration => '時間';
 
   @override
-  String get dosage => 'Dosage';
+  String get dosage => '用量';
 
   @override
-  String get unit => 'Unit';
+  String get unit => '単位';
 
   @override
   String get side => '側';
@@ -2715,7 +2715,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get pumpingType => '搾乳タイプ';
 
   @override
-  String get foodName => '食品名';
+  String get foodName => '食べ物名';
 
   @override
   String get mealType => '食事タイプ';
@@ -2841,7 +2841,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cannotOpenSettings => '設定画面を開けません';
 
   @override
-  String get sleepQualityGood => '良い';
+  String get sleepQualityGood => '良好';
 
   @override
   String get sleepQualityFair => '普通';
@@ -3265,4 +3265,103 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get medicationVitamins => 'ビタミン';
+
+  @override
+  String get defaultValueSettings => 'デフォルト設定';
+
+  @override
+  String get setDefaultValuesForQuickRecording => 'クイック記録用のデフォルト値を設定してください';
+
+  @override
+  String get formulaMilk => 'ミルク';
+
+  @override
+  String get solidFoodFeeding => '離乳食';
+
+  @override
+  String get feedingAmountMl => '授乳量 (ml)';
+
+  @override
+  String get feedingTimeMinutes => '授乳時間 (分)';
+
+  @override
+  String get feedingPosition => '授乳位置';
+
+  @override
+  String get sleepTimeMinutes => '睡眠時間 (分)';
+
+  @override
+  String get sleepLocation => '睡眠場所';
+
+  @override
+  String get bedroom => '寝室';
+
+  @override
+  String get livingRoom => 'リビング';
+
+  @override
+  String get stroller => 'ベビーカー';
+
+  @override
+  String get car => '車';
+
+  @override
+  String get outdoors => '屋外';
+
+  @override
+  String get stoolColorWhenDirty => '色 (うんちの時)';
+
+  @override
+  String get stoolConsistencyWhenDirty => '硬さ (うんちの時)';
+
+  @override
+  String get diaperColorGreenish => '緑色';
+
+  @override
+  String get diaperColorWhite => '白色';
+
+  @override
+  String get diaperConsistencyLooseAlt => '軟便';
+
+  @override
+  String get diaperConsistencyHardAlt => '硬便';
+
+  @override
+  String get amountGrams => '量 (g)';
+
+  @override
+  String get allergicReaction => 'アレルギー反応';
+
+  @override
+  String get allergicReactionNone => 'なし';
+
+  @override
+  String get allergicReactionMild => '軽度';
+
+  @override
+  String get allergicReactionModerate => '中程度';
+
+  @override
+  String get allergicReactionSevere => '重篤';
+
+  @override
+  String get tablets => '錠';
+
+  @override
+  String get administrationRoute => '投与経路';
+
+  @override
+  String get pumpingAmountMl => '搾乳量 (ml)';
+
+  @override
+  String get pumpingTimeMinutes => '搾乳時間 (分)';
+
+  @override
+  String get pumpingPosition => '搾乳位置';
+
+  @override
+  String get storageLocation => '保管場所';
+
+  @override
+  String get useImmediately => 'すぐ使用';
 }

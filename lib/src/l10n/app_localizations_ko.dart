@@ -306,7 +306,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get feedingTime => '수유 시간';
 
   @override
-  String get feedingType => '수유 방법';
+  String get feedingType => '수유 타입';
 
   @override
   String get breastfeeding => '모유 수유';
@@ -859,7 +859,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get thisMonth => '이번 달';
 
   @override
-  String get medicationName => '약품명';
+  String get medicationName => '약물 이름';
 
   @override
   String get medicationDose => '용량';
@@ -1194,7 +1194,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get oralMedication => '경구 투약';
 
   @override
-  String get topical => '외용';
+  String get topical => '국소';
 
   @override
   String get inhaled => '흡입';
@@ -1946,7 +1946,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tablespoon => '큰술';
 
   @override
-  String get sleepQuality => '품질';
+  String get sleepQuality => '수면 품질';
 
   @override
   String get pumpingTime => '유축';
@@ -2716,7 +2716,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get pumpingType => '유축 방식';
 
   @override
-  String get foodName => '음식명';
+  String get foodName => '음식 이름';
 
   @override
   String get mealType => '식사 유형';
@@ -3274,4 +3274,103 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get medicationVitamins => '비타민';
+
+  @override
+  String get defaultValueSettings => '기본값 설정';
+
+  @override
+  String get setDefaultValuesForQuickRecording => '빠른 기록을 위한 기본값을 설정하세요';
+
+  @override
+  String get formulaMilk => '분유';
+
+  @override
+  String get solidFoodFeeding => '이유식';
+
+  @override
+  String get feedingAmountMl => '수유량 (ml)';
+
+  @override
+  String get feedingTimeMinutes => '수유 시간 (분)';
+
+  @override
+  String get feedingPosition => '수유 위치';
+
+  @override
+  String get sleepTimeMinutes => '수면 시간 (분)';
+
+  @override
+  String get sleepLocation => '수면 장소';
+
+  @override
+  String get bedroom => '침실';
+
+  @override
+  String get livingRoom => '거실';
+
+  @override
+  String get stroller => '유모차';
+
+  @override
+  String get car => '차량';
+
+  @override
+  String get outdoors => '야외';
+
+  @override
+  String get stoolColorWhenDirty => '색상 (대변 시)';
+
+  @override
+  String get stoolConsistencyWhenDirty => '농도 (대변 시)';
+
+  @override
+  String get diaperColorGreenish => '녹색';
+
+  @override
+  String get diaperColorWhite => '하얀색';
+
+  @override
+  String get diaperConsistencyLooseAlt => '묽음';
+
+  @override
+  String get diaperConsistencyHardAlt => '딱딱함';
+
+  @override
+  String get amountGrams => '양 (g)';
+
+  @override
+  String get allergicReaction => '알레르기 반응';
+
+  @override
+  String get allergicReactionNone => '없음';
+
+  @override
+  String get allergicReactionMild => '가벼움';
+
+  @override
+  String get allergicReactionModerate => '보통';
+
+  @override
+  String get allergicReactionSevere => '심각함';
+
+  @override
+  String get tablets => '정';
+
+  @override
+  String get administrationRoute => '투여 경로';
+
+  @override
+  String get pumpingAmountMl => '유축량 (ml)';
+
+  @override
+  String get pumpingTimeMinutes => '유축 시간 (분)';
+
+  @override
+  String get pumpingPosition => '유축 위치';
+
+  @override
+  String get storageLocation => '보관 위치';
+
+  @override
+  String get useImmediately => '즉시 사용';
 }

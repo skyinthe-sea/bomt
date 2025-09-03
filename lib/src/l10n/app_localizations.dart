@@ -198,7 +198,7 @@ abstract class AppLocalizations {
   /// **'Female'**
   String get female;
 
-  /// Other gender
+  /// Other option
   ///
   /// In en, this message translates to:
   /// **'Other'**
@@ -660,7 +660,7 @@ abstract class AppLocalizations {
   /// **'Feeding Time'**
   String get feedingTime;
 
-  /// No description provided for @feedingType.
+  /// Label for feeding type selection
   ///
   /// In en, this message translates to:
   /// **'Feeding Type'**
@@ -1662,7 +1662,7 @@ abstract class AppLocalizations {
   /// **'This Month'**
   String get thisMonth;
 
-  /// No description provided for @medicationName.
+  /// Label for medication name
   ///
   /// In en, this message translates to:
   /// **'Medication Name'**
@@ -2172,7 +2172,7 @@ abstract class AppLocalizations {
   /// **'Formula'**
   String get formula;
 
-  /// No description provided for @breastMilk.
+  /// Breast milk feeding option
   ///
   /// In en, this message translates to:
   /// **'Breast Milk'**
@@ -2268,13 +2268,13 @@ abstract class AppLocalizations {
   /// **'Oral Medication'**
   String get oralMedication;
 
-  /// No description provided for @topical.
+  /// Topical administration route option
   ///
   /// In en, this message translates to:
   /// **'Topical'**
   String get topical;
 
-  /// No description provided for @inhaled.
+  /// Inhaled administration route option
   ///
   /// In en, this message translates to:
   /// **'Inhaled'**
@@ -3564,7 +3564,7 @@ abstract class AppLocalizations {
   /// **'Green'**
   String get green;
 
-  /// No description provided for @bottle.
+  /// Bottle feeding option
   ///
   /// In en, this message translates to:
   /// **'Bottle'**
@@ -3606,7 +3606,7 @@ abstract class AppLocalizations {
   /// **'High Fever'**
   String get highFever;
 
-  /// No description provided for @oral.
+  /// Oral administration route option
   ///
   /// In en, this message translates to:
   /// **'Oral'**
@@ -3630,7 +3630,7 @@ abstract class AppLocalizations {
   /// **'Tablet'**
   String get tablet;
 
-  /// No description provided for @drops.
+  /// Drops unit option
   ///
   /// In en, this message translates to:
   /// **'Drops'**
@@ -3648,10 +3648,10 @@ abstract class AppLocalizations {
   /// **'Tablespoon'**
   String get tablespoon;
 
-  /// No description provided for @sleepQuality.
+  /// Label for sleep quality
   ///
   /// In en, this message translates to:
-  /// **'Quality'**
+  /// **'Sleep Quality'**
   String get sleepQuality;
 
   /// No description provided for @pumpingTime.
@@ -3948,13 +3948,13 @@ abstract class AppLocalizations {
   /// **'Duration'**
   String get duration;
 
-  /// No description provided for @dosage.
+  /// Label for medication dosage
   ///
   /// In en, this message translates to:
   /// **'Dosage'**
   String get dosage;
 
-  /// No description provided for @unit.
+  /// Label for unit
   ///
   /// In en, this message translates to:
   /// **'Unit'**
@@ -5064,7 +5064,7 @@ abstract class AppLocalizations {
   /// **'Pumping Type'**
   String get pumpingType;
 
-  /// No description provided for @foodName.
+  /// Label for food name
   ///
   /// In en, this message translates to:
   /// **'Food Name'**
@@ -5112,19 +5112,19 @@ abstract class AppLocalizations {
   /// **'hours'**
   String get hours;
 
-  /// No description provided for @refrigerator.
+  /// Refrigerator storage option
   ///
   /// In en, this message translates to:
   /// **'Refrigerator'**
   String get refrigerator;
 
-  /// No description provided for @freezer.
+  /// Freezer storage option
   ///
   /// In en, this message translates to:
   /// **'Freezer'**
   String get freezer;
 
-  /// No description provided for @roomTemperature.
+  /// Room temperature storage option
   ///
   /// In en, this message translates to:
   /// **'Room Temperature'**
@@ -5316,19 +5316,19 @@ abstract class AppLocalizations {
   /// **'Cannot open settings screen'**
   String get cannotOpenSettings;
 
-  /// No description provided for @sleepQualityGood.
+  /// Good sleep quality option
   ///
   /// In en, this message translates to:
   /// **'Good'**
   String get sleepQualityGood;
 
-  /// No description provided for @sleepQualityFair.
+  /// Fair sleep quality option
   ///
   /// In en, this message translates to:
   /// **'Fair'**
   String get sleepQualityFair;
 
-  /// No description provided for @sleepQualityPoor.
+  /// Poor sleep quality option
   ///
   /// In en, this message translates to:
   /// **'Poor'**
@@ -6119,6 +6119,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Vitamins'**
   String get medicationVitamins;
+
+  /// Default value settings dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Default Settings'**
+  String get defaultValueSettings;
+
+  /// Description for setting default values
+  ///
+  /// In en, this message translates to:
+  /// **'Set default values for quick recording'**
+  String get setDefaultValuesForQuickRecording;
+
+  /// Formula milk feeding option
+  ///
+  /// In en, this message translates to:
+  /// **'Formula'**
+  String get formulaMilk;
+
+  /// Solid food feeding option
+  ///
+  /// In en, this message translates to:
+  /// **'Solid Food'**
+  String get solidFoodFeeding;
+
+  /// Label for feeding amount in milliliters
+  ///
+  /// In en, this message translates to:
+  /// **'Feeding Amount (ml)'**
+  String get feedingAmountMl;
+
+  /// Label for feeding time in minutes
+  ///
+  /// In en, this message translates to:
+  /// **'Feeding Time (minutes)'**
+  String get feedingTimeMinutes;
+
+  /// Label for feeding position
+  ///
+  /// In en, this message translates to:
+  /// **'Feeding Position'**
+  String get feedingPosition;
+
+  /// Label for sleep time in minutes
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep Time (minutes)'**
+  String get sleepTimeMinutes;
+
+  /// Label for sleep location
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep Location'**
+  String get sleepLocation;
+
+  /// Bedroom sleep location option
+  ///
+  /// In en, this message translates to:
+  /// **'Bedroom'**
+  String get bedroom;
+
+  /// Living room sleep location option
+  ///
+  /// In en, this message translates to:
+  /// **'Living Room'**
+  String get livingRoom;
+
+  /// Stroller sleep location option
+  ///
+  /// In en, this message translates to:
+  /// **'Stroller'**
+  String get stroller;
+
+  /// Car sleep location option
+  ///
+  /// In en, this message translates to:
+  /// **'Car'**
+  String get car;
+
+  /// Outdoors sleep location option
+  ///
+  /// In en, this message translates to:
+  /// **'Outdoors'**
+  String get outdoors;
+
+  /// Label for stool color when diaper is dirty
+  ///
+  /// In en, this message translates to:
+  /// **'Color (when dirty)'**
+  String get stoolColorWhenDirty;
+
+  /// Label for stool consistency when diaper is dirty
+  ///
+  /// In en, this message translates to:
+  /// **'Consistency (when dirty)'**
+  String get stoolConsistencyWhenDirty;
+
+  /// Greenish diaper color option
+  ///
+  /// In en, this message translates to:
+  /// **'Greenish'**
+  String get diaperColorGreenish;
+
+  /// White diaper color option
+  ///
+  /// In en, this message translates to:
+  /// **'White'**
+  String get diaperColorWhite;
+
+  /// Loose diaper consistency option
+  ///
+  /// In en, this message translates to:
+  /// **'Loose'**
+  String get diaperConsistencyLooseAlt;
+
+  /// Hard diaper consistency option
+  ///
+  /// In en, this message translates to:
+  /// **'Hard'**
+  String get diaperConsistencyHardAlt;
+
+  /// Label for amount in grams
+  ///
+  /// In en, this message translates to:
+  /// **'Amount (g)'**
+  String get amountGrams;
+
+  /// Label for allergic reaction
+  ///
+  /// In en, this message translates to:
+  /// **'Allergic Reaction'**
+  String get allergicReaction;
+
+  /// No allergic reaction option
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get allergicReactionNone;
+
+  /// Mild allergic reaction option
+  ///
+  /// In en, this message translates to:
+  /// **'Mild'**
+  String get allergicReactionMild;
+
+  /// Moderate allergic reaction option
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get allergicReactionModerate;
+
+  /// Severe allergic reaction option
+  ///
+  /// In en, this message translates to:
+  /// **'Severe'**
+  String get allergicReactionSevere;
+
+  /// Tablets unit option
+  ///
+  /// In en, this message translates to:
+  /// **'Tablets'**
+  String get tablets;
+
+  /// Label for administration route
+  ///
+  /// In en, this message translates to:
+  /// **'Administration Route'**
+  String get administrationRoute;
+
+  /// Label for pumping amount in milliliters
+  ///
+  /// In en, this message translates to:
+  /// **'Pumping Amount (ml)'**
+  String get pumpingAmountMl;
+
+  /// Label for pumping time in minutes
+  ///
+  /// In en, this message translates to:
+  /// **'Pumping Time (minutes)'**
+  String get pumpingTimeMinutes;
+
+  /// Label for pumping position
+  ///
+  /// In en, this message translates to:
+  /// **'Pumping Position'**
+  String get pumpingPosition;
+
+  /// Label for storage location
+  ///
+  /// In en, this message translates to:
+  /// **'Storage Location'**
+  String get storageLocation;
+
+  /// Use immediately storage option
+  ///
+  /// In en, this message translates to:
+  /// **'Use Immediately'**
+  String get useImmediately;
 }
 
 class _AppLocalizationsDelegate

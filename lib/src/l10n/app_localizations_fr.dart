@@ -60,7 +60,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get female => 'Fille';
 
   @override
-  String get other => 'Autre';
+  String get other => 'Other';
 
   @override
   String babyDetailScreen(String name) {
@@ -1163,7 +1163,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get formula => 'Lait artificiel';
 
   @override
-  String get breastMilk => 'Lait maternel';
+  String get breastMilk => 'Breast Milk';
 
   @override
   String get babyFood => 'Nourriture pour bébé';
@@ -1211,7 +1211,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get oralMedication => 'Médicament Oral';
 
   @override
-  String get topical => 'Topique';
+  String get topical => 'Topical';
 
   @override
   String get inhaled => 'Inhaled';
@@ -1946,7 +1946,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get green => 'Vert';
 
   @override
-  String get bottle => 'Biberon';
+  String get bottle => 'Bottle';
 
   @override
   String get good => 'Bon';
@@ -1979,7 +1979,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tablet => 'Comprimé';
 
   @override
-  String get drops => 'Gouttes';
+  String get drops => 'Drops';
 
   @override
   String get teaspoon => 'Cuillère à café';
@@ -1988,7 +1988,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tablespoon => 'Cuillère à soupe';
 
   @override
-  String get sleepQuality => 'Qualité';
+  String get sleepQuality => 'Sleep Quality';
 
   @override
   String get pumpingTime => 'Tire-lait';
@@ -2776,7 +2776,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pumpingType => 'Type de pompage';
 
   @override
-  String get foodName => 'Nom de l\'aliment';
+  String get foodName => 'Food Name';
 
   @override
   String get mealType => 'Type de repas';
@@ -2800,13 +2800,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get hours => 'heures';
 
   @override
-  String get refrigerator => 'Réfrigérateur';
+  String get refrigerator => 'Refrigerator';
 
   @override
-  String get freezer => 'Congélateur';
+  String get freezer => 'Freezer';
 
   @override
-  String get roomTemperature => 'Température ambiante';
+  String get roomTemperature => 'Room Temperature';
 
   @override
   String get fedImmediately => 'Nourri immédiatement';
@@ -2904,13 +2904,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Impossible d\'ouvrir l\'écran des paramètres';
 
   @override
-  String get sleepQualityGood => 'Bon';
+  String get sleepQualityGood => 'Good';
 
   @override
-  String get sleepQualityFair => 'Moyen';
+  String get sleepQualityFair => 'Fair';
 
   @override
-  String get sleepQualityPoor => 'Mauvais';
+  String get sleepQualityPoor => 'Poor';
 
   @override
   String sleepInProgressDuration(Object minutes) {
@@ -3361,4 +3361,104 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get medicationVitamins => 'Vitamins';
+
+  @override
+  String get defaultValueSettings => 'Default Settings';
+
+  @override
+  String get setDefaultValuesForQuickRecording =>
+      'Set default values for quick recording';
+
+  @override
+  String get formulaMilk => 'Formula';
+
+  @override
+  String get solidFoodFeeding => 'Solid Food';
+
+  @override
+  String get feedingAmountMl => 'Feeding Amount (ml)';
+
+  @override
+  String get feedingTimeMinutes => 'Feeding Time (minutes)';
+
+  @override
+  String get feedingPosition => 'Feeding Position';
+
+  @override
+  String get sleepTimeMinutes => 'Sleep Time (minutes)';
+
+  @override
+  String get sleepLocation => 'Sleep Location';
+
+  @override
+  String get bedroom => 'Bedroom';
+
+  @override
+  String get livingRoom => 'Living Room';
+
+  @override
+  String get stroller => 'Stroller';
+
+  @override
+  String get car => 'Car';
+
+  @override
+  String get outdoors => 'Outdoors';
+
+  @override
+  String get stoolColorWhenDirty => 'Color (when dirty)';
+
+  @override
+  String get stoolConsistencyWhenDirty => 'Consistency (when dirty)';
+
+  @override
+  String get diaperColorGreenish => 'Greenish';
+
+  @override
+  String get diaperColorWhite => 'White';
+
+  @override
+  String get diaperConsistencyLooseAlt => 'Loose';
+
+  @override
+  String get diaperConsistencyHardAlt => 'Hard';
+
+  @override
+  String get amountGrams => 'Amount (g)';
+
+  @override
+  String get allergicReaction => 'Allergic Reaction';
+
+  @override
+  String get allergicReactionNone => 'None';
+
+  @override
+  String get allergicReactionMild => 'Mild';
+
+  @override
+  String get allergicReactionModerate => 'Moderate';
+
+  @override
+  String get allergicReactionSevere => 'Severe';
+
+  @override
+  String get tablets => 'Tablets';
+
+  @override
+  String get administrationRoute => 'Administration Route';
+
+  @override
+  String get pumpingAmountMl => 'Pumping Amount (ml)';
+
+  @override
+  String get pumpingTimeMinutes => 'Pumping Time (minutes)';
+
+  @override
+  String get pumpingPosition => 'Pumping Position';
+
+  @override
+  String get storageLocation => 'Storage Location';
+
+  @override
+  String get useImmediately => 'Use Immediately';
 }

@@ -1981,7 +1981,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get tablespoon => 'Tablespoon';
 
   @override
-  String get sleepQuality => 'Quality';
+  String get sleepQuality => 'Sleep Quality';
 
   @override
   String get pumpingTime => 'Pumping';
@@ -3331,4 +3331,104 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get medicationVitamins => 'Vitamins';
+
+  @override
+  String get defaultValueSettings => 'Default Settings';
+
+  @override
+  String get setDefaultValuesForQuickRecording =>
+      'Set default values for quick recording';
+
+  @override
+  String get formulaMilk => 'Formula';
+
+  @override
+  String get solidFoodFeeding => 'Solid Food';
+
+  @override
+  String get feedingAmountMl => 'Feeding Amount (ml)';
+
+  @override
+  String get feedingTimeMinutes => 'Feeding Time (minutes)';
+
+  @override
+  String get feedingPosition => 'Feeding Position';
+
+  @override
+  String get sleepTimeMinutes => 'Sleep Time (minutes)';
+
+  @override
+  String get sleepLocation => 'Sleep Location';
+
+  @override
+  String get bedroom => 'Bedroom';
+
+  @override
+  String get livingRoom => 'Living Room';
+
+  @override
+  String get stroller => 'Stroller';
+
+  @override
+  String get car => 'Car';
+
+  @override
+  String get outdoors => 'Outdoors';
+
+  @override
+  String get stoolColorWhenDirty => 'Color (when dirty)';
+
+  @override
+  String get stoolConsistencyWhenDirty => 'Consistency (when dirty)';
+
+  @override
+  String get diaperColorGreenish => 'Greenish';
+
+  @override
+  String get diaperColorWhite => 'White';
+
+  @override
+  String get diaperConsistencyLooseAlt => 'Loose';
+
+  @override
+  String get diaperConsistencyHardAlt => 'Hard';
+
+  @override
+  String get amountGrams => 'Amount (g)';
+
+  @override
+  String get allergicReaction => 'Allergic Reaction';
+
+  @override
+  String get allergicReactionNone => 'None';
+
+  @override
+  String get allergicReactionMild => 'Mild';
+
+  @override
+  String get allergicReactionModerate => 'Moderate';
+
+  @override
+  String get allergicReactionSevere => 'Severe';
+
+  @override
+  String get tablets => 'Tablets';
+
+  @override
+  String get administrationRoute => 'Administration Route';
+
+  @override
+  String get pumpingAmountMl => 'Pumping Amount (ml)';
+
+  @override
+  String get pumpingTimeMinutes => 'Pumping Time (minutes)';
+
+  @override
+  String get pumpingPosition => 'Pumping Position';
+
+  @override
+  String get storageLocation => 'Storage Location';
+
+  @override
+  String get useImmediately => 'Use Immediately';
 }
