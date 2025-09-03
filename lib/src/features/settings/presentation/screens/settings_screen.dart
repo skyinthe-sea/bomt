@@ -350,14 +350,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final days = difference.inDays;
     
     if (days < 30) {
-      return '$days일';
+      return '$days${AppLocalizations.of(context)!.daysUnit}';
     } else if (days < 365) {
       final months = (days / 30).floor();
-      return '$months개월';
+      return '$months${AppLocalizations.of(context)!.monthsUnit}';
     } else {
       final years = (days / 365).floor();
       final months = ((days % 365) / 30).floor();
-      return '$years년 $months개월';
+      return '$years${AppLocalizations.of(context)!.yearsUnit} $months${AppLocalizations.of(context)!.monthsUnit}';
     }
   }
 
@@ -518,12 +518,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListTile(
         leading: const Icon(Icons.delete_forever, color: Colors.red),
-        title: const Text(
-          '회원탈퇴',
+        title: Text(
+          AppLocalizations.of(context)!.accountDeletion,
           style: TextStyle(color: Colors.red),
         ),
-        subtitle: const Text(
-          '모든 데이터가 영구 삭제됩니다',
+        subtitle: Text(
+          AppLocalizations.of(context)!.allDataWillBePermanentlyDeleted,
           style: TextStyle(fontSize: 12),
         ),
         onTap: () => _showAccountDeletionDialog(context),
@@ -535,23 +535,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
-          '회원탈퇴',
+        title: Text(
+          AppLocalizations.of(context)!.accountDeletion,
           style: TextStyle(color: Colors.red),
         ),
-        content: const Column(
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('⚠️ 회원탈퇴 시 다음 데이터가 영구 삭제됩니다:'),
+            Text(AppLocalizations.of(context)!.accountDeletionWarning),
             SizedBox(height: 8),
-            Text('• 사용자 계정 정보'),
-            Text('• 등록된 모든 아기 정보'),
-            Text('• 수유, 수면, 기저귀 등 모든 기록'),
-            Text('• 성장 정보 및 사진'),
+            Text(AppLocalizations.of(context)!.userAccountInfo),
+            Text(AppLocalizations.of(context)!.allRegisteredBabyInfo),
+            Text(AppLocalizations.of(context)!.allTimelineRecords),
+            Text(AppLocalizations.of(context)!.allCommunityPosts),
+            Text(AppLocalizations.of(context)!.allInvitationHistory),
             SizedBox(height: 16),
             Text(
-              '⚠️ 이 작업은 되돌릴 수 없습니다.',
+              AppLocalizations.of(context)!.thisActionCannotBeUndone,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.red,
@@ -562,12 +563,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('취소'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text(
-              '탈퇴하기',
+            child: Text(
+              AppLocalizations.of(context)!.accountDeletion,
               style: TextStyle(color: Colors.red),
             ),
           ),
@@ -595,8 +596,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               const CircularProgressIndicator(),
               const SizedBox(height: 16),
-              const Text(
-                '회원탈퇴 처리 중...',
+              Text(
+                AppLocalizations.of(context)!.deletingAccount,
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 8),
@@ -684,7 +685,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.green,
                 size: 48,
               ),
-              title: const Text('탈퇴 완료'),
+              title: Text(AppLocalizations.of(context)!.accountDeletionCompleteTitle),
               content: Text(
                 AppLocalizations.of(context)!.accountDeletionSuccess,
                 textAlign: TextAlign.center,
@@ -700,7 +701,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
                   ),
-                  child: const Text('확인'),
+                  child: Text(AppLocalizations.of(context)!.confirmButton),
                 ),
               ],
             ),
@@ -724,8 +725,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               size: 48,
             ),
             title: Text(AppLocalizations.of(context)!.accountDeletionError),
-            content: const Text(
-              '일부 처리에서 문제가 발생했지만\n로그아웃은 완료되었습니다.\n\n로그인 화면으로 이동합니다.',
+            content: Text(
+              AppLocalizations.of(context)!.accountDeletionPartialErrorMessage,
               textAlign: TextAlign.center,
             ),
             actions: [
@@ -734,7 +735,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Navigator.of(context).pop();
                   _navigateToLoginSafely(context);
                 },
-                child: const Text('확인'),
+                child: Text(AppLocalizations.of(context)!.confirmButton),
               ),
             ],
           ),
@@ -1141,7 +1142,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(height: 8),
               
               Text(
-                '${baby.name} 정보를 처음부터 다시 설정하시겠습니까?',
+                AppLocalizations.of(context)!.babyInfoResetQuestion(baby.name),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: isDarkMode ? Colors.grey[300] : Colors.grey[600],
@@ -1177,7 +1178,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '다음 기록들이 초기화됩니다',
+                          AppLocalizations.of(context)!.recordsWillBeReset,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: isDarkMode ? Colors.blue[300] : Colors.blue[800],
@@ -1186,9 +1187,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    _buildInfoItem('🍼', '수유, 수면, 기저귀 기록', isDarkMode),
-                    _buildInfoItem('📊', '성장 정보 및 사진', isDarkMode),
-                    _buildInfoItem('👶', '아기와 관련된 모든 데이터', isDarkMode, isEmphasis: true),
+                    _buildInfoItem('🍼', AppLocalizations.of(context)!.feedingSleepDiaperRecords, isDarkMode),
+                    _buildInfoItem('📊', AppLocalizations.of(context)!.growthInfoAndPhotos, isDarkMode),
+                    _buildInfoItem('👶', AppLocalizations.of(context)!.allBabyRelatedData, isDarkMode, isEmphasis: true),
                     const SizedBox(height: 4),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -1214,7 +1215,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(
-                              '${baby.name}의 모든 기록이 완전히 제거됩니다',
+                              AppLocalizations.of(context)!.allRecordsWillBeDeleted(baby.name),
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
@@ -1244,7 +1245,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(
-                              '이 작업은 되돌릴 수 없습니다',
+                              AppLocalizations.of(context)!.thisActionCannotBeUndone,
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
@@ -1274,7 +1275,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       child: Text(
-                        '취소',
+                        AppLocalizations.of(context)!.cancel,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -1296,8 +1297,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                         elevation: 2,
                       ),
-                      child: const Text(
-                        '재설정',
+                      child: Text(
+                        AppLocalizations.of(context)!.resetBaby,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -1369,7 +1370,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         if (success) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('${baby.name} 정보가 성공적으로 재설정되었습니다.'),
+              content: Text(AppLocalizations.of(context)!.babyResetSuccessMessage(baby.name)),
               backgroundColor: Colors.blue,
               duration: const Duration(seconds: 2),
             ),
@@ -1419,7 +1420,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Icon(Icons.account_circle, color: Colors.blue, size: 24),
                 const SizedBox(width: 12),
                 Text(
-                  '계정 정보',
+                  AppLocalizations.of(context)!.accountInfo,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -1430,14 +1431,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const SizedBox(height: 16),
             if (currentUser != null) ...[
-              _buildInfoRow('👤', '사용자 ID', currentUser.id, isDarkMode),
+              _buildInfoRow('👤', AppLocalizations.of(context)!.userID, currentUser.id, isDarkMode),
               const SizedBox(height: 8),
-              _buildInfoRow('📧', '이메일', currentUser.email ?? '이메일 없음', isDarkMode),
+              _buildInfoRow('📧', AppLocalizations.of(context)!.email, currentUser.email ?? AppLocalizations.of(context)!.noEmail, isDarkMode),
               const SizedBox(height: 8),
-              _buildInfoRow('📱', '로그인 방법', _getAuthProvider(currentUser), isDarkMode),
+              _buildInfoRow('📱', AppLocalizations.of(context)!.loginMethod, _getAuthProvider(currentUser), isDarkMode),
             ] else ...[
               Text(
-                '로그인되지 않음',
+                AppLocalizations.of(context)!.notLoggedIn,
                 style: TextStyle(
                   fontSize: 14,
                   color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
@@ -1487,15 +1488,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final provider = user.appMetadata['provider'];
     switch (provider) {
       case 'kakao':
-        return '카카오톡';
+        return AppLocalizations.of(context)!.kakaoProvider;
       case 'google':
-        return '구글';
+        return AppLocalizations.of(context)!.googleProvider;
       case 'apple':
-        return '애플';
+        return AppLocalizations.of(context)!.appleProvider;
       case 'email':
-        return '이메일';
+        return AppLocalizations.of(context)!.emailProvider;
       default:
-        return provider?.toString() ?? '알 수 없음';
+        return provider?.toString() ?? AppLocalizations.of(context)!.unknownProvider;
     }
   }
 
@@ -1519,15 +1520,15 @@ class _AddBabyDialogState extends State<_AddBabyDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('아기 추가'),
+      title: Text(AppLocalizations.of(context)!.addBaby),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: nameController,
-              decoration: const InputDecoration(
-                labelText: '아기 이름',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.babyName,
                 border: OutlineInputBorder(),
               ),
               textCapitalization: TextCapitalization.words,
@@ -1535,7 +1536,7 @@ class _AddBabyDialogState extends State<_AddBabyDialog> {
             const SizedBox(height: 16),
             Row(
               children: [
-                const Text('성별: '),
+                Text(AppLocalizations.of(context)!.genderColon),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Row(
@@ -1549,7 +1550,7 @@ class _AddBabyDialogState extends State<_AddBabyDialog> {
                           });
                         },
                       ),
-                      const Text('남자'),
+                      Text(AppLocalizations.of(context)!.male),
                       Radio<String>(
                         value: 'female',
                         groupValue: selectedGender,
@@ -1559,7 +1560,7 @@ class _AddBabyDialogState extends State<_AddBabyDialog> {
                           });
                         },
                       ),
-                      const Text('여자'),
+                      Text(AppLocalizations.of(context)!.female),
                     ],
                   ),
                 ),
@@ -1568,7 +1569,7 @@ class _AddBabyDialogState extends State<_AddBabyDialog> {
             const SizedBox(height: 16),
             Row(
               children: [
-                const Text('생년월일: '),
+                Text(AppLocalizations.of(context)!.birthDateLabel),
                 const SizedBox(width: 16),
                 Expanded(
                   child: TextButton(

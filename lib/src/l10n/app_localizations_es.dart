@@ -3640,4 +3640,132 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get upcomingServiceDescription =>
       'We will soon introduce useful parenting information and products';
+
+  @override
+  String get accountInfo => 'Account Information';
+
+  @override
+  String get userID => 'User ID';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get loginMethod => 'Login Method';
+
+  @override
+  String get noEmail => 'No email';
+
+  @override
+  String get accountDeletion => 'Account Deletion';
+
+  @override
+  String get allDataWillBePermanentlyDeleted =>
+      'All data will be permanently deleted';
+
+  @override
+  String get accountDeletionWarning =>
+      '⚠️ The following data will be permanently deleted when you delete your account:';
+
+  @override
+  String get userAccountInfo => '• User account information';
+
+  @override
+  String get allRegisteredBabyInfo => '• All registered baby information';
+
+  @override
+  String get allTimelineRecords => '• All timeline records';
+
+  @override
+  String get allCommunityPosts => '• All community posts and comments';
+
+  @override
+  String get allInvitationHistory => '• All invitation history';
+
+  @override
+  String get thisActionCannotBeUndone => 'This action cannot be undone.';
+
+  @override
+  String get deletingAccount => 'Deleting account...';
+
+  @override
+  String get accountDeletionCompleted =>
+      'Account deletion completed.\n(Forced completion due to long processing time)';
+
+  @override
+  String get accountDeletionCompletedSuccess =>
+      'Account deletion successfully completed.\n\nYou can sign up again at any time.';
+
+  @override
+  String get daysUnit => 'days';
+
+  @override
+  String get monthsUnit => 'months';
+
+  @override
+  String get yearsUnit => 'years';
+
+  @override
+  String get confirmButton => 'OK';
+
+  @override
+  String get accountDeletionCompleteTitle => 'Account Deletion Complete';
+
+  @override
+  String get resetBaby => 'Reset';
+
+  @override
+  String get notLoggedIn => 'Not logged in';
+
+  @override
+  String get birthDateLabel => 'Birth Date: ';
+
+  @override
+  String get genderColon => 'Gender: ';
+
+  @override
+  String babyInfoResetQuestion(Object babyName) {
+    return 'Do you want to reset $babyName information from the beginning?';
+  }
+
+  @override
+  String get recordsWillBeReset => 'The following records will be reset';
+
+  @override
+  String get feedingSleepDiaperRecords => 'Feeding, sleep, diaper records';
+
+  @override
+  String get growthInfoAndPhotos => 'Growth information and photos';
+
+  @override
+  String get allBabyRelatedData => 'All baby-related data';
+
+  @override
+  String allRecordsWillBeDeleted(Object babyName) {
+    return 'All records of $babyName will be completely removed';
+  }
+
+  @override
+  String babyResetSuccessMessage(Object babyName) {
+    return '$babyName information has been successfully reset.';
+  }
+
+  @override
+  String get kakaoProvider => 'KakaoTalk';
+
+  @override
+  String get googleProvider => 'Google';
+
+  @override
+  String get appleProvider => 'Apple';
+
+  @override
+  String get emailProvider => 'Email';
+
+  @override
+  String get unknownProvider => 'Unknown';
+
+  @override
+  String get accountDeletionPartialErrorMessage =>
+      'Some processing encountered issues but logout is completed.\n\nRedirecting to login screen.';
 }

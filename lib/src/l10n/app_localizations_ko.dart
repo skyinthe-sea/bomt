@@ -3465,7 +3465,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get babyLongPressHint => '아기를 길게 누르면 정보를 재설정할 수 있습니다';
 
   @override
-  String get pleaseWait => '잠시만 기다려주세요';
+  String get pleaseWait => '잠시만 기다려주세요...';
 
   @override
   String get babyInfoReset => '아기 정보 재설정';
@@ -3550,4 +3550,130 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get upcomingServiceDescription => '곧 유용한 육아 정보와 제품을 소개해드릴 예정입니다';
+
+  @override
+  String get accountInfo => '계정 정보';
+
+  @override
+  String get userID => '사용자 ID';
+
+  @override
+  String get email => '이메일';
+
+  @override
+  String get loginMethod => '로그인 방법';
+
+  @override
+  String get noEmail => '이메일 없음';
+
+  @override
+  String get accountDeletion => '회원탈퇴';
+
+  @override
+  String get allDataWillBePermanentlyDeleted => '모든 데이터가 영구 삭제됩니다';
+
+  @override
+  String get accountDeletionWarning => '⚠️ 회원탈퇴 시 다음 데이터가 영구 삭제됩니다:';
+
+  @override
+  String get userAccountInfo => '• 사용자 계정 정보';
+
+  @override
+  String get allRegisteredBabyInfo => '• 등록된 모든 아기 정보';
+
+  @override
+  String get allTimelineRecords => '• 모든 타임라인 기록';
+
+  @override
+  String get allCommunityPosts => '• 모든 커뮤니티 게시글 및 댓글';
+
+  @override
+  String get allInvitationHistory => '• 모든 초대 내역';
+
+  @override
+  String get thisActionCannotBeUndone => '이 작업은 취소할 수 없습니다.';
+
+  @override
+  String get deletingAccount => '회원탈퇴 처리 중...';
+
+  @override
+  String get accountDeletionCompleted =>
+      '회원탈퇴가 완료되었습니다.\n(처리가 오래 걸려 강제 완료했습니다)';
+
+  @override
+  String get accountDeletionCompletedSuccess =>
+      '회원탈퇴가 성공적으로 완료되었습니다.\n\n언제든지 다시 가입하실 수 있습니다.';
+
+  @override
+  String get daysUnit => '일';
+
+  @override
+  String get monthsUnit => '개월';
+
+  @override
+  String get yearsUnit => '년';
+
+  @override
+  String get confirmButton => '확인';
+
+  @override
+  String get accountDeletionCompleteTitle => '탈퇴 완료';
+
+  @override
+  String get resetBaby => '재설정';
+
+  @override
+  String get notLoggedIn => '로그인되지 않음';
+
+  @override
+  String get birthDateLabel => '생년월일: ';
+
+  @override
+  String get genderColon => '성별: ';
+
+  @override
+  String babyInfoResetQuestion(Object babyName) {
+    return '$babyName 정보를 처음부터 다시 설정하시겠습니까?';
+  }
+
+  @override
+  String get recordsWillBeReset => '다음 기록들이 초기화됩니다';
+
+  @override
+  String get feedingSleepDiaperRecords => '수유, 수면, 기저귀 기록';
+
+  @override
+  String get growthInfoAndPhotos => '성장 정보 및 사진';
+
+  @override
+  String get allBabyRelatedData => '아기와 관련된 모든 데이터';
+
+  @override
+  String allRecordsWillBeDeleted(Object babyName) {
+    return '$babyName의 모든 기록이 완전히 제거됩니다';
+  }
+
+  @override
+  String babyResetSuccessMessage(Object babyName) {
+    return '$babyName 정보가 성공적으로 재설정되었습니다.';
+  }
+
+  @override
+  String get kakaoProvider => '카카오톡';
+
+  @override
+  String get googleProvider => '구글';
+
+  @override
+  String get appleProvider => '애플';
+
+  @override
+  String get emailProvider => '이메일';
+
+  @override
+  String get unknownProvider => '알 수 없음';
+
+  @override
+  String get accountDeletionPartialErrorMessage =>
+      '일부 처리에서 문제가 발생했지만\n로그아웃은 완료되었습니다.\n\n로그인 화면으로 이동합니다.';
 }

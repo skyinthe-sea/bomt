@@ -6459,7 +6459,7 @@ abstract class AppLocalizations {
   /// Info message to wait
   ///
   /// In en, this message translates to:
-  /// **'Please wait'**
+  /// **'Please wait...'**
   String get pleaseWait;
 
   /// Info message for baby information reset
@@ -6617,6 +6617,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We will soon introduce useful parenting information and products'**
   String get upcomingServiceDescription;
+
+  /// No description provided for @accountInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Information'**
+  String get accountInfo;
+
+  /// No description provided for @userID.
+  ///
+  /// In en, this message translates to:
+  /// **'User ID'**
+  String get userID;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @loginMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Method'**
+  String get loginMethod;
+
+  /// No description provided for @noEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'No email'**
+  String get noEmail;
+
+  /// No description provided for @accountDeletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Deletion'**
+  String get accountDeletion;
+
+  /// No description provided for @allDataWillBePermanentlyDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'All data will be permanently deleted'**
+  String get allDataWillBePermanentlyDeleted;
+
+  /// No description provided for @accountDeletionWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'⚠️ The following data will be permanently deleted when you delete your account:'**
+  String get accountDeletionWarning;
+
+  /// No description provided for @userAccountInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'• User account information'**
+  String get userAccountInfo;
+
+  /// No description provided for @allRegisteredBabyInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'• All registered baby information'**
+  String get allRegisteredBabyInfo;
+
+  /// No description provided for @allTimelineRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'• All timeline records'**
+  String get allTimelineRecords;
+
+  /// No description provided for @allCommunityPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'• All community posts and comments'**
+  String get allCommunityPosts;
+
+  /// No description provided for @allInvitationHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'• All invitation history'**
+  String get allInvitationHistory;
+
+  /// No description provided for @thisActionCannotBeUndone.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get thisActionCannotBeUndone;
+
+  /// No description provided for @deletingAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting account...'**
+  String get deletingAccount;
+
+  /// No description provided for @accountDeletionCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Account deletion completed.\n(Forced completion due to long processing time)'**
+  String get accountDeletionCompleted;
+
+  /// No description provided for @accountDeletionCompletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Account deletion successfully completed.\n\nYou can sign up again at any time.'**
+  String get accountDeletionCompletedSuccess;
+
+  /// No description provided for @daysUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get daysUnit;
+
+  /// No description provided for @monthsUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'months'**
+  String get monthsUnit;
+
+  /// No description provided for @yearsUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'years'**
+  String get yearsUnit;
+
+  /// No description provided for @confirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get confirmButton;
+
+  /// No description provided for @accountDeletionCompleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Deletion Complete'**
+  String get accountDeletionCompleteTitle;
+
+  /// No description provided for @resetBaby.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get resetBaby;
+
+  /// No description provided for @notLoggedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Not logged in'**
+  String get notLoggedIn;
+
+  /// No description provided for @birthDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Birth Date: '**
+  String get birthDateLabel;
+
+  /// No description provided for @genderColon.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender: '**
+  String get genderColon;
+
+  /// No description provided for @babyInfoResetQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to reset {babyName} information from the beginning?'**
+  String babyInfoResetQuestion(Object babyName);
+
+  /// No description provided for @recordsWillBeReset.
+  ///
+  /// In en, this message translates to:
+  /// **'The following records will be reset'**
+  String get recordsWillBeReset;
+
+  /// No description provided for @feedingSleepDiaperRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Feeding, sleep, diaper records'**
+  String get feedingSleepDiaperRecords;
+
+  /// No description provided for @growthInfoAndPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Growth information and photos'**
+  String get growthInfoAndPhotos;
+
+  /// No description provided for @allBabyRelatedData.
+  ///
+  /// In en, this message translates to:
+  /// **'All baby-related data'**
+  String get allBabyRelatedData;
+
+  /// No description provided for @allRecordsWillBeDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'All records of {babyName} will be completely removed'**
+  String allRecordsWillBeDeleted(Object babyName);
+
+  /// No description provided for @babyResetSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{babyName} information has been successfully reset.'**
+  String babyResetSuccessMessage(Object babyName);
+
+  /// No description provided for @kakaoProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'KakaoTalk'**
+  String get kakaoProvider;
+
+  /// No description provided for @googleProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get googleProvider;
+
+  /// No description provided for @appleProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple'**
+  String get appleProvider;
+
+  /// No description provided for @emailProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailProvider;
+
+  /// No description provided for @unknownProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknownProvider;
+
+  /// No description provided for @accountDeletionPartialErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Some processing encountered issues but logout is completed.\n\nRedirecting to login screen.'**
+  String get accountDeletionPartialErrorMessage;
 }
 
 class _AppLocalizationsDelegate
