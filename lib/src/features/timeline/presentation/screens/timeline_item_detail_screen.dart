@@ -801,7 +801,7 @@ class _TimelineItemDetailScreenState extends State<TimelineItemDetailScreen>
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.deleteFailed),
+          content: Text(AppLocalizations.of(context)!.deleteFailed(e.toString())),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );

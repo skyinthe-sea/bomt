@@ -793,10 +793,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loadFailed => '読み込みに失敗しました';
 
   @override
-  String get updateFailed => '更新に失敗しました';
+  String updateFailed(String error) {
+    return '更新に失敗しました: $error';
+  }
 
   @override
-  String get deleteFailed => '削除に失敗しました';
+  String deleteFailed(String error) {
+    return '削除に失敗しました: $error';
+  }
 
   @override
   String timeFormat(Object hour, Object minute) {
@@ -1375,7 +1379,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get edited => '(編集済み)';
 
   @override
-  String commentsCount(Object count) {
+  String commentsCount(int count) {
     return 'コメント$count件';
   }
 
@@ -1403,7 +1407,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loadingComments => 'コメントを読み込み中...';
 
   @override
-  String get loadMoreComments => 'さらにコメントを表示';
+  String get loadMoreComments => 'もっとコメントを見る';
 
   @override
   String get editComment => 'コメントを編集';
@@ -2061,7 +2065,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get recordAgain => 'Record Again';
 
   @override
-  String get share => 'Share';
+  String get share => 'シェア';
 
   @override
   String get deleteRecord => 'Delete Record';
@@ -3463,4 +3467,71 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get databaseUpdated => '✅ データベースが更新されました！\n\nアプリを再起動してから再試行してください。';
+
+  @override
+  String get confirmDeletePost => '本当にこの投稿を削除しますか？\n削除された投稿は復元できません。';
+
+  @override
+  String get postDeleted => '投稿が削除されました。';
+
+  @override
+  String get commentUpdated => 'コメントが更新されました。';
+
+  @override
+  String get confirmDeleteComment => '本当にこのコメントを削除しますか？\n削除されたコメントは復元できません。';
+
+  @override
+  String get commentDeleted => 'コメントが削除されました。';
+
+  @override
+  String get shareFeatureInDevelopment => 'シェア機能は開発中です';
+
+  @override
+  String get sortByRecent => '最新順';
+
+  @override
+  String get replyCreated => '返信が投稿されました。';
+
+  @override
+  String get commentCreated => 'コメントが投稿されました。';
+
+  @override
+  String get commentCreationFailed => 'コメントの投稿に失敗しました。';
+
+  @override
+  String get reply => '返信';
+
+  @override
+  String replyTo(String nickname) {
+    return '$nicknameさんに返信';
+  }
+
+  @override
+  String get writeReply => '返信を書いてください...';
+
+  @override
+  String get writeComment => 'コメントを書いてください...';
+
+  @override
+  String moreReplies(int count) {
+    return '返信をさらに$count件表示';
+  }
+
+  @override
+  String get copy => 'コピー';
+
+  @override
+  String get report => '通報';
+
+  @override
+  String get commentCopied => 'コメントがコピーされました';
+
+  @override
+  String get reportComment => 'コメントを通報';
+
+  @override
+  String get confirmReportComment => 'このコメントを通報しますか？\n不適切なコンテンツやスパムとして通報されます。';
+
+  @override
+  String get reportSubmitted => '通報が送信されました。';
 }

@@ -805,10 +805,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get loadFailed => 'Load failed';
 
   @override
-  String get updateFailed => 'Update failed';
+  String updateFailed(String error) {
+    return 'Update failed: $error';
+  }
 
   @override
-  String get deleteFailed => 'Delete failed';
+  String deleteFailed(String error) {
+    return 'Delete failed: $error';
+  }
 
   @override
   String timeFormat(Object hour, Object minute) {
@@ -1396,7 +1400,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get edited => '(edited)';
 
   @override
-  String commentsCount(Object count) {
+  String commentsCount(int count) {
     return '$count comments';
   }
 
@@ -1425,7 +1429,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get loadingComments => 'Loading comments...';
 
   @override
-  String get loadMoreComments => 'Load more comments';
+  String get loadMoreComments => 'Load More Comments';
 
   @override
   String get editComment => 'Edit Comment';
@@ -3539,4 +3543,74 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get databaseUpdated =>
       '✅ Database has been updated!\n\nPlease restart the app and try again.';
+
+  @override
+  String get confirmDeletePost =>
+      'Are you sure you want to delete this post?\nDeleted posts cannot be recovered.';
+
+  @override
+  String get postDeleted => 'Post has been deleted.';
+
+  @override
+  String get commentUpdated => 'Comment has been updated.';
+
+  @override
+  String get confirmDeleteComment =>
+      'Are you sure you want to delete this comment?\nDeleted comments cannot be recovered.';
+
+  @override
+  String get commentDeleted => 'Comment has been deleted.';
+
+  @override
+  String get shareFeatureInDevelopment => 'Share feature is under development';
+
+  @override
+  String get sortByRecent => 'Sort by Recent';
+
+  @override
+  String get replyCreated => 'Reply has been posted.';
+
+  @override
+  String get commentCreated => 'Comment has been posted.';
+
+  @override
+  String get commentCreationFailed => 'Failed to post comment.';
+
+  @override
+  String get reply => 'Reply';
+
+  @override
+  String replyTo(String nickname) {
+    return 'Reply to $nickname';
+  }
+
+  @override
+  String get writeReply => 'Write a reply...';
+
+  @override
+  String get writeComment => 'Write a comment...';
+
+  @override
+  String moreReplies(int count) {
+    return 'View $count more replies';
+  }
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String get report => 'Report';
+
+  @override
+  String get commentCopied => 'Comment has been copied';
+
+  @override
+  String get reportComment => 'Report Comment';
+
+  @override
+  String get confirmReportComment =>
+      'Do you want to report this comment?\nIt will be reported as inappropriate content or spam.';
+
+  @override
+  String get reportSubmitted => 'Report has been submitted.';
 }

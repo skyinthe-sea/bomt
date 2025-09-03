@@ -1566,17 +1566,17 @@ abstract class AppLocalizations {
   /// **'Load failed'**
   String get loadFailed;
 
-  /// No description provided for @updateFailed.
+  /// Error message for update failure
   ///
   /// In en, this message translates to:
-  /// **'Update failed'**
-  String get updateFailed;
+  /// **'Update failed: {error}'**
+  String updateFailed(String error);
 
-  /// No description provided for @deleteFailed.
+  /// Error message for deletion failure
   ///
   /// In en, this message translates to:
-  /// **'Delete failed'**
-  String get deleteFailed;
+  /// **'Delete failed: {error}'**
+  String deleteFailed(String error);
 
   /// No description provided for @timeFormat.
   ///
@@ -2622,11 +2622,11 @@ abstract class AppLocalizations {
   /// **'(edited)'**
   String get edited;
 
-  /// No description provided for @commentsCount.
+  /// Number of comments
   ///
   /// In en, this message translates to:
   /// **'{count} comments'**
-  String commentsCount(Object count);
+  String commentsCount(int count);
 
   /// No description provided for @deletePost.
   ///
@@ -2673,7 +2673,7 @@ abstract class AppLocalizations {
   /// No description provided for @loadMoreComments.
   ///
   /// In en, this message translates to:
-  /// **'Load more comments'**
+  /// **'Load More Comments'**
   String get loadMoreComments;
 
   /// No description provided for @editComment.
@@ -6479,6 +6479,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'✅ Database has been updated!\n\nPlease restart the app and try again.'**
   String get databaseUpdated;
+
+  /// No description provided for @confirmDeletePost.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this post?\nDeleted posts cannot be recovered.'**
+  String get confirmDeletePost;
+
+  /// No description provided for @postDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Post has been deleted.'**
+  String get postDeleted;
+
+  /// No description provided for @commentUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment has been updated.'**
+  String get commentUpdated;
+
+  /// No description provided for @confirmDeleteComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this comment?\nDeleted comments cannot be recovered.'**
+  String get confirmDeleteComment;
+
+  /// No description provided for @commentDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment has been deleted.'**
+  String get commentDeleted;
+
+  /// No description provided for @shareFeatureInDevelopment.
+  ///
+  /// In en, this message translates to:
+  /// **'Share feature is under development'**
+  String get shareFeatureInDevelopment;
+
+  /// No description provided for @sortByRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by Recent'**
+  String get sortByRecent;
+
+  /// No description provided for @replyCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply has been posted.'**
+  String get replyCreated;
+
+  /// No description provided for @commentCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment has been posted.'**
+  String get commentCreated;
+
+  /// No description provided for @commentCreationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to post comment.'**
+  String get commentCreationFailed;
+
+  /// No description provided for @reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get reply;
+
+  /// Reply to specific person
+  ///
+  /// In en, this message translates to:
+  /// **'Reply to {nickname}'**
+  String replyTo(String nickname);
+
+  /// No description provided for @writeReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a reply...'**
+  String get writeReply;
+
+  /// No description provided for @writeComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a comment...'**
+  String get writeComment;
+
+  /// View more replies
+  ///
+  /// In en, this message translates to:
+  /// **'View {count} more replies'**
+  String moreReplies(int count);
+
+  /// No description provided for @copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy;
+
+  /// No description provided for @report.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get report;
+
+  /// No description provided for @commentCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment has been copied'**
+  String get commentCopied;
+
+  /// No description provided for @reportComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Comment'**
+  String get reportComment;
+
+  /// No description provided for @confirmReportComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to report this comment?\nIt will be reported as inappropriate content or spam.'**
+  String get confirmReportComment;
+
+  /// No description provided for @reportSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Report has been submitted.'**
+  String get reportSubmitted;
 }
 
 class _AppLocalizationsDelegate

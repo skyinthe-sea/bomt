@@ -319,7 +319,7 @@ class CommunityPostDetailCard extends StatelessWidget {
                                     if (post.isEdited) ...[
                                       const SizedBox(width: 6),
                                       Text(
-                                        '(수정됨)',
+                                        AppLocalizations.of(context)!.edited,
                                         style: theme.textTheme.bodySmall?.copyWith(
                                           color: theme.colorScheme.primary.withOpacity(0.7),
                                           fontSize: 11,

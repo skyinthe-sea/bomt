@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 
 class CommunityCommentInput extends StatefulWidget {
   final TextEditingController controller;
@@ -117,7 +118,7 @@ class _CommunityCommentInputState extends State<CommunityCommentInput> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '${widget.replyToNickname}님에게 답글',
+                          AppLocalizations.of(context)!.replyTo(widget.replyToNickname!),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.primary,
                             fontWeight: FontWeight.w600,
@@ -177,8 +178,8 @@ class _CommunityCommentInputState extends State<CommunityCommentInput> {
                           focusNode: widget.focusNode,
                           decoration: InputDecoration(
                             hintText: widget.replyToNickname != null 
-                                ? '답글을 입력하세요...'
-                                : '댓글을 입력하세요...',
+                                ? AppLocalizations.of(context)!.writeReply
+                                : AppLocalizations.of(context)!.writeComment,
                             hintStyle: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.onSurface.withOpacity(0.5),
                             ),

@@ -3110,5 +3110,82 @@
         "type": "String"
       }
     }
-  }
+  },
+
+  "deletePost": "Delete Post",
+  "confirmDeletePost": "Are you sure you want to delete this post?\nDeleted posts cannot be recovered.",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "postDeleted": "Post has been deleted.",
+  "deleteFailed": "Delete failed: {error}",
+  "@deleteFailed": {
+    "description": "Error message for deletion failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "editComment": "Edit Comment",
+  "editCommentHint": "Edit your comment...",
+  "commentUpdated": "Comment has been updated.",
+  "updateFailed": "Update failed: {error}",
+  "@updateFailed": {
+    "description": "Error message for update failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "edit": "Edit",
+  "deleteComment": "Delete Comment",
+  "confirmDeleteComment": "Are you sure you want to delete this comment?\nDeleted comments cannot be recovered.",
+  "commentDeleted": "Comment has been deleted.",
+  "postNotFound": "Post not found",
+  "shareFeatureInDevelopment": "Share feature is under development",
+  "share": "Share",
+  "commentsCount": "{count} comments",
+  "@commentsCount": {
+    "description": "Number of comments",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sortByLikes": "Sort by Likes",
+  "sortByRecent": "Sort by Recent",
+  "loadingComments": "Loading comments...",
+  "loadMoreComments": "Load More Comments",
+  "replyCreated": "Reply has been posted.",
+  "commentCreated": "Comment has been posted.",
+  "commentCreationFailed": "Failed to post comment.",
+  "reply": "Reply",
+  "replyTo": "Reply to {nickname}",
+  "@replyTo": {
+    "description": "Reply to specific person",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "writeReply": "Write a reply...",
+  "writeComment": "Write a comment...",
+  "moreReplies": "View {count} more replies",
+  "@moreReplies": {
+    "description": "View more replies",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "copy": "Copy",
+  "report": "Report",
+  "commentCopied": "Comment has been copied",
+  "reportComment": "Report Comment",
+  "confirmReportComment": "Do you want to report this comment?\nIt will be reported as inappropriate content or spam.",
+  "reportSubmitted": "Report has been submitted."
 }

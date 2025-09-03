@@ -1561,5 +1561,82 @@
   "databaseUpdated": "✅ データベースが更新されました！\n\nアプリを再起動してから再試行してください。",
   "@databaseUpdated": {
     "description": "Info message for database update completion"
-  }
+  },
+
+  "deletePost": "投稿を削除",
+  "confirmDeletePost": "本当にこの投稿を削除しますか？\n削除された投稿は復元できません。",
+  "cancel": "キャンセル",
+  "delete": "削除",
+  "postDeleted": "投稿が削除されました。",
+  "deleteFailed": "削除に失敗しました: {error}",
+  "@deleteFailed": {
+    "description": "Error message for deletion failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "editComment": "コメントを編集",
+  "editCommentHint": "コメントを編集してください...",
+  "commentUpdated": "コメントが更新されました。",
+  "updateFailed": "更新に失敗しました: {error}",
+  "@updateFailed": {
+    "description": "Error message for update failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "edit": "編集",
+  "deleteComment": "コメントを削除",
+  "confirmDeleteComment": "本当にこのコメントを削除しますか？\n削除されたコメントは復元できません。",
+  "commentDeleted": "コメントが削除されました。",
+  "postNotFound": "投稿が見つかりません",
+  "shareFeatureInDevelopment": "シェア機能は開発中です",
+  "share": "シェア",
+  "commentsCount": "コメント{count}件",
+  "@commentsCount": {
+    "description": "Number of comments",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sortByLikes": "いいね順",
+  "sortByRecent": "最新順",
+  "loadingComments": "コメントを読み込み中...",
+  "loadMoreComments": "もっとコメントを見る",
+  "replyCreated": "返信が投稿されました。",
+  "commentCreated": "コメントが投稿されました。",
+  "commentCreationFailed": "コメントの投稿に失敗しました。",
+  "reply": "返信",
+  "replyTo": "{nickname}さんに返信",
+  "@replyTo": {
+    "description": "Reply to specific person",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "writeReply": "返信を書いてください...",
+  "writeComment": "コメントを書いてください...",
+  "moreReplies": "返信をさらに{count}件表示",
+  "@moreReplies": {
+    "description": "View more replies",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "copy": "コピー",
+  "report": "通報",
+  "commentCopied": "コメントがコピーされました",
+  "reportComment": "コメントを通報",
+  "confirmReportComment": "このコメントを通報しますか？\n不適切なコンテンツやスパムとして通報されます。",
+  "reportSubmitted": "通報が送信されました。"
 }

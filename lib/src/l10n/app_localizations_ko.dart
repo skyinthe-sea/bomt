@@ -724,7 +724,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get ok => '확인';
 
   @override
-  String get edit => '편집';
+  String get edit => '수정';
 
   @override
   String get delete => '삭제';
@@ -792,10 +792,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String get loadFailed => '로드에 실패했습니다';
 
   @override
-  String get updateFailed => '업데이트에 실패했습니다';
+  String updateFailed(String error) {
+    return '수정 실패: $error';
+  }
 
   @override
-  String get deleteFailed => '삭제에 실패했습니다';
+  String deleteFailed(String error) {
+    return '삭제 실패: $error';
+  }
 
   @override
   String timeFormat(Object hour, Object minute) {
@@ -1376,7 +1380,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get edited => '(수정됨)';
 
   @override
-  String commentsCount(Object count) {
+  String commentsCount(int count) {
     return '댓글 $count개';
   }
 
@@ -3473,4 +3477,71 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get databaseUpdated => '✅ 데이터베이스가 업데이트되었습니다!\n\n앱을 재시작한 후 다시 시도해주세요.';
+
+  @override
+  String get confirmDeletePost => '정말로 이 게시글을 삭제하시겠습니까?\n삭제된 게시글은 복구할 수 없습니다.';
+
+  @override
+  String get postDeleted => '게시글이 삭제되었습니다.';
+
+  @override
+  String get commentUpdated => '댓글이 수정되었습니다.';
+
+  @override
+  String get confirmDeleteComment => '정말로 이 댓글을 삭제하시겠습니까?\n삭제된 댓글은 복구할 수 없습니다.';
+
+  @override
+  String get commentDeleted => '댓글이 삭제되었습니다.';
+
+  @override
+  String get shareFeatureInDevelopment => '공유 기능 준비 중입니다';
+
+  @override
+  String get sortByRecent => '최신순';
+
+  @override
+  String get replyCreated => '답글이 작성되었습니다.';
+
+  @override
+  String get commentCreated => '댓글이 작성되었습니다.';
+
+  @override
+  String get commentCreationFailed => '댓글 작성에 실패했습니다.';
+
+  @override
+  String get reply => '답글';
+
+  @override
+  String replyTo(String nickname) {
+    return '$nickname님에게 답글';
+  }
+
+  @override
+  String get writeReply => '답글을 입력하세요...';
+
+  @override
+  String get writeComment => '댓글을 입력하세요...';
+
+  @override
+  String moreReplies(int count) {
+    return '답글 $count개 더 보기';
+  }
+
+  @override
+  String get copy => '복사';
+
+  @override
+  String get report => '신고';
+
+  @override
+  String get commentCopied => '댓글이 복사되었습니다';
+
+  @override
+  String get reportComment => '댓글 신고';
+
+  @override
+  String get confirmReportComment => '이 댓글을 신고하시겠습니까?\n부적절한 내용이나 스팸으로 신고됩니다.';
+
+  @override
+  String get reportSubmitted => '신고가 접수되었습니다.';
 }

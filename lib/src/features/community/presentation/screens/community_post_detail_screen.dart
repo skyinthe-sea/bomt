@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/community_comment.dart';
 import '../../../../presentation/providers/community_post_provider.dart';
 import '../../../../presentation/providers/community_provider.dart';
@@ -66,25 +67,26 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
   }
 
   Future<void> _handleDeletePost(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        title: const Text('게시글 삭제'),
-        content: const Text('정말로 이 게시글을 삭제하시겠습니까?\n삭제된 게시글은 복구할 수 없습니다.'),
+        title: Text(l10n.deletePost),
+        content: Text(l10n.confirmDeletePost),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('취소'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,
             ),
-            child: const Text('삭제'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -98,7 +100,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
         if (success && mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('게시글이 삭제되었습니다.'),
+              content: Text(l10n.postDeleted),
               backgroundColor: Theme.of(context).colorScheme.primary,
             ),
           );
@@ -108,7 +110,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('삭제 실패: ${e.toString()}'),
+              content: Text(l10n.deleteFailed(e.toString())),
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
           );
@@ -289,6 +291,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
 
   // 댓글 수정 다이얼로그 표시 (Provider 접근 없이)
   void _showEditCommentDialog(String commentId, String currentContent, BuildContext providerContext) {
+    final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController(text: currentContent);
     
     showDialog(
@@ -297,19 +300,19 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        title: const Text('댓글 수정'),
+        title: Text(l10n.editComment),
         content: TextField(
           controller: controller,
           maxLines: 3,
-          decoration: const InputDecoration(
-            hintText: '댓글을 수정하세요...',
+          decoration: InputDecoration(
+            hintText: l10n.editCommentHint,
             border: OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('취소'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -325,7 +328,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: const Text('댓글이 수정되었습니다.'),
+                        content: Text(l10n.commentUpdated),
                         backgroundColor: Theme.of(context).colorScheme.primary,
                       ),
                     );
@@ -334,7 +337,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('수정 실패: ${e.toString()}'),
+                        content: Text(l10n.updateFailed(e.toString())),
                         backgroundColor: Theme.of(context).colorScheme.error,
                       ),
                     );
@@ -343,7 +346,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
               }
               controller.dispose();
             },
-            child: const Text('수정'),
+            child: Text(l10n.edit),
           ),
         ],
       ),
@@ -352,25 +355,26 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
 
   // 댓글 삭제 다이얼로그 표시 (Provider 접근 없이)
   Future<void> _showDeleteCommentDialog(String commentId, BuildContext providerContext) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        title: const Text('댓글 삭제'),
-        content: const Text('정말로 이 댓글을 삭제하시겠습니까?\n삭제된 댓글은 복구할 수 없습니다.'),
+        title: Text(l10n.deleteComment),
+        content: Text(l10n.confirmDeleteComment),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('취소'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(dialogContext).colorScheme.error,
             ),
-            child: const Text('삭제'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -385,7 +389,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('댓글이 삭제되었습니다.'),
+              content: Text(l10n.commentDeleted),
               backgroundColor: Theme.of(context).colorScheme.primary,
             ),
           );
@@ -394,7 +398,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('삭제 실패: ${e.toString()}'),
+              content: Text(l10n.deleteFailed(e.toString())),
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
           );
@@ -449,7 +453,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      '게시글을 찾을 수 없습니다',
+                      AppLocalizations.of(context)!.postNotFound,
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: theme.colorScheme.onSurface.withOpacity(0.6),
                       ),
@@ -510,7 +514,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                             Icons.edit,
                             color: theme.colorScheme.primary,
                           ),
-                          tooltip: '수정',
+                          tooltip: AppLocalizations.of(context)!.edit,
                         ),
                       ),
                       // 삭제 버튼 (작성자만)
@@ -533,7 +537,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                             Icons.delete,
                             color: theme.colorScheme.error,
                           ),
-                          tooltip: '삭제',
+                          tooltip: AppLocalizations.of(context)!.delete,
                         ),
                       ),
                     ]
@@ -556,14 +560,14 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                           onPressed: () {
                             // TODO: 공유 기능
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('공유 기능 준비 중입니다')),
+                              SnackBar(content: Text(AppLocalizations.of(context)!.shareFeatureInDevelopment)),
                             );
                           },
                           icon: Icon(
                             Icons.share,
                             color: theme.colorScheme.onSurface,
                           ),
-                          tooltip: '공유',
+                          tooltip: AppLocalizations.of(context)!.share,
                         ),
                       ),
                     ],
@@ -621,7 +625,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 16),
                                       child: Text(
-                                        '댓글 ${provider.totalCommentsCount}개',
+                                        AppLocalizations.of(context)!.commentsCount(provider.totalCommentsCount),
                                         style: theme.textTheme.bodyMedium?.copyWith(
                                           color: theme.colorScheme.onSurface.withOpacity(0.6),
                                           fontWeight: FontWeight.w600,
@@ -680,7 +684,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                                                       ),
                                                       const SizedBox(width: 4),
                                                       Text(
-                                                        '좋아요순',
+                                                        AppLocalizations.of(context)!.sortByLikes,
                                                         style: theme.textTheme.bodySmall?.copyWith(
                                                           color: provider.commentSortOrder == 'like_count'
                                                               ? Colors.white
@@ -725,7 +729,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                                                       ),
                                                       const SizedBox(width: 4),
                                                       Text(
-                                                        '최신순',
+                                                        AppLocalizations.of(context)!.sortByRecent,
                                                         style: theme.textTheme.bodySmall?.copyWith(
                                                           color: provider.commentSortOrder == 'created_at'
                                                               ? Colors.white
@@ -795,7 +799,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                                   ),
                                   const SizedBox(width: 12),
                                   Text(
-                                    '댓글 불러오는 중...',
+                                    AppLocalizations.of(context)!.loadingComments,
                                     style: theme.textTheme.bodySmall?.copyWith(
                                       color: theme.colorScheme.onSurface.withOpacity(0.6),
                                     ),
@@ -834,7 +838,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                                     color: theme.colorScheme.primary,
                                   ),
                                   label: Text(
-                                    '더 많은 댓글 보기',
+                                    AppLocalizations.of(context)!.loadMoreComments,
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       color: theme.colorScheme.primary,
                                       fontWeight: FontWeight.w600,
@@ -900,7 +904,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                                       size: 20,
                                     ),
                                     const SizedBox(width: 8),
-                                    Text(isReply ? '답글이 작성되었습니다.' : '댓글이 작성되었습니다.'),
+                                    Text(isReply ? AppLocalizations.of(context)!.replyCreated : AppLocalizations.of(context)!.commentCreated),
                                   ],
                                 ),
                                 backgroundColor: theme.colorScheme.primary,
@@ -928,7 +932,7 @@ class _CommunityPostDetailScreenState extends State<CommunityPostDetailScreen> {
                                     size: 20,
                                   ),
                                   const SizedBox(width: 8),
-                                  Text('댓글 작성에 실패했습니다.'),
+                                  Text(AppLocalizations.of(context)!.commentCreationFailed),
                                 ],
                               ),
                               backgroundColor: theme.colorScheme.error,

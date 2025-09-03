@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/community_comment.dart';
 import '../../../../presentation/providers/community_post_provider.dart';
 
@@ -376,7 +377,7 @@ class _CommunityCommentItemState extends State<CommunityCommentItem>
                               if (widget.comment.isEdited) ...[
                                 const SizedBox(width: 4),
                                 Text(
-                                  '(수정됨)',
+                                  AppLocalizations.of(context)!.edited,
                                   style: theme.textTheme.bodySmall?.copyWith(
                                     color: theme.colorScheme.primary.withOpacity(0.7),
                                     fontSize: 10,
@@ -421,7 +422,7 @@ class _CommunityCommentItemState extends State<CommunityCommentItem>
                                 color: theme.colorScheme.onSurface.withOpacity(0.7),
                               ),
                               const SizedBox(width: 8),
-                              const Text('복사'),
+                              Text(AppLocalizations.of(context)!.copy),
                             ],
                           ),
                         ),
@@ -466,7 +467,7 @@ class _CommunityCommentItemState extends State<CommunityCommentItem>
                                   color: theme.colorScheme.outline,
                                 ),
                                 const SizedBox(width: 8),
-                                const Text('신고'),
+                                Text(AppLocalizations.of(context)!.report),
                               ],
                             ),
                           ),
@@ -582,7 +583,7 @@ class _CommunityCommentItemState extends State<CommunityCommentItem>
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                '답글',
+                                AppLocalizations.of(context)!.reply,
                                 style: theme.textTheme.bodySmall?.copyWith(
                                   color: theme.colorScheme.onSurface.withOpacity(0.6),
                                   fontWeight: FontWeight.w500,
@@ -680,7 +681,7 @@ class _CommunityCommentItemState extends State<CommunityCommentItem>
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '답글 ${remainingReplyCount}개 더 보기',
+                        AppLocalizations.of(context)!.moreReplies(remainingReplyCount),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.primary,
                           fontWeight: FontWeight.w600,
@@ -716,7 +717,7 @@ class _CommunityCommentItemState extends State<CommunityCommentItem>
               size: 18,
             ),
             const SizedBox(width: 8),
-            const Text('댓글이 복사되었습니다'),
+            Text(AppLocalizations.of(context)!.commentCopied),
           ],
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -782,8 +783,8 @@ class _CommunityCommentItemState extends State<CommunityCommentItem>
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        title: const Text('댓글 신고'),
-        content: const Text('이 댓글을 신고하시겠습니까?\n부적절한 내용이나 스팸으로 신고됩니다.'),
+        title: Text(AppLocalizations.of(context)!.reportComment),
+        content: Text(AppLocalizations.of(context)!.confirmReportComment),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -793,13 +794,13 @@ class _CommunityCommentItemState extends State<CommunityCommentItem>
             onPressed: () {
               Navigator.of(context).pop();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('신고가 접수되었습니다.')),
+                SnackBar(content: Text(AppLocalizations.of(context)!.reportSubmitted)),
               );
             },
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,
             ),
-            child: const Text('신고'),
+            child: Text(AppLocalizations.of(context)!.report),
           ),
         ],
       ),

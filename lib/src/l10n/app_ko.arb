@@ -1725,5 +1725,82 @@
         "type": "String"
       }
     }
-  }
+  },
+
+  "deletePost": "게시글 삭제",
+  "confirmDeletePost": "정말로 이 게시글을 삭제하시겠습니까?\n삭제된 게시글은 복구할 수 없습니다.",
+  "cancel": "취소",
+  "delete": "삭제",
+  "postDeleted": "게시글이 삭제되었습니다.",
+  "deleteFailed": "삭제 실패: {error}",
+  "@deleteFailed": {
+    "description": "Error message for deletion failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "editComment": "댓글 수정",
+  "editCommentHint": "댓글을 수정하세요...",
+  "commentUpdated": "댓글이 수정되었습니다.",
+  "updateFailed": "수정 실패: {error}",
+  "@updateFailed": {
+    "description": "Error message for update failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "edit": "수정",
+  "deleteComment": "댓글 삭제",
+  "confirmDeleteComment": "정말로 이 댓글을 삭제하시겠습니까?\n삭제된 댓글은 복구할 수 없습니다.",
+  "commentDeleted": "댓글이 삭제되었습니다.",
+  "postNotFound": "게시글을 찾을 수 없습니다",
+  "shareFeatureInDevelopment": "공유 기능 준비 중입니다",
+  "share": "공유",
+  "commentsCount": "댓글 {count}개",
+  "@commentsCount": {
+    "description": "Number of comments",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sortByLikes": "좋아요순",
+  "sortByRecent": "최신순",
+  "loadingComments": "댓글 불러오는 중...",
+  "loadMoreComments": "더 많은 댓글 보기",
+  "replyCreated": "답글이 작성되었습니다.",
+  "commentCreated": "댓글이 작성되었습니다.",
+  "commentCreationFailed": "댓글 작성에 실패했습니다.",
+  "reply": "답글",
+  "replyTo": "{nickname}님에게 답글",
+  "@replyTo": {
+    "description": "Reply to specific person",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "writeReply": "답글을 입력하세요...",
+  "writeComment": "댓글을 입력하세요...",
+  "moreReplies": "답글 {count}개 더 보기",
+  "@moreReplies": {
+    "description": "View more replies",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "copy": "복사",
+  "report": "신고",
+  "commentCopied": "댓글이 복사되었습니다",
+  "reportComment": "댓글 신고",
+  "confirmReportComment": "이 댓글을 신고하시겠습니까?\n부적절한 내용이나 스팸으로 신고됩니다.",
+  "reportSubmitted": "신고가 접수되었습니다."
 }
