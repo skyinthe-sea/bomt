@@ -1640,5 +1640,9 @@
   "confirmReportComment": "このコメントを通報しますか？\n不適切なコンテンツやスパムとして通報されます。",
   "reportSubmitted": "通報が送信されました。",
   "serviceInPreparation": "💝 準備中のサービス",
-  "upcomingServiceDescription": "まもなく有用な育児情報と製品をご紹介いたします"
+  "upcomingServiceDescription": "まもなく有用な育児情報と製品をご紹介いたします",
+  "countTab": "回数",
+  "amountTimeTab": "量/時間",
+  "durationTab": "期間",
+  "weekdaysSundayToSaturday": "日月火水木金土"
 }

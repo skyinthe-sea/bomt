@@ -2417,13 +2417,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get averagePumpedAmount => '평균 유축량';
 
   @override
-  String get countTab => 'Count';
+  String get countTab => '횟수';
 
   @override
-  String get amountTimeTab => 'Amount/Time';
+  String get amountTimeTab => '양/시간';
 
   @override
-  String get durationTab => 'Duration';
+  String get durationTab => '기간';
 
   @override
   String get chartDataLoading => 'Loading chart data...';
@@ -2438,7 +2438,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dailyFeedingCountTitle => 'Daily feeding count';
 
   @override
-  String get weekdaysSundayToSaturday => 'SunMonTueWedThuFriSat';
+  String get weekdaysSundayToSaturday => '일월화수목금토';
 
   @override
   String dayFormat(int day) {

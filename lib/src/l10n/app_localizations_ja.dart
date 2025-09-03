@@ -2416,13 +2416,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get averagePumpedAmount => '平均搾乳量';
 
   @override
-  String get countTab => 'Count';
+  String get countTab => '回数';
 
   @override
-  String get amountTimeTab => 'Amount/Time';
+  String get amountTimeTab => '量/時間';
 
   @override
-  String get durationTab => 'Duration';
+  String get durationTab => '期間';
 
   @override
   String get chartDataLoading => 'Loading chart data...';
@@ -2437,7 +2437,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dailyFeedingCountTitle => 'Daily feeding count';
 
   @override
-  String get weekdaysSundayToSaturday => 'SunMonTueWedThuFriSat';
+  String get weekdaysSundayToSaturday => '日月火水木金土';
 
   @override
   String dayFormat(int day) {
