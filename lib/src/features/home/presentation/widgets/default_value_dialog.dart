@@ -132,7 +132,7 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${widget.cardName} ${l10n.defaultValueSettings}',
+                          '${_getLocalizedCardName(context)} ${l10n.defaultValueSettings}',
                           style: theme.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: theme.colorScheme.onSurface,
@@ -636,6 +636,27 @@ class _DefaultValueDialogState extends State<DefaultValueDialog> {
   void _saveSettings() {
     widget.onSave(_settings);
     Navigator.of(context).pop();
+  }
+  
+  /// 카드 이름 로열라이제이션
+  String _getLocalizedCardName(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (widget.cardName) {
+      case '수유':
+        return l10n.feeding;
+      case '수면':
+        return l10n.sleep;
+      case '기저귀':
+        return l10n.diaperChange;
+      case '이유식':
+        return l10n.solidFood;
+      case '투약':
+        return l10n.medication;
+      case '유축':
+        return l10n.milkPumping;
+      default:
+        return widget.cardName;
+    }
   }
   
   /// 카드 타입별 아이콘 반환
