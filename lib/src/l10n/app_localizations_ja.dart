@@ -2313,16 +2313,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cardSettingsInstructions =>
-      '• Toggle switches to show/hide cards\n• Drag to change card order\n• Changes are previewed in real time';
+      '• トグルスイッチでカード表示/非表示\n• ドラッグでカード順序変更\n• 変更はリアルタイムでプレビュー';
 
   @override
-  String get visible => 'Visible';
+  String get visible => '表示';
 
   @override
-  String get hidden => 'Hidden';
+  String get hidden => '非表示';
 
   @override
-  String get touchToSetDefault => 'Touch to set default values';
+  String get touchToSetDefault => 'タップしてデフォルト値を設定';
 
   @override
   String get unsavedChangesMessage =>

@@ -48,6 +48,26 @@
   "diaperColorYellow": "Yellow",
   "diaperColorBrown": "Brown",
   "diaperColorGreen": "Green",
+
+  "cardSettingsInstructions": "• Toggle switches to show/hide cards\n• Drag to change card order\n• Changes are previewed in real time",
+  "@cardSettingsInstructions": {
+    "description": "Instructions for using card settings"
+  },
+
+  "visible": "Visible",
+  "@visible": {
+    "description": "Label for visible state"
+  },
+
+  "hidden": "Hidden",
+  "@hidden": {
+    "description": "Label for hidden state"
+  },
+
+  "touchToSetDefault": "Touch to set default values",
+  "@touchToSetDefault": {
+    "description": "Hint text to set default values"
+  },
   "diaperColorBlack": "Black",
   "diaperColorOrange": "Orange",
   "diaperConsistencyNormal": "Normal",

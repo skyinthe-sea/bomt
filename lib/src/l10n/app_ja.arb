@@ -1350,5 +1350,25 @@
   "refrigerator": "冷蔵庫",
   "freezer": "冷凍庫",
   "roomTemperature": "常温",
-  "useImmediately": "すぐ使用"
+  "useImmediately": "すぐ使用",
+
+  "cardSettingsInstructions": "• トグルスイッチでカード表示/非表示\n• ドラッグでカード順序変更\n• 変更はリアルタイムでプレビュー",
+  "@cardSettingsInstructions": {
+    "description": "Instructions for using card settings"
+  },
+
+  "visible": "表示",
+  "@visible": {
+    "description": "Label for visible state"
+  },
+
+  "hidden": "非表示",
+  "@hidden": {
+    "description": "Label for hidden state"
+  },
+
+  "touchToSetDefault": "タップしてデフォルト値を設定",
+  "@touchToSetDefault": {
+    "description": "Hint text to set default values"
+  }
 }

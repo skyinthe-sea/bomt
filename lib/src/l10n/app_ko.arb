@@ -1419,5 +1419,25 @@
   "refrigerator": "냉장고",
   "freezer": "냉동고",
   "roomTemperature": "실온",
-  "useImmediately": "즉시 사용"
+  "useImmediately": "즉시 사용",
+
+  "cardSettingsInstructions": "• 토글 스위치로 카드 표시/숨김\n• 드래그로 카드 순서 변경\n• 변경사항은 실시간으로 미리보기",
+  "@cardSettingsInstructions": {
+    "description": "Instructions for using card settings"
+  },
+
+  "visible": "표시됨",
+  "@visible": {
+    "description": "Label for visible state"
+  },
+
+  "hidden": "숨김",
+  "@hidden": {
+    "description": "Label for hidden state"
+  },
+
+  "touchToSetDefault": "터치하여 기본값 설정",
+  "@touchToSetDefault": {
+    "description": "Hint text to set default values"
+  }
 }

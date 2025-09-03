@@ -2314,16 +2314,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get cardSettingsInstructions =>
-      '• Toggle switches to show/hide cards\n• Drag to change card order\n• Changes are previewed in real time';
+      '• 토글 스위치로 카드 표시/숨김\n• 드래그로 카드 순서 변경\n• 변경사항은 실시간으로 미리보기';
 
   @override
-  String get visible => 'Visible';
+  String get visible => '표시됨';
 
   @override
-  String get hidden => 'Hidden';
+  String get hidden => '숨김';
 
   @override
-  String get touchToSetDefault => 'Touch to set default values';
+  String get touchToSetDefault => '터치하여 기본값 설정';
 
   @override
   String get unsavedChangesMessage =>
