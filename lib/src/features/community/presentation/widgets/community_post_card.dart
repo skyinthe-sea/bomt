@@ -341,7 +341,7 @@ class _CommunityPostCardState extends State<CommunityPostCard> {
           ),
           const SizedBox(width: 6),
           Text(
-            '24시간 활동 패턴',
+            AppLocalizations.of(context)!.hourActivityPattern,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.primary,
               fontWeight: FontWeight.w600,

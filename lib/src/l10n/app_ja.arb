@@ -1638,5 +1638,7 @@
   "commentCopied": "コメントがコピーされました",
   "reportComment": "コメントを通報",
   "confirmReportComment": "このコメントを通報しますか？\n不適切なコンテンツやスパムとして通報されます。",
-  "reportSubmitted": "通報が送信されました。"
+  "reportSubmitted": "通報が送信されました。",
+  "serviceInPreparation": "💝 準備中のサービス",
+  "upcomingServiceDescription": "まもなく有用な育児情報と製品をご紹介いたします"
 }

@@ -451,7 +451,7 @@ class CommunityPostDetailCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              '24시간 활동 패턴',
+                              AppLocalizations.of(context)!.hourActivityPattern,
                               style: theme.textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
                                 color: theme.colorScheme.primary,
@@ -603,7 +603,7 @@ class CommunityPostDetailCard extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  '좋아요',
+                                  AppLocalizations.of(context)!.likes,
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     color: isOwnPost
                                         ? theme.colorScheme.outline.withOpacity(0.5)
@@ -657,7 +657,7 @@ class CommunityPostDetailCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '댓글',
+                            AppLocalizations.of(context)!.comments,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.onSurface.withOpacity(0.6),
                               fontWeight: FontWeight.w500,

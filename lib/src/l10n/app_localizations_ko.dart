@@ -3544,4 +3544,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get reportSubmitted => '신고가 접수되었습니다.';
+
+  @override
+  String get serviceInPreparation => '💝 준비 중인 서비스';
+
+  @override
+  String get upcomingServiceDescription => '곧 유용한 육아 정보와 제품을 소개해드릴 예정입니다';
 }

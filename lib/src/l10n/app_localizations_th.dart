@@ -3613,4 +3613,11 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get reportSubmitted => 'Report has been submitted.';
+
+  @override
+  String get serviceInPreparation => '💝 Service in Preparation';
+
+  @override
+  String get upcomingServiceDescription =>
+      'We will soon introduce useful parenting information and products';
 }

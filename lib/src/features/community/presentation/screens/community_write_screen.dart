@@ -447,7 +447,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                           Icons.timeline,
                           color: theme.colorScheme.primary,
                         ),
-                        tooltip: '24시간 활동 패턴 추가',
+                        tooltip: AppLocalizations.of(context)!.hourActivityPattern,
                       ),
                     ),
                     

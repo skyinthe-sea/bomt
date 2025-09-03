@@ -245,7 +245,7 @@ class _CommunityTimelineSelectorState extends State<CommunityTimelineSelector> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '24시간 활동 패턴',
+                      AppLocalizations.of(context)!.hourActivityPattern,
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                         color: theme.colorScheme.primary,

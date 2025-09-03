@@ -1802,5 +1802,7 @@
   "commentCopied": "댓글이 복사되었습니다",
   "reportComment": "댓글 신고",
   "confirmReportComment": "이 댓글을 신고하시겠습니까?\n부적절한 내용이나 스팸으로 신고됩니다.",
-  "reportSubmitted": "신고가 접수되었습니다."
+  "reportSubmitted": "신고가 접수되었습니다.",
+  "serviceInPreparation": "💝 준비 중인 서비스",
+  "upcomingServiceDescription": "곧 유용한 육아 정보와 제품을 소개해드릴 예정입니다"
 }

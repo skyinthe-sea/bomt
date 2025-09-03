@@ -6605,6 +6605,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Report has been submitted.'**
   String get reportSubmitted;
+
+  /// No description provided for @serviceInPreparation.
+  ///
+  /// In en, this message translates to:
+  /// **'💝 Service in Preparation'**
+  String get serviceInPreparation;
+
+  /// No description provided for @upcomingServiceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'We will soon introduce useful parenting information and products'**
+  String get upcomingServiceDescription;
 }
 
 class _AppLocalizationsDelegate

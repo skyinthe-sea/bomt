@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 
 class CommunityAdCard extends StatelessWidget {
   const CommunityAdCard({super.key});
@@ -67,7 +68,7 @@ class CommunityAdCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '💝 준비 중인 서비스',
+                            AppLocalizations.of(context)!.serviceInPreparation,
                             style: theme.textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: theme.colorScheme.onSurface,
@@ -75,7 +76,7 @@ class CommunityAdCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '곧 유용한 육아 정보와 제품을 소개해드릴 예정입니다',
+                            AppLocalizations.of(context)!.upcomingServiceDescription,
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurface.withOpacity(0.7),
                               height: 1.3,

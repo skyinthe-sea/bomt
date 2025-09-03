@@ -3534,4 +3534,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get reportSubmitted => '通報が送信されました。';
+
+  @override
+  String get serviceInPreparation => '💝 準備中のサービス';
+
+  @override
+  String get upcomingServiceDescription => 'まもなく有用な育児情報と製品をご紹介いたします';
 }
