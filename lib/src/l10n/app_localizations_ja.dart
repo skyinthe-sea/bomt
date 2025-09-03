@@ -1616,7 +1616,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get inviteCodeGenerated => '招待コード生成完了！';
+  String get inviteCodeGeneratedStatus => '招待コードが生成されました！';
 
   @override
   String remainingTime(String time) {
@@ -1674,7 +1674,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get joinedSuccessfully => '家族に正常に参加しました！';
 
   @override
-  String get inviteCodeExpired => '招待コードが期限切れです';
+  String get inviteCodeExpired => '招待コードが期限切れです。新しいコードを作成してください。';
 
   @override
   String get invalidInviteCode => '無効な招待コードです';
@@ -2336,8 +2336,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get exitWithoutSaving => 'Exit';
 
   @override
-  String get savingError =>
-      'An error occurred while saving settings. Please try again.';
+  String get savingError => '保存中にエラーが発生しました';
 
   @override
   String get familyMembers => 'Family Members';
@@ -3364,4 +3363,104 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get useImmediately => 'すぐ使用';
+
+  @override
+  String cardSettingsSavePartialFailure(String failedCards) {
+    return '一部のカード設定の保存に失敗しました: $failedCards';
+  }
+
+  @override
+  String get feedingAmountValidationError => '授乳量は1〜1000mlの間で入力してください';
+
+  @override
+  String get feedingDurationValidationError => '授乳時間は1〜180分の間で入力してください';
+
+  @override
+  String inviteCreationError(String error) {
+    return '招待作成中にエラーが発生しました: $error';
+  }
+
+  @override
+  String get shareFailed => '共有に失敗しました';
+
+  @override
+  String inviteCodeGenerationFailed(String error) {
+    return '招待コード生成に失敗しました: $error';
+  }
+
+  @override
+  String get databaseSaveFailed => 'データベースの保存に失敗しました。再試行してください';
+
+  @override
+  String get growthRecordProcessingError => '成長記録の処理中にエラーが発生しました';
+
+  @override
+  String get authenticationFailed => '認証に失敗しました。再試行してください。';
+
+  @override
+  String get verificationCodeResendFailed =>
+      '認証コードの再送信に失敗しました。しばらくしてから再試行してください。';
+
+  @override
+  String get accountDeletionError => 'アカウント削除中にエラー';
+
+  @override
+  String babyInfoResetFailed(String babyName) {
+    return '$babyNameの情報リセットに失敗しました。再試行してください。';
+  }
+
+  @override
+  String babyInfoResetError(String error) {
+    return '情報リセット中にエラーが発生しました: $error';
+  }
+
+  @override
+  String get accountDeletionSuccess => 'アカウント削除が正常に完了しました。\n\nいつでも再登録できます。';
+
+  @override
+  String inviteCodeRenewed(String code) {
+    return '既存のコードが期限切れとなり、新しい招待コードが生成されました: $code';
+  }
+
+  @override
+  String inviteCodeGenerated(String code) {
+    return '招待コードが生成されました: $code';
+  }
+
+  @override
+  String get noStatisticsDataToShare => '共有する統計データがありません';
+
+  @override
+  String get noBabySelected => '選択された赤ちゃん情報がありません';
+
+  @override
+  String get imageShareFeatureUnderDevelopment =>
+      '画像共有機能は現在開発中です。テキスト共有をご利用ください。';
+
+  @override
+  String get logoutPartialError => 'ログアウト中に一部エラーが発生しましたが、続行します。';
+
+  @override
+  String get testModeInviteWarning => 'テストモード: 一時的なユーザー情報で招待を作成します。';
+
+  @override
+  String get iosSimulatorCameraWarning =>
+      'iOSシミュレーターではカメラを使用できません。\nギャラリーから再試行してください。';
+
+  @override
+  String get babyLongPressHint => '赤ちゃんを長押しすると情報をリセットできます';
+
+  @override
+  String get pleaseWait => 'しばらくお待ちください';
+
+  @override
+  String get babyInfoReset => '赤ちゃん情報リセット';
+
+  @override
+  String babyInfoResetting(String babyName) {
+    return '$babyNameの情報をリセット中...';
+  }
+
+  @override
+  String get databaseUpdated => '✅ データベースが更新されました！\n\nアプリを再起動してから再試行してください。';
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 
 class FeedingSettingsDialog extends StatefulWidget {
   final Map<String, dynamic> currentDefaults;
@@ -81,12 +82,12 @@ class _FeedingSettingsDialogState extends State<FeedingSettingsDialog>
     final duration = int.tryParse(_durationController.text) ?? _durationMinutes;
 
     if (amount <= 0 || amount > 1000) {
-      _showErrorSnackBar('수유량은 1~1000ml 사이로 입력해주세요');
+      _showErrorSnackBar(AppLocalizations.of(context)!.feedingAmountValidationError);
       return;
     }
 
     if (duration <= 0 || duration > 180) {
-      _showErrorSnackBar('수유 시간은 1~180분 사이로 입력해주세요');
+      _showErrorSnackBar(AppLocalizations.of(context)!.feedingDurationValidationError);
       return;
     }
 

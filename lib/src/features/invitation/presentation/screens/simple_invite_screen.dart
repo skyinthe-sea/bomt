@@ -67,7 +67,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
         // 만료된 코드 삭제
         await _clearSavedInviteCode();
         if (mounted) {
-          _showErrorSnackBar('생성한 초대 코드가 만료되었습니다. 새로 생성해주세요.');
+          _showErrorSnackBar(AppLocalizations.of(context)!.inviteCodeExpired);
         }
       }
     }
@@ -170,7 +170,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
         });
         _clearSavedInviteCode();
         if (mounted) {
-          _showErrorSnackBar('생성한 초대 코드가 만료되었습니다. 새로 생성해주세요.');
+          _showErrorSnackBar(AppLocalizations.of(context)!.inviteCodeExpired);
         }
       } else {
         setState(() {
@@ -270,13 +270,13 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
       _startTimer();
 
       if (existingCode != null) {
-        _showSuccessSnackBar('기존 코드가 만료되고 새로운 초대 코드가 생성되었습니다: $code');
+        _showSuccessSnackBar(AppLocalizations.of(context)!.inviteCodeRenewed(code));
       } else {
-        _showSuccessSnackBar('초대 코드가 생성되었습니다: $code');
+        _showSuccessSnackBar(AppLocalizations.of(context)!.inviteCodeGenerated(code));
       }
       
     } catch (e) {
-      _showErrorSnackBar('초대 코드 생성 실패: $e');
+      _showErrorSnackBar(AppLocalizations.of(context)!.inviteCodeGenerationFailed(e.toString()));
     } finally {
       setState(() => _isLoading = false);
     }
@@ -763,7 +763,7 @@ class _SimpleInviteScreenState extends State<SimpleInviteScreen> {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                l10n.inviteCodeGenerated,
+                                l10n.inviteCodeGeneratedStatus,
                                 style: TextStyle(
                                   color: Theme.of(context).brightness == Brightness.dark
                                       ? Colors.green[400]

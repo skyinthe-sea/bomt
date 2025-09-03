@@ -698,7 +698,7 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         }
       } else {
-        _showError('인증에 실패했습니다. 다시 시도해주세요.');
+        _showError(AppLocalizations.of(context)!.authenticationFailed);
       }
     } catch (e) {
       debugPrint('❌ [OTP_VERIFY] OTP verification failed: $e');
@@ -725,7 +725,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       debugPrint('❌ [OTP_RESEND] Failed to resend OTP: $e');
       final errorMessage = _supabaseAuth.getErrorMessage(e);
-      _showError(errorMessage.isNotEmpty ? errorMessage : '인증 코드 재전송에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      _showError(errorMessage.isNotEmpty ? errorMessage : AppLocalizations.of(context)!.verificationCodeResendFailed);
     }
   }
 

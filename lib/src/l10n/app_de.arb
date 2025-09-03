@@ -1201,5 +1201,195 @@
   "touchToSetDefault": "Touch to set default values",
   "@touchToSetDefault": {
     "description": "Hint text to set default values"
+  },
+
+  "cardSettingsSavePartialFailure": "Failed to save some card settings: {failedCards}",
+  "@cardSettingsSavePartialFailure": {
+    "description": "Error message for partial card settings save failure",
+    "placeholders": {
+      "failedCards": {
+        "type": "String"
+      }
+    }
+  },
+
+  "feedingAmountValidationError": "Please enter feeding amount between 1-1000ml",
+  "@feedingAmountValidationError": {
+    "description": "Error message for feeding amount validation"
+  },
+
+  "feedingDurationValidationError": "Please enter feeding duration between 1-180 minutes",
+  "@feedingDurationValidationError": {
+    "description": "Error message for feeding duration validation"
+  },
+
+  "savingError": "An error occurred while saving",
+  "@savingError": {
+    "description": "General saving error message"
+  },
+
+  "inviteCreationError": "Error occurred while creating invitation: {error}",
+  "@inviteCreationError": {
+    "description": "Error message for invitation creation",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "shareFailed": "Sharing failed",
+  "@shareFailed": {
+    "description": "Error message for sharing failure"
+  },
+
+  "inviteCodeExpired": "The invitation code has expired. Please create a new one.",
+  "@inviteCodeExpired": {
+    "description": "Error message for expired invitation code"
+  },
+
+  "inviteCodeGenerationFailed": "Failed to generate invitation code: {error}",
+  "@inviteCodeGenerationFailed": {
+    "description": "Error message for invitation code generation failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "databaseSaveFailed": "Failed to save to database. Please try again",
+  "@databaseSaveFailed": {
+    "description": "Error message for database save failure"
+  },
+
+  "growthRecordProcessingError": "An error occurred while processing growth record",
+  "@growthRecordProcessingError": {
+    "description": "Error message for growth record processing"
+  },
+
+  "authenticationFailed": "Authentication failed. Please try again.",
+  "@authenticationFailed": {
+    "description": "Error message for authentication failure"
+  },
+
+  "verificationCodeResendFailed": "Failed to resend verification code. Please try again later.",
+  "@verificationCodeResendFailed": {
+    "description": "Error message for verification code resend failure"
+  },
+
+  "accountDeletionError": "Error during account deletion",
+  "@accountDeletionError": {
+    "description": "Error message during account deletion"
+  },
+
+  "babyInfoResetFailed": "Failed to reset {babyName} information. Please try again.",
+  "@babyInfoResetFailed": {
+    "description": "Error message for baby info reset failure",
+    "placeholders": {
+      "babyName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "babyInfoResetError": "An error occurred during information reset: {error}",
+  "@babyInfoResetError": {
+    "description": "Error message during baby info reset",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "temperatureSettingsSaved": "Temperature settings saved",
+  "@temperatureSettingsSaved": {
+    "description": "Success message for temperature settings save"
+  },
+
+  "accountDeletionSuccess": "Account deletion completed successfully.\n\nYou can sign up again anytime.",
+  "@accountDeletionSuccess": {
+    "description": "Success message for account deletion"
+  },
+
+  "inviteCodeRenewed": "Previous code expired and new invitation code generated: {code}",
+  "@inviteCodeRenewed": {
+    "description": "Success message for invitation code renewal",
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+
+  "inviteCodeGenerated": "Invitation code generated: {code}",
+  "@inviteCodeGenerated": {
+    "description": "Success message for invitation code generation",
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+
+  "noStatisticsDataToShare": "No statistics data to share",
+  "@noStatisticsDataToShare": {
+    "description": "Warning message for no statistics data to share"
+  },
+
+  "noBabySelected": "No baby information selected",
+  "@noBabySelected": {
+    "description": "Warning message for no baby selected"
+  },
+
+  "imageShareFeatureUnderDevelopment": "Image sharing feature is under development. Please use text sharing.",
+  "@imageShareFeatureUnderDevelopment": {
+    "description": "Warning message for image sharing feature under development"
+  },
+
+  "logoutPartialError": "Some errors occurred during logout but continuing.",
+  "@logoutPartialError": {
+    "description": "Warning message for partial logout errors"
+  },
+
+  "testModeInviteWarning": "Test mode: Creating invitation with temporary user information.",
+  "@testModeInviteWarning": {
+    "description": "Warning message for test mode invitation"
+  },
+
+  "iosSimulatorCameraWarning": "Camera cannot be used in iOS Simulator.\nPlease try again from gallery.",
+  "@iosSimulatorCameraWarning": {
+    "description": "Warning message for iOS simulator camera limitation"
+  },
+
+  "babyLongPressHint": "Long press on baby to reset information",
+  "@babyLongPressHint": {
+    "description": "Info message for baby long press functionality"
+  },
+
+  "pleaseWait": "Please wait",
+  "@pleaseWait": {
+    "description": "Info message to wait"
+  },
+
+  "babyInfoReset": "Baby Information Reset",
+  "@babyInfoReset": {
+    "description": "Info message for baby information reset"
+  },
+
+  "babyInfoResetting": "Resetting {babyName} information...",
+  "@babyInfoResetting": {
+    "description": "Info message while resetting baby information",
+    "placeholders": {
+      "babyName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "databaseUpdated": "✅ Database has been updated!\n\nPlease restart the app and try again.",
+  "@databaseUpdated": {
+    "description": "Info message for database update completion"
   }
 }

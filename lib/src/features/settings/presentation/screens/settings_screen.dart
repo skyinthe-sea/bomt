@@ -128,7 +128,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(
-                          '아기를 길게 누르면 정보를 재설정할 수 있습니다',
+                          AppLocalizations.of(context)!.babyLongPressHint,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: Theme.of(context).colorScheme.outline,
                             fontSize: 12,
@@ -497,7 +497,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               debugPrint('❌ [LOGOUT] Unexpected error during logout: $e');
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('로그아웃 중 일부 오류가 발생했지만 계속 진행합니다.')),
+                  SnackBar(content: Text(AppLocalizations.of(context)!.logoutPartialError)),
                 );
                 
                 // 오류가 있어도 로그인 화면으로 이동
@@ -601,7 +601,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                '잠시만 기다려주세요',
+                AppLocalizations.of(context)!.pleaseWait,
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey[600],
@@ -685,8 +685,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 size: 48,
               ),
               title: const Text('탈퇴 완료'),
-              content: const Text(
-                '회원탈퇴가 성공적으로 완료되었습니다.\n\n언제든지 다시 가입하실 수 있습니다.',
+              content: Text(
+                AppLocalizations.of(context)!.accountDeletionSuccess,
                 textAlign: TextAlign.center,
               ),
               actions: [
@@ -723,7 +723,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               color: Colors.orange,
               size: 48,
             ),
-            title: const Text('탈퇴 처리 중 오류'),
+            title: Text(AppLocalizations.of(context)!.accountDeletionError),
             content: const Text(
               '일부 처리에서 문제가 발생했지만\n로그아웃은 완료되었습니다.\n\n로그인 화면으로 이동합니다.',
               textAlign: TextAlign.center,
@@ -1132,7 +1132,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(height: 16),
               
               Text(
-                '아기 정보 재설정',
+                AppLocalizations.of(context)!.babyInfoReset,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: isDarkMode ? Colors.white : Colors.black87,
@@ -1351,7 +1351,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             const CircularProgressIndicator(),
             const SizedBox(height: 16),
-            Text('${baby.name} 정보 재설정 중...'),
+            Text(AppLocalizations.of(context)!.babyInfoResetting(baby.name)),
           ],
         ),
       ),
@@ -1377,7 +1377,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('${baby.name} 정보 재설정에 실패했습니다. 다시 시도해주세요.'),
+              content: Text(AppLocalizations.of(context)!.babyInfoResetFailed(baby.name)),
               backgroundColor: Colors.red,
               duration: const Duration(seconds: 3),
             ),
@@ -1394,7 +1394,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('정보 재설정 중 오류가 발생했습니다: ${e.toString()}'),
+            content: Text(AppLocalizations.of(context)!.babyInfoResetError(e.toString())),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 3),
           ),

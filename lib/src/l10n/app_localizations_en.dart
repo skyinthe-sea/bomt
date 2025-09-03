@@ -1646,7 +1646,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get inviteCodeGenerated => 'Invitation code generated successfully!';
+  String get inviteCodeGeneratedStatus => 'Invitation code generated!';
 
   @override
   String remainingTime(String time) {
@@ -1708,7 +1708,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get joinedSuccessfully => 'Successfully joined the family!';
 
   @override
-  String get inviteCodeExpired => 'Invitation code has expired';
+  String get inviteCodeExpired =>
+      'The generated invite code has expired. Please generate a new one.';
 
   @override
   String get invalidInviteCode => 'Invalid invitation code';
@@ -1883,7 +1884,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get temperatureSettingsSaved => 'Temperature settings have been saved';
+  String get temperatureSettingsSaved => 'Temperature settings saved';
 
   @override
   String get loadingUserInfo =>
@@ -2374,8 +2375,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exitWithoutSaving => 'Exit';
 
   @override
-  String get savingError =>
-      'An error occurred while saving settings. Please try again.';
+  String get savingError => 'An error occurred while saving';
 
   @override
   String get familyMembers => 'Family Members';
@@ -3431,4 +3431,112 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get useImmediately => 'Use Immediately';
+
+  @override
+  String cardSettingsSavePartialFailure(String failedCards) {
+    return 'Failed to save some card settings: $failedCards';
+  }
+
+  @override
+  String get feedingAmountValidationError =>
+      'Please enter feeding amount between 1-1000ml';
+
+  @override
+  String get feedingDurationValidationError =>
+      'Please enter feeding duration between 1-180 minutes';
+
+  @override
+  String inviteCreationError(String error) {
+    return 'An error occurred while creating invitation: $error';
+  }
+
+  @override
+  String get shareFailed => 'Sharing failed';
+
+  @override
+  String inviteCodeGenerationFailed(String error) {
+    return 'Invite code generation failed: $error';
+  }
+
+  @override
+  String get databaseSaveFailed =>
+      'Failed to save to database. Please try again';
+
+  @override
+  String get growthRecordProcessingError =>
+      'An error occurred while processing growth record';
+
+  @override
+  String get authenticationFailed => 'Authentication failed. Please try again.';
+
+  @override
+  String get verificationCodeResendFailed =>
+      'Failed to resend verification code. Please try again later.';
+
+  @override
+  String get accountDeletionError => 'Error during account deletion';
+
+  @override
+  String babyInfoResetFailed(String babyName) {
+    return 'Failed to reset $babyName information. Please try again.';
+  }
+
+  @override
+  String babyInfoResetError(String error) {
+    return 'An error occurred during information reset: $error';
+  }
+
+  @override
+  String get accountDeletionSuccess =>
+      'Account deletion completed successfully.\n\nYou can sign up again anytime.';
+
+  @override
+  String inviteCodeRenewed(String code) {
+    return 'The existing code has expired and a new invite code has been generated: $code';
+  }
+
+  @override
+  String inviteCodeGenerated(String code) {
+    return 'Invite code has been generated: $code';
+  }
+
+  @override
+  String get noStatisticsDataToShare => 'No statistics data to share';
+
+  @override
+  String get noBabySelected => 'No baby information selected';
+
+  @override
+  String get imageShareFeatureUnderDevelopment =>
+      'Image sharing feature is currently under development. Please use text sharing instead.';
+
+  @override
+  String get logoutPartialError =>
+      'Some errors occurred during logout but continuing.';
+
+  @override
+  String get testModeInviteWarning =>
+      'Test mode: Creating invitation with temporary user information.';
+
+  @override
+  String get iosSimulatorCameraWarning =>
+      'Camera is not available on iOS Simulator.\nPlease try again from the gallery.';
+
+  @override
+  String get babyLongPressHint => 'Long press on baby to reset information';
+
+  @override
+  String get pleaseWait => 'Please wait';
+
+  @override
+  String get babyInfoReset => 'Baby Information Reset';
+
+  @override
+  String babyInfoResetting(String babyName) {
+    return 'Resetting $babyName information...';
+  }
+
+  @override
+  String get databaseUpdated =>
+      '✅ Database has been updated!\n\nPlease restart the app and try again.';
 }

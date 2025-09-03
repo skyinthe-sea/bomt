@@ -111,8 +111,8 @@ class _TemperatureSummaryCardState extends State<TemperatureSummaryCard>
     
     if (result == true && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('체온 설정이 저장되었습니다'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.temperatureSettingsSaved),
           duration: Duration(seconds: 2),
         ),
       );

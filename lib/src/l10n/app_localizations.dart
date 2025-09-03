@@ -3048,11 +3048,11 @@ abstract class AppLocalizations {
   /// **'{name} has been selected'**
   String babySelected(String name);
 
-  /// No description provided for @inviteCodeGenerated.
+  /// No description provided for @inviteCodeGeneratedStatus.
   ///
   /// In en, this message translates to:
-  /// **'Invitation code generated successfully!'**
-  String get inviteCodeGenerated;
+  /// **'Invitation code generated!'**
+  String get inviteCodeGeneratedStatus;
 
   /// Remaining time message
   ///
@@ -3156,10 +3156,10 @@ abstract class AppLocalizations {
   /// **'Successfully joined the family!'**
   String get joinedSuccessfully;
 
-  /// No description provided for @inviteCodeExpired.
+  /// Error message for expired invite code
   ///
   /// In en, this message translates to:
-  /// **'Invitation code has expired'**
+  /// **'The generated invite code has expired. Please generate a new one.'**
   String get inviteCodeExpired;
 
   /// No description provided for @invalidInviteCode.
@@ -3456,10 +3456,10 @@ abstract class AppLocalizations {
   /// **'Record failed'**
   String recordFailed(String error);
 
-  /// No description provided for @temperatureSettingsSaved.
+  /// Success message for temperature settings save
   ///
   /// In en, this message translates to:
-  /// **'Temperature settings have been saved'**
+  /// **'Temperature settings saved'**
   String get temperatureSettingsSaved;
 
   /// No description provided for @loadingUserInfo.
@@ -4380,10 +4380,10 @@ abstract class AppLocalizations {
   /// **'Exit'**
   String get exitWithoutSaving;
 
-  /// Error message when saving fails
+  /// General saving error message
   ///
   /// In en, this message translates to:
-  /// **'An error occurred while saving settings. Please try again.'**
+  /// **'An error occurred while saving'**
   String get savingError;
 
   /// Family members section title
@@ -6317,6 +6317,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use Immediately'**
   String get useImmediately;
+
+  /// Error message for partial card settings save failure
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save some card settings: {failedCards}'**
+  String cardSettingsSavePartialFailure(String failedCards);
+
+  /// Error message for feeding amount validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter feeding amount between 1-1000ml'**
+  String get feedingAmountValidationError;
+
+  /// Error message for feeding duration validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter feeding duration between 1-180 minutes'**
+  String get feedingDurationValidationError;
+
+  /// Error message for invite creation failure
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while creating invitation: {error}'**
+  String inviteCreationError(String error);
+
+  /// Error message for share failure
+  ///
+  /// In en, this message translates to:
+  /// **'Sharing failed'**
+  String get shareFailed;
+
+  /// Error message for invite code generation failure
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code generation failed: {error}'**
+  String inviteCodeGenerationFailed(String error);
+
+  /// Error message for database save failure
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save to database. Please try again'**
+  String get databaseSaveFailed;
+
+  /// Error message for growth record processing error
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while processing growth record'**
+  String get growthRecordProcessingError;
+
+  /// Error message for authentication failure
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication failed. Please try again.'**
+  String get authenticationFailed;
+
+  /// Error message for verification code resend failure
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to resend verification code. Please try again later.'**
+  String get verificationCodeResendFailed;
+
+  /// Error message during account deletion
+  ///
+  /// In en, this message translates to:
+  /// **'Error during account deletion'**
+  String get accountDeletionError;
+
+  /// Error message for baby info reset failure
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to reset {babyName} information. Please try again.'**
+  String babyInfoResetFailed(String babyName);
+
+  /// Error message during baby info reset
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred during information reset: {error}'**
+  String babyInfoResetError(String error);
+
+  /// Success message for account deletion
+  ///
+  /// In en, this message translates to:
+  /// **'Account deletion completed successfully.\n\nYou can sign up again anytime.'**
+  String get accountDeletionSuccess;
+
+  /// Success message for renewed invite code
+  ///
+  /// In en, this message translates to:
+  /// **'The existing code has expired and a new invite code has been generated: {code}'**
+  String inviteCodeRenewed(String code);
+
+  /// Success message for generated invite code
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code has been generated: {code}'**
+  String inviteCodeGenerated(String code);
+
+  /// Error message when no statistics data available to share
+  ///
+  /// In en, this message translates to:
+  /// **'No statistics data to share'**
+  String get noStatisticsDataToShare;
+
+  /// Error message when no baby is selected
+  ///
+  /// In en, this message translates to:
+  /// **'No baby information selected'**
+  String get noBabySelected;
+
+  /// Info message about image share feature under development
+  ///
+  /// In en, this message translates to:
+  /// **'Image sharing feature is currently under development. Please use text sharing instead.'**
+  String get imageShareFeatureUnderDevelopment;
+
+  /// Warning message for partial logout errors
+  ///
+  /// In en, this message translates to:
+  /// **'Some errors occurred during logout but continuing.'**
+  String get logoutPartialError;
+
+  /// Warning message for test mode invite creation
+  ///
+  /// In en, this message translates to:
+  /// **'Test mode: Creating invitation with temporary user information.'**
+  String get testModeInviteWarning;
+
+  /// Warning message for iOS simulator camera limitation
+  ///
+  /// In en, this message translates to:
+  /// **'Camera is not available on iOS Simulator.\nPlease try again from the gallery.'**
+  String get iosSimulatorCameraWarning;
+
+  /// Info message for baby long press functionality
+  ///
+  /// In en, this message translates to:
+  /// **'Long press on baby to reset information'**
+  String get babyLongPressHint;
+
+  /// Info message to wait
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait'**
+  String get pleaseWait;
+
+  /// Info message for baby information reset
+  ///
+  /// In en, this message translates to:
+  /// **'Baby Information Reset'**
+  String get babyInfoReset;
+
+  /// Info message while resetting baby information
+  ///
+  /// In en, this message translates to:
+  /// **'Resetting {babyName} information...'**
+  String babyInfoResetting(String babyName);
+
+  /// Info message for database update completion
+  ///
+  /// In en, this message translates to:
+  /// **'✅ Database has been updated!\n\nPlease restart the app and try again.'**
+  String get databaseUpdated;
 }
 
 class _AppLocalizationsDelegate

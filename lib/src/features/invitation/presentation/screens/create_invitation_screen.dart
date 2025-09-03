@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/invitation.dart';
 import '../../../../services/invitation/invitation_service.dart';
 import '../../../../core/providers/baby_provider.dart';
@@ -63,7 +64,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
       _currentBabyId ??= uuid.v4();
       
       debugPrint('⚠️ 임시 UUID 생성됨 - userId: $_currentUserId, babyId: $_currentBabyId');
-      _showErrorSnackBar('테스트 모드: 임시 사용자 정보로 초대를 생성합니다.');
+      _showErrorSnackBar(AppLocalizations.of(context)!.testModeInviteWarning);
     }
 
     setState(() => _isLoading = true);
@@ -83,7 +84,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
         _showErrorSnackBar(result.message);
       }
     } catch (e) {
-      _showErrorSnackBar('초대 생성 중 오류가 발생했습니다: $e');
+      _showErrorSnackBar(AppLocalizations.of(context)!.inviteCreationError(e.toString()));
     } finally {
       setState(() => _isLoading = false);
     }
@@ -141,7 +142,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
       if (success) {
         _showSuccessSnackBar('초대 링크가 공유되었습니다');
       } else {
-        _showErrorSnackBar('공유에 실패했습니다');
+        _showErrorSnackBar(AppLocalizations.of(context)!.shareFailed);
       }
     } catch (e) {
       _showErrorSnackBar('공유 중 오류가 발생했습니다: $e');

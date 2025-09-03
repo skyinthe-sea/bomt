@@ -676,7 +676,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(isIOS 
-                  ? 'iOS 시뮬레이터에서는 카메라를 사용할 수 없습니다.\n갤러리에서 다시 시도해주세요.'
+                  ? AppLocalizations.of(context)!.iosSimulatorCameraWarning
                   : '카메라 접근에 문제가 발생했습니다.\n갤러리에서 다시 시도해주세요.'),
                 backgroundColor: Colors.orange,
                 duration: const Duration(seconds: 4),
@@ -724,7 +724,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           errorMessage = '🔐 로그인이 필요합니다!\n\n카카오 또는 이메일로 로그인 후\n프로필 사진을 설정해주세요.';
         } else if (e.toString().contains('profile_image_url') || 
                    e.toString().contains('PGRST204')) {
-          errorMessage = '✅ 데이터베이스가 업데이트되었습니다!\n\n앱을 재시작한 후 다시 시도해주세요.';
+          errorMessage = AppLocalizations.of(context)!.databaseUpdated;
         } else if (e.toString().contains('Bucket not found') || 
                    e.toString().contains('baby-profiles')) {
           errorMessage = '❌ Storage 버킷이 없습니다!\n\nSupabase 대시보드에서 baby-profiles 버킷을 생성해주세요.';
@@ -907,7 +907,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           errorMessage = '데이터는 저장되었지만 응답 처리에 문제가 있습니다. 새로고침해주세요';
           backgroundColor = Colors.orange[600]!;
         } else if (e.toString().contains('insert') || e.toString().contains('database')) {
-          errorMessage = '데이터베이스 저장에 실패했습니다. 다시 시도해주세요';
+          errorMessage = AppLocalizations.of(context)!.databaseSaveFailed;
           backgroundColor = Colors.red[600]!;
         } else if (e.toString().contains('network') || e.toString().contains('timeout')) {
           errorMessage = '네트워크 오류가 발생했습니다. 연결 상태를 확인해주세요';
@@ -916,7 +916,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           errorMessage = '권한이 없습니다. 로그인 상태를 확인해주세요';
           backgroundColor = Colors.red[600]!;
         } else {
-          errorMessage = '성장 기록 처리 중 오류가 발생했습니다';
+          errorMessage = AppLocalizations.of(context)!.growthRecordProcessingError;
           backgroundColor = Colors.orange[600]!;
         }
         

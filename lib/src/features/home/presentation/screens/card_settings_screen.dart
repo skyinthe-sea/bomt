@@ -380,7 +380,8 @@ class _CardSettingsScreenState extends State<CardSettingsScreen> {
       // 일부라도 실패했으면 에러 발생
       if (failedCards.isNotEmpty) {
         final failedCardNames = failedCards.map((cardType) => _getCardNameSafe(cardType)).join(', ');
-        throw Exception('일부 카드 설정 저장에 실패했습니다: $failedCardNames');
+        final l10n = AppLocalizations.of(context)!;
+        throw Exception(l10n.cardSettingsSavePartialFailure(failedCardNames));
       }
       
       debugPrint('✅ [PERFORM] All settings saved successfully');

@@ -723,11 +723,11 @@ class _EditRecordDialogState extends State<EditRecordDialog> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Row(
+            content: Row(
               children: [
                 Icon(Icons.error, color: Colors.white, size: 20),
                 SizedBox(width: 8),
-                Text('저장 중 오류가 발생했습니다'),
+                Text(AppLocalizations.of(context)!.savingError),
               ],
             ),
             backgroundColor: Colors.red[600],

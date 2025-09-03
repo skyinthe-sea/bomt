@@ -574,6 +574,7 @@
   "pleaseEnterInviteCode": "招待コードを入力してください",
   "inviteCodeMustBe6Digits": "招待コードは6桁です",
   "pleaseLoginFirst": "ログイン情報がありません。まずログインしてください。",
+  "inviteCodeGeneratedStatus": "招待コードが生成されました！",
   "copiedToClipboard": "招待コードがクリップボードにコピーされました！",
   "joinedSuccessfully": "家族に正常に参加しました！",
   "inviteCodeExpired": "招待コードが期限切れです",
@@ -1370,5 +1371,195 @@
   "touchToSetDefault": "タップしてデフォルト値を設定",
   "@touchToSetDefault": {
     "description": "Hint text to set default values"
+  },
+
+  "cardSettingsSavePartialFailure": "一部のカード設定の保存に失敗しました: {failedCards}",
+  "@cardSettingsSavePartialFailure": {
+    "description": "Error message for partial card settings save failure",
+    "placeholders": {
+      "failedCards": {
+        "type": "String"
+      }
+    }
+  },
+
+  "feedingAmountValidationError": "授乳量は1〜1000mlの間で入力してください",
+  "@feedingAmountValidationError": {
+    "description": "Error message for feeding amount validation"
+  },
+
+  "feedingDurationValidationError": "授乳時間は1〜180分の間で入力してください",
+  "@feedingDurationValidationError": {
+    "description": "Error message for feeding duration validation"
+  },
+
+  "savingError": "保存中にエラーが発生しました",
+  "@savingError": {
+    "description": "General saving error message"
+  },
+
+  "inviteCreationError": "招待作成中にエラーが発生しました: {error}",
+  "@inviteCreationError": {
+    "description": "Error message for invitation creation",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "shareFailed": "共有に失敗しました",
+  "@shareFailed": {
+    "description": "Error message for sharing failure"
+  },
+
+  "inviteCodeExpired": "招待コードが期限切れです。新しいコードを作成してください。",
+  "@inviteCodeExpired": {
+    "description": "Error message for expired invitation code"
+  },
+
+  "inviteCodeGenerationFailed": "招待コード生成に失敗しました: {error}",
+  "@inviteCodeGenerationFailed": {
+    "description": "Error message for invitation code generation failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "databaseSaveFailed": "データベースの保存に失敗しました。再試行してください",
+  "@databaseSaveFailed": {
+    "description": "Error message for database save failure"
+  },
+
+  "growthRecordProcessingError": "成長記録の処理中にエラーが発生しました",
+  "@growthRecordProcessingError": {
+    "description": "Error message for growth record processing"
+  },
+
+  "authenticationFailed": "認証に失敗しました。再試行してください。",
+  "@authenticationFailed": {
+    "description": "Error message for authentication failure"
+  },
+
+  "verificationCodeResendFailed": "認証コードの再送信に失敗しました。しばらくしてから再試行してください。",
+  "@verificationCodeResendFailed": {
+    "description": "Error message for verification code resend failure"
+  },
+
+  "accountDeletionError": "アカウント削除中にエラー",
+  "@accountDeletionError": {
+    "description": "Error message during account deletion"
+  },
+
+  "babyInfoResetFailed": "{babyName}の情報リセットに失敗しました。再試行してください。",
+  "@babyInfoResetFailed": {
+    "description": "Error message for baby info reset failure",
+    "placeholders": {
+      "babyName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "babyInfoResetError": "情報リセット中にエラーが発生しました: {error}",
+  "@babyInfoResetError": {
+    "description": "Error message during baby info reset",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "temperatureSettingsSaved": "体温設定が保存されました",
+  "@temperatureSettingsSaved": {
+    "description": "Success message for temperature settings save"
+  },
+
+  "accountDeletionSuccess": "アカウント削除が正常に完了しました。\n\nいつでも再登録できます。",
+  "@accountDeletionSuccess": {
+    "description": "Success message for account deletion"
+  },
+
+  "inviteCodeRenewed": "既存のコードが期限切れとなり、新しい招待コードが生成されました: {code}",
+  "@inviteCodeRenewed": {
+    "description": "Success message for invitation code renewal",
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+
+  "inviteCodeGenerated": "招待コードが生成されました: {code}",
+  "@inviteCodeGenerated": {
+    "description": "Success message for invitation code generation",
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+
+  "noStatisticsDataToShare": "共有する統計データがありません",
+  "@noStatisticsDataToShare": {
+    "description": "Warning message for no statistics data to share"
+  },
+
+  "noBabySelected": "選択された赤ちゃん情報がありません",
+  "@noBabySelected": {
+    "description": "Warning message for no baby selected"
+  },
+
+  "imageShareFeatureUnderDevelopment": "画像共有機能は現在開発中です。テキスト共有をご利用ください。",
+  "@imageShareFeatureUnderDevelopment": {
+    "description": "Warning message for image sharing feature under development"
+  },
+
+  "logoutPartialError": "ログアウト中に一部エラーが発生しましたが、続行します。",
+  "@logoutPartialError": {
+    "description": "Warning message for partial logout errors"
+  },
+
+  "testModeInviteWarning": "テストモード: 一時的なユーザー情報で招待を作成します。",
+  "@testModeInviteWarning": {
+    "description": "Warning message for test mode invitation"
+  },
+
+  "iosSimulatorCameraWarning": "iOSシミュレーターではカメラを使用できません。\nギャラリーから再試行してください。",
+  "@iosSimulatorCameraWarning": {
+    "description": "Warning message for iOS simulator camera limitation"
+  },
+
+  "babyLongPressHint": "赤ちゃんを長押しすると情報をリセットできます",
+  "@babyLongPressHint": {
+    "description": "Info message for baby long press functionality"
+  },
+
+  "pleaseWait": "しばらくお待ちください",
+  "@pleaseWait": {
+    "description": "Info message to wait"
+  },
+
+  "babyInfoReset": "赤ちゃん情報リセット",
+  "@babyInfoReset": {
+    "description": "Info message for baby information reset"
+  },
+
+  "babyInfoResetting": "{babyName}の情報をリセット中...",
+  "@babyInfoResetting": {
+    "description": "Info message while resetting baby information",
+    "placeholders": {
+      "babyName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "databaseUpdated": "✅ データベースが更新されました！\n\nアプリを再起動してから再試行してください。",
+  "@databaseUpdated": {
+    "description": "Info message for database update completion"
   }
 }

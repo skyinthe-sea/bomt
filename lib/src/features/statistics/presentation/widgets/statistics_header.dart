@@ -297,8 +297,8 @@ class StatisticsHeader extends StatelessWidget {
     
     if (statisticsProvider.statistics == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('공유할 통계 데이터가 없습니다'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.noStatisticsDataToShare),
           backgroundColor: Colors.orange,
         ),
       );
@@ -307,8 +307,8 @@ class StatisticsHeader extends StatelessWidget {
 
     if (babyProvider.selectedBaby == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('선택된 아기 정보가 없습니다'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.noBabySelected),
           backgroundColor: Colors.orange,
         ),
       );
@@ -326,10 +326,10 @@ class StatisticsHeader extends StatelessWidget {
   Future<void> _shareAsImage(BuildContext context) async {
     // 임시로 비활성화
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('이미지 공유 기능은 현재 개발 중입니다. 텍스트 공유를 이용해주세요.'),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.imageShareFeatureUnderDevelopment),
         backgroundColor: Colors.blue,
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
       ),
     );
     return;
@@ -339,8 +339,8 @@ class StatisticsHeader extends StatelessWidget {
     
     if (statisticsProvider.statistics == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('공유할 통계 데이터가 없습니다'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.noStatisticsDataToShare),
           backgroundColor: Colors.orange,
         ),
       );
@@ -349,8 +349,8 @@ class StatisticsHeader extends StatelessWidget {
 
     if (babyProvider.selectedBaby == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('선택된 아기 정보가 없습니다'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.noBabySelected),
           backgroundColor: Colors.orange,
         ),
       );
