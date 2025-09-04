@@ -1,4 +1,3 @@
-
 {
   "sufficientFeedingAmount": "You had a sufficient amount of feeding",
   "expectedSatisfaction": "This amount is expected to provide sufficient satisfaction for the baby.",
@@ -44,26 +43,21 @@
   "regularTemperatureCheckBenefit": "Regular temperature checks are recommended to monitor baby's health condition.",
   "consistentRecording": "Records are being kept consistently well",
   "regularRecordingBenefit": "Regular recording helps with baby health management.",
-
   "diaperColorYellow": "Yellow",
   "diaperColorBrown": "Brown",
   "diaperColorGreen": "Green",
-
   "cardSettingsInstructions": "• Toggle switches to show/hide cards\n• Drag to change card order\n• Changes are previewed in real time",
   "@cardSettingsInstructions": {
     "description": "Instructions for using card settings"
   },
-
   "visible": "Visible",
   "@visible": {
     "description": "Label for visible state"
   },
-
   "hidden": "Hidden",
   "@hidden": {
     "description": "Label for hidden state"
   },
-
   "touchToSetDefault": "Touch to set default values",
   "@touchToSetDefault": {
     "description": "Hint text to set default values"
@@ -87,10 +81,8 @@
   "medicationPainReliever": "Pain reliever",
   "medicationAntibiotics": "Antibiotics",
   "medicationVitamins": "Vitamins",
-
   "defaultValueSettings": "Default Settings",
   "setDefaultValuesForQuickRecording": "Set default values for quick recording",
-
   "feedingType": "Feeding Type",
   "breastMilk": "Breast Milk",
   "bottle": "Bottle",
@@ -99,7 +91,6 @@
   "feedingAmountMl": "Feeding Amount (ml)",
   "feedingTimeMinutes": "Feeding Time (minutes)",
   "feedingPosition": "Feeding Position",
-
   "sleepTimeMinutes": "Sleep Time (minutes)",
   "sleepQuality": "Sleep Quality",
   "sleepQualityGood": "Good",
@@ -112,14 +103,12 @@
   "car": "Car",
   "outdoors": "Outdoors",
   "other": "Other",
-
   "stoolColorWhenDirty": "Color (when dirty)",
   "stoolConsistencyWhenDirty": "Consistency (when dirty)",
   "diaperColorGreenish": "Greenish",
   "diaperColorWhite": "White",
   "diaperConsistencyLooseAlt": "Loose",
   "diaperConsistencyHardAlt": "Hard",
-
   "foodName": "Food Name",
   "amountGrams": "Amount (g)",
   "allergicReaction": "Allergic Reaction",
@@ -127,7 +116,6 @@
   "allergicReactionMild": "Mild",
   "allergicReactionModerate": "Moderate",
   "allergicReactionSevere": "Severe",
-
   "medicationName": "Medication Name",
   "dosage": "Dosage",
   "unit": "Unit",
@@ -137,7 +125,6 @@
   "oral": "Oral",
   "topical": "Topical",
   "inhaled": "Inhaled",
-
   "pumpingAmountMl": "Pumping Amount (ml)",
   "pumpingTimeMinutes": "Pumping Time (minutes)",
   "pumpingPosition": "Pumping Position",
@@ -146,7 +133,6 @@
   "freezer": "Freezer",
   "roomTemperature": "Room Temperature",
   "useImmediately": "Use Immediately",
-
   "cardSettingsSavePartialFailure": "Failed to save some card settings: {failedCards}",
   "@cardSettingsSavePartialFailure": {
     "description": "Error message for partial card settings save failure",
@@ -156,22 +142,18 @@
       }
     }
   },
-
   "feedingAmountValidationError": "Please enter feeding amount between 1-1000ml",
   "@feedingAmountValidationError": {
     "description": "Error message for feeding amount validation"
   },
-
   "feedingDurationValidationError": "Please enter feeding duration between 1-180 minutes",
   "@feedingDurationValidationError": {
     "description": "Error message for feeding duration validation"
   },
-
   "savingError": "An error occurred while saving",
   "@savingError": {
     "description": "General saving error message"
   },
-
   "inviteCreationError": "Error occurred while creating invitation: {error}",
   "@inviteCreationError": {
     "description": "Error message for invitation creation",
@@ -181,17 +163,14 @@
       }
     }
   },
-
   "shareFailed": "Sharing failed",
   "@shareFailed": {
     "description": "Error message for sharing failure"
   },
-
   "inviteCodeExpired": "The invitation code has expired. Please create a new one.",
   "@inviteCodeExpired": {
     "description": "Error message for expired invitation code"
   },
-
   "inviteCodeGenerationFailed": "Failed to generate invitation code: {error}",
   "@inviteCodeGenerationFailed": {
     "description": "Error message for invitation code generation failure",
@@ -201,32 +180,26 @@
       }
     }
   },
-
   "databaseSaveFailed": "Failed to save to database. Please try again",
   "@databaseSaveFailed": {
     "description": "Error message for database save failure"
   },
-
   "growthRecordProcessingError": "An error occurred while processing growth record",
   "@growthRecordProcessingError": {
     "description": "Error message for growth record processing"
   },
-
   "authenticationFailed": "Authentication failed. Please try again.",
   "@authenticationFailed": {
     "description": "Error message for authentication failure"
   },
-
   "verificationCodeResendFailed": "Failed to resend verification code. Please try again later.",
   "@verificationCodeResendFailed": {
     "description": "Error message for verification code resend failure"
   },
-
   "accountDeletionError": "Error during account deletion",
   "@accountDeletionError": {
     "description": "Error message during account deletion"
   },
-
   "babyInfoResetFailed": "Failed to reset {babyName} information. Please try again.",
   "@babyInfoResetFailed": {
     "description": "Error message for baby info reset failure",
@@ -236,7 +209,6 @@
       }
     }
   },
-
   "babyInfoResetError": "An error occurred during information reset: {error}",
   "@babyInfoResetError": {
     "description": "Error message during baby info reset",
@@ -246,17 +218,14 @@
       }
     }
   },
-
   "temperatureSettingsSaved": "Temperature settings saved",
   "@temperatureSettingsSaved": {
     "description": "Success message for temperature settings save"
   },
-
   "accountDeletionSuccess": "Account deletion completed successfully.\n\nYou can sign up again anytime.",
   "@accountDeletionSuccess": {
     "description": "Success message for account deletion"
   },
-
   "inviteCodeRenewed": "Previous code expired and new invitation code generated: {code}",
   "@inviteCodeRenewed": {
     "description": "Success message for invitation code renewal",
@@ -266,7 +235,6 @@
       }
     }
   },
-
   "inviteCodeGenerated": "Invitation code generated: {code}",
   "@inviteCodeGenerated": {
     "description": "Success message for invitation code generation",
@@ -276,52 +244,42 @@
       }
     }
   },
-
   "noStatisticsDataToShare": "No statistics data to share",
   "@noStatisticsDataToShare": {
     "description": "Warning message for no statistics data to share"
   },
-
   "noBabySelected": "No baby information selected",
   "@noBabySelected": {
     "description": "Warning message for no baby selected"
   },
-
   "imageShareFeatureUnderDevelopment": "Image sharing feature is under development. Please use text sharing.",
   "@imageShareFeatureUnderDevelopment": {
     "description": "Warning message for image sharing feature under development"
   },
-
   "logoutPartialError": "Some errors occurred during logout but continuing.",
   "@logoutPartialError": {
     "description": "Warning message for partial logout errors"
   },
-
   "testModeInviteWarning": "Test mode: Creating invitation with temporary user information.",
   "@testModeInviteWarning": {
     "description": "Warning message for test mode invitation"
   },
-
   "iosSimulatorCameraWarning": "Camera cannot be used in iOS Simulator.\nPlease try again from gallery.",
   "@iosSimulatorCameraWarning": {
     "description": "Warning message for iOS simulator camera limitation"
   },
-
   "babyLongPressHint": "Long press on baby to reset information",
   "@babyLongPressHint": {
     "description": "Info message for baby long press functionality"
   },
-
   "pleaseWait": "Please wait",
   "@pleaseWait": {
     "description": "Info message to wait"
   },
-
   "babyInfoReset": "Baby Information Reset",
   "@babyInfoReset": {
     "description": "Info message for baby information reset"
   },
-
   "babyInfoResetting": "Resetting {babyName} information...",
   "@babyInfoResetting": {
     "description": "Info message while resetting baby information",
@@ -331,9 +289,1894 @@
       }
     }
   },
-
   "databaseUpdated": "✅ Database has been updated!\n\nPlease restart the app and try again.",
   "@databaseUpdated": {
     "description": "Info message for database update completion"
-  }
+  },
+  "user": "उपयोगकर्ता",
+  "@user": {
+    "description": "User label"
+  },
+  "userInfoLoadFailed": "Failed to load user info: {error}",
+  "@userInfoLoadFailed": {
+    "description": "Error message when user info loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "babyListLoadError": "An error occurred while loading the baby list: {error}",
+  "@babyListLoadError": {
+    "description": "Error message when baby list loading fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "welcomeUser": "Welcome, {nickname}! 🎉",
+  "@welcomeUser": {
+    "description": "Welcome message with user name",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "registerBaby": "पंजीकरण करें बच्चा",
+  "@registerBaby": {
+    "description": "Register baby button text"
+  },
+  "noBabiesRegistered": "नहीं babies registered",
+  "@noBabiesRegistered": {
+    "description": "Message when no babies are registered"
+  },
+  "registerFirstBaby": "पंजीकरण करें your first baby!",
+  "@registerFirstBaby": {
+    "description": "Prompt to register first baby"
+  },
+  "registerBabyButton": "पंजीकरण करें बच्चा",
+  "@registerBabyButton": {
+    "description": "Register baby button text"
+  },
+  "birthday": "जन्मदिन: {year}/{month}/{day}",
+  "@birthday": {
+    "description": "Birthday display format",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "age": "आयु: {days} days",
+  "@age": {
+    "description": "Age in days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "gender": "लिंग",
+  "@gender": {
+    "description": "Gender display",
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "male": "पुरुष",
+  "@male": {
+    "description": "Male gender"
+  },
+  "female": "महिला",
+  "@female": {
+    "description": "Female gender"
+  },
+  "babyDetailScreen": "{name} Detail Screen (Coming Soon)",
+  "@babyDetailScreen": {
+    "description": "Baby detail screen placeholder",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "selectBirthdate": "Please select birthdate",
+  "@selectBirthdate": {
+    "description": "Birthdate selection prompt"
+  },
+  "babyRegistered": "{name} has been registered!",
+  "@babyRegistered": {
+    "description": "Baby registration success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "registrationError": "An error occurred during registration: {error}",
+  "@registrationError": {
+    "description": "Registration error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "enterBabyInfo": "Please enter baby information",
+  "@enterBabyInfo": {
+    "description": "Baby info entry prompt"
+  },
+  "babyName": "बच्चा नाम",
+  "@babyName": {
+    "description": "Baby name field label"
+  },
+  "babyNameHint": "e.g. Emma",
+  "@babyNameHint": {
+    "description": "Baby name field hint"
+  },
+  "babyNameRequired": "Please enter baby's name",
+  "@babyNameRequired": {
+    "description": "Baby name required validation message"
+  },
+  "babyNameMinLength": "नाम must be at least 2 characters",
+  "@babyNameMinLength": {
+    "description": "Baby name minimum length validation"
+  },
+  "selectBirthdateButton": "Select Birthdate",
+  "@selectBirthdateButton": {
+    "description": "Select birthdate button text"
+  },
+  "selectedDate": "{year}/{month}/{day}",
+  "@selectedDate": {
+    "description": "Selected date format",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "genderOptional": "लिंग (Optional)",
+  "@genderOptional": {
+    "description": "Gender field label"
+  },
+  "cancel": "रद्द करें",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  "loginFailed": "लॉगिन failed",
+  "@loginFailed": {
+    "description": "Login failure message"
+  },
+  "loginError": "An error occurred during login: {error}",
+  "@loginError": {
+    "description": "Login error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "appTagline": "Easily manage your baby's growth records",
+  "@appTagline": {
+    "description": "App tagline"
+  },
+  "termsNotice": "By logging in, you agree to our Terms of Service and Privacy Policy",
+  "@termsNotice": {
+    "description": "Terms and privacy notice"
+  },
+  "loginWithKakao": "लॉगिन with Kakao",
+  "@loginWithKakao": {
+    "description": "Kakao login button text"
+  },
+  "settings": "सेटिंग्स",
+  "@settings": {
+    "description": "Settings screen title"
+  },
+  "language": "भाषा",
+  "@language": {
+    "description": "Language settings section title"
+  },
+  "selectBirthDate": "Select Birthdate",
+  "@selectBirthDate": {
+    "description": "Birthdate selection button"
+  },
+  "pleasSelectBirthDate": "Please select birthdate",
+  "@pleasSelectBirthDate": {
+    "description": "Error message when birthdate not selected"
+  },
+  "pleaseEnterBabyName": "Please enter baby's name",
+  "@pleaseEnterBabyName": {
+    "description": "Error message when baby name is empty"
+  },
+  "nameMinLength": "नाम must be at least 2 characters",
+  "@nameMinLength": {
+    "description": "Error message for minimum name length"
+  },
+  "dateFormat": "{year}/{month}/{day}",
+  "@dateFormat": {
+    "description": "Date format for birthdate display",
+    "placeholders": {
+      "year": {
+        "type": "String"
+      },
+      "month": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "autoLogin": "Stay logged in",
+  "@autoLogin": {
+    "description": "Auto login checkbox label"
+  },
+  "logout": "लॉगआउट",
+  "@logout": {
+    "description": "Logout button text"
+  },
+  "logoutConfirm": "Are you sure you want to logout?",
+  "@logoutConfirm": {
+    "description": "Logout confirmation message"
+  },
+  "yes": "हाँ",
+  "@yes": {
+    "description": "Yes button"
+  },
+  "no": "नहीं",
+  "@no": {
+    "description": "No button"
+  },
+  "darkMode": "Dark मोड",
+  "@darkMode": {
+    "description": "Dark mode setting label"
+  },
+  "appearance": "Appearance",
+  "@appearance": {
+    "description": "Appearance settings section"
+  },
+  "home": "होम",
+  "@home": {
+    "description": "Home navigation tab"
+  },
+  "timeline": "Timeline",
+  "@timeline": {
+    "description": "Timeline navigation tab"
+  },
+  "record": "रिकॉर्ड",
+  "@record": {
+    "description": "Record navigation tab"
+  },
+  "statistics": "आंकड़े",
+  "@statistics": {
+    "description": "Statistics navigation tab"
+  },
+  "community": "Community",
+  "@community": {
+    "description": "Community navigation tab"
+  },
+  "comingSoon": "Coming Soon",
+  "@comingSoon": {
+    "description": "Coming soon message"
+  },
+  "timelineUpdateMessage": "Timeline feature will be updated soon",
+  "@timelineUpdateMessage": {
+    "description": "Timeline update message"
+  },
+  "recordUpdateMessage": "रिकॉर्ड feature will be updated soon",
+  "@recordUpdateMessage": {
+    "description": "Record update message"
+  },
+  "statisticsUpdateMessage": "आंकड़े feature will be updated soon",
+  "@statisticsUpdateMessage": {
+    "description": "Statistics update message"
+  },
+  "communityUpdateMessage": "Community feature will be updated soon",
+  "@communityUpdateMessage": {
+    "description": "Community update message"
+  },
+  "todaySummary": "Today's Summary",
+  "@todaySummary": {
+    "description": "Today's summary section title"
+  },
+  "growthInfo": "विकास Info",
+  "@growthInfo": {
+    "description": "Growth info section title"
+  },
+  "lastFeeding": "अंतिम दूध पिलाना",
+  "@lastFeeding": {
+    "description": "Last feeding time label"
+  },
+  "healthy": "Healthy",
+  "@healthy": {
+    "description": "Health status - healthy"
+  },
+  "feeding": "दूध पिलाना",
+  "@feeding": {
+    "description": "Feeding label"
+  },
+  "totalFeeding": "Total दूध पिलाना",
+  "@totalFeeding": {
+    "description": "Total feeding amount label"
+  },
+  "sleep": "नींद",
+  "@sleep": {
+    "description": "Sleep label"
+  },
+  "totalSleepTime": "Total नींद समय",
+  "@totalSleepTime": {
+    "description": "Total sleep time label"
+  },
+  "cardSettings": "Card सेटिंग्स",
+  "@cardSettings": {
+    "description": "Card settings screen title"
+  },
+  "cardSettingsGuide": "Card सेटिंग्स Guide",
+  "@cardSettingsGuide": {
+    "description": "Card settings guide section title"
+  },
+  "cardSettingsDescription": "• Toggle switches to show/hide cards • Drag to change card order • Changes are previewed in real-time",
+  "cardVisible": "Visible",
+  "cardHidden": "Hidden",
+  "save": "सेव करें",
+  "cardSettingsSaved": "Card settings saved",
+  "cardSettingsError": "त्रुटि occurred while saving settings",
+  "discardChanges": "Discard changes and return to previous state?",
+  "continueEditing": "Continue Editing",
+  "@continueEditing": {
+    "description": "Button to continue editing"
+  },
+  "discardChangesExit": "Exit without saving changes?",
+  "exit": "Exit",
+  "diaper": "डायपर",
+  "solidFood": "Solid भोजन",
+  "medication": "Medication",
+  "milkPumping": "Milk Pumping",
+  "temperature": "तापमान",
+  "growth": "विकास",
+  "health": "Health",
+  "feedingCount": "{count} times",
+  "feedingAmount": "दूध पिलाना मात्रा",
+  "feedingRecordAdded": "दूध पिलाना record added successfully",
+  "feedingRecordFailed": "Failed to add feeding record",
+  "feedingRecordsLoadFailed": "Failed to load feeding records",
+  "quickFeeding": "Quick दूध पिलाना",
+  "feedingTime": "दूध पिलाना समय",
+  "breastfeeding": "Breastfeeding",
+  "bottleFeeding": "Bottle दूध पिलाना",
+  "mixedFeeding": "Mixed दूध पिलाना",
+  "sleepCount": "{count} times",
+  "sleepDuration": "{hours}h {minutes}m",
+  "sleepStarted": "नींद started",
+  "sleepEnded": "नींद ended",
+  "sleepInProgress": "Sleeping",
+  "sleepRecordFailed": "Failed to process sleep record",
+  "sleepRecordsLoadFailed": "Failed to load sleep records",
+  "sleepTime": "नींद समय",
+  "wakeUpTime": "Wake ऊपर समय",
+  "sleepDurationLabel": "नींद अवधि",
+  "napTime": "Nap समय",
+  "nightSleep": "Night नींद",
+  "diaperCount": "{count} times",
+  "diaperChanged": "डायपर changed",
+  "diaperRecordAdded": "डायपर change record added successfully",
+  "diaperRecordFailed": "Failed to add diaper record",
+  "diaperRecordsLoadFailed": "Failed to load diaper records",
+  "wetDiaper": "Wet",
+  "dirtyDiaper": "Dirty",
+  "bothDiaper": "Both",
+  "wetCount": "Wet {count}",
+  "dirtyCount": "Dirty {count}",
+  "bothCount": "Both {count}",
+  "diaperType": "डायपर प्रकार",
+  "diaperChangeTime": "Change समय",
+  "weight": "वजन",
+  "height": "लंबाई",
+  "growthRecord": "विकास रिकॉर्ड",
+  "growthRecordAdded": "विकास record added",
+  "growthRecordFailed": "Failed to save growth record",
+  "weightUnit": "kg",
+  "heightUnit": "cm",
+  "temperatureUnit": "°C",
+  "measurementType": "Measurement प्रकार",
+  "measurementValue": "Value",
+  "notes": "Notes",
+  "notesOptional": "Notes (Optional)",
+  "temperatureRange": "तापमान must be between 30.0°C and 45.0°C",
+  "weightRange": "वजन must be between 0.1kg and 50kg",
+  "heightRange": "लंबाई must be between 1cm and 200cm",
+  "enterValidNumber": "Please enter a valid number",
+  "recordGrowthInfo": "रिकॉर्ड विकास जानकारी",
+  "currentMeasurement": "Enter current {type}",
+  "measurementSituation": "रिकॉर्ड measurement situation or special notes (optional)",
+  "communityTitle": "Community",
+  "writePost": "Write Post",
+  "post": "Post",
+  "postTitle": "Post Title",
+  "postContent": "Post Content",
+  "postTitleHint": "Enter title",
+  "postContentHint": "Enter content... Feel free to share your story.",
+  "selectCategory": "Select Category",
+  "postCreated": "Post created successfully!",
+  "postCreateFailed": "Failed to create post: {error}",
+  "nickname": "Nickname",
+  "nicknameSetup": "Set up nickname",
+  "nicknameChange": "Change nickname",
+  "nicknameHint": "Enter nickname",
+  "nicknameDescription": "बनाएं a nickname to use in the community. It will be displayed to other users.",
+  "nicknameChangeDescription": "You can change to a new nickname.",
+  "nicknameValidation": "Korean, English, numbers, underscore (_) allowed (2-20 characters)",
+  "nicknameMinLength": "Nickname must be at least 2 characters",
+  "nicknameMaxLength": "Nickname must be 20 characters or less",
+  "nicknameInvalidChars": "Only Korean, English, numbers, and underscore (_) are allowed",
+  "nicknameChanged": "Nickname changed successfully!",
+  "startButton": "Get Started",
+  "changeButton": "Change",
+  "characterCount": "Title: {count}/200",
+  "contentCharacterCount": "Content: {count}/10000",
+  "imageCount": "Images: {count}/5",
+  "addImages": "जोड़ें Images",
+  "imageSelectFailed": "छवि selection failed: {error}",
+  "featureInDevelopment": "Feature in development",
+  "liveQA": "🔥 Pediatrician Live Q&A",
+  "liveQADescription": "Today at 7 PM! Our specialists will answer all your questions",
+  "likeOrder": "Most Liked",
+  "latestOrder": "Latest",
+  "userNotFound": "उपयोगकर्ता information not found",
+  "statisticsTitle": "आंकड़े",
+  "noStatisticsData": "नहीं आंकड़े Data",
+  "statisticsDescription": "नहीं activities recorded during {period}. शुरू करें recording your baby's activities!",
+  "recordActivity": "रिकॉर्ड Activity",
+  "viewOtherPeriod": "देखें Other Period",
+  "refresh": "रीफ़्रेश",
+  "statisticsTips": "To view statistics?",
+  "statisticsTip1": "रिकॉर्ड activities like feeding, sleep, diaper changes",
+  "statisticsTip2": "At least one day of data is required for statistics",
+  "statisticsTip3": "You can record easily from the home screen",
+  "saveAsImage": "सेव करें as छवि",
+  "saveAsImageDescription": "सेव करें statistics as image",
+  "shareAsText": "साझा करें as Text",
+  "shareAsTextDescription": "साझा करें statistics summary as text",
+  "statisticsEmptyState": "नहीं statistics data",
+  "retryButton": "Try Again",
+  "detailsButton": "Details",
+  "goHomeButton": "Go होम",
+  "applyButton": "लागू करें",
+  "lastWeek": "अंतिम Week",
+  "lastMonth": "अंतिम Month",
+  "last3Months": "अंतिम 3 Months",
+  "allTime": "All समय",
+  "viewOtherPeriodTitle": "देखें Other Period",
+  "familyInvitation": "Family Invitation",
+  "invitationDescription": "Manage baby records together with your family using invitation codes",
+  "createInvitation": "बनाएं Invitation",
+  "invitationCreated": "Invitation created successfully",
+  "invitationCreateFailed": "Failed to create invitation: {error}",
+  "invitationRole": "Role",
+  "invitationDuration": "Validity Period",
+  "roleParent": "Parent",
+  "roleCaregiver": "Caregiver",
+  "roleGuardian": "Guardian",
+  "roleParentDesc": "Can manage all records as baby's parent",
+  "roleCaregiverDesc": "Can manage some records as caregiver",
+  "roleGuardianDesc": "Can view records as baby's guardian",
+  "invitationGuide": "Invitation Guide",
+  "invitationGuideDesc": "You can invite family members to manage baby records together. The invited person can participate through the invitation link after installing the app.",
+  "shareInvitation": "साझा करें Invitation",
+  "shareImmediately": "साझा करें Now",
+  "invitationPreview": "Invitation Preview",
+  "invitationExpiry": "Expires in {duration}",
+  "joinWithCode": "Join with Invitation Code",
+  "invitationValidity": "Invitation Validity Period",
+  "testMode": "Test मोड: Creating invitation with temporary user information",
+  "ok": "ठीक",
+  "edit": "संपादित करें",
+  "delete": "डिलीट करें",
+  "add": "जोड़ें",
+  "remove": "हटाएं",
+  "confirm": "Confirm",
+  "back": "वापस",
+  "next": "अगला",
+  "done": "Done",
+  "loading": "Loading...",
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+  "error": "त्रुटि",
+  "success": "सफलता",
+  "warning": "चेतावनी",
+  "info": "जानकारी",
+  "errorOccurred": "An error occurred: {error}",
+  "networkError": "Network connection error",
+  "serverError": "Server error occurred",
+  "validationError": "Please check your input",
+  "requiredField": "This field is required",
+  "invalidInput": "Invalid input",
+  "saveFailed": "सेव करें failed",
+  "loadFailed": "Load failed",
+  "updateFailed": "अपडेट failed: {error}",
+  "@updateFailed": {
+    "description": "Error message for update failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteFailed": "डिलीट करें failed: {error}",
+  "@deleteFailed": {
+    "description": "Error message for deletion failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "timeFormat": "{hour}:{minute}",
+  "dateTimeFormat": "{year}-{month}-{day} {hour}:{minute}",
+  "durationMinutes": "{minutes}m",
+  "durationHours": "{hours}h",
+  "durationHoursMinutes": "{hours}h {minutes}m",
+  "daysAgo": "{days} days ago",
+  "hoursAgo": "{hours} hours ago",
+  "minutesAgo": "{minutes} minutes ago",
+  "justNow": "Just now",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "thisWeek": "This Week",
+  "thisMonth": "This Month",
+  "medicationDose": "Dose",
+  "medicationTime": "Medication",
+  "medicationAdded": "Medication record added",
+  "solidFoodType": "भोजन प्रकार",
+  "solidFoodAmount": "{amount}g",
+  "solidFoodAdded": "Solid food record added",
+  "milkPumpingAmount": "Pumping मात्रा",
+  "milkPumpingTime": "Pumping समय",
+  "milkPumpingAdded": "Milk pumping record added",
+  "temperatureReading": "तापमान Reading",
+  "temperatureNormal": "सामान्य",
+  "temperatureHigh": "उच्च",
+  "temperatureLow": "कम",
+  "profilePhoto": "Profile फोटो",
+  "profilePhotoUpdate": "अपडेट Profile फोटो",
+  "selectPhotoSource": "How would you like to select a photo?",
+  "camera": "कैमरा",
+  "gallery": "गैलरी",
+  "photoUpdated": "Profile photo updated",
+  "photoUploadFailed": "Profile photo update failed",
+  "photoUploading": "Uploading photo...",
+  "cameraNotAvailable": "कैमरा not available on iOS simulator. Please try from gallery.",
+  "cameraAccessError": "कैमरा access error occurred. Please try from gallery.",
+  "addImage": "जोड़ें छवि",
+  "removeImage": "हटाएं छवि",
+  "maxImagesReached": "Maximum {count} images allowed",
+  "ageMonthsAndDays": "{months} months {days} days",
+  "lastFeedingTime": "अंतिम feeding time",
+  "hoursAndMinutesAgo": "{hours} hours {minutes} minutes ago",
+  "nextFeedingSchedule": "अगला feeding in about {hours}h {minutes}m",
+  "nextFeedingScheduleMinutes": "अगला feeding in about {minutes} minutes",
+  "feedingTimeNow": "It's feeding time now 🍼",
+  "feedingTimeSoon": "दूध पिलाना time soon ({minutes} minutes)",
+  "feedingTimeOverdue": "दूध पिलाना time overdue",
+  "feedingAlarm": "दूध पिलाना alarm in {hours}h {minutes}m",
+  "feedingAlarmMinutes": "दूध पिलाना alarm in {minutes} minutes",
+  "times": "times",
+  "meals": "meals",
+  "kilograms": "kg",
+  "centimeters": "cm",
+  "milliliters": "ml",
+  "grams": "g",
+  "hoursUnit": "hours",
+  "minutesUnit": "minutes",
+  "viewDetails": "देखें Details",
+  "firstRecord": "पहला रिकॉर्ड",
+  "noChange": "नहीं Change",
+  "inProgress": "In Progress",
+  "scheduled": "Scheduled",
+  "startBabyRecording": "पंजीकरण करें your baby and start tracking growth",
+  "registerBabyNow": "पंजीकरण करें बच्चा",
+  "joinWithInviteCode": "Join with Invitation Code",
+  "loadingBabyInfo": "Loading baby information...",
+  "pleaseRegisterBaby": "Please register a baby in settings",
+  "goToSettings": "Go to सेटिंग्स",
+  "profilePhotoUpdated": "Profile photo has been updated.",
+  "profilePhotoUpdateFailed": "Failed to update profile photo",
+  "diaperWetAndDirty": "Wet+Dirty {count} times",
+  "diaperWetAndDirtySeparate": "Wet {wetCount}, Dirty {dirtyCount}",
+  "sleepZeroHours": "0 hours",
+  "solidFoodMeals": "{count} meals",
+  "medicationScheduled": "के बारे में {count} times",
+  "medicationTypes": "Vitamins {vitaminCount}, Vaccines {vaccineCount}",
+  "feedingRecordAddFailed": "Failed to add feeding record",
+  "diaperRecordAddFailed": "Failed to add diaper record",
+  "sleepRecordProcessFailed": "Failed to process sleep record",
+  "hourActivityPattern": "24-Hour Activity Pattern",
+  "touchClockInstruction": "Touch the clock to check activities by time period",
+  "touch": "Touch",
+  "noActivitiesInTimeframe": "नहीं activities during this time",
+  "activityPatternAnalysis": "Activity Pattern Analysis",
+  "todaysStory": "Today's Story",
+  "preciousMoments": "{count} precious moments",
+  "firstMomentMessage": "रिकॉर्ड your first precious moment. Small daily changes add up to great growth.",
+  "pattern": "Pattern",
+  "qualityGood": "अच्छा",
+  "qualityExcellent": "Excellent",
+  "qualityFair": "Fair",
+  "qualityPoor": "Poor",
+  "timeSlot": "o'clock time slot",
+  "am": "AM",
+  "pm": "PM",
+  "activityConcentrationTime": "Times of concentrated activity throughout the day",
+  "formula": "Formula",
+  "babyFood": "बच्चा भोजन",
+  "left": "बाएं",
+  "right": "दाएं",
+  "both": "Both",
+  "sleeping": "Sleeping",
+  "hoursText": "hours",
+  "minutesText": "minutes",
+  "elapsed": "elapsed",
+  "urineOnly": "Urine only",
+  "stoolOnly": "Stool only",
+  "urineAndStool": "Urine + Stool",
+  "color": "रंग",
+  "consistency": "Consistency",
+  "diaperChange": "डायपर Change",
+  "oralMedication": "Oral Medication",
+  "pumping": "Pumping",
+  "temperatureMeasurement": "तापमान Measurement",
+  "fever": "Fever",
+  "lowFever": "कम Fever",
+  "hypothermia": "Hypothermia",
+  "normal": "सामान्य",
+  "quality": "Quality",
+  "weekly": "Weekly",
+  "monthly": "Monthly",
+  "custom": "Custom",
+  "daysCount": "{count} days",
+  "noActivitiesRecordedInPeriod": "नहीं activities were recorded during {period}.",
+  "recordBabyActivities": "रिकॉर्ड your baby's activities!",
+  "howToViewStatistics": "How to view statistics?",
+  "recordActivitiesLikeFeedingSleep": "रिकॉर्ड activities like feeding, sleep, diaper changes, etc.",
+  "atLeastOneDayDataRequired": "At least one day of data is required to display statistics.",
+  "canRecordEasilyFromHome": "You can easily record activities from the home screen.",
+  "updating": "Updating...",
+  "lastUpdated": "अंतिम updated:",
+  "periodSelection": "Period selection:",
+  "daily": "Daily",
+  "startDate": "शुरू करें तारीख",
+  "endDate": "समाप्त तारीख",
+  "apply": "लागू करें",
+  "pleaseSelectDate": "Please select a date",
+  "detailedStatistics": "Detailed आंकड़े",
+  "chartAnalysis": "चार्ट Analysis",
+  "@chartAnalysis": {
+    "description": "Section title for chart analysis"
+  },
+  "overallActivityOverview": "Overall Activity Overview",
+  "totalActivities": "Total Activities",
+  "activeCards": "Active Cards",
+  "dailyAverage": "Daily Average",
+  "activityDistributionByCard": "Activity Distribution by Card",
+  "cannotLoadData": "Cannot load data",
+  "tryAgain": "Try Again",
+  "details": "Details",
+  "goToHome": "Go to होम",
+  "troubleshootingMethods": "Troubleshooting Methods",
+  "shareStatistics": "साझा करें आंकड़े",
+  "communitySubtitle": "Sharing Parenting Stories Together",
+  "search": "खोजें",
+  "notification": "अधिसूचना",
+  "searchFeatureComingSoon": "खोजें feature coming soon",
+  "communityWelcome": "💕 Parenting Community",
+  "communityWelcomeDescription": "साझा करें parenting experiences and valuable information with other parents",
+  "categorySelection": "Category चयन",
+  "categoryAll": "All",
+  "categoryPopular": "Popular",
+  "categoryClinical": "Clinical",
+  "categoryInfoSharing": "Info Sharing",
+  "categorySleepIssues": "नींद Issues",
+  "categoryBabyFood": "बच्चा भोजन",
+  "categoryDevelopment": "Development",
+  "categoryVaccination": "Vaccination",
+  "categoryPostpartum": "Postpartum",
+  "sortByLikes": "क्रमबद्ध करें by Likes",
+  "sortByLatest": "क्रमबद्ध करें by Latest",
+  "edited": "(edited)",
+  "commentsCount": "{count} comments",
+  "@commentsCount": {
+    "description": "Number of comments",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deletePost": "डिलीट करें Post",
+  "deletePostConfirm": "Are you sure you want to delete this post? Deleted posts cannot be recovered.",
+  "deletePostSuccess": "Post has been deleted.",
+  "deletePostError": "डिलीट करें failed: {error}",
+  "postNotFound": "Post not found",
+  "shareFeatureComingSoon": "साझा करें feature coming soon",
+  "loadingComments": "Loading comments...",
+  "loadMoreComments": "Load More Comments",
+  "editComment": "संपादित करें टिप्पणी",
+  "editCommentHint": "संपादित करें your comment...",
+  "editCommentSuccess": "टिप्पणी has been updated.",
+  "editCommentError": "संपादित करें failed: {error}",
+  "deleteComment": "डिलीट करें टिप्पणी",
+  "deleteCommentConfirm": "Are you sure you want to delete this comment? Deleted comments cannot be recovered.",
+  "deleteCommentSuccess": "टिप्पणी has been deleted.",
+  "replySuccess": "Reply has been posted.",
+  "commentSuccess": "टिप्पणी has been posted.",
+  "commentError": "Failed to post comment.",
+  "titlePlaceholder": "Enter title",
+  "contentPlaceholder": "साझा करें your thoughts... Feel free to write about your parenting experiences.",
+  "imageSelectionError": "छवि selection failed: {error}",
+  "userNotFoundError": "उपयोगकर्ता information not found.",
+  "postCreateSuccess": "Post has been created successfully!",
+  "postCreateError": "Post creation failed: {error}",
+  "titleCharacterCount": "Title: {count}/200",
+  "imageCountDisplay": "Images: {count}/5",
+  "addImageTooltip": "जोड़ें छवि",
+  "allPostsChecked": "All posts have been checked! 👍",
+  "waitForNewPosts": "Please wait until new posts are uploaded",
+  "noPostsYet": "नहीं posts yet",
+  "writeFirstPost": "Write the first post!",
+  "loadingNewPosts": "Loading new posts...",
+  "failedToLoadPosts": "Failed to load posts",
+  "checkNetworkAndRetry": "Please check your network connection and try again",
+  "categoryDailyLife": "Daily Life",
+  "preparingTimeline": "Preparing timeline...",
+  "noRecordedMoments": "नहीं recorded moments yet",
+  "loadingTimeline": "Loading timeline...",
+  "noRecordsYet": "नहीं records yet",
+  "noRecordsForDate": "नहीं records for {date}",
+  "noRecordsForDateAndFilter": "नहीं {filter} records for {date}",
+  "cannotRecordFuture": "Cannot record future activities yet",
+  "addFirstRecord": "जोड़ें your first record!",
+  "canAddPastRecord": "You can add past records",
+  "addRecord": "जोड़ें रिकॉर्ड",
+  "viewOtherDates": "देखें Other Dates",
+  "goToToday": "Go to Today",
+  "quickRecordFromHome": "You can quickly add records from the home screen",
+  "detailViewComingSoon": "{title} Details (Coming Soon)",
+  "@detailViewComingSoon": {
+    "description": "Timeline item detail view coming soon message",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "familyInvitationDescription": "Manage baby care records together with family using invitation codes",
+  "babyManagement": "बच्चा Management",
+  "addBaby": "जोड़ें बच्चा",
+  "noBabiesMessage": "नहीं babies registered. Please add a baby.",
+  "switchToNextBaby": "Switch to अगला बच्चा",
+  "birthDate": "Birth तारीख",
+  "registering": "Registering...",
+  "register": "पंजीकरण करें",
+  "careTogetherWith": "Take care of babies together with {name}",
+  "@careTogetherWith": {
+    "description": "Take care together message with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteFamilyDescription": "Invite family or partners to manage baby care records together",
+  "generateInviteCode": "Generate Invitation Code",
+  "generateInviteCodeDescription": "Generate a new invitation code and copy it",
+  "generateInviteCodeButton": "Generate Invitation Code",
+  "orText": "Or",
+  "enterInviteCodeDescription": "Please enter the invitation code you received",
+  "inviteCodePlaceholder": "Invitation Code (6 digits)",
+  "acceptInvite": "स्वीकार करें Invitation",
+  "babyRegistrationSuccess": "{name} has been registered successfully",
+  "@babyRegistrationSuccess": {
+    "description": "Baby registration success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyRegistrationFailed": "बच्चा registration failed",
+  "babyRegistrationError": "त्रुटि occurred: {error}",
+  "@babyRegistrationError": {
+    "description": "Baby registration error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "babySelected": "{name} has been selected",
+  "@babySelected": {
+    "description": "Baby selection message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteCodeGeneratedStatus": "Invitation code generated!",
+  "remainingTime": "Remaining time: {time}",
+  "@remainingTime": {
+    "description": "Remaining time message",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "validTime": "Valid time: 5 minutes",
+  "generating": "Generating...",
+  "joining": "Joining...",
+  "noBabyInfo": "नहीं बच्चा जानकारी",
+  "noBabyInfoDescription": "नहीं baby information found. Would you like to create a test baby?",
+  "create": "बनाएं",
+  "generateNewInviteCode": "Generate New Invitation Code",
+  "replaceExistingCode": "This will replace the existing invitation code. Do you want to continue?",
+  "acceptInvitation": "स्वीकार करें Invitation",
+  "acceptInvitationDescription": "Do you want to accept the invitation and join the family?",
+  "acceptInvitationWarning": "Existing baby records will be deleted and replaced with the invited baby ({babyName}). Do you want to continue?",
+  "@acceptInvitationWarning": {
+    "description": "Warning message when accepting invitation",
+    "placeholders": {
+      "babyName": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseEnterInviteCode": "Please enter the invitation code",
+  "inviteCodeMustBe6Digits": "Invitation code must be 6 digits",
+  "pleaseLoginFirst": "नहीं login information found. Please login first.",
+  "copiedToClipboard": "Invitation code copied to clipboard!",
+  "joinedSuccessfully": "Successfully joined the family!",
+  "invalidInviteCode": "Invalid invitation code",
+  "alreadyMember": "You are already a member of this family",
+  "cannotInviteSelf": "You cannot invite yourself",
+  "minutesAndSeconds": "{minutes}m {seconds}s",
+  "@minutesAndSeconds": {
+    "description": "Time format for remaining time",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "babyGuideTitle": "{name}'s बच्चा Care Guide",
+  "@babyGuideTitle": {
+    "description": "Baby guide title with baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "babyGuide": "बच्चा Care Guide",
+  "noAvailableGuides": "नहीं available guides",
+  "current": "Current",
+  "past": "Past",
+  "upcoming": "Upcoming",
+  "babysGuide": "{name}'s",
+  "@babysGuide": {
+    "description": "Possessive form of baby name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "weekGuide": "{weekText} Guide",
+  "@weekGuide": {
+    "description": "Week guide title",
+    "placeholders": {
+      "weekText": {
+        "type": "String"
+      }
+    }
+  },
+  "feedingGuide": "💡 दूध पिलाना Guide",
+  "feedingFrequency": "दूध पिलाना Frequency",
+  "singleFeedingAmount": "दूध पिलाना मात्रा",
+  "dailyTotal": "Daily Total",
+  "additionalTips": "📋 Additional Tips",
+  "understood": "Got it!",
+  "newborn": "Newborn",
+  "weekNumber": "Week {number}",
+  "@weekNumber": {
+    "description": "Week number format",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "newbornWeek0": "Newborn (Week 0)",
+  "dailyFrequencyRange": "Daily {min} - {max} times",
+  "@dailyFrequencyRange": {
+    "description": "Daily frequency range format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMin": "Daily {min}+ times",
+  "@dailyFrequencyMin": {
+    "description": "Daily minimum frequency format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFrequencyMax": "Daily up to {max} times",
+  "@dailyFrequencyMax": {
+    "description": "Daily maximum frequency format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountRangeML": "{min}ml - {max}ml",
+  "@amountRangeML": {
+    "description": "Amount range in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMinML": "{min}ml or more",
+  "@amountMinML": {
+    "description": "Minimum amount in ml format",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "amountMaxML": "ऊपर to {max}ml",
+  "@amountMaxML": {
+    "description": "Maximum amount in ml format",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "insufficientFeedingRecords": "Insufficient feeding records",
+  "@insufficientFeedingRecords": {
+    "description": "Message shown when there are insufficient feeding records for pattern analysis"
+  },
+  "noRecentFeeding": "नहीं recent feeding records",
+  "@noRecentFeeding": {
+    "description": "Message shown when there are no recent feeding records"
+  },
+  "languageSelection": "भाषा चयन",
+  "@languageSelection": {
+    "description": "Language selection screen title"
+  },
+  "selectLanguage": "Select a language",
+  "@selectLanguage": {
+    "description": "Instruction to select a language"
+  },
+  "currentLanguage": "Current भाषा",
+  "@currentLanguage": {
+    "description": "Current language label"
+  },
+  "searchCommunityPosts": "खोजें community posts",
+  "@searchCommunityPosts": {
+    "description": "Placeholder text for community search input"
+  },
+  "temperatureRecord": "तापमान रिकॉर्ड",
+  "temperatureTrend": "तापमान Trend",
+  "profilePhotoSetup": "Profile फोटो सेटअप",
+  "howToSelectPhoto": "How would you like to select a photo?",
+  "send": "भेजें",
+  "emailVerificationRequired": "ईमेल Verification Required",
+  "passwordReset": "पासवर्ड रीसेट",
+  "enterEmailForReset": "Enter your registered email address. We'll send you a password reset link.",
+  "accountWithdrawalComplete": "Account Withdrawal पूर्ण",
+  "genderLabel": "लिंग:",
+  "birthdateLabel": "Birthdate:",
+  "maleGender": "पुरुष",
+  "femaleGender": "महिला",
+  "joinWithInviteCodeButton": "Join with Invite Code",
+  "temperatureRecorded": "तापमान recorded",
+  "recordFailed": "रिकॉर्ड failed",
+  "@recordFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "loadingUserInfo": "Loading user information. Please try again in a moment.",
+  "continueWithSeparateAccount": "Continue with separate account",
+  "linkWithExistingAccount": "Link with existing account",
+  "linkAccount": "Link Account",
+  "accountLinkingComplete": "Account Linking पूर्ण",
+  "deleteConfirmation": "डिलीट करें Confirmation",
+  "emailLabel": "ईमेल",
+  "passwordLabel": "पासवर्ड",
+  "babyNameLabel": "बच्चा नाम",
+  "weightInput": "Enter weight",
+  "heightInput": "Enter height",
+  "measurementNotes": "रिकॉर्ड measurement conditions or special notes (optional)",
+  "urine": "Urine",
+  "stool": "Stool",
+  "yellow": "Yellow",
+  "brown": "Brown",
+  "green": "Green",
+  "good": "अच्छा",
+  "average": "Average",
+  "poor": "Poor",
+  "vaccination": "Vaccination",
+  "illness": "Illness",
+  "highFever": "उच्च Fever",
+  "inhalation": "Inhalation",
+  "injection": "Injection",
+  "tablet": "Tablet",
+  "teaspoon": "Teaspoon",
+  "tablespoon": "Tablespoon",
+  "pumpingTime": "Pumping",
+  "solidFoodTime": "Solid भोजन",
+  "totalFeedingAmount": "Total feeding amount",
+  "averageFeedingAmount": "Average feeding amount",
+  "@averageFeedingAmount": {
+    "description": "Label for average feeding amount metric"
+  },
+  "dailyAverageFeedingCount": "Daily average feeding count",
+  "@dailyAverageFeedingCount": {
+    "description": "Label for daily average feeding count metric"
+  },
+  "clinical": "Clinical",
+  "infoSharing": "Info Sharing",
+  "sleepIssues": "नींद Issues",
+  "babyFoodCategory": "बच्चा भोजन",
+  "developmentStage": "Development Stage",
+  "vaccinationCategory": "Vaccination",
+  "postpartumRecovery": "Postpartum Recovery",
+  "dailyLife": "Daily Life",
+  "likes": "Likes",
+  "comments": "Comments",
+  "anonymous": "Anonymous",
+  "minutes": "min",
+  "armpit": "Armpit",
+  "forehead": "Forehead",
+  "ear": "Ear",
+  "mouth": "Mouth",
+  "rectal": "Rectal",
+  "otherLocation": "Other",
+  "searchError": "खोजें error",
+  "question": "Question",
+  "information": "जानकारी",
+  "relevance": "Relevance",
+  "searchSuggestions": "खोजें suggestions",
+  "noSearchResults": "नहीं search results",
+  "tryDifferentSearchTerm": "Try a different search term",
+  "likeFeatureComingSoon": "Like feature coming soon",
+  "popularSearchTerms": "Popular search terms",
+  "recentSearches": "Recent searches",
+  "deleteAll": "डिलीट करें All",
+  "sortByComments": "क्रमबद्ध करें by comments",
+  "detailInformation": "Detail जानकारी",
+  "quickActions": "Quick Actions",
+  "recordAgain": "रिकॉर्ड Again",
+  "share": "साझा करें",
+  "deleteRecord": "डिलीट करें रिकॉर्ड",
+  "deleteRecordConfirmation": "Are you sure you want to delete this record?",
+  "recordDeleted": "रिकॉर्ड deleted",
+  "featureComingSoon": "Feature coming soon",
+  "editRecord": "संपादित करें रिकॉर्ड",
+  "dateTime": "तारीख & समय",
+  "date": "तारीख",
+  "time": "समय",
+  "amount": "मात्रा",
+  "duration": "अवधि",
+  "side": "तरफ",
+  "fair": "Fair",
+  "wet": "Wet",
+  "dirty": "Dirty",
+  "location": "स्थान",
+  "notesHint": "Enter additional notes...",
+  "saveChanges": "सेव करें Changes",
+  "changesSaved": "Changes saved",
+  "smartInsights": "Smart Insights",
+  "analyzingPatterns": "Analyzing patterns...",
+  "insightsFound": "{count} insights found",
+  "@insightsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noInsightsYet": "Not enough data to analyze patterns yet",
+  "confidence": "Confidence",
+  "sleepProgressMinutes": "{minutes} minutes in progress",
+  "@sleepProgressMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepProgressTime": "नींद Progress समय",
+  "standardFeedingTimeNow": "It's standard feeding time",
+  "standardFeedingTimeSoon": "Standard feeding time coming soon ({minutes} minutes)",
+  "@standardFeedingTimeSoon": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingHours": "{hours} hours {minutes} minutes until standard feeding",
+  "@timeUntilStandardFeedingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingMinutes": "{minutes} minutes until standard feeding",
+  "@timeUntilStandardFeedingMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "insufficientFeedingRecordsApplyingStandard": "Insufficient feeding records (applying standard interval)",
+  "standardFeedingTimeOverdue": "Standard feeding time is overdue",
+  "hoursMinutesFormat": "{hours}h {minutes}m",
+  "@hoursMinutesFormat": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesFormat": "{minutes} minutes",
+  "@minutesFormat": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "personalPatternInfo": "Personal pattern: {interval} interval (for reference)",
+  "@personalPatternInfo": {
+    "placeholders": {
+      "interval": {
+        "type": "String"
+      }
+    }
+  },
+  "longPressForDetails": "Long press for details",
+  "todaysSummary": "Today's Summary",
+  "future": "Future",
+  "previousDate": "पिछला date",
+  "nextDate": "अगला date",
+  "selectDate": "Select date",
+  "checkStandardFeedingInterval": "Check standard feeding interval",
+  "registerBabyFirst": "Please register your baby",
+  "registerBabyToRecordMoments": "To record your baby's precious moments, please register baby information first.",
+  "addBabyFromHome": "जोड़ें baby from home",
+  "timesUnit": "times",
+  "itemsUnit": "items",
+  "timesPerDay": "times/day",
+  "activityDistributionByCategory": "Activity Distribution by Category",
+  "itemsCount": "{count} items",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalCount": "Total count",
+  "timesCount": "{count} times",
+  "@timesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDetailedData": "नहीं detailed data",
+  "averageFeedingTime": "Average feeding time",
+  "averageSleepTime": "Average sleep time",
+  "dailyAverageTotalSleepTime": "Daily average total sleep time",
+  "dailyAverageSleepCount": "Daily average sleep count",
+  "@dailyAverageSleepCount": {
+    "description": "Label for daily average sleep count metric"
+  },
+  "dailyAverageChangeCount": "Daily average change count",
+  "sharingParentingStories": "Sharing Parenting Stories",
+  "myActivity": "My Activity",
+  "categories": "Categories",
+  "menu": "Menu",
+  "seeMore": "See More",
+  "midnight": "Midnight",
+  "@midnight": {
+    "description": "12:00 AM - midnight time label"
+  },
+  "morning": "AM",
+  "@morning": {
+    "description": "AM - morning time period label"
+  },
+  "noon": "Noon",
+  "@noon": {
+    "description": "12:00 PM - noon time label"
+  },
+  "afternoon": "PM",
+  "@afternoon": {
+    "description": "PM - afternoon time period label"
+  },
+  "quickSelection": "Quick चयन",
+  "@quickSelection": {
+    "description": "Quick selection label for date presets"
+  },
+  "customSettings": "Custom सेटिंग्स",
+  "@customSettings": {
+    "description": "Custom settings label for date range"
+  },
+  "selectDateRange": "Select तारीख Range",
+  "@selectDateRange": {
+    "description": "Select date range button text"
+  },
+  "recent7Days": "Recent 7 Days",
+  "@recent7Days": {
+    "description": "Recent 7 days preset label"
+  },
+  "recent14Days": "Recent 14 Days",
+  "@recent14Days": {
+    "description": "Recent 14 days preset label"
+  },
+  "recent30Days": "Recent 30 Days",
+  "@recent30Days": {
+    "description": "Recent 30 days preset label"
+  },
+  "selectPeriodForAnalysis": "Please select the period for analysis",
+  "@selectPeriodForAnalysis": {
+    "description": "Description text for period selection dialog"
+  },
+  "unsavedChangesMessage": "Do you want to cancel changes and return to previous state?",
+  "@unsavedChangesMessage": {
+    "description": "Message asking about unsaved changes"
+  },
+  "unsavedChangesExitMessage": "Do you want to exit without saving changes?",
+  "@unsavedChangesExitMessage": {
+    "description": "Message asking about exiting without saving"
+  },
+  "exitWithoutSaving": "Exit",
+  "@exitWithoutSaving": {
+    "description": "Button to exit without saving"
+  },
+  "familyMembers": "Family Members",
+  "@familyMembers": {
+    "description": "Family members section title"
+  },
+  "cannotLoadFamilyMembersInfo": "Cannot load family member information",
+  "@cannotLoadFamilyMembersInfo": {
+    "description": "Error message when family member info cannot be loaded"
+  },
+  "administrator": "Administrator",
+  "@administrator": {
+    "description": "Administrator role label"
+  },
+  "member": "Member",
+  "@member": {
+    "description": "Member role label"
+  },
+  "joinDate": "Join date: {date}",
+  "@joinDate": {
+    "description": "Join date label with date parameter",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteFamilyMembersDescription": "Invite family members to manage baby records together",
+  "@inviteFamilyMembersDescription": {
+    "description": "Description for inviting family members when family group exists"
+  },
+  "joinFamilyGroupWarning": "Do you want to join {familyName}'s family? Existing baby data will be moved to the new family group.",
+  "@joinFamilyGroupWarning": {
+    "description": "Warning message when joining a family group",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "familyInvitationAccepted": "Family invitation accepted! Now you can manage baby records together.",
+  "@familyInvitationAccepted": {
+    "description": "Success message when family invitation is accepted"
+  },
+  "careTogetherWithFamily": "Caring for baby together with {familyName}",
+  "@careTogetherWithFamily": {
+    "description": "Header message when user has a family group",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "feedingTimeNotificationTitle": "It's feeding time! 🍼",
+  "@feedingTimeNotificationTitle": {
+    "description": "Title of feeding time notification"
+  },
+  "feedingTimeNotificationBody": "बच्चा might be hungry now.",
+  "@feedingTimeNotificationBody": {
+    "description": "Body text of feeding time notification"
+  },
+  "feedingAlarmChannelName": "दूध पिलाना Reminders",
+  "@feedingAlarmChannelName": {
+    "description": "Android notification channel name for feeding alarms"
+  },
+  "feedingAlarmChannelDescription": "दूध पिलाना time reminder notifications",
+  "@feedingAlarmChannelDescription": {
+    "description": "Android notification channel description for feeding alarms"
+  },
+  "averageFeedingDuration": "Average feeding duration",
+  "@averageFeedingDuration": {
+    "description": "Label for average feeding duration metric"
+  },
+  "averageSleepDuration": "Average sleep duration",
+  "@averageSleepDuration": {
+    "description": "Label for average sleep duration metric"
+  },
+  "dailyTotalSleepDuration": "Daily total sleep duration",
+  "@dailyTotalSleepDuration": {
+    "description": "Label for daily total sleep duration metric"
+  },
+  "dailyAverageDiaperChangeCount": "Daily average diaper changes",
+  "@dailyAverageDiaperChangeCount": {
+    "description": "Label for daily average diaper change count metric"
+  },
+  "dailyAverageMedicationCount": "Daily average medication count",
+  "@dailyAverageMedicationCount": {
+    "description": "Label for daily average medication count metric"
+  },
+  "medicationTypesUsed": "Types of medication used",
+  "@medicationTypesUsed": {
+    "description": "Label for medication types used metric"
+  },
+  "totalPumpedAmount": "Total pumped amount",
+  "@totalPumpedAmount": {
+    "description": "Label for total pumped amount metric"
+  },
+  "averagePumpedAmount": "Average pumped amount",
+  "@averagePumpedAmount": {
+    "description": "Label for average pumped amount metric"
+  },
+  "countTab": "Count",
+  "@countTab": {
+    "description": "Tab label for count metrics"
+  },
+  "amountTimeTab": "Amount/Time",
+  "@amountTimeTab": {
+    "description": "Tab label for amount/time metrics"
+  },
+  "durationTab": "अवधि",
+  "@durationTab": {
+    "description": "Tab label for duration metrics"
+  },
+  "chartDataLoading": "Loading chart data...",
+  "@chartDataLoading": {
+    "description": "Message displayed while chart data is loading"
+  },
+  "chartDataNotAvailable": "चार्ट data not available.",
+  "@chartDataNotAvailable": {
+    "description": "Message displayed when chart data is not available"
+  },
+  "averageLabel": "Average:",
+  "@averageLabel": {
+    "description": "Label prefix for average values in charts"
+  },
+  "dailyFeedingCountTitle": "Daily feeding count",
+  "@dailyFeedingCountTitle": {
+    "description": "Chart title for daily feeding count"
+  },
+  "weekdaysSundayToSaturday": "SunMonTueWedThuFriSat",
+  "@weekdaysSundayToSaturday": {
+    "description": "Weekday abbreviations from Sunday to Saturday (concatenated for parsing)"
+  },
+  "dayFormat": "{day}",
+  "@dayFormat": {
+    "description": "Format for displaying day numbers",
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFeedingCount": "Daily feeding count",
+  "@dailyFeedingCount": {
+    "description": "Chart title for daily feeding count"
+  },
+  "dailyFeedingAmount": "Daily feeding amount",
+  "@dailyFeedingAmount": {
+    "description": "Chart title for daily feeding amount"
+  },
+  "dailyFeedingDuration": "Daily feeding duration",
+  "@dailyFeedingDuration": {
+    "description": "Chart title for daily feeding duration"
+  },
+  "dailySleepCount": "Daily sleep count",
+  "@dailySleepCount": {
+    "description": "Chart title for daily sleep count"
+  },
+  "dailySleepDuration": "Daily sleep duration",
+  "@dailySleepDuration": {
+    "description": "Chart title for daily sleep duration"
+  },
+  "dailyDiaperChangeCount": "Daily diaper changes",
+  "@dailyDiaperChangeCount": {
+    "description": "Chart title for daily diaper changes"
+  },
+  "dailyMedicationCount": "Daily medication count",
+  "@dailyMedicationCount": {
+    "description": "Chart title for daily medication count"
+  },
+  "dailyMilkPumpingCount": "Daily pumping count",
+  "@dailyMilkPumpingCount": {
+    "description": "Chart title for daily pumping count"
+  },
+  "dailyMilkPumpingAmount": "Daily pumping amount",
+  "@dailyMilkPumpingAmount": {
+    "description": "Chart title for daily pumping amount"
+  },
+  "dailySolidFoodCount": "Daily solid food count",
+  "@dailySolidFoodCount": {
+    "description": "Chart title for daily solid food count"
+  },
+  "dailyAverageSolidFoodCount": "Daily average solid food count",
+  "@dailyAverageSolidFoodCount": {
+    "description": "Label for daily average solid food count metric"
+  },
+  "triedFoodTypes": "Types of food tried",
+  "@triedFoodTypes": {
+    "description": "Label for types of food tried metric"
+  },
+  "babyTemperatureRecord": "{name}'s तापमान रिकॉर्ड",
+  "@babyTemperatureRecord": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustWithSlider": "Adjust with slider",
+  "measurementMethod": "Measurement method",
+  "normalRange": "सामान्य range",
+  "normalRangeForAgeGroup": "सामान्य range ({ageGroup}): {min}°C - {max}°C",
+  "@normalRangeForAgeGroup": {
+    "placeholders": {
+      "ageGroup": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "saveTemperatureRecord": "सेव करें तापमान रिकॉर्ड",
+  "enterTemperature": "Please enter temperature",
+  "temperatureRangeValidation": "तापमान must be between 34.0°C ~ 42.0°C",
+  "recordSymptomsHint": "Please record symptoms or special notes",
+  "oralMethod": "Oral",
+  "analMethod": "Anal",
+  "recentDaysTrend": "Recent {days} days trend",
+  "@recentDaysTrend": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "days3": "3 days",
+  "days7": "7 days",
+  "weeks2": "2 weeks",
+  "month1": "1 month",
+  "noTemperatureRecordsInPeriod": "नहीं temperature records in selected period",
+  "temperatureChangeTrend": "तापमान Change Trend",
+  "averageTemperature": "Average तापमान",
+  "highestTemperature": "Highest तापमान",
+  "lowestTemperature": "Lowest तापमान",
+  "noteAvailableTapToView": "📝 नोट available (tap to view)",
+  "temperatureRisingTrend": "तापमान is showing a rising trend",
+  "temperatureFallingTrend": "तापमान is showing a falling trend",
+  "temperatureStableTrend": "तापमान is stable",
+  "trendAnalysis": "Trend Analysis",
+  "totalMeasurements": "Total {count} measurements",
+  "@totalMeasurements": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "temperatureRecordMemo": "तापमान रिकॉर्ड Memo",
+  "babyGrowthChart": "{name}'s विकास चार्ट",
+  "@babyGrowthChart": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "noGrowthRecords": "नहीं growth records",
+  "enterWeightAndHeightFromHome": "Please enter weight and height from home screen",
+  "all": "All",
+  "growthInsights": "विकास Insights",
+  "growthRate": "विकास Rate",
+  "monthlyAverageGrowth": "Monthly Average विकास",
+  "dataInsufficient": "Data Insufficient",
+  "twoOrMoreRequired": "2 or more required",
+  "recentDaysBasis": "Based on recent {days} days",
+  "@recentDaysBasis": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "entireBasis": "Based on entire period",
+  "oneMonthPrediction": "1 Month Prediction",
+  "currentTrendBasis": "Based on current trend",
+  "predictionNotPossible": "Prediction not possible",
+  "trendInsufficient": "Trend insufficient",
+  "recordFrequency": "रिकॉर्ड Frequency",
+  "veryConsistent": "Very Consistent",
+  "consistent": "Consistent",
+  "irregular": "Irregular",
+  "averageDaysInterval": "Average {days} days interval",
+  "@averageDaysInterval": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nextRecord": "अगला रिकॉर्ड",
+  "now": "Now",
+  "soon": "Soon",
+  "daysLater": "{days} days later",
+  "@daysLater": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgoRecorded": "Recorded {days} days ago",
+  "@daysAgoRecorded": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklyRecordRecommended": "Weekly record recommended",
+  "nextMilestone": "अगला Milestone",
+  "targetValue": "{value}{unit} target",
+  "@targetValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "remainingProgress": "{remaining}{unit} remaining ({progress}% achieved)",
+  "@remainingProgress": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "calculationNotPossible": "Calculation not possible",
+  "periodInsufficient": "Period insufficient",
+  "noDataAvailable": "नहीं data available",
+  "weightRecordRequired": "वजन record required",
+  "heightRecordRequired": "लंबाई record required",
+  "currentRecordMissing": "Current record missing",
+  "noRecord": "नहीं record",
+  "firstRecordStart": "शुरू करें your first record",
+  "oneRecord": "1 record",
+  "moreRecordsNeeded": "More records needed",
+  "sameDayRecord": "Same day record",
+  "recordedTimes": "{count} times recorded",
+  "@recordedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "storageMethod": "Storage Method",
+  "pumpingType": "Pumping प्रकार",
+  "mealType": "Meal प्रकार",
+  "texture": "Texture",
+  "reaction": "Reaction",
+  "measurementLocation": "Measurement स्थान",
+  "feverReducerGiven": "Fever Reducer Given",
+  "given": "Given",
+  "hours": "hours",
+  "fedImmediately": "Fed Immediately",
+  "breakfast": "Breakfast",
+  "lunch": "Lunch",
+  "dinner": "Dinner",
+  "snack": "Snack",
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+  "on": "चालू",
+  "off": "बंद",
+  "weightChange": "वजन Change",
+  "heightChange": "लंबाई Change",
+  "totalRecords": "Total Records",
+  "totalChange": "Total Change",
+  "start": "शुरू करें",
+  "memo": "Memo",
+  "weightDataEmpty": "नहीं weight data available",
+  "heightDataEmpty": "नहीं height data available",
+  "undoAction": "Undo",
+  "feedingRecordDeleted": "दूध पिलाना record deleted",
+  "sleepRecordDeleted": "नींद record deleted",
+  "diaperRecordDeleted": "डायपर record deleted",
+  "healthRecordDeleted": "Health record deleted",
+  "deletionError": "त्रुटि occurred during deletion",
+  "duplicateInputDetected": "Duplicate input detected",
+  "solidFoodDuplicateConfirm": "You just recorded solid food.\\nDo you really want to record it again?",
+  "cannotOpenSettings": "Cannot open settings screen",
+  "sleepInProgressDuration": "Sleeping - {minutes}m elapsed",
+  "wetOnly": "Wet Only",
+  "dirtyOnly": "Dirty Only",
+  "wetAndDirty": "Wet + Dirty",
+  "colorLabel": "रंग",
+  "consistencyLabel": "Consistency",
+  "topicalMedication": "Topical",
+  "inhaledMedication": "Inhaled",
+  "milkPumpingInProgress": "Pumping",
+  "pumpingInProgressDuration": "Pumping - {minutes}m elapsed",
+  "lowGradeFever": "कम ग्रेड Fever",
+  "allActivities": "All",
+  "temperatureFilter": "तापमान",
+  "deleteRecordTitle": "डिलीट करें रिकॉर्ड",
+  "deleteRecordMessage": "Are you sure you want to delete this record? Deleted records cannot be recovered.",
+  "recordDeletedSuccess": "रिकॉर्ड has been deleted",
+  "recordDeleteFailed": "Failed to delete record",
+  "recordDeleteError": "An error occurred while deleting the record",
+  "recordUpdatedSuccess": "रिकॉर्ड has been updated",
+  "recordUpdateFailed": "Failed to update record",
+  "recordUpdateError": "An error occurred while updating the record",
+  "noRecordsToday": "नहीं {recordType} records today",
+  "healthRecordRestored": "Health record has been restored",
+  "deleteTemperatureConfirm": "Do you want to delete the recent temperature record?",
+  "minimum": "Minimum",
+  "maximum": "Maximum",
+  "duplicateEntryDetected": "Duplicate Entry Detected",
+  "feedingDuplicateConfirm": "You just added a feeding record.\\nDo you really want to record again?",
+  "milkPumpingDuplicateConfirm": "You just added a milk pumping record.\\nDo you really want to record again?",
+  "medicationDuplicateConfirm": "You just recorded medication.\\nDo you really want to record again?",
+  "diaperDuplicateConfirm": "You just recorded a diaper change.\\nDo you really want to record again?",
+  "sleepStartDuplicateConfirm": "You just manipulated sleep.\\nDo you really want to start sleeping?",
+  "sleepEndDuplicateConfirm": "You just manipulated sleep.\\nDo you really want to end sleeping?",
+  "recordAction": "रिकॉर्ड",
+  "end": "समाप्त",
+  "whatTypeChanged": "What type did you change?",
+  "poop": "Poop",
+  "urinePoop": "Urine+Poop",
+  "changeType": "Change प्रकार",
+  "colorWhenPoop": "रंग (When Poop)",
+  "minutesShort": "m",
+  "totalFeedingDuration": "Total feeding duration",
+  "maximumFeedingAmount": "Maximum feeding amount",
+  "minimumFeedingAmount": "Minimum feeding amount",
+  "totalSleepDuration": "Total sleep duration",
+  "dailyTotalMilkPumpingAmount": "Daily total pumped amount",
+  "maximumSleepDuration": "Maximum sleep duration",
+  "minimumSleepDuration": "Minimum sleep duration",
+  "allergicReactionCount": "Allergic reaction count",
+  "dailyAverageMilkPumpingCount": "Daily average milk pumping count",
+  "growthInfoRecord": "विकास जानकारी रिकॉर्ड",
+  "@growthInfoRecord": {
+    "description": "Title for growth information record dialog"
+  },
+  "recordBabyCurrentWeight": "Please record baby's current weight",
+  "@recordBabyCurrentWeight": {
+    "description": "Instructions to record baby's current weight"
+  },
+  "recordBabyCurrentHeight": "Please record baby's current height",
+  "@recordBabyCurrentHeight": {
+    "description": "Instructions to record baby's current height"
+  },
+  "measurementItems": "Measurement Items",
+  "@measurementItems": {
+    "description": "Label for measurement items section"
+  },
+  "memoOptional": "Memo (Optional)",
+  "@memoOptional": {
+    "description": "Label for optional memo field"
+  },
+  "enterWeight": "Enter weight",
+  "@enterWeight": {
+    "description": "Placeholder text for weight input"
+  },
+  "enterHeight": "Enter height",
+  "@enterHeight": {
+    "description": "Placeholder text for height input"
+  },
+  "recordSpecialNotesWeight": "रिकॉर्ड special notes when measuring weight (optional)",
+  "@recordSpecialNotesWeight": {
+    "description": "Hint text for weight measurement notes"
+  },
+  "recordSpecialNotesHeight": "रिकॉर्ड special notes when measuring height (optional)",
+  "@recordSpecialNotesHeight": {
+    "description": "Hint text for height measurement notes"
+  },
+  "weightInvalidNumber": "Please enter a valid number for weight",
+  "@weightInvalidNumber": {
+    "description": "Validation error for invalid weight number"
+  },
+  "weightRangeError": "वजन should be between 0.1~50kg",
+  "@weightRangeError": {
+    "description": "Validation error for weight out of range"
+  },
+  "heightInvalidNumber": "Please enter a valid number for height",
+  "@heightInvalidNumber": {
+    "description": "Validation error for invalid height number"
+  },
+  "heightRangeError": "लंबाई should be between 1~200cm",
+  "@heightRangeError": {
+    "description": "Validation error for height out of range"
+  },
+  "enterWeightOrHeight": "Please enter weight or height",
+  "@enterWeightOrHeight": {
+    "description": "Validation error when neither weight nor height is entered"
+  },
+  "saveError": "An error occurred while saving",
+  "@saveError": {
+    "description": "Error message when saving fails"
+  },
+  "confirmDeletePost": "Are you sure you want to delete this post? Deleted posts cannot be recovered.",
+  "postDeleted": "Post has been deleted.",
+  "commentUpdated": "टिप्पणी has been updated.",
+  "confirmDeleteComment": "Are you sure you want to delete this comment? Deleted comments cannot be recovered.",
+  "commentDeleted": "टिप्पणी has been deleted.",
+  "shareFeatureInDevelopment": "साझा करें feature is under development",
+  "sortByRecent": "क्रमबद्ध करें by Recent",
+  "replyCreated": "Reply has been posted.",
+  "commentCreated": "टिप्पणी has been posted.",
+  "commentCreationFailed": "Failed to post comment.",
+  "reply": "Reply",
+  "replyTo": "Reply to {nickname}",
+  "@replyTo": {
+    "description": "Reply to specific person",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "writeReply": "Write a reply...",
+  "writeComment": "Write a comment...",
+  "moreReplies": "देखें {count} more replies",
+  "@moreReplies": {
+    "description": "View more replies",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "copy": "Copy",
+  "report": "रिपोर्ट",
+  "commentCopied": "टिप्पणी has been copied",
+  "reportComment": "रिपोर्ट टिप्पणी",
+  "confirmReportComment": "Do you want to report this comment? It will be reported as inappropriate content or spam.",
+  "reportSubmitted": "रिपोर्ट has been submitted.",
+  "serviceInPreparation": "💝 Service in Preparation",
+  "upcomingServiceDescription": "We will soon introduce useful parenting information and products",
+  "accountInfo": "Account जानकारी",
+  "userID": "उपयोगकर्ता ID",
+  "email": "ईमेल",
+  "loginMethod": "लॉगिन Method",
+  "noEmail": "नहीं email",
+  "accountDeletion": "Account Deletion",
+  "allDataWillBePermanentlyDeleted": "All data will be permanently deleted",
+  "accountDeletionWarning": "⚠️ The following data will be permanently deleted when you delete your account:",
+  "userAccountInfo": "• उपयोगकर्ता account information",
+  "allRegisteredBabyInfo": "• All registered baby information",
+  "allTimelineRecords": "• All timeline records",
+  "allCommunityPosts": "• All community posts and comments",
+  "allInvitationHistory": "• All invitation history",
+  "thisActionCannotBeUndone": "This action cannot be undone.",
+  "deletingAccount": "Deleting account...",
+  "accountDeletionCompleted": "Account deletion completed. (Forced completion due to long processing time)",
+  "accountDeletionCompletedSuccess": "Account deletion successfully completed. You can sign up again at any time.",
+  "daysUnit": "days",
+  "monthsUnit": "months",
+  "yearsUnit": "years",
+  "confirmButton": "ठीक",
+  "accountDeletionCompleteTitle": "Account Deletion पूर्ण",
+  "resetBaby": "रीसेट",
+  "notLoggedIn": "Not logged in",
+  "birthDateLabel": "Birth तारीख:",
+  "genderColon": "लिंग:",
+  "babyInfoResetQuestion": "Do you want to reset {babyName} information from the beginning?",
+  "recordsWillBeReset": "The following records will be reset",
+  "feedingSleepDiaperRecords": "दूध पिलाना, sleep, diaper records",
+  "growthInfoAndPhotos": "विकास information and photos",
+  "allBabyRelatedData": "All baby-related data",
+  "allRecordsWillBeDeleted": "All records of {babyName} will be completely removed",
+  "babyResetSuccessMessage": "{babyName} information has been successfully reset.",
+  "kakaoProvider": "KakaoTalk",
+  "googleProvider": "Google",
+  "appleProvider": "Apple",
+  "emailProvider": "ईमेल",
+  "unknownProvider": "Unknown",
+  "accountDeletionPartialErrorMessage": "Some processing encountered issues but logout is completed. Redirecting to login screen."
 }

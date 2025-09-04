@@ -9,7 +9,7 @@ class AppLocalizationsId extends AppLocalizations {
   AppLocalizationsId([String locale = 'id']) : super(locale);
 
   @override
-  String get user => 'User';
+  String get user => 'Pengguna';
 
   @override
   String userInfoLoadFailed(String error) {
@@ -27,37 +27,37 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get registerBaby => 'Register Baby';
+  String get registerBaby => 'Daftar Bayi';
 
   @override
-  String get noBabiesRegistered => 'No babies registered';
+  String get noBabiesRegistered => 'Tidak babies registered';
 
   @override
-  String get registerFirstBaby => 'Register your first baby!';
+  String get registerFirstBaby => 'Daftar your first baby!';
 
   @override
-  String get registerBabyButton => 'Register Baby';
+  String get registerBabyButton => 'Daftar Bayi';
 
   @override
   String birthday(int year, int month, int day) {
-    return 'Birthday: $year/$month/$day';
+    return 'Ulang Tahun: $year/$month/$day';
   }
 
   @override
   String age(int days) {
-    return 'Age: $days days';
+    return 'Umur: $days days';
   }
 
   @override
   String gender(String gender) {
-    return 'Gender';
+    return 'Jenis Kelamin';
   }
 
   @override
-  String get male => 'Male';
+  String get male => 'Laki-laki';
 
   @override
-  String get female => 'Female';
+  String get female => 'Perempuan';
 
   @override
   String get other => 'Other';
@@ -84,7 +84,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get enterBabyInfo => 'Please enter baby information';
 
   @override
-  String get babyName => 'Baby Name';
+  String get babyName => 'Bayi Nama';
 
   @override
   String get babyNameHint => 'e.g. Emma';
@@ -93,7 +93,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get babyNameRequired => 'Please enter baby\'s name';
 
   @override
-  String get babyNameMinLength => 'Name must be at least 2 characters';
+  String get babyNameMinLength => 'Nama must be at least 2 characters';
 
   @override
   String get selectBirthdateButton => 'Select Birthdate';
@@ -104,13 +104,13 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get genderOptional => 'Gender (Optional)';
+  String get genderOptional => 'Jenis Kelamin (Optional)';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Batal';
 
   @override
-  String get loginFailed => 'Login failed';
+  String get loginFailed => 'Masuk failed';
 
   @override
   String loginError(String error) {
@@ -125,10 +125,10 @@ class AppLocalizationsId extends AppLocalizations {
       'By logging in, you agree to our Terms of Service and Privacy Policy';
 
   @override
-  String get loginWithKakao => 'Login with Kakao';
+  String get loginWithKakao => 'Masuk with Kakao';
 
   @override
-  String get settings => 'Settings';
+  String get settings => 'Pengaturan';
 
   @override
   String get language => 'Language';
@@ -143,7 +143,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get pleaseEnterBabyName => 'Please enter baby\'s name';
 
   @override
-  String get nameMinLength => 'Name must be at least 2 characters';
+  String get nameMinLength => 'Nama must be at least 2 characters';
 
   @override
   String dateFormat(String year, String month, String day) {
@@ -154,16 +154,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get autoLogin => 'Stay logged in';
 
   @override
-  String get logout => 'Logout';
+  String get logout => 'Keluar';
 
   @override
   String get logoutConfirm => 'Are you sure you want to logout?';
 
   @override
-  String get yes => 'Yes';
+  String get yes => 'Ya';
 
   @override
-  String get no => 'No';
+  String get no => 'Tidak';
 
   @override
   String get darkMode => 'Dark Mode';
@@ -172,16 +172,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get appearance => 'Appearance';
 
   @override
-  String get home => 'Home';
+  String get home => 'Beranda';
 
   @override
   String get timeline => 'Timeline';
 
   @override
-  String get record => 'Record';
+  String get record => 'Rekam';
 
   @override
-  String get statistics => 'Statistics';
+  String get statistics => 'Statistik';
 
   @override
   String get community => 'Community';
@@ -193,11 +193,11 @@ class AppLocalizationsId extends AppLocalizations {
   String get timelineUpdateMessage => 'Timeline feature will be updated soon';
 
   @override
-  String get recordUpdateMessage => 'Record feature will be updated soon';
+  String get recordUpdateMessage => 'Rekam feature will be updated soon';
 
   @override
   String get statisticsUpdateMessage =>
-      'Statistics feature will be updated soon';
+      'Statistik feature will be updated soon';
 
   @override
   String get communityUpdateMessage => 'Community feature will be updated soon';
@@ -206,35 +206,35 @@ class AppLocalizationsId extends AppLocalizations {
   String get todaySummary => 'Today\'s Summary';
 
   @override
-  String get growthInfo => 'Growth Info';
+  String get growthInfo => 'Pertumbuhan Info';
 
   @override
-  String get lastFeeding => 'Last Feeding';
+  String get lastFeeding => 'Terakhir Pemberian Makan';
 
   @override
   String get healthy => 'Healthy';
 
   @override
-  String get feeding => 'Feeding';
+  String get feeding => 'Pemberian Makan';
 
   @override
-  String get totalFeeding => 'Total Feeding';
+  String get totalFeeding => 'Total Pemberian Makan';
 
   @override
-  String get sleep => 'Sleep';
+  String get sleep => 'Tidur';
 
   @override
-  String get totalSleepTime => 'Total Sleep Time';
+  String get totalSleepTime => 'Total Tidur Waktu';
 
   @override
-  String get cardSettings => 'Card Settings';
+  String get cardSettings => 'Card Pengaturan';
 
   @override
-  String get cardSettingsGuide => 'Card Settings Guide';
+  String get cardSettingsGuide => 'Card Pengaturan Guide';
 
   @override
   String get cardSettingsDescription =>
-      '• Toggle switches to show/hide cards\n• Drag to change card order\n• Changes are previewed in real-time';
+      '• Toggle switches to show/hide cards • Drag to change card order • Changes are previewed in real-time';
 
   @override
   String get cardVisible => 'Visible';
@@ -243,13 +243,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get cardHidden => 'Hidden';
 
   @override
-  String get save => 'Save';
+  String get save => 'Simpan';
 
   @override
   String get cardSettingsSaved => 'Card settings saved';
 
   @override
-  String get cardSettingsError => 'Error occurred while saving settings';
+  String get cardSettingsError => 'Kesalahan occurred while saving settings';
 
   @override
   String get discardChanges => 'Discard changes and return to previous state?';
@@ -264,10 +264,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get exit => 'Exit';
 
   @override
-  String get diaper => 'Diaper';
+  String get diaper => 'Popok';
 
   @override
-  String get solidFood => 'Solid Food';
+  String get solidFood => 'Solid Makanan';
 
   @override
   String get medication => 'Medication';
@@ -276,10 +276,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get milkPumping => 'Milk Pumping';
 
   @override
-  String get temperature => 'Temperature';
+  String get temperature => 'Suhu';
 
   @override
-  String get growth => 'Growth';
+  String get growth => 'Pertumbuhan';
 
   @override
   String get health => 'Health';
@@ -290,10 +290,10 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get feedingAmount => 'Feeding Amount';
+  String get feedingAmount => 'Pemberian Makan Jumlah';
 
   @override
-  String get feedingRecordAdded => 'Feeding record added successfully';
+  String get feedingRecordAdded => 'Pemberian Makan record added successfully';
 
   @override
   String get feedingRecordFailed => 'Failed to add feeding record';
@@ -302,10 +302,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get feedingRecordsLoadFailed => 'Failed to load feeding records';
 
   @override
-  String get quickFeeding => 'Quick Feeding';
+  String get quickFeeding => 'Quick Pemberian Makan';
 
   @override
-  String get feedingTime => 'Feeding Time';
+  String get feedingTime => 'Pemberian Makan Waktu';
 
   @override
   String get feedingType => 'Feeding Type';
@@ -314,10 +314,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get breastfeeding => 'Breastfeeding';
 
   @override
-  String get bottleFeeding => 'Bottle Feeding';
+  String get bottleFeeding => 'Bottle Pemberian Makan';
 
   @override
-  String get mixedFeeding => 'Mixed Feeding';
+  String get mixedFeeding => 'Mixed Pemberian Makan';
 
   @override
   String sleepCount(Object count) {
@@ -330,10 +330,10 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get sleepStarted => 'Sleep started';
+  String get sleepStarted => 'Tidur started';
 
   @override
-  String get sleepEnded => 'Sleep ended';
+  String get sleepEnded => 'Tidur ended';
 
   @override
   String get sleepInProgress => 'Sleeping';
@@ -345,19 +345,19 @@ class AppLocalizationsId extends AppLocalizations {
   String get sleepRecordsLoadFailed => 'Failed to load sleep records';
 
   @override
-  String get sleepTime => 'Sleep Time';
+  String get sleepTime => 'Tidur Waktu';
 
   @override
-  String get wakeUpTime => 'Wake Up Time';
+  String get wakeUpTime => 'Wake Up Waktu';
 
   @override
-  String get sleepDurationLabel => 'Sleep Duration';
+  String get sleepDurationLabel => 'Tidur Durasi';
 
   @override
-  String get napTime => 'Nap Time';
+  String get napTime => 'Nap Waktu';
 
   @override
-  String get nightSleep => 'Night Sleep';
+  String get nightSleep => 'Night Tidur';
 
   @override
   String diaperCount(Object count) {
@@ -365,10 +365,10 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get diaperChanged => 'Diaper changed';
+  String get diaperChanged => 'Popok changed';
 
   @override
-  String get diaperRecordAdded => 'Diaper change record added successfully';
+  String get diaperRecordAdded => 'Popok change record added successfully';
 
   @override
   String get diaperRecordFailed => 'Failed to add diaper record';
@@ -401,22 +401,22 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get diaperType => 'Diaper Type';
+  String get diaperType => 'Popok Jenis';
 
   @override
-  String get diaperChangeTime => 'Change Time';
+  String get diaperChangeTime => 'Change Waktu';
 
   @override
-  String get weight => 'Weight';
+  String get weight => 'Berat';
 
   @override
-  String get height => 'Height';
+  String get height => 'Tinggi';
 
   @override
-  String get growthRecord => 'Growth Record';
+  String get growthRecord => 'Pertumbuhan Rekam';
 
   @override
-  String get growthRecordAdded => 'Growth record added';
+  String get growthRecordAdded => 'Pertumbuhan record added';
 
   @override
   String get growthRecordFailed => 'Failed to save growth record';
@@ -431,7 +431,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get temperatureUnit => '°C';
 
   @override
-  String get measurementType => 'Measurement Type';
+  String get measurementType => 'Measurement Jenis';
 
   @override
   String get measurementValue => 'Value';
@@ -443,20 +443,19 @@ class AppLocalizationsId extends AppLocalizations {
   String get notesOptional => 'Notes (Optional)';
 
   @override
-  String get temperatureRange =>
-      'Temperature must be between 30.0°C and 45.0°C';
+  String get temperatureRange => 'Suhu must be between 30.0°C and 45.0°C';
 
   @override
-  String get weightRange => 'Weight must be between 0.1kg and 50kg';
+  String get weightRange => 'Berat must be between 0.1kg and 50kg';
 
   @override
-  String get heightRange => 'Height must be between 1cm and 200cm';
+  String get heightRange => 'Tinggi must be between 1cm and 200cm';
 
   @override
   String get enterValidNumber => 'Please enter a valid number';
 
   @override
-  String get recordGrowthInfo => 'Record Growth Information';
+  String get recordGrowthInfo => 'Rekam Pertumbuhan Informasi';
 
   @override
   String currentMeasurement(Object type) {
@@ -465,7 +464,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get measurementSituation =>
-      'Record measurement situation or special notes (optional)';
+      'Rekam measurement situation or special notes (optional)';
 
   @override
   String get communityTitle => 'Community';
@@ -487,7 +486,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get postContentHint =>
-      'Enter content...\n\nFeel free to share your story.';
+      'Enter content... Feel free to share your story.';
 
   @override
   String get selectCategory => 'Select Category';
@@ -514,7 +513,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get nicknameDescription =>
-      'Create a nickname to use in the community.\nIt will be displayed to other users.';
+      'Buat a nickname to use in the community. It will be displayed to other users.';
 
   @override
   String get nicknameChangeDescription => 'You can change to a new nickname.';
@@ -558,11 +557,11 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get addImages => 'Add Images';
+  String get addImages => 'Tambah Images';
 
   @override
   String imageSelectFailed(Object error) {
-    return 'Image selection failed: $error';
+    return 'Gambar selection failed: $error';
   }
 
   @override
@@ -582,34 +581,34 @@ class AppLocalizationsId extends AppLocalizations {
   String get latestOrder => 'Latest';
 
   @override
-  String get userNotFound => 'User information not found';
+  String get userNotFound => 'Pengguna information not found';
 
   @override
-  String get statisticsTitle => 'Statistics';
+  String get statisticsTitle => 'Statistik';
 
   @override
-  String get noStatisticsData => 'No Statistics Data';
+  String get noStatisticsData => 'Tidak Statistik Data';
 
   @override
   String statisticsDescription(Object period) {
-    return 'No activities recorded during $period.\nStart recording your baby\'s activities!';
+    return 'Tidak activities recorded during $period. Mulai recording your baby\'s activities!';
   }
 
   @override
-  String get recordActivity => 'Record Activity';
+  String get recordActivity => 'Rekam Activity';
 
   @override
-  String get viewOtherPeriod => 'View Other Period';
+  String get viewOtherPeriod => 'Lihat Other Period';
 
   @override
-  String get refresh => 'Refresh';
+  String get refresh => 'Segarkan';
 
   @override
   String get statisticsTips => 'To view statistics?';
 
   @override
   String get statisticsTip1 =>
-      'Record activities like feeding, sleep, diaper changes';
+      'Rekam activities like feeding, sleep, diaper changes';
 
   @override
   String get statisticsTip2 =>
@@ -619,19 +618,19 @@ class AppLocalizationsId extends AppLocalizations {
   String get statisticsTip3 => 'You can record easily from the home screen';
 
   @override
-  String get saveAsImage => 'Save as Image';
+  String get saveAsImage => 'Simpan as Gambar';
 
   @override
-  String get saveAsImageDescription => 'Save statistics as image';
+  String get saveAsImageDescription => 'Simpan statistics as image';
 
   @override
-  String get shareAsText => 'Share as Text';
+  String get shareAsText => 'Bagikan as Text';
 
   @override
-  String get shareAsTextDescription => 'Share statistics summary as text';
+  String get shareAsTextDescription => 'Bagikan statistics summary as text';
 
   @override
-  String get statisticsEmptyState => 'No statistics data';
+  String get statisticsEmptyState => 'Tidak statistics data';
 
   @override
   String get retryButton => 'Try Again';
@@ -640,25 +639,25 @@ class AppLocalizationsId extends AppLocalizations {
   String get detailsButton => 'Details';
 
   @override
-  String get goHomeButton => 'Go Home';
+  String get goHomeButton => 'Go Beranda';
 
   @override
-  String get applyButton => 'Apply';
+  String get applyButton => 'Terapkan';
 
   @override
-  String get lastWeek => 'Last Week';
+  String get lastWeek => 'Terakhir Week';
 
   @override
-  String get lastMonth => 'Last Month';
+  String get lastMonth => 'Terakhir Month';
 
   @override
-  String get last3Months => 'Last 3 Months';
+  String get last3Months => 'Terakhir 3 Months';
 
   @override
-  String get allTime => 'All Time';
+  String get allTime => 'All Waktu';
 
   @override
-  String get viewOtherPeriodTitle => 'View Other Period';
+  String get viewOtherPeriodTitle => 'Lihat Other Period';
 
   @override
   String get familyInvitation => 'Family Invitation';
@@ -668,7 +667,7 @@ class AppLocalizationsId extends AppLocalizations {
       'Manage baby records together with your family using invitation codes';
 
   @override
-  String get createInvitation => 'Create Invitation';
+  String get createInvitation => 'Buat Invitation';
 
   @override
   String get invitationCreated => 'Invitation created successfully';
@@ -710,10 +709,10 @@ class AppLocalizationsId extends AppLocalizations {
       'You can invite family members to manage baby records together. The invited person can participate through the invitation link after installing the app.';
 
   @override
-  String get shareInvitation => 'Share Invitation';
+  String get shareInvitation => 'Bagikan Invitation';
 
   @override
-  String get shareImmediately => 'Share Now';
+  String get shareImmediately => 'Bagikan Now';
 
   @override
   String get invitationPreview => 'Invitation Preview';
@@ -740,22 +739,22 @@ class AppLocalizationsId extends AppLocalizations {
   String get edit => 'Edit';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Hapus';
 
   @override
-  String get add => 'Add';
+  String get add => 'Tambah';
 
   @override
-  String get remove => 'Remove';
+  String get remove => 'Hapus';
 
   @override
   String get confirm => 'Confirm';
 
   @override
-  String get back => 'Back';
+  String get back => 'Kembali';
 
   @override
-  String get next => 'Next';
+  String get next => 'Selanjutnya';
 
   @override
   String get done => 'Done';
@@ -767,16 +766,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get retry => 'Retry';
 
   @override
-  String get error => 'Error';
+  String get error => 'Kesalahan';
 
   @override
-  String get success => 'Success';
+  String get success => 'Berhasil';
 
   @override
-  String get warning => 'Warning';
+  String get warning => 'Peringatan';
 
   @override
-  String get info => 'Information';
+  String get info => 'Informasi';
 
   @override
   String errorOccurred(Object error) {
@@ -799,19 +798,19 @@ class AppLocalizationsId extends AppLocalizations {
   String get invalidInput => 'Invalid input';
 
   @override
-  String get saveFailed => 'Save failed';
+  String get saveFailed => 'Simpan failed';
 
   @override
   String get loadFailed => 'Load failed';
 
   @override
   String updateFailed(String error) {
-    return 'Update failed: $error';
+    return 'Perbarui failed: $error';
   }
 
   @override
   String deleteFailed(String error) {
-    return 'Delete failed: $error';
+    return 'Hapus failed: $error';
   }
 
   @override
@@ -888,7 +887,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get medicationAdded => 'Medication record added';
 
   @override
-  String get solidFoodType => 'Food Type';
+  String get solidFoodType => 'Makanan Jenis';
 
   @override
   String solidFoodAmount(Object amount) {
@@ -899,40 +898,40 @@ class AppLocalizationsId extends AppLocalizations {
   String get solidFoodAdded => 'Solid food record added';
 
   @override
-  String get milkPumpingAmount => 'Pumping Amount';
+  String get milkPumpingAmount => 'Pumping Jumlah';
 
   @override
-  String get milkPumpingTime => 'Pumping Time';
+  String get milkPumpingTime => 'Pumping Waktu';
 
   @override
   String get milkPumpingAdded => 'Milk pumping record added';
 
   @override
-  String get temperatureReading => 'Temperature Reading';
+  String get temperatureReading => 'Suhu Reading';
 
   @override
   String get temperatureNormal => 'Normal';
 
   @override
-  String get temperatureHigh => 'High';
+  String get temperatureHigh => 'Tinggi';
 
   @override
-  String get temperatureLow => 'Low';
+  String get temperatureLow => 'Rendah';
 
   @override
-  String get profilePhoto => 'Profile Photo';
+  String get profilePhoto => 'Profile Foto';
 
   @override
-  String get profilePhotoUpdate => 'Update Profile Photo';
+  String get profilePhotoUpdate => 'Perbarui Profile Foto';
 
   @override
   String get selectPhotoSource => 'How would you like to select a photo?';
 
   @override
-  String get camera => 'Camera';
+  String get camera => 'Kamera';
 
   @override
-  String get gallery => 'Gallery';
+  String get gallery => 'Galeri';
 
   @override
   String get photoUpdated => 'Profile photo updated';
@@ -945,17 +944,17 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get cameraNotAvailable =>
-      'Camera not available on iOS simulator.\nPlease try from gallery.';
+      'Kamera not available on iOS simulator. Please try from gallery.';
 
   @override
   String get cameraAccessError =>
-      'Camera access error occurred.\nPlease try from gallery.';
+      'Kamera access error occurred. Please try from gallery.';
 
   @override
-  String get addImage => 'Add Image';
+  String get addImage => 'Tambah Gambar';
 
   @override
-  String get removeImage => 'Remove Image';
+  String get removeImage => 'Hapus Gambar';
 
   @override
   String maxImagesReached(Object count) {
@@ -968,7 +967,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get lastFeedingTime => 'Last feeding time';
+  String get lastFeedingTime => 'Terakhir feeding time';
 
   @override
   String hoursAndMinutesAgo(Object hours, Object minutes) {
@@ -977,12 +976,12 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String nextFeedingSchedule(Object hours, Object minutes) {
-    return 'Next feeding in about ${hours}h ${minutes}m';
+    return 'Selanjutnya feeding in about ${hours}h ${minutes}m';
   }
 
   @override
   String nextFeedingScheduleMinutes(Object minutes) {
-    return 'Next feeding in about $minutes minutes';
+    return 'Selanjutnya feeding in about $minutes minutes';
   }
 
   @override
@@ -990,20 +989,20 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String feedingTimeSoon(Object minutes) {
-    return 'Feeding time soon ($minutes minutes)';
+    return 'Pemberian Makan time soon ($minutes minutes)';
   }
 
   @override
-  String get feedingTimeOverdue => 'Feeding time overdue';
+  String get feedingTimeOverdue => 'Pemberian Makan time overdue';
 
   @override
   String feedingAlarm(Object hours, Object minutes) {
-    return 'Feeding alarm in ${hours}h ${minutes}m';
+    return 'Pemberian Makan alarm in ${hours}h ${minutes}m';
   }
 
   @override
   String feedingAlarmMinutes(Object minutes) {
-    return 'Feeding alarm in $minutes minutes';
+    return 'Pemberian Makan alarm in $minutes minutes';
   }
 
   @override
@@ -1031,13 +1030,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get minutesUnit => 'minutes';
 
   @override
-  String get viewDetails => 'View Details';
+  String get viewDetails => 'Lihat Details';
 
   @override
-  String get firstRecord => 'First Record';
+  String get firstRecord => 'Pertama Rekam';
 
   @override
-  String get noChange => 'No Change';
+  String get noChange => 'Tidak Change';
 
   @override
   String get inProgress => 'In Progress';
@@ -1046,11 +1045,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get scheduled => 'Scheduled';
 
   @override
-  String get startBabyRecording =>
-      'Register your baby and start tracking growth';
+  String get startBabyRecording => 'Daftar your baby and start tracking growth';
 
   @override
-  String get registerBabyNow => 'Register Baby';
+  String get registerBabyNow => 'Daftar Bayi';
 
   @override
   String get joinWithInviteCode => 'Join with Invitation Code';
@@ -1062,7 +1060,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get pleaseRegisterBaby => 'Please register a baby in settings';
 
   @override
-  String get goToSettings => 'Go to Settings';
+  String get goToSettings => 'Go to Pengaturan';
 
   @override
   String get profilePhotoUpdated => 'Profile photo has been updated.';
@@ -1090,7 +1088,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String medicationScheduled(Object count) {
-    return 'About $count times';
+    return 'Tentang $count times';
   }
 
   @override
@@ -1118,7 +1116,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get touch => 'Touch';
 
   @override
-  String get noActivitiesInTimeframe => 'No activities during this time';
+  String get noActivitiesInTimeframe => 'Tidak activities during this time';
 
   @override
   String get activityPatternAnalysis => 'Activity Pattern Analysis';
@@ -1133,13 +1131,13 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get firstMomentMessage =>
-      'Record your first precious moment.\nSmall daily changes add up to great growth.';
+      'Rekam your first precious moment. Small daily changes add up to great growth.';
 
   @override
   String get pattern => 'Pattern';
 
   @override
-  String get qualityGood => 'Good';
+  String get qualityGood => 'Baik';
 
   @override
   String get qualityExcellent => 'Excellent';
@@ -1170,7 +1168,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get breastMilk => 'Breast Milk';
 
   @override
-  String get babyFood => 'Baby Food';
+  String get babyFood => 'Bayi Makanan';
 
   @override
   String get left => 'Left';
@@ -1209,7 +1207,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get consistency => 'Consistency';
 
   @override
-  String get diaperChange => 'Diaper Change';
+  String get diaperChange => 'Popok Change';
 
   @override
   String get oralMedication => 'Oral Medication';
@@ -1224,13 +1222,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get pumping => 'Pumping';
 
   @override
-  String get temperatureMeasurement => 'Temperature Measurement';
+  String get temperatureMeasurement => 'Suhu Measurement';
 
   @override
   String get fever => 'Fever';
 
   @override
-  String get lowFever => 'Low Fever';
+  String get lowFever => 'Rendah Fever';
 
   @override
   String get hypothermia => 'Hypothermia';
@@ -1257,18 +1255,18 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String noActivitiesRecordedInPeriod(Object period) {
-    return 'No activities were recorded during $period.';
+    return 'Tidak activities were recorded during $period.';
   }
 
   @override
-  String get recordBabyActivities => 'Record your baby\'s activities!';
+  String get recordBabyActivities => 'Rekam your baby\'s activities!';
 
   @override
   String get howToViewStatistics => 'How to view statistics?';
 
   @override
   String get recordActivitiesLikeFeedingSleep =>
-      'Record activities like feeding, sleep, diaper changes, etc.';
+      'Rekam activities like feeding, sleep, diaper changes, etc.';
 
   @override
   String get atLeastOneDayDataRequired =>
@@ -1282,7 +1280,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get updating => 'Updating...';
 
   @override
-  String get lastUpdated => 'Last updated:';
+  String get lastUpdated => 'Terakhir updated:';
 
   @override
   String get periodSelection => 'Period selection:';
@@ -1291,22 +1289,22 @@ class AppLocalizationsId extends AppLocalizations {
   String get daily => 'Daily';
 
   @override
-  String get startDate => 'Start Date';
+  String get startDate => 'Mulai Tanggal';
 
   @override
-  String get endDate => 'End Date';
+  String get endDate => 'Selesai Tanggal';
 
   @override
-  String get apply => 'Apply';
+  String get apply => 'Terapkan';
 
   @override
   String get pleaseSelectDate => 'Please select a date';
 
   @override
-  String get detailedStatistics => 'Detailed Statistics';
+  String get detailedStatistics => 'Detailed Statistik';
 
   @override
-  String get chartAnalysis => 'Chart Analysis';
+  String get chartAnalysis => 'Bagan Analysis';
 
   @override
   String get overallActivityOverview => 'Overall Activity Overview';
@@ -1333,32 +1331,32 @@ class AppLocalizationsId extends AppLocalizations {
   String get details => 'Details';
 
   @override
-  String get goToHome => 'Go to Home';
+  String get goToHome => 'Go to Beranda';
 
   @override
   String get troubleshootingMethods => 'Troubleshooting Methods';
 
   @override
-  String get shareStatistics => 'Share Statistics';
+  String get shareStatistics => 'Bagikan Statistik';
 
   @override
   String get communitySubtitle => 'Sharing Parenting Stories Together';
 
   @override
-  String get search => 'Search';
+  String get search => 'Cari';
 
   @override
   String get notification => 'Notification';
 
   @override
-  String get searchFeatureComingSoon => 'Search feature coming soon';
+  String get searchFeatureComingSoon => 'Cari feature coming soon';
 
   @override
   String get communityWelcome => '💕 Parenting Community';
 
   @override
   String get communityWelcomeDescription =>
-      'Share parenting experiences and valuable information with other parents';
+      'Bagikan parenting experiences and valuable information with other parents';
 
   @override
   String get categorySelection => 'Category Selection';
@@ -1376,10 +1374,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get categoryInfoSharing => 'Info Sharing';
 
   @override
-  String get categorySleepIssues => 'Sleep Issues';
+  String get categorySleepIssues => 'Tidur Issues';
 
   @override
-  String get categoryBabyFood => 'Baby Food';
+  String get categoryBabyFood => 'Bayi Makanan';
 
   @override
   String get categoryDevelopment => 'Development';
@@ -1391,10 +1389,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get categoryPostpartum => 'Postpartum';
 
   @override
-  String get sortByLikes => 'Sort by Likes';
+  String get sortByLikes => 'Urutkan by Likes';
 
   @override
-  String get sortByLatest => 'Sort by Latest';
+  String get sortByLatest => 'Urutkan by Latest';
 
   @override
   String get edited => '(edited)';
@@ -1405,25 +1403,25 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get deletePost => 'Delete Post';
+  String get deletePost => 'Hapus Post';
 
   @override
   String get deletePostConfirm =>
-      'Are you sure you want to delete this post?\nDeleted posts cannot be recovered.';
+      'Are you sure you want to delete this post? Deleted posts cannot be recovered.';
 
   @override
   String get deletePostSuccess => 'Post has been deleted.';
 
   @override
   String deletePostError(Object error) {
-    return 'Delete failed: $error';
+    return 'Hapus failed: $error';
   }
 
   @override
   String get postNotFound => 'Post not found';
 
   @override
-  String get shareFeatureComingSoon => 'Share feature coming soon';
+  String get shareFeatureComingSoon => 'Bagikan feature coming soon';
 
   @override
   String get loadingComments => 'Loading comments...';
@@ -1446,11 +1444,11 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get deleteComment => 'Delete Comment';
+  String get deleteComment => 'Hapus Comment';
 
   @override
   String get deleteCommentConfirm =>
-      'Are you sure you want to delete this comment?\nDeleted comments cannot be recovered.';
+      'Are you sure you want to delete this comment? Deleted comments cannot be recovered.';
 
   @override
   String get deleteCommentSuccess => 'Comment has been deleted.';
@@ -1469,15 +1467,15 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get contentPlaceholder =>
-      'Share your thoughts...\n\nFeel free to write about your parenting experiences.';
+      'Bagikan your thoughts... Feel free to write about your parenting experiences.';
 
   @override
   String imageSelectionError(Object error) {
-    return 'Image selection failed: $error';
+    return 'Gambar selection failed: $error';
   }
 
   @override
-  String get userNotFoundError => 'User information not found.';
+  String get userNotFoundError => 'Pengguna information not found.';
 
   @override
   String get postCreateSuccess => 'Post has been created successfully!';
@@ -1498,7 +1496,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get addImageTooltip => 'Add Image';
+  String get addImageTooltip => 'Tambah Gambar';
 
   @override
   String get allPostsChecked => 'All posts have been checked! 👍';
@@ -1507,7 +1505,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get waitForNewPosts => 'Please wait until new posts are uploaded';
 
   @override
-  String get noPostsYet => 'No posts yet';
+  String get noPostsYet => 'Tidak posts yet';
 
   @override
   String get writeFirstPost => 'Write the first post!';
@@ -1529,38 +1527,38 @@ class AppLocalizationsId extends AppLocalizations {
   String get preparingTimeline => 'Preparing timeline...';
 
   @override
-  String get noRecordedMoments => 'No recorded moments yet';
+  String get noRecordedMoments => 'Tidak recorded moments yet';
 
   @override
   String get loadingTimeline => 'Loading timeline...';
 
   @override
-  String get noRecordsYet => 'No records yet';
+  String get noRecordsYet => 'Tidak records yet';
 
   @override
   String noRecordsForDate(Object date) {
-    return 'No records for $date';
+    return 'Tidak records for $date';
   }
 
   @override
   String noRecordsForDateAndFilter(Object date, Object filter) {
-    return 'No $filter records for $date';
+    return 'Tidak $filter records for $date';
   }
 
   @override
   String get cannotRecordFuture => 'Cannot record future activities yet';
 
   @override
-  String get addFirstRecord => 'Add your first record!';
+  String get addFirstRecord => 'Tambah your first record!';
 
   @override
   String get canAddPastRecord => 'You can add past records';
 
   @override
-  String get addRecord => 'Add Record';
+  String get addRecord => 'Tambah Rekam';
 
   @override
-  String get viewOtherDates => 'View Other Dates';
+  String get viewOtherDates => 'Lihat Other Dates';
 
   @override
   String get goToToday => 'Go to Today';
@@ -1579,25 +1577,25 @@ class AppLocalizationsId extends AppLocalizations {
       'Manage baby care records together with family using invitation codes';
 
   @override
-  String get babyManagement => 'Baby Management';
+  String get babyManagement => 'Bayi Management';
 
   @override
-  String get addBaby => 'Add Baby';
+  String get addBaby => 'Tambah Bayi';
 
   @override
-  String get noBabiesMessage => 'No babies registered.\nPlease add a baby.';
+  String get noBabiesMessage => 'Tidak babies registered. Please add a baby.';
 
   @override
-  String get switchToNextBaby => 'Switch to Next Baby';
+  String get switchToNextBaby => 'Switch to Selanjutnya Bayi';
 
   @override
-  String get birthDate => 'Birth Date';
+  String get birthDate => 'Birth Tanggal';
 
   @override
   String get registering => 'Registering...';
 
   @override
-  String get register => 'Register';
+  String get register => 'Daftar';
 
   @override
   String careTogetherWith(String name) {
@@ -1606,7 +1604,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get inviteFamilyDescription =>
-      'Invite family or partners to\nmanage baby care records together';
+      'Invite family or partners to manage baby care records together';
 
   @override
   String get generateInviteCode => 'Generate Invitation Code';
@@ -1629,7 +1627,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get inviteCodePlaceholder => 'Invitation Code (6 digits)';
 
   @override
-  String get acceptInvite => 'Accept Invitation';
+  String get acceptInvite => 'Terima Invitation';
 
   @override
   String babyRegistrationSuccess(String name) {
@@ -1637,11 +1635,11 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get babyRegistrationFailed => 'Baby registration failed';
+  String get babyRegistrationFailed => 'Bayi registration failed';
 
   @override
   String babyRegistrationError(String error) {
-    return 'Error occurred: $error';
+    return 'Kesalahan occurred: $error';
   }
 
   @override
@@ -1667,24 +1665,24 @@ class AppLocalizationsId extends AppLocalizations {
   String get joining => 'Joining...';
 
   @override
-  String get noBabyInfo => 'No Baby Information';
+  String get noBabyInfo => 'Tidak Bayi Informasi';
 
   @override
   String get noBabyInfoDescription =>
-      'No baby information found.\nWould you like to create a test baby?';
+      'Tidak baby information found. Would you like to create a test baby?';
 
   @override
-  String get create => 'Create';
+  String get create => 'Buat';
 
   @override
   String get generateNewInviteCode => 'Generate New Invitation Code';
 
   @override
   String get replaceExistingCode =>
-      'This will replace the existing invitation code.\nDo you want to continue?';
+      'This will replace the existing invitation code. Do you want to continue?';
 
   @override
-  String get acceptInvitation => 'Accept Invitation';
+  String get acceptInvitation => 'Terima Invitation';
 
   @override
   String get acceptInvitationDescription =>
@@ -1692,7 +1690,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String acceptInvitationWarning(String babyName) {
-    return 'Existing baby records will be deleted and replaced with the invited baby ($babyName).\n\nDo you want to continue?';
+    return 'Existing baby records will be deleted and replaced with the invited baby ($babyName). Do you want to continue?';
   }
 
   @override
@@ -1703,7 +1701,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get pleaseLoginFirst =>
-      'No login information found. Please login first.';
+      'Tidak login information found. Please login first.';
 
   @override
   String get copiedToClipboard => 'Invitation code copied to clipboard!';
@@ -1731,14 +1729,14 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String babyGuideTitle(String name) {
-    return '$name\'s Baby Care Guide';
+    return '$name\'s Bayi Care Guide';
   }
 
   @override
-  String get babyGuide => 'Baby Care Guide';
+  String get babyGuide => 'Bayi Care Guide';
 
   @override
-  String get noAvailableGuides => 'No available guides';
+  String get noAvailableGuides => 'Tidak available guides';
 
   @override
   String get current => 'Current';
@@ -1760,13 +1758,13 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get feedingGuide => '💡 Feeding Guide';
+  String get feedingGuide => '💡 Pemberian Makan Guide';
 
   @override
-  String get feedingFrequency => 'Feeding Frequency';
+  String get feedingFrequency => 'Pemberian Makan Frequency';
 
   @override
-  String get singleFeedingAmount => 'Feeding Amount';
+  String get singleFeedingAmount => 'Pemberian Makan Jumlah';
 
   @override
   String get dailyTotal => 'Daily Total';
@@ -1822,7 +1820,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get insufficientFeedingRecords => 'Insufficient feeding records';
 
   @override
-  String get noRecentFeeding => 'No recent feeding records';
+  String get noRecentFeeding => 'Tidak recent feeding records';
 
   @override
   String get languageSelection => 'Language Selection';
@@ -1834,57 +1832,57 @@ class AppLocalizationsId extends AppLocalizations {
   String get currentLanguage => 'Current Language';
 
   @override
-  String get searchCommunityPosts => 'Search community posts';
+  String get searchCommunityPosts => 'Cari community posts';
 
   @override
-  String get temperatureRecord => 'Temperature Record';
+  String get temperatureRecord => 'Suhu Rekam';
 
   @override
-  String get temperatureTrend => 'Temperature Trend';
+  String get temperatureTrend => 'Suhu Trend';
 
   @override
-  String get profilePhotoSetup => 'Profile Photo Setup';
+  String get profilePhotoSetup => 'Profile Foto Setup';
 
   @override
   String get howToSelectPhoto => 'How would you like to select a photo?';
 
   @override
-  String get send => 'Send';
+  String get send => 'Kirim';
 
   @override
   String get emailVerificationRequired => 'Email Verification Required';
 
   @override
-  String get passwordReset => 'Password Reset';
+  String get passwordReset => 'Kata Sandi Reset';
 
   @override
   String get enterEmailForReset =>
-      'Enter your registered email address.\nWe\'ll send you a password reset link.';
+      'Enter your registered email address. We\'ll send you a password reset link.';
 
   @override
-  String get accountWithdrawalComplete => 'Account Withdrawal Complete';
+  String get accountWithdrawalComplete => 'Account Withdrawal Lengkap';
 
   @override
-  String get genderLabel => 'Gender: ';
+  String get genderLabel => 'Jenis Kelamin:';
 
   @override
-  String get birthdateLabel => 'Birthdate: ';
+  String get birthdateLabel => 'Birthdate:';
 
   @override
-  String get maleGender => 'Male';
+  String get maleGender => 'Laki-laki';
 
   @override
-  String get femaleGender => 'Female';
+  String get femaleGender => 'Perempuan';
 
   @override
   String get joinWithInviteCodeButton => 'Join with Invite Code';
 
   @override
-  String get temperatureRecorded => 'Temperature recorded';
+  String get temperatureRecorded => 'Suhu recorded';
 
   @override
   String recordFailed(String error) {
-    return 'Record failed';
+    return 'Rekam failed';
   }
 
   @override
@@ -1904,19 +1902,19 @@ class AppLocalizationsId extends AppLocalizations {
   String get linkAccount => 'Link Account';
 
   @override
-  String get accountLinkingComplete => 'Account Linking Complete';
+  String get accountLinkingComplete => 'Account Linking Lengkap';
 
   @override
-  String get deleteConfirmation => 'Delete Confirmation';
+  String get deleteConfirmation => 'Hapus Confirmation';
 
   @override
   String get emailLabel => 'Email';
 
   @override
-  String get passwordLabel => 'Password';
+  String get passwordLabel => 'Kata Sandi';
 
   @override
-  String get babyNameLabel => 'Baby Name';
+  String get babyNameLabel => 'Bayi Nama';
 
   @override
   String get weightInput => 'Enter weight';
@@ -1926,7 +1924,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get measurementNotes =>
-      'Record measurement conditions or special notes (optional)';
+      'Rekam measurement conditions or special notes (optional)';
 
   @override
   String get urine => 'Urine';
@@ -1947,7 +1945,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get bottle => 'Bottle';
 
   @override
-  String get good => 'Good';
+  String get good => 'Baik';
 
   @override
   String get average => 'Average';
@@ -1962,7 +1960,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get illness => 'Illness';
 
   @override
-  String get highFever => 'High Fever';
+  String get highFever => 'Tinggi Fever';
 
   @override
   String get oral => 'Oral';
@@ -1992,7 +1990,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get pumpingTime => 'Pumping';
 
   @override
-  String get solidFoodTime => 'Solid Food';
+  String get solidFoodTime => 'Solid Makanan';
 
   @override
   String get totalFeedingAmount => 'Total feeding amount';
@@ -2010,10 +2008,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get infoSharing => 'Info Sharing';
 
   @override
-  String get sleepIssues => 'Sleep Issues';
+  String get sleepIssues => 'Tidur Issues';
 
   @override
-  String get babyFoodCategory => 'Baby Food';
+  String get babyFoodCategory => 'Bayi Makanan';
 
   @override
   String get developmentStage => 'Development Stage';
@@ -2058,22 +2056,22 @@ class AppLocalizationsId extends AppLocalizations {
   String get otherLocation => 'Other';
 
   @override
-  String get searchError => 'Search error';
+  String get searchError => 'Cari error';
 
   @override
   String get question => 'Question';
 
   @override
-  String get information => 'Information';
+  String get information => 'Informasi';
 
   @override
   String get relevance => 'Relevance';
 
   @override
-  String get searchSuggestions => 'Search suggestions';
+  String get searchSuggestions => 'Cari suggestions';
 
   @override
-  String get noSearchResults => 'No search results';
+  String get noSearchResults => 'Tidak search results';
 
   @override
   String get tryDifferentSearchTerm => 'Try a different search term';
@@ -2088,53 +2086,53 @@ class AppLocalizationsId extends AppLocalizations {
   String get recentSearches => 'Recent searches';
 
   @override
-  String get deleteAll => 'Delete All';
+  String get deleteAll => 'Hapus All';
 
   @override
-  String get sortByComments => 'Sort by comments';
+  String get sortByComments => 'Urutkan by comments';
 
   @override
-  String get detailInformation => 'Detail Information';
+  String get detailInformation => 'Detail Informasi';
 
   @override
   String get quickActions => 'Quick Actions';
 
   @override
-  String get recordAgain => 'Record Again';
+  String get recordAgain => 'Rekam Again';
 
   @override
-  String get share => 'Share';
+  String get share => 'Bagikan';
 
   @override
-  String get deleteRecord => 'Delete Record';
+  String get deleteRecord => 'Hapus Rekam';
 
   @override
   String get deleteRecordConfirmation =>
       'Are you sure you want to delete this record?';
 
   @override
-  String get recordDeleted => 'Record deleted';
+  String get recordDeleted => 'Rekam deleted';
 
   @override
   String get featureComingSoon => 'Feature coming soon';
 
   @override
-  String get editRecord => 'Edit Record';
+  String get editRecord => 'Edit Rekam';
 
   @override
-  String get dateTime => 'Date & Time';
+  String get dateTime => 'Tanggal & Waktu';
 
   @override
-  String get date => 'Date';
+  String get date => 'Tanggal';
 
   @override
-  String get time => 'Time';
+  String get time => 'Waktu';
 
   @override
-  String get amount => 'Amount';
+  String get amount => 'Jumlah';
 
   @override
-  String get duration => 'Duration';
+  String get duration => 'Durasi';
 
   @override
   String get dosage => 'Dosage';
@@ -2161,7 +2159,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get notesHint => 'Enter additional notes...';
 
   @override
-  String get saveChanges => 'Save Changes';
+  String get saveChanges => 'Simpan Changes';
 
   @override
   String get changesSaved => 'Changes saved';
@@ -2189,7 +2187,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get sleepProgressTime => 'Sleep Progress Time';
+  String get sleepProgressTime => 'Tidur Progress Waktu';
 
   @override
   String get standardFeedingTimeNow => 'It\'s standard feeding time';
@@ -2241,10 +2239,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get future => 'Future';
 
   @override
-  String get previousDate => 'Previous date';
+  String get previousDate => 'Sebelumnya date';
 
   @override
-  String get nextDate => 'Next date';
+  String get nextDate => 'Selanjutnya date';
 
   @override
   String get selectDate => 'Select date';
@@ -2257,10 +2255,10 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get registerBabyToRecordMoments =>
-      'To record your baby\'s precious moments,\nplease register baby information first.';
+      'To record your baby\'s precious moments, please register baby information first.';
 
   @override
-  String get addBabyFromHome => 'Add baby from home';
+  String get addBabyFromHome => 'Tambah baby from home';
 
   @override
   String get timesUnit => 'times';
@@ -2289,7 +2287,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get noDetailedData => 'No detailed data';
+  String get noDetailedData => 'Tidak detailed data';
 
   @override
   String get averageFeedingTime => 'Average feeding time';
@@ -2337,10 +2335,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get quickSelection => 'Quick Selection';
 
   @override
-  String get customSettings => 'Custom Settings';
+  String get customSettings => 'Custom Pengaturan';
 
   @override
-  String get selectDateRange => 'Select Date Range';
+  String get selectDateRange => 'Select Tanggal Range';
 
   @override
   String get recent7Days => 'Recent 7 Days';
@@ -2405,7 +2403,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String joinFamilyGroupWarning(String familyName) {
-    return 'Do you want to join $familyName\'s family?\n\nExisting baby data will be moved to the new family group.';
+    return 'Do you want to join $familyName\'s family? Existing baby data will be moved to the new family group.';
   }
 
   @override
@@ -2421,14 +2419,14 @@ class AppLocalizationsId extends AppLocalizations {
   String get feedingTimeNotificationTitle => 'It\'s feeding time! 🍼';
 
   @override
-  String get feedingTimeNotificationBody => 'Baby might be hungry now.';
+  String get feedingTimeNotificationBody => 'Bayi might be hungry now.';
 
   @override
-  String get feedingAlarmChannelName => 'Feeding Reminders';
+  String get feedingAlarmChannelName => 'Pemberian Makan Reminders';
 
   @override
   String get feedingAlarmChannelDescription =>
-      'Feeding time reminder notifications';
+      'Pemberian Makan time reminder notifications';
 
   @override
   String get averageFeedingDuration => 'Average feeding duration';
@@ -2461,16 +2459,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get amountTimeTab => 'Amount/Time';
 
   @override
-  String get durationTab => 'Duration';
+  String get durationTab => 'Durasi';
 
   @override
   String get chartDataLoading => 'Loading chart data...';
 
   @override
-  String get chartDataNotAvailable => 'Chart data not available.';
+  String get chartDataNotAvailable => 'Bagan data not available.';
 
   @override
-  String get averageLabel => 'Average: ';
+  String get averageLabel => 'Average:';
 
   @override
   String get dailyFeedingCountTitle => 'Daily feeding count';
@@ -2521,7 +2519,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String babyTemperatureRecord(String name) {
-    return '$name\'s Temperature Record';
+    return '$name\'s Suhu Rekam';
   }
 
   @override
@@ -2539,14 +2537,14 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get saveTemperatureRecord => 'Save Temperature Record';
+  String get saveTemperatureRecord => 'Simpan Suhu Rekam';
 
   @override
   String get enterTemperature => 'Please enter temperature';
 
   @override
   String get temperatureRangeValidation =>
-      'Temperature must be between 34.0°C ~ 42.0°C';
+      'Suhu must be between 34.0°C ~ 42.0°C';
 
   @override
   String get recordSymptomsHint => 'Please record symptoms or special notes';
@@ -2576,32 +2574,31 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get noTemperatureRecordsInPeriod =>
-      'No temperature records in selected period';
+      'Tidak temperature records in selected period';
 
   @override
-  String get temperatureChangeTrend => 'Temperature Change Trend';
+  String get temperatureChangeTrend => 'Suhu Change Trend';
 
   @override
-  String get averageTemperature => 'Average Temperature';
+  String get averageTemperature => 'Average Suhu';
 
   @override
-  String get highestTemperature => 'Highest Temperature';
+  String get highestTemperature => 'Highest Suhu';
 
   @override
-  String get lowestTemperature => 'Lowest Temperature';
+  String get lowestTemperature => 'Lowest Suhu';
 
   @override
   String get noteAvailableTapToView => '📝 Note available (tap to view)';
 
   @override
-  String get temperatureRisingTrend => 'Temperature is showing a rising trend';
+  String get temperatureRisingTrend => 'Suhu is showing a rising trend';
 
   @override
-  String get temperatureFallingTrend =>
-      'Temperature is showing a falling trend';
+  String get temperatureFallingTrend => 'Suhu is showing a falling trend';
 
   @override
-  String get temperatureStableTrend => 'Temperature is stable';
+  String get temperatureStableTrend => 'Suhu is stable';
 
   @override
   String get trendAnalysis => 'Trend Analysis';
@@ -2612,15 +2609,15 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get temperatureRecordMemo => 'Temperature Record Memo';
+  String get temperatureRecordMemo => 'Suhu Rekam Memo';
 
   @override
   String babyGrowthChart(String name) {
-    return '$name\'s Growth Chart';
+    return '$name\'s Pertumbuhan Bagan';
   }
 
   @override
-  String get noGrowthRecords => 'No growth records';
+  String get noGrowthRecords => 'Tidak growth records';
 
   @override
   String get enterWeightAndHeightFromHome =>
@@ -2630,13 +2627,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get all => 'All';
 
   @override
-  String get growthInsights => 'Growth Insights';
+  String get growthInsights => 'Pertumbuhan Insights';
 
   @override
-  String get growthRate => 'Growth Rate';
+  String get growthRate => 'Pertumbuhan Rate';
 
   @override
-  String get monthlyAverageGrowth => 'Monthly Average Growth';
+  String get monthlyAverageGrowth => 'Monthly Average Pertumbuhan';
 
   @override
   String get dataInsufficient => 'Data Insufficient';
@@ -2665,7 +2662,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get trendInsufficient => 'Trend insufficient';
 
   @override
-  String get recordFrequency => 'Record Frequency';
+  String get recordFrequency => 'Rekam Frequency';
 
   @override
   String get veryConsistent => 'Very Consistent';
@@ -2682,7 +2679,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get nextRecord => 'Next Record';
+  String get nextRecord => 'Selanjutnya Rekam';
 
   @override
   String get now => 'Now';
@@ -2704,7 +2701,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get weeklyRecordRecommended => 'Weekly record recommended';
 
   @override
-  String get nextMilestone => 'Next Milestone';
+  String get nextMilestone => 'Selanjutnya Milestone';
 
   @override
   String targetValue(String value, String unit) {
@@ -2723,22 +2720,22 @@ class AppLocalizationsId extends AppLocalizations {
   String get periodInsufficient => 'Period insufficient';
 
   @override
-  String get noDataAvailable => 'No data available';
+  String get noDataAvailable => 'Tidak data available';
 
   @override
-  String get weightRecordRequired => 'Weight record required';
+  String get weightRecordRequired => 'Berat record required';
 
   @override
-  String get heightRecordRequired => 'Height record required';
+  String get heightRecordRequired => 'Tinggi record required';
 
   @override
   String get currentRecordMissing => 'Current record missing';
 
   @override
-  String get noRecord => 'No record';
+  String get noRecord => 'Tidak record';
 
   @override
-  String get firstRecordStart => 'Start your first record';
+  String get firstRecordStart => 'Mulai your first record';
 
   @override
   String get oneRecord => '1 record';
@@ -2758,13 +2755,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get storageMethod => 'Storage Method';
 
   @override
-  String get pumpingType => 'Pumping Type';
+  String get pumpingType => 'Pumping Jenis';
 
   @override
   String get foodName => 'Food Name';
 
   @override
-  String get mealType => 'Meal Type';
+  String get mealType => 'Meal Jenis';
 
   @override
   String get texture => 'Texture';
@@ -2830,16 +2827,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get sunday => 'Sunday';
 
   @override
-  String get on => 'On';
+  String get on => 'Aktif';
 
   @override
-  String get off => 'Off';
+  String get off => 'Nonaktif';
 
   @override
-  String get weightChange => 'Weight Change';
+  String get weightChange => 'Berat Change';
 
   @override
-  String get heightChange => 'Height Change';
+  String get heightChange => 'Tinggi Change';
 
   @override
   String get totalRecords => 'Total Records';
@@ -2848,34 +2845,34 @@ class AppLocalizationsId extends AppLocalizations {
   String get totalChange => 'Total Change';
 
   @override
-  String get start => 'Start';
+  String get start => 'Mulai';
 
   @override
   String get memo => 'Memo';
 
   @override
-  String get weightDataEmpty => 'No weight data available';
+  String get weightDataEmpty => 'Tidak weight data available';
 
   @override
-  String get heightDataEmpty => 'No height data available';
+  String get heightDataEmpty => 'Tidak height data available';
 
   @override
   String get undoAction => 'Undo';
 
   @override
-  String get feedingRecordDeleted => 'Feeding record deleted';
+  String get feedingRecordDeleted => 'Pemberian Makan record deleted';
 
   @override
-  String get sleepRecordDeleted => 'Sleep record deleted';
+  String get sleepRecordDeleted => 'Tidur record deleted';
 
   @override
-  String get diaperRecordDeleted => 'Diaper record deleted';
+  String get diaperRecordDeleted => 'Popok record deleted';
 
   @override
   String get healthRecordDeleted => 'Health record deleted';
 
   @override
-  String get deletionError => 'Error occurred during deletion';
+  String get deletionError => 'Kesalahan occurred during deletion';
 
   @override
   String get duplicateInputDetected => 'Duplicate input detected';
@@ -2931,7 +2928,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get lowGradeFever => 'Low Grade Fever';
+  String get lowGradeFever => 'Rendah Grade Fever';
 
   @override
   String get normalTemperature => 'Temperature is normal';
@@ -2940,17 +2937,17 @@ class AppLocalizationsId extends AppLocalizations {
   String get allActivities => 'All';
 
   @override
-  String get temperatureFilter => 'Temperature';
+  String get temperatureFilter => 'Suhu';
 
   @override
-  String get deleteRecordTitle => 'Delete Record';
+  String get deleteRecordTitle => 'Hapus Rekam';
 
   @override
   String get deleteRecordMessage =>
-      'Are you sure you want to delete this record?\nDeleted records cannot be recovered.';
+      'Are you sure you want to delete this record? Deleted records cannot be recovered.';
 
   @override
-  String get recordDeletedSuccess => 'Record has been deleted';
+  String get recordDeletedSuccess => 'Rekam has been deleted';
 
   @override
   String get recordDeleteFailed => 'Failed to delete record';
@@ -2959,7 +2956,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get recordDeleteError => 'An error occurred while deleting the record';
 
   @override
-  String get recordUpdatedSuccess => 'Record has been updated';
+  String get recordUpdatedSuccess => 'Rekam has been updated';
 
   @override
   String get recordUpdateFailed => 'Failed to update record';
@@ -2969,7 +2966,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String noRecordsToday(Object recordType) {
-    return 'No $recordType records today';
+    return 'Tidak $recordType records today';
   }
 
   @override
@@ -3013,10 +3010,10 @@ class AppLocalizationsId extends AppLocalizations {
       'You just manipulated sleep.\\nDo you really want to end sleeping?';
 
   @override
-  String get recordAction => 'Record';
+  String get recordAction => 'Rekam';
 
   @override
-  String get end => 'End';
+  String get end => 'Selesai';
 
   @override
   String get whatTypeChanged => 'What type did you change?';
@@ -3028,7 +3025,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get urinePoop => 'Urine+Poop';
 
   @override
-  String get changeType => 'Change Type';
+  String get changeType => 'Change Jenis';
 
   @override
   String get colorWhenPoop => 'Color (When Poop)';
@@ -3064,7 +3061,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get dailyAverageMilkPumpingCount => 'Daily average milk pumping count';
 
   @override
-  String get growthInfoRecord => 'Growth Information Record';
+  String get growthInfoRecord => 'Pertumbuhan Informasi Rekam';
 
   @override
   String get recordBabyCurrentWeight => 'Please record baby\'s current weight';
@@ -3086,23 +3083,23 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get recordSpecialNotesWeight =>
-      'Record special notes when measuring weight (optional)';
+      'Rekam special notes when measuring weight (optional)';
 
   @override
   String get recordSpecialNotesHeight =>
-      'Record special notes when measuring height (optional)';
+      'Rekam special notes when measuring height (optional)';
 
   @override
   String get weightInvalidNumber => 'Please enter a valid number for weight';
 
   @override
-  String get weightRangeError => 'Weight should be between 0.1~50kg';
+  String get weightRangeError => 'Berat should be between 0.1~50kg';
 
   @override
   String get heightInvalidNumber => 'Please enter a valid number for height';
 
   @override
-  String get heightRangeError => 'Height should be between 1~200cm';
+  String get heightRangeError => 'Tinggi should be between 1~200cm';
 
   @override
   String get enterWeightOrHeight => 'Please enter weight or height';
@@ -3546,7 +3543,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get confirmDeletePost =>
-      'Are you sure you want to delete this post?\nDeleted posts cannot be recovered.';
+      'Are you sure you want to delete this post? Deleted posts cannot be recovered.';
 
   @override
   String get postDeleted => 'Post has been deleted.';
@@ -3556,16 +3553,17 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get confirmDeleteComment =>
-      'Are you sure you want to delete this comment?\nDeleted comments cannot be recovered.';
+      'Are you sure you want to delete this comment? Deleted comments cannot be recovered.';
 
   @override
   String get commentDeleted => 'Comment has been deleted.';
 
   @override
-  String get shareFeatureInDevelopment => 'Share feature is under development';
+  String get shareFeatureInDevelopment =>
+      'Bagikan feature is under development';
 
   @override
-  String get sortByRecent => 'Sort by Recent';
+  String get sortByRecent => 'Urutkan by Recent';
 
   @override
   String get replyCreated => 'Reply has been posted.';
@@ -3592,27 +3590,27 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String moreReplies(int count) {
-    return 'View $count more replies';
+    return 'Lihat $count more replies';
   }
 
   @override
   String get copy => 'Copy';
 
   @override
-  String get report => 'Report';
+  String get report => 'Laporan';
 
   @override
   String get commentCopied => 'Comment has been copied';
 
   @override
-  String get reportComment => 'Report Comment';
+  String get reportComment => 'Laporan Comment';
 
   @override
   String get confirmReportComment =>
-      'Do you want to report this comment?\nIt will be reported as inappropriate content or spam.';
+      'Do you want to report this comment? It will be reported as inappropriate content or spam.';
 
   @override
-  String get reportSubmitted => 'Report has been submitted.';
+  String get reportSubmitted => 'Laporan has been submitted.';
 
   @override
   String get serviceInPreparation => '💝 Service in Preparation';
@@ -3622,19 +3620,19 @@ class AppLocalizationsId extends AppLocalizations {
       'We will soon introduce useful parenting information and products';
 
   @override
-  String get accountInfo => 'Account Information';
+  String get accountInfo => 'Account Informasi';
 
   @override
-  String get userID => 'User ID';
+  String get userID => 'Pengguna ID';
 
   @override
   String get email => 'Email';
 
   @override
-  String get loginMethod => 'Login Method';
+  String get loginMethod => 'Masuk Method';
 
   @override
-  String get noEmail => 'No email';
+  String get noEmail => 'Tidak email';
 
   @override
   String get accountDeletion => 'Account Deletion';
@@ -3648,7 +3646,7 @@ class AppLocalizationsId extends AppLocalizations {
       '⚠️ The following data will be permanently deleted when you delete your account:';
 
   @override
-  String get userAccountInfo => '• User account information';
+  String get userAccountInfo => '• Pengguna account information';
 
   @override
   String get allRegisteredBabyInfo => '• All registered baby information';
@@ -3670,11 +3668,11 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get accountDeletionCompleted =>
-      'Account deletion completed.\n(Forced completion due to long processing time)';
+      'Account deletion completed. (Forced completion due to long processing time)';
 
   @override
   String get accountDeletionCompletedSuccess =>
-      'Account deletion successfully completed.\n\nYou can sign up again at any time.';
+      'Account deletion successfully completed. You can sign up again at any time.';
 
   @override
   String get daysUnit => 'days';
@@ -3689,7 +3687,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get confirmButton => 'OK';
 
   @override
-  String get accountDeletionCompleteTitle => 'Account Deletion Complete';
+  String get accountDeletionCompleteTitle => 'Account Deletion Lengkap';
 
   @override
   String get resetBaby => 'Reset';
@@ -3698,10 +3696,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get notLoggedIn => 'Not logged in';
 
   @override
-  String get birthDateLabel => 'Birth Date: ';
+  String get birthDateLabel => 'Birth Tanggal:';
 
   @override
-  String get genderColon => 'Gender: ';
+  String get genderColon => 'Jenis Kelamin:';
 
   @override
   String babyInfoResetQuestion(Object babyName) {
@@ -3712,10 +3710,11 @@ class AppLocalizationsId extends AppLocalizations {
   String get recordsWillBeReset => 'The following records will be reset';
 
   @override
-  String get feedingSleepDiaperRecords => 'Feeding, sleep, diaper records';
+  String get feedingSleepDiaperRecords =>
+      'Pemberian Makan, sleep, diaper records';
 
   @override
-  String get growthInfoAndPhotos => 'Growth information and photos';
+  String get growthInfoAndPhotos => 'Pertumbuhan information and photos';
 
   @override
   String get allBabyRelatedData => 'All baby-related data';
@@ -3747,5 +3746,5 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get accountDeletionPartialErrorMessage =>
-      'Some processing encountered issues but logout is completed.\n\nRedirecting to login screen.';
+      'Some processing encountered issues but logout is completed. Redirecting to login screen.';
 }

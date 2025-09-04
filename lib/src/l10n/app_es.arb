@@ -1,11 +1,9 @@
 {
   "@@locale": "es",
-  
   "user": "Usuario",
   "@user": {
     "description": "User label"
   },
-
   "userInfoLoadFailed": "Error al cargar información del usuario: {error}",
   "@userInfoLoadFailed": {
     "description": "Error message when user info loading fails",
@@ -15,7 +13,6 @@
       }
     }
   },
-
   "babyListLoadError": "Error al cargar lista de bebés: {error}",
   "@babyListLoadError": {
     "description": "Error message when baby list loading fails",
@@ -25,7 +22,6 @@
       }
     }
   },
-
   "welcomeUser": "¡Hola, {userName}!",
   "@welcomeUser": {
     "description": "Welcome message with user name",
@@ -35,69 +31,56 @@
       }
     }
   },
-
   "registerBaby": "Registrar bebé",
   "@registerBaby": {
     "description": "Register baby button text"
   },
-
   "noBabiesRegistered": "No hay bebés registrados",
   "@noBabiesRegistered": {
     "description": "Message when no babies are registered"
   },
-
   "registerFirstBaby": "¡Registra tu primer bebé!",
   "@registerFirstBaby": {
     "description": "Prompt to register first baby"
   },
-
   "settings": "Configuración",
-  "language": "Idioma", 
+  "language": "Idioma",
   "appearance": "Apariencia",
-  
   "home": "Inicio",
   "timeline": "Línea de tiempo",
-  "record": "Registro",
+  "record": "Registrar",
   "statistics": "Estadísticas",
   "community": "Comunidad",
-  
   "darkMode": "Modo oscuro",
   "logout": "Cerrar sesión",
   "logoutConfirm": "¿Estás seguro de que quieres cerrar sesión?",
   "yes": "Sí",
   "no": "No",
   "comingSoon": "Próximamente",
-
   "enterBabyInfo": "Ingresa la información del bebé",
   "@enterBabyInfo": {
     "description": "Baby info entry prompt"
   },
-
   "babyName": "Nombre del bebé",
   "@babyName": {
     "description": "Baby name field label"
   },
-
   "babyNameHint": "ej: Sofía",
   "@babyNameHint": {
     "description": "Baby name field hint"
   },
-
   "babyNameRequired": "Ingresa el nombre del bebé",
   "@babyNameRequired": {
     "description": "Baby name required validation message"
   },
-
   "babyNameMinLength": "El nombre debe tener al menos 2 caracteres",
   "@babyNameMinLength": {
     "description": "Baby name minimum length validation"
   },
-
   "selectBirthdateButton": "Seleccionar fecha de nacimiento",
   "@selectBirthdateButton": {
     "description": "Select birthdate button text"
   },
-
   "selectedDate": "{day}/{month}/{year}",
   "@selectedDate": {
     "description": "Selected date format",
@@ -113,7 +96,6 @@
       }
     }
   },
-
   "categoryAll": "Todo",
   "categoryPopular": "Popular",
   "categoryClinical": "Clínico",
@@ -165,7 +147,7 @@
   "checkNetworkAndRetry": "Verifica tu conexión e inténtalo de nuevo",
   "tryAgain": "Intentar de nuevo",
   "selectCategory": "Seleccionar categoría",
-  "writePost": "Escribir publicación",
+  "writePost": "Escribir Post",
   "post": "Publicar",
   "communityWelcomeDescription": "Comparte experiencias de crianza e información valiosa con otros padres",
   "preparingTimeline": "Preparando cronología...",
@@ -190,7 +172,6 @@
       }
     }
   },
-  
   "familyInvitation": "Invitación familiar",
   "familyInvitationDescription": "Gestiona registros de cuidado del bebé junto con la familia a través de códigos de invitación",
   "babyManagement": "Gestión del bebé",
@@ -252,7 +233,7 @@
       }
     }
   },
-  "inviteCodeGenerated": "¡Código de invitación generado!",
+  "inviteCodeGenerated": "Invitation code generated: {code}",
   "remainingTime": "Tiempo restante: {time}",
   "@remainingTime": {
     "description": "Remaining time message",
@@ -287,7 +268,7 @@
   "pleaseLoginFirst": "Información de inicio de sesión no encontrada. Por favor inicia sesión primero.",
   "copiedToClipboard": "¡Código de invitación copiado!",
   "joinedSuccessfully": "¡Te has unido a la familia exitosamente!",
-  "inviteCodeExpired": "Código de invitación expirado",
+  "inviteCodeExpired": "The invitation code has expired. Please create a new one.",
   "invalidInviteCode": "Código de invitación inválido",
   "alreadyMember": "Ya eres miembro de esta familia",
   "cannotInviteSelf": "No puedes invitarte a ti mismo",
@@ -412,41 +393,33 @@
       }
     }
   },
-  
   "languageSelection": "Selección de idioma",
   "@languageSelection": {
     "description": "Language selection screen title"
   },
-  
   "selectLanguage": "Selecciona un idioma",
   "@selectLanguage": {
     "description": "Instruction to select a language"
   },
-  
   "currentLanguage": "Idioma actual",
   "@currentLanguage": {
     "description": "Current language label"
   },
-
   "lastFeedingTime": "Última hora de alimentación",
   "minutesAgo": "hace {minutes} minutos",
   "hoursAndMinutesAgo": "hace {hours} horas {minutes} minutos",
-
   "searchCommunityPosts": "Buscar publicaciones de la comunidad",
   "temperatureRecord": "Registro de temperatura",
-  "temperatureTrend": "Tendencia de temperatura",
+  "temperatureTrend": "Tendencia de Temperatura",
   "profilePhotoSetup": "Configuración de foto de perfil",
   "howToSelectPhoto": "¿Cómo te gustaría seleccionar una foto?",
   "camera": "Cámara",
   "gallery": "Galería",
-  "cancel": "Cancelar",
-  "confirm": "Confirmar",
   "send": "Enviar",
   "emailVerificationRequired": "Verificación de correo electrónico requerida",
   "passwordReset": "Restablecer contraseña",
   "enterEmailForReset": "Ingresa tu dirección de correo electrónico registrada.\nTe enviaremos un enlace para restablecer la contraseña.",
   "accountWithdrawalComplete": "Cancelación de cuenta completada",
-  "addBaby": "Agregar bebé",
   "genderLabel": "Género: ",
   "birthdateLabel": "Fecha de nacimiento: ",
   "maleGender": "Masculino",
@@ -455,11 +428,11 @@
   "joinWithInviteCodeButton": "Unirse con código de invitación",
   "refresh": "Actualizar",
   "goToSettings": "Ir a configuración",
-  "temperatureRecorded": "La temperatura ha sido registrada",
-  "recordFailed": "Error en el registro: {error}",
-  "temperatureSettingsSaved": "La configuración de temperatura ha sido guardada",
+  "temperatureRecorded": "Temperatura registrada",
+  "recordFailed": "Error en el registro",
+  "temperatureSettingsSaved": "Temperature settings saved",
   "profilePhotoUpdated": "La foto de perfil ha sido actualizada.",
-  "loadingUserInfo": "Cargando información del usuario. Por favor, inténtalo de nuevo en un momento.",
+  "loadingUserInfo": "Cargando información del usuario. Por favor, inténtelo de nuevo en un momento.",
   "continueWithSeparateAccount": "Continuar con cuenta separada",
   "linkWithExistingAccount": "Vincular con cuenta existente",
   "linkAccount": "Vincular cuenta",
@@ -478,8 +451,8 @@
   "yellow": "Amarillo",
   "brown": "Marrón",
   "green": "Verde",
-  "breastMilk": "Leche materna",
-  "bottle": "Biberón",
+  "breastMilk": "Breast Milk",
+  "bottle": "Bottle",
   "formula": "Fórmula",
   "babyFood": "Comida para bebé",
   "left": "Izquierda",
@@ -495,24 +468,24 @@
   "hypothermia": "Hipotermia",
   "normal": "Normal",
   "lowFever": "Fiebre baja",
-  "highFever": "Fiebre alta",
+  "highFever": "Fiebre Alta",
   "oral": "Oral",
-  "topical": "Tópico",
+  "topical": "Topical",
   "inhalation": "Inhalación",
   "injection": "Inyección",
-  "other": "Otro",
+  "other": "Other",
   "tablet": "Tableta",
-  "drops": "Gotas",
+  "drops": "Drops",
   "teaspoon": "Cucharadita",
   "tablespoon": "Cucharada",
   "feedingAmount": "Cantidad de alimentación",
-  "sleepQuality": "Sueño",
+  "sleepQuality": "Sleep Quality",
   "medicationTime": "Medicación",
   "pumpingTime": "Extracción",
   "solidFoodTime": "Comida sólida",
   "totalFeedingAmount": "Cantidad total de alimentación",
   "averageFeedingAmount": "Cantidad promedio de alimentación",
-  "dailyAverageFeedingCount": "Conteo promedio diario de alimentación",
+  "dailyAverageFeedingCount": "Recuento promedio diario de alimentaciones",
   "clinical": "Clínico",
   "infoSharing": "Intercambio de información",
   "sleepIssues": "Problemas de sueño",
@@ -524,14 +497,13 @@
   "likes": "Me gusta",
   "comments": "Comentarios",
   "anonymous": "Anónimo",
-  "minutes": "Minutos",
+  "minutes": "min",
   "armpit": "Axila",
   "forehead": "Frente",
   "ear": "Oído",
   "mouth": "Boca",
   "rectal": "Rectal",
   "otherLocation": "Otro",
-
   "searchError": "Error de búsqueda",
   "question": "Pregunta",
   "information": "Información",
@@ -544,11 +516,9 @@
   "recentSearches": "Búsquedas recientes",
   "deleteAll": "Eliminar todo",
   "sortByComments": "Ordenar por comentarios",
-  
   "registerBabyFirst": "Por favor registra tu bebé primero",
   "registerBabyToRecordMoments": "Para registrar los momentos preciosos de tu bebé,\npor favor registra primero la información del bebé.",
   "addBabyFromHome": "Agregar bebé desde inicio",
-
   "overallActivityOverview": "Resumen General de Actividades",
   "totalActivities": "Actividades Totales",
   "timesUnit": "veces",
@@ -579,26 +549,21 @@
     }
   },
   "noDetailedData": "No hay datos detallados",
-  "averageFeedingAmount": "Cantidad promedio de alimentación",
   "averageFeedingTime": "Tiempo promedio de alimentación",
-  "dailyAverageFeedingCount": "Recuento promedio diario de alimentaciones",
   "averageSleepTime": "Tiempo promedio de sueño",
   "dailyAverageTotalSleepTime": "Tiempo total promedio diario de sueño",
   "dailyAverageSleepCount": "Recuento promedio diario de sueño",
   "dailyAverageChangeCount": "Recuento promedio diario de cambios",
-  
   "sharingParentingStories": "Compartiendo Historias de Crianza",
-  "writePost": "Escribir Post",
   "myActivity": "Mi Actividad",
   "categories": "Categorías",
   "menu": "Menú",
   "seeMore": "Ver Más",
   "search": "Buscar",
   "notification": "Notificación",
-  
   "sleep": "Sueño",
   "feeding": "Alimentación",
-  "solidFood": "Comida Sólida",
+  "solidFood": "Alimento Sólido",
   "milkPumping": "Extracción de Leche",
   "growthInfo": "Información de Crecimiento",
   "viewDetails": "Ver Detalles",
@@ -614,13 +579,10 @@
   "previousDate": "Fecha anterior",
   "nextDate": "Fecha siguiente",
   "selectDate": "Seleccionar fecha",
-  "cancel": "Cancelar",
-
   "hourActivityPattern": "Patrón de Actividad de 24 Horas",
   "@hourActivityPattern": {
     "description": "Title for 24-hour activity pattern chart"
   },
-
   "midnight": "Medianoche",
   "@midnight": {
     "description": "12:00 AM - midnight time label"
@@ -669,8 +631,6 @@
   "recordSymptomsHint": "Por favor registre síntomas o notas especiales",
   "oralMethod": "Oral",
   "analMethod": "Anal",
-  
-  "temperatureTrend": "Tendencia de Temperatura",
   "recentDaysTrend": "Tendencia de los últimos {days} días",
   "@recentDaysTrend": {
     "placeholders": {
@@ -680,7 +640,7 @@
     }
   },
   "days3": "3 días",
-  "days7": "7 días", 
+  "days7": "7 días",
   "weeks2": "2 semanas",
   "month1": "1 mes",
   "noTemperatureRecordsInPeriod": "No hay registros de temperatura en el período seleccionado",
@@ -690,7 +650,7 @@
   "lowestTemperature": "Temperatura Más Baja",
   "noteAvailableTapToView": "📝 Nota disponible (toca para ver)",
   "temperatureRisingTrend": "La temperatura muestra una tendencia al alza",
-  "temperatureFallingTrend": "La temperatura muestra una tendencia a la baja", 
+  "temperatureFallingTrend": "La temperatura muestra una tendencia a la baja",
   "temperatureStableTrend": "La temperatura está estable",
   "trendAnalysis": "Análisis de Tendencia",
   "totalMeasurements": "Total de {count} mediciones",
@@ -703,7 +663,6 @@
   },
   "temperatureRecordMemo": "Nota del Registro de Temperatura",
   "fever": "Fiebre",
-  "highFever": "Fiebre Alta",
   "babyGrowthChart": "Gráfico de Crecimiento de {name}",
   "@babyGrowthChart": {
     "placeholders": {
@@ -714,8 +673,6 @@
   },
   "noGrowthRecords": "No hay registros de crecimiento",
   "enterWeightAndHeightFromHome": "Por favor ingrese peso y altura desde la pantalla principal",
-  "weight": "Peso",
-  "height": "Altura",
   "periodSelection": "Selección de período:",
   "all": "Todo",
   "growthInsights": "Perspectivas del Crecimiento",
@@ -739,7 +696,6 @@
   "recordFrequency": "Frecuencia de Registro",
   "veryConsistent": "Muy Consistente",
   "consistent": "Consistente",
-  "average": "Promedio",
   "irregular": "Irregular",
   "averageDaysInterval": "Promedio {days} días de intervalo",
   "@averageDaysInterval": {
@@ -814,11 +770,10 @@
       }
     }
   },
-
   "storageMethod": "Método de almacenamiento",
   "pumpingType": "Tipo de extracción",
   "quality": "Calidad",
-  "foodName": "Nombre del alimento",
+  "foodName": "Food Name",
   "mealType": "Tipo de comida",
   "texture": "Textura",
   "reaction": "Reacción",
@@ -826,9 +781,9 @@
   "feverReducerGiven": "Reductor de fiebre dado",
   "given": "Dado",
   "hours": "horas",
-  "refrigerator": "Refrigerador",
-  "freezer": "Congelador",
-  "roomTemperature": "Temperatura ambiente",
+  "refrigerator": "Refrigerator",
+  "freezer": "Freezer",
+  "roomTemperature": "Room Temperature",
   "fedImmediately": "Alimentado inmediatamente",
   "breakfast": "Desayuno",
   "lunch": "Almuerzo",
@@ -843,12 +798,10 @@
   "sunday": "Domingo",
   "on": "Encendido",
   "off": "Apagado",
-
   "detailInformation": "Información Detallada",
   "amount": "Cantidad",
   "duration": "Duración",
   "side": "Lado",
-
   "smartInsights": "Información Inteligente",
   "confidence": "Confianza",
   "analyzingPatterns": "Analizando patrones...",
@@ -861,26 +814,19 @@
   "memo": "Nota",
   "weightDataEmpty": "No hay datos de peso disponibles",
   "heightDataEmpty": "No hay datos de altura disponibles",
-
   "undoAction": "Deshacer",
   "feedingRecordDeleted": "Registro de alimentación eliminado",
   "sleepRecordDeleted": "Registro de sueño eliminado",
   "diaperRecordDeleted": "Registro de pañal eliminado",
   "healthRecordDeleted": "Registro de salud eliminado",
   "deletionError": "Error al eliminar",
-  "temperatureRecorded": "Temperatura registrada",
   "duplicateInputDetected": "Entrada duplicada detectada",
-  "record": "Registrar",
   "solidFoodDuplicateConfirm": "Acaba de registrar comida sólida.\\n¿Realmente desea registrarla de nuevo?",
-  "profilePhotoUpdated": "La foto de perfil ha sido actualizada.",
-  "loadingUserInfo": "Cargando información del usuario. Por favor, inténtelo de nuevo en un momento.",
   "cannotOpenSettings": "No se puede abrir la pantalla de configuración",
-  "sleep": "Sueño",
   "sleepInProgress": "Durmiendo",
-  "sleepQualityGood": "Bueno",
-  "sleepQualityFair": "Regular",
-  "sleepQualityPoor": "Malo",
-  "sleepQuality": "Calidad",
+  "sleepQualityGood": "Good",
+  "sleepQualityFair": "Fair",
+  "sleepQualityPoor": "Poor",
   "hoursMinutesFormat": "{hours}h {minutes}min",
   "sleepInProgressDuration": "Durmiendo - {minutes}min transcurridos",
   "diaperChange": "Cambio de Pañal",
@@ -889,23 +835,16 @@
   "wetAndDirty": "Mojado + Sucio",
   "colorLabel": "Color",
   "consistencyLabel": "Consistencia",
-  "medication": "Medicación",
   "oralMedication": "Medicación Oral",
   "topicalMedication": "Tópico",
   "inhaledMedication": "Inhalado",
-  "milkPumping": "Extracción de Leche",
   "milkPumpingInProgress": "Extrayendo",
   "pumpingInProgressDuration": "Extrayendo - {minutes}min transcurridos",
-  "solidFood": "Alimento Sólido",
   "temperatureMeasurement": "Medición de Temperatura",
-  "fever": "Fiebre",
   "lowGradeFever": "Fiebre Leve",
-  "hypothermia": "Hipotermia",
-  "normalTemperature": "Normal",
-
+  "normalTemperature": "Temperature is normal",
   "allActivities": "Todo",
   "temperatureFilter": "Temperatura",
-
   "deleteRecordTitle": "Eliminar registro",
   "deleteRecordMessage": "¿Estás seguro de que quieres eliminar este registro?\nLos registros eliminados no se pueden recuperar.",
   "recordDeletedSuccess": "El registro ha sido eliminado",
@@ -915,13 +854,10 @@
   "recordUpdateFailed": "Error al actualizar el registro",
   "recordUpdateError": "Ocurrió un error al actualizar el registro",
   "noRecordsToday": "No hay registros de {recordType} hoy",
-  "recordFailed": "Error en el registro",
   "healthRecordRestored": "Los registros de salud han sido restaurados",
   "deleteTemperatureConfirm": "¿Desea eliminar el registro de temperatura reciente?",
-  "average": "Promedio",
   "minimum": "Mínimo",
   "maximum": "Máximo",
-
   "duplicateEntryDetected": "Entrada duplicada detectada",
   "feedingDuplicateConfirm": "Acabas de agregar un registro de alimentación.\\n¿Realmente quieres registrar de nuevo?",
   "milkPumpingDuplicateConfirm": "Acabas de agregar un registro de extracción de leche.\\n¿Realmente quieres registrar de nuevo?",
@@ -931,25 +867,19 @@
   "sleepEndDuplicateConfirm": "Acabas de manipular el sueño.\\n¿Realmente quieres terminar de dormir?",
   "recordAction": "Registrar",
   "end": "Fin",
-
   "whatTypeChanged": "¿Qué tipo cambiaste?",
   "poop": "Caca",
   "urinePoop": "Orina+Caca",
   "changeType": "Tipo de Cambio",
   "colorWhenPoop": "Color (Al Hacer Caca)",
-
-  "minutes": "min",
   "minutesShort": "m",
-
   "dailyFeedingCount": "Conteo diario de alimentación",
   "dailyDiaperChangeCount": "Cambios diarios de pañal",
   "dailyMedicationCount": "Conteo diario de medicación",
   "averageLabel": "Promedio: ",
-
   "dailySleepCount": "Conteo diario de sueño",
   "dailySolidFoodCount": "Conteo diario de comida sólida",
   "dailyMilkPumpingCount": "Conteo diario de extracción",
-
   "averageFeedingDuration": "Duración promedio de alimentación",
   "averageSleepDuration": "Duración promedio de sueño",
   "dailyAverageDiaperChangeCount": "Cambios promedio diarios de pañal",
@@ -959,19 +889,15 @@
   "dailyAverageSolidFoodCount": "Conteo promedio diario de comida sólida",
   "triedFoodTypes": "Tipos de comida probados",
   "dailyAverageMedicationCount": "Conteo promedio diario de medicación",
-
-  "totalFeedingAmount": "Cantidad total de alimentación",
   "totalFeedingDuration": "Duración total de alimentación",
   "maximumFeedingAmount": "Cantidad máxima de alimentación",
   "minimumFeedingAmount": "Cantidad mínima de alimentación",
   "totalSleepDuration": "Duración total del sueño",
   "dailyTotalMilkPumpingAmount": "Cantidad total diaria extraída",
-  
   "maximumSleepDuration": "Duración máxima del sueño",
   "minimumSleepDuration": "Duración mínima del sueño",
   "allergicReactionCount": "Conteo de reacciones alérgicas",
   "dailyAverageMilkPumpingCount": "Conteo promedio diario de extracción de leche",
-
   "growthInfoRecord": "Registro de información de crecimiento",
   "recordBabyCurrentWeight": "Por favor registre el peso actual del bebé",
   "recordBabyCurrentHeight": "Por favor registre la altura actual del bebé",
@@ -987,7 +913,6 @@
   "heightRangeError": "La altura debe estar entre 1-200cm",
   "enterWeightOrHeight": "Por favor ingrese peso o altura",
   "saveError": "Ocurrió un error al guardar",
-
   "sufficientFeedingAmount": "You had a sufficient amount of feeding",
   "expectedSatisfaction": "This amount is expected to provide sufficient satisfaction for the baby.",
   "nightFeedingTime": "It's nighttime feeding time",
@@ -1026,13 +951,11 @@
   "highTemperatureWarning": "Temperature is {temperature}°C, which is relatively high. Continuous observation is needed.",
   "lowTemperature": "Temperature is low",
   "lowTemperatureWarning": "Temperature is {temperature}°C, which is relatively low. Please pay attention to keeping warm.",
-  "normalTemperature": "Temperature is normal",
   "normalTemperatureRange": "Temperature is {temperature}°C, which is within the normal range.",
   "regularTemperatureCheck": "Regular temperature check",
   "regularTemperatureCheckBenefit": "Regular temperature checks are recommended to monitor baby's health condition.",
   "consistentRecording": "Records are being kept consistently well",
   "regularRecordingBenefit": "Regular recording helps with baby health management.",
-
   "diaperColorYellow": "Yellow",
   "diaperColorBrown": "Brown",
   "diaperColorGreen": "Green",
@@ -1055,86 +978,60 @@
   "medicationPainReliever": "Pain reliever",
   "medicationAntibiotics": "Antibiotics",
   "medicationVitamins": "Vitamins",
-
   "defaultValueSettings": "Default Settings",
   "setDefaultValuesForQuickRecording": "Set default values for quick recording",
-
   "feedingType": "Feeding Type",
-  "breastMilk": "Breast Milk",
-  "bottle": "Bottle",
   "formulaMilk": "Formula",
   "solidFoodFeeding": "Solid Food",
   "feedingAmountMl": "Feeding Amount (ml)",
   "feedingTimeMinutes": "Feeding Time (minutes)",
   "feedingPosition": "Feeding Position",
-
   "sleepTimeMinutes": "Sleep Time (minutes)",
-  "sleepQuality": "Sleep Quality",
-  "sleepQualityGood": "Good",
-  "sleepQualityFair": "Fair",
-  "sleepQualityPoor": "Poor",
   "sleepLocation": "Sleep Location",
   "bedroom": "Bedroom",
   "livingRoom": "Living Room",
   "stroller": "Stroller",
   "car": "Car",
   "outdoors": "Outdoors",
-  "other": "Other",
-
   "stoolColorWhenDirty": "Color (when dirty)",
   "stoolConsistencyWhenDirty": "Consistency (when dirty)",
   "diaperColorGreenish": "Greenish",
   "diaperColorWhite": "White",
   "diaperConsistencyLooseAlt": "Loose",
   "diaperConsistencyHardAlt": "Hard",
-
-  "foodName": "Food Name",
   "amountGrams": "Amount (g)",
   "allergicReaction": "Allergic Reaction",
   "allergicReactionNone": "None",
   "allergicReactionMild": "Mild",
   "allergicReactionModerate": "Moderate",
   "allergicReactionSevere": "Severe",
-
   "medicationName": "Medication Name",
   "dosage": "Dosage",
   "unit": "Unit",
   "tablets": "Tablets",
-  "drops": "Drops",
   "administrationRoute": "Administration Route",
-  "oral": "Oral",
-  "topical": "Topical",
   "inhaled": "Inhaled",
-
   "pumpingAmountMl": "Pumping Amount (ml)",
   "pumpingTimeMinutes": "Pumping Time (minutes)",
   "pumpingPosition": "Pumping Position",
   "storageLocation": "Storage Location",
-  "refrigerator": "Refrigerator",
-  "freezer": "Freezer",
-  "roomTemperature": "Room Temperature",
   "useImmediately": "Use Immediately",
-
   "cardSettingsInstructions": "• Toggle switches to show/hide cards\n• Drag to change card order\n• Changes are previewed in real time",
   "@cardSettingsInstructions": {
     "description": "Instructions for using card settings"
   },
-
   "visible": "Visible",
   "@visible": {
     "description": "Label for visible state"
   },
-
   "hidden": "Hidden",
   "@hidden": {
     "description": "Label for hidden state"
   },
-
   "touchToSetDefault": "Touch to set default values",
   "@touchToSetDefault": {
     "description": "Hint text to set default values"
   },
-
   "cardSettingsSavePartialFailure": "Failed to save some card settings: {failedCards}",
   "@cardSettingsSavePartialFailure": {
     "description": "Error message for partial card settings save failure",
@@ -1144,22 +1041,18 @@
       }
     }
   },
-
   "feedingAmountValidationError": "Please enter feeding amount between 1-1000ml",
   "@feedingAmountValidationError": {
     "description": "Error message for feeding amount validation"
   },
-
   "feedingDurationValidationError": "Please enter feeding duration between 1-180 minutes",
   "@feedingDurationValidationError": {
     "description": "Error message for feeding duration validation"
   },
-
   "savingError": "An error occurred while saving",
   "@savingError": {
     "description": "General saving error message"
   },
-
   "inviteCreationError": "Error occurred while creating invitation: {error}",
   "@inviteCreationError": {
     "description": "Error message for invitation creation",
@@ -1169,17 +1062,13 @@
       }
     }
   },
-
   "shareFailed": "Sharing failed",
   "@shareFailed": {
     "description": "Error message for sharing failure"
   },
-
-  "inviteCodeExpired": "The invitation code has expired. Please create a new one.",
   "@inviteCodeExpired": {
     "description": "Error message for expired invitation code"
   },
-
   "inviteCodeGenerationFailed": "Failed to generate invitation code: {error}",
   "@inviteCodeGenerationFailed": {
     "description": "Error message for invitation code generation failure",
@@ -1189,32 +1078,26 @@
       }
     }
   },
-
   "databaseSaveFailed": "Failed to save to database. Please try again",
   "@databaseSaveFailed": {
     "description": "Error message for database save failure"
   },
-
   "growthRecordProcessingError": "An error occurred while processing growth record",
   "@growthRecordProcessingError": {
     "description": "Error message for growth record processing"
   },
-
   "authenticationFailed": "Authentication failed. Please try again.",
   "@authenticationFailed": {
     "description": "Error message for authentication failure"
   },
-
   "verificationCodeResendFailed": "Failed to resend verification code. Please try again later.",
   "@verificationCodeResendFailed": {
     "description": "Error message for verification code resend failure"
   },
-
   "accountDeletionError": "Error during account deletion",
   "@accountDeletionError": {
     "description": "Error message during account deletion"
   },
-
   "babyInfoResetFailed": "Failed to reset {babyName} information. Please try again.",
   "@babyInfoResetFailed": {
     "description": "Error message for baby info reset failure",
@@ -1224,7 +1107,6 @@
       }
     }
   },
-
   "babyInfoResetError": "An error occurred during information reset: {error}",
   "@babyInfoResetError": {
     "description": "Error message during baby info reset",
@@ -1234,17 +1116,13 @@
       }
     }
   },
-
-  "temperatureSettingsSaved": "Temperature settings saved",
   "@temperatureSettingsSaved": {
     "description": "Success message for temperature settings save"
   },
-
   "accountDeletionSuccess": "Account deletion completed successfully.\n\nYou can sign up again anytime.",
   "@accountDeletionSuccess": {
     "description": "Success message for account deletion"
   },
-
   "inviteCodeRenewed": "Previous code expired and new invitation code generated: {code}",
   "@inviteCodeRenewed": {
     "description": "Success message for invitation code renewal",
@@ -1254,8 +1132,6 @@
       }
     }
   },
-
-  "inviteCodeGenerated": "Invitation code generated: {code}",
   "@inviteCodeGenerated": {
     "description": "Success message for invitation code generation",
     "placeholders": {
@@ -1264,52 +1140,42 @@
       }
     }
   },
-
   "noStatisticsDataToShare": "No statistics data to share",
   "@noStatisticsDataToShare": {
     "description": "Warning message for no statistics data to share"
   },
-
   "noBabySelected": "No baby information selected",
   "@noBabySelected": {
     "description": "Warning message for no baby selected"
   },
-
   "imageShareFeatureUnderDevelopment": "Image sharing feature is under development. Please use text sharing.",
   "@imageShareFeatureUnderDevelopment": {
     "description": "Warning message for image sharing feature under development"
   },
-
   "logoutPartialError": "Some errors occurred during logout but continuing.",
   "@logoutPartialError": {
     "description": "Warning message for partial logout errors"
   },
-
   "testModeInviteWarning": "Test mode: Creating invitation with temporary user information.",
   "@testModeInviteWarning": {
     "description": "Warning message for test mode invitation"
   },
-
   "iosSimulatorCameraWarning": "Camera cannot be used in iOS Simulator.\nPlease try again from gallery.",
   "@iosSimulatorCameraWarning": {
     "description": "Warning message for iOS simulator camera limitation"
   },
-
   "babyLongPressHint": "Long press on baby to reset information",
   "@babyLongPressHint": {
     "description": "Info message for baby long press functionality"
   },
-
   "pleaseWait": "Please wait",
   "@pleaseWait": {
     "description": "Info message to wait"
   },
-
   "babyInfoReset": "Baby Information Reset",
   "@babyInfoReset": {
     "description": "Info message for baby information reset"
   },
-
   "babyInfoResetting": "Resetting {babyName} information...",
   "@babyInfoResetting": {
     "description": "Info message while resetting baby information",
@@ -1319,9 +1185,792 @@
       }
     }
   },
-
   "databaseUpdated": "✅ Database has been updated!\n\nPlease restart the app and try again.",
   "@databaseUpdated": {
     "description": "Info message for database update completion"
-  }
+  },
+  "birthday": "Cumpleaños: {year}/{month}/{day}",
+  "@birthday": {
+    "description": "Birthday display format",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "age": "Edad: {days} days",
+  "@age": {
+    "description": "Age in days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "babyDetailScreen": "{name} Detail Screen (Coming Soon)",
+  "@babyDetailScreen": {
+    "description": "Baby detail screen placeholder",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "selectBirthdate": "Please select birthdate",
+  "@selectBirthdate": {
+    "description": "Birthdate selection prompt"
+  },
+  "babyRegistered": "{name} has been registered!",
+  "@babyRegistered": {
+    "description": "Baby registration success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "registrationError": "An error occurred during registration: {error}",
+  "@registrationError": {
+    "description": "Registration error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "genderOptional": "Género (Optional)",
+  "@genderOptional": {
+    "description": "Gender field label"
+  },
+  "loginFailed": "Iniciar sesión failed",
+  "@loginFailed": {
+    "description": "Login failure message"
+  },
+  "loginError": "An error occurred during login: {error}",
+  "@loginError": {
+    "description": "Login error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "appTagline": "Easily manage your baby's growth records",
+  "@appTagline": {
+    "description": "App tagline"
+  },
+  "termsNotice": "By logging in, you agree to our Terms of Service and Privacy Policy",
+  "@termsNotice": {
+    "description": "Terms and privacy notice"
+  },
+  "loginWithKakao": "Iniciar sesión with Kakao",
+  "@loginWithKakao": {
+    "description": "Kakao login button text"
+  },
+  "selectBirthDate": "Select Birthdate",
+  "@selectBirthDate": {
+    "description": "Birthdate selection button"
+  },
+  "pleasSelectBirthDate": "Please select birthdate",
+  "@pleasSelectBirthDate": {
+    "description": "Error message when birthdate not selected"
+  },
+  "nameMinLength": "Nombre must be at least 2 characters",
+  "@nameMinLength": {
+    "description": "Error message for minimum name length"
+  },
+  "dateFormat": "{year}/{month}/{day}",
+  "@dateFormat": {
+    "description": "Date format for birthdate display",
+    "placeholders": {
+      "year": {
+        "type": "String"
+      },
+      "month": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "autoLogin": "Stay logged in",
+  "@autoLogin": {
+    "description": "Auto login checkbox label"
+  },
+  "timelineUpdateMessage": "Timeline feature will be updated soon",
+  "@timelineUpdateMessage": {
+    "description": "Timeline update message"
+  },
+  "recordUpdateMessage": "Grabar feature will be updated soon",
+  "@recordUpdateMessage": {
+    "description": "Record update message"
+  },
+  "statisticsUpdateMessage": "Estadísticas feature will be updated soon",
+  "@statisticsUpdateMessage": {
+    "description": "Statistics update message"
+  },
+  "communityUpdateMessage": "Community feature will be updated soon",
+  "@communityUpdateMessage": {
+    "description": "Community update message"
+  },
+  "todaySummary": "Today's Summary",
+  "@todaySummary": {
+    "description": "Today's summary section title"
+  },
+  "lastFeeding": "Último Alimentación",
+  "@lastFeeding": {
+    "description": "Last feeding time label"
+  },
+  "healthy": "Healthy",
+  "@healthy": {
+    "description": "Health status - healthy"
+  },
+  "totalFeeding": "Total Alimentación",
+  "@totalFeeding": {
+    "description": "Total feeding amount label"
+  },
+  "totalSleepTime": "Total Sueño Tiempo",
+  "@totalSleepTime": {
+    "description": "Total sleep time label"
+  },
+  "cardSettings": "Card Configuración",
+  "@cardSettings": {
+    "description": "Card settings screen title"
+  },
+  "cardSettingsGuide": "Card Configuración Guide",
+  "@cardSettingsGuide": {
+    "description": "Card settings guide section title"
+  },
+  "cardSettingsDescription": "• Toggle switches to show/hide cards • Drag to change card order • Changes are previewed in real-time",
+  "cardVisible": "Visible",
+  "cardHidden": "Hidden",
+  "save": "Guardar",
+  "cardSettingsSaved": "Card settings saved",
+  "cardSettingsError": "Error occurred while saving settings",
+  "discardChanges": "Discard changes and return to previous state?",
+  "continueEditing": "Continue Editing",
+  "@continueEditing": {
+    "description": "Button to continue editing"
+  },
+  "discardChangesExit": "Exit without saving changes?",
+  "exit": "Exit",
+  "growth": "Crecimiento",
+  "health": "Health",
+  "feedingCount": "{count} times",
+  "feedingRecordAdded": "Alimentación record added successfully",
+  "feedingRecordFailed": "Failed to add feeding record",
+  "feedingRecordsLoadFailed": "Failed to load feeding records",
+  "quickFeeding": "Quick Alimentación",
+  "feedingTime": "Alimentación Tiempo",
+  "breastfeeding": "Breastfeeding",
+  "bottleFeeding": "Bottle Alimentación",
+  "mixedFeeding": "Mixed Alimentación",
+  "sleepCount": "{count} times",
+  "sleepDuration": "{hours}h {minutes}m",
+  "sleepStarted": "Sueño started",
+  "sleepEnded": "Sueño ended",
+  "sleepRecordFailed": "Failed to process sleep record",
+  "sleepRecordsLoadFailed": "Failed to load sleep records",
+  "sleepTime": "Sueño Tiempo",
+  "wakeUpTime": "Wake Up Tiempo",
+  "sleepDurationLabel": "Sueño Duración",
+  "napTime": "Nap Tiempo",
+  "nightSleep": "Night Sueño",
+  "diaperCount": "{count} times",
+  "diaperChanged": "Pañal changed",
+  "diaperRecordAdded": "Pañal change record added successfully",
+  "diaperRecordFailed": "Failed to add diaper record",
+  "diaperRecordsLoadFailed": "Failed to load diaper records",
+  "wetDiaper": "Wet",
+  "dirtyDiaper": "Dirty",
+  "bothDiaper": "Both",
+  "wetCount": "Wet {count}",
+  "dirtyCount": "Dirty {count}",
+  "bothCount": "Both {count}",
+  "diaperType": "Pañal Tipo",
+  "diaperChangeTime": "Change Tiempo",
+  "growthRecord": "Crecimiento Grabar",
+  "growthRecordAdded": "Crecimiento record added",
+  "growthRecordFailed": "Failed to save growth record",
+  "heightUnit": "cm",
+  "temperatureUnit": "°C",
+  "measurementType": "Measurement Tipo",
+  "measurementValue": "Value",
+  "notes": "Notes",
+  "notesOptional": "Notes (Optional)",
+  "temperatureRange": "Temperatura must be between 30.0°C and 45.0°C",
+  "weightRange": "Peso must be between 0.1kg and 50kg",
+  "heightRange": "Altura must be between 1cm and 200cm",
+  "recordGrowthInfo": "Grabar Crecimiento Información",
+  "currentMeasurement": "Enter current {type}",
+  "measurementSituation": "Grabar measurement situation or special notes (optional)",
+  "communityTitle": "Community",
+  "postTitle": "Post Title",
+  "postContent": "Post Content",
+  "postTitleHint": "Enter title",
+  "postContentHint": "Enter content... Feel free to share your story.",
+  "postCreated": "Post created successfully!",
+  "postCreateFailed": "Failed to create post: {error}",
+  "nickname": "Nickname",
+  "nicknameSetup": "Set up nickname",
+  "nicknameChange": "Change nickname",
+  "nicknameHint": "Enter nickname",
+  "nicknameDescription": "Crear a nickname to use in the community. It will be displayed to other users.",
+  "nicknameChangeDescription": "You can change to a new nickname.",
+  "nicknameValidation": "Korean, English, numbers, underscore (_) allowed (2-20 characters)",
+  "nicknameMinLength": "Nickname must be at least 2 characters",
+  "nicknameMaxLength": "Nickname must be 20 characters or less",
+  "nicknameInvalidChars": "Only Korean, English, numbers, and underscore (_) are allowed",
+  "nicknameChanged": "Nickname changed successfully!",
+  "startButton": "Get Started",
+  "changeButton": "Change",
+  "characterCount": "Title: {count}/200",
+  "imageCount": "Images: {count}/5",
+  "addImages": "Agregar Images",
+  "imageSelectFailed": "Imagen selection failed: {error}",
+  "featureInDevelopment": "Feature in development",
+  "liveQA": "🔥 Pediatrician Live Q&A",
+  "liveQADescription": "Today at 7 PM! Our specialists will answer all your questions",
+  "likeOrder": "Most Liked",
+  "latestOrder": "Latest",
+  "userNotFound": "Usuario information not found",
+  "statisticsTitle": "Estadísticas",
+  "noStatisticsData": "No Estadísticas Data",
+  "statisticsDescription": "No activities recorded during {period}. Comenzar recording your baby's activities!",
+  "recordActivity": "Grabar Activity",
+  "viewOtherPeriod": "Ver Other Period",
+  "statisticsTips": "To view statistics?",
+  "statisticsTip1": "Grabar activities like feeding, sleep, diaper changes",
+  "statisticsTip2": "At least one day of data is required for statistics",
+  "statisticsTip3": "You can record easily from the home screen",
+  "saveAsImage": "Guardar as Imagen",
+  "saveAsImageDescription": "Guardar statistics as image",
+  "shareAsText": "Compartir as Text",
+  "shareAsTextDescription": "Compartir statistics summary as text",
+  "statisticsEmptyState": "No statistics data",
+  "retryButton": "Try Again",
+  "detailsButton": "Details",
+  "goHomeButton": "Go Inicio",
+  "applyButton": "Aplicar",
+  "lastWeek": "Último Week",
+  "lastMonth": "Último Month",
+  "last3Months": "Último 3 Months",
+  "allTime": "All Tiempo",
+  "viewOtherPeriodTitle": "Ver Other Period",
+  "invitationDescription": "Manage baby records together with your family using invitation codes",
+  "createInvitation": "Crear Invitation",
+  "invitationCreated": "Invitation created successfully",
+  "invitationCreateFailed": "Failed to create invitation: {error}",
+  "invitationRole": "Role",
+  "invitationDuration": "Validity Period",
+  "roleParent": "Parent",
+  "roleCaregiver": "Caregiver",
+  "roleGuardian": "Guardian",
+  "roleParentDesc": "Can manage all records as baby's parent",
+  "roleCaregiverDesc": "Can manage some records as caregiver",
+  "roleGuardianDesc": "Can view records as baby's guardian",
+  "invitationGuide": "Invitation Guide",
+  "invitationGuideDesc": "You can invite family members to manage baby records together. The invited person can participate through the invitation link after installing the app.",
+  "shareInvitation": "Compartir Invitation",
+  "shareImmediately": "Compartir Now",
+  "invitationPreview": "Invitation Preview",
+  "invitationExpiry": "Expires in {duration}",
+  "joinWithCode": "Join with Invitation Code",
+  "invitationValidity": "Invitation Validity Period",
+  "testMode": "Test Mode: Creating invitation with temporary user information",
+  "ok": "OK",
+  "edit": "Editar",
+  "add": "Agregar",
+  "remove": "Eliminar",
+  "back": "Atrás",
+  "next": "Siguiente",
+  "done": "Done",
+  "loading": "Loading...",
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+  "error": "Error",
+  "success": "Éxito",
+  "warning": "Advertencia",
+  "info": "Información",
+  "errorOccurred": "An error occurred: {error}",
+  "networkError": "Network connection error",
+  "serverError": "Server error occurred",
+  "validationError": "Please check your input",
+  "requiredField": "This field is required",
+  "invalidInput": "Invalid input",
+  "saveFailed": "Guardar failed",
+  "loadFailed": "Load failed",
+  "updateFailed": "Actualizar failed: {error}",
+  "@updateFailed": {
+    "description": "Error message for update failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteFailed": "Eliminar failed: {error}",
+  "@deleteFailed": {
+    "description": "Error message for deletion failure",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "timeFormat": "{hour}:{minute}",
+  "dateTimeFormat": "{year}-{month}-{day} {hour}:{minute}",
+  "durationMinutes": "{minutes}m",
+  "durationHours": "{hours}h",
+  "durationHoursMinutes": "{hours}h {minutes}m",
+  "daysAgo": "{days} days ago",
+  "hoursAgo": "{hours} hours ago",
+  "justNow": "Just now",
+  "yesterday": "Yesterday",
+  "thisWeek": "This Week",
+  "thisMonth": "This Month",
+  "medicationDose": "Dose",
+  "medicationAdded": "Medication record added",
+  "solidFoodType": "Comida Tipo",
+  "solidFoodAmount": "{amount}g",
+  "solidFoodAdded": "Solid food record added",
+  "milkPumpingAmount": "Pumping Cantidad",
+  "milkPumpingTime": "Pumping Tiempo",
+  "milkPumpingAdded": "Milk pumping record added",
+  "temperatureReading": "Temperatura Reading",
+  "temperatureNormal": "Normal",
+  "temperatureHigh": "Alto",
+  "temperatureLow": "Bajo",
+  "profilePhoto": "Profile Foto",
+  "profilePhotoUpdate": "Actualizar Profile Foto",
+  "selectPhotoSource": "How would you like to select a photo?",
+  "photoUpdated": "Profile photo updated",
+  "photoUploadFailed": "Profile photo update failed",
+  "photoUploading": "Uploading photo...",
+  "cameraNotAvailable": "Cámara not available on iOS simulator. Please try from gallery.",
+  "cameraAccessError": "Cámara access error occurred. Please try from gallery.",
+  "addImage": "Agregar Imagen",
+  "removeImage": "Eliminar Imagen",
+  "maxImagesReached": "Maximum {count} images allowed",
+  "nextFeedingSchedule": "Siguiente feeding in about {hours}h {minutes}m",
+  "nextFeedingScheduleMinutes": "Siguiente feeding in about {minutes} minutes",
+  "feedingTimeNow": "It's feeding time now 🍼",
+  "feedingTimeSoon": "Alimentación time soon ({minutes} minutes)",
+  "feedingTimeOverdue": "Alimentación time overdue",
+  "feedingAlarm": "Alimentación alarm in {hours}h {minutes}m",
+  "feedingAlarmMinutes": "Alimentación alarm in {minutes} minutes",
+  "times": "times",
+  "meals": "meals",
+  "kilograms": "kg",
+  "centimeters": "cm",
+  "grams": "g",
+  "minutesUnit": "minutes",
+  "firstRecord": "Primero Grabar",
+  "noChange": "No Change",
+  "inProgress": "In Progress",
+  "scheduled": "Scheduled",
+  "startBabyRecording": "Registrarse your baby and start tracking growth",
+  "registerBabyNow": "Registrarse Bebé",
+  "pleaseRegisterBaby": "Please register a baby in settings",
+  "profilePhotoUpdateFailed": "Failed to update profile photo",
+  "diaperWetAndDirty": "Wet+Dirty {count} times",
+  "diaperWetAndDirtySeparate": "Wet {wetCount}, Dirty {dirtyCount}",
+  "sleepZeroHours": "0 hours",
+  "solidFoodMeals": "{count} meals",
+  "medicationScheduled": "Acerca de {count} times",
+  "medicationTypes": "Vitamins {vitaminCount}, Vaccines {vaccineCount}",
+  "feedingRecordAddFailed": "Failed to add feeding record",
+  "diaperRecordAddFailed": "Failed to add diaper record",
+  "sleepRecordProcessFailed": "Failed to process sleep record",
+  "touchClockInstruction": "Touch the clock to check activities by time period",
+  "touch": "Touch",
+  "noActivitiesInTimeframe": "No activities during this time",
+  "activityPatternAnalysis": "Activity Pattern Analysis",
+  "preciousMoments": "{count} precious moments",
+  "pattern": "Pattern",
+  "qualityGood": "Bueno",
+  "qualityExcellent": "Excellent",
+  "qualityFair": "Fair",
+  "qualityPoor": "Poor",
+  "timeSlot": "o'clock time slot",
+  "am": "AM",
+  "pm": "PM",
+  "activityConcentrationTime": "Times of concentrated activity throughout the day",
+  "sleeping": "Sleeping",
+  "hoursText": "hours",
+  "minutesText": "minutes",
+  "elapsed": "elapsed",
+  "urineOnly": "Urine only",
+  "stoolOnly": "Stool only",
+  "urineAndStool": "Urine + Stool",
+  "color": "Color",
+  "consistency": "Consistency",
+  "pumping": "Pumping",
+  "weekly": "Weekly",
+  "monthly": "Monthly",
+  "custom": "Custom",
+  "daysCount": "{count} days",
+  "noActivitiesRecordedInPeriod": "No activities were recorded during {period}.",
+  "recordBabyActivities": "Grabar your baby's activities!",
+  "howToViewStatistics": "How to view statistics?",
+  "recordActivitiesLikeFeedingSleep": "Grabar activities like feeding, sleep, diaper changes, etc.",
+  "atLeastOneDayDataRequired": "At least one day of data is required to display statistics.",
+  "canRecordEasilyFromHome": "You can easily record activities from the home screen.",
+  "updating": "Updating...",
+  "lastUpdated": "Último updated:",
+  "daily": "Daily",
+  "startDate": "Comenzar Fecha",
+  "endDate": "Fin Fecha",
+  "apply": "Aplicar",
+  "pleaseSelectDate": "Please select a date",
+  "chartAnalysis": "Gráfico Analysis",
+  "@chartAnalysis": {
+    "description": "Section title for chart analysis"
+  },
+  "activityDistributionByCard": "Activity Distribution by Card",
+  "cannotLoadData": "Cannot load data",
+  "details": "Details",
+  "goToHome": "Go to Inicio",
+  "troubleshootingMethods": "Troubleshooting Methods",
+  "shareStatistics": "Compartir Estadísticas",
+  "communitySubtitle": "Sharing Parenting Stories Together",
+  "searchFeatureComingSoon": "Buscar feature coming soon",
+  "communityWelcome": "💕 Parenting Community",
+  "categorySelection": "Category Selection",
+  "categorySleepIssues": "Sueño Issues",
+  "inviteCodeGeneratedStatus": "Invitation code generated!",
+  "insufficientFeedingRecords": "Insufficient feeding records",
+  "@insufficientFeedingRecords": {
+    "description": "Message shown when there are insufficient feeding records for pattern analysis"
+  },
+  "noRecentFeeding": "No recent feeding records",
+  "@noRecentFeeding": {
+    "description": "Message shown when there are no recent feeding records"
+  },
+  "quickActions": "Quick Actions",
+  "recordAgain": "Grabar Again",
+  "share": "Compartir",
+  "deleteRecord": "Eliminar Grabar",
+  "deleteRecordConfirmation": "Are you sure you want to delete this record?",
+  "recordDeleted": "Grabar deleted",
+  "featureComingSoon": "Feature coming soon",
+  "editRecord": "Editar Grabar",
+  "dateTime": "Fecha & Tiempo",
+  "date": "Fecha",
+  "time": "Tiempo",
+  "fair": "Fair",
+  "wet": "Wet",
+  "dirty": "Dirty",
+  "location": "Location",
+  "notesHint": "Enter additional notes...",
+  "saveChanges": "Guardar Changes",
+  "changesSaved": "Changes saved",
+  "noInsightsYet": "Not enough data to analyze patterns yet",
+  "sleepProgressMinutes": "{minutes} minutes in progress",
+  "@sleepProgressMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sleepProgressTime": "Sueño Progress Tiempo",
+  "standardFeedingTimeNow": "It's standard feeding time",
+  "standardFeedingTimeSoon": "Standard feeding time coming soon ({minutes} minutes)",
+  "@standardFeedingTimeSoon": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingHours": "{hours} hours {minutes} minutes until standard feeding",
+  "@timeUntilStandardFeedingHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "timeUntilStandardFeedingMinutes": "{minutes} minutes until standard feeding",
+  "@timeUntilStandardFeedingMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "insufficientFeedingRecordsApplyingStandard": "Insufficient feeding records (applying standard interval)",
+  "standardFeedingTimeOverdue": "Standard feeding time is overdue",
+  "minutesFormat": "{minutes} minutes",
+  "@minutesFormat": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "personalPatternInfo": "Personal pattern: {interval} interval (for reference)",
+  "@personalPatternInfo": {
+    "placeholders": {
+      "interval": {
+        "type": "String"
+      }
+    }
+  },
+  "checkStandardFeedingInterval": "Check standard feeding interval",
+  "quickSelection": "Quick Selection",
+  "@quickSelection": {
+    "description": "Quick selection label for date presets"
+  },
+  "customSettings": "Custom Configuración",
+  "@customSettings": {
+    "description": "Custom settings label for date range"
+  },
+  "selectDateRange": "Select Fecha Range",
+  "@selectDateRange": {
+    "description": "Select date range button text"
+  },
+  "recent7Days": "Recent 7 Days",
+  "@recent7Days": {
+    "description": "Recent 7 days preset label"
+  },
+  "recent14Days": "Recent 14 Days",
+  "@recent14Days": {
+    "description": "Recent 14 days preset label"
+  },
+  "recent30Days": "Recent 30 Days",
+  "@recent30Days": {
+    "description": "Recent 30 days preset label"
+  },
+  "selectPeriodForAnalysis": "Please select the period for analysis",
+  "@selectPeriodForAnalysis": {
+    "description": "Description text for period selection dialog"
+  },
+  "unsavedChangesMessage": "Do you want to cancel changes and return to previous state?",
+  "@unsavedChangesMessage": {
+    "description": "Message asking about unsaved changes"
+  },
+  "unsavedChangesExitMessage": "Do you want to exit without saving changes?",
+  "@unsavedChangesExitMessage": {
+    "description": "Message asking about exiting without saving"
+  },
+  "exitWithoutSaving": "Exit",
+  "@exitWithoutSaving": {
+    "description": "Button to exit without saving"
+  },
+  "familyMembers": "Family Members",
+  "@familyMembers": {
+    "description": "Family members section title"
+  },
+  "cannotLoadFamilyMembersInfo": "Cannot load family member information",
+  "@cannotLoadFamilyMembersInfo": {
+    "description": "Error message when family member info cannot be loaded"
+  },
+  "administrator": "Administrator",
+  "@administrator": {
+    "description": "Administrator role label"
+  },
+  "member": "Member",
+  "@member": {
+    "description": "Member role label"
+  },
+  "joinDate": "Join date: {date}",
+  "@joinDate": {
+    "description": "Join date label with date parameter",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteFamilyMembersDescription": "Invite family members to manage baby records together",
+  "@inviteFamilyMembersDescription": {
+    "description": "Description for inviting family members when family group exists"
+  },
+  "joinFamilyGroupWarning": "Do you want to join {familyName}'s family? Existing baby data will be moved to the new family group.",
+  "@joinFamilyGroupWarning": {
+    "description": "Warning message when joining a family group",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "familyInvitationAccepted": "Family invitation accepted! Now you can manage baby records together.",
+  "@familyInvitationAccepted": {
+    "description": "Success message when family invitation is accepted"
+  },
+  "careTogetherWithFamily": "Caring for baby together with {familyName}",
+  "@careTogetherWithFamily": {
+    "description": "Header message when user has a family group",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "feedingTimeNotificationTitle": "It's feeding time! 🍼",
+  "@feedingTimeNotificationTitle": {
+    "description": "Title of feeding time notification"
+  },
+  "feedingTimeNotificationBody": "Bebé might be hungry now.",
+  "@feedingTimeNotificationBody": {
+    "description": "Body text of feeding time notification"
+  },
+  "feedingAlarmChannelName": "Alimentación Reminders",
+  "@feedingAlarmChannelName": {
+    "description": "Android notification channel name for feeding alarms"
+  },
+  "feedingAlarmChannelDescription": "Alimentación time reminder notifications",
+  "@feedingAlarmChannelDescription": {
+    "description": "Android notification channel description for feeding alarms"
+  },
+  "dailyTotalSleepDuration": "Daily total sleep duration",
+  "@dailyTotalSleepDuration": {
+    "description": "Label for daily total sleep duration metric"
+  },
+  "countTab": "Count",
+  "@countTab": {
+    "description": "Tab label for count metrics"
+  },
+  "amountTimeTab": "Amount/Time",
+  "@amountTimeTab": {
+    "description": "Tab label for amount/time metrics"
+  },
+  "durationTab": "Duración",
+  "@durationTab": {
+    "description": "Tab label for duration metrics"
+  },
+  "chartDataLoading": "Loading chart data...",
+  "@chartDataLoading": {
+    "description": "Message displayed while chart data is loading"
+  },
+  "chartDataNotAvailable": "Gráfico data not available.",
+  "@chartDataNotAvailable": {
+    "description": "Message displayed when chart data is not available"
+  },
+  "dailyFeedingCountTitle": "Daily feeding count",
+  "@dailyFeedingCountTitle": {
+    "description": "Chart title for daily feeding count"
+  },
+  "weekdaysSundayToSaturday": "SunMonTueWedThuFriSat",
+  "@weekdaysSundayToSaturday": {
+    "description": "Weekday abbreviations from Sunday to Saturday (concatenated for parsing)"
+  },
+  "dayFormat": "{day}",
+  "@dayFormat": {
+    "description": "Format for displaying day numbers",
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyFeedingAmount": "Daily feeding amount",
+  "@dailyFeedingAmount": {
+    "description": "Chart title for daily feeding amount"
+  },
+  "dailyFeedingDuration": "Daily feeding duration",
+  "@dailyFeedingDuration": {
+    "description": "Chart title for daily feeding duration"
+  },
+  "dailySleepDuration": "Daily sleep duration",
+  "@dailySleepDuration": {
+    "description": "Chart title for daily sleep duration"
+  },
+  "dailyMilkPumpingAmount": "Daily pumping amount",
+  "@dailyMilkPumpingAmount": {
+    "description": "Chart title for daily pumping amount"
+  },
+  "confirmDeletePost": "Are you sure you want to delete this post? Deleted posts cannot be recovered.",
+  "postDeleted": "Post has been deleted.",
+  "commentUpdated": "Comment has been updated.",
+  "confirmDeleteComment": "Are you sure you want to delete this comment? Deleted comments cannot be recovered.",
+  "commentDeleted": "Comment has been deleted.",
+  "shareFeatureInDevelopment": "Compartir feature is under development",
+  "sortByRecent": "Ordenar by Recent",
+  "replyCreated": "Reply has been posted.",
+  "commentCreated": "Comment has been posted.",
+  "commentCreationFailed": "Failed to post comment.",
+  "reply": "Reply",
+  "replyTo": "Reply to {nickname}",
+  "@replyTo": {
+    "description": "Reply to specific person",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "writeReply": "Write a reply...",
+  "writeComment": "Write a comment...",
+  "moreReplies": "Ver {count} more replies",
+  "@moreReplies": {
+    "description": "View more replies",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "copy": "Copy",
+  "report": "Informe",
+  "commentCopied": "Comment has been copied",
+  "reportComment": "Informe Comment",
+  "confirmReportComment": "Do you want to report this comment? It will be reported as inappropriate content or spam.",
+  "reportSubmitted": "Informe has been submitted.",
+  "serviceInPreparation": "💝 Service in Preparation",
+  "upcomingServiceDescription": "We will soon introduce useful parenting information and products",
+  "accountInfo": "Account Información",
+  "userID": "Usuario ID",
+  "email": "Correo electrónico",
+  "loginMethod": "Iniciar sesión Method",
+  "noEmail": "No email",
+  "accountDeletion": "Account Deletion",
+  "allDataWillBePermanentlyDeleted": "All data will be permanently deleted",
+  "accountDeletionWarning": "⚠️ The following data will be permanently deleted when you delete your account:",
+  "userAccountInfo": "• Usuario account information",
+  "allRegisteredBabyInfo": "• All registered baby information",
+  "allTimelineRecords": "• All timeline records",
+  "allCommunityPosts": "• All community posts and comments",
+  "allInvitationHistory": "• All invitation history",
+  "thisActionCannotBeUndone": "This action cannot be undone.",
+  "deletingAccount": "Deleting account...",
+  "accountDeletionCompleted": "Account deletion completed. (Forced completion due to long processing time)",
+  "accountDeletionCompletedSuccess": "Account deletion successfully completed. You can sign up again at any time.",
+  "daysUnit": "days",
+  "monthsUnit": "months",
+  "yearsUnit": "years",
+  "confirmButton": "OK",
+  "accountDeletionCompleteTitle": "Account Deletion Completo",
+  "resetBaby": "Restablecer",
+  "notLoggedIn": "Not logged in",
+  "birthDateLabel": "Birth Fecha:",
+  "genderColon": "Género:",
+  "babyInfoResetQuestion": "Do you want to reset {babyName} information from the beginning?",
+  "recordsWillBeReset": "The following records will be reset",
+  "feedingSleepDiaperRecords": "Alimentación, sleep, diaper records",
+  "growthInfoAndPhotos": "Crecimiento information and photos",
+  "allBabyRelatedData": "All baby-related data",
+  "allRecordsWillBeDeleted": "All records of {babyName} will be completely removed",
+  "babyResetSuccessMessage": "{babyName} information has been successfully reset.",
+  "kakaoProvider": "KakaoTalk",
+  "googleProvider": "Google",
+  "appleProvider": "Apple",
+  "emailProvider": "Correo electrónico",
+  "unknownProvider": "Unknown",
+  "accountDeletionPartialErrorMessage": "Some processing encountered issues but logout is completed. Redirecting to login screen."
 }
