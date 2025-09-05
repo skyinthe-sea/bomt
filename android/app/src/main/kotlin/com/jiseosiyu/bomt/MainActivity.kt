@@ -1,4 +1,4 @@
-package com.example.bomt
+package com.jiseosiyu.bomt
 
 import io.flutter.embedding.android.FlutterActivity
 

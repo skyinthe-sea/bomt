@@ -15,14 +15,14 @@ PODS:
     - Flutter
   - device_info_plus (0.0.1):
     - Flutter
-  - FBAEMKit (18.0.0):
-    - FBSDKCoreKit_Basics (= 18.0.0)
-  - FBSDKCoreKit (18.0.0):
-    - FBAEMKit (= 18.0.0)
-    - FBSDKCoreKit_Basics (= 18.0.0)
-  - FBSDKCoreKit_Basics (18.0.0)
-  - FBSDKLoginKit (18.0.0):
-    - FBSDKCoreKit (= 18.0.0)
+  - FBAEMKit (18.0.1):
+    - FBSDKCoreKit_Basics (= 18.0.1)
+  - FBSDKCoreKit (18.0.1):
+    - FBAEMKit (= 18.0.1)
+    - FBSDKCoreKit_Basics (= 18.0.1)
+  - FBSDKCoreKit_Basics (18.0.1)
+  - FBSDKLoginKit (18.0.1):
+    - FBSDKCoreKit (= 18.0.1)
   - Flutter (1.0.0)
   - flutter_facebook_auth (7.1.2):
     - FBSDKLoginKit (~> 18.0.0)
@@ -158,10 +158,10 @@ SPEC CHECKSUMS:
   AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
   connectivity_plus: 2a701ffec2c0ae28a48cf7540e279787e77c447d
   device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
-  FBAEMKit: e34530df538b8eb8aeb53c35867715ba6c63ef0c
-  FBSDKCoreKit: d3f479a69127acebb1c6aad91c1a33907bcf6c2f
-  FBSDKCoreKit_Basics: 017b6dc2a1862024815a8229e75661e627ac1e29
-  FBSDKLoginKit: 5875762d1fe09ddcb05d03365d4f5dc34413843d
+  FBAEMKit: b2ed182002dbcb65d5a60059c9693d322186cd00
+  FBSDKCoreKit: 7f96852f2539bdb88ba8d47e5ab4ae70a6f8d691
+  FBSDKCoreKit_Basics: 22d4c1a509ded4e45116f3bb167a14907550f62e
+  FBSDKLoginKit: f48c06446995cd209332831f692cea28b26e51da
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_facebook_auth: fa503a7103e482577bf50694ceefe6b61a78ef1a
   flutter_local_notifications: df98d66e515e1ca797af436137b4459b160ad8c9
