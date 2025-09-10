@@ -6851,6 +6851,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Some processing encountered issues but logout is completed.\n\nRedirecting to login screen.'**
   String get accountDeletionPartialErrorMessage;
+
+  /// No description provided for @blockUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Block User'**
+  String get blockUser;
+
+  /// No description provided for @blockUserTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Block User'**
+  String get blockUserTitle;
+
+  /// No description provided for @blockUserConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to block this user?'**
+  String get blockUserConfirm;
+
+  /// No description provided for @blockUserDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'• You won\'t see posts and comments from blocked users\n• You can\'t send direct messages to each other\n• You can unblock at any time'**
+  String get blockUserDescription;
+
+  /// No description provided for @blockReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Block Reason (Optional)'**
+  String get blockReason;
+
+  /// No description provided for @blockReasonHarassment.
+  ///
+  /// In en, this message translates to:
+  /// **'Harassment/Threats'**
+  String get blockReasonHarassment;
+
+  /// No description provided for @blockReasonSpam.
+  ///
+  /// In en, this message translates to:
+  /// **'Spam/Advertisement'**
+  String get blockReasonSpam;
+
+  /// No description provided for @blockReasonInappropriate.
+  ///
+  /// In en, this message translates to:
+  /// **'Inappropriate Content'**
+  String get blockReasonInappropriate;
+
+  /// No description provided for @blockReasonHateSpeech.
+  ///
+  /// In en, this message translates to:
+  /// **'Hate Speech'**
+  String get blockReasonHateSpeech;
+
+  /// No description provided for @blockReasonViolence.
+  ///
+  /// In en, this message translates to:
+  /// **'Violent Content'**
+  String get blockReasonViolence;
+
+  /// No description provided for @blockReasonPersonalInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information Exposure'**
+  String get blockReasonPersonalInfo;
+
+  /// No description provided for @blockReasonSexualContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sexual Content'**
+  String get blockReasonSexualContent;
+
+  /// No description provided for @blockReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get blockReasonOther;
+
+  /// No description provided for @blockAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get blockAction;
+
+  /// No description provided for @unblockAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get unblockAction;
+
+  /// No description provided for @blockSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'User has been blocked'**
+  String get blockSuccess;
+
+  /// No description provided for @blockFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to block user'**
+  String get blockFailed;
+
+  /// No description provided for @unblockSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'User has been unblocked'**
+  String get unblockSuccess;
+
+  /// No description provided for @unblockFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to unblock user'**
+  String get unblockFailed;
+
+  /// No description provided for @blockedUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked Users'**
+  String get blockedUsers;
+
+  /// No description provided for @blockedUsersManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked Users Management'**
+  String get blockedUsersManagement;
+
+  /// No description provided for @noBlockedUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'No blocked users'**
+  String get noBlockedUsers;
+
+  /// No description provided for @blockedUsersDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts and comments from blocked users will not be displayed'**
+  String get blockedUsersDescription;
+
+  /// No description provided for @unblockConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to unblock this user?'**
+  String get unblockConfirm;
+
+  /// No description provided for @blockedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked on: {date}'**
+  String blockedOn(Object date);
+
+  /// No description provided for @blockReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Block reason: {reason}'**
+  String blockReasonLabel(Object reason);
+
+  /// No description provided for @loadingBlockedUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading blocked users...'**
+  String get loadingBlockedUsers;
+
+  /// No description provided for @failedToLoadBlockedUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load blocked users'**
+  String get failedToLoadBlockedUsers;
+
+  /// No description provided for @safetyAndPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Safety & Privacy'**
+  String get safetyAndPrivacy;
+
+  /// No description provided for @contentReporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Content Reporting'**
+  String get contentReporting;
+
+  /// No description provided for @reportContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Content'**
+  String get reportContent;
 }
 
 class _AppLocalizationsDelegate

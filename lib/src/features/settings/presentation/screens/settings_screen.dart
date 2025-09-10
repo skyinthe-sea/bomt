@@ -15,6 +15,7 @@ import 'language_selection_screen.dart';
 import '../../../../services/auth/supabase_auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart' hide User;
+import '../../../../presentation/safety/screens/blocked_users_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   final LocalizationProvider localizationProvider;
@@ -62,6 +63,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 16),
           ],
           _buildLanguageSection(context, l10n),
+          const SizedBox(height: 16),
+          _buildSafetySection(context, l10n),
           const SizedBox(height: 16),
           _buildLogoutSection(context, l10n),
           const SizedBox(height: 16),
@@ -509,6 +512,52 @@ class _SettingsScreenState extends State<SettingsScreen> {
             }
           }
         },
+      ),
+    );
+  }
+
+  /// 🛡️ 안전 및 개인정보 섹션 (App Store Guideline 1.2 준수)
+  Widget _buildSafetySection(BuildContext context, AppLocalizations l10n) {
+    final currentUser = Supabase.instance.client.auth.currentUser;
+    
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        children: [
+          ListTile(
+            leading: const Icon(Icons.security, color: Colors.green),
+            title: Text(l10n.safetyAndPrivacy),
+            subtitle: Text(l10n.blockedUsersDescription),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              if (currentUser != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BlockedUsersScreen(),
+                  ),
+                );
+              }
+            },
+          ),
+          const Divider(height: 1),
+          ListTile(
+            leading: const Icon(Icons.block, color: Colors.red),
+            title: const Text('차단된 사용자'),
+            subtitle: const Text('차단한 사용자 목록을 관리하세요'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              if (currentUser != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BlockedUsersScreen(),
+                  ),
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }

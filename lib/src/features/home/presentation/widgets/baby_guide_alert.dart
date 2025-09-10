@@ -152,7 +152,7 @@ class BabyGuideAlert extends StatelessWidget {
                           l10n.feedingGuide,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue.shade700,
+                            color: Colors.blue.shade800,
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -200,7 +200,7 @@ class BabyGuideAlert extends StatelessWidget {
                           l10n.additionalTips,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Colors.green.shade700,
+                            color: Colors.green.shade800,
                           ),
                         ),
                         const SizedBox(height: 12),

@@ -21,6 +21,9 @@ import '../../../../services/locale/device_locale_service.dart';
 import '../../../../presentation/providers/localization_provider.dart';
 import '../../../../presentation/providers/theme_provider.dart';
 import '../../../../services/community/user_profile_service.dart';
+import '../../../../presentation/providers/safety_provider.dart';
+import '../../../../services/safety/user_agreement_service.dart';
+import '../../../../presentation/safety/widgets/eula_agreement_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -537,10 +540,9 @@ class _LoginScreenState extends State<LoginScreen> {
       
       debugPrint('✅ [LOGIN] Auto login settings and session saved securely');
       
-      // 로그인 성공 시 메인 화면으로 이동
+      // 🛡️ EULA 동의 체크 (App Store Guideline 1.2 준수)
       if (mounted) {
-        // 🔄 안전한 Navigator 스택 정리
-        _safeNavigateToHome();
+        await _checkAndShowEulaAgreement();
       }
     } catch (e) {
       debugPrint('❌ [LOGIN] Failed to save login session: $e');
@@ -665,7 +667,10 @@ class _LoginScreenState extends State<LoginScreen> {
       final response = await _supabaseAuth.verifySignUpOTP(email, otpCode, password);
       
       if (response.user != null && response.session != null) {
-        Navigator.pop(context); // Close OTP dialog
+        // OTP 다이얼로그 닫기
+        if (mounted) {
+          Navigator.pop(context);
+        }
         
         debugPrint('🎉 [OTP_VERIFY] OTP verification successful!');
         
@@ -689,13 +694,20 @@ class _LoginScreenState extends State<LoginScreen> {
           debugPrint('⚠️ [OTP_VERIFY] Auto login settings error: $settingsError');
         }
         
-        // 홈으로 이동
-        await Future.delayed(const Duration(milliseconds: 500));
+        // EULA 동의 체크 후 홈으로 이동
         if (mounted) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            '/home',
-            (route) => false,
-          );
+          // 잠시 대기 후 EULA 체크 (UI 안정성을 위해)
+          await Future.delayed(const Duration(milliseconds: 300));
+          
+          try {
+            await _checkAndShowEulaAgreement();
+          } catch (eulaError) {
+            debugPrint('❌ [OTP_VERIFY] EULA check failed: $eulaError');
+            // EULA 실패 시에도 홈으로 이동 (fallback)
+            if (mounted) {
+              _safeNavigateToHome();
+            }
+          }
         }
       } else {
         _showError(AppLocalizations.of(context)!.authenticationFailed);
@@ -1536,67 +1548,30 @@ class _LoginScreenState extends State<LoginScreen> {
                             textColor: Colors.white,
                           ),
                     
-                          const SizedBox(height: 20),
                           
-                          // 🎨 Simple Divider
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 1,
-                                  color: isDarkMode 
-                                      ? Colors.white.withOpacity(0.1)
-                                      : const Color(0xFFE5E7EB),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
-                                child: Text(
-                                  '또는',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: isDarkMode 
-                                        ? Colors.white.withOpacity(0.5)
-                                        : const Color(0xFF9CA3AF),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 1,
-                                  color: isDarkMode 
-                                      ? Colors.white.withOpacity(0.1)
-                                      : const Color(0xFFE5E7EB),
-                                ),
-                              ),
-                            ],
-                          ),
-                          
-                          const SizedBox(height: 20),
-                          
-                          // 🎨 Kakao Login Button
-                          _buildModernAuthButton(
-                            onPressed: _handleKakaoLogin,
-                            isLoading: _isKakaoLoading,
-                            backgroundColor: const Color(0xFFFFE812),
-                            icon: Icons.chat_bubble_rounded,
-                            text: '카카오로 계속하기',
-                            textColor: const Color(0xFF1F2937),
-                            iconColor: const Color(0xFF1F2937),
-                          ),
+                          // 🎨 Kakao Login Button - DISABLED FOR APP STORE
+                          // _buildModernAuthButton(
+                          //   onPressed: _handleKakaoLogin,
+                          //   isLoading: _isKakaoLoading,
+                          //   backgroundColor: const Color(0xFFFFE812),
+                          //   icon: Icons.chat_bubble_rounded,
+                          //   text: '카카오로 계속하기',
+                          //   textColor: const Color(0xFF1F2937),
+                          //   iconColor: const Color(0xFF1F2937),
+                          // ),
                     
-                          const SizedBox(height: 12),
+                          // const SizedBox(height: 12),
                     
-                          // 🎨 Google Login Button with Custom Google Icon (카카오 아래로 이동)
-                          _buildGoogleAuthButton(
-                            onPressed: _handleGoogleLogin,
-                            isLoading: _isGoogleLoading,
-                          ),
+                          // 🎨 Google Login Button - DISABLED FOR APP STORE  
+                          // _buildGoogleAuthButton(
+                          //   onPressed: _handleGoogleLogin,
+                          //   isLoading: _isGoogleLoading,
+                          // ),
                         ],
                       ),
                     ),
                     
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
                     
                     // 🎨 Simple Auto Login Toggle
                     Container(
@@ -1685,20 +1660,21 @@ class _LoginScreenState extends State<LoginScreen> {
   }) {
     return SizedBox(
       width: double.infinity,
-      height: 48,
+      height: 56, // 더 큰 버튼
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
           elevation: 0,
+          shadowColor: backgroundColor.withOpacity(0.3),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16), // 더 둥근 모서리
             side: borderColor != null 
                 ? BorderSide(color: borderColor, width: 1)
                 : BorderSide.none,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         ),
         child: isLoading
             ? SizedBox(
@@ -1714,16 +1690,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Icon(
                     icon,
-                    size: 24,
+                    size: 28, // 더 큰 아이콘
                     color: iconColor ?? textColor,
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 16),
                   Text(
                     text,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18, // 더 큰 텍스트
                       fontWeight: FontWeight.w600,
                       color: textColor,
+                      letterSpacing: 0.5,
                     ),
                   ),
                 ],
@@ -1786,60 +1763,47 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  /// 🔄 안전한 홈 화면 이동
+  /// 🔄 안전한 홈 화면 이동 (Navigator assertion error 방지)
   void _safeNavigateToHome() {
     debugPrint('🏠 [LOGIN] Safe navigation to home starting...');
     
+    if (!mounted) return;
+    
     try {
-      // 🔄 단계별 안전한 네비게이션
-      Future.delayed(const Duration(milliseconds: 100), () {
+      // 🚫 여러 번의 pop() 대신 직접 pushNamedAndRemoveUntil 사용
+      // persistent_bottom_nav_bar와의 충돌을 방지하기 위해 단순화
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         
         try {
-          // 🔄 모든 다이얼로그 닫기
-          final navigator = Navigator.maybeOf(context);
-          if (navigator != null) {
-            int popCount = 0;
-            while (navigator.canPop() && popCount < 5) {
-              navigator.pop();
-              popCount++;
-            }
-            debugPrint('🔄 [LOGIN] Closed $popCount dialogs');
+          debugPrint('🔄 [LOGIN] Direct navigation to home...');
+          
+          // 🔐 Provider 정보 가져오기 (현재 context에서 접근 가능한 Provider들)
+          LocalizationProvider? localizationProvider;
+          ThemeProvider? themeProvider;
+          
+          try {
+            localizationProvider = Provider.of<LocalizationProvider>(context, listen: false);
+          } catch (e) {
+            debugPrint('⚠️ [LOGIN] LocalizationProvider not found: $e');
           }
           
-          // 🔄 홈 화면으로 안전한 이동 (Provider 정보 포함)
-          Future.delayed(const Duration(milliseconds: 200), () {
-            if (mounted) {
-              final rootNavigator = Navigator.of(context, rootNavigator: true);
-              
-              // 🔐 Provider 정보 가져오기 (현재 context에서 접근 가능한 Provider들)
-              LocalizationProvider? localizationProvider;
-              ThemeProvider? themeProvider;
-              
-              try {
-                localizationProvider = Provider.of<LocalizationProvider>(context, listen: false);
-              } catch (e) {
-                debugPrint('⚠️ [LOGIN] LocalizationProvider not found: $e');
-              }
-              
-              try {
-                themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-              } catch (e) {
-                debugPrint('⚠️ [LOGIN] ThemeProvider not found: $e');
-              }
-              
-              // 🏠 Provider 정보와 함께 홈으로 이동
-              rootNavigator.pushNamedAndRemoveUntil(
-                '/home',
-                (route) => false,
-                arguments: {
-                  'localizationProvider': localizationProvider,
-                  'themeProvider': themeProvider,
-                },
-              );
-              debugPrint('✅ [LOGIN] Successfully navigated to home with providers');
-            }
-          });
+          try {
+            themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+          } catch (e) {
+            debugPrint('⚠️ [LOGIN] ThemeProvider not found: $e');
+          }
+          
+          // 🏠 Provider 정보와 함께 홈으로 이동
+          Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+            '/home',
+            (route) => false,
+            arguments: {
+              'localizationProvider': localizationProvider,
+              'themeProvider': themeProvider,
+            },
+          );
+          debugPrint('✅ [LOGIN] Successfully navigated to home with providers');
           
         } catch (navError) {
           debugPrint('❌ [LOGIN] Navigation error: $navError');
@@ -1855,6 +1819,68 @@ class _LoginScreenState extends State<LoginScreen> {
       // 최후의 수단: 직접 홈으로 이동
       if (mounted) {
         Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil('/home', (route) => false);
+      }
+    }
+  }
+
+  /// 🛡️ EULA 동의 상태 체크 및 다이얼로그 표시 (App Store Guideline 1.2 준수)
+  Future<void> _checkAndShowEulaAgreement() async {
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) {
+        debugPrint('❌ [EULA] User not found');
+        return;
+      }
+
+      debugPrint('🛡️ [EULA] Checking agreement status for user: ${user.id}');
+      
+      final UserAgreementService agreementService = UserAgreementService();
+      
+      // 사용자의 동의 상태 확인
+      final hasConsent = await agreementService.hasRequiredConsents(user.id);
+      
+      if (!hasConsent) {
+        debugPrint('🛡️ [EULA] User needs to agree to terms');
+        
+        if (mounted) {
+          // EULA 동의 다이얼로그 표시
+          final agreed = await showEulaAgreementDialog(
+            context,
+            userId: user.id,
+            onAgreementCompleted: () {
+              debugPrint('✅ [EULA] User agreement completed');
+            },
+            canDismiss: false, // 필수 동의이므로 닫기 불가
+          );
+          
+          if (agreed != true) {
+            debugPrint('❌ [EULA] User declined agreement');
+            // 동의하지 않으면 로그아웃 처리
+            await Supabase.instance.client.auth.signOut();
+            if (mounted) {
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamedAndRemoveUntil('/login', (route) => false);
+            }
+            return;
+          } else {
+            debugPrint('✅ [EULA] User agreed to terms');
+          }
+        }
+      } else {
+        debugPrint('✅ [EULA] User already has valid consent');
+      }
+      
+      // EULA 확인 완료 후 홈으로 이동
+      if (mounted) {
+        debugPrint('🏠 [EULA] Navigating to home after EULA check');
+        _safeNavigateToHome();
+      }
+      
+    } catch (e) {
+      debugPrint('❌ [EULA] Error checking agreement: $e');
+      // 에러가 발생해도 홈으로 이동 (fallback)
+      if (mounted) {
+        _safeNavigateToHome();
       }
     }
   }
@@ -2596,6 +2622,7 @@ class _OtpPasswordResetDialogState extends State<OtpPasswordResetDialog> {
       ),
     );
   }
+
 
 }
 

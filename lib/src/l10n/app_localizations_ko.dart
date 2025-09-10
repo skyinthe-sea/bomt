@@ -3676,4 +3676,102 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get accountDeletionPartialErrorMessage =>
       '일부 처리에서 문제가 발생했지만\n로그아웃은 완료되었습니다.\n\n로그인 화면으로 이동합니다.';
+
+  @override
+  String get blockUser => '사용자 차단';
+
+  @override
+  String get blockUserTitle => '사용자 차단';
+
+  @override
+  String get blockUserConfirm => '이 사용자를 차단하시겠습니까?';
+
+  @override
+  String get blockUserDescription =>
+      '• 차단된 사용자의 게시글과 댓글이 보이지 않습니다\n• 서로 직접 메시지를 주고받을 수 없습니다\n• 언제든지 차단을 해제할 수 있습니다';
+
+  @override
+  String get blockReason => '차단 이유 (선택사항)';
+
+  @override
+  String get blockReasonHarassment => '괴롭힘/협박';
+
+  @override
+  String get blockReasonSpam => '스팸/광고';
+
+  @override
+  String get blockReasonInappropriate => '부적절한 내용';
+
+  @override
+  String get blockReasonHateSpeech => '혐오 발언';
+
+  @override
+  String get blockReasonViolence => '폭력적 내용';
+
+  @override
+  String get blockReasonPersonalInfo => '개인정보 노출';
+
+  @override
+  String get blockReasonSexualContent => '성적 내용';
+
+  @override
+  String get blockReasonOther => '기타';
+
+  @override
+  String get blockAction => '차단하기';
+
+  @override
+  String get unblockAction => '차단 해제';
+
+  @override
+  String get blockSuccess => '사용자가 차단되었습니다';
+
+  @override
+  String get blockFailed => '사용자 차단에 실패했습니다';
+
+  @override
+  String get unblockSuccess => '차단이 해제되었습니다';
+
+  @override
+  String get unblockFailed => '차단 해제에 실패했습니다';
+
+  @override
+  String get blockedUsers => '차단된 사용자';
+
+  @override
+  String get blockedUsersManagement => '차단된 사용자 관리';
+
+  @override
+  String get noBlockedUsers => '차단된 사용자가 없습니다';
+
+  @override
+  String get blockedUsersDescription => '차단된 사용자들의 게시글과 댓글은 표시되지 않습니다';
+
+  @override
+  String get unblockConfirm => '이 사용자의 차단을 해제하시겠습니까?';
+
+  @override
+  String blockedOn(Object date) {
+    return '차단일: $date';
+  }
+
+  @override
+  String blockReasonLabel(Object reason) {
+    return '차단 이유: $reason';
+  }
+
+  @override
+  String get loadingBlockedUsers => '차단된 사용자 목록을 불러오는 중...';
+
+  @override
+  String get failedToLoadBlockedUsers => '차단된 사용자 목록을 불러오는데 실패했습니다';
+
+  @override
+  String get safetyAndPrivacy => '안전 및 개인정보';
+
+  @override
+  String get contentReporting => '콘텐츠 신고';
+
+  @override
+  String get reportContent => '콘텐츠 신고';
 }

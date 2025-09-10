@@ -70,6 +70,23 @@ class CommunityService {
     try {
       print('DEBUG: getPostsOptimized 호출 - categorySlug: $categorySlug, orderBy: $orderBy');
       
+      // 🛡️ 차단된 사용자 목록 가져오기
+      List<String> blockedUserIds = [];
+      if (currentUserId != null) {
+        final blockedUsers = await _supabase
+            .from('user_blocks')
+            .select('blocked_user_id')
+            .eq('blocker_user_id', currentUserId);
+        
+        blockedUserIds = (blockedUsers as List)
+            .map((block) => block['blocked_user_id'] as String)
+            .toList();
+        
+        if (blockedUserIds.isNotEmpty) {
+          print('DEBUG: 차단된 사용자 ${blockedUserIds.length}명 필터링');
+        }
+      }
+      
       // 카테고리 ID 먼저 조회 (캐시 활용)
       String? categoryId;
       if (categorySlug != null && categorySlug != 'all') {
@@ -96,6 +113,11 @@ class CommunityService {
           .from('community_posts')
           .select(selectColumns)
           .eq('is_deleted', false);
+      
+      // 🛡️ 차단된 사용자의 게시글 필터링
+      if (blockedUserIds.isNotEmpty) {
+        query = query.not('author_id', 'in', '(${blockedUserIds.join(',')})');
+      }
       
       // 카테고리 필터링
       if (categoryId != null) {
@@ -207,10 +229,32 @@ class CommunityService {
     try {
       print('DEBUG: getPosts 호출 - categorySlug: $categorySlug, orderBy: $orderBy');
       
+      // 🛡️ 차단된 사용자 목록 가져오기
+      List<String> blockedUserIds = [];
+      if (currentUserId != null) {
+        final blockedUsers = await _supabase
+            .from('user_blocks')
+            .select('blocked_user_id')
+            .eq('blocker_user_id', currentUserId);
+        
+        blockedUserIds = (blockedUsers as List)
+            .map((block) => block['blocked_user_id'] as String)
+            .toList();
+        
+        if (blockedUserIds.isNotEmpty) {
+          print('DEBUG: 차단된 사용자 ${blockedUserIds.length}명 필터링');
+        }
+      }
+      
       var query = _supabase
           .from('community_posts')
           .select('*')
           .eq('is_deleted', false);
+      
+      // 🛡️ 차단된 사용자의 게시글 필터링
+      if (blockedUserIds.isNotEmpty) {
+        query = query.not('author_id', 'in', '(${blockedUserIds.join(',')})');
+      }
 
       // 카테고리 필터링
       if (categorySlug != null && categorySlug != 'all' && categorySlug != 'popular') {
@@ -1148,11 +1192,32 @@ class CommunityService {
     String? currentUserId,
   }) async {
     try {
+      // 🛡️ 차단된 사용자 목록 가져오기
+      List<String> blockedUserIds = [];
+      if (currentUserId != null) {
+        final blockedUsers = await _supabase
+            .from('user_blocks')
+            .select('blocked_user_id')
+            .eq('blocker_user_id', currentUserId);
+        
+        blockedUserIds = (blockedUsers as List)
+            .map((block) => block['blocked_user_id'] as String)
+            .toList();
+        
+        if (blockedUserIds.isNotEmpty) {
+          print('DEBUG: 검색에서 차단된 사용자 ${blockedUserIds.length}명 필터링');
+        }
+      }
       var supabaseQuery = _supabase
           .from('community_posts')
           .select('*')
           .eq('is_deleted', false)
           .or('title.ilike.%$query%,content.ilike.%$query%');
+      
+      // 🛡️ 차단된 사용자의 게시글 필터링
+      if (blockedUserIds.isNotEmpty) {
+        supabaseQuery = supabaseQuery.not('author_id', 'in', '(${blockedUserIds.join(',')})');
+      }
 
       // 카테고리 필터링 준비
       String? categoryId;
@@ -1389,6 +1454,23 @@ class CommunityService {
       final today = DateTime.now();
       final todayString = '${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
       
+      // 🛡️ 차단된 사용자 목록 가져오기
+      List<String> blockedUserIds = [];
+      if (currentUserId != null) {
+        final blockedUsers = await _supabase
+            .from('user_blocks')
+            .select('blocked_user_id')
+            .eq('blocker_user_id', currentUserId);
+        
+        blockedUserIds = (blockedUsers as List)
+            .map((block) => block['blocked_user_id'] as String)
+            .toList();
+        
+        if (blockedUserIds.isNotEmpty) {
+          print('DEBUG: 인기글에서 차단된 사용자 ${blockedUserIds.length}명 필터링');
+        }
+      }
+      
       // 캐시 확인 (30분간 유효, 같은 날짜)
       if (_dailyPopularCache != null &&
           _dailyPopularCacheTime != null &&
@@ -1417,13 +1499,20 @@ class CommunityService {
       final startOfDay = DateTime(today.year, today.month, today.day);
       final endOfDay = startOfDay.add(const Duration(days: 1));
       
-      final response = await _supabase
+      var popularQuery = _supabase
           .from('community_posts')
           .select('*')
           .eq('is_deleted', false)
           .gte('created_at', startOfDay.toIso8601String())
           .lt('created_at', endOfDay.toIso8601String())
-          .gte('like_count', 1) // 최소 1개 이상의 좋아요
+          .gte('like_count', 1); // 최소 1개 이상의 좋아요
+      
+      // 🛡️ 차단된 사용자의 게시글 필터링
+      if (blockedUserIds.isNotEmpty) {
+        popularQuery = popularQuery.not('author_id', 'in', '(${blockedUserIds.join(',')})');
+      }
+      
+      final response = await popularQuery
           .order('like_count', ascending: false)
           .order('created_at', ascending: false) // 2차 정렬: 최신순
           .limit(50); // 최대 50개만 가져오기

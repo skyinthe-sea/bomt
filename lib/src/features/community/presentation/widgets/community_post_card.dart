@@ -2,6 +2,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/community_post.dart';
+import '../../../../domain/models/content_report.dart';
+import '../../../../presentation/safety/widgets/content_report_dialog.dart';
+import '../../../../presentation/safety/widgets/user_block_dialog.dart';
 
 class CommunityPostCard extends StatefulWidget {
   final CommunityPost post;
@@ -601,6 +604,11 @@ class _CommunityPostCardState extends State<CommunityPostCard> {
                             color: theme.colorScheme.secondary,
                           ),
                         ),
+                      
+                      // 🛡️ 더보기 메뉴 (차단/신고 기능)
+                      if (widget.currentUserId != null && 
+                          widget.currentUserId != widget.post.authorId)
+                        _buildMoreOptionsMenu(context),
                     ],
                   ),
                   
@@ -745,6 +753,119 @@ class _CommunityPostCardState extends State<CommunityPostCard> {
           ),
         ),
       ),
+    );
+  }
+
+  /// 🛡️ 더보기 옵션 메뉴 (차단/신고 기능)
+  Widget _buildMoreOptionsMenu(BuildContext context) {
+    final theme = Theme.of(context);
+    
+    return PopupMenuButton<String>(
+      icon: Icon(
+        Icons.more_vert,
+        size: 16,
+        color: theme.colorScheme.onSurface.withOpacity(0.6),
+      ),
+      padding: EdgeInsets.zero,
+      iconSize: 16,
+      onSelected: (value) => _handleMenuAction(context, value),
+      itemBuilder: (context) => [
+        PopupMenuItem<String>(
+          value: 'block_user',
+          child: Row(
+            children: [
+              Icon(
+                Icons.block,
+                size: 16,
+                color: theme.colorScheme.error,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                AppLocalizations.of(context)!.blockUser,
+                style: TextStyle(
+                  color: theme.colorScheme.error,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: 'report_content',
+          child: Row(
+            children: [
+              Icon(
+                Icons.report_outlined,
+                size: 16,
+                color: theme.colorScheme.primary,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                '콘텐츠 신고',
+                style: TextStyle(
+                  color: theme.colorScheme.primary,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// 🛡️ 메뉴 액션 처리
+  void _handleMenuAction(BuildContext context, String action) {
+    switch (action) {
+      case 'block_user':
+        _showUserBlockDialog(context);
+        break;
+      case 'report_content':
+        _showContentReportDialog(context);
+        break;
+    }
+  }
+
+  /// 🛡️ 사용자 차단 다이얼로그 표시
+  void _showUserBlockDialog(BuildContext context) {
+    if (widget.currentUserId == null || widget.post.author == null) return;
+    
+    showUserBlockDialog(
+      context,
+      currentUserId: widget.currentUserId!,
+      targetUser: widget.post.author!,
+      onBlocked: () {
+        // 차단 완료 후 처리 (필요 시 상위 위젯에서 처리)
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${widget.post.author!.nickname}님을 차단했습니다'),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
+        );
+      },
+    );
+  }
+
+  /// 🛡️ 콘텐츠 신고 다이얼로그 표시
+  void _showContentReportDialog(BuildContext context) {
+    if (widget.currentUserId == null) return;
+    
+    showContentReportDialog(
+      context,
+      reporterUserId: widget.currentUserId!,
+      contentType: ContentType.post,
+      contentId: widget.post.id,
+      reportedUserId: widget.post.authorId,
+      reportedUser: widget.post.author,
+      onReported: () {
+        // 신고 완료 후 처리
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('신고가 접수되었습니다. 검토 후 조치하겠습니다.'),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
+        );
+      },
     );
   }
 }

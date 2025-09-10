@@ -28,6 +28,14 @@ enum DataSyncEventType {
   communityCommentUpdated,
   /// 커뮤니티 댓글 삭제
   communityCommentDeleted,
+  /// 사용자 차단
+  userBlocked,
+  /// 사용자 차단 해제
+  userUnblocked,
+  /// 콘텐츠 신고
+  contentReported,
+  /// 콘텐츠 신고 처리
+  contentReportResolved,
   /// 모든 데이터 새로고침 필요
   allDataRefresh,
 }

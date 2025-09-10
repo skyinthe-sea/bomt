@@ -3750,4 +3750,103 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get accountDeletionPartialErrorMessage =>
       'Some processing encountered issues but logout is completed. Redirecting to login screen.';
+
+  @override
+  String get blockUser => 'Block User';
+
+  @override
+  String get blockUserTitle => 'Block User';
+
+  @override
+  String get blockUserConfirm => 'Do you want to block this user?';
+
+  @override
+  String get blockUserDescription =>
+      '• You won\'t see posts and comments from blocked users\n• You can\'t send direct messages to each other\n• You can unblock at any time';
+
+  @override
+  String get blockReason => 'Block Reason (Optional)';
+
+  @override
+  String get blockReasonHarassment => 'Harassment/Threats';
+
+  @override
+  String get blockReasonSpam => 'Spam/Advertisement';
+
+  @override
+  String get blockReasonInappropriate => 'Inappropriate Content';
+
+  @override
+  String get blockReasonHateSpeech => 'Hate Speech';
+
+  @override
+  String get blockReasonViolence => 'Violent Content';
+
+  @override
+  String get blockReasonPersonalInfo => 'Personal Information Exposure';
+
+  @override
+  String get blockReasonSexualContent => 'Sexual Content';
+
+  @override
+  String get blockReasonOther => 'Other';
+
+  @override
+  String get blockAction => 'Block';
+
+  @override
+  String get unblockAction => 'Unblock';
+
+  @override
+  String get blockSuccess => 'User has been blocked';
+
+  @override
+  String get blockFailed => 'Failed to block user';
+
+  @override
+  String get unblockSuccess => 'User has been unblocked';
+
+  @override
+  String get unblockFailed => 'Failed to unblock user';
+
+  @override
+  String get blockedUsers => 'Blocked Users';
+
+  @override
+  String get blockedUsersManagement => 'Blocked Users Management';
+
+  @override
+  String get noBlockedUsers => 'No blocked users';
+
+  @override
+  String get blockedUsersDescription =>
+      'Posts and comments from blocked users will not be displayed';
+
+  @override
+  String get unblockConfirm => 'Do you want to unblock this user?';
+
+  @override
+  String blockedOn(Object date) {
+    return 'Blocked on: $date';
+  }
+
+  @override
+  String blockReasonLabel(Object reason) {
+    return 'Block reason: $reason';
+  }
+
+  @override
+  String get loadingBlockedUsers => 'Loading blocked users...';
+
+  @override
+  String get failedToLoadBlockedUsers => 'Failed to load blocked users';
+
+  @override
+  String get safetyAndPrivacy => 'Safety & Privacy';
+
+  @override
+  String get contentReporting => 'Content Reporting';
+
+  @override
+  String get reportContent => 'Report Content';
 }
