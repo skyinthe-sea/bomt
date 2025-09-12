@@ -3264,5 +3264,26 @@
   
   "safetyAndPrivacy": "Safety & Privacy",
   "contentReporting": "Content Reporting",
-  "reportContent": "Report Content"
+  "reportContent": "Report Content",
+  
+  "reportDialogTitle": "Report {contentType}",
+  "@reportDialogTitle": {
+    "placeholders": {
+      "contentType": {"type": "String"}
+    }
+  },
+  "reportedUserContent": "{nickname}'s {contentType}",
+  "@reportedUserContent": {
+    "placeholders": {
+      "nickname": {"type": "String"},
+      "contentType": {"type": "String"}
+    }
+  },
+  "selectReportReason": "Please select a reason for reporting",
+  "detailedDescriptionOptional": "Detailed description (optional)",
+  "reportDescriptionHint": "Please provide additional details about the reason for reporting...",
+  "reportNotice": "Reports are processed anonymously and will be reviewed by our team for appropriate action. False reports may result in penalties.",
+  "cancel": "Cancel",
+  "reportSubmit": "Report",
+  "reportSuccessMessage": "Your report has been submitted. We will review it and take appropriate action."
 }

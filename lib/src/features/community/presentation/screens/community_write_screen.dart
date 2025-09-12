@@ -6,6 +6,7 @@ import 'package:bomt/src/l10n/app_localizations.dart';
 import '../../../../domain/models/community_category.dart';
 import '../../../../presentation/providers/community_provider.dart';
 import '../../../../services/image/image_service.dart';
+import '../../../../services/community/content_filter_service.dart';
 import '../widgets/community_write_app_bar.dart';
 import '../widgets/community_write_category_dropdown.dart';
 import '../widgets/community_image_picker.dart';
@@ -171,6 +172,17 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
       if (currentUser == null) {
         final l10n = AppLocalizations.of(context)!;
         throw Exception(l10n.userNotFoundError);
+      }
+
+      // 🛡️ 콘텐츠 필터링 검사 (App Store Guideline 1.2)
+      final content = _contentController.text.trim();
+      final canPublish = await ContentFilterService.canPublishContent(
+        content: content,
+        userId: provider.currentUserId!,
+      );
+      
+      if (!canPublish) {
+        throw Exception('죄송합니다. 게시글에 부적절한 내용이 포함되어 있어 게시할 수 없습니다. 커뮤니티 가이드라인을 확인해주세요.');
       }
 
       // 이미지 업로드 (원본만)

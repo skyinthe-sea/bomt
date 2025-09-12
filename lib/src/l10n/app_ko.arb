@@ -1883,5 +1883,26 @@
   
   "safetyAndPrivacy": "안전 및 개인정보",
   "contentReporting": "콘텐츠 신고",
-  "reportContent": "콘텐츠 신고"
+  "reportContent": "콘텐츠 신고",
+  
+  "reportDialogTitle": "{contentType} 신고",
+  "@reportDialogTitle": {
+    "placeholders": {
+      "contentType": {"type": "String"}
+    }
+  },
+  "reportedUserContent": "{nickname}님의 {contentType}",
+  "@reportedUserContent": {
+    "placeholders": {
+      "nickname": {"type": "String"},
+      "contentType": {"type": "String"}
+    }
+  },
+  "selectReportReason": "신고 이유를 선택해주세요",
+  "detailedDescriptionOptional": "상세 설명 (선택사항)",
+  "reportDescriptionHint": "신고 이유에 대한 추가 설명을 입력해주세요...",
+  "reportNotice": "신고는 익명으로 처리되며, 관리팀에서 검토 후 적절한 조치를 취합니다. 허위 신고 시 제재를 받을 수 있습니다.",
+  "cancel": "취소",
+  "reportSubmit": "신고하기",
+  "reportSuccessMessage": "신고가 접수되었습니다. 검토 후 처리하겠습니다."
 }

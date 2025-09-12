@@ -3774,4 +3774,33 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get reportContent => '콘텐츠 신고';
+
+  @override
+  String reportDialogTitle(String contentType) {
+    return '$contentType 신고';
+  }
+
+  @override
+  String reportedUserContent(String nickname, String contentType) {
+    return '$nickname님의 $contentType';
+  }
+
+  @override
+  String get selectReportReason => '신고 이유를 선택해주세요';
+
+  @override
+  String get detailedDescriptionOptional => '상세 설명 (선택사항)';
+
+  @override
+  String get reportDescriptionHint => '신고 이유에 대한 추가 설명을 입력해주세요...';
+
+  @override
+  String get reportNotice =>
+      '신고는 익명으로 처리되며, 관리팀에서 검토 후 적절한 조치를 취합니다. 허위 신고 시 제재를 받을 수 있습니다.';
+
+  @override
+  String get reportSubmit => '신고하기';
+
+  @override
+  String get reportSuccessMessage => '신고가 접수되었습니다. 검토 후 처리하겠습니다.';
 }

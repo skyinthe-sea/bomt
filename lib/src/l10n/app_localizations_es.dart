@@ -3868,4 +3868,35 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get reportContent => 'Report Content';
+
+  @override
+  String reportDialogTitle(String contentType) {
+    return 'Report $contentType';
+  }
+
+  @override
+  String reportedUserContent(String nickname, String contentType) {
+    return '$nickname\'s $contentType';
+  }
+
+  @override
+  String get selectReportReason => 'Please select a reason for reporting';
+
+  @override
+  String get detailedDescriptionOptional => 'Detailed description (optional)';
+
+  @override
+  String get reportDescriptionHint =>
+      'Please provide additional details about the reason for reporting...';
+
+  @override
+  String get reportNotice =>
+      'Reports are processed anonymously and will be reviewed by our team for appropriate action. False reports may result in penalties.';
+
+  @override
+  String get reportSubmit => 'Report';
+
+  @override
+  String get reportSuccessMessage =>
+      'Your report has been submitted. We will review it and take appropriate action.';
 }

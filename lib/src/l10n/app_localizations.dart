@@ -7037,6 +7037,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Report Content'**
   String get reportContent;
+
+  /// No description provided for @reportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report {contentType}'**
+  String reportDialogTitle(String contentType);
+
+  /// No description provided for @reportedUserContent.
+  ///
+  /// In en, this message translates to:
+  /// **'{nickname}\'s {contentType}'**
+  String reportedUserContent(String nickname, String contentType);
+
+  /// No description provided for @selectReportReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a reason for reporting'**
+  String get selectReportReason;
+
+  /// No description provided for @detailedDescriptionOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed description (optional)'**
+  String get detailedDescriptionOptional;
+
+  /// No description provided for @reportDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide additional details about the reason for reporting...'**
+  String get reportDescriptionHint;
+
+  /// No description provided for @reportNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports are processed anonymously and will be reviewed by our team for appropriate action. False reports may result in penalties.'**
+  String get reportNotice;
+
+  /// No description provided for @reportSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get reportSubmit;
+
+  /// No description provided for @reportSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your report has been submitted. We will review it and take appropriate action.'**
+  String get reportSuccessMessage;
 }
 
 class _AppLocalizationsDelegate

@@ -801,7 +801,7 @@ class _CommunityPostCardState extends State<CommunityPostCard> {
               ),
               const SizedBox(width: 8),
               Text(
-                '콘텐츠 신고',
+                AppLocalizations.of(context)!.reportContent,
                 style: TextStyle(
                   color: theme.colorScheme.primary,
                   fontSize: 14,

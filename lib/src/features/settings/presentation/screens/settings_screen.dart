@@ -16,6 +16,7 @@ import '../../../../services/auth/supabase_auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart' hide User;
 import '../../../../presentation/safety/screens/blocked_users_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   final LocalizationProvider localizationProvider;
@@ -556,6 +557,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 );
               }
             },
+          ),
+          const Divider(height: 1),
+          ListTile(
+            leading: const Icon(Icons.support_agent, color: Colors.blue),
+            title: Text('개발자에게 연락하기'),
+            subtitle: Text('문의사항이나 신고할 내용이 있으시면 연락해주세요'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () => _contactDeveloper(context),
           ),
         ],
       ),
@@ -1549,6 +1558,114 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  // 🛡️ 개발자 연락처 기능 (App Store Guideline 1.2)
+  void _contactDeveloper(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.support_agent, color: Theme.of(context).primaryColor),
+            const SizedBox(width: 8),
+            const Text('개발자에게 연락하기'),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '문의사항이나 부적절한 콘텐츠 신고는 아래 방법으로 연락해주세요:',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 16),
+            ListTile(
+              leading: Icon(Icons.email, color: Theme.of(context).primaryColor),
+              title: const Text('이메일'),
+              subtitle: const Text('support@babymom.app'),
+              onTap: () => _launchEmail(),
+              contentPadding: EdgeInsets.zero,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '• 앱 내 부적절한 콘텐츠 신고\n'
+              '• 기술적 문제 신고\n'
+              '• 기능 개선 제안\n'
+              '• 계정 관련 문의',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('닫기'),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.of(context).pop();
+              _launchEmail();
+            },
+            icon: const Icon(Icons.email),
+            label: const Text('이메일 보내기'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _launchEmail() async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: 'support@babymom.app',
+      query: 'subject=BabyMom 앱 문의&body=안녕하세요.\n\n문의 내용을 작성해주세요:\n\n',
+    );
+    
+    try {
+      if (await canLaunchUrl(emailUri)) {
+        await launchUrl(emailUri);
+      } else {
+        // 이메일 앱이 없는 경우 클립보드에 복사
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(Icons.info, color: Colors.white),
+                  const SizedBox(width: 8),
+                  const Expanded(
+                    child: Text('이메일 앱을 열 수 없습니다. 이메일 주소: support@babymom.app'),
+                  ),
+                ],
+              ),
+              backgroundColor: Colors.blue,
+              duration: const Duration(seconds: 4),
+              action: SnackBarAction(
+                label: '복사',
+                textColor: Colors.white,
+                onPressed: () {
+                  // TODO: 클립보드 복사 기능 추가
+                },
+              ),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      print('이메일 앱 실행 실패: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('이메일 앱을 실행할 수 없습니다. support@babymom.app으로 직접 연락해주세요.'),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+    }
+  }
+
 }
 
 class _AddBabyDialog extends StatefulWidget {
@@ -1740,6 +1857,7 @@ class _AddBabyDialogState extends State<_AddBabyDialog> {
       }
     }
   }
+
 
   @override
   void dispose() {

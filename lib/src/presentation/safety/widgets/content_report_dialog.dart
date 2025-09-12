@@ -66,7 +66,7 @@ class _ContentReportDialogState extends State<ContentReportDialog> {
         // 신고 완료 스낵바
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('신고가 접수되었습니다. 검토 후 처리하겠습니다.'),
+            content: Text(AppLocalizations.of(context)!.reportSuccessMessage),
             backgroundColor: Theme.of(context).colorScheme.primary,
             duration: const Duration(seconds: 3),
           ),
@@ -106,7 +106,7 @@ class _ContentReportDialogState extends State<ContentReportDialog> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    '${widget.contentType.getDisplayName(l10n.localeName)} 신고',
+                    l10n.reportDialogTitle(widget.contentType.getDisplayName(l10n.localeName)),
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -149,7 +149,7 @@ class _ContentReportDialogState extends State<ContentReportDialog> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        '${widget.reportedUser!.nickname}님의 ${widget.contentType.getDisplayName(l10n.localeName)}',
+                        l10n.reportedUserContent(widget.reportedUser!.nickname, widget.contentType.getDisplayName(l10n.localeName)),
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -163,7 +163,7 @@ class _ContentReportDialogState extends State<ContentReportDialog> {
 
             // 신고 이유 선택
             Text(
-              '신고 이유를 선택해주세요',
+              l10n.selectReportReason,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -196,7 +196,7 @@ class _ContentReportDialogState extends State<ContentReportDialog> {
 
             // 상세 설명 (선택사항)
             Text(
-              '상세 설명 (선택사항)',
+              l10n.detailedDescriptionOptional,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -207,7 +207,7 @@ class _ContentReportDialogState extends State<ContentReportDialog> {
               maxLines: 3,
               maxLength: 500,
               decoration: InputDecoration(
-                hintText: '신고 이유에 대한 추가 설명을 입력해주세요...',
+                hintText: l10n.reportDescriptionHint,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -236,7 +236,7 @@ class _ContentReportDialogState extends State<ContentReportDialog> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      '신고는 익명으로 처리되며, 관리팀에서 검토 후 적절한 조치를 취합니다. 허위 신고 시 제재를 받을 수 있습니다.',
+                      l10n.reportNotice,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.primary,
                       ),
@@ -286,7 +286,7 @@ class _ContentReportDialogState extends State<ContentReportDialog> {
                     onPressed: _isProcessing
                         ? null
                         : () => Navigator.of(context).pop(false),
-                    child: const Text('취소'),
+                    child: Text(l10n.cancel),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -305,7 +305,7 @@ class _ContentReportDialogState extends State<ContentReportDialog> {
                             height: 20,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text('신고하기'),
+                        : Text(l10n.reportSubmit),
                   ),
                 ),
               ],

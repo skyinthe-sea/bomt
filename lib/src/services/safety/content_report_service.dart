@@ -42,11 +42,7 @@ class ContentReportService {
       final response = await _supabase
           .from('content_reports')
           .insert(reportData)
-          .select('''
-            *,
-            reporter:user_profiles!content_reports_reporter_user_id_fkey(*),
-            reported_user:user_profiles!content_reports_reported_user_id_fkey(*)
-          ''')
+          .select()
           .single();
 
       final contentReport = ContentReport.fromJson(response);
@@ -84,11 +80,7 @@ class ContentReportService {
       
       final response = await _supabase
           .from('content_reports')
-          .select('''
-            *,
-            reporter:user_profiles!content_reports_reporter_user_id_fkey(*),
-            reported_user:user_profiles!content_reports_reported_user_id_fkey(*)
-          ''')
+          .select()
           .eq('reporter_user_id', userId)
           .order('created_at', ascending: false)
           .range(offset, offset + limit - 1);
@@ -115,11 +107,7 @@ class ContentReportService {
       
       final response = await _supabase
           .from('content_reports')
-          .select('''
-            *,
-            reporter:user_profiles!content_reports_reporter_user_id_fkey(*),
-            reported_user:user_profiles!content_reports_reported_user_id_fkey(*)
-          ''')
+          .select()
           .eq('content_type', contentType.value)
           .eq('content_id', contentId)
           .order('created_at', ascending: false);
@@ -146,11 +134,7 @@ class ContentReportService {
       
       final response = await _supabase
           .from('content_reports')
-          .select('''
-            *,
-            reporter:user_profiles!content_reports_reporter_user_id_fkey(*),
-            reported_user:user_profiles!content_reports_reported_user_id_fkey(*)
-          ''')
+          .select()
           .eq('status', ReportStatus.pending.value)
           .order('created_at', ascending: true) // 오래된 순서대로
           .range(offset, offset + limit - 1);
@@ -197,11 +181,7 @@ class ContentReportService {
           .from('content_reports')
           .update(updateData)
           .eq('id', reportId)
-          .select('''
-            *,
-            reporter:user_profiles!content_reports_reporter_user_id_fkey(*),
-            reported_user:user_profiles!content_reports_reported_user_id_fkey(*)
-          ''')
+          .select()
           .single();
 
       final updatedReport = ContentReport.fromJson(response);
